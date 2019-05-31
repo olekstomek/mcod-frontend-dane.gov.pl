@@ -1,0 +1,551 @@
+{
+	"MC": "Ministerstwo Cyfryzacji",
+    "MaintainedBy": "Serwis prowadzony przez",
+	"Slogan": "Korzystaj z danych!",
+    "Description": "Dane o szczególnym znaczeniu dla rozwoju innowacyjności w państwie i rozwoju społeczeństwa informacyjnego w jednym miejscu",
+    "GoTo": "Przejdź do strony",
+    "PageTop": "Początek strony",
+    "Loading": "Trwa ładowanie danych...",
+    "LookingForDifferentData": "Szukasz innych danych?",
+    "BackToHome": "Przejdź do Strony głównej",
+    "HistoryBack": "Przejdź do poprzedniej strony",
+    "Version": "Wersja: ",
+    "Modal": "Okno dialogowe",
+    "Enter": "Wprowadź",
+
+
+    "About": {
+        "Self": "O serwisie"
+    },
+
+    "Action": {
+        "Add": "Dodaj",
+        "Remove": "Usuń",
+        "Open": "Otwórz",
+        "Close": "Zamknij",
+        "Choose": "Wybierz",
+        "ChooseCategory": "Wybierz kategorię",
+        "ChooseFromTheList": "Wybierz z listy",
+        "Save": "Zapisz",
+        "Cancel": "Anuluj",
+        "Edit": "Edytuj",
+        "Download": "Pobierz",
+        "Show": "Pokaż",
+        "Hide": "Ukryj",
+        "Search": "Szukaj",
+        "SearchFor": "Wyszukaj",
+        "Register": "Zarejestruj się",
+        "Login": "Zaloguj się",
+        "Logout": "Wyloguj się",
+        "Remember": "Zapamiętaj mnie",
+        "Check": "Zaznacz",
+        "Uncheck": "Odznacz",
+        "See": "Zobacz",
+        "Increase": "Powiększ",
+        "Decrease": "Zmniejsz",
+        "Change": "Zmień",
+        "Sort": "Sortuj",
+        "SeeResultsViaApi": "Zobacz odpowiedź z API w formacie JSON służącą do prezentacji danych na bieżącej stronie",
+        "DownloadAllAsCsv": "Pobierz listę wszystkich zasobow w formacie CSV",
+        "Send": "Wyślij",
+        "SwitchViewTo": "Przełącz widok na",
+        "Observe": "Obserwuj",
+        "StopObserve": "Przestań obserwować",
+        "GoToSource": "Przejdź do źródła",
+        "GoTo": "Przejdź do",
+        "OpenInNewWindow": "Otwórz w nowym oknie",
+        "LoadMore": "Załaduj więcej"
+    },
+
+    "ApplicationForm": {
+        "Name": "Nazwa aplikacji",
+        "DescriptionLength": "maksymalnie {param} znaków",
+        "ApplicantEmail": "E-mail zgłaszającego",
+        "Author": "Autor aplikacji",
+        "Logo": "Logo aplikacji (logo, które będzie wyświetlane podczas przeglądania)",
+        "InternalDatasets": "Wyszukaj zbiór danych na portalu, który został wykorzystany do budowy aplikacji",
+        "ExternalDatasets": "Jeśli wykorzystałeś dane publiczne spoza portalu, to wprowadź nazwę zbioru lub podaj link do zbioru",
+        "ComaSeparated": "Oddzielone przecinkami",
+        "RelatedDatasetsLimitAlert": "Została osiągnięta maksymalna liczba {param} zbiorów danych dla propozycji aplikacji",
+        "Website": "Adres strony z informacją o aplikacji",
+        "SuggestionSentSuccess": "Dziękujemy za zgłoszenie propozycji aplikacji.",
+        "EnterName": "Wprowadź nazwę",
+        "Link": "Link"
+    },
+
+    "Applications": {
+        "Self": "Aplikacje",
+        "Single": "Aplikacja",
+        "Genitive": "Aplikacji",
+        "Description": "Opis aplikacji",
+        "SearchFor": "Wyszukaj aplikację",
+        "SeeAll": "Zobacz wszystkie aplikacje",
+        "CreateOwn": "Twórz własne aplikacje",
+        "SeeAlreadyBuilt": "Zobacz gotowe aplikacje",
+        "Link": "Link do aplikacji",
+        "Suggest": "Zaproponuj aplikację",
+        "Description1of3": "Otwarte dane publiczne to dane administracji publicznej, z których każdy może korzystać. Na bazie danych powstaje coraz więcej nowoczesnych produktów, usług i aplikacji.",
+        "Description2of3": "Poniżej przedstawiamy przykłady wykorzystania danych publicznych w aplikacjach, produktach i usługach. Nie promujemy konkretnego rozwiązania, tylko upowszechniamy informacje o wybranych projektach wykorzystujących dane.",
+        "Description3of3": "Jesteśmy zainteresowani kolejnymi przykładami."
+    },
+
+    "Articles": {
+        "Self": "Artykuły",
+        "Single": "Artykuł",
+        "Genitive": "Artykułu",
+        "Description": "Opis",
+        "News": "Aktualności",
+        "SearchFor": "Wyszukaj artykuł",
+        "SeeAll": "Zobacz wszystkie artykuły"
+    },
+
+    "Attribute": {
+        "Details": "Szczegóły",
+        "Author": "Autor",
+        "Category": "Kategoria",
+        "CategoryLong": "Kategoria danych",
+        "Format": "Format",
+        "FormatLong": "Format dostarczonych danych",
+        "Institution": "Instytucja",
+        "InstitutionLong": "Instytucja (dostawca danych)",
+        "Order": "Kolejność",
+        "License": "Licencja",
+        "Tags": "Słowa kluczowe",
+        "Type": "Typ",
+        "Source": "Źródło",
+        "DownloadCount": "Liczba pobrań",
+        "ViewsCount": "Liczba wyświetleń",
+        "OpennessScore": "Poziom otwartości danych",
+        "Popularity": "Popularność",
+        "Created": "Utworzono",
+        "Modified": "Zmodyfikowano",
+        "Updated": "Zaktualizowano",
+        "Available": "Udostępniono",
+        "AddDate": "Data dodania",
+        "CreationDate": "Data utworzenia",
+        "ModificationDate": "Data modyfikacji",
+        "LastModificationDate": "Data ostatniej modyfikacji",
+        "AvailabilityDate": "Data udostępnienia",
+        "DataDate": "Data danych",
+        "UpdateDate": "Data aktualizacji",
+        "Name": "Nazwa",
+        "NameAsc": "Nazwa rosnąco",
+        "NameDesc": "Nazwa malejąco",
+        "PopularityAsc": "Popularność rosnąco",
+        "PopularityDesc": "Popularność malejąco",
+        "Views": "Ilość wyświetleń",
+        "Downloads": "Ilość pobrań",
+        "Required": "Wymagane",
+        "UpdateFrequency": "Częstotliwość aktualizacji",
+        "Image": "Obraz",
+        "Size": "Rozmiar",
+        "Title": "Tytuł"
+    },
+
+    "Breadcrumbs": {
+        "YouAreHere": "Jesteś w sekcji",
+        "Root": "Strona główna",
+        "HomeComponent": "",
+
+        "DatasetModule": "Zbiory danych",
+        "DatasetComponent": "",
+        "DatasetItemComponent": "",
+        "SuggestDatasetComponent": "Zaproponuj zbiór danych",
+
+        "InstitutionModule": "Instytucje",
+        "InstitutionComponent": "",
+        "InstitutionItemComponent": "",
+
+        "ApplicationModule": "Aplikacje",
+        "ApplicationComponent": "",
+        "ApplicationItemComponent": "",
+        "SuggestApplicationComponent": "Zaproponuj aplikację",
+
+        "ArticleModule": "Aktualności",
+
+        "KnowledgeBaseComponent": "Baza wiedzy",
+        "KnowledgeBaseTabHelpComponent": "Pomoc",
+        "KnowledgeBaseTabEducationComponent": "Materiały edukacyjne",
+        "KnowledgeBaseTabFaqComponent": " Często zadawane pytania",
+
+        "LoginComponent": "Logowanie",
+        "RegisterComponent": "Rejestracja",
+
+        "UserModule": "",
+        "MyAccountComponent": "Moje konto",
+        "ActivityComponent": "",
+        "SearchHistoryComponent": "Historia wyszukiwania",
+        "FollowedComponent": "Obserwowane",
+        "ChangePasswordComponent": "Zmiana hasła",
+        "LostPasswordComponent": "Utworzenie nowego hasła",
+        "ResetPasswordComponent": "Utworzenie nowego hasła",
+
+        "AboutComponent": "O serwisie",
+        "SitemapComponent": "Mapa strony",
+        "PageNotFoundComponent": "Nie ma takiej strony"
+    },
+
+    "Connector": {
+        "About": "o"
+    },
+
+    "DatabaseOperations": {
+        "INSERT": "Dodano",
+        "UPDATE": "Zaktualizowano",
+        "DELETE": "Usunięto"
+    },
+
+    "DatabaseTables": {
+        "dataset": "Zbiór danych",
+        "application": "Aplikacja",
+        "article": "Artykuł",
+        "resource": "Zasób",
+        "user": "Użytkownika",
+        "tag": "Tag",
+        "dataset_tag": "Tag zbioru danych",
+        "application_tag": "Tag aplikacji",
+        "article_tag": "Tag artykułu",
+        "application_dataset": "Zbiór danych aplikacji"
+    },
+    
+    "DatasetForm": {
+        "Suggest": "Opisz dane, których szukasz na dane.gov.pl",
+        "SuggestDataset": "Zaproponuj dane",
+        "DataDescription": "Opis danych",
+        "DataDescriptionLong": "Opisz dokładnie dane, których szukasz i jeśli możesz wskaż urząd, który może je posiadać. Możesz też podać link do danych w internecie. Przeanalizujemy przesłane propozycje i omówimy z właścicielem danych możliwość ich udostępnienia na portalu otwartych danych.",
+        "DescriptionLength": "maksymalnie {param} znaków",
+        "SuggestionSentSuccess": "Dziękujemy za zgłoszenie propozycji.",
+        "EnterName": "Wprowadź nazwę"
+    },
+
+    "DatasetRestrictions": {
+        "Self": "Warunki ponownego wykorzystywania informacji",
+        "None": "Ten zbiór danych jest informacją publiczną, może być ponownie wykorzystywany bez ograniczeń.",
+        "Intro": "Ten zbiór danych jest informacją publiczną, może być ponownie wykorzystywany pod poniższymi warunkami:",
+        "Source": "Odbiorca powinien poinformować o źródle, czasie wytworzenia i pozyskania informacji od podmiotu zobowiązanego",
+        "Original": "Odbiorca powinien zawrzeć kopię informacji w pierwotnie pozyskanej formie udostępniając przetworzoną informację",
+        "Modification": "Odbiorca powinien poinformować o przetworzeniu informacji, gdy ją jakkolwiek modyfikuje",
+        "Responsibilities": "Zakres odpowiedzialności dostawcy za przekazywane informacje:",
+        "DbOrCopyrighted": "Warunki korzystania z informacji publicznych spełniających cechy utworu lub stanowiących bazę danych (art. 23b ust. 3 ustawy o dostępie do informacji publicznej):"
+    },
+
+    "Datasets": {
+        "Self": "Zbiory danych",
+        "Single": "Zbiór danych",
+        "Genitive": "Zbioru danych",
+        "Choose": "Wybierz zbiór danych",
+        "SearchFor": "Wyszukaj zbiór danych",
+        "Count": "Liczba zbiorów danych",
+        "Details": "Szczegóły zbioru",
+        "History": "Historia zbioru",
+        "SeeHistory": "Zobacz historię",
+        "Feedback": "Uwagi",
+        "SendFeedback": "Zgłoś uwagi do zbioru",
+        "FeedbackSentSuccess": "Dziękujemy za przesłanie uwag.",
+        "ShowHistory": "Zobacz historię zbioru",
+        "HideHistory": "Ukryj historię zbioru",
+        "NoResources": "Ten zbiór danych nie posiada obecnie zasobów."
+    },
+
+    "Embed": {
+        "Self": "Umieść na swojej stronie",
+        "Description": "Możesz skopiować kod wizualizatora danych do swojej platformy CMS lub bloga, jeżeli obsługuje on wklejanie kodu HTML.",
+        "Width": "Szerokość",
+        "Height": "Wysokość",
+        "Code": "Kod"
+    },
+
+    "Errors": {
+        "Self": "Błąd",
+        "Single": "Wystąpił błąd",
+        "PageNotFound": "Nie znaleziono strony",
+        "404": "Link do strony może być uszkodzony lub strona mogła zostać usunięta"
+    },
+
+    "File": {
+        "Self": "Plik",
+        "Size": "Rozmiar pliku",
+        "Name": "Nazwa pliku",
+        "AcceptedTypes": "Dopuszczalne typy plików",
+        "KbAbbreviation": "Kilobajty",
+        "MbAbbreviation": "Megabajty",
+        "GbAbbreviation": "Gigabajty"
+    },
+
+    "Filters": {
+        "Self": "Filters",
+        "Show": "Pokaż filtry",
+        "Hide": "Ukryj filtry",
+        "Apply": "Zastosuj filtry",
+        "Add": "Dodaj filtr",
+        "Remove": "Usuń filtr",
+        "RemoveSelected": "Usuń wybrane filtry",
+        "Choose": "Wybierz kolumnę",
+        "Value": "Wpisz wartość",
+        "Hint": "Dla pól numerycznych, możesz używać wyrażeń logicznych (>, <, >=, <=), np.: '> 3500'",
+        "Selected": "Wybrano",
+        "VarSelected": "Wybrano {param, plural, =1 {1 filtr} few {{param} filtry} other {{param} filtrów}}",
+        "NoFiltersSelected": "Nie wybrano żadnych filtrów"
+    },
+
+    "Font": {
+        "Self": "Czcionka",
+        "Default": "Czcionka standardowa",
+        "Increased": "Czcionka powiększona"
+    },
+
+    "Found": {
+        "VarCount": "Znaleziono { param } wyników",
+        "PluralCount": "Znaleziono {param, plural, =1 {jeden wynik} few {{param} wyniki} other {{param} wyników}}",
+        "Nothing": "Nie znaleziono żadnych wyników",
+        "NothingFor": "Nie znaleziono żadnych wyników dla",
+        "NothingForPhrase": "Nie znaleziono żadnych wyników dla wybranej frazy",
+        "NothingForCriteria": "Nie znaleziono żadnych wyników dla wybranych kryteriów"
+    },
+
+    "HighContrast": {
+        "Self": "Wysoki kontrast",
+        "Default": "Standardowy kontrast",
+        "BW": "Biały tekst na czarnym tle",
+        "BY": "Żółty tekst na czarnym tle",
+        "YB": "Czarny tekst na żółtym tle"
+    },
+
+	"Home": {
+        "Self": "Strona główna",
+        "Description": "Dane o szczególnym znaczeniu dla rozwoju innowacyjności w państwie i rozwoju społeczeństwa informacyjnego w jednym miejscu",
+		"Stats": {
+            "Title": "Dane w liczbach",
+			"Institutions": "Liczba instytucji",
+			"Resources": "Liczba aktualnych zasobów",
+			"MonthlyDatasets": "Liczba nowych zbiorów miesięcznie"
+		},
+		"Search": {
+            "Title": "Wyszukiwarka",
+			"PlaceholderText": "Wyszukaj dane np. baza teleadresowa"
+		},
+		"Categories": {
+			"Title": "Wybierz kategorię"
+		},
+		"Organizations": {
+			"Title": "Wybierz instytucję",
+			"All": "Zobacz wszystkie instytucje",
+			"Datasets": "Liczba zbiorów danych"
+		},
+		"News": {
+			"Title": "Aktualności",
+			"All": "Zobacz wszystkie artykuły",
+			"ReadMore": "Czytaj więcej",
+            "ReadMoreAbout": "Czytaj więcej na temat"
+		},
+		"Apps": {
+			"Title": "Podziel się aplikacją!",
+			"Description": "Pokazujemy przykłady aplikacji, produktów i usług, wykorzystujących dane, zasoby kultury, bibliotek czy muzealia. ",
+			"All": "Zobacz przykłady aplikacji"
+		},
+        "ServiceAlert": {
+            "Self": "Komunikat serwisowy"
+        }
+    },
+
+    "Institutions": {
+        "Self": "Instytucje",
+        "Single": "Instytucja",
+        "Description": "Opis Instytucji",
+        "Genitive": "Instytucji",
+        "Choose": "Wybierz instytucję",
+        "SearchFor": "Wyszukaj instytucję",
+        "SeeAll": "Zobacz wszystkie instytucje",
+        "RelatedDatasets": "Powiązane zbiory danych",
+        "EpuapMailBox": "Adres skrzynki ePUAP",
+        "Type": "Typ instytucji",
+        "TypeLocal": "Administracją samorządowa",
+        "TypeState": "Administracja rządowa",
+        "TypeOther": "Inne"
+    },
+
+    "KnowledgeBase": {
+        "Self": "Baza wiedzy",
+        "News": "Aktualności",
+        "Help": "Pomoc",
+        "EducationalMaterials": "Materiały edukacyjne",
+        "Faq": "Często zadawane pytania",
+        "ListHeader": "Lista tematów"
+    },
+
+    "Language": {
+        "Self": "Język",
+        "Polish": "Język polski",
+        "English": "Język angielski",
+        "Current": "Aktualny język",
+        "ChangeTo": "Zmień na"
+    },
+
+    "Menu": {
+        "Self": "Menu",
+        "Main": "Menu główne",
+        "Home": "Strona główna",
+        "Datasets": "Dane",
+        "Applications": "Aplikacje",
+        "Institutions": "Instytucje",
+        "Articles": "Baza wiedzy",
+        "About": "O serwisie",
+        "Sitemap": "Mapa strony",
+        "Contact": "Kontakt",
+        "KnowledgeBase": "Baza wiedzy",
+        "News": "Aktualności",
+        "Open": "Otwórz menu",
+        "Close": "Zamknij menu"
+    },
+
+    "Pagination": {
+        "Self": "Stronicowanie",
+        "First": "Pierwsza strona",
+        "Prev": "Poprzednia strona",
+        "VarRewind": "Wstecz o {param, plural, =1 {1 stronę} few {{param} strony} other {{param} stron}}",
+        "VarPage": "Strona {{ param }}",
+        "Page": "Strona",
+        "VarForward": "Naprzód o {param, plural, =1 {1 stronę} few {{param} strony} other {{param} stron}}",
+        "Next": "Następna strona",
+        "Last": "Ostatnia strona",
+        "ItemsPerPage": "Ilość wyników na stronie"
+    },
+
+    "PasswordStrength": {
+        "Self": "Siła hasła",
+        "Weak": "Bardzo słabe",
+        "Fair": "Słabe",
+        "Good": "Silne",
+        "Strong": "Bardzo silne"
+    },
+
+    "Resources": {
+        "Self": "Zasoby",
+        "Single": "Zasób",
+        "Genitive": "Zasobu",
+        "SearchTable": "Wyszukaj w tabeli",
+        "TableWithMargins": "Tabela bez marginesow",
+        "TableWithoutMargins": "Tabela z marginesami",
+        "NoTableView": "Ten zasób nie posiada widoku tabelarycznego",
+        "TabularDataDescription": "ZOBACZ dane JSON",
+        "Feedback": "Uwagi",
+        "SendFeedback": "Zgłoś uwagi do zasobu",
+        "FeedbackSentSuccess": "Dziękujemy za przesłanie uwag."
+    },
+
+    "Rodo": {
+        "Title": "Polityka prywatności i RODO",
+        "PrivacyLabel": "Polityka prywatności",
+        "RodoLabel": "Informacje dotyczące RODO",
+        "Info0": "Administratorem danych jest Minister Cyfryzacji, mający siedzibę w Warszawie (00-060) przy ul. Królewskiej 27. Z administratorem danych można się skontaktować poprzez adres email mc@mc.gov.pl, za pośrednictwem ePUAP, formularz kontaktowy pod adresem https://www.gov.pl/web/cyfryzacja/kontakt (otwiera się w nowym oknie) lub pisemnie na adres siedziby administratora. ",
+        "Info1": "Pani/Pana dane osobowe mogą być udostępniane urzędom lub instytucjom, które publikują swoje zasoby, w celu obsługi portalu. Na zlecenie administratora Pani/Pana dane osobowe mogą być również przekazywane podmiotowi przetwarzającemu dane osobowe tj. podmiotowi, który świadczy usługę utrzymania portalu, a także innym podmiotom na podstawie obowiązujących przepisów (np. sądowi, policji). ",
+        "Info2": "Administrator wyznaczył inspektora ochrony danych, z którym można się skontaktować poprzez email iod@mc.gov.pl. Z inspektorem ochrony danych można się kontaktować we wszystkich sprawach dotyczących przetwarzania Pani/Pana danych przez Ministerstwo Cyfryzacji oraz korzystania przez Pani/Pana z praw związanych z przetwarzaniem danych.",
+        "Info3": "Pani/Pana dane osobowe będą przetwarzane w celu obsługi portalu dane.gov.pl. Podstawą prawną przetwarzania Pani/Pana danych jest niezbędność wypełnienia ciążących na administratorze obowiązków prawnych wynikających z przepisów ustawy z dnia 6 września 2001 r. o dostępie do informacji publicznej.",
+        "Info4": "Podanie danych osobowych jest niezbędne w celu obsługi portalu dane.gov.pl. Podanie danych osobowych jest obowiązkowe, gdyż wynika ze wskazanych powyżej podstaw prawnych.",
+        "Info5": "Pani/Pana dane będą przetwarzane w okresie niezbędnym do zrealizowania celów, dla których dane zostały zebrane.",
+        "Info6": "Przysługuje Pani/Panu prawo dostępu do Pani/Pana danych oraz prawo żądania ich sprostowania.",
+        "Info7a": "Przysługuje Pani/Panu prawo wniesienia skargi do organu nadzorczego zajmującego się ochroną danych osobowych w państwie członkowskim Pani/Pana zwykłego pobytu, miejsca pracy lub miejsca popełnienia domniemanego naruszenia.",
+        "Info7b": "Prezes Urzędu Ochrony Danych Osobowych (PUODO)",
+        "Info7c": "ul. Stawki 2",
+        "Info7d": "00-193 Warszawa",
+		"Info7e": "tel.: 22 531 03 00 lub 606 950 000",
+        "EmailUse": "Podając adres email wyrażasz zgodę na przetwarzanie twoich danych osobowych dla celów tej usługi. Więcej pod przyciskiem \"Informacje na temat RODO\" w stopce.",
+        "PrivacyPolicy": "Serwis wykorzystuje pliki cookies (ciasteczka). Są to dane tekstowe, zapisywane przez przeglądarkę na urządzeniu użytkownika. Serwis Otwarte Dane ma dostęp do tych danych oraz wykorzystuje je do obsługi udogodnień zalogowanych użytkowników. Korzystanie z serwisu dane.gov.pl oznacza zgodę na wykorzystywanie plików cookies. Możesz zmienić ustawienia obsługi cookies w swojej przeglądarce."
+    },
+
+    "Search": {
+        "ClearInput": "Wyczyść pole wyszukiwania"
+    },
+
+    "SkipTo": {
+        "Menu": "Przejdź do menu głównego",
+        "Content": "Przejdź do treści",
+        "Footer": "Przejdź do stopki"
+    },
+
+    "Sort": {
+        "By":"Sortuj według",
+        "Ascending": "Rosnąco",
+        "Descending": "Malejąco",
+        "Default": "Trafność"
+    },
+
+    "UseCases": {
+        "Self": "Przykłady użycia",
+        "Single": "Przykład użycia",
+        "AvailableUrls": "Dostępne adresy URL",
+        "Queries": "Przykładowe zapytania",
+        "Description1of2": "Dostęp do zbiorów danych poprzez API ze wsparciem dla mechanizmów wyszukiwania. Więcej informacji znajdziesz w",
+        "Description2of2": "w głównej dokumentacji CKAN Data API i rozszerzenia DataStore (po angielsku)."
+    },
+
+    "User": {
+        "Self": "Użytkownik",
+        "Single": "Użytkownik",
+        "Genitive": "Użytkownika",
+        "Logged": "Zalogowany użytkownik",
+        "Admin": "Administrator",
+        "Email": "E-mail",
+        "EmailVerification": "Weryfikacja adresu e-mail",
+        "Password": "Hasło",
+        "NewPassword": "Nowe hasło",
+        "CurrentPassword": "Obecne hasło",
+        "RetypePassword": "Powtórz hasło",
+        "ForgottenPassword": "Nie pamiętam hasła",
+        "NewPasswordCreation": "Utworzenie nowego hasła",
+        "NewPasswordCreationDescription": "Podaj adres email, a następnie sprawdź swoją skrzynkę pocztową, na którą wyślemy do Ciebie link do formularza utworzenia nowego hasła.",
+        "NewPasswordCreationDescription1of3": "Na podany adres e-mail zostanie wysłany link ze zmianą hasła. Jeżeli nie będzie działał skorzystaj z",
+        "NewPasswordCreationDescription2of3": "formularza zmiany hasła",
+        "NewPasswordCreationDescription3of3": "i podaj kod, który otrzymałeś w wiadomości",
+        "NewPasswordCreationLinkSent": "Na Twój adres email został wysłany link do formularza utworzenia nowego hasła. Proszę sprawdzić również folder SPAM.",
+        "Login": "Logowanie",
+        "Registration": "Rejestracja",
+        "SuccessfullRegistration": "Rejestracja przebiegła pomyślnie.",
+        "AdminPanel": "Panel administratora",
+        "MyAccount": "Moje konto",
+        "CreateAccount": "Załóż konto",
+        "LogIn": "Zaloguj się",
+        "CreatePassword": "Utwórz hasło",
+        "ChangePassword": "Zmień hasło",
+        "PasswordChange": "Zmiana hasła",
+        "PasswordChanged": "Twoje hasło zostało pomyślnie zmienione",
+        "Congratulations": "Gratulacje!",
+        "ActivationEmailSent": "Na Twój adres email został wysłany link aktywacyjny. Proszę sprawdzić również folder SPAM.",
+        "Activities":"Aktywności",
+        "SearchHistory": "Historia wyszukiwania",
+        "Followed": "Obserwowane",
+        "AccountActivated": "Twoje konto zostało aktywowane. Możesz się teraz zalogować.",
+        "AccountActiveSince": "Konto aktywne od",
+        "EmptyActivity": "Użytkownik nie posiada jeszcze historii zmian.",
+        "DatasetsCreated": "Liczba utworzonych zbiorów",
+        "DatasetsModified": "Liczba edycji"
+    },
+
+    "Validation": {
+        "Self": "Walidacja",
+        "IsRequired": "jest wymagane",
+        "RequiredField": "Pole wymagane",
+        "VarRequired": "Pole \"{ param }\" jest wymagane",
+        "RequiredEmail": "Pole \"e-mail\" jest wymagane i musi zawierać poprawny adres e-mail",
+        "InvalidEmail": "Niepoprawny adres e-mail",
+        "InvalidWebsiteUrl": "Niepoprawny adres strony",
+        "RequiredPassword": "Pole \"Hasło\" jest wymagane",
+        "RequiredPasswordConfirmation": "Pole \"Powtórz hasło\" jest wymagane i jego wartość musi być zgodna z wcześniej wprowadzonym hasłem.",
+        "PasswordPolicy": "Hasło powinno zawierać co najmniej 8 znaków, jedną dużą literę, jedną małą i znak specjalny",
+        "VarPasswordPolicy": "Hasło powinno zawierać co najmniej {param, plural, =1 {1 znak} few {{param} znaki} other {{param} znaków}}, jedną dużą literę, jedną małą i znak specjalny",
+        "PasswordStrength": "Siła hasła",
+        "NotAcceptedFileType": "Niepoprawny format pliku",
+        "FormatNotRecognized": "Nierozpoznany format",
+        "VarMaxFieldLengthExceeded": "Maksymalna długość pola została przekroczona o {param, plural, =1 {1 znak} few {{param} znaki} other {{param} znaków}}"
+    },
+
+    "WriteUs": {
+        "Self": "Napisz do nas",
+        "Info1of2": "Opisz dokładnie, jakie dane powinniśmy udostępnić Twoim zdaniem w portalu. Przeanalizujemy przesłane propozycje i omówimy z potencjalnymi dostawcami możliwość ich udostępnienia",
+        "Info2of2": "Tutaj też jest miejsce na Twoje propozycje ulepszenia portalu",
+        "MessageLabel": "Treść wiadomości",
+        "EmailLabel": "Zostaw email, jeżeli mamy odpisać",
+        "ThankYou": "Dziękujmy za Twoją opinię!",
+        "Suggestions": "Prześlij sugestie na adres e-mail:"
+    }
+}

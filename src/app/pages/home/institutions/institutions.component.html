@@ -1,0 +1,38 @@
+<section class="home-section vertical-spacing" id="institutions">
+    <h2 class="heading heading--md heading--separator heading--centered">
+        {{ "Home.Organizations.Title" | translate }}
+    </h2>
+
+    <div class="container">
+
+        <!-- api notifications -->
+        <app-notifications></app-notifications>
+
+        <!-- institutions grid -->
+        <ul class="category-list row m-0 p-0">
+            <li class="category-list__item col-12 col-sm-6 col-md-6 col-xl-3"
+                *ngFor="let item of items">
+                <a class="category-list__item-wrapper" [routerLink]="['/institution', item?.key]">
+                    <div class="category-list__item-content">
+                        <span class="category-list__item-heading heading heading--sm">
+                            {{ item?.title }}
+                        </span>
+                        <span class="category-list__item-info m-0">
+                            {{ 'Datasets.Count' | translate }}: {{ item?.doc_count }}
+                        </span>
+                    </div>
+                </a>
+                
+            </li>
+        </ul>
+
+        <!-- view all (anchor) -->
+        <footer class="section-footer">
+            <a class="section-footer__all with-chevron" [routerLink]="['/institution']">
+                {{ 'Home.Organizations.All' | translate | uppercase }}
+                <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                </svg></a>
+        </footer>
+    </div>
+</section>

@@ -1,0 +1,69 @@
+
+	<!-- HERO TEXT -->
+	<section class="home-section home-section--hero" id="hero">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-8 offset-md-2">
+					<h1>
+						{{ 'Slogan' | translate }}
+					</h1>
+				</div>
+			</div>
+		</div>
+	</section>
+
+    
+	<!-- SEARCH -->
+    <home-search></home-search>
+
+
+    <!-- SERVICE ALERT -->
+    <home-service-alert></home-service-alert>
+
+
+	<!-- CATEGORIES -->
+    <home-categories></home-categories>
+
+
+    <!-- STATISTICS -->
+    <home-stats></home-stats>
+
+
+    <!-- INSTITUTIONS -->
+    <home-institutions></home-institutions>
+
+
+	<!-- HOME: APPS -->
+	<section class="home-section home-section--apps" id="apps">
+		<div class="container home-apps">
+			<div class="row no-gutters">
+				<div class="col-sm-6 order-12 order-sm-1 home-apps__img-wrapper">
+					<img class="home-apps__img" src="assets/apps.png" alt="" aria-hidden="true">
+				</div>
+				<div class="home-apps__text-wrapper col-sm-6 order-1 order-sm-12 vertical-spacing">
+					<h2 class="heading heading--md">
+						{{ 'Home.Apps.Title' | translate }}
+                    </h2>
+
+                    <a class="btn btn-primary" [routerLink]="['/application', 'suggest']">
+                        {{ 'Applications.Suggest' | translate }}
+                    </a>
+
+					<p class="home-apps__description">
+						{{ 'Home.Apps.Description' | translate }}
+                    </p>
+
+					<a class="home-apps__all with-chevron" [routerLink]="['/application']">
+						{{ 'Home.Apps.All' | translate | uppercase }}
+                        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                        </svg></a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- NEWS -->
+    <home-news></home-news>
+    

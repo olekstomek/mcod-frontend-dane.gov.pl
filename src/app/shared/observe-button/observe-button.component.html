@@ -1,0 +1,8 @@
+<button class="btn btn-primary btn-sm" *ngIf="userService.loggedIn | async"
+        (click)="followItem(item)"
+        [ngClass]="{'btn-primary': !item.attributes.followed, 'btn-danger': item.attributes.followed}">
+    {{ (!item.attributes.followed ? 'Action.Observe' : 'Action.StopObserve') | translate }}
+    <span class="sr-only">
+                            {{ item.attributes.title }}
+                        </span>
+</button>

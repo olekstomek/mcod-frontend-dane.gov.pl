@@ -1,0 +1,233 @@
+
+<article class="resource-view">
+
+
+    <!-- SEARCH and FILTERS -->
+    <div class="container" id="resource-filters"
+        [attr.aria-expanded]="!filtersCollapsed"
+        [attr.aria-hidden]="filtersCollapsed"
+        *ngIf="!filtersCollapsed"
+        @toggleVertically>
+
+        <div class="search search--tight">
+            <div class="row">
+                <div class="col">
+
+                    <!-- search -->
+                    <input class="form-control form-control-lg search__input" name="searchInput" type="text"
+                        placeholder="{{ 'Resources.SearchTable' | translate }}..."
+                        [attr.aria-label]="'Resources.SearchTable' | translate"
+                        [(ngModel)]="searchTerm"
+                        (ngModelChange)="currentPage = 1"/>
+                </div>
+
+                <!-- perform search -->
+                <div class="col-sm col-sm-auto">
+                    <button class="btn btn-primary btn-lg search__button" type="submit">
+                        {{ 'Action.Search' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- FILTERS -->
+        <div class="filters-wrapper">
+            <ul class="row filters">
+
+
+                <!-- FITLER -->
+                <!-- one filter is provided (empty) by default -->
+                <li class="col-md-6 filter"
+                    *ngFor="let filter of filters; let i = index"
+                    @toggleVertically>
+
+                    <div class="row no-gutters">
+                        <div class="col-6">
+
+                            <!-- table column (dropdown) -->
+                            <select class="form-control" [(ngModel)]="filter.key">
+                                <option [value]="null">
+                                    {{ 'Filters.Choose' | translate }}
+                                </option>
+                                <option *ngFor="let col of columns" [value]="col.name">
+                                    {{col.descr}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+
+                            <!-- search through the column -->
+                            <div class="input-group">
+                                <input class="form-control filter__value" type="text"
+                                    [(ngModel)]="filter.phrase"
+                                    placeholder="{{ 'Filters.Value' | translate }}..."
+                                    tooltip="{{ 'Filters.Hint' | translate }}"
+                                    placement="top"
+                                    container="body"/>
+
+                                <!-- remove filter -->
+                                <button class="btn btn-outline-danger remove-filter"
+                                    (click)="filters.splice(i, 1) && filterItems()">
+                                    <span aria-hidden="true">&times;</span>
+                                    <span class="sr-only">
+                                        {{ 'Filters.Remove' | translate }}
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+
+            <!-- FILTER ACTIONS -->
+            <div class="filters__actions">
+
+                <!-- add another filter (column dropdown + search input + filter remove button) -->
+                <button class="btn btn-outline-primary" (click)="filters.push({key: null, phrase: ''})">
+                    {{ 'Filters.Add' | translate }}
+                </button>
+
+                <!-- fake perform filtering  -->
+                <button class="btn btn-secondary" *ngIf="!filters.length"
+                    aria-describedby="no-filters-label">
+                    {{ 'Filters.Apply' | translate }}
+                </button>
+                <p id="no-filters-label" class="sr-only" *ngIf="!filters.length">
+                    {{ 'Filters.NoFiltersSelected' | translate }}
+                </p>
+
+                <!-- perform filtering -->
+                <button class="btn btn-primary" (click)="filterItems()" *ngIf="filters.length">
+                    {{ 'Filters.Apply' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ITEMS PER PAGE and TABLE RELATED BUTTONS -->
+    <div class="container" id="resource-pagination-top">
+
+        <div class="row no-gutters justified-between">
+
+            <!-- items per page -->
+            <div class="">
+                <div class="results-per-page d-inline-flex align-items-baseline">
+                    <span class="dropdown-label">
+                        {{ 'Pagination.ItemsPerPage' | translate }}:
+                    </span>
+                    <app-singleselect
+                        [options]="[5,10,20,50]"
+                        [(selected)]="perPage"
+                        (selectedChange)="currentPage = 1"
+                        placeholder="10">
+                    </app-singleselect>
+                </div>
+            </div>
+
+
+            <!-- TABLE ACTIONS -->
+            <div class="mt-1 mt-md-0">
+
+                <!-- toggle filters -->
+                <button class="btn btn--xs-100" type="button"
+                    [ngClass]="filtersCollapsed ? 'btn-outline-primary' : 'btn-primary'"
+                    (click)="filtersCollapsed = !filtersCollapsed"
+                    [attr.aria-pressed]="!filtersCollapsed">
+                    {{ ( filtersCollapsed ? 'Filters.Show' : 'Filters.Hide') | translate }}
+                </button>
+
+                <!-- toggle horizontal margins -->
+                <button class="btn btn--xs-100 ml-sm-1"
+                    [ngClass]="!collapseTable ? 'btn-outline-primary' : 'btn-primary'"
+                    (click)="collapseTable = !collapseTable"
+                    [attr.aria-pressed]="collapseTable || false">
+                    {{ ('Action.SwitchViewTo') | translate  }}:
+                    {{ (collapseTable ? 'Resources.TableWithoutMargins' : 'Resources.TableWithMargins') | translate | lowercase  }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- DATATABLE -->
+    <div [ngClass]="{'container': !collapseTable}" id="resource-table">
+        <div class="resource-table-wrapper">
+            <table class="resource-table" #datagrid>
+                <caption class="sr-only" *ngIf="summary">{{summary}}</caption>
+
+
+                <!-- DATATABLE HEAD -->
+                <thead>
+                    <tr>
+                        <th scope="col" class="resource-table__heading" role="columnheader"
+                            [attr.aria-sort]="sorter.key == col.name ? ('Sort.'+ sortDirectionToString(sorter.direction) | translate)  : null"
+                            *ngFor="let col of columns">
+
+                            <!-- sort order -->
+                            <a class="resource-table__sort-column"
+                                [routerLink]="['.']" (click)="sort(col.name)"
+                                [attr.aria-label]="('Sort.By' | translate ) +' '+ col.name"
+                                [ngClass]="sorter.key == col.name ? (sortDirectionToString(sorter.direction) | lowercase) : null">
+                                {{col.descr}}
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+
+
+                <!-- DATATABLE BODY -->
+                <tbody>
+                    <tr *ngFor="let row of rows | filter:searchKeys:searchTerm | slice: (currentPage-1) * perPage : (currentPage)*perPage; let rowIndex = index"
+                        (mouseenter)="hoveredRowIndex = rowIndex"
+                        (mouseleave)="onMouseLeave()"
+                        class="resource-table__row"
+                        [ngClass]="hoveredRowIndex === rowIndex ? 'hovered' : '' ">
+
+                        <td class="resource-table__cell" tabindex="0"
+                            *ngFor="let col of columns; let cellIndex = index;"
+                            (keydown)="onKeyDown($event)"
+                            (focus)="onFocus(rowIndex, cellIndex)">
+                            {{ row[col.name] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- ITEMS PER PAGE and PAGINATION -->
+    <div class="container" id="resource-pagination">
+        <div class="justified-between">
+
+            <!-- items per page -->
+            <div class="order-12 order-md-1">
+                <div class="results-per-page d-inline-flex align-items-baseline">
+                    <label>
+                        {{ 'Pagination.ItemsPerPage' | translate }}:
+                    </label>
+                    <app-singleselect
+                        [options]="[5,10,20,50]"
+                        [(selected)]="perPage"
+                        (selectedChange)="currentPage = 1"
+                        [isUp]="true">
+                    </app-singleselect>
+                </div>
+            </div>
+
+            <!-- pagination -->
+            <div class="order-1 order-md-12">
+                <app-pagination
+                    [itemsPerPage]="perPage"
+                    [totalItems]="(rows | filter: searchKeys : searchTerm).length"
+                    [(page)]="currentPage"
+                    previousText="&lsaquo;"
+                    nextText="&rsaquo;">
+                </app-pagination>
+            </div>
+        </div>
+    </div>
+</article>

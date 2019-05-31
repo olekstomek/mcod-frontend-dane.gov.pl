@@ -1,0 +1,14 @@
+<ul class="my-account__search-history" role="tabpanel" aria-labelledby="tab2">
+
+	<li class="row" *ngFor="let key of searchHistory.keys()">
+		<div class="col">
+			{{ key }}
+		</div>
+		<div class="col-md-10">
+			<a *ngFor="let query of searchHistory[key]" class="btn btn-outline-primary btn-sm" [routerLink]="['/', query?.resource]" [queryParams]="query?.params">
+				{{ query?.attributes?.query_sentence }}
+			</a>
+		</div>
+    </li>
+
+</ul>

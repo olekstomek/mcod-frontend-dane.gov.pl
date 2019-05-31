@@ -1,0 +1,29 @@
+
+
+// logo in svg format
+.brand-img {
+    height: 50px;
+    width: 200px;
+
+    &__text {
+        fill: $color-white;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    &__do {
+        fill: $color-blue-light;
+    }
+
+    // < MD
+    @include media-breakpoint-down(sm) {
+        height: 40px;
+        width: 160px;
+    }
+
+    // < sm
+    @include media-breakpoint-down(xs) {
+        height: 30px;
+        width: 120px;
+    }
+}

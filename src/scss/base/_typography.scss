@@ -1,0 +1,52 @@
+
+// h1 heading
+.heading {
+    font-size: $heading-lg-size;
+    font-weight: bold;
+    color: $color-heading;
+    margin-bottom: 15px;
+
+    :link,
+    :visited {
+        color: inherit;
+        border-bottom: 1px dotted $color-text;
+
+        &:hover {
+            color: $color-blue-light;
+            border-bottom-color: $color-blue-light;
+            text-decoration: none;
+        }
+    }
+
+    &--sm {
+        font-size: $heading-sm-size;
+    }
+
+    &--md {
+        font-size: $heading-md-size;
+    }
+
+
+    &--separator {
+        &::after {
+            content: "";
+            display: block;
+            height: 5px;
+            width: 25px;
+            background-color: $color-grey-light-4;
+            margin-top: 15px;
+        }
+    }
+
+
+    &--centered {
+        text-align: center;
+
+        &.heading--separator {
+            &::after {
+                margin-left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    }
+}

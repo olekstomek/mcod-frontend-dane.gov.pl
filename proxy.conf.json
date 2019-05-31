@@ -1,0 +1,17 @@
+{
+    "/api": {
+        "target": "http://api.dev.dane.gov.pl/",
+        "secure": false,
+        "pathRewrite": {
+            "^/api": ""
+        },
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/media": {
+        "target": "http://dev.dane.gov.pl/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}

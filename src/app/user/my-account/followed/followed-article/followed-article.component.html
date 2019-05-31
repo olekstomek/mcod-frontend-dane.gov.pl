@@ -1,0 +1,123 @@
+<div role="tabpanel" aria-labelledby="tabFollowed3">
+    <section class="results-section vertical-spacing">
+        <div class="container">
+            <header class="results-header">
+                <div class="d-md-flex justify-content-between align-items-center">
+                    <h2 class="heading heading--md heading--separator">
+                        {{ 'Articles.Self' | translate }}
+                    </h2>
+
+                    <!-- sort order -->
+                    <div class="sort-order d-md-inline-flex align-items-center" *ngIf="items && items.length">
+                        <span class="dropdown-label" id="sortby-label">
+                            {{ 'Sort.By' | translate }}:
+                        </span>
+                        <app-singleselect
+                            [options]="[
+                                {label:'Sort.Default' | translate, value: ''},
+                                {label:'Attribute.NameAsc' | translate, value: 'title'},
+                                {label:'Attribute.NameDesc' | translate, value: '-title'},
+                                {label:'Attribute.ModificationDate' | translate, value: '-modified'},
+                                {label:'Attribute.CreationDate' | translate, value: '-created'}
+                            ]"
+                            [selected]="params?.sort"
+                            (selectedChange)="updateParams({sort: $event.value, page: 1})"
+                            labelId="sortby-label">
+                        </app-singleselect>
+                    </div>
+                </div>
+
+                <!-- api notifications -->
+                <app-notifications></app-notifications>
+
+                <!-- no results found -->
+                <p *ngIf="items && !items.length">
+                    {{ 'Found.Nothing' | translate }}
+                </p>
+            </header>
+
+
+            <!-- RESULT LIST -->
+            <div class="result-list">
+                <div class="result-item"
+                    *ngFor="let item of items; trackBy:trackById;">
+
+                    <h2 class="heading heading--sm">
+                        <a [routerLink]="['/article',item.id]">
+                            {{ item.attributes.title }}
+                        </a>
+                    </h2>
+
+                    <!-- description -->
+                    <p class="result-item__description" *ngIf="item.attributes.notes">
+                        {{ item.attributes.notes | stripHtml | truncateText:300 }}
+                    </p>
+
+                    <!-- unobserve -->
+                    <p class="result-item__actions">
+                        <button class="btn btn-danger btn-sm" [disabled]="item.disableFollowing"
+                                (click)="item.disableFollowing = true; unfollowItem(item)">
+                            {{'Action.StopObserve' | translate }}
+                            <span class="sr-only">
+                                {{ item.attributes.title }}
+                            </span>
+                        </button>
+                    </p>
+
+                    <!-- modified, created -->
+                    <div class="row result-item__attributes">
+                        <div class="col-12 col-md-3" *ngIf="item.attributes.modified">
+                            {{ 'Attribute.LastModificationDate' | translate }}:
+                            <span class="d-md-block">
+                                {{ item.attributes.modified | timespan }}
+                            </span>
+                        </div>
+                        <div class="col-12 col-md-3" *ngIf="item.attributes.created">
+                            {{ 'Attribute.CreationDate' | translate }}:
+                            <span class="d-md-block">
+                                {{ item.attributes.created | translateDateFormat | async }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+            
+            <!-- RESULTS FOOTER -->
+            <footer class="results-footer" *ngIf="count > 0">
+                <div class="row no-gutters justify-content-between">
+
+                    <!-- results per page -->
+                    <div class="col-12 col-md-6 order-12 order-md-1">
+                        <div class="results-per-page d-inline-flex align-items-baseline">
+                            <span class="dropdown-label" id="items-per-page-label">
+                                {{ 'Pagination.ItemsPerPage' | translate }}:
+                            </span>
+                            <app-singleselect
+                                [options]="[5,10,20,50]"
+                                [selected]="params.per_page"
+                                (selectedChange)="updateParams({per_page: $event, page: 1})"
+                                placeholder="10"
+                                labelId="items-per-page-label">
+                            </app-singleselect>
+                        </div>
+                    </div>
+
+                    <!-- pagination -->
+                    <div class="col-12 col-md-6 order-1 order-md-12 text-md-right">
+                        <div class="pager d-inline-flex align-items-baseline">
+                            <app-pagination
+                                [itemsPerPage]="params.per_page"
+                                [totalItems]="count"
+                                [page]="params.page"
+                                (numPages)="numPages = $event"
+                                (pageChange)="updateParams({page: $event})">
+                            </app-pagination>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+</div>

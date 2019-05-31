@@ -1,0 +1,9 @@
+.alert,
+.list-group-item {
+    border-left-width: 5px;
+    color: inherit;
+
+    &-danger { border-color: theme-color("danger"); }
+    &-info { border-color: theme-color("info"); }
+    &-warning { border-color: theme-color("warning"); }
+}

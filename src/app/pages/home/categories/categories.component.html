@@ -1,0 +1,31 @@
+
+<section class="home-section vertical-spacing" id="categories">
+    <h2 class="heading heading--md heading--centered heading--separator">
+        {{ "Home.Categories.Title" | translate }}
+    </h2>
+
+    <div class="container">
+
+        <!-- api notifications -->
+        <app-notifications></app-notifications>
+
+        <!-- categories grid -->
+        <ul class="category-list row">
+            <li class="category-list__item col-12 col-sm-6 col-md-4"
+                *ngFor="let item of items">
+                <a class="category-list__item-wrapper" role="button"
+                    [routerLink]="['/dataset']" [queryParams]="{category: item.key}">
+                    <div class="category-list__item-content">
+                        <span class="category-list__item-heading heading heading--sm">
+                            {{ item.title }}
+                        </span>
+                        <span class="category-list__item-info">
+                            {{ 'Datasets.Count' | translate }}: {{ item.doc_count }}
+                        </span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+    

@@ -1,0 +1,26 @@
+/* RESOURCE TABLE: Datasets
+*********************/
+.resource-view {
+
+    .resource-table {
+        border: 1px solid currentColor;
+
+        &__heading {
+            border-color: currentColor;
+            background-color: currentColor;
+        }
+
+        &__sort-column {
+            color: $hcSecondary;
+            font-weight: bold;
+
+            &::before,
+            &.ascending::before,
+            &.descending::before {  color: $hcSecondary; }
+        }
+
+        &__cell {
+            border-color: currentColor;
+        }
+    }
+}

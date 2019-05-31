@@ -1,0 +1,32 @@
+/* MY ACCOUNT:
+*********************/
+.my-account {
+    &__numbers,
+    &__followed {
+        border-color: currentColor;
+    }
+
+    &__followed {
+
+        &-text {
+            border: 0;
+        }
+
+        .active {
+            background-color: $hcPrimary;
+            color: $hcSecondary;
+
+            .icon {
+                fill: $hcSecondary;
+            }
+
+            .my-account__followed-text {
+                border: 0;
+            }
+
+            &::after {
+                content: none;
+            }
+        }
+    }
+}

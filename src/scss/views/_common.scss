@@ -1,0 +1,81 @@
+
+.vertical-spacing {
+	padding-top: $vertical-spacing;
+	padding-bottom: $vertical-spacing;
+}
+
+
+
+// one item on the left and one on the opposite right
+.justified-between {
+    display: flex;
+    justify-content: space-between;
+
+
+    // < MD
+    @include media-breakpoint-down(sm)
+    {
+        flex-direction: column;
+
+        & > :not(:first-child) {
+            margin-top: 5px;
+        }
+    }
+}
+
+.inherit-look {
+    color: inherit;
+    margin: inherit;
+    padding: inherit;
+
+    &:focus,
+    &:hover {
+        color: inherit;
+    }
+}
+
+.hidden { display: none; }
+
+
+.center-text { text-align: center; }
+.text-align-right { text-align: right; }
+
+
+.no-margin { margin: 0; }
+.no-padding { padding: 0; }
+
+
+.disabled { cursor: not-allowed; }
+
+
+// links with svg icon
+:link,
+:visited {
+
+    &.with-chevron {
+        & > .icon {
+            height: 20px;
+            width: 20px;
+            vertical-align: -4px;
+            fill: currentColor;
+            float: none;
+        }
+    }
+}
+
+
+
+.rodo {
+    padding: 0 0 0 20px;
+
+    li {
+        &:not(:last-child) {
+            margin-bottom: 15px;
+        }
+    }
+}
+
+
+abbr[title] {
+    text-decoration: none;
+}

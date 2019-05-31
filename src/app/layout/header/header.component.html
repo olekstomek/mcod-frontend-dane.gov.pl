@@ -1,0 +1,343 @@
+<header class="page-header">
+
+    
+    <!-- SKIP LINKS: ACCESSIBILITY -->
+    <div class="skip-menu">
+        <ul class="skip-menu__list">
+            <li>
+                <a class="skip-menu__link" href="#" (click)="skipTo('main-menu', $event)">
+                    {{ 'SkipTo.Menu' | translate }}
+                </a>
+            </li>
+            <li>
+                <a class="skip-menu__link" href="#" (click)="skipTo('main-content', $event)">
+                    {{ 'SkipTo.Content' | translate }}
+                </a>
+            </li>
+            <li>
+                <a class="skip-menu__link" href="#" (click)="skipTo('main-footer', $event)">
+                    {{ 'SkipTo.Footer' | translate }}
+                </a>
+            </li>
+            <li>
+                <a class="skip-menu__link" href="#" [routerLink]="['/sitemap']">
+                    {{ 'Menu.Sitemap' | translate }}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- TOP BAR -->
+    <div class="top-bar-wrapper">
+        <div class="container">
+            <div class="top-bar justified-between">
+                <div class="a11y-wrapper">
+
+                    <div class="a11y-buttons">
+
+
+                        <!-- HIGH CONTRAST -->
+                        <ul class="a11y-buttons__group">
+
+                            <!-- default -->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--hc btn--hc-default"
+                                    (click)="disableHighContrast()">
+                                    <span aria-hidden="true">A</span>
+                                    <span class="sr-only">{{ 'HighContrast.Default' | translate }}</span>
+                                </button>
+                            </li>
+
+                            <!-- black background, white text-->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--hc btn--hc-bw"
+                                    (click)="useHighContrast('black-white')">
+                                    <span aria-hidden="true">A</span>
+                                    <span class="sr-only">{{ 'HighContrast.BW' | translate }}</span>
+                                </button>
+                            </li>
+
+                            <!-- black background, yellow text -->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--hc btn--hc-by"
+                                    (click)="useHighContrast('black-yellow')">
+                                    <span aria-hidden="true">A</span>
+                                    <span class="sr-only">{{ 'HighContrast.BY' | translate }}</span>
+                                </button>
+                            </li>
+
+                            <!-- yellow background, black text -->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--hc btn--hc-yb"
+                                    (click)="useHighContrast('yellow-black')">
+                                    <span aria-hidden="true">A</span>
+                                    <span class="sr-only">{{ 'HighContrast.YB' | translate }}</span>
+                                </button>
+                            </li>
+                        </ul>
+
+
+                        <!-- FONT SIZE INCREASE/DECREASE -->
+                        <ul class="a11y-buttons__group">
+
+                            <!-- default -->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--font btn--font-0"
+                                    (click)="useFontSize(100)">
+                                    <span aria-hidden="true">
+                                        A
+                                    </span>
+                                    <span class="sr-only">{{ 'Font.Default' | translate }}</span>
+                                </button>
+                            </li>
+
+                            <!-- 125% -->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--font btn--font-1"
+                                    (click)="useFontSize(125)">
+                                    <span aria-hidden="true">
+                                        A<span class="plus">+</span>
+                                    </span>
+                                    <span class="sr-only">{{ ('Font.Increased' | translate) + ' - 125%' }}</span>
+                                </button>
+                            </li>
+
+                            <!-- 150% -->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--font btn--font-2"
+                                    (click)="useFontSize(150)">
+                                    <span aria-hidden="true">
+                                        A<span class="plus">++</span>
+                                    </span>
+                                    <span class="sr-only">{{ ('Font.Increased' | translate) + ' - 150%' }}</span>
+                                </button>
+                            </li>
+
+                            <!-- 200% -->
+                            <li class="a11y-buttons__item">
+                                <button class="btn btn--font btn--font-3"
+                                    (click)="useFontSize(200)">
+                                    <span aria-hidden="true">
+                                        A<span class="plus">+++</span>
+                                    </span>
+                                    <span class="sr-only">{{ ('Font.Increased' | translate) + ' - 200%' }}</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- LANGUAGE CHANGE -->
+                    <span class="language-switcher">
+                        <span class="language-switcher__label">
+                            {{ 'Language.Self'| translate }}:
+                        </span>
+    
+    
+                        <!-- LANGUAGES TO CHOOSE FROM -->
+                        <ul class="language-switcher__languages">
+    
+                            <!-- polish -->
+                            <li class="language-switcher__language">
+                                <button class="btn"
+                                    (click)="useLanguage('pl')"
+                                    [ngClass]="{'active': currentLang==='pl'}"
+                                    [attr.aria-current]="currentLang==='pl'">
+                                    <span aria-hidden="true">PL</span>
+                                    <span class="sr-only" lang="pl">
+                                        {{ (currentLang === 'pl') ? 'polski' : 'Zmień język na polski' }}
+                                    </span>
+                                </button>
+                            </li>
+    
+                            <!-- english -->
+                            <li class="language-switcher__language">
+                                <button class="btn"
+                                    (click)="useLanguage('en')"
+                                    [ngClass]="{'active': currentLang==='en'}"
+                                    [attr.aria-current]="currentLang==='en'">
+                                    <span aria-hidden="true">EN</span>
+                                    <span class="sr-only" lang="en">
+                                        {{ (currentLang === 'en') ? 'english' : 'Change language to english' }}
+                                    </span>
+                                </button>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+
+
+
+
+                <!-- USER RELATED: REGISTER, LOGIN, LANGAUGE -->
+                <div class="user-related">
+
+
+                    <!-- NOT LOGGED IN USER -->
+                    <div class="user-related__auth" *ngIf="!loggedIn">
+
+                        <!-- register -->
+                        <a class="user-related__auth-link"
+                            [routerLink]="['/user', 'register']"
+                            routerLinkActive="active"
+                            #registerLink="routerLinkActive"
+                            [attr.aria-current]="registerLink.isActive ? true : null">
+                            {{ 'Action.Register' | translate }}
+                        </a>
+                        /
+                        <!-- log in -->
+                        <a class="user-related__auth-link"
+                            [routerLink]="['/user', 'login']"
+                            routerLinkActive="active"
+                            #loginLink="routerLinkActive"
+                            [attr.aria-current]="loginLink.isActive ? true : null">
+                            {{ 'Action.Login' | translate }}
+                        </a>
+                    </div>
+
+                    <!-- LOGGED IN USER -->
+                    <div class="user-related__auth" *ngIf="loggedIn">
+
+                        <!-- my account -->
+                        <a class="btn btn-primary btn-sm"
+                            role="button"
+                            [routerLink]="['/user', 'myaccount']">
+                            <span class="sr-only">
+                                {{ 'GoTo' | translate }}
+                            </span>
+                            {{ 'User.MyAccount' | translate }}
+                        </a>
+
+                        <!-- logout -->
+                        <a class="user-related__auth-link"
+                            [routerLink]="['.']"
+                            (click)="logout()">{{ 'Action.Logout' | translate }}
+
+                            <ng-container *ngIf="user$ | async; let user">
+                                {{ user?.attributes.email }}
+                            </ng-container>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- APP LOGO and MAIN NAVIGATION -->
+    <section class="nav-section">
+        <div class="container">
+            <div class="navbar navbar-expand-lg" id="main-menu" tabindex="0">
+
+                <!-- app logo -->
+                <a class="navbar-brand" [routerLink]="['/']">
+                    <svg class="brand-img" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 150 50"  preserveAspectRatio="xMinYMid meet"
+                        aria-labelledby="logo-header-title">
+                        <title id="logo-header-title">Otwarte Dane</title>
+                        <text class="brand-img__text" x="0" y="0">
+                            <tspan x="75" y="25">OTWARTE</tspan>
+                            <tspan x="75" y="45">DANE</tspan>
+                        </text>
+                        <g class="brand-img__do">
+                            <path d="M62.6,5.3H70L58.9,46h-7.4C51.5,46,62.6,5.3,62.6,5.3z"/>
+                            <path d="M25.7-0.2C25.7-0.2,25.6-0.2,25.7-0.2c-13.8,0-25,11.2-25,25s11.2,25,25,25s25-11.2,25-25l0,0
+                                C50.6,10.9,39.5-0.2,25.7-0.2L25.7-0.2L25.7-0.2z M28.4,40.5H13.6V10.9h14.8c0.1,0,0.3,0,0.5,0c8.2,0,14.8,6.6,14.8,14.8
+                                s-6.6,14.8-14.8,14.8C28.7,40.5,28.6,40.5,28.4,40.5L28.4,40.5L28.4,40.5z"/>
+                        </g>
+                    </svg>
+                </a>
+
+
+                <!-- Toggle navigation (for mobile) -->
+                <button type="button" class="navbar-toggler collapsed"
+                    aria-controls="main-menu"
+                    [attr.aria-pressed]="!isMenuCollapsed"
+                    (click)="isMenuCollapsed = !isMenuCollapsed">
+                    {{ (isMenuCollapsed ? 'Menu.Open' : 'Menu.Close' ) | translate | uppercase  }}
+                </button>
+
+
+                <!-- MAIN NAVIGATION -->
+                <nav class="collapse navbar-collapse" role="navigation" id="main-menu"
+                    [ngClass]="{'show': !isMenuCollapsed}">
+                    <ul class="navbar-nav" role="menu">
+
+                        <!-- home -->
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" role="menuitem"
+                                [routerLink]="['/']"
+                                routerLinkActive="active"
+                                #menuLinkHome="routerLinkActive"
+                                [attr.aria-current]="menuLinkHome.isActive ? true : null"
+                                [routerLinkActiveOptions]="{exact: true}">
+                                {{ 'Menu.Home' | translate | uppercase }}
+                            </a>
+                        </li>
+
+                        <!-- datasets -->
+                        <li class="nav-item">
+                            <a class="nav-link" role="menuitem"
+                                [routerLink]="['/dataset']"
+                                routerLinkActive="active"
+                                #menuLinkDatasets="routerLinkActive"
+                                [attr.aria-current]="menuLinkDatasets.isActive ? true : null">
+                                {{ 'Menu.Datasets' | translate | uppercase }}
+                            </a>
+                        </li>
+
+                        <!-- institutions -->
+                        <li class="nav-item">
+                            <a class="nav-link" role="menuitem"
+                                [routerLink]="['/institution']"
+                                routerLinkActive="active"
+                                #menuLinkInstitutions="routerLinkActive"
+                                [attr.aria-current]="menuLinkInstitutions.isActive ? true : null">
+                                {{ 'Menu.Institutions' | translate | uppercase }}
+                            </a>
+                        </li>
+
+                        <!-- applications -->
+                        <li class="nav-item">
+                            <a class="nav-link" role="menuitem"
+                                [routerLink]="['/application']"
+                                routerLinkActive="active"
+                                #menuLinkApplications="routerLinkActive"
+                                [attr.aria-current]="menuLinkApplications.isActive ? true : null">
+                                {{ 'Menu.Applications' | translate | uppercase }}
+                            </a>
+                        </li>
+
+                        <!-- news (articles) -->
+                        <!-- news is a subset of knowledge base in the admin panel -->
+                        <li class="nav-item">
+                            <a class="nav-link" role="menuitem"
+                                [routerLink]="['/article']"
+                                routerLinkActive="active"
+                                #menuLinkArticles="routerLinkActive"
+                                [attr.aria-current]="menuLinkArticles.isActive ? true : null">
+                                {{ 'Menu.News' | translate | uppercase }}
+                            </a>
+                        </li>
+
+                        <!-- knowledge base (articles) -->
+                        <li class="nav-item">
+                            <a class="nav-link" role="menuitem"
+                                [routerLink]="['/knowledge-base']"
+                                routerLinkActive="active"
+                                #menuLinkKnowledgeBase="routerLinkActive"
+                                [attr.aria-current]="menuLinkKnowledgeBase.isActive ? true : null">
+                                {{ 'Menu.KnowledgeBase' | translate | uppercase }}
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- BREADCRUMBS -->
+    <app-breadcrumbs></app-breadcrumbs>
+</header>

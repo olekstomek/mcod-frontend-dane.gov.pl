@@ -1,0 +1,28 @@
+
+<section class="breadcrumbs-section" id="breadcrumbs" *ngIf="displayBreadcrumbs">
+    <div class="container">
+
+        <!-- label -->
+        <strong>{{ 'Breadcrumbs.YouAreHere' | translate }}:</strong>
+
+        <!-- list of breadcrumbs -->
+        <ol class="breadcrumbs" aria-label="breadcrumbs" role="navigation">
+            <ng-container *ngFor="let breadcrumb of breadcrumbs$; index as i">
+                <li *ngIf="breadcrumb.label !== ''" class="breadcrumbs__item">
+
+                    <!-- breadcrumb as link -->
+                    <a *ngIf="!breadcrumb.lastChild && !(i+1 === breadcrumbs$.length - 1 && breadcrumbs$[i+1].label === '')"
+                        [routerLink]="breadcrumb.segments"
+                        title="{{ breadcrumb.label }}">
+                        {{ breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label }}
+                    </a>
+
+                    <!-- breadcrumb as text (last breadcrumb) -->
+                    <span *ngIf="breadcrumb.lastChild || (i+1 === breadcrumbs$.length - 1 && breadcrumbs$[i+1].label === '')">
+                        {{ breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label }}
+                    </span>
+                </li>
+            </ng-container>
+        </ol>
+    </div>
+</section>

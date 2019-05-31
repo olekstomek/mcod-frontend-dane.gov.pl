@@ -1,0 +1,63 @@
+
+.item-view {
+    background-color: $color-grey-light-1;
+
+    // images inside content
+    img {
+        max-width: 100%;
+    }
+
+
+    &__header {
+        background-color: $color-grey-light-6;
+
+        .icon {
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            margin-right: 15px;
+            fill: currentColor;;
+        }
+
+        &-extender {
+            background-color: $color-grey-light-6;
+        }
+    }
+
+
+    &__actions {
+        position: relative;
+        padding-bottom: $vertical-spacing;
+
+        & > *:not(:last-child) {
+            margin-right: 4px;
+        }
+    }
+
+
+    &__attribute {
+		color: currentColor;
+		margin: 0;
+        padding: 0;
+
+        &-field {
+            &:not(:last-child) {
+                margin-right: 15px;
+            }
+        }
+
+		&:not(:first-child) {
+			margin-top: 10px;
+        }
+
+        &--tight {
+            &:not(:first-child) {
+                margin-top: 0;
+            }
+        }
+
+        &--icon-related {
+            margin-left: 60px;
+        }
+    }
+}

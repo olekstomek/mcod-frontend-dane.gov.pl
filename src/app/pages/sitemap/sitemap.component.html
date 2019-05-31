@@ -1,0 +1,54 @@
+
+<div class="container vertical-spacing">
+    <h1 class="heading heading--separator">
+        {{ 'Menu.Sitemap' | translate }}
+    </h1>
+
+    <!-- SITEMAP MENU -->
+    <ul class="list-unstyled" role="menu">
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/']">
+                {{ 'Menu.Home' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/dataset']">
+                {{ 'Menu.Datasets' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/institution']">
+                {{ 'Menu.Institutions' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/application']">
+                {{ 'Menu.Applications' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/article']">
+                {{ 'Menu.Articles' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/about']">
+                {{ 'Menu.About' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            {{ 'Menu.Sitemap' | translate }}
+        </li>
+
+        <!-- contact info modal -->
+        <li role="presentation" class="text-primary">
+            <app-write-us-info
+                [buttonLabel]="'Menu.Contact'"
+                [buttonSize]="'md'"
+                [buttonLook]="'link'"
+                [inheritLook]="true">
+            </app-write-us-info>
+        </li>
+    </ul>
+</div>
+

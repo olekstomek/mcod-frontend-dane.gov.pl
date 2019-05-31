@@ -1,0 +1,153 @@
+<section>
+	<div class="container vertical-spacing">
+
+
+        <!-- SUCCESSFULLY REGISTERED -->
+        <ng-container *ngIf="isRegistered">
+
+            <!-- success message -->
+            <div class="alert alert-success" role="alert">
+                <p>
+                    <strong>
+                        {{ 'User.Congratulations' | translate }}!
+                    </strong>
+                    {{ 'User.SuccessfullRegistration' | translate }}
+                </p>
+                <p class="no-margin">
+                    {{ 'User.ActivationEmailSent' | translate }}
+                </p>
+            </div>
+
+            <!-- login page redirection -->
+            <p class="center-text">
+                <a [routerLink]="['/user','login']" class="btn btn-primary">
+                    {{ 'Action.Login' | translate }}
+                </a>
+            </p>
+        </ng-container>
+
+
+		<!-- REGISTRATION FORM -->
+		<div class="row" *ngIf="!isRegistered">
+			<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+				<form class="auth-form" (ngSubmit)="onSubmit()" [formGroup]="registrationForm">
+					<h1 class="heading heading--md heading--separator">
+                        {{ 'User.Registration' | translate }}
+                    </h1>
+
+                    <!-- api notifications  -->
+                    <app-notifications aria-live="polite"></app-notifications>
+
+
+					<!-- EMAIL -->
+					<div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('email')}">
+
+						<label for="email">E-mail</label>
+
+						<input type="email" class="form-control" id="email"
+                            placeholder="{{'Enter' | translate }} {{'User.Email' | translate | lowercase }}"
+                            formControlName="email"
+                            [attr.aria-describedby]="'email_required_error email_other_error'"
+                            [attr.aria-invalid]="isFieldValid('email')">
+
+                        <!-- Email - required error -->
+						<small class="form-text text-danger" id="email_required_error"
+							*ngIf="isFieldValid('email')"
+                            @toggleVertically>
+							{{ 'Validation.RequiredEmail' | translate }}
+                        </small>
+					</div>
+
+
+					<!-- PASSWORD -->
+					<div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('password1')}">
+
+                        <label for="password1">
+                            {{ 'User.Password' | translate }}
+                        </label>
+
+                        <!-- Password with hint (tooltip) -->
+                        <div style="position: relative">
+                            <input type="password" class="form-control" id="password1"
+                                placeholder="{{ 'Enter' | translate }} {{ 'User.Password' | translate | lowercase }}"
+                                [attr.aria-describedby]="'password_policy password_required_error password_other_error'"
+                                [attr.aria-invalid]="isFieldValid('password1')"
+                                formControlName="password1"
+                                (focus)="showPasswordHint = true"
+                                (blur)="showPasswordHint = false"
+                                (mouseenter)="showPasswordHint = true"
+                                (mouseleave)="showPasswordHint = false">
+
+                                <!-- Password policy description (tooltip) -->
+                                <span class="hint" role="tooltip" id="password_policy"
+                                    *ngIf="showPasswordHint">
+                                     <small>
+                                         {{ 'Validation.VarPasswordPolicy' | translate:{param: passwordMinLength} }}
+                                     </small>
+                                </span>
+                        </div>
+
+                        <!-- Password - required error -->
+						<small class="form-text text-danger" id="password_required_error"
+                            *ngIf="isFieldValid('password1')"
+                            @toggleVertically>
+                            "{{ 'User.Password' | translate }}"
+							{{ 'Validation.IsRequired' | translate }}
+                        </small>
+
+                        <!-- password strength indicator -->
+                        <app-password-strength
+                            [passwordToCheck]="registrationForm.value.password1">
+                        </app-password-strength>
+					</div>
+
+
+					<!-- PASSWORD CONFIRMATION -->
+					<div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('password2') || registrationForm.hasError('notEqualValues')}">
+
+						<label for="password2">
+							{{ 'User.RetypePassword' | translate }}
+						</label>
+
+                        <!-- Password confirmation -->
+                        <input type="password" class="form-control" id="password2"
+                            placeholder="{{ 'User.RetypePassword' | translate }}"
+							formControlName="password2"
+                            autocomplete="off"
+                            role="presentation"
+                            [attr.aria-describedby]="'password2_required_error password2_other_error'"
+                            [attr.aria-invalid]="isFieldValid('password2') || registrationForm.hasError('notEqualValues')">
+
+                        <!-- Password confirmation - required error -->
+						<small class="form-text text-danger" id="password2_required_error"
+							*ngIf="isFieldValid('password2') || registrationForm.hasError('notEqualValues')"
+                            @toggleVertically>
+							{{ 'Validation.RequiredPasswordConfirmation' | translate }}
+                        </small>
+					</div>
+
+
+					<!-- REMEMBER ME & SUBMIT -->
+					<div class="form-check clearfix">
+
+                        <!-- fake button to indicate 'disabled' state -->
+                        <button type="button" class="btn btn-secondary disabled" *ngIf="!registrationForm.valid"
+                            aria-describedby="backend_notifications email_required_error password_required_error password2_required_error"
+							[attr.aria-disabled]="true">
+							{{ 'User.CreateAccount' | translate | uppercase }}
+                        </button>
+
+                        <!-- submit form -->
+						<button type="submit" class="btn btn-primary" *ngIf="registrationForm.valid">
+							{{ 'User.CreateAccount' | translate | uppercase }}
+						</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</section>

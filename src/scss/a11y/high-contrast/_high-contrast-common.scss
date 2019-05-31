@@ -1,0 +1,112 @@
+
+/* COMMON
+*********************/
+main,
+div,
+li,
+li::after,
+li::before,
+th,
+td,
+article,
+section,
+header,
+footer,
+form {
+    color: currentColor;
+    background: $hcSecondary;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a:not(.btn-primary) {
+    color: currentColor;
+}
+
+// a:not(.btn) {
+//     text-decoration: underline;
+// }
+
+// all svg graphics
+svg * {
+    fill: $hcPrimary;
+}
+
+
+img {
+    opacity: 0.2;
+}
+
+:focus {
+    outline: 2px dotted $hcPrimary;
+    outline-offset: initial;
+}
+
+
+@import "bootstrap-overwrite/form";
+
+
+@import "bootstrap-overwrite/btn";
+
+
+@import "components/dropdown";
+
+
+@import "base/typography";
+
+
+@import "layout/top-bar";
+
+
+@import "layout/header";
+
+
+@import "layout/footer";
+
+
+@import "components/category-list";
+
+
+@import "components/search-and-filters";
+
+
+@import "components/breadcrumbs";
+
+
+@import "components/pager";
+
+
+@import "pages/home";
+
+
+@import "views/list-view";
+
+
+@import "views/resource-list";
+
+
+@import "components/datagrid";
+
+
+@import "views/item-view";
+
+
+@import "pages/myaccount";
+
+
+@import "views/tabs";
+
+
+@import "pages/auth";
+
+
+@import "bootstrap-overwrite/modal";
+
+
+@import "components/notifications";

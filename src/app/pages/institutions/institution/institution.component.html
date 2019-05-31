@@ -1,0 +1,223 @@
+<!-- SEARCH and FILTERS -->
+<div class="search search--with-filters" id="search">
+    <div class="container">
+        <form (ngSubmit)="performSearch({q: f.value.searchInput, sort: 'relevance'})" #f="ngForm">
+            <div class="row" role="search">
+                <div class="col">
+
+                    <!-- search field -->
+                    <input type="text" class="form-control form-control-lg search__input"
+                        placeholder="{{ 'Institutions.SearchFor' | translate }}..."
+                        [attr.aria-label]="'Institutions.SearchFor' | translate"
+                        [ngModel]="params.q" name="searchInput">
+
+                    <!-- clear search field -->
+                    <button type="button" class="btn search__clear"
+                        (click)="updateParams({q: '', sort: ''})"
+                        *ngIf="params.q.length">
+                        <span class="sr-only">
+                            {{ 'Search.ClearInput' | translate }}
+                        </span>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- perform search -->
+                <div class="col-sm-auto">
+                    <button class="btn btn-primary btn-lg search__button" type="submit">
+                        {{ 'Action.Search' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- filters handler -->
+        <button type="button"
+            class="filters-toggle"
+            aria-controls="filters"
+            [attr.aria-pressed]="!filtersCollapsed"
+            (click)="filtersCollapsed = !filtersCollapsed">
+
+            <strong>
+                {{ ( filtersCollapsed ? 'Filters.Show' : 'Filters.Hide') | translate }}
+            </strong>
+            <ng-container *ngIf="selectedFilters.types.length > 0">
+                ({{ 'Filters.VarSelected' | translate:{param: selectedFilters.types.length} | lowercase }})
+            </ng-container>
+        </button>
+
+
+        <!-- FILTERS -->
+        <div class="filters" id="filters"
+            [attr.aria-expanded]="!filtersCollapsed"
+            [attr.aria-hidden]="filtersCollapsed"
+            *ngIf="!filtersCollapsed"
+            @toggleVertically>
+
+
+            <!-- DROPDOWNS -->
+            <div class="row">
+
+                <!-- Categories -->
+                <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+                    <span class="filter-label" id="institution-filter-label">
+                        {{ 'Institutions.Type' | translate }}
+                    </span>
+
+                    <!-- TODO: Temporary solution - no values for .by_type keys in API-->
+                    <!-- [options]="filters?.by_type" -->
+                    <app-multiselect
+                        [options]=" [
+                            { key: 'state', title: 'Institutions.TypeState' | translate },
+                            { key: 'local', title: 'Institutions.TypeLocal' | translate },
+                            { key: 'other', title: 'Institutions.TypeOther' | translate }
+                        ]"
+                        [multiselect]="true"
+                        displayValue="title"
+                        [showSearchInput]="false"
+                        [(selected)]="selectedFilters.types"
+                        (selectedChange)="toggleFilter('types', $event)"
+                        placeholder="{{ 'Attribute.OpennessScore' | translate }}"
+                        labelId="institution-filter-label">
+                    </app-multiselect>
+                </div>
+            </div>
+
+
+            <!-- SELECTED FILTERS -->
+            <div class="filters__selected">
+
+                <!-- Remove all selected filters -->
+                <button type="button" class="btn btn-sm btn-danger"
+                    (click)="clearSelectedFilters()"
+                    (keyup.enter)="clearSelectedFilters()"
+                    *ngIf="selectedFilters.types.length>0"
+                    @toggle>
+
+                    {{ 'Filters.RemoveSelected' | translate }} 
+                    ({{ selectedFilters.types.length }})
+                </button>
+
+                <!-- Types -->
+                <div class="filters__selected-group">
+                    <button type="button" class="btn btn-sm btn--remove"
+                        *ngFor="let item of selectedFilters.types; let i = index;"
+                        (click)="removeSelectedFilter('types', i)"
+                        (keyup.enter)="removeSelectedFilter('types', i)"
+                        @toggle>
+
+                        <span class="sr-only">
+                            {{ 'Filters.Remove' | translate }}
+                        </span>
+                        {{ item.title }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- DATASETS: SEARCH RESULTS -->
+<section class="results-section vertical-spacing">
+    <div class="container">
+
+
+        <!-- RESULTS HEADER -->
+        <header class="results-header">
+            <div class="d-md-flex justify-content-between align-items-center">
+
+                <h1 class="heading heading--separator">
+                    {{ 'Institutions.Self' | translate }}
+                    <small>({{ count || 0 }})</small>
+                </h1>
+
+                <!-- sort order -->
+                <div class="sort-order d-md-inline-flex align-items-center" *ngIf="items && items.length">
+                    <span class="dropdown-label" id="sortby-label">
+                        {{ 'Sort.By' | translate }}:
+                    </span>
+                    <app-singleselect
+                        [options]="[
+                            {label:'Sort.Default' | translate, value: 'relevance'},
+                            {label:'Attribute.NameAsc' | translate, value: 'title'},
+                            {label:'Attribute.NameDesc' | translate, value: '-title'},
+                            {label:'Attribute.ModificationDate' | translate, value: '-modified'},
+                            {label:'Attribute.CreationDate' | translate, value: '-created'}
+                        ]"
+                        [selected]="params?.sort"
+                        (selectedChange)="updateParams({sort: $event.value})"
+                        labelId="sortby-label">
+                    </app-singleselect>
+                </div>
+            </div>
+        </header>
+
+        <!-- api notifications -->
+        <app-notifications></app-notifications>
+
+        <!-- no results found -->
+        <p class="alert alert-warning" *ngIf="params.q && items && !items.length">
+            <strong>
+                {{ 'Found.NothingFor' | translate }} "{{ params.q }}"
+            </strong>
+        </p>
+
+
+        <!-- RESULT LIST: GRID VIEW -->
+        <ul class="category-list row" *ngIf="items && items.length">
+            <li class="category-list__item col-12 col-md-6 col-xl-3"
+                *ngFor="let item of items; trackBy:trackById">
+                <a class="category-list__item-wrapper" [routerLink]="[item.id]">
+                    <div class="category-list__item-content">
+                        <span class="category-list__item-heading heading heading--sm">
+                            {{ item.attributes.title }}
+                        </span>
+                        <span class="category-list__item-info">
+                            {{ 'Datasets.Count' | translate }}: 
+                            {{ item.count }}
+                        </span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+
+        <!-- RESULTS FOOTER -->
+        <footer class="results-footer pt-5" *ngIf="items && items.length">
+            <div class="row no-gutters justify-content-between">
+
+                <!-- results per page -->
+                <div class="col-12 col-md-6 order-12 order-md-1">
+                    <div class="results-per-page d-inline-flex align-items-baseline">
+                        <span class="dropdown-label" id="items-per-page-label">
+                            {{ 'Pagination.ItemsPerPage' | translate }}:
+                        </span>
+                        <app-singleselect
+                            [options]="[16,32,64,92]"
+                            [selected]="params.per_page"
+                            (selectedChange)="updateParams({per_page: $event})"
+                            placeholder="16"
+                            labelId="items-per-page-label">
+                        </app-singleselect>
+                    </div>
+                </div>
+
+                <!-- pagination -->
+                <div class="col-12 col-md-6 order-1 order-md-12 text-md-right">
+                    <div class="pager d-inline-flex align-items-baseline">
+                        <app-pagination
+                            [itemsPerPage]="params.per_page"
+                            [totalItems]="count"
+                            [(page)]="params.page"
+                            (numPages)="numPages = $event"
+                            (pageChange)="updateParams({page: $event})">
+                        </app-pagination>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</section>

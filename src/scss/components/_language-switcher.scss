@@ -1,0 +1,39 @@
+.language-switcher {
+    margin-left: 1rem;
+    
+    &__label {
+        vertical-align: middle;
+
+        // <SM
+        @include media-breakpoint-down(xs) {
+            display: none;
+        }
+    }
+
+
+    &__languages {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        font-size: 0;
+        vertical-align: middle;
+    }
+
+
+    &__language {
+        display: inline-block;
+        margin-left: 2px;
+
+        .btn {
+            color: $color-blue-light;
+            background-color: transparent;
+            line-height: 1;
+            padding: 2px;
+
+            &.active {
+                font-weight: bold;
+                color: currentColor;
+            }
+        }
+    }
+}

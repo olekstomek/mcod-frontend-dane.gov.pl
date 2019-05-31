@@ -1,0 +1,17 @@
+{
+    "/api": {
+        "target": "https://api.szkolenia.dane.gov.pl/",
+        "secure": false,
+        "pathRewrite": {
+            "^/api": ""
+        },
+        "logLevel": "warn",
+        "changeOrigin": true
+    },
+    "/media": {
+        "target": "https://szkolenia.dane.gov.pl/",
+        "secure": false,
+        "logLevel": "warn",
+        "changeOrigin": true
+    }
+}

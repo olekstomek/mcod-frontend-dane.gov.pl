@@ -1,0 +1,477 @@
+<!-- SEARCH and FILTERS -->
+<div class="search search--with-filters" id="search">
+    <div class="container">
+            <form (ngSubmit)="performSearch({q: f.value.searchInput, sort: 'relevance'})" #f="ngForm">
+            <div class="row" role="search">
+                <div class="col">
+
+                    <!-- search field -->
+                    <input type="text" class="form-control form-control-lg search__input"
+                        placeholder="{{ 'Datasets.SearchFor' | translate }}..."
+                        [attr.aria-label]="'Datasets.SearchFor' | translate"
+                        [ngModel]="params?.q" 
+                        name="searchInput">
+
+                    <!-- clear search field -->
+                    <button type="button" class="btn search__clear" 
+                        (click)="updateParams({q: '', sort: ''})"
+                        *ngIf="params?.q.length">
+                        <span class="sr-only">
+                            {{ 'Search.ClearInput' | translate }}
+                        </span>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- perform search -->
+                <div class="col-sm-auto">
+                    <button class="btn btn-primary btn-lg search__button" type="submit">
+                        {{ 'Action.Search' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- filters handler -->
+        <button type="button"
+            class="filters-toggle"
+            aria-controls="filters"
+            [attr.aria-pressed]="!filtersCollapsed"
+            (click)="filtersCollapsed = !filtersCollapsed">
+            
+            <strong>
+                {{ ( filtersCollapsed ? 'Filters.Show' : 'Filters.Hide') | translate }}
+            </strong>
+            <ng-container *ngIf="selectedFiltersCount > 0">
+                ({{ 'Filters.VarSelected' | translate:{param: selectedFiltersCount} | lowercase }})
+            </ng-container>
+        </button>
+
+
+        <!-- FILTERS -->
+        <section class="filters" id="filters"
+            [attr.aria-expanded]="!filtersCollapsed"
+            [attr.aria-hidden]="filtersCollapsed"
+            *ngIf="!filtersCollapsed"
+            @toggleVertically>
+
+
+            <!-- DROPDOWNS -->
+            <div class="row">
+
+                <!-- Categories -->
+                <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+                    <span class="filter-label" id="category-filter-label">
+                        {{ 'Attribute.CategoryLong' | translate }}
+                    </span>
+                    <app-multiselect
+                        [options]="filters?.by_category"
+                        [multiselect]="true"
+                        displayValue="title"
+                        [(selected)]="selectedFilters.category"
+                        (selectedChange)="toggleFilter('category',$event)"
+                        placeholder="{{ 'Attribute.Category' | translate }}"
+                        labelId="category-filter-label">
+                    </app-multiselect>
+                </div>
+
+                <!-- Institutions -->
+                <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+                    <span class="filter-label" id="institution-filter-label">
+                        {{ 'Attribute.InstitutionLong' | translate }}
+                    </span>
+                    <app-multiselect
+                        [options]="filters?.by_institution"
+                        [multiselect]="true"
+                        displayValue="title"
+                        [(selected)]="selectedFilters.institution"
+                        (selectedChange)="toggleFilter('institution',$event)"
+                        placeholder="{{ 'Institutions.Single' | translate }}"
+                        labelId="institution-filter-label">
+                    </app-multiselect>
+                </div>
+
+                <!-- Format -->
+                <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+                    <span class="filter-label" id="format-filter-label">
+                        {{ 'Attribute.FormatLong' | translate }}
+                    </span>
+                    <app-multiselect
+                        [options]="filters?.by_format"
+                        [multiselect]="true"
+                        displayValue="title"
+                        [(selected)]="selectedFilters.formats"
+                        (selectedChange)="toggleFilter('formats',$event)"
+                        placeholder="Format"
+                        labelId="format-filter-label">
+                    </app-multiselect>
+                </div>
+
+                <!-- Openness score -->
+                <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+                    <span class="filter-label" id="openness-filter-label">
+                        {{ 'Attribute.OpennessScore' | translate }}
+                    </span>
+                    <app-multiselect
+                        [options]="filters?.by_openness_scores"
+                        [multiselect]="true"
+                        displayValue="title"
+                        [showSearchInput]="false"
+                        [(selected)]="selectedFilters.openness_scores"
+                        (selectedChange)="toggleFilter('openness_scores',$event)"
+                        placeholder="{{ 'Attribute.OpennessScore' | translate }}"
+                        labelId="openness-filter-label">
+                    </app-multiselect>
+                </div>
+            </div>
+
+
+            <!-- SELECTED FILTERS -->
+            <div class="filters__selected">
+
+                <!-- Remove all selected filters -->
+                <button type="button" class="btn btn-sm btn-danger"
+                    (click)="clearSelectedFilters()"
+                    *ngIf="selectedFiltersCount > 0"
+                    @toggle>
+
+                    {{ 'Filters.RemoveSelected' | translate }}
+                    ({{ selectedFiltersCount }})
+                </button>
+
+                <!-- Institutions -->
+                <div class="filters__selected-group">
+                    <button type="button" class="btn btn-sm btn--multiline btn--remove"
+                        *ngFor="let item of selectedFilters.category; let i = index;"
+                        (click)="removeSelectedFilter('category', i)"
+                        (keyup.enter)="removeSelectedFilter('category', i)"
+                        @toggle>
+
+                        <span class="sr-only">
+                            {{ 'Filters.Remove' | translate }}
+                        </span>
+                        <span>
+                            {{ item.title }}
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Categories -->
+                <div class="filters__selected-group">
+                    <button type="button" class="btn btn-sm btn--multiline btn--remove"
+                        *ngFor="let item of selectedFilters.institution; let i = index;"
+                        (click)="removeSelectedFilter('institution', i)"
+                        (keyup.enter)="removeSelectedFilter('institution', i)"
+                        @toggle>
+
+                        <span class="sr-only">
+                            {{ 'Filters.Remove' | translate }}
+                        </span>
+                        <span>
+                            {{ item.title }}
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Formats -->
+                <div class="filters__selected-group">
+                    <button type="button" class="btn btn-sm btn--multiline btn--remove"
+                        *ngFor="let item of selectedFilters.formats; let i = index;"
+                        (click)="removeSelectedFilter('formats', i)"
+                        (keyup.enter)="removeSelectedFilter('formats', i)"
+                        @toggle>
+
+                        <span class="sr-only">
+                            {{ 'Filters.Remove' | translate }}
+                        </span>
+                        <span>
+                            {{ item.title }}
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Openness score -->
+                <div class="filters__selected-group">
+                    <button type="button" class="btn btn-sm btn--multiline btn--remove"
+                        *ngFor="let item of selectedFilters.openness_scores; let i = index;"
+                        (click)="removeSelectedFilter('openness_scores', i)"
+                        (keyup.enter)="removeSelectedFilter('openness_scores', i)"
+                        @toggle>
+                        
+                        <span class="sr-only">
+                            {{ 'Filters.Remove' | translate }}: {{ 'Attribute.OpennessScore' | translate }} {{ item.key }}
+                        </span>
+                        <span class="mr-2">
+                            <app-star-rating [rating]="+item.key"></app-star-rating>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<!-- SEARCH RESULTS -->
+<section class="results-section vertical-spacing">
+    <div class="container">
+
+
+        <!-- RESULTS HEADER -->
+        <header class="results-header">
+            <div class="d-md-flex justify-content-between align-items-center">
+
+                <h1 class="heading heading--separator">
+                    {{ 'Datasets.Self' | translate }}
+                    <small>({{ count }})</small>
+                </h1>
+
+                <!-- sort order -->
+                <div class="sort-order d-md-inline-flex align-items-center" *ngIf="items && items.length">
+                    <span class="dropdown-label" id="sortby-label">
+                        {{ 'Sort.By' | translate }}:
+                    </span>
+                    <app-singleselect
+                        [options]="[
+                        {label:'Sort.Default' | translate, value: 'relevance'},
+                        {label:'Attribute.NameAsc' | translate, value: 'title'},
+                        {label:'Attribute.NameDesc' | translate, value: '-title'},
+                        {label:'Attribute.AvailabilityDate' | translate, value: '-created'},
+                        {label:'Attribute.UpdateDate' | translate, value: '-verified'},
+                        {label:'Attribute.PopularityAsc' | translate, value: 'views_count'},
+                        {label:'Attribute.PopularityDesc' | translate, value: '-views_count'}
+                        ]"
+                        [selected]="params?.sort"
+                        (selectedChange)="updateParams({sort: $event.value})"
+                        labelId="sortby-label">
+                    </app-singleselect>
+                </div>
+            </div>
+
+            <!-- current page api -->
+            <div class="results-header__actions d-flex" *ngIf="items && items.length">
+
+                <!-- current page api -->
+                <a class="btn btn-primary" href="{{ selfApi }}" target="_blank" 
+                    *ngIf="selfApi"
+                    [tooltip]="'Action.SeeResultsViaApi' | translate"
+                    placement="auto">
+                        
+                    <span aria-hidden="true">
+                        API
+                    </span>
+                    <span class="sr-only">
+                        {{ 'Action.SeeResultsViaApi' | translate }}
+                    </span>
+                    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                    </svg>
+                </a>
+
+                <!-- suggest data -->
+                <a class="btn btn-primary ml-auto" [routerLink]="['submissions']">
+                    {{ 'DatasetForm.SuggestDataset' | translate | uppercase }}
+
+                    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                    </svg>
+                </a>
+            </div>
+        </header>
+
+        <!-- api notifications -->
+        <app-notifications></app-notifications>
+
+        <!-- no results found -->
+        <p class="alert alert-warning" *ngIf="params?.q && items && !items.length">
+            <strong>
+                {{ 'Found.NothingFor' | translate }} "{{ params?.q }}"
+            </strong>
+        </p>
+
+
+        <!-- RESULT LIST -->
+        <div class="result-list" *ngIf="count">
+
+
+            <!-- RESULT ITEM -->
+            <div class="result-item"
+                 *ngFor="let item of items; trackBy:trackById; let itemIndex = index;">
+
+                <h2 class="heading heading--sm">
+                    <a [routerLink]="[item.id]">
+                        {{ item.attributes.title }}
+                    </a>
+                </h2>
+
+                <!-- description -->
+                <p class="result-item__description" 
+                    *ngIf="item.attributes.notes" 
+                    [innerHtml]="item.attributes.notes | stripHtml | truncateText:300">
+                </p>
+
+                <!-- observe -->
+                <p class="result-item__actions">
+                    <app-observe-button [item]="item" [resource]="'dataset'"></app-observe-button>
+                </p>
+
+
+                <!-- RESULT ATTRIBUTES -->
+                <div class="row result-item__attributes">
+                    
+                    <!-- institution -->
+                    <div class="col-12 col-md-3" *ngIf="item.institution">
+                        {{ 'Attribute.Institution' | translate }}:
+                        <span class="d-md-block">
+                            <a [routerLink]="[]"
+                                (click)="updateParams({institution: item.institution.id})">
+                                {{ item.institution.attributes.title }}
+                            </a>
+                        </span>
+                    </div>
+
+                    <!-- category -->
+                    <div class="col-12 col-md-2" *ngIf="item.attributes.category">
+                        {{ 'Attribute.Category' | translate }}:
+                        <span class="d-md-block">
+                            <a [routerLink]="[]"
+                                (click)="updateParams({category: item.attributes.category.id})">
+                                {{ item.attributes.category.title || '-' }}
+                            </a>
+                        </span>
+                    </div>
+
+                    <!-- availability (created) date-->
+                    <div class="col-12 col-md-3" 
+                        *ngIf="item.attributes?.created && params?.sort.indexOf('created') !== -1">
+                        {{ 'Attribute.AvailabilityDate' | translate }}:
+                        <span class="d-md-block">
+                            {{ item.attributes?.created | translateDateFormat | async }}
+                        </span>
+                    </div>
+
+                    <!-- update (verification) date-->
+                    <div class="col-12 col-md-3" 
+                        *ngIf="item.attributes?.verified && (params?.sort.indexOf('verified') !== -1 || !isSortedByDate)">
+                        {{ 'Attribute.UpdateDate' | translate }}:
+                        <span class="d-md-block">
+                            {{ item.attributes?.verified | translateDateFormat | async }}
+                        </span>
+                    </div>
+
+                    <!-- format -->
+                    <div class="col-12 col-md-2">
+                        Format:
+                        <span class="d-md-block" *ngIf="item.attributes?.formats.length > 0">
+                            <ng-container *ngFor="let format of item.attributes?.formats; let last = last;">
+                                <a [routerLink]="['.']" 
+                                    (click)="updateParams({formats: format})">
+                                    {{ format }}</a>
+                                {{ last ? null : ',' }}
+                            </ng-container>
+                        </span>
+
+                        <!-- format not specified -->
+                        <span class="d-md-block" *ngIf="item.attributes?.formats.length === 0">-</span>
+                    </div>
+
+                    <!-- views cound, downloads count -->
+                    <div class="col-12 col-md-2">
+                        <span class="seen">
+                            <svg class="icon icon-eye">
+                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-eye"></use>
+                            </svg>
+                            <span class="sr-only">
+                                {{ 'Attribute.Views' | translate }}
+                            </span>
+                            {{ item.attributes.views_count }}
+                        </span>
+                        <span class="downloaded">
+                            <svg class="icon icon-align-bottom">
+                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-align-bottom"></use>
+                            </svg>
+                            <span class="sr-only">
+                                {{ 'Attribute.Downloads' | translate }}
+                            </span>
+                            {{ item.attributes.downloads_count }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- tags -->
+                <div class="tags" *ngIf="item.attributes.tags.length > 0">
+                    <span class="tags__label" id="tags-label-{{ itemIndex }}">
+                        {{ 'Attribute.Tags' | translate }}:
+                    </span>
+                    <ul class="tags__list" attr.aria-labelledby="tags-label-{{ itemIndex }}">
+                        <li class="tags__item"
+                            *ngFor="let tag of item.attributes.tags;">
+
+                            <!-- tag to select -->
+                            <button type="button" 
+                                class="btn btn-outline-primary btn-sm btn--multiline"
+                                (click)="updateParams({tags: tag})"
+                                *ngIf="tag !== params?.tags">
+
+                                <span>
+                                    {{ tag }}
+                                </span>
+                            </button>
+
+                            <!-- selected -->
+                            <button type="button" 
+                                class="btn btn-secondary btn-sm btn--multiline btn--remove"
+                                (click)="updateParams({tags: null})"
+                                *ngIf="tag === params?.tags">
+
+                                <span class="sr-only">
+                                    {{ 'Filters.Remove' | translate }}
+                                </span>
+                                <span>
+                                    {{ tag }}
+                                </span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- RESULTS FOOTER -->
+        <footer class="results-footer" *ngIf="count">
+            <div class="row no-gutters justify-content-between">
+
+                <!-- results per page -->
+                <div class="col-12 col-md-6 order-12 order-md-1">
+                    <div class="results-per-page d-inline-flex align-items-baseline">
+                        <span class="dropdown-label" id="items-per-page-label">
+                            {{ 'Pagination.ItemsPerPage' | translate }}:
+                        </span>
+                        <app-singleselect
+                            [options]="[5,10,20,50]"
+                            [selected]="params?.per_page"
+                            (selectedChange)="updateParams({per_page: $event})"
+                            placeholder="10"
+                            labelId="items-per-page-label">
+                        </app-singleselect>
+                    </div>
+                </div>
+
+                <!-- pagination -->
+                <div class="col-12 col-md-6 order-1 order-md-12 text-md-right">
+                    <div class="pager d-inline-flex align-items-baseline">
+                        <app-pagination
+                            [itemsPerPage]="params.per_page"
+                            [totalItems]="count"
+                            [(page)]="params.page"
+                            (numPages)="numPages = $event"
+                            (pageChange)="updateParams({page: $event})">
+                        </app-pagination>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</section>
+

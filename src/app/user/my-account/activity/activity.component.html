@@ -1,0 +1,17 @@
+
+<div class="my-account__activity" role="tabpanel" aria-labelledby="tab1">
+
+    <ul class="activity" >
+        <li class="activity__item new-package" *ngFor="let item of history">
+            <app-history-entry [item]="item"></app-history-entry>
+        </li>
+    </ul>
+
+    <p *ngIf="history.length < historyTotal" class="mt-3">
+        <a [routerLink]="['.']" (click)="loadHistory(historyPage+1)">{{ 'Action.LoadMore' | translate }}...</a>
+    </p>
+
+    <p *ngIf="history.length == 0">
+        {{ 'User.EmptyActivity' | translate }}
+    </p>
+</div>

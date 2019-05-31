@@ -1,0 +1,447 @@
+<section>
+	<div class="container vertical-spacing">
+
+
+        <!-- PROPOSAL SUCCESSFULLY SENT -->
+        <ng-container *ngIf="isSuggestionSent">
+
+            <!-- success message -->
+            <div class="alert alert-success" role="alert">
+                <p>
+                    {{ 'ApplicationForm.SuggestionSentSuccess' | translate }}
+                </p>
+            </div>
+
+            <!-- application list redirection -->
+            <p class="center-text">
+                <a [routerLink]="['../']" class="btn btn-primary">
+                    {{ 'GoTo' | translate }}:
+                    {{ 'Applications.Self' | translate }}
+                </a>
+            </p>
+        </ng-container>
+
+
+        <!-- APPLIATION FORM -->
+        <div class="row" *ngIf="!isSuggestionSent">
+			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                <form class="auth-form" [formGroup]="applicationForm" (ngSubmit)="onApplicationFormSubmit()">
+                    <h1 class="heading heading--md heading--separator">
+                        {{ 'Applications.Suggest' | translate }}
+                    </h1>
+
+                    <!-- api notifications  -->
+                    <app-notifications aria-live="polite"></app-notifications>
+
+                    <!-- title -->
+                    <div class="form-group" 
+                        [ngClass]="{'form-group-invalid': isFieldValid('title')}">
+                        <label for="title">
+                            {{ 'ApplicationForm.Name' | translate }}
+                            <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
+                        </label>
+
+                        <input type="text" class="form-control" id="title"
+                            placeholder="{{'ApplicationForm.EnterName' | translate }}"
+                            formControlName="title"
+                            [attr.aria-describedby]="'title_required_error'"
+                            [attr.aria-invalid]="isFieldValid('title')"
+                            (keydown.enter)="$event.preventDefault()">
+
+                        <!-- title - required error -->
+                        <small class="form-text text-danger" id="title_required_error"
+                            *ngIf="isFieldValid('title')"
+                            @toggleVertically>
+                            {{ 'Validation.VarRequired' | translate:{param: 'ApplicationForm.Name' | translate } }}
+                        </small>
+                    </div>
+
+                    <!-- url -->
+                    <div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('url')}">
+                        <label for="url">
+                            {{ 'Applications.Link' | translate }}/{{ 'ApplicationForm.Website' | translate }}
+                            <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
+                        </label>
+
+                        <input type="text" class="form-control" id="url"
+                            placeholder="{{'Enter' | translate }} {{ 'Applications.Link' | translate | lowercase }}"
+                            formControlName="url"
+                            [attr.aria-describedby]="'url_required_error url_invalid_error'"
+                            [attr.aria-invalid]="isFieldValid('url')"
+                            (keydown.enter)="$event.preventDefault()">
+
+                        <!-- url errors -->
+                        <ng-container *ngIf="isFieldValid('url')">
+                            
+                            <!-- required error -->
+                            <small class="form-text text-danger" role="alert" id="url_required_error"
+                                *ngIf="applicationForm.get('url').errors['required']"
+                                @toggleVertically>
+                                {{ 'Validation.VarRequired' | translate:{param: 'Applications.Link' | translate } }}
+                            </small>
+
+                            <!-- invalid url error -->
+                            <small class="form-text text-danger" role="alert" id="url_invalid_error"
+                                *ngIf="applicationForm.get('url').errors['pattern']"
+                                @toggleVertically>
+                                {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                            </small>
+                        </ng-container>
+                    </div>
+
+                    <!-- notes -->
+                    <div class="form-group" 
+                        [ngClass]="{'form-group-invalid': isFieldValid('notes')}">
+                        <label for="notes">
+                            {{ 'Applications.Description' | translate }}
+                            <small>({{ 'Validation.RequiredField' | translate | lowercase }} - {{ 'ApplicationForm.DescriptionLength' | translate:{param: maxDescriptionLength} }})</small>
+                        </label>
+
+                        <!-- notes input field -->
+                        <textarea class="form-control" title="notes" id="notes" rows="5" 
+                            placeholder="{{'Enter' | translate }} {{ 'Applications.Description' | translate | lowercase }}"
+                            formControlName="notes"
+                            [attr.aria-describedby]="'notes_required_error notes_maxlength_error'"
+                            [attr.aria-invalid]="isFieldValid('notes')">
+                        </textarea>
+
+                        <!-- notes validation error -->
+                        <ng-container *ngIf="isFieldValid('notes')">
+                            
+                            <!-- required error -->
+                            <small class="form-text text-danger" role="alert" id="notes_required_error"
+                                *ngIf="applicationForm.get('notes').errors['required']"
+                                @toggleVertically>
+                                {{ 'Validation.VarRequired' | translate:{param: 'Applications.Description' | translate } }}
+                            </small>
+                            
+                            <!-- max length error -->
+                            <small class="form-text text-danger" role="alert" id="notes_maxlength_error"
+                                *ngIf="applicationForm.get('notes').errors['maxlength']"
+                                @toggleVertically>
+                                {{ 'Validation.VarMaxFieldLengthExceeded' | translate: {param: applicationForm.get('notes').errors['maxlength']['actualLength']- maxDescriptionLength} }}
+                            </small>
+                        </ng-container>
+                    </div>
+
+                    <!-- applicant e-mail -->
+                    <div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('applicant_email')}">
+                        <label for="applicant_email">
+                            {{ 'ApplicationForm.ApplicantEmail' | translate }}
+                            <small>
+                                ({{ 'Validation.RequiredField' | translate | lowercase }})
+                            </small>
+                            <small class="d-block">
+                                {{ 'Rodo.EmailUse' | translate }}
+                            </small>
+                        </label>
+
+						<input type="applicant_email" class="form-control" id="applicant_email"
+                            placeholder="{{'Enter' | translate }} {{'User.Email' | translate | lowercase }}"
+                            formControlName="applicant_email"
+                            [attr.aria-describedby]="'applicant_email_error'"
+                            [attr.aria-invalid]="isFieldValid('applicant_email')"
+                            (keydown.enter)="$event.preventDefault()">
+
+                        <!-- Email - required error -->
+						<small class="form-text text-danger" id="applicant_email_error"
+							*ngIf="isFieldValid('applicant_email')"
+                            @toggleVertically>
+							{{ 'Validation.RequiredEmail' | translate }}
+                        </small>
+                    </div>
+
+                    <!-- author -->
+                    <div class="form-group" 
+                        [ngClass]="{'form-group-invalid': isFieldValid('author')}">
+                        <label for="author">
+                            {{ 'ApplicationForm.Author' | translate }}
+                            <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
+                        </label>
+
+                        <input type="text" class="form-control" id="author"
+                            placeholder="{{'Enter' | translate }}"
+                            formControlName="author"
+                            [attr.aria-describedby]="'author_required_error'"
+                            [attr.aria-invalid]="isFieldValid('author')"
+                            (keydown.enter)="$event.preventDefault()">
+
+                        <!-- author - required error -->
+                        <small class="form-text text-danger" id="author_required_error"
+                            *ngIf="isFieldValid('author')"
+                            @toggleVertically>
+                            {{ 'Validation.VarRequired' | translate:{param: 'ApplicationForm.Author' | translate } }}
+                        </small>
+                    </div>
+
+                    <!-- image -->
+                    <div class="form-group clearfix">
+                        <label class="d-block">
+                            {{ 'ApplicationForm.Logo' | translate }}
+                            <small class="d-block">
+                                {{ 'File.AcceptedTypes' | translate }}: jpg, gif, png
+                            </small>
+                        </label>
+
+
+                        <!-- IMAGE PREVIEW -->
+                        <div class="mb-2" 
+                            *ngIf="uploadedImagePreview" 
+                            @toggleVertically>
+
+                            <div class="row mt-1">
+                                <div class="col-6">
+                                    <img src="{{ uploadedImagePreview }}" alt="{{ uploadedImageFile.name }}" style="max-width: 100%; max-height: 200px;">
+                                </div>
+                                <div class="col-6">
+
+                                    <!-- name -->
+                                    <p>
+                                        <span class="d-block">
+                                            <span class="sr-only">
+                                                {{ 'Attribute.Name' | translate }}
+                                            </span>
+                                            {{ uploadedImageFile.name }}
+                                        </span>
+                                    </p>
+
+                                    <!-- size -->
+                                    <p>
+                                        <span class="sr-only">
+                                            {{ 'File.Size' | translate }}
+                                        </span>
+                                        <span class="d-block" *ngIf="uploadedImageFile.size < 1024">
+                                            {{ uploadedImageFile.size/1024 | number:'0.0-2'}} kB
+                                        </span>
+                                        <span class="d-block" *ngIf="uploadedImageFile.size >= 1024 && uploadedImageFile.size < 1024 * 1024">
+                                            {{ uploadedImageFile.size/1024 | number:'0.0-0' }} kB
+                                        </span>
+                                        <span class="d-block" *ngIf="uploadedImageFile.size >= 1024 * 1024">
+                                            {{ uploadedImageFile.size/1024/1024 | number:'0.0-2' }} MB
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- not accepted image type message -->
+                        <p class="alert alert-danger" *ngIf="!isImageTypeAccepted">
+                            {{ 'Validation.NotAcceptedFileType' | translate }}
+                        </p>
+
+                        <!-- remove image -->
+                        <button class="btn btn-sm btn-outline-danger float-none"
+                            (click)="onImageRemove()" 
+                            *ngIf="uploadedImagePreview">
+                            {{ 'Action.Remove' | translate }}
+                            {{ 'Attribute.Image' | translate | lowercase }}
+                            <span class="sr-only">
+                                {{ uploadedImageFile.name }}
+                            </span>
+                        </button>
+
+                        
+                        <!-- UPLOAD/REUPLOAD IMAGE -->
+                        <button type="button" class="btn btn-sm btn-outline-primary float-none" 
+                            (click)="imageInput.click()">
+
+                            <!-- add -->
+                            <ng-container *ngIf="!uploadedImagePreview">
+                                {{ 'Action.Add' | translate }}
+                            </ng-container>
+
+                            <!-- change -->
+                            <ng-container *ngIf="uploadedImagePreview">
+                                {{ 'Action.Change' | translate }}
+                            </ng-container>
+
+                            {{ 'Attribute.Image' | translate | lowercase }}
+                        </button>
+                        <input type="file" name="image" id="image" accept="image/*" class="d-none"
+                            aria-hidden="true"
+                            #imageInput 
+                            (change)="onFileSelected($event)">
+                    </div>
+
+                    <hr>
+
+                    <!-- (internal) datasets -->
+                    <div class="form-group" [formArrayName]="'datasets'">
+                        <label id="datasets">
+                            {{ 'ApplicationForm.InternalDatasets' | translate }}
+                        </label>
+
+                        <div class="input-group mb-2"
+                            *ngFor="let datasetControl of applicationForm.get('datasets')['controls']; let i = index;"
+                            [formGroupName]="i"
+                            @toggleVertically>
+
+                            <!-- dataset autocomplete -->
+                            <input type="text" class="form-control"
+                                aria-labelledby="datasets"
+                                placeholder="{{ 'Datasets.SearchFor' | translate }}..."
+                                [formControlName]="'dataset'"
+                                app-dataset-autocomplete
+                                (datasetSelected)="onDatasetSelected($event, i)"
+                                #datasetInput
+                                (keydown.enter)="$event.preventDefault()">
+
+                            <!-- remove dataset -->
+                            <button type="button" class="btn btn-outline-danger"
+                                (click)="onRemoveDatasetRow(i)">
+                                <span aria-hidden="true">x</span>
+                                <span class="sr-only">
+                                    {{ 'Action.Remove' | translate }}
+                                    {{ 'Datasets.Single' | translate | lowercase }}
+                                    {{ i }}
+                                </span>
+                            </button>
+                        </div>
+                        
+                        <!-- add dataset input -->
+                        <div class="clearfix">
+
+                            <!-- dataset limit reached -->
+                            <ng-container *ngIf="applicationForm.get('datasets')['controls'].length >= maxDatasetsNumber">
+                                <p class="alert alert-danger" role="alert" aria-live="polite" id="dataset-limit-alert" 
+                                    @toggleVertically>
+                                    {{ 'ApplicationForm.RelatedDatasetsLimitAlert' | translate:{param: maxDatasetsNumber} }}
+                                </p>
+
+                                <button type="button" class="btn btn-secondary float-none"
+                                    aria-describedby="dataset-limit-alert">
+                                    {{ 'Action.Add' | translate }}
+                                    {{ 'Datasets.Single' | translate | lowercase }}
+                                </button>
+                            </ng-container>
+
+                            <!-- add dataset -->
+                            <button type="button" class="btn btn-sm btn-outline-primary float-none"
+                                (click)="onAppendDatasetRow($event)"
+                                *ngIf="applicationForm.get('datasets')['controls'].length < maxDatasetsNumber">
+                                {{ 'Action.Add' | translate }}
+                                {{ 'Datasets.Single' | translate | lowercase }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- keywords -->
+                    <div class="form-group">
+                        <label for="keywords">
+                            {{ 'Attribute.Tags' | translate }} ({{ 'ApplicationForm.ComaSeparated' | translate | lowercase }})
+                        </label>
+
+                        <!-- keywords input field -->
+                        <textarea class="form-control" title="keywords" id="keywords" rows="2" 
+                            placeholder="{{'Enter' | translate }} {{ 'Attribute.Tags' | translate | lowercase }}"
+                            formControlName="keywords">
+                        </textarea>
+                    </div>
+
+                    <hr>
+
+                    <!-- (external) datasets -->
+                    <div class="form-group" [formArrayName]="'external_datasets'">
+                        <label id="datasets">
+                            {{ 'ApplicationForm.ExternalDatasets' | translate }}
+                        </label>
+
+                        <div class="input-group mb-2"
+                            *ngFor="let datasetControl of applicationForm.get('external_datasets')['controls']; let i = index;"
+                            [formGroupName]="i"
+                            @toggleVertically>
+
+                            <!-- title -->
+                            <input type="text" class="form-control"
+                                aria-label="title"
+                                placeholder="{{'ApplicationForm.EnterName' | translate }}"
+                                [formControlName]="'title'"
+                                #externalDatasetTitleInput
+                                (keydown.enter)="$event.preventDefault()">
+                                
+                            <!-- url -->
+                            <input type="text" class="form-control"
+                                [ngClass]="{'is-invalid': applicationForm.get('external_datasets')['controls'][i].invalid}"
+                                aria-label="url"
+                                aria-describedby="external_datasets_url_error"
+                                placeholder="{{'Enter' | translate }} {{'ApplicationForm.Link' | translate | lowercase }}"
+                                [formControlName]="'url'"
+                                (keydown.enter)="$event.preventDefault()">
+
+                            <!-- remove dataset -->
+                            <button type="button" class="btn btn-outline-danger"
+                                (click)="onRemoveExternalDatasetRow(i)">
+                                <span aria-hidden="true">x</span>
+                                <span class="sr-only">
+                                    {{ 'Action.Remove' | translate }}
+                                    {{ 'Datasets.Single' | translate | lowercase }}
+                                    {{ i }}
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- invalid url -->
+                        <p class="clearfix">  
+                            <small class="form-text text-danger" id="external_datasets_url_error"
+                                *ngIf="isFieldValid('external_datasets')"
+                                @toggleVertically>
+                                {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                            </small>
+                        </p>
+                        
+                        <!-- add external dataset inputs -->
+                        <div class="clearfix">
+
+                            <!-- dataset limit reached -->
+                            <ng-container *ngIf="applicationForm.get('external_datasets')['controls'].length >= maxDatasetsNumber">
+                                <p class="alert alert-danger" role="alert" aria-live="polite" id="dataset-limit-alert" 
+                                    @toggleVertically>
+                                    {{ 'ApplicationForm.RelatedDatasetsLimitAlert' | translate:{param: maxDatasetsNumber} }}
+                                </p>
+
+                                <button type="button" class="btn btn-secondary float-none"
+                                    aria-describedby="dataset-limit-alert">
+                                    {{ 'Action.Add' | translate }}
+                                    {{ 'Datasets.Single' | translate | lowercase }}
+                                </button>
+                            </ng-container>
+
+                            <!-- add dataset -->
+                            <button type="button" class="btn btn-sm btn-outline-primary float-none"
+                                (click)="onAppendExternalDatasetRow($event)"
+                                *ngIf="applicationForm.get('external_datasets')['controls'].length < maxDatasetsNumber">
+                                {{ 'Action.Add' | translate }}
+                                {{ 'Datasets.Single' | translate | lowercase }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- submit form --> 
+                    <div class="row">
+                        <div class="col-12">
+
+                            <!-- fake submit -->
+                            <button type="button" class="btn btn-secondary"
+                                aria-describedby="backend_notifications name_required_error url_required_error url_invalid_error notes_required_error notes_maxlength_error applicant_email_error external_datasets_url_error"
+                                *ngIf="!applicationForm.valid">
+                                {{ 'Action.Send' | translate }}
+                            </button>
+
+                            <!-- submit -->
+                            <button type="submit" class="btn btn-primary"
+                                *ngIf="applicationForm.valid">
+                                {{ 'Action.Send' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /FORM -->
+
+            </div>
+        </div>
+    </div>
+</section>

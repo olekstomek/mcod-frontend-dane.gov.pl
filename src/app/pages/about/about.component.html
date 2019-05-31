@@ -1,0 +1,26 @@
+
+<article class="item-view">
+
+	<!-- DETAILS: HEADER -->
+	<header class="item-view__header vertical-spacing" *ngIf="article">
+		<div class="container">
+			<h1 class="heading">
+				{{ article.attributes.title }}
+			</h1>
+		</div>
+	</header>
+
+
+	<!-- DETAILS: BODY -->
+	<div class="item-view__body vertical-spacing">
+		<div class="container">
+            
+            <!-- api notifications -->
+            <app-notifications></app-notifications>
+
+            <!-- notes -->
+			<div [innerHTML]="article?.attributes.notes | sanitizeHtml"></div>
+		</div>
+    </div>
+    
+</article>

@@ -1,0 +1,36 @@
+<div class="dropdown dropdown--animated"
+    [ngClass]="{'open': isExpanded, 'show': isExpanded, 'dropup': isUp}"
+    (blur)="isExpanded = false;">
+
+
+    <!-- dropdown trigger -->
+    <button class="btn dropdown-toggle" type="button"
+        aria-haspopup="true"
+        [attr.aria-controls]="generatedId"
+        [attr.aria-expanded]="isExpanded"
+        [attr.aria-labelledby]="labelId ? labelId : null"
+        (click)="toggleDropdown()"
+        #toggler>
+        {{ togglerLabel || ('Action.Choose' | translate) }}
+    </button>
+
+
+    <!-- dropdown menu -->
+    <div class="dropdown-menu"  id="{{generatedId}}"
+        [attr.aria-hidden]="!isExpanded"
+        [ngClass]="{'show': isExpanded}"
+
+        *ngIf="isExpanded"
+        @toggleVertically> <!-- animation -->
+
+        <ul class="dropdown__list">
+            <li class="dropdown-item"
+                *ngFor="let item of options"
+                [ngClass]="{'active': isItemSelected(item)}"
+                (click)="selectItem(item)"
+                tabindex="0">
+                {{ isObject(item) ? item.label :  item }}
+            </li>
+        </ul>
+    </div>
+</div>

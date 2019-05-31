@@ -1,0 +1,220 @@
+<article class="item-view">
+
+    <!-- DETAILS: HEADER -->
+    <header class="item-view__header vertical-spacing">
+        <div class="container">
+            <h1 class="heading">
+                {{ application?.attributes.title }}
+            </h1>
+
+            <p class="item-view__attribute">
+                
+                <!-- observe -->
+                <app-observe-button [item]="application" [resource]="'application'"></app-observe-button>
+
+                <!-- application link -->
+                <a class="with-chevron" href="{{ application.attributes.url }}" target="_blank"
+                    *ngIf="application?.attributes.url">
+                    {{ 'Applications.Link' | translate }}
+                    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                    </svg>
+                </a>
+            </p>
+
+            <!-- created -->
+            <p class="item-view__attribute">
+                <strong>{{ 'Attribute.AddDate' | translate }}</strong>: 
+                {{ application?.attributes.created | translateDateFormat | async }}
+            </p>
+
+            <!-- author -->
+            <p class="item-view__attribute" *ngIf="application?.attributes.author">
+                <strong>{{ 'Attribute.Author' | translate }}</strong>: 
+                {{ application?.attributes.author }}
+            </p>
+
+            <!-- tags -->
+            <p class="item-view__attribute" *ngIf="application?.attributes.tags">
+                <strong>{{ 'Attribute.Tags' | translate }}</strong>: 
+                {{ application?.attributes.tags }}
+            </p>
+        </div>
+    </header>
+
+
+    <!-- DETAILS: BODY -->
+    <section class="item-view__body vertical-spacing">
+        <div class="container clearfix">
+            
+            <!-- api notifications -->
+            <app-notifications></app-notifications>
+
+            <h2 class="heading heading--md">
+                {{ 'Applications.Description' | translate }}
+            </h2>
+
+            <!-- image -->
+            <div *ngIf="application?.attributes.image_url" class="float-right">
+                <img src="{{ application?.attributes.image_url }}" alt="">
+            </div>
+
+            <!-- api notifications -->
+            <div [innerHTML]="application?.attributes.notes | sanitizeHtml"></div>
+        </div>
+    </section>
+
+
+    <!-- RELATED DATASETS -->
+    <section class="results-section vertical-spacing" *ngIf="items && items.length">
+        <div class="container">
+            <header class="results-header">
+                <div class="d-md-flex justify-content-between align-items-center">
+                    <h2 class="heading heading--md">
+                        {{ 'Institutions.RelatedDatasets' | translate }} 
+                        ({{ count }})
+                    </h2>
+
+                    <!-- sort order -->
+                    <div class="sort-order d-md-inline-flex align-items-center">
+                        <span class="dropdown-label">
+                            {{ 'Attribute.Order' | translate }}:
+                        </span>
+                        <app-singleselect 
+                            [options]="[
+                                {label:'Sort.Default' | translate, value: 'relevance'},
+                                {label:'Attribute.NameAsc' | translate, value: 'title'},
+                                {label:'Attribute.NameDesc' | translate, value: '-title'},
+                                {label:'Attribute.AvailabilityDate' | translate, value: '-created'},
+                                {label:'Attribute.UpdateDate' | translate, value: '-verified'},
+                                {label:'Attribute.PopularityAsc' | translate, value: 'views_count'},
+                                {label:'Attribute.PopularityDesc' | translate, value: '-views_count'}
+                            ]" 
+                            [selected]="params?.sort" 
+                            (selectedChange)="updateParams({sort: $event.value})" 
+                            placeholder="Label">
+                        </app-singleselect>
+                    </div>
+                </div>
+            </header>
+
+
+            <!-- RESULT LIST -->
+            <div class="result-list">
+
+                <!-- RESULT ITEM -->
+                <div class="result-item" *ngFor="let item of items">
+                    <h3 class="heading heading--sm">
+                        <a [routerLink]="['/dataset', item.id]" >
+                            {{ item.attributes.title }}
+                        </a>
+                    </h3>
+
+                    <!-- description -->
+                    <p class="result-item__description" *ngIf="item.attributes.notes">
+                        {{ item.attributes.notes | stripHtml | truncateText:300 }}
+                    </p>
+
+                    <div class="row result-item__attributes">
+                        
+                        <!-- category -->
+                        <div class="col-12 col-md-5" *ngIf="item.attributes.category">
+                            {{ 'Attribute.Category' | translate }}:
+                            <span class="d-md-block">
+                                {{ item.attributes.category.title }}
+                            </span>
+                        </div>
+
+                        <!-- availability (created) date-->
+                        <div class="col-12 col-md-3" 
+                            *ngIf="item.attributes?.created && params?.sort.indexOf('created') !== -1">
+                            {{ 'Attribute.AvailabilityDate' | translate }}:
+                            <span class="d-md-block">
+                                {{ item.attributes?.created | translateDateFormat | async }}
+                            </span>
+                        </div>
+    
+                        <!-- update (verification) date-->
+                        <div class="col-12 col-md-3" 
+                            *ngIf="item.attributes?.verified && (params?.sort.indexOf('verified') !== -1 || !isSortedByDate)">
+                            {{ 'Attribute.UpdateDate' | translate }}:
+                            <span class="d-md-block">
+                                {{ item.attributes?.verified | translateDateFormat | async }}
+                            </span>
+                        </div>
+
+                        <!-- format -->
+                        <div class="col-12 col-md-2">
+                            {{ 'Attribute.Format' | translate }}:
+                            <span class="d-md-block" *ngIf="item.attributes?.formats.length">
+                                <ng-container *ngFor="let format of item.attributes?.formats; let last = last;">
+                                    {{ format }}{{ last ? null : ','}}
+                                </ng-container>
+                            </span>
+
+                            <!-- format not specified -->
+                            <span class="d-md-block" *ngIf="!item.attributes.formats.length"> - </span>
+                        </div>
+
+                        <!-- views, downloads -->
+                        <div class="col-12 col-md-2">
+                            <span class="seen">
+                                <svg class="icon icon-eye">
+                                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-eye"></use>
+                                </svg>
+                                <span class="sr-only">
+                                    {{ 'Attribute.Views' | translate }}
+                                </span>
+                                {{ item.attributes.views_count }}
+                            </span>
+                            <span class="downloaded">
+                                <svg class="icon icon-align-bottom">
+                                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-align-bottom"></use>
+                                </svg>
+                                <span class="sr-only">
+                                    {{ 'Attribute.Downloads' | translate }}
+                                </span>
+                                {{ item.attributes.downloads_count }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- RESULTS FOOTER -->
+            <footer class="results-footer" *ngIf="items && items.length">
+                <div class="row no-gutters justify-content-between">
+
+                    <!-- results per page -->
+                    <div class="col-12 col-md-6 order-12 order-md-1">
+                        <div class="results-per-page d-inline-flex align-items-baseline">
+                            <span class="dropdown-label">
+                                {{ 'Pagination.ItemsPerPage' | translate }}:
+                            </span>
+                            <app-singleselect 
+                                [options]="[5,10,20,50]" 
+                                [selected]="params.per_page" 
+                                (selectedChange)="updateParams({per_page: $event})"
+                                placeholder="10">
+                            </app-singleselect>
+                        </div>
+                    </div>
+
+                    <!-- pagination -->
+                    <div class="col-12 col-md-6 order-1 order-md-12 text-md-right">
+                        <div class="pager d-inline-flex align-items-baseline">
+                            <app-pagination
+                                [itemsPerPage]="params.per_page"
+                                [totalItems]="count"
+                                [(page)]="params.page"
+                                (numPages)="numPages = $event"
+                                (pageChange)="updateParams({page: $event})">
+                            </app-pagination>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+</article>

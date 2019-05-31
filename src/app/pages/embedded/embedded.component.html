@@ -1,0 +1,11 @@
+<!-- embedded table -->
+<div class="embed-view" *ngIf="!isLoading">
+    <app-datagrid [columns]="result.columns" [rows]="result.data"></app-datagrid>
+</div>
+
+<!-- loading indicator -->
+<div class="container" *ngIf="isLoading">
+    Loading...
+    <div class="loader">
+    </div>
+</div>

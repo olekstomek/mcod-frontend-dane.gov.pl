@@ -1,0 +1,68 @@
+
+<div class="my-account__followed" role="tabpanel" aria-labelledby="tab3">
+
+    <!-- TABS - LEVEL 2 -->
+	<ul class="row no-gutters my-account__followed-navbar" role="tablist">
+
+        <!-- Datasets -->
+		<li class="col-4" role="presentation">
+            <a class="btn my-account__followed-item" role="tab" id="tabFollowed1"
+                [attr.aria-selected]="datasetActive.isActive ? true : null"
+                [routerLink]="['dataset']"
+                #datasetActive="routerLinkActive"
+                routerLinkActive="active">
+
+				<!-- icon -->
+				<svg class="icon icon-database">
+					<use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-database"></use>
+				</svg>
+				<span class="my-account__followed-text">
+					{{ 'Datasets.Self' | translate }}
+				</span>
+			</a>
+        </li>
+
+
+        <!-- Applications -->
+		<li class="col-4" role="presentation">
+            <a class="btn my-account__followed-item" role="tab" id="tabFollowed2"
+                [attr.aria-selected]="applicationActive.isActive ? true : null"
+                [routerLink]="['application']"
+                #applicationActive="routerLinkActive"
+                routerLinkActive="active">
+
+				<!-- icon -->
+				<svg class="icon icon-mobile">
+					<use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-mobile"></use>
+				</svg>
+				<span class="my-account__followed-text">
+					{{ 'Applications.Self' | translate }}
+				</span>
+			</a>
+        </li>
+
+
+        <!-- Articles -->
+		<li class="col-4" role="presentation">
+            <a class="btn my-account__followed-item" role="tab" id="tabFollowed3"
+                [attr.aria-selected]="articleActive.isActive ? true : null"
+                [routerLink]="['article']"
+                #articleActive="routerLinkActive"
+                routerLinkActive="active">
+
+				<!-- icon -->
+				<svg class="icon icon-graduation-cap">
+					<use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-graduation-cap"></use>
+				</svg>
+				<span class="my-account__followed-text">
+					{{ 'Articles.Self' | translate }}
+				</span>
+			</a>
+		</li>
+	</ul>
+</div>
+
+
+<!-- TAB PANELS -->
+<router-outlet></router-outlet>
+

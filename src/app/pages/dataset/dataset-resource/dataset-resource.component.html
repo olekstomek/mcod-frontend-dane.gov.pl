@@ -1,0 +1,324 @@
+
+<!-- DATASET HEADER EXTENDED WITH RESOURCE DATA -->
+<div class="item-view__header-extender">
+    <div class="container">
+
+        <!-- current page api -->
+        <a class="btn btn-primary mb-4"
+            target="_blank"
+            [href]="selfApi"
+            *ngIf="selfApi"
+            [tooltip]="'Action.SeeResultsViaApi' | translate"
+            placement="auto" @toggleVertically>
+            
+            <span aria-hidden="true">
+                API
+            </span>
+            <span class="sr-only">
+                {{ 'Action.SeeResultsViaApi' | translate }}
+            </span>
+            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+            </svg>
+        </a>
+    </div>
+</div>
+
+
+<!-- RESOURCE DETAILS -->
+<section class="item-view__body vertical-spacing">
+    <div class="container">
+        <h2 class="heading heading--md">
+            {{ resource?.attributes?.title }}
+        </h2>
+
+        <!-- description -->
+        <div [innerHtml]="resource?.attributes?.description | sanitizeHtml"></div>
+
+
+        <!-- OPENNESS SCORE -->
+        <div>
+            <strong>
+                {{ 'Attribute.OpennessScore' | translate }}:
+            </strong>
+
+            <!-- star rating -->
+            <app-star-rating [rating]="+resource?.attributes?.openness_score"></app-star-rating>
+
+            <span class="sr-only">
+                {{ resource?.attributes?.openness_score }}
+            </span>
+        </div>
+
+        <!-- api notofications -->
+        <app-notifications></app-notifications>
+    </div>
+
+
+    <!-- RESOURCE ACTIONS -->
+    <div class="item-view__actions">
+        <div class="container">
+            <div class="d-flex flex-column flex-lg-row align-items-start">
+                
+                <!-- see api -->
+                <a class="btn btn-primary btn-sm"
+                    target="_blank"
+                    href="{{resource?.attributes?.link}}"
+                    *ngIf="resource?.attributes?.type === 'api' && resource?.attributes?.link">
+                    {{ 'Action.GoTo' | translate | uppercase }} API
+                </a>
+
+                <!-- see website -->
+                <a class="btn btn-primary btn-sm"
+                    target="_blank"
+                    href="{{resource?.attributes?.link}}"
+                    *ngIf="resource?.attributes?.type === 'website' && resource?.attributes?.link">
+                    {{ 'Action.GoToSource' | translate | uppercase }}
+                </a>
+
+                <!-- download file -->
+                <a class="btn btn-primary btn-sm"
+                    (click)="downloadResource(resource)"
+                    [routerLink]="['.']"
+                    *ngIf="resource?.attributes?.type  === 'file'">
+                    {{ 'Action.Download' | translate | uppercase }}
+                    (
+
+                    <!-- file size -->
+                    <ng-container *ngIf="resource?.attributes?.file_size">
+                        {{ 'File.Size' | translate | lowercase }}:
+                        <ng-container *ngIf="resource?.attributes?.file_size < 1024">
+                            {{ resource?.attributes?.file_size/1024 | number:'0.0-2'}}<abbr title="{{ 'File.KbAbbreviation' | translate }}">kB</abbr>
+                        </ng-container>
+                        <ng-container *ngIf="resource?.attributes?.file_size >= 1024 && resource?.attributes?.file_size < 1024 * 1024">
+                            {{ resource?.attributes?.file_size/1024 | number:'0.0-0' }}<abbr title="{{ 'File.KbAbbreviation' | translate }}">kB</abbr>
+                        </ng-container>
+                        <ng-container *ngIf="resource?.attributes?.file_size >= 1024 * 1024 && resource?.attributes?.file_size < 1024 * 1024 * 1024">
+                            {{ resource?.attributes?.file_size/1024/1024 | number:'0.0-2' }}<abbr title="{{ 'File.MbAbbreviation' | translate }}">MB</abbr>
+                        </ng-container>
+                        <ng-container *ngIf="resource?.attributes?.file_size >= 1024 * 1024 * 1024">
+                            {{ resource?.attributes?.file_size/1024/1024/1024 | number:'0.0-2' }}<abbr title="{{ 'File.GbAbbreviation' | translate }}">GB</abbr>
+                        </ng-container>
+                    </ng-container>   
+                    
+                    <!-- format -->
+                    <ng-container *ngIf="resource?.attributes?.format">
+                        {{ 'Attribute.Format' | translate | lowercase }}:
+                        {{ resource?.attributes?.format }}
+                    </ng-container>  
+                    )
+                </a>
+
+                <!-- tabular data JSON -->
+                <a class="btn btn-primary btn-sm mt-1 mt-lg-0 mb-1 mb-lg-0 ml-0 ml-lg-1"
+                    target="_blank"
+                    [href]="selfApi + '/data'"
+                    *ngIf="result.data.length > 0">
+                    {{ 'Resources.TabularDataDescription' | translate }}
+                    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                    </svg>
+                </a>
+
+                <!-- feedback -->
+                <button class="btn btn-outline-primary btn-sm mb-1 mb-lg-0 ml-0 ml-lg-1"
+                    (click)="openFeedbackModal(modalTemplate)">
+                    {{ 'Resources.SendFeedback' | translate }}
+                    <span class="sr-only">
+                        {{ dataset.attributes.title }}
+                    </span>
+                    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                    </svg>
+                </button>
+
+                <!-- embed on your page -->
+                <button class="btn btn-primary btn-sm ml-lg-auto"
+                    (click)="openModal(embedModalTemplate)"
+                    *ngIf="result.data.length > 0">
+                    {{ 'Embed.Self' | translate | uppercase }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- loading indicator -->
+    <div class="loader" *ngIf="isLoading"></div>
+
+
+    <!-- table view -->
+    <ng-container *ngIf="!isLoading && result.data.length > 0">
+        <app-datagrid
+            [columns]="result.columns"
+            [rows]="result.data"
+            [summary]="dataset.title">
+        </app-datagrid>
+    </ng-container>
+
+
+    <!-- no table view -->
+    <div class="container pb-3" *ngIf="!result.data.length > 0 && !isLoading">
+        <p class="alert alert-info">
+            {{ 'Resources.NoTableView' | translate }}
+        </p>
+    </div>
+</section>
+
+
+<!-- Embed on your page Modal -->
+<ng-template #embedModalTemplate>
+    <div class="modal-header">
+        <h2 class="modal-title pull-left">
+            {{ 'Embed.Self' | translate }}
+        </h2>
+        <button type="button" class="close pull-right"
+                (click)="modal.hide()">
+            <span class="sr-only">
+                {{ 'Action.Close' | translate }}
+            </span>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <p role="alert">
+            {{ 'Embed.Description' | translate }}
+        </p>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label" for="width">
+                        {{ 'Embed.Width' | translate }}
+                    </label>
+                    <input id="width" type="text" name="width" class="form-control" [(ngModel)]="frameWidth">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label" for="height">
+                        {{ 'Embed.Height' | translate }}
+                    </label>
+                    <input id="height" type="text" name="height" class="form-control" [(ngModel)]="frameHeight">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <label class="control-label" for="code">
+                    {{ 'Embed.Code' | translate }}
+                </label>
+                <textarea id="code" name="code" rows="3"
+                        (focus)="$event.target.select()"
+                        (click)="$event.target.select()" class="form-control">&lt;iframe width=&quot;{{ frameWidth }}&quot; height=&quot;{{ frameHeight }}&quot; src=&quot;{{ frameUrl }}&quot; frameBorder=&quot;0&quot;&gt;&lt;/iframe&gt;</textarea>
+
+            </div>
+        </div>
+
+        <p class="text-right m-0 pt-2">
+            <a target="_blank" [routerLink]="['/embed', 'resource', resourceId]">
+                {{ 'Action.OpenInNewWindow' | translate }}
+            </a>
+        </p>
+    </div>
+</ng-template>
+
+
+<!-- FEEDBACK MODAL TEMPLATE -->
+<ng-template #feedbackModalTemplate>
+    <div app-focus-trap>
+
+
+        <!-- FEEDBACK MODAL HEADER -->
+        <div class="modal-header">
+            <h1 class="modal-title pull-left">
+                {{ 'Resources.SendFeedback' | translate }}
+                <span class="sr-only">
+                    {{ dataset.attributes.title }}
+                </span>
+            </h1>
+
+            <!-- close modal -->
+            <button type="button" id="header-close"
+                class="close pull-right focus-trap-first"
+                (click)="feedbackModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">
+                    {{ 'Action.Close' | translate }}
+                    {{ 'Modal' | translate | lowercase }}
+                    "{{ 'Resources.SendFeedback' | translate }}"
+                </span>
+            </button>
+        </div>
+
+
+        <!-- FEEDBACK MODAL BODY -->
+        <div class="modal-body">
+
+            <form class="auth-form" #feedbackForm="ngForm" *ngIf="!feedbackSent">
+                <div class="form-group" [ngClass]="{'form-group-invalid': feedback.touched && !feedback.valid}">
+                    <label for="feedback">
+                        {{ 'Resources.Feedback' | translate }}
+                    </label>
+
+                    <!-- feedback input field -->
+                    <textarea class="form-control" name="feedback" id="feedback" rows="5"
+                        ngModel
+                        #feedback="ngModel"
+                        required
+                        minlength="3"
+                        [attr.aria-describedby]="'feedback_error'"
+                        [attr.aria-invalid]="!feedback.valid && feedback.touched">
+                    </textarea>
+
+                    <!-- input field validation error -->
+                    <small class="form-text text-danger" role="alert" id="feedback_error"
+                        *ngIf="feedback.touched && !feedback.valid"
+                        @toggleVertically>
+                        {{ 'Validation.Required' | translate }}
+                    </small>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-secondary" 
+                            aria-describedby="feedback_error"
+                            *ngIf="!feedbackForm.valid">
+                            {{ 'Action.Send' | translate }}
+                            {{ 'Resources.Feedback' | translate | lowercase }}
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                            *ngIf="feedbackForm.valid"
+                            (click)="sendFeedback(feedbackForm)">
+                            {{ 'Action.Send' | translate }}
+                            {{ 'Resources.Feedback' | translate | lowercase }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="alert alert-success" role="alert" aria-live="assertive" *ngIf="feedbackSent">
+                {{ 'Resources.FeedbackSentSuccess' | translate}}
+            </div>
+        </div>
+
+        <!-- feedback modal footer -->
+        <div class="modal-footer">
+            <div class="text-right">
+
+                <button type="button"
+                    id="footer-close"
+                    class="btn btn-outline-primary focus-trap-last"
+                    (click)="onFeedbackModalClose()">
+                    {{ 'Action.Close' | translate }}
+                    <span class="sr-only">
+                        {{ 'Modal' | translate | lowercase }}
+                        "{{ 'Resources.SendFeedback' | translate }}"
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

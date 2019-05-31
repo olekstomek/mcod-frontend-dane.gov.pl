@@ -1,0 +1,61 @@
+
+<!-- modal trigger -->
+<button class="btn btn-{{ buttonLook }} btn-{{ buttonSize }}"
+    [ngClass]="{'inherit-look': inheritLook}"
+    (click)="openWriteUsModal(modalTemplate)">
+    {{ hasButtonLook ? (buttonLabel | translate | uppercase) : (buttonLabel | translate) }}
+
+    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true" *ngIf="hasButtonLook">
+        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+    </svg>
+</button>
+
+
+<ng-template #modalTemplate>
+
+    <div app-focus-trap>
+        <!-- modal header -->
+        <div class="modal-header">
+            <h1 class="modal-title pull-left">
+                {{ buttonLabel | translate }}
+            </h1>
+            <button type="button"
+                id="header-close"
+                class="close pull-right focus-trap-first"
+                (click)="writeUsModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">
+                    {{ 'Action.Close' | translate }}
+                    {{ 'Modal' | translate | lowercase }}
+                    "{{ buttonLabel | translate }}"
+                </span>
+            </button>
+        </div>
+
+        <!-- modal body -->
+        <div class="modal-body">
+            <p>
+                {{ 'WriteUs.Suggestions' | translate }}
+            </p>
+            <a href="mailto:kontakt@dane.gov.pl?subject=[dane.gov.pl] Kontakt ze strony">
+                kontakt@dane.gov.pl
+            </a>
+        </div>
+
+        <!-- modal footer -->
+        <div class="modal-footer">
+            <div class="form-group text-right">
+                <button type="button"
+                    id="footer-close"
+                    class="btn btn-outline-primary focus-trap-last"
+                    (click)="onWriteUsModalClose()">
+                    {{ 'Action.Close' | translate }}
+                    <span class="sr-only">
+                        {{ 'Modal' | translate | lowercase }}
+                        "{{ buttonLabel | translate }}"
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

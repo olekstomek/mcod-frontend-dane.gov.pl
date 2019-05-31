@@ -1,0 +1,54 @@
+<section class="vertical-spacing">
+    <div class="container">
+        <header class="my-account__header">
+            <h1 class="heading heading--separator">
+                {{ 'KnowledgeBase.Self' | translate  }}
+            </h1>
+        </header>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <ul class="tab-list row no-gutters" role="tablist">
+
+                <!-- Educational Materials -->
+                <li class="tab-list__item col-12 col-md-4" role="presentation">
+                    <a class="tab-list__link" role="tab" id="tab1"
+                        [routerLink]="['education']"
+                        #tabLinkEducationalMaterials="routerLinkActive"
+                        [attr.aria-selected]="tabLinkEducationalMaterials.isActive ? true : null"
+                        routerLinkActive="tab-list__link--active">
+                        {{ 'KnowledgeBase.EducationalMaterials' | translate  }}
+                    </a>
+                </li>
+
+                <!-- Faq -->
+                <li class="tab-list__item col-12 col-md-4" role="presentation">
+                    <a class="tab-list__link" role="tab" id="tab2"
+                        [routerLink]="['faq']"
+                        #tabLinkFaq="routerLinkActive"
+                        [attr.aria-selected]="tabLinkFaq.isActive ? true : null"
+                        routerLinkActive="tab-list__link--active">
+                        {{ 'KnowledgeBase.Faq' | translate  }}
+                    </a>
+                </li>
+
+                <!-- Help -->
+                <li class="tab-list__item col-12 col-md-4" role="presentation">
+                    <a class="tab-list__link" role="tab" id="tab3"
+                        [routerLink]="['help']"
+                        #tabLinkHelp="routerLinkActive"
+                        [attr.aria-selected]="tabLinkHelp.isActive ? true : null"
+                        routerLinkActive="tab-list__link--active">
+                        {{ 'KnowledgeBase.Help' | translate  }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- TAB CONTENT: Educational Materials / Faq / Help  -->
+        <div class="tabs-content">
+            <router-outlet></router-outlet>
+        </div>        
+    </div>
+</section>

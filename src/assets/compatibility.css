@@ -1,0 +1,16 @@
+.compatibility {
+    margin-top: 5em;
+    min-width: 320px;
+    font-family: "Roboto", Arial, sans-serif;
+    color: #333;
+    background-color: #f7f7f7;
+
+}
+
+.compatibility--info {
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1em 0;
+    display: block;
+}

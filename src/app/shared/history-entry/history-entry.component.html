@@ -1,0 +1,30 @@
+<div>
+    <!-- message -->
+    <span *ngIf="item.attributes.message">
+        {{ item.attributes.message }}
+    </span>
+
+    <!-- no message -->
+    <span *ngIf="!item.attributes.message">
+        {{ action }}
+
+        <strong *ngIf="title || (!link && !title)">
+            {{ module | lowercase }}
+        </strong>
+
+        <a href="{{ link }}" *ngIf="link && !title">
+            {{ module | lowercase }}
+        </a>
+
+        <a href="{{ link }}" *ngIf="link && title">
+            {{ title }}
+        </a>
+
+        <span *ngIf="!link">{{ title }}</span>
+    </span>
+
+    <!-- activity date -->
+    <span class="activity__date" [title]="item.attributes.change_timestamp | translateDateFormat | async">
+        {{ item.attributes.change_timestamp | timespan:lang }}
+    </span>
+</div>

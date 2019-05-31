@@ -1,0 +1,21 @@
+
+.dropdown {
+    &-toggle {
+        color: currentColor;
+        border-color: currentColor;
+        background-color: transparent;
+    }
+
+    &-menu {
+        border: 1px solid currentColor;
+    }
+
+    .dropdown-item {
+        &:hover,
+        &:focus,
+        &.active {
+            color: $hcSecondary;
+            background-color: $hcPrimary;
+        }
+    }
+}

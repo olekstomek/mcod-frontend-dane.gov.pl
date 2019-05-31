@@ -1,0 +1,26 @@
+<section class="item-view">
+
+    <!-- DETAILS: HEADER -->
+    <header class="item-view__header vertical-spacing">
+        <div class="container">
+            <h1 class="heading" *ngIf="dataset.attributes?.title">
+                {{ dataset.attributes?.title }}
+            </h1>
+
+            <!-- description -->
+            <div class="item-view__attribute" 
+                *ngIf="dataset.attributes?.notes"
+                [innerHTML]="dataset.attributes?.notes | sanitizeHtml">
+            </div>
+
+            <!-- tags -->
+            <p class="item-view__attribute" *ngIf="dataset.attributes?.tags">
+                <strong>{{ 'Attribute.Tags' | translate }}</strong>:
+                {{ dataset.attributes.tags }}
+            </p>
+        </div>
+    </header>
+
+    <!-- child components -->
+    <router-outlet></router-outlet>
+</section>

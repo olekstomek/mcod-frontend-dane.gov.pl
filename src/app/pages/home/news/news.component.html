@@ -1,0 +1,55 @@
+
+<section class="home-section home-section--news vertical-spacing" id="news">
+    <h2 class="heading heading--md heading--separator heading--centered">
+        {{ "Home.News.Title" | translate }}
+    </h2>
+
+    <div class="container">
+
+        <!-- api notifications -->
+        <app-notifications></app-notifications>
+
+        <!-- NEWS LIST -->
+        <ul class="row home-news">
+            <li class="col-lg-4 home-news__item"
+                *ngFor="let item of items">
+
+                <h3 class="home-news__item-heading heading heading--sm">
+                    <a [routerLink]="['/article', item.id]">
+                        {{ item.attributes.title }}
+                    </a>
+                </h3>
+
+                <!-- modified -->
+                <p class="home-news__item-date">
+                    {{ item?.attributes?.modified | translateDateFormat | async  }}
+                </p>
+
+                <!-- excerpt (description) -->
+                <p class="home-news__item-excerpt">
+                    {{ item.attributes.notes | stripHtml | truncateText:220 }}
+                </p>
+
+                <!-- read more -->
+                <a class="home-news__item-read-more with-chevron" [routerLink]="['/article', item.id]">
+                    {{ 'Home.News.ReadMore' | translate }}
+                    <span class="sr-only">
+                        {{ 'Connector.About' | translate }}
+                        {{ item.attributes.title }}
+                    </span>
+                    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                    </svg></a>
+            </li>
+        </ul>
+
+        <!-- view all (anchor) -->
+        <footer class="section-footer">
+            <a class="section-footer__all with-chevron" [routerLink]="['/article']">
+                {{ 'Home.News.All' | translate | uppercase }}
+                <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                </svg></a>
+        </footer>
+    </div>
+</section>

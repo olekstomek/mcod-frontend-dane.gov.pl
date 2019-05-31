@@ -1,0 +1,132 @@
+
+<section class="my-account vertical-spacing">
+    <div class="container">
+        <header class="my-account__header">
+            <h1 class="heading heading--separator">
+                {{ 'User.MyAccount' | translate  }}
+            </h1>
+        </header>
+
+
+        <!-- USER DATA -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="row">
+                    
+                    <!-- password change redirection -->
+                    <div class="col-12">
+                        <a [routerLink]="['./change-password']" class="btn btn-outline-primary">
+                            <span>{{ 'User.ChangePassword' | translate  }}</span>
+                        </a>
+                    </div>
+
+                    <!-- admin panel link -->
+                    <div class="col-12 mt-2" *ngIf="tokenData && tokenData?.user?.role == 'staff'">
+                        <a href="{{ adminPanelUrl }}" target="_blank"  class="btn btn-primary">
+                            <span class="sr-only">
+                                {{ 'GoTo' | translate }}
+                            </span>
+                            {{ 'User.AdminPanel' | translate  }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="row mt-4 mt-md-0">
+
+                    <!-- email -->
+                    <div class="col-md-6">
+                        <strong>
+                            {{ 'User.Logged' | translate }}:
+                        </strong>
+                        <span class="d-inline d-md-block">
+                            {{ user?.attributes.email }}
+                        </span>
+                    </div>
+
+                    <!-- account created -->
+                    <div class="col-md-6">
+                        <strong>
+                            {{ 'User.AccountActiveSince' | translate }}:
+                        </strong>
+                        <span class="d-inline d-md-block">
+                            {{ user?.attributes.created | translateDateFormat | async }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="row mt-2" *ngIf="tokenData && tokenData?.user?.role == 'staff'">
+
+                    <!-- datasets created -->
+                    <div class="col-md-6">
+                        <strong>
+                            {{ 'User.DatasetsCreated' | translate }}:
+                        </strong>
+                        <span class="d-inline d-md-block">
+                            {{ user?.attributes.count_datasets_created }}
+                        </span>
+                    </div>
+
+                    <!-- datasets modified -->
+                    <div class="col-md-6">
+                        <strong>
+                            {{ 'User.DatasetsModified' | translate }}:
+                        </strong>
+                        <span class="d-inline d-md-block">
+                            {{ user?.attributes.count_datasets_modified }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- TABS - level 1 -->
+        <div class="tabs">
+            <ul class="tab-list row no-gutters" role="tablist">
+
+                <!-- Activities -->
+                <li class="tab-list__item col-12 col-md-4" role="presentation">
+                    <a class="tab-list__link" role="tab" id="tab1"
+                        [routerLink]="['activity']"
+                        #tabLinkActivities="routerLinkActive"
+                        [attr.aria-selected]="tabLinkActivities.isActive ? true : null"
+                        routerLinkActive="tab-list__link--active">
+                        {{ 'User.Activities' | translate }}
+                    </a>
+                </li>
+
+                <li class="tab-list__item col-12 col-md-4" role="presentation">
+                    <a class="tab-list__link" role="tab" id="tab2"
+                        [routerLink]="['search-history']"
+                        #tabLinkSearchHistory="routerLinkActive"
+                        [attr.aria-selected]="tabLinkSearchHistory.isActive ? true : null"
+                        routerLinkActive="tab-list__link--active">
+                        {{ 'User.SearchHistory' | translate }}
+                    </a>
+                </li>
+
+                <!-- Followed -->
+                <li class="tab-list__item col-12 col-md-4" role="presentation">
+                    <a class="tab-list__link" role="tab" id="tab3"
+                        [routerLink]="['followed']"
+                        #tabLinkFollowed="routerLinkActive"
+                        [attr.aria-selected]="tabLinkFollowed.isActive ? true : null"
+                        routerLinkActive="tab-list__link--active">
+                        {{ 'User.Followed' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- TAB CONTENT: Activities / SearchHistory / Followed -->
+        <div class="tabs-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</section>
+
+
+

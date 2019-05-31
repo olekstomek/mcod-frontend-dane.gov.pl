@@ -1,0 +1,581 @@
+<!-- DETAILS: BODY -->
+<section class="item-view__body vertical-spacing" *ngIf="dataset">
+    <div class="container">
+        <div class="collapsible-sidebar-view"
+             [ngClass]="{'collapsible-sidebar-view--sidebar-visible': sidebarVisible}">
+
+
+            <!-- 1/2 COLUMN: SIDEBAR -->
+            <aside class="collapsible-sidebar-view__sidebar" id="sidebar">
+
+
+                <!-- DATASET ATTRIBUTES -->
+                <ul class="vertical-list">
+
+                    <!-- source -->
+                    <li class="vertical-list__item" *ngIf="dataset?.attributes.url">
+                        <span class="vertical-list__item-label">
+                            {{ 'Attribute.Source' | translate }}:
+                        </span>
+                        <a [href]="dataset?.attributes.url" target="_blank">
+                            {{ 'Action.GoToSource' | translate }}
+                        </a>
+                    </li>
+
+                    <!-- institution -->
+                    <li class="vertical-list__item"
+                        *ngIf="institution">
+                        <span class="vertical-list__item-label">
+                            {{ 'Institutions.Single' | translate }}:
+                        </span>
+                        <a [routerLink]="['/','institution', institution.id]">
+                            {{ institution.attributes.title }}
+                        </a>
+                    </li>
+
+                    <!-- category -->
+                    <li class="vertical-list__item"
+                        *ngIf="dataset?.attributes?.category">
+                        <span class="vertical-list__item-label">
+                            {{ 'Attribute.Category' | translate }}:
+                        </span>
+                        {{ dataset.attributes?.category.title }}
+                    </li>
+
+                    <!-- update frequency -->
+                    <li class="vertical-list__item"
+                        *ngIf="dataset?.attributes?.update_frequency">
+                        <span class="vertical-list__item-label">
+                            {{ 'Attribute.UpdateFrequency' | translate }}:
+                        </span>
+                        {{ dataset.attributes?.update_frequency }}
+                    </li>
+
+                    <!-- available (created) -->
+                    <li class="vertical-list__item"
+                        *ngIf="dataset?.attributes?.created">
+                        <span class="vertical-list__item-label">
+                            {{ 'Attribute.Available' | translate }}:
+                        </span>
+                        <span class="text-data">
+                            {{ dataset.attributes?.created | translateDateFormat | async }}
+                        </span>
+                    </li>
+
+                    <!-- verified (updated) -->
+                    <li class="vertical-list__item"
+                        *ngIf="dataset?.attributes?.verified">
+                        <span class="vertical-list__item-label">
+                            {{ 'Attribute.Updated' | translate }}:
+                        </span>
+                        <span class="text-data">
+                            {{ dataset.attributes?.verified | translateDateFormat | async }}
+                        </span>
+                    </li>
+
+                    <!-- views count -->
+                    <li class="vertical-list__item">
+                        <span class="vertical-list__item-label">
+                            {{ 'Attribute.Views' | translate }}:
+                        </span>
+                        <span class="text-data">
+                            {{ dataset?.attributes?.views_count }}
+                        </span>
+                    </li>
+
+                    <!-- downloads count -->
+                    <li class="vertical-list__item">
+                        <span class="vertical-list__item-label">
+                            {{ 'Attribute.Downloads' | translate }}:
+                        </span>
+                        <span class="text-data">
+                            {{ dataset?.attributes?.downloads_count }}
+                        </span>
+                    </li>
+                </ul>
+            </aside>
+
+
+            <!-- 2/2 COLUMN: RESOURCE LIST and HISTORY -->
+            <div class="collapsible-sidebar-view__main">
+
+                <!-- api notifications -->
+                <app-notifications></app-notifications>
+
+
+                <!-- ACTIONS BAR -->
+                <div class="item-view__actions">
+
+                    <!-- hide/show sidebar -->
+                    <button type="button" 
+                        class="btn btn-outline-primary btn-sm d-none d-md-inline"
+                        (click)="sidebarVisible=!sidebarVisible">
+
+                        <svg class="icon icon-magnifying-glass" *ngIf="sidebarVisible">
+                            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-arrow-left2"></use>
+                        </svg>
+
+                        {{ (sidebarVisible ? 'Action.Hide' : 'Action.Show') | translate }}
+                        {{ 'Attribute.Details' | translate | lowercase }}
+                        <span class="sr-only">
+                            {{ dataset.attributes.title }}
+                        </span>
+
+                        <svg class="icon icon-magnifying-glass" *ngIf="!sidebarVisible">
+                            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-arrow-right2"></use>
+                        </svg>
+                    </button>
+
+                    <!-- observe -->
+                    <app-observe-button [item]="dataset" [resource]="'dataset'"></app-observe-button>
+
+                    <!-- current page api -->
+                    <a class="btn btn-primary btn-sm" href="{{ selfApi }}" target="_blank"
+                        [tooltip]="'Action.SeeResultsViaApi' | translate"
+                        placement="bottom">
+                        
+                        <span aria-hidden="true">
+                            API
+                        </span>
+                        <span class="sr-only">
+                            {{ 'Action.SeeResultsViaApi' | translate }}
+                            {{ dataset.attributes.title }}
+                        </span>
+                        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                        </svg>
+                    </a>
+
+                    <!-- feedback -->
+                    <button class="btn btn-primary btn-sm"
+                        (click)="openFeedbackModal(modalTemplate)">
+                        {{ 'Datasets.SendFeedback' | translate }}
+                        <span class="sr-only">
+                            {{ dataset.attributes.title }}
+                        </span>
+                        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                        </svg>
+                    </button>
+                </div>
+
+
+                <!-- TABS: ANCHORS -->
+                <div class="tabs">
+                    <ul class="tab-list row no-gutters" role="tablist">
+
+                        <!-- Activities -->
+                        <li class="tab-list__item col-12 col-md-4" role="presentation">
+                            <a class="tab-list__link tab-list__link--active" role="tab" id="tab1"
+                               [routerLink]="[]"
+                               [attr.aria-selected]="!historyVisible"
+                               [ngClass]="{'tab-list__link--active': !historyVisible}"
+                               (click)="historyVisible = false">
+                                {{ 'Resources.Self' | translate }}
+                            </a>
+                        </li>
+
+                        <!-- SearchHistory -->
+                        <li class="tab-list__item col-12 col-md-4" role="presentation">
+                            <a class="tab-list__link" role="tab" id="tab2"
+                                [routerLink]="[]"
+                                [attr.aria-selected]="historyVisible"
+                                [ngClass]="{'tab-list__link--active': historyVisible}"
+                                (click)="historyVisible = true">
+                                {{ 'Datasets.History' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <!-- TABS: CONTENT -->
+                <div class="tabs-content">
+
+                    <!-- RESOURCE LIST -->
+                    <ng-container *ngIf="!historyVisible">
+
+                        <div class="results-section">
+                            <div class="results-header">                            
+                                <div class="d-md-flex justify-content-end align-items-center mb-1">
+                                    <h2 class="sr-only">{{ 'Resources.Self' | translate }}</h2>
+                    
+                                    <!-- sort order -->
+                                    <div class="sort-order d-md-inline-flex align-items-center" *ngIf="resources && resources.length">
+                                        <span class="dropdown-label" id="sortby-label">
+                                            {{ 'Sort.By' | translate }}:
+                                        </span>
+                                        <app-singleselect
+                                            [options]="[
+                                            {label:'Attribute.AvailabilityDate' | translate, value: '-created'},
+                                            {label:'Attribute.UpdateDate' | translate, value: '-verified'},
+                                            {label:'Attribute.DataDate' | translate, value: '-data_date'}
+                                            ]"
+                                            [selected]="params?.sort"
+                                            (selectedChange)="updateParams({sort: $event.value})"
+                                            labelId="sortby-label">
+                                        </app-singleselect>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+
+                        <!-- no resources -->
+                        <p class="m-0" *ngIf="resources && !resources.length">
+                            {{ 'Datasets.NoResources' | translate }}
+                        </p>
+
+
+                        <!-- RESOURCE LIST-->
+                        <ul class="resource-list" *ngIf="resources">
+                            <li class="resource-list__item" *ngFor="let resource of resources;">
+
+                                <p class="resource-list__item-heading">
+                                    {{ resource?.attributes?.title }}
+                                </p>
+
+                                <!-- attributes -->
+                                <div class="resource-list__item-attributes">
+
+                                    <div class="resource-list__item-data">
+
+                                        <!-- format -->
+                                        <span>
+                                            Format: 
+                                            {{ resource?.attributes?.format || '-' }}
+                                            <span class="sr-only" *ngIf="!resource?.attributes?.format">
+                                                {{ 'Validation.FormatNotRecognized' | translate }}
+                                            </span>
+    
+                                            <!-- file size -->
+                                            <ng-container *ngIf="resource?.attributes?.file_size">
+                                                <span class="sr-only">
+                                                    {{ 'File.Size' | translate }}
+                                                </span>
+                                                <ng-container *ngIf="resource?.attributes?.file_size < 1024">
+                                                    ({{ resource?.attributes?.file_size/1024 | number:'0.0-2'}}<abbr title="{{ 'File.KbAbbreviation' | translate }}">kB</abbr>)
+                                                </ng-container>
+                                                <ng-container *ngIf="resource?.attributes?.file_size >= 1024 && resource?.attributes?.file_size < 1024 * 1024">
+                                                    ({{ resource?.attributes?.file_size/1024 | number:'0.0-0' }}<abbr title="{{ 'File.KbAbbreviation' | translate }}">kB</abbr>)
+                                                </ng-container>
+                                                <ng-container *ngIf="resource?.attributes?.file_size >= 1024 * 1024 && resource?.attributes?.file_size < 1024 * 1024 * 1024">
+                                                    ({{ resource?.attributes?.file_size/1024/1024 | number:'0.0-2' }}<abbr title="{{ 'File.MbAbbreviation' | translate }}">MB</abbr>)
+                                                </ng-container>
+                                                <ng-container *ngIf="resource?.attributes?.file_size >= 1024 * 1024 * 1024">
+                                                    ({{ resource?.attributes?.file_size/1024/1024/1024 | number:'0.0-2' }}<abbr title="{{ 'File.GbAbbreviation' | translate }}">GB</abbr>)
+                                                </ng-container>
+                                            </ng-container>
+                                        </span>
+    
+                                        <!-- availability (created) date-->
+                                        <span *ngIf="resource.attributes?.created && params?.sort.indexOf('created') !== -1">
+                                            {{ 'Attribute.AvailabilityDate' | translate }}:
+                                            {{ resource.attributes?.created | translateDateFormat | async }}
+                                        </span>
+                    
+                                        <!-- update (verification) date-->
+                                        <span *ngIf="resource.attributes?.verified && (params?.sort.indexOf('verified') !== -1 || !isSortedByDate)">
+                                            {{ 'Attribute.UpdateDate' | translate }}:
+                                            {{ resource.attributes?.verified | translateDateFormat | async }}
+                                        </span>
+                    
+                                        <!-- data date -->
+                                        <span *ngIf="resource.attributes?.data_date && params?.sort.indexOf('data_date') !== -1">
+                                            {{ 'Attribute.DataDate' | translate }}:
+                                            {{ resource.attributes?.data_date | translateDateFormat | async }}
+                                        </span>
+                                    </div>
+
+                                    <span class="resource-list__item-links">
+
+                                        <!-- see results -->
+                                        <a class="with-chevron" 
+                                            [routerLink]="['resource', resource?.id]" 
+                                            *ngIf="resource?.id">
+
+                                            {{ 'Action.See' | translate }}
+                                            {{ 'Resources.Single' | translate | lowercase }}
+                                            <span class="sr-only">
+                                                {{ resource?.attributes?.title }}
+                                            </span>
+                                            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                                            </svg></a>
+                                        
+                                        <!-- download -->
+                                        <a class="with-chevron"
+                                            (click)="downloadResource(resource)"
+                                            [routerLink]="['.']"
+                                            queryParamsHandling="preserve"
+                                            *ngIf="resource?.attributes?.type  === 'file'">
+                                            {{ 'Action.Download' | translate }}
+                                            {{ 'Resources.Single' | translate | lowercase }}
+
+                                            <span class="sr-only">
+                                                {{ resource?.attributes?.title }}
+                                            </span>
+
+                                            <!-- format -->
+                                            <span class="sr-only" *ngIf="resource?.attributes?.format">
+                                                Format: 
+                                                {{ resource?.attributes?.format }}
+                                            </span>
+
+                                            <!-- file size -->
+                                            <ng-container *ngIf="resource?.attributes?.file_size">
+                                                <span class="sr-only">
+                                                    {{ 'File.Size' | translate }}
+                                                    <ng-container *ngIf="resource?.attributes?.file_size < 1024">
+                                                        {{ resource?.attributes?.file_size/1024 | number:'0.0-2'}}<abbr title="{{ 'File.KbAbbreviation' | translate }}">kB</abbr>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="resource?.attributes?.file_size >= 1024 && resource?.attributes?.file_size < 1024 * 1024">
+                                                        {{ resource?.attributes?.file_size/1024 | number:'0.0-0' }}<abbr title="{{ 'File.KbAbbreviation' | translate }}">kB</abbr>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="resource?.attributes?.file_size >= 1024 * 1024 && resource?.attributes?.file_size < 1024 * 1024 * 1024">
+                                                        {{ resource?.attributes?.file_size/1024/1024 | number:'0.0-2' }}<abbr title="{{ 'File.MbAbbreviation' | translate }}">MB</abbr>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="resource?.attributes?.file_size >= 1024 * 1024 * 1024">
+                                                        {{ resource?.attributes?.file_size/1024/1024/1024 | number:'0.0-2' }}<abbr title="{{ 'File.GbAbbreviation' | translate }}">GB</abbr>
+                                                    </ng-container>
+                                                </span>
+                                            </ng-container>
+
+                                            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                                            </svg></a>
+
+                                        <!-- resource api -->
+                                        <a class="with-chevron"
+                                            target="_blank"
+                                            href="{{ resource?.attributes?.link }}"
+                                            *ngIf="resource?.attributes?.type  === 'api' && resource?.attributes?.link">
+                                            {{ 'Action.GoTo' | translate }} API
+                                            <span class="sr-only">
+                                                {{ resource?.attributes?.title }}
+                                            </span>
+                                            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                                            </svg></a>
+
+                                        <!-- resource website -->
+                                        <a class="with-chevron"
+                                            target="_blank"
+                                            href="{{ resource?.attributes?.link }}"
+                                            *ngIf="resource?.attributes?.type  === 'website' && resource?.attributes?.link">
+                                            {{ 'Action.GoToSource' | translate }}
+                                            <span class="sr-only">
+                                                {{ resource?.attributes?.title }}
+                                            </span>
+                                            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                                            </svg></a>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        
+                        <!-- RESOURCES FOOTER -->
+                        <div class="row no-gutters justify-content-between pt-4" id="resource-pagination" 
+                            *ngIf="resources && resources.length">
+
+                            <!-- items per page -->
+                            <div class="col-12 col-md-6 order-12 order-md-1">
+                                <div class="results-per-page d-inline-flex align-items-center">
+                                    <span class="dropdown-label" id="items-per-page-label">
+                                        {{ 'Pagination.ItemsPerPage' | translate }}:
+                                    </span>
+                                    <app-singleselect
+                                        [options]="[5,10,20,50]"
+                                        [isUp]="true"
+                                        [selected]="params.per_page"
+                                        (selectedChange)="updateParams({per_page: $event})"
+                                        placeholder="5"
+                                        labelId="items-per-page-label">
+                                    </app-singleselect>
+                                </div>
+                            </div>
+
+                            <!-- pagination -->
+                            <div class="col-12 col-md-6 order-1 order-md-12 text-md-right">
+                                <div class="pager d-inline-flex align-items-baseline">
+                                    <app-pagination
+                                        [itemsPerPage]="params.per_page"
+                                        [totalItems]="resourcesCount"
+                                        [page]="params.page"
+                                        (numPages)="numPages = $event"
+                                        (pageChange)="updateParams({page: $event})">
+                                    </app-pagination>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+
+                    <!-- DATASET HISTORY -->
+                    <ng-container *ngIf="historyVisible">
+                        <h2 class="sr-only">
+                            {{ 'Datasets.History' | translate }}
+                        </h2>
+
+                        <div class="item-view__activity">
+
+                            <!-- TEMP for TESTING PURPOSES ONLY -->
+                            <ul class="activity">
+                                <li class="activity__item new-package" *ngFor="let item of history">
+                                    <app-history-entry [item]="item"></app-history-entry>
+                                </li>
+                            </ul>
+
+                            <p *ngIf="history.length < historyTotal" class="mt-3">
+                                <a [routerLink]="['.']" (click)="loadHistory(historyPageNumber+1)">
+                                    {{ 'Action.LoadMore' | translate }}...
+                                </a>
+                            </p>
+                            <!-- /TEMP for TESTING PURPOSES ONLY -->
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- DATASET'S RESTRICTIONS -->
+<footer class="item-view__footer vertical-spacing" *ngIf="dataset">
+    <div class="container">
+        <h2 class="heading heading--sm">
+            {{ 'DatasetRestrictions.Self' | translate }}
+        </h2>
+
+        <!-- restriction list -->
+        <ng-container *ngIf="hasRestrictions">
+            <p class="item-view__footer-text text-strong">
+                {{ 'DatasetRestrictions.Intro' | translate }}
+            </p>
+            <ul>
+                <li *ngIf="dataset?.attributes?.license_condition_source">
+                    {{ 'DatasetRestrictions.Source' | translate }}
+                </li>
+                <li *ngIf="dataset?.attributes?.license_condition_original">
+                    {{ 'DatasetRestrictions.Original' | translate }}
+                </li>
+                <li *ngIf="dataset?.attributes?.license_condition_modification">
+                    {{ 'DatasetRestrictions.Modification' | translate }}
+                </li>
+                <li *ngIf="dataset?.attributes?.license_condition_responsibilities">
+                    {{ 'DatasetRestrictions.Responsibilities' | translate }}
+                    <div [innerHTML]="dataset?.attributes?.license_condition_responsibilities | sanitizeHtml"></div>
+                </li>
+                <li *ngIf="dataset?.attributes?.license_condition_db_or_copyrighted">
+                    {{ 'DatasetRestrictions.DbOrCopyrighted' | translate }}
+                    <div [innerHTML]="dataset?.attributes?.license_condition_db_or_copyrighted | sanitizeHtml"></div>
+                </li>
+            </ul>
+        </ng-container>
+
+        <!-- no restrictions -->
+        <p *ngIf="!hasRestrictions">
+            {{ 'DatasetRestrictions.None' | translate }}
+        </p>
+    </div>
+</footer>
+
+
+<!-- FEEDBACK MODAL TEMPLATE -->
+<ng-template #feedbackModalTemplate>
+    <div app-focus-trap>
+
+
+        <!-- FEEDBACK MODAL HEADER -->
+        <div class="modal-header">
+            <h1 class="modal-title pull-left">
+                {{ 'Datasets.SendFeedback' | translate }}
+                <span class="sr-only">
+                    {{ dataset.attributes.title }}
+                </span>
+            </h1>
+
+            <!-- close modal -->
+            <button type="button" id="header-close"
+                class="close pull-right focus-trap-first"
+                (click)="feedbackModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">
+                    {{ 'Action.Close' | translate }}
+                    {{ 'Modal' | translate | lowercase }}
+                    "{{ 'Datasets.SendFeedback' | translate }}"
+                </span>
+            </button>
+        </div>
+
+
+        <!-- FEEDBACK MODAL BODY -->
+        <div class="modal-body">
+
+            <form class="auth-form" #feedbackForm="ngForm" *ngIf="!feedbackSent">
+                <div class="form-group" [ngClass]="{'form-group-invalid': feedback.touched && !feedback.valid}">
+                    <label for="feedback">
+                        {{ 'Datasets.Feedback' | translate }}
+                    </label>
+
+                    <!-- feedback input field -->
+                    <textarea class="form-control" name="feedback" id="feedback" rows="5"
+                        ngModel
+                        #feedback="ngModel"
+                        required
+                        minlength="3"
+                        [attr.aria-describedby]="'feedback_error'"
+                        [attr.aria-invalid]="!feedback.valid && feedback.touched">
+                    </textarea>
+
+                    <!-- input field validation error -->
+                    <small class="form-text text-danger" role="alert" id="feedback_error"
+                        *ngIf="feedback.touched && !feedback.valid"
+                        @toggleVertically>
+                        {{ 'Validation.Required' | translate }}
+                    </small>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-secondary" 
+                            aria-describedby="feedback_error"
+                            *ngIf="!feedbackForm.valid">
+                            {{ 'Action.Send' | translate }}
+                            {{ 'Datasets.Feedback' | translate | lowercase }}
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                            *ngIf="feedbackForm.valid"
+                            (click)="sendFeedback(feedbackForm)">
+                            {{ 'Action.Send' | translate }}
+                            {{ 'Datasets.Feedback' | translate | lowercase }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="alert alert-success" role="alert" aria-live="assertive" *ngIf="feedbackSent">
+                {{ 'Datasets.FeedbackSentSuccess' | translate}}
+            </div>
+        </div>
+
+        <!-- feedback modal footer -->
+        <div class="modal-footer">
+            <div class="text-right">
+
+                <button type="button"
+                        id="footer-close"
+                        class="btn btn-outline-primary focus-trap-last"
+                        (click)="onFeedbackModalClose()">
+                    {{ 'Action.Close' | translate }}
+                    <span class="sr-only">
+                        {{ 'Modal' | translate | lowercase }}
+                        "{{ 'Datasets.SendFeedback' | translate }}"
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

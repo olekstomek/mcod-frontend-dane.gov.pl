@@ -1,0 +1,112 @@
+
+// breakpoints taken from bootstrap's _variables.css
+// xxl - added
+$grid-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1440px
+) !default;
+
+$container-max-widths: (
+	sm: 576px, //540px,
+	md: 768px, //720px,
+	lg: 960px,
+	xl: 1140px,
+	xxl: 1340px
+) !default;
+
+// disable rounded corners
+$enable-rounded: false;
+
+// Bootstrap's primary color
+
+$primary: #0971dd; // same as $color-blue-light;
+
+// Bootstrap's tooltip
+$tooltip-bg: #0f2648; // same as $color-blue-dark
+$tooltip-body-color: #fff; // same as $color-white
+$tooltip-max-width: 300px;
+
+
+// REQUIRED parts of Bootstrap
+@import "functions";
+@import "variables";
+@import "mixins";
+@import "scss/bootstrap-overwrite/mixins/text-emphasis";
+
+
+// OPTIONAL parts of Bootstrap
+@import "root";
+@import "reboot";
+@import "type";
+@import "images";
+// @import "code";
+@import "grid";
+@import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "input-group";
+@import "custom-forms";
+@import "nav";
+@import "navbar";
+// @import "card";
+@import "breadcrumb";
+@import "pagination";
+// @import "badge";
+// @import "jumbotron";
+@import "alert";
+// @import "progress";
+// @import "media";
+@import "list-group";
+@import "close";
+@import "modal";
+@import "tooltip";
+@import "popover";
+// @import "carousel";
+//@import "utilities";
+@import "utilities/align";
+@import "utilities/background";
+//@import "utilities/borders";
+@import "utilities/clearfix";
+//@import "utilities/display";
+@import "scss/bootstrap-overwrite/bootstrap-utilities-display";
+@import "utilities/embed";
+//@import "utilities/flex";
+@import "scss/bootstrap-overwrite/bootstrap-utilities-flex";
+@import "utilities/float";
+@import "utilities/position";
+@import "utilities/screenreaders";
+//@import "utilities/shadows";
+@import "utilities/sizing";
+//@import "utilities/spacing";
+@import "scss/bootstrap-overwrite/bootstrap-utilities-spacing";
+//@import "utilities/text";
+@import "scss/bootstrap-overwrite/bootstrap-utilities-text";
+@import "utilities/visibility";
+@import "print";
+
+@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
+@include _assert-starts-at-zero($grid-breakpoints);
+@include _assert-ascending($container-max-widths, "$container-max-widths");
+
+
+// app styles
+@import "scss/index";
+
+
+
+/*
+Bootstrap's breakpoint mixins
+
+
+media-breakpoint-up
+media-breakpoint-down
+media-breakpoint-between
+media-breakpoint-only
+*/

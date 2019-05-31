@@ -1,0 +1,72 @@
+
+/*
+    2 columns: collapsible 'sidebar' and always visible 'main'
+*/
+
+    .collapsible-sidebar-view {
+        overflow: hidden;
+        clear: both;
+
+
+        // collapsible sidebar
+        &__sidebar {
+            float: left;
+            width: $collapsible-sidebar-width;
+            margin-left: -($collapsible-sidebar-width + $collapsible-sidebar-spacing);
+            margin-right: $collapsible-sidebar-spacing;
+            transition: all $collapsible-sidebar-transition-duration;
+
+            // < MD
+            @include media-breakpoint-down(sm)
+            {
+                float: none;
+                width: 100%;
+                margin-left: 0;
+                transition: none;
+            }
+        }
+
+
+        // always visible
+        &__main {
+            transition: all $collapsible-sidebar-transition-duration;
+        }
+
+
+        &--sidebar-visible {
+
+            .collapsible-sidebar-view__sidebar { margin-left: 0; }
+            .collapsible-sidebar-view__main { margin-left: ($collapsible-sidebar-width + $collapsible-sidebar-spacing); }
+
+            // < MD
+            @include media-breakpoint-down(sm)
+            {
+                .collapsible-sidebar-view__sidbar { width: 100%; }
+                .collapsible-sidebar-view__main { margin-left: 0; }
+            }
+        }
+    }
+
+
+
+
+
+    .vertical-list {
+        list-style: none;
+        padding: 0;
+
+        &__item {
+            margin-bottom: 10px;
+
+            &-label {
+                font-weight: bold;
+                display: block;
+
+                // < MD
+                @include media-breakpoint-down(sm)
+                {
+                    display: inline;
+                }
+            }
+        }
+    }

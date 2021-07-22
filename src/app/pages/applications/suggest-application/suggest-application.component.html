@@ -369,48 +369,9 @@
                             </label>
                             
                             <!-- personal data use rules -->
-                            <ng-container *featureFlag="'S24_cms_consent.fe'; else dataUseRules">
-                                <div class="cms-consent-list ml-3" style="font-size: 85%"
-                                    [innerHTML]="cmsPageInfo | textToLinks | sanitizeHtml" *ngIf="cmsPageInfo">
-                                </div>                            
-                            </ng-container>        
-                            
-                            <ng-template #dataUseRules>
-                                <ol class="font-weight-normal p-0 m-0">
-                                    <li class="p-1">
-                                        {{ 'ApplicationForm.DataProcessing1' | translate }}                                    
-                                    </li>
-                                    <li class="p-1" 
-                                        [innerHtml]="'ApplicationForm.DataProcessing2' | translate | textToLinks | sanitizeHtml">
-                                    </li>
-                                    <li class="p-1" *ngIf="isTermsTextExapnded" @toggleVertically
-                                        [innerHtml]="'ApplicationForm.DataProcessing3' | translate | textToLinks | sanitizeHtml">
-                                    </li>
-                                    <li class="p-1" *ngIf="isTermsTextExapnded" @toggleVertically>
-                                        {{ 'ApplicationForm.DataProcessing4' | translate }}
-                                    </li>
-                                    <li class="p-1" *ngIf="isTermsTextExapnded" @toggleVertically>
-                                        {{ 'ApplicationForm.DataProcessing5' | translate }}
-                                    </li>
-                                    <li class="p-1" *ngIf="isTermsTextExapnded" @toggleVertically
-                                        [innerHtml]="'ApplicationForm.DataProcessing6' | translate | textToLinks | sanitizeHtml">
-                                    </li>
-                                    <li class="p-1" *ngIf="isTermsTextExapnded" @toggleVertically>
-                                        {{ 'ApplicationForm.DataProcessing7' | translate }}
-                                    </li>
-                                    <li class="p-1" *ngIf="isTermsTextExapnded" @toggleVertically>
-                                        {{ 'ApplicationForm.DataProcessing8' | translate }}
-                                    </li>
-                                    <li class="p-1" *ngIf="isTermsTextExapnded" @toggleVertically>
-                                        {{ 'ApplicationForm.DataProcessing9' | translate }}
-                                    </li>
-                                </ol>
-                                
-                                <!-- expand "is personal data processing accepted" -->
-                                <button class="btn btn-link px-0" (click)="isTermsTextExapnded = !isTermsTextExapnded">
-                                    {{ (isTermsTextExapnded ? 'Action.Collapse' : 'Action.Expand') | translate }}
-                                </button>                                
-                            </ng-template>                    
+                            <div class="cms-consent-list ml-3" style="font-size: 85%"
+                                [innerHTML]="cmsPageInfo | textToLinks | sanitizeHtml" *ngIf="cmsPageInfo">
+                            </div>                            
                         </div>
 
 
@@ -437,17 +398,9 @@
                             <label class="form-check-label" for="is_terms_of_service_accepted">
                                 
                                 <!-- personal data use consent -->
-                                <ng-container *featureFlag="'S24_cms_consent.fe'; else dataUseConsent">
-                                    <span class="font-weight-normal pt-1"
-                                        [innerHTML]="cmsPageConsent | textToLinks | sanitizeHtml" *ngIf="cmsPageConsent">
-                                    </span>                            
-                                </ng-container>                                  
-                                
-                                <ng-template #dataUseConsent>
-                                    <span class="font-weight-normal" 
-                                        [innerHtml]="'ApplicationForm.TermsOfService' | translate | textToLinks | sanitizeHtml">
-                                    </span> 
-                                </ng-template>                           
+                                <span class="font-weight-normal pt-1"
+                                    [innerHTML]="cmsPageConsent | textToLinks | sanitizeHtml" *ngIf="cmsPageConsent">
+                                </span>                            
                             </label>
                         </div>
 

@@ -9,20 +9,30 @@
 
 <ng-template #landingPageSection let-section>
 
-    <div (click)="navigateToDetail(section)" *ngIf="section && section.children && section.children.length"
-         [ngClass]="section.classname">
-        <ng-template ngFor
-                     [ngForOf]="section.children"
-                     [ngForTemplate]="landingPageSection">
-        </ng-template>
-    </div>
+    <ng-container *ngIf="section && section.children && section.children.length">
+        <!-- Link + Heading - obsolete (to be removed) -->
+        <div (click)="navigateToDetail(section)" *ngIf="section.type === 'link' && section.children[0].type === 'heading' else linksWithText"
+            [ngClass]="section.classname">
+            <ng-template ngFor
+                [ngForOf]="section.children"
+                [ngForTemplate]="landingPageSection">
+            </ng-template>
+        </div>
 
+        <!-- links with text -->
+        <ng-template #linksWithText>
+            <div [ngClass]="section.classname">
+                <ng-template ngFor
+                             [ngForOf]="section.children"
+                             [ngForTemplate]="landingPageSection">
+                </ng-template>
+            </div>
+        </ng-template>
+    </ng-container>
 
     <div *ngIf="section && section.children && !section.children.length" class="col p-0 hover justify-content-center">
-        <cms-block [oneWidget]="section" *featureFlag="'S18_cms_block_with_carousel.fe'"></cms-block>
-        <cms-block2 [oneWidget]="section" *featureFlag="'S18_cms_block_without_carousel.fe'"></cms-block2>
+        <cms-block2 [oneWidget]="section"></cms-block2>
     </div>
-
 </ng-template>
 
 <ng-template #routerOutlet>

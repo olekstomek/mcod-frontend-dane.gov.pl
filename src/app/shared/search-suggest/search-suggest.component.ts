@@ -204,6 +204,11 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
      */
     @Input('advancedSetting') activeSetting = SearchAdvancedSettings.ANY;
 
+    /**
+     * Sparql button visibility flag
+     */
+    @Input() isSparqlSearchButtonVisible: boolean;
+
 
     /**
      * @ignore

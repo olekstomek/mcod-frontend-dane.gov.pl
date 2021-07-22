@@ -6,6 +6,7 @@ export interface IListViewDatasetFiltersModel {
     [AggregationFilterNames.FORMAT]: MultiselectOption;
     [AggregationFilterNames.OPENNESS_SCORE]: MultiselectOption;
     [AggregationFilterNames.VISUALIZATION_TYPE]: MultiselectOption;
+    [AggregationFilterNames.LICENSES]: MultiselectOption;
     [AggregationFilterNames.TYPES]: MultiselectOption;
     [AggregationFilterNames.DATE_FROM]: Date;
     [AggregationFilterNames.DATE_TO]: Date;
@@ -17,6 +18,8 @@ export interface IListViewDatasetCategoryFiltersModel {
     [AggregationFilterNames.FORMAT]: MultiselectOption;
     [AggregationFilterNames.OPENNESS_SCORE]: MultiselectOption;
     [AggregationFilterNames.VISUALIZATION_TYPE]: MultiselectOption;
+    [AggregationFilterNames.LICENSES]: MultiselectOption;
+    [AggregationFilterNames.UPDATE_FREQUENCY]: MultiselectOption,
     [AggregationFilterNames.TYPES]: MultiselectOption;
     [AggregationFilterNames.DATE_FROM]: Date;
     [AggregationFilterNames.DATE_TO]: Date;
@@ -29,6 +32,8 @@ export const DatasetListViewFilterNames = [
     AggregationFilterNames.FORMAT,
     AggregationFilterNames.OPENNESS_SCORE,
     AggregationFilterNames.VISUALIZATION_TYPE,
+    AggregationFilterNames.LICENSES,
+    AggregationFilterNames.UPDATE_FREQUENCY,
     AggregationFilterNames.TYPES,
     AggregationFilterNames.DATE_FROM,
     AggregationFilterNames.DATE_TO

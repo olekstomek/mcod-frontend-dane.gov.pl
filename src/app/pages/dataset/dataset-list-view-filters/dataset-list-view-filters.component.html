@@ -75,6 +75,34 @@
         (applyFilter)="applyFilter()">
     </app-expandable-multiselect>
 
+    <!-- Licenses -->
+    <app-expandable-multiselect
+        id="dataset-licenses-filter"
+        [titleTranslationKey]="'Attribute.LicenseLong'"
+        [titleTooltipTranslationKey]="'Attribute.LicenseTooltip'"
+        [options]="filtersOptions && filtersOptions[OptionsNames.LICENSES]"
+        [selectedIds]="selectedData[FiletersNames.LICENSES]"
+        [enableApply]="availabilityFilterMap[FiletersNames.LICENSES]"
+        [maxLength]="maxLength"
+        [ariaLabel]="'licenses-filter-label'"
+        (selectedChange)="onSelectedChange(FiletersNames.LICENSES, $event)"
+        (applyFilter)="applyFilter()">
+    </app-expandable-multiselect>
+
+    <!-- Update frequency -->
+    <app-expandable-multiselect *featureFlag="'S29_update_frequency_filter.fe'"
+        id="dataset-update-frequency-filter"
+        [titleTranslationKey]="'Attribute.UpdateFrequency'"
+        [titleTooltipTranslationKey]="'Attribute.UpdateFrequency'"
+        [options]="filtersOptions && filtersOptions[OptionsNames.UPDATE_FREQUENCY]"
+        [selectedIds]="selectedData[FiletersNames.UPDATE_FREQUENCY]"
+        [enableApply]="availabilityFilterMap[FiletersNames.UPDATE_FREQUENCY]"
+        [maxLength]="maxLength"
+        [ariaLabel]="'update-frequency-filter-label'"
+        (selectedChange)="onSelectedChange(FiletersNames.UPDATE_FREQUENCY, $event)"
+        (applyFilter)="applyFilter()">
+    </app-expandable-multiselect>
+
     <!-- Resource type -->
     <app-expandable-multiselect id="dataset-resource-type-filter"
         [titleTranslationKey]="'Attribute.ResourceType'"

@@ -6,7 +6,7 @@ export interface ForumTopic {
     id: number;
     category_id: number;
     last_posted_at: string;
-    reply_count: number;
+    posts_count: number;
     slug: string;
     title: string;
     views: number;
@@ -36,4 +36,13 @@ export interface ForumBadge {
     fa_icon?: string;
     icon: string;
     id: number;
+}
+
+export enum ForumResourceType {
+    BADGES = 'badges',
+    CATEGORIES = 'categories',
+    LATEST = 'latest',
+    MARK_READ = 'mark-read',
+    NOTIFICATIONS = 'notifications',
+    TOPICS = 'topics'
 }

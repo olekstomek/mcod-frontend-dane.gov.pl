@@ -20,18 +20,10 @@
             </p>
             
             <!-- keywords -->
-            <ng-container *featureFlag="'S21_keywords.fe'; else tags">
-                <p class="item-view__attribute" *ngIf="article?.attributes.keywords?.length">
-                    <app-keywords [tags]="article?.attributes.keywords"></app-keywords>
-                </p>
-            </ng-container>
+            <p class="item-view__attribute" *ngIf="article?.attributes.keywords?.length">
+                <app-keywords [tags]="article?.attributes.keywords"></app-keywords>
+            </p>
 
-            <!-- tags -->
-            <ng-template #tags>
-                <p class="item-view__attribute" *ngIf="article?.attributes.tags?.length">
-                    <app-keywords [tags]="article?.attributes.tags"></app-keywords>
-                </p>
-            </ng-template>
 		</div>
 	</header>
 

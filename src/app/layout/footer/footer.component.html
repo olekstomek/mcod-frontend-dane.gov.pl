@@ -42,9 +42,16 @@
     
                             <!-- Api Documentation -->
                             <li class="page-footer__list-item" role="presentation"
-                                app-footer-nav-link-external 
+                                app-footer-nav-link-external
                                 [link]="appConfig.urls.doc"
                                 [labelTranslationKey]="'ApiDocumentation'">
+                            </li>
+
+                            <!-- RDF Documentation -->
+                            <li class="page-footer__list-item" role="presentation"
+                                app-footer-nav-link-external
+                                [link]="rdfDocumentationURL"
+                                [labelTranslationKey]="'RDFDocumentation'">
                             </li>
                         </app-footer-nav-list>
                     </div>

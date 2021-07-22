@@ -35,8 +35,7 @@
     <home-service-alert></home-service-alert>
 
     <!-- BANNER - CMS-SECTION -->
-    <cms-block [widgetsSubject]="cmsSectionOverSearchFieldCb" *featureFlag="'S18_cms_block_with_carousel.fe'"></cms-block>
-    <cms-block2 className="text-center" [widgetsSubject]="cmsSectionOverSearchFieldCb" [isFullWidth]="true" *featureFlag="'S18_cms_block_without_carousel.fe'"></cms-block2>
+    <cms-block2 className="text-center" [widgetsSubject]="cmsSectionOverSearchFieldCb" [isFullWidth]="true"></cms-block2>
 
 	<!-- CATEGORIES -->
     <home-categories [items]="categories"></home-categories>
@@ -50,8 +49,7 @@
     <home-institutions [items]="institutions"></home-institutions>
 
     <!-- CMS SECTION -->
-    <cms-block class="pt-3 pb-3" [widgetsSubject]="cmsSectionOverLatestNewsCb" *featureFlag="'S18_cms_block_with_carousel.fe'"></cms-block>
-    <cms-block2 class="pt-3 pb-3" [widgetsSubject]="cmsSectionOverLatestNewsCb" [isFullWidth]="true" *featureFlag="'S18_cms_block_without_carousel.fe'"></cms-block2>
+    <cms-block2 class="pt-3 pb-3" [widgetsSubject]="cmsSectionOverLatestNewsCb" [isFullWidth]="true"></cms-block2>
     
     <!-- HOME: APPS -->
     <home-applications [applications]="applications"></home-applications>

@@ -13,7 +13,7 @@ import { User } from '@app/services/models';
 import { UserDashboardData } from '@app/services/models/user-dashboard-data';
 import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { SeoService } from '@app/services/seo.service';
-import { ForumService } from '@app/user/forum/forum.service';
+import { DiscourseService } from '@app/user/forum/discourse.service';
 import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
 
 @Component({
@@ -30,6 +30,11 @@ export class MyDashboardComponent implements OnInit {
     adminPanelUrl: string;
 
     /**
+     * Discourse forum url 
+     */
+    forumUrl: string;
+
+    /**
      * Data required by dashboard child components
      */
     dashboardData$: Observable<{ user: User, data: UserDashboardData }>;
@@ -38,36 +43,6 @@ export class MyDashboardComponent implements OnInit {
      * Determines whether current user is admin
      */
     isAdmin: boolean;
-
-    /**
-     * Temp forum list items
-     */
-    tempForumList = [
-        {
-            title: 'At rem eos doloribus officia id cum pariatur iusto sit omnis iste.',
-            answers: 10,
-            views: 10,
-            activities: 10,
-            type: 'Zbiory danych',
-            type_color: '#f93'
-        },
-        {
-            title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.',
-            answers: 10,
-            views: 10,
-            activities: 10,
-            type: 'Zespół',
-            type_color: '#39c'
-        },
-        {
-            title: 'Impedit laboriosam odio maxime fugit reiciendis maiores sunt. Deleniti iusto suscipit magni voluptatem beatae, fugiat nostrum nisi?',
-            answers: 10,
-            views: 10,
-            activities: 10,
-            type: 'Zbiory danych',
-            type_color: '#393'
-        }
-    ]
 
     /**
      * @ignore
@@ -80,12 +55,17 @@ export class MyDashboardComponent implements OnInit {
     forumLatestTopicsWithCategories: ForumTopicWithCategory[];
 
     /**
+     * Forum username
+     */
+    forumUsername: string;
+
+    /**
      * @ignore
      */
     constructor(private seoService: SeoService,
                 private userService: UserService,
                 private userStateService: UserStateService,
-                private forumService: ForumService,
+                private discourseService: DiscourseService,
                 @Inject(DOCUMENT) private document: Document) {
     }
 
@@ -109,6 +89,7 @@ export class MyDashboardComponent implements OnInit {
     private setAdminPanelUrl(): void {
         const {protocol, hostname} = this.document.location;
         this.adminPanelUrl = !environment.production ? APP_CONFIG.urls.adminPanelDev : protocol + '//admin.' + hostname.replace('www.', '');
+        this.forumUrl = !environment.production ? APP_CONFIG.urls.forumInt : protocol + '//forum.' + hostname.replace('www.', '');
     }
 
     /**
@@ -125,7 +106,12 @@ export class MyDashboardComponent implements OnInit {
      * Setups forum data
      */
     private setupForumData() {
-        this.forumService.getLatestTopicsWithCategories().subscribe(latestTopics => {
+        if (!this.userService.getTokenData().user.discourse_user_name) {
+            return;
+        }
+        
+        this.forumUsername = this.userService.getTokenData().user.discourse_user_name;
+        this.discourseService.getLatestTopicsWithCategories().subscribe(latestTopics => {
             this.forumLatestTopicsWithCategories = latestTopics;
         });
     }

@@ -57,7 +57,7 @@
                 <li class="list-group-item p-2" *ngFor="let notification of notifications">
 
                     <ng-container *ngIf="notification.fancy_title && notification.badge">
-                        <a href="//forum.szkolenia.dane.gov.pl/t/{{ notification.slug }}/{{ notification.topic_id }}/{{ notification.post_number }}" target="_blank" rel="noopener">
+                        <a href="{{ forumUrl }}/session/sso?return_path=/t/{{ notification.slug }}/{{ notification.topic_id }}/{{ notification.post_number }}" target="_blank" rel="noopener">
                             <fa-icon class="mr-2" [icon]="fas[notification.badge.fa_icon]" aria-hidden="true"></fa-icon>{{ notification.fancy_title }}
                             <span class="sr-only">
                                 {{ 'SkipTo.NewWindow' | translate }}
@@ -66,7 +66,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="notification.fancy_title && !notification.badge">
-                        <a href="//forum.szkolenia.dane.gov.pl/t/{{ notification.slug }}/{{ notification.topic_id }}/{{ notification.post_number }}" target="_blank" rel="noopener">
+                        <a href="{{ forumUrl }}/session/sso?return_path=/t/{{ notification.slug }}/{{ notification.topic_id }}/{{ notification.post_number }}" target="_blank" rel="noopener">
                             {{ notification.fancy_title }}
                             <span class="sr-only">
                                 {{ 'SkipTo.NewWindow' | translate }}
@@ -75,7 +75,7 @@
                     </ng-container>
                     
                     <ng-container *ngIf="!notification.fancy_title && notification.badge">
-                        <a href="//forum.szkolenia.dane.gov.pl/badges/{{ notification.badge.id }}/{{ notification.badge.slug }}" target="_blank" rel="noopener">
+                        <a href="{{ forumUrl }}/session/sso?return_path=/badges/{{ notification.badge.id }}/{{ notification.badge.slug }}" target="_blank" rel="noopener">
                             <fa-icon class="mr-2" [icon]="fas[notification.badge.fa_icon]" aria-hidden="true"></fa-icon>{{ notification.badge.name }}
                             <span class="sr-only">
                                 {{ 'SkipTo.NewWindow' | translate }}
@@ -96,7 +96,7 @@
         <ng-container *ngIf="!isSchedulePopup && notifications?.length">
             <div class="d-flex justify-content-between p-2">
                 <span>
-                    <a class="btn btn-primary btn-sm" href="//forum.szkolenia.dane.gov.pl" target="_blank">
+                    <a class="btn btn-primary btn-sm" href="{{ forumUrl }}/session/sso?return_path=/u/{{ forumUsername }}/notifications" target="_blank">
                         Zobacz wszystkie
                     </a>
                 </span><span>

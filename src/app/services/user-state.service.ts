@@ -1,12 +1,10 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { filter, take } from 'rxjs/operators';
 import { defer, Observable, ReplaySubject } from 'rxjs';
-import { filter, switchMap, take} from 'rxjs/operators';
 
-import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { LoginService } from '@app/services/login-service';
 import { User } from '@app/services/models';
-import { IFeatureFlag } from '@app/services/models/feature-flag';
 import { UserService } from '@app/services/user.service';
+import { DiscourseService } from '@app/user/forum/discourse.service';
 
 /**
  * User State Service
@@ -38,8 +36,7 @@ export class UserStateService {
      * @ignore
      */
     constructor(private readonly userService: UserService,
-                private readonly loginService: LoginService,
-                private readonly featureFlagService: FeatureFlagService) {
+                private readonly discourseService: DiscourseService) {
     }
 
 
@@ -48,48 +45,41 @@ export class UserStateService {
      * @returns {Observable<User>}
      */
     getCurrentUser(): Observable<User> {
-        return this.featureFlagService.featureFlags
-            .pipe(
-                switchMap((flagList: IFeatureFlag[]) => {
-                const isEnabled = this.featureFlagService.validateFlag('S18_userState.fe', flagList);
-                if (isEnabled) {
-                    return defer(() => {
-                        this.userService.getToken();
-                        if (this.currentUser && this.currentUser.attributes.email !== this.userService.getTokenData().user.email) {
-                            this.clearCurrentUser();
-                        }
-                        if (!this.currentUser && !this.isFetching) {
-                            this.isFetching = true;
-                            this.userService.getCurrentUser()
-                                .pipe(
-                                    take(1)
-                                ).subscribe(
-                                user => {
-                                    this.isFetching = false;
-                                    this.setCurrentUser(user);
-                                },
-                                () => {
-                                    this.isFetching = false;
-                                    this.clearCurrentUser();
-                                }
-                            );
-                        }
-                        return this.currentUser$
-                            .asObservable()
-                            .pipe(
-                                filter(user => user !== null))
-                    });
-                }
-                return this.userService.getCurrentUser();
-            }));
 
+        return defer(() => {
+            this.userService.getToken();
+            if (this.currentUser && this.currentUser.attributes.email !== this.userService.getTokenData().user.email) {
+                this.clearCurrentUser();
+            }
+            if (!this.currentUser && !this.isFetching) {
+                this.isFetching = true;
+                this.userService.getCurrentUser()
+                    .pipe(
+                        take(1)
+                    ).subscribe(
+                    user => {
+                        this.isFetching = false;
+                        this.setCurrentUser(user);
+                    },
+                    () => {
+                        this.isFetching = false;
+                        this.clearCurrentUser();
+                    }
+                );
+            }
+            return this.currentUser$
+                .asObservable()
+                .pipe(
+                    filter(user => user !== null));
+        });
     }
 
     /**
      * Sets current user
-     * @param user
+     * @param {User} user
      */
     setCurrentUser(user: User): void {
+        this.discourseService.setDiscourseCredentials();
         const userCopy = Object.assign({}, user);
         this.currentUser = userCopy;
         this.currentUser$.next(userCopy);
@@ -99,6 +89,7 @@ export class UserStateService {
      * Clears current user
      */
     clearCurrentUser(): void {
+        this.discourseService.clearDiscourseCredentials();
         this.currentUser = null;
         this.currentUser$.next(null);
     }

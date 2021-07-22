@@ -163,10 +163,8 @@ renovate_deps:on-schedule:
 publish-code:
   stage: release
   script:
-    - git archive --output frontend_$PACKAGE_VERSION.zip -9 HEAD
-    - docker build --build-arg PACKAGE_VERSION=$PACKAGE_VERSION -f docker/code-repo/Dockerfile -t $REGISTRY_PATH/frontend-archive:master .
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.dane.gov.pl
-    - docker push $REGISTRY_PATH/frontend-archive:master
+    - git archive --output /gluster/mcod/code/frontend_$PACKAGE_VERSION.zip -9 HEAD
+    - ln -sfn /gluster/mcod/code/frontend_$PACKAGE_VERSION.zip /gluster/mcod/code/frontend_latest.zip
   except:
     - schedules
   only:

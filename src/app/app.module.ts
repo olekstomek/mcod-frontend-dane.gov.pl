@@ -4,11 +4,10 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 //  runtime information about the current platform and the appId by injection.
 import { APP_ID, APP_INITIALIZER, Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule, Title, TransferState } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EmbedLayoutComponent } from '@app/layout/embed-layout/embed-layout.component';
 import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
-import { EmbeddedComponent } from '@app/pages/embedded/embedded.component';
 import { HomeModule } from '@app/pages/home/home.module';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { OfflineInterceptorService } from '@app/services/http/offline-interceptor.service';
@@ -17,19 +16,20 @@ import { ServicesModule } from '@app/services/services.module';
 import { UnregisteredInterceptor } from '@app/services/unregistered-interceptor';
 import { SharedModule } from '@app/shared/shared.module';
 import { TransferHttpCacheModule } from '@app/ssr/transfer-http-cache.module';
+import { TranslateBrowserLoaderService } from '@app/ssr/translate-browser-loader.service';
 import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newsletter/active-newsletter.component';
 
 import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
 import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 
 import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AccordionModule, ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
+import { PrebootModule } from 'preboot';
 
 
 import { AppBootstrapModule } from './app-bootstrap/app-bootstrap.module';
@@ -84,19 +84,9 @@ export function flagsFactory(featureFlagService: FeatureFlagService) {
         // Add .withServerTransition() to support Universal rendering.
         // The application ID can be any identifier which is unique on the page.
         BrowserModule.withServerTransition({appId: 'otwarte-dane-ssr'}),
+        PrebootModule.withConfig({ appRoot: 'app-root' }),
         TransferHttpCacheModule,
         AppRoutingModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            },
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
         AppBootstrapModule,
         FormsModule,
         ReactiveFormsModule,
@@ -140,6 +130,6 @@ export class AppModule {
     }
 }
 
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http);
+export function HttpLoaderFactory(http: HttpClient, transferState: TransferState) {
+    return new TranslateBrowserLoaderService(http, transferState);
 }

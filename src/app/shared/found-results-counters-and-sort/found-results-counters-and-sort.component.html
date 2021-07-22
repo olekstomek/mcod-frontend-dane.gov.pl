@@ -40,14 +40,8 @@
         </ul>
     </div>
 
-    <!-- sparql button -->
-    <a *ngIf="isSparqlSearchButtonVisible" class="btn btn-primary" [routerLink]="['/!dataset', '!sparql'] | localize">
-        Wyszukiwanie SPARQL</a>
-
     <!-- sort order -->
-    <div class="d-md-inline-flex align-items-center pt-2"
-         [class.ml-auto]="isSparqlSearchButtonVisible"
-         [class.mt-2]="isSparqlSearchButtonVisible">
+    <div class="d-md-inline-flex align-items-center pt-2">
         <span class="dropdown-label pr-2" id="sortby-label">
             {{ 'Sort.By' | translate }}:
             <span class="sr-only">

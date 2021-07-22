@@ -1,5 +1,6 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2, OnDestroy, Input, OnInit } from "@angular/core";
+import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2, OnDestroy, Input, OnInit, Inject } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
+import { DOCUMENT } from "@angular/common";
 import * as fas from '@fortawesome/free-solid-svg-icons';
 
 import { toggleVertically } from "@app/animations/toggle-vertically";
@@ -7,8 +8,10 @@ import { ScheduleNotification } from "@app/user/schedule/services/schedule-notif
 import { ScheduleNotificationsService } from "../services/schedule-notifications.service";
 import { UserService } from "@app/services/user.service";
 import { ScheduleStage } from "../forms/schedule-stage";
-import { ForumService } from "@app/user/forum/forum.service";
 import { ForumNotificationWithBadge } from "@app/user/forum/forum.enum";
+import { DiscourseService } from "@app/user/forum/discourse.service";
+import { APP_CONFIG } from "@app/app.config";
+import { environment } from "@env/environment";
 
 @Component({
     selector: "app-schedule-notification-popup",
@@ -35,6 +38,11 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
     @Input() isSchedulePopup = true;
 
     /**
+     * Forum username
+     */
+    @Input() forumUsername: string;
+
+    /**
      * Click outside listener
      */
     private clickOutsideListener: () => void;
@@ -58,6 +66,11 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
      * Font Awesome icon set
      */
     fas = fas;
+
+    /**
+     * Forum url
+     */
+    forumUrl: string;
     
     /**
      * @ignore
@@ -66,8 +79,9 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private userService: UserService,
+        private discourseService: DiscourseService,
         private scheduleNotificationsService: ScheduleNotificationsService,
-        private forumService: ForumService) {
+        @Inject(DOCUMENT) private document: Document) {
     }
 
     /**
@@ -77,7 +91,10 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
         this.isAdmin = this.userService.isAdmin(); 
         
         if (!this.isSchedulePopup) {
-            this.forumService.getNotificationsWithBadges().subscribe(notifications => {
+            const {protocol, hostname} = this.document.location;
+            this.forumUrl = !environment.production ? APP_CONFIG.urls.forumInt : protocol + '//forum.' + hostname.replace('www.', '');
+            
+            this.discourseService.getNotificationsWithBadges().subscribe(notifications => {
                 this.notifications = notifications;
             });
         }
@@ -186,7 +203,7 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
      * Marks notifaction as read
      */
     markAsRead() {
-        this.forumService.markNotificationsAsRead().subscribe(() => {
+        this.discourseService.markNotificationsAsRead().subscribe(() => {
             this.notifications = null;
             this.isPopupVisible = false;
             this.onPopupBlur();

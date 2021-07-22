@@ -14,6 +14,7 @@
   "Modal": "Okno dialogowe",
   "SourceCode": "Kod źródłowy portalu",
   "ApiDocumentation": "Dokumentacja API",
+  "RDFDocumentation": "Dokumentacja RDF",
   "Hint": "Podpowiedź",
   "ROUTES.404": "404",
   "About": {
@@ -103,17 +104,7 @@
     "SuggestionSentSuccess": "Dziękujemy za zgłoszenie propozycji aplikacji.",
     "EnterName": "Wprowadź nazwę",
     "Link": "Link",
-    "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji",
-    "DataProcessing1": "Administratorem danych jest Minister Cyfryzacji, mający siedzibę w Warszawie (00-060) przy ul. Królewskiej 27.",
-    "DataProcessing2": "Z administratorem danych można się skontaktować poprzez adres e-mail mc@mc.gov.pl, za pośrednictwem ePUAP lub pisemnie na adres siedziby administratora.",
-    "DataProcessing3": "Administrator wyznaczył inspektora ochrony danych, z którym można się skontaktować poprzez e-mail iod@mc.gov.pl. Z inspektorem ochrony danych można się kontaktować we wszystkich sprawach dotyczących przetwarzania Pani/Pana danych przez Ministerstwo Cyfryzacji oraz korzystania przez Pani/Pana z praw związanych z przetwarzaniem danych.",
-    "DataProcessing4": "Pani/Pana dane będą przetwarzane w celu kontaktu i publikacji przesłanej aplikacji na portalu dane.gov.pl. Podstawa prawna: zgoda na przetwarzanie danych (art. 6 ust. 1 lit. a RODO).",
-    "DataProcessing5": "Pani/Pana dane osobowe mogą być udostępniane podmiotom na podstawie obowiązujących przepisów (np. sądowi, policji). ",
-    "DataProcessing6": "Pani/Pana dane będą przetwarzane do momentu odwołania zgody na ich przetwarzanie. Zgoda na przetwarzanie danych osobowych może zostać cofnięta w dowolnym momencie przez wysłanie e-maila na adres mc@mc.gov.pl, za pośrednictwem ePUAP lub pisemnie na adres siedziby administratora. Wycofanie zgody nie wpływa na zgodność z prawem przetwarzania, którego dokonano na podstawie zgody przed jej wycofaniem.",
-    "DataProcessing7": "Przysługuje Pani/Panu prawo dostępu do Pani/Pana danych oraz prawo żądania ich sprostowania, usunięcia, ograniczenia przetwarzania, prawo do przenoszenia danych, prawo do cofnięcia zgody w dowolnym momencie bez wpływu na zgodność z prawem przetwarzania, którego dokonano na podstawie zgody przed jej cofnięciem.",
-    "DataProcessing8": "Podanie danych jest warunkiem zgłoszenia aplikacji a ich niepodanie uniemożliwi przesłanie zgłoszenia.",
-    "DataProcessing9": "Przysługuje Pani/Panu prawo wniesienia skargi do organu nadzorczego zajmującego się ochroną danych osobowych w państwie członkowskim Pani/Pana zwykłego pobytu, miejsca pracy lub miejsca popełnienia domniemanego naruszenia w sytuacji, gdy przetwarzanie danych osobowych narusza przepisy o ochronie danych osobowych. Prezes Urzędu Ochrony Danych Osobowych (PUODO) ul. Stawki 2, 00-193 Warszawa",
-    "TermsOfService": "Wyrażam zgodę na przetwarzanie moich danych osobowych (e-mail, autor) w celu nawiązania kontaktu i publikacji przesłanej przeze mnie aplikacji na portalu dane.gov.pl. Zgoda na przetwarzanie danych osobowych może zostać cofnięta w dowolnym momencie przez wysłanie e-maila na adres mc@mc.gov.pl, za pośrednictwem ePUAP lub pisemnie na adres siedziby administratora. Wycofanie zgody nie wpływa na zgodność z prawem przetwarzania, którego dokonano na podstawie zgody przed jej wycofaniem."
+    "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji"
   },
   "Applications": {
     "Self": "Aplikacje",
@@ -150,6 +141,8 @@
     "InstitutionLong": "Dostawca danych",
     "Order": "Kolejność",
     "License": "Licencja",
+    "LicenseLong": "Wybierz licencję",
+    "LicenseTooltip": "licencja",
     "Tags": "Słowa kluczowe",
     "Type": "Typ",
     "Source": "Źródło",
@@ -295,7 +288,8 @@
     "NoEditPermission": "Brak uprawnień do definiowania wykresu",
     "AxisX": "Oś X",
     "AxisY": "Oś Y",
-    "DataTable": "Dane z wykresu w formie tabelarycznej"
+    "DataTable": "Dane z wykresu w formie tabelarycznej",
+    "Name": "Nazwa wykresu, który chcesz zapisać"
   },
   "Cms": {
     "NotSupportedPlayer": "Wybrany odtwarzacz filmów nie jest obsługiwany.",
@@ -335,7 +329,7 @@
     "Institution": "Nazwa instytucji publicznej odpowiedzialnej za dane",
     "DataLink": "URL do danych",
     "ReleaseDate": "Data dodania",
-    "Feedback": "Przekaż swoją opinie dotyczącą powyższej propozycji",
+    "Feedback": "Przekaż swoją ocenę lub opinię dotyczącą powyższej propozycji",
     "Message": "Dziękujemy za przesłanie opinii",
     "UserSuggestions": "Zobacz, co zaproponowali inni użytkownicy"
   },
@@ -370,8 +364,10 @@
     "LicenseType": "Rodzaj licencji",
     "LinkToLicense": "Link do licencji",
     "LicenseSummaryLink": "Poniżej przystępne podsumowanie licencji, które dostępne jest również pod linkiem:",
-    "None": "Ten zbiór danych może być ponownie wykorzystywany bez ograniczeń.",
-    "Intro": "Ten zbiór danych może być ponownie wykorzystywany pod poniższymi warunkami:",
+    "None": "Te dane mogą być ponownie wykorzystywane bez ograniczeń.",
+    "Intro": "Te dane mogą być ponownie wykorzystywane pod poniższymi warunkami:",
+    "NoneDataset": "Ten zbiór danych może być ponownie wykorzystywany bez ograniczeń.",
+    "IntroDataset": "Ten zbiór danych może być ponownie wykorzystywany pod poniższymi warunkami:",
     "Source": "Odbiorca powinien poinformować o źródle, czasie wytworzenia i pozyskania informacji od podmiotu zobowiązanego",
     "Original": "Odbiorca powinien zawrzeć kopię informacji w pierwotnie pozyskanej formie udostępniając przetworzoną informację",
     "Modification": "Odbiorca powinien poinformować o przetworzeniu informacji, gdy ją jakkolwiek modyfikuje",
@@ -397,7 +393,8 @@
     "NoResources": "Ten zbiór danych nie posiada obecnie zasobów.",
     "Harvester": "Dane pobierane automatycznie z:",
     "MetadataRelatedCatalog": "Dla katalogu",
-    "MetadataRelatedDataset": "Dla zbioru danych"
+    "MetadataRelatedDataset": "Dla zbioru danych",
+    "SubmissionItemInfo": "Propozycja zgłoszona przez użytkowników. Jest ona analizowana przez dostawców danych, którzy na podstawie zgłoszeń mogą udostępnić dane na portalu. Jeśli chcesz wyrazić opinię na temat zgłoszonej propozycji skorzystaj z formularza poniżej."
   },
   "Embed": {
     "Self": "Umieść na swojej stronie",
@@ -776,7 +773,7 @@
       "HomePage": {
         "SearchBar": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola słowo lub fraza są wyszukiwane we wszystkich obiektach na portalu, tj. tytułach oraz opisach zbiorów i danych, wśród dostawców danych, aplikacjach, artykułach oraz bazie wiedzy. Liczy się trafność, czyli liczba wyszukanych wyrazów. Po wpisaniu trzeciej litery wyszukiwarka podpowiada najbardziej trafne obiekty. Wyszukiwanie kończy wybranie podpowiedzi lub kliknięcie w symbol lupy."
+          "text": "Wpisane słowo lub fraza są wyszukiwane we wszystkich obiektach na portalu: tytułach i opisach zbiorów i danych, wśród dostawców danych, aplikacjach, artykułach oraz bazie wiedzy."
         },
         "DataCategories": {
           "title": "Wybierz kategorię danych",
@@ -794,29 +791,25 @@
       "SearchResults": {
         "SearchBar": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola słowo lub fraza są wyszukiwane we wszystkich obiektach na portalu, tj. tytułach oraz opisach zbiorów i danych, wśród dostawców danych, aplikacjach, artykułach oraz bazie wiedzy. Liczy się trafność, czyli liczba wyszukanych wyrazów. Po wpisaniu trzeciej litery wyszukiwarka podpowiada najbardziej trafne obiekty. Wyszukiwanie kończy wybranie podpowiedzi lub kliknięcie w symbol lupy."
+          "text": "Wpisane słowo lub fraza są wyszukiwane we wszystkich obiektach na portalu: tytułach i opisach zbiorów i danych, wśród dostawców danych, aplikacjach, artykułach oraz bazie wiedzy."
         }
       },
       "Dataset": {
         "SearchBar": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola „Wyszukaj dane” słowo lub fraza wyszukiwane są w tytułach, opisach i słowach kluczowych dwóch obiektów: zbiorach danych i danych (zasobach). Wyszukiwarka dzieli wpisaną frazę na poszczególne słowa i uwzględniając odmianę wyrazów przez przypadki i rodzaje, wyszukuje identyczne lub bardzo podobne słowa w przeszukiwanych treściach. Liczbę wyszukanych słów i ich podobieństwo do wzorca odzwierciedla parametr Trafność."
-        },
-        "SearchQueryRules": {
-          "title": "Wyszukiwarka",
-          "text": "Wyszukiwanie może być wykonane czterema sposobami:\n- dowolne z tych słów – wystarczy, że jedno słowo z wyszukiwanej frazy zostanie znalezione,\n- wszystkie te słowa – wszystkie słowa z frazy muszą zostać znalezione, choć niekoniecznie w porządku wpisanym w polu wyszukiwania, w przeciwnym wypadku wyszukiwanie daje wynik negatywny,\n- dokładnie te słowa – wystarczy, że jedno słowo z frazy zostanie znalezione, ale dokładnie w takiej postaci, jaka została wpisana w polu wyszukiwania,\n- uwzględniając synonimy tych słów – wyszukiwarka wykorzystuje specjalny słownik synonimów i wyszukuje także synonimy"
+          "text": "Wpisane słowo lub fraza wyszukiwane są w tytułach, opisach i słowach kluczowych dwóch obiektów: zbiorach danych i danych (zasobach)."
         },
         "Found": {
           "title": "Znaleziono",
-          "text": "Wyszukane zbiory danych lub dane prezentowane są na jednej zbiorczej liście oraz w oddzielnych zakładkach nad listą. Klikając na odpowiednią zakładkę filtrujemy wyniki wyszukiwania dla zbiorów danych lub danych."
+          "text": "Wyszukane obiekty prezentowane są na jednej zbiorczej liście oraz w umieszczonych nad listą oddzielnych zakładkach dla każdego typu obiektu."
         },
         "Follow": {
           "title": "Przycisk obserwuj",
-          "text": "Wybranie tej funkcji uruchamia procedurę stałego informowania użytkownika o wszystkich zmianach w wybranym zbiorze danych. Zmiany sygnalizowane są za pomocą ikony powiadomień na pasku statusu w nagłówku strony, a szczegóły udostępniane na dedykowanym kafelku funkcjonalności „Mój pulpit”. Funkcja jest dostępna tylko dla zalogowanych użytkowników."
+          "text": "Wybór tej funkcji uruchamia procedurę stałego informowania użytkownika o wszystkich zmianach w wybranym zbiorze danych. Zmiany sygnalizowane są za pomocą ikony powiadomień na pasku statusu w nagłówku strony."
         },
         "FollowSearchResult": {
           "title": "Obserwuj wyniki wyszukiwania",
-          "text": "Każde wykonane wyszukiwanie można zapisać pod wyróżniającą je nazwą. Uruchamiana jest wtedy funkcja informowania o  zmianach w ilości wyszukanych wyników dla uprzednio zapisanych kryteriów. Funkcja jest dostępna tylko dla zalogowanych użytkowników.  Zmiany sygnalizowane są za pomocą ikony powiadomień na pasku statusu w nagłówku strony, a szczegóły udostępniane na dedykowanym kafelku funkcjonalności „Mój pulpit”."
+          "text": "Wybór tej funkcji umożliwia uzyskanie informacji o zmianach w ilości wyszukanych wyników dla uprzednio wybranych kryteriów. Zmiany sygnalizowane są za pomocą ikony powiadomień na pasku statusu w nagłówku strony."
         },
         "API": {
           "title": "Wyświetl dane poprzez API",
@@ -840,7 +833,7 @@
         },
         "Follow": {
           "title": "Przycisk obserwuj",
-          "text": "Wybranie tej funkcji uruchamia procedurę stałego informowania użytkownika o wszystkich zmianach w wybranym zbiorze danych. Zmiany sygnalizowane są za pomocą ikony powiadomień na pasku statusu w nagłówku strony, a szczegóły udostępniane na dedykowanym kafelku funkcjonalności „Mój pulpit”. Funkcja jest dostępna tylko dla zalogowanych użytkowników."
+          "text": "Wybór tej funkcji uruchamia procedurę stałego informowania użytkownika o wszystkich zmianach w wybranym zbiorze danych. Zmiany sygnalizowane są za pomocą ikony powiadomień na pasku statusu w nagłówku strony."
         },
         "History": {
           "title": "Historia zbioru",
@@ -850,7 +843,7 @@
       "Institutions": {
         "Search": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola „Wyszukaj dostawcę” słowo lub fraza wyszukiwane są w treści atrybutów dostawcy danych – tytuł i opis. Wyszukiwarka dzieli wpisaną frazę na poszczególne słowa i wykorzystując tzw. tryb pełnotekstowy, czyli np. uwzględniając odmianę wyrazów przez przypadki, wyszukuje identyczne lub bardzo podobne słowa w przeszukiwanych atrybutach dostawcy. Liczba wyszukanych słów i ich stopień podobieństwa do wpisanego wzorca są odzwierciedlone parametrem Trafność.  Po wpisaniu trzeciej litery wyszukiwarka podpowiada najbardziej trafne obiekty. Podpowiedź zmienia się w trakcie wpisywania frazy. Wyszukiwanie kończy wybranie podpowiedzi lub kliknięcie w symbol lupy."
+          "text": "Wpisane słowo lub fraza wyszukiwane są w nazwach dostawców."
         },
         "Filters": {
           "title": "Filtry",
@@ -860,49 +853,57 @@
       "InstitutionDetails": {
         "Search": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola „Wyszukaj dane” słowo lub fraza wyszukiwane są w treści atrybutów – tytuł, opis, słowa kluczowe – dwóch obiektów: zbiory danych i dane opublikowanych przez wybranego dostawcę. Wyszukiwarka dzieli wpisaną frazę na poszczególne słowa i wykorzystując tzw. tryb pełnotekstowy, czyli np. uwzględniając odmianę wyrazów przez przypadki, wyszukuje identyczne lub bardzo podobne słowa w przeszukiwanych atrybutach. Liczba wyszukanych słów i ich stopień podobieństwa do wpisanego wzorca są odzwierciedlone parametrem Trafność.  Po wpisaniu trzeciej litery wyszukiwarka podpowiada najbardziej trafne obiekty. Podpowiedź zmienia się w trakcie wpisywania frazy. Wyszukiwanie kończy wybranie podpowiedzi lub kliknięcie w symbol lupy."
+          "text": "Wpisane słowo lub fraza wyszukiwane są w tytułach, opisach i słowach kluczowych dwóch obiektów: zbiorach danych i danych (zasobach) udostępnionych przez wybranego dostawcę."
         }
       },
       "Filters": {
         "Self": {
           "title": "Filtry",
-          "text": "Korzystanie z filtrów umożliwia dopasowanie wyników wyszukiwania do potrzeb użytkownika. Zaznaczenie wartości w kolejnych filtrach powoduje zawężenie wyników wyszukiwania. Zastosowanie każdego filtru jest widoczne nad listą z wynikami wyszukiwania."
+          "text": "Filtry ułatwiają wyszukiwanie dopasowując i ograniczając obszar do potrzeb użytkownika."
         },
         "Attribute": {
           "CategoryLong": {
             "title": "Filtry - kategoria",
-            "text": "Zaznaczenie jednej lub więcej kategorii oraz kliknięcie przycisku „Zastosuj” powoduje zawężenie wyników wyszukiwania do zbiorów danych należących do tych kategorii.  Zastosowanie filtru jest widoczne nad listą z wynikami wyszukiwania."
+            "text": "Możesz zaznaczyć jedną lub kilka kategorii zawężając obszar wyszukiwania do swoich potrzeb. Swój wybór potwierdź przyciskiem „Zastosuj”."
+          },
+          "LicenseLong": {
+            "title": "Filtry - wybierz licencje",
+            "text": "Zaznaczenie jednej lub więcej licencji oraz klikniecie przycisku “zastosuj“ powoduje zawężenie wyników wyszukiwania do zbiorów danych oraz danych udostępnianych na podstawie zaznaczonej licencji."
+          },
+          "UpdateFrequency": {
+            "title": "Filtry - częstotliwość aktualizacji",
+            "text": "Możesz zaznaczyć częstotliwość, według której dane są aktualizowane. Dane aktualizowane są według okresów podanych przez dostawcę danych. Możesz zaznaczyć jedną lub kilka częstotliwości. Swój wybór potwierdź przyciskiem ”Zastosuj”"
           },
           "InstitutionLong": {
             "title": "Filtry - dostawca",
-            "text": "Zaznaczenie jednego lub więcej dostawców oraz kliknięcie przycisku „Zastosuj” powoduje zawężenie wyników wyszukiwania do zbiorów danych oraz danych opublikowanych przez tych dostawców.  Zastosowanie filtru jest widoczne nad listą z wynikami wyszukiwania."
+            "text": "Możesz zaznaczyć jednego lub kilku dostawców zawężając obszar wyszukiwania do swoich potrzeb. Swój wybór potwierdź przyciskiem „Zastosuj”."
           },
           "FormatLong": {
-            "title": "Filtry - format",
-            "text": "Zaznaczenie jednego lub więcej formatów oraz kliknięcie przycisku „Zastosuj” powoduje zawężenie wyników wyszukiwania do zbiorów danych oraz danych w tych formatach.  Zastosowanie filtru jest widoczne nad listą z wynikami wyszukiwania."
+            "title": "Filtry - format dostarczonych danych",
+            "text": "Możesz zaznaczyć jeden lub kilka formatów wyszukiwanych danych. Swój wybór potwierdź przyciskiem „Zastosuj”."
           },
           "OpennessScore": {
             "title": "Filtry - poziom otwartości",
-            "text": "5 poziomów otwartości to użyteczne narzędzie służące klasyfikowaniu zasobów pod kątem ich otwartości. Im wyższy poziom otwartości danych, tym dane są lepiej przygotowane do dalszego przetwarzania. Zaznaczenie jednego lub więcej poziomu otwartości oraz kliknięcie przycisku „Zastosuj” powoduje zawężenie wyników wyszukiwania do zbiorów danych oraz danych posiadających zaznaczone poziomy otwartości.  Zastosowanie filtru jest widoczne nad listą z wynikami wyszukiwania."
+            "text": "Więcej gwiazdek to wyższy poziom otwartości zbiorów. Oznacza to, że dane są lepiej przygotowane do dalszego przetwarzania. Możesz zaznaczyć jeden lub kilka poziomów. Swój wybór potwierdź przyciskiem „Zastosuj”."
           },
           "VisualizationType": {
             "title": "Filtry - sposób wizualizacji",
-            "text": "Zaznaczenie jednego lub więcej sposobów wizualizacji oraz kliknięcie przycisku „Zastosuj” powoduje zawężenie wyników wyszukiwania do zbiorów danych oraz danych posiadających te sposoby wizualizacji.  Zastosowanie filtru jest widoczne nad listą z wynikami wyszukiwania."
+            "text": "Możesz wybrać jeden lub kilka sposobów wizualizacji danych. Metody wizualizacji określa dostawca danych. Swój wybór potwierdź przyciskiem „Zastosuj”."
           },
           "ResourceType": {
             "title": "Filtry - typ zasobu",
-            "text": "Zaznaczenie jednego lub więcej typów zasobu oraz kliknięcie przycisku „Zastosuj” powoduje zawężenie wyników wyszukiwania do zbiorów danych oraz danych posiadających te typy zasobu.  Zastosowanie filtru jest widoczne nad listą z wynikami wyszukiwania."
+            "text": "Możesz wybrać jeden lub kilka typów zasobów: API, plik do pobrania lub odwiedzenie strony internetowej dostawcy z danymi. Swój wybór potwierdź przyciskiem „Zastosuj”."
           },
           "DateRange": {
             "title": "Filtry - daty",
-            "text": "Zaznaczenie przedziału dat oraz klikniecie przycisku „Zastosuj” powoduje zawężenie wyników wyszukiwania do zbiorów danych i danych, których odpowiednio daty aktualizacji oraz dane na dzień znajdują się we wprowadzonym przedziale."
+            "text": "Możesz wybrać przedział czasowy określający aktualność danych. Swój wybór potwierdź przyciskiem „Zastosuj”."
           }
         }
       },
       "Applications": {
         "Search": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola „Wyszukaj aplikację” słowo lub fraza wyszukiwane są w treści atrybutów aplikacji – tytuł i opis. Wyszukiwarka dzieli wpisaną frazę na poszczególne słowa i wykorzystując tzw. tryb pełnotekstowy, czyli np. uwzględniając odmianę wyrazów przez przypadki, wyszukuje identyczne lub bardzo podobne słowa w przeszukiwanych atrybutach aplikacji. Liczba wyszukanych słów i ich stopień podobieństwa do wpisanego wzorca są odzwierciedlone parametrem Trafność.  Po wpisaniu trzeciej litery wyszukiwarka podpowiada najbardziej trafne obiekty. Podpowiedź zmienia się w trakcie wpisywania frazy. Wyszukiwanie kończy wybranie podpowiedzi lub kliknięcie w symbol lupy."
+          "text": "Wpisane słowo lub fraza są wyszukiwane w tytułach i opisach aplikacji."
         },
         "Suggest": {
           "title": "Zaproponuj aplikację",
@@ -912,7 +913,7 @@
       "Article": {
         "Search": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola „Wyszukaj artykuł” słowo lub fraza wyszukiwane są w treści atrybutów artykułu – tytuł i opis. Wyszukiwarka dzieli wpisaną frazę na poszczególne słowa i wykorzystując tzw. tryb pełnotekstowy, czyli np. uwzględniając odmianę wyrazów przez przypadki, wyszukuje identyczne lub bardzo podobne słowa w przeszukiwanych atrybutach artykułu. Liczba wyszukanych słów i ich stopień podobieństwa do wpisanego wzorca są odzwierciedlone parametrem Trafność.  Po wpisaniu trzeciej litery wyszukiwarka podpowiada najbardziej trafne obiekty. Podpowiedź zmienia się w trakcie wpisywania frazy. Wyszukiwanie kończy wybranie podpowiedzi lub kliknięcie w symbol lupy."
+          "text": "Wpisane słowo lub fraza są wyszukiwane w tytułach i opisach artykułów."
         }
       },
       "ApplicationDetails": {
@@ -928,11 +929,11 @@
       "DataResource": {
         "Search": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane do pola „Wyszukaj..” słowo lub fraza wyszukiwane są w danych tabelarycznych w kolumnach typu tekst. Wybierając przycisk „Pokaż filtry” uzyskujemy dostęp do sekcji definiowania filtrów."
+          "text": "Słowo lub fraza wpisane do pola „Wyszukaj” są wyszukiwane w danych w całej tabeli. Do wyszukiwania można użyć filtrów."
         },
         "Filters": {
           "title": "Pokaż filtry",
-          "text": "Definiując filtr wybieramy kolumnę, operator oraz wartość. Można zdefiniować więcej niż jeden filtr. Wyszukiwanie i filtrowanie odnosi się do trzech widoków – tabela, wykres, mapa."
+          "text": "Definiując filtr wybieramy kolumnę tabeli, operator oraz wartość. Można utworzyć więcej niż jeden filtr."
         },
         "Table": {
           "title": "Tabela",
@@ -947,20 +948,20 @@
           "text": "Zakładka pozwalająca na prezentację danych na mapie."
         },
         "Parameters": {
-          "title": "Pokaż parametry",
-          "text": "Przycisk wyświetla sekcję pozwalającą na zdefiniowanie wykresu. Jeżeli wykres nie został zdefiniowany przez Dostawcę danych lub jego istniejąca forma nie odpowiada użytkownikowi, może on utworzyć własny wykres i wyświetlić go, skopiować lub zapamiętać na portalu."
+          "title": "Pokaż parametry/Ukryj parametry wykresu",
+          "text": "Przycisk wyświetla/ukrywa sekcję pozwalającą na zdefiniowanie wykresu. Użytkownik może utworzyć własny wykres."
         },
         "ShowChart": {
           "title": "Wyświetl wykres",
-          "text": "Wybierz typ wykresu, wybierz kolumnę dla osi X, wybierz kolumnę dla osi Y. Na osi Y może być wybrana więcej niż jedna kolumna. Wybierz przycisk „Wyświetl wykres” żeby zobaczyć zdefiniowany wykres."
+          "text": "Przycisk wyświetla zdefiniowany przez użytkownika wykres."
         },
         "SaveChart": {
           "title": "Zapmiętaj wykres",
-          "text": "W celu zapisania zdefiniowanego wykresu na stałe wybieramy przycisk „Zapamiętaj wykres”. Funkcja jest dostępna dla użytkowników zalogowanych."
+          "text": "Funkcja umożliwia zapisanie wykresu zdefiniowanego przez użytkownika. Jest dostępna tylko dla użytkowników zalogowanych."
         },
         "MapSettings": {
           "title": "Opcje mapy",
-          "text": "Wykorzystując swoją lokalizację lub klikając w punkt na mapie oraz podając promień możemy zawęzić liczbę wyświetlanych punktów na mapie do obszaru naszego zainteresowania."
+          "text": "Funkcja umożliwia wybór interesującego obszaru na mapie pod względem własnej lokalizacji lub zadanego promienia wokół wybranego punktu."
         }
       }
     }

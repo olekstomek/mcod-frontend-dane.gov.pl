@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandler, Inject, NgModule } from '@angular/core';
-import { BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserTransferStateModule, TransferState } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { ServiceWorkerModule, SwRegistrationOptions } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { ApmErrorHandler, ApmService } from '@elastic/apm-rum-angular';
 import { environment } from '@env/environment';
 import { ShepherdModule } from '@janekkruczkowski/angular-shepherd';
@@ -33,7 +33,7 @@ function errorHandlerFactory(apmConfig: ApmConfigService): ErrorHandler {
             loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
+                deps: [HttpClient, TransferState]
             },
             parser: {
                 provide: TranslateParser,

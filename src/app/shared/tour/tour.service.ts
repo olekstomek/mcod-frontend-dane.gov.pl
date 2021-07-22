@@ -14,7 +14,6 @@ import {
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 
 import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { IFeatureFlag } from '@app/services/models/feature-flag';
 import { TourProgressComponent } from '@app/shared/tour/progress/tour-progress/tour-progress.component';
 import { ShepardStep, Tour, TourItem, TourProgress } from '@app/shared/tour/Tour';
 import { TourDataService } from '@app/shared/tour/tour-data.service';
@@ -22,7 +21,7 @@ import { TourItemTreeNode } from '@app/shared/tour/TourItemTreeNode';
 import { ShepherdService } from '@janekkruczkowski/angular-shepherd';
 import { LocalStorageService } from 'ngx-localstorage';
 import pathToRegexp from 'path-to-regexp';
-import { Observable, of, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
+import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 /**
@@ -205,7 +204,9 @@ export class TourService implements OnDestroy {
                     },
                 },
                 id: index + '',
-                beforeShowPromise: this.clickOnClickableStepBeforeShowNextStep(tour, this.shepherdService.tourObject, index),
+                beforeShowPromise: this.clickOnClickableStepBeforeShowNextStep(
+                    this.visibleStepsWithoutOptional,
+                    this.shepherdService.tourObject, index),
                 buttons: this.getStepButtons(index, this.visibleStepsWithoutOptional.length),
                 classes: 'tour-wrapper'
             }));
@@ -283,30 +284,33 @@ export class TourService implements OnDestroy {
 
     /**
      * Clicks on clickable step before showing next stop
-     * @param tour
+     * @param tourItems
      * @param shepard
      * @param index
      * @returns {() => (Promise<void>)}
      */
-    private clickOnClickableStepBeforeShowNextStep(tour: Tour, shepard: any, index: number): () => (Promise<void>) {
+    private clickOnClickableStepBeforeShowNextStep(tourItems: Array<TourItem>, shepard: any, index: number): () => (Promise<void>) {
         return () => {
             // tslint:disable-next-line:no-unused-expression
             this.changeStepClickListener$ && this.changeStepClickListener$.unsubscribe();
             return new Promise<void>(async (resolve) => {
-                await this.clickClickableParentBeforeStepChangeWhenNecessary(tour, shepard, index, resolve);
+                await this.clickClickableParentBeforeStepChangeWhenNecessary(tourItems, shepard, index, resolve);
             });
         };
     }
 
     /**
      * Click on clickable parent step when necessary
-     * @param tour
+     * @param tourItems
      * @param shepherd
      * @param id
      * @param cb
      */
-    private async clickClickableParentBeforeStepChangeWhenNecessary(tour: Tour, shepherd: any, id: number, cb: () => void): Promise<void> {
-        const itemsToClick = this.tree.findTourItemsToClick(tour.items[id].css_selector);
+    private async clickClickableParentBeforeStepChangeWhenNecessary(tourItems: Array<TourItem>,
+                                                                    shepherd: any,
+                                                                    id: number,
+                                                                    cb: () => void): Promise<void> {
+        const itemsToClick = this.tree.findTourItemsToClick(tourItems[id].css_selector);
         const isFirstChild = itemsToClick.length === 0;
         if (isFirstChild) {
             cb();
@@ -516,17 +520,7 @@ export class TourService implements OnDestroy {
     }
 
     private isButtonShouldBeVisibleForCurrentRoute(event: NavigationEnd): Observable<boolean> {
-        return this.featureFlagService.featureFlags
-            .pipe(
-                switchMap((flagList: IFeatureFlag[]) => {
-                        const isEnabled = this.featureFlagService.validateFlag('S14_tour.fe', flagList);
-                        if (isEnabled) {
-                            return this.validateButtonVisibilityForCurrentRoute(event);
-                        }
-                        return of(false);
-                    }
-                ),
-            );
+        return this.validateButtonVisibilityForCurrentRoute(event);
 
     }
 

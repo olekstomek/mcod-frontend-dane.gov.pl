@@ -32,8 +32,8 @@ export class KnowledgeBaseTabsComponent {
                 public cmsService: CmsService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router) {
-                    
-        this.setActiveTab();         
+
+        this.setActiveTab();
     }
 
     /**
@@ -57,7 +57,7 @@ export class KnowledgeBaseTabsComponent {
 
                 if (event.url.split('/').length < 3) {
                     this.router.navigate([`${this.routerEndpoints.KNOWLEDGE_BASE}/${currentTab.meta.slug}`]);
-                }                            
+                }
             }
         });
     }

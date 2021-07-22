@@ -10,7 +10,12 @@
 
     <!-- no restrictions -->
     <ng-container *ngIf="!hasRestrictions">
-        {{ 'DatasetRestrictions.None' | translate }}
+        <ng-container *ngIf="isForDataset">
+            {{ 'DatasetRestrictions.NoneDataset' | translate }}
+        </ng-container>
+        <ng-container *ngIf="!isForDataset">
+            {{ 'DatasetRestrictions.None' | translate }}
+        </ng-container>
     </ng-container>
 
     <!-- restrictions -->
@@ -26,7 +31,12 @@
         <!-- restriction list -->
         <ng-template #restrictionList>
             <p>
-                {{ 'DatasetRestrictions.Intro' | translate }}
+                <ng-container *ngIf="isForDataset">
+                    {{ 'DatasetRestrictions.IntroDataset' | translate }}
+                </ng-container>
+                <ng-container *ngIf="!isForDataset">
+                    {{ 'DatasetRestrictions.Intro' | translate }}
+                </ng-container>
             </p>
 
             <ul>

@@ -10,6 +10,7 @@ export const APP_CONFIG = {
     statsHighContrastEventName: 'theme_changed',
     urls: {
         adminPanelDev: 'http://admin.dev.dane.gov.pl',
+        forumInt: 'http://forum.int.dane.gov.pl',
         doc: 'https://api.dane.gov.pl/doc',
         flags: {
             features: 'https://flags.dane.gov.pl/api/client/features',

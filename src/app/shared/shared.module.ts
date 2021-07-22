@@ -33,7 +33,6 @@ import { SelectedFiltersComponent } from '@app/shared/filters/list-view-selected
 import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
 
 import '@app/shared/helpers/string.helper';
-import { InfoTooltipComponent } from '@app/shared/info-tooltip/info-tooltip.component';
 import { MultiselectComponent } from '@app/shared/multiselect/multiselect.component';
 import { NewDataContactComponent } from '@app/shared/new-data-contact/new-data-contact.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
@@ -51,14 +50,13 @@ import { DefaultResultItemComponent } from '@app/shared/result-list/result-item/
 import { ResultItemImageComponent } from '@app/shared/result-list/result-item/result-item-image/result-item-image.component';
 import { ResultListComponent } from '@app/shared/result-list/result-list.component';
 import { DetailsResultItemComponent } from '@app/shared/result-list/right-column/details-result-item/details-result-item.component';
-import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
 import { PermissionDirective } from '@app/shared/user-permissions/permission.directive';
 import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directive';
 import { AppShellRenderDirective } from '@app/ssr/app-shell-render.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { CarouselModule, TimepickerModule, TooltipModule } from 'ngx-bootstrap';
+import { CarouselModule, TimepickerModule } from 'ngx-bootstrap';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 import { ApiSourceLinkComponent } from './api-source-link/api-source-link.component';
 import { LinkButtonComponent } from './buttons/link-button/link-button.component';
@@ -76,11 +74,10 @@ import { SloganComponent } from './cms/widget/slogan/slogan.component';
 import { VideoComponent } from './cms/widget/video/video.component';
 import { DatasetAutocompleteDirective } from './directives/dataset-autocomplete.directive';
 import { FeatureFlagDirective } from './directives/feature-flag.directive';
+import { FixedSidebarDirective } from './directives/fixed-sidebar.directive';
 import { FocusTrapDirective } from './directives/focus-trap/focus-trap.directive';
 import { HistoryEntryComponent } from './history-entry/history-entry.component';
-import { InfoTooltipDirective } from './info-tooltip/info-tooltip.directive';
 import { ItemsPerPageComponent } from './items-per-page/items-per-page.component';
-import { TooltipWithTitleComponent } from './large-tooltip/tooltip-with-title.component';
 import { LoaderComponent } from './loader/loader.component';
 import { MathCaptchaComponent } from './math-captcha/math-captcha.component';
 import { NoResultsFoundComponent } from './no-results-found/no-results-found.component';
@@ -102,19 +99,17 @@ import { SearchSuggestComponent } from './search-suggest/search-suggest.componen
 import { SingleselectComponent } from './singleselect/singleselect.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { SubscribeButtonComponent } from './subscribe-button/subscribe-button.component';
+import {TooltipModule} from './tooltip/tooltip.module';
 import { TourProgressComponent } from './tour/progress/tour-progress/tour-progress.component';
 import { TourButtonComponent } from './tour/tour-button/tour-button.component';
 import { TourPickerComponent } from './tour/tour-picker/tour-picker.component';
-import { FixedSidebarDirective } from './directives/fixed-sidebar.directive';
 import { WriteUsInfoComponent } from './write-us-info/write-us-info.component';
-import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-filters.component';
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
         FormsModule,
         ReactiveFormsModule,
-        TooltipModule,
         OverlayModule,
         TranslateModule.forChild({
             parser: {
@@ -125,7 +120,8 @@ import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-
         TimepickerModule,
         CarouselModule,
         LocalizeRouterModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        TooltipModule
     ],
     declarations: [
         SanitizeHtmlPipe,
@@ -216,10 +212,7 @@ import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-
         AppShellNoRenderDirective,
         KeyvalueOrderPipe,
         ItemsPerPageComponent,
-        InfoTooltipDirective,
-        InfoTooltipComponent,
         TourButtonComponent,
-        TooltipWithTitleComponent,
         TourProgressComponent,
         NoResultsFoundComponent,
         ResourceChartTableComponent,
@@ -227,9 +220,7 @@ import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-
         TourPickerComponent,
         ResourceColumnDataPipe,
         FixedSidebarDirective,
-        TooltipDirective,
-        ResourceFiltersComponent
-        
+
     ],
     exports: [
         SanitizeHtmlPipe,
@@ -313,16 +304,13 @@ import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-
         AppShellNoRenderDirective,
         KeyvalueOrderPipe,
         ItemsPerPageComponent,
-        InfoTooltipDirective,
-        InfoTooltipComponent,
         TourButtonComponent,
         NoResultsFoundComponent,
         ResourceChartTableComponent,
         CmsBlock2Component,
         TourPickerComponent,
         FixedSidebarDirective,
-        TooltipDirective,
-        ResourceFiltersComponent
+        TooltipModule
     ]
 })
 export class SharedModule {

@@ -241,9 +241,40 @@ export class DatasetService extends RestService {
      */
     getResourceChartById(resourceId: string) {
         const url = TemplateHelper.parseUrl(ApiConfig.resourceCharts, { resourceId: resourceId });
-        return this.get(url).pipe(map(data => data['data']));
+        return this.get(url);
     }
+    
+    /**
+     * Updates resource chart
+     * @param {string} resourceId 
+     * @param {string} chartId 
+     * @param {iChartBlueprint} chart 
+     * @param {boolean} [isDefault] 
+     * @param {boolean} [isNamedChart] 
+     * @returns {Observable<any>}
+     */
+    updateResourceChart(resourceId: string, chartId: string, chart: IChartBlueprint, isDefault = false, isNamedChart = true): Observable<any> {
+        let name = '';
+        if (chart.name) {
+            name = `"name": ${JSON.stringify(chart.name)},`;
+            delete chart.name;
+        }
+        
+        const payload = `{
+            "data": {
+                "type": "chart",
+                "attributes": {
+                    ${name}
+                    "is_default": ${isDefault},
+                    "chart": ${JSON.stringify(chart)}
+                }
+            }
+        }`;
 
+        resourceId = resourceId.split(',')[0];
+        return this.patch(TemplateHelper.parseUrl(ApiConfig.resourceChartsUpdate, {resourceId: resourceId, chartId: chartId}), JSON.parse(payload));
+    }
+    
     /**
      * Saves chart related to the resource
      * @param {string} resourceId
@@ -251,16 +282,28 @@ export class DatasetService extends RestService {
      * @param {boolean} isDefault
      * @returns {Observable<any>}
      */
-    saveResourceChart(resourceId: string, chart: IChartBlueprint, isDefault: boolean = false) {
+    saveResourceChart(resourceId: string, chart: IChartBlueprint, isDefault: boolean = false, isNamedChart = true) {
+        let name = '';
+        if (chart.name) {
+            name = `"name": ${JSON.stringify(chart.name)},`;
+            delete chart.name;
+        }
+        
         const payload = `{
             "data": {
                 "type": "chart",
                 "attributes": {
+                    ${name}
                     "is_default": ${isDefault},
                     "chart": ${JSON.stringify(chart)}
                 }
             }
         }`;
+        
+        if (isNamedChart) {
+            resourceId = resourceId.split(',')[0];
+            return this.post(TemplateHelper.parseUrl(ApiConfig.resourceCharts, { resourceId: resourceId }), JSON.parse(payload));
+        }
 
         return this.post(TemplateHelper.parseUrl(ApiConfig.resourceChart, { resourceId: resourceId }), JSON.parse(payload));
     }

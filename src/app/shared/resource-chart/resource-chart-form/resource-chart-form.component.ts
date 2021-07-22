@@ -12,7 +12,7 @@ import {
     oneElementInArrayValidator,
     uniqueValuesInArrayValidator,
     valueInArrayValidator
-} from '@app/shared/form-validators/form-array.validators.ts';
+} from '@app/shared/form-validators/form-array.validators';
 import { ArrayHelper } from '@app/shared/helpers';
 
 /**
@@ -56,6 +56,11 @@ export class ResourceChartFormComponent implements OnInit {
      * Emits and event when delete action is required
      */
     @Output() delete: EventEmitter<null> = new EventEmitter<null>();
+    
+    /**
+     * Emits and event when revoke action is required
+     */
+    @Output() revoke: EventEmitter<null> = new EventEmitter<null>();
 
     /**
      * Determines whether at least one numeric column exists
@@ -121,6 +126,21 @@ export class ResourceChartFormComponent implements OnInit {
      * Determines whether current component is in embedded view (no header and footer)
      */
     isEmbeddedView: boolean;
+
+    /**
+     * Determines whether name form is visible
+     */
+    isNameFormVisible = false;
+
+    /**
+     * Saved chart name
+     */
+    @Input() savedChartName: string;
+
+    /**
+     * Determines whether named chart mode is on - chart name is mandatory
+     */
+    @Input() isNamedChartMode = true;
 
     /**
      * @ignore
@@ -314,6 +334,11 @@ export class ResourceChartFormComponent implements OnInit {
         this.chartForm.setValue(this.chartBlueprint);
         this.prepareSortList();
         this.chartForm.patchValue({sort: this.chartBlueprint['sort']});
+
+        if (this.isNamedChartMode) {
+            this.onChartTypeChange(this.chartBlueprint.chart_type);
+            this.chartForm.patchValue({labels: this.chartBlueprint.labels})
+        }
     }
 
     /**
@@ -331,4 +356,20 @@ export class ResourceChartFormComponent implements OnInit {
             return [labels];
         }
     }
+
+    /**
+     * Event when chart name is going to be saved
+     * @param {string} chartName 
+     */
+    onChartNameSaved(chartName: string) {
+        this.chartBlueprint.name = chartName;
+        this.save.emit();
+    }
+    
+    /**
+     * Event when chart settings are going to be restored
+     */
+    onRevokeChartSettings() {
+        this.revoke.emit();
+    }    
 }

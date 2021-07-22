@@ -33,6 +33,7 @@ export enum ApiConfig {
     resourceGeoData = '/resources/:resourceId/geo',
     resourceChart = '/resources/:resourceId/chart',
     resourceChartDelete = '/resources/charts/:chartId',
+    resourceChartsUpdate = '/resources/:resourceId/charts/:chartId',
     resourceCharts = '/resources/:resourceId/charts',
     resourceData = '/resources/:resourceId/data',
     resourceFeedback = '/resources/:resourceId/comments',
@@ -60,5 +61,7 @@ export enum ApiConfig {
     scheduleAgents = '/auth/schedule_agents',
     mock = '/mock',
     guides = '/guides',
-    catalog = '/catalog'
+    catalog = '/catalog',
+    sparql = '/sparql',
+    rdfDoc = '/doc?urls.primaryName=DANE.GOV.PL%20RDF%20API'
 }

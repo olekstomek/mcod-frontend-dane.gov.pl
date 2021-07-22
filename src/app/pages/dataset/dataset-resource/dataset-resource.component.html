@@ -70,11 +70,10 @@
                     {{ 'DatasetRestrictions.Self' | translate }}:
                 </strong>
                 
-                <app-dataset-restrictions [dataset]="relatedDataset" [isCollapsible]="true"></app-dataset-restrictions>
+                <app-dataset-restrictions [dataset]="relatedDataset" [isCollapsible]="true" [isForDataset]="false"></app-dataset-restrictions>
             </li>
 
             <!-- special_signs -->
-            <ng-container *featureFlag="'S18_special_signs_toggle.fe'">
             <li *ngIf="resource?.attributes?.special_signs?.length">
                 <strong>
                     {{ 'Resources.SpecialSigns' | translate }}:
@@ -103,7 +102,6 @@
                     </ul>
                 </div>
             </li>
-            </ng-container>
         </ul>
 
         <!-- api notofications -->
@@ -114,77 +112,93 @@
     <!-- RESOURCE ACTIONS -->
     <div class="item-view__actions">
         <div class="container">
-            <div class="d-flex flex-column flex-lg-row align-items-start">
-
-                <!-- see api -->
-                <a class="btn btn-primary btn-sm pr-1"
-                    target="_blank"
-                    href="{{resource?.attributes?.link}}"
-                    *ngIf="resource?.attributes?.media_type === 'api' && resource?.attributes?.link">
-                    {{ 'Action.GoTo' | translate | uppercase }} API
-
-                    <span class="sr-only">
-                        {{ "SkipTo.NewWindow" | translate }}
-                    </span>
-                </a>
-
-                <!-- see website -->
-                <a class="btn btn-primary btn-sm pr-1"
-                    target="_blank"
-                    href="{{resource?.attributes?.link}}"
-                    *ngIf="resource?.attributes?.media_type === 'website' && resource?.attributes?.link">
-                    {{ 'Action.GoToSource' | translate | uppercase }}
+            <div class="d-flex flex-column flex-lg-row align-items-start" *featureFlag="'S29_resource_download_json_ld.fe'; else resourceActions">
+                <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center flex-wrap">
+                        
+                        <!-- see api -->
+                        <a class="btn btn-primary btn-sm pr-1"
+                            target="_blank"
+                            href="{{resource?.attributes?.link}}"
+                            *ngIf="resource?.attributes?.media_type === 'api' && resource?.attributes?.link">
+                            {{ 'Action.GoTo' | translate | uppercase }} API
+                            <span class="sr-only">
+                                {{ "SkipTo.NewWindow" | translate }}
+                            </span>
+                        </a>
+                        
+                        <!-- see website -->
+                        <a class="btn btn-primary btn-sm pr-1"
+                            target="_blank"
+                            href="{{resource?.attributes?.link}}"
+                            *ngIf="resource?.attributes?.media_type === 'website' && resource?.attributes?.link">
+                            {{ 'Action.GoToSource' | translate | uppercase }}
                     
-                    <span class="sr-only">
-                        {{ "SkipTo.NewWindow" | translate }}
-                    </span>
-                </a>
+                            <span class="sr-only">
+                                {{ "SkipTo.NewWindow" | translate }}
+                            </span>
+                        </a>
+                        
+                        <!-- download file -->
+                        <ng-container *ngIf="resource?.attributes?.media_type === 'file'">
+                            <span class="font-weight-bold" style="min-width: 85px;">
+                                {{ 'Action.Download' | translate }}:
+                            </span>
+                            
+                            <!-- download file -->
+                            <app-download-link
+                                [fileSize]="resource.attributes.file_size"
+                                [fileUrl]="resource.attributes.download_url"
+                                [format]="resource.attributes.format"
+                                [title]="resource.attributes.title"
+                                [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                                (click)="downloadResource(resource.attributes.title, resource.attributes.download_url)">
+                            </app-download-link>
+                           
+                            <!-- download csv file -->
+                            <app-download-link
+                                [fileSize]="resource.attributes.csv_file_size"
+                                [fileUrl]="resource.attributes.csv_download_url"
+                                [format]="'csv'"
+                                [title]="resource.attributes.title"
+                                [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                                (click)="downloadResource(resource.attributes.title, resource.attributes.csv_download_url)">
+                            </app-download-link>
+                            
+                            <!-- download jsonld file -->
+                            <app-download-link
+                                [fileSize]="resource.attributes.jsonld_file_size"
+                                [fileUrl]="resource.attributes.jsonld_file_url"
+                                [format]="'json_ld'"
+                                [title]="resource.attributes.title"
+                                [customCssClass]="'btn btn-primary btn-sm mb-1'"
+                                (click)="downloadResource(resource.attributes.title, resource.attributes.jsonld_download_url)">
+                            </app-download-link>
+                        </ng-container>
+                    </div>
+                    
+                    <!-- See tabular data JSON -->
+                    <div class="d-flex align-items-center" *ngIf="hasTabularData">
+                        <span class="font-weight-bold"  style="min-width: 85px;">
+                            {{ 'Action.See' | translate }}:
+                        </span>
 
-                 <!-- download file -->
-                <ng-container *ngIf="resource?.attributes?.media_type === 'file'">
-
-                    <!-- download file -->
-                    <app-download-link 
-                        [fileSize]="resource.attributes.file_size"
-                        [fileUrl]="resource.attributes.download_url"
-                        [format]="resource.attributes.format"
-                        [title]="resource.attributes.title"
-                        [showDownloadText]="true"
-                        [customCssClass]="'btn btn-primary btn-sm mr-1'"
-                        (click)="downloadResource(resource.attributes.title, resource.attributes.download_url)">
-                    </app-download-link>
-
-                    <!-- download csv file -->
-                    <app-download-link 
-                        [fileSize]="resource.attributes.csv_file_size"
-                        [fileUrl]="resource.attributes.csv_download_url"
-                        [format]="'csv'"
-                        [title]="resource.attributes.title"
-                        [showDownloadText]="true"
-                        [customCssClass]="'btn btn-primary btn-sm mt-1 mt-lg-0 mr-1'"
-                        (click)="downloadResource(resource.attributes.title, resource.attributes.csv_download_url)">
-                    </app-download-link>
-                </ng-container>
+                        <a class="btn btn-outline-primary btn-sm"
+                            target="_blank"
+                            [href]="selfApi + '/data'">
+                            JSON
+                            <span class="sr-only">
+                                {{ "SkipTo.NewWindow" | translate }}
+                            </span>
+                            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
 
                 <!-- other actions -->
                 <span class="d-flex flex-column flex-lg-row align-items-start mt-1 mt-lg-0 ml-0 ml-lg-1 ml-lg-auto">
-
-                    <!-- tabular data JSON -->
-                    <a class="btn btn-primary btn-sm mb-1 mb-lg-0"
-                        target="_blank"
-                        [href]="selfApi + '/data'"
-                        *ngIf="hasTabularData">
-
-                        {{ 'Resources.TabularDataDescription' | translate }}
-
-                        <span class="sr-only">
-                            {{ "SkipTo.NewWindow" | translate }}
-                        </span>
-
-                        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-                            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-                        </svg>
-                    </a>
 
                     <!-- feedback -->
                     <button class="btn btn-danger btn-sm mb-1 mb-lg-0 ml-0 ml-lg-1"
@@ -206,6 +220,101 @@
                     </button>
                 </span>
             </div>
+
+            <ng-template #resourceActions>
+                <div class="d-flex flex-column flex-lg-row align-items-start">
+
+                    <!-- see api -->
+                    <a class="btn btn-primary btn-sm pr-1"
+                        target="_blank"
+                        href="{{resource?.attributes?.link}}"
+                        *ngIf="resource?.attributes?.media_type === 'api' && resource?.attributes?.link">
+                        {{ 'Action.GoTo' | translate | uppercase }} API
+    
+                        <span class="sr-only">
+                            {{ "SkipTo.NewWindow" | translate }}
+                        </span>
+                    </a>
+    
+                    <!-- see website -->
+                    <a class="btn btn-primary btn-sm pr-1"
+                        target="_blank"
+                        href="{{resource?.attributes?.link}}"
+                        *ngIf="resource?.attributes?.media_type === 'website' && resource?.attributes?.link">
+                        {{ 'Action.GoToSource' | translate | uppercase }}
+                        
+                        <span class="sr-only">
+                            {{ "SkipTo.NewWindow" | translate }}
+                        </span>
+                    </a>
+    
+                     <!-- download file -->
+                    <ng-container *ngIf="resource?.attributes?.media_type === 'file'">
+    
+                        <!-- download file -->
+                        <app-download-link 
+                            [fileSize]="resource.attributes.file_size"
+                            [fileUrl]="resource.attributes.download_url"
+                            [format]="resource.attributes.format"
+                            [title]="resource.attributes.title"
+                            [showDownloadText]="true"
+                            [customCssClass]="'btn btn-primary btn-sm mr-1'"
+                            (click)="downloadResource(resource.attributes.title, resource.attributes.download_url)">
+                        </app-download-link>
+    
+                        <!-- download csv file -->
+                        <app-download-link 
+                            [fileSize]="resource.attributes.csv_file_size"
+                            [fileUrl]="resource.attributes.csv_download_url"
+                            [format]="'csv'"
+                            [title]="resource.attributes.title"
+                            [showDownloadText]="true"
+                            [customCssClass]="'btn btn-primary btn-sm mt-1 mt-lg-0 mr-1'"
+                            (click)="downloadResource(resource.attributes.title, resource.attributes.csv_download_url)">
+                        </app-download-link>
+                    </ng-container>
+    
+                    <!-- other actions -->
+                    <span class="d-flex flex-column flex-lg-row align-items-start mt-1 mt-lg-0 ml-0 ml-lg-1 ml-lg-auto">
+    
+                        <!-- tabular data JSON -->
+                        <a class="btn btn-primary btn-sm mb-1 mb-lg-0"
+                            target="_blank"
+                            [href]="selfApi + '/data'"
+                            *ngIf="hasTabularData">
+    
+                            {{ 'Resources.TabularDataDescription' | translate }}
+    
+                            <span class="sr-only">
+                                {{ "SkipTo.NewWindow" | translate }}
+                            </span>
+    
+                            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                            </svg>
+                        </a>
+    
+                        <!-- feedback -->
+                        <button class="btn btn-danger btn-sm mb-1 mb-lg-0 ml-0 ml-lg-1"
+                                (click)="openFeedbackModal(modalTemplate)">
+                            {{ 'Resources.SendFeedback' | translate }}
+                            <span class="sr-only">
+                                {{ resource.attributes.title }}
+                            </span>
+                            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                            </svg>
+                        </button>
+    
+                        <!-- //TODO embed on your page -->
+                        <button class="btn btn-primary btn-sm mb-1 mb-lg-0 ml-0 ml-lg-1"
+                                (click)="openModal(embedModalTemplate)"
+                                *ngIf="hasTabularData">
+                            {{ 'Embed.Self' | translate | uppercase }}
+                        </button>
+                    </span>
+                </div>
+            </ng-template>
         </div>
     </div>
 
@@ -240,9 +349,9 @@
                         {{ 'Resources.TableView' | translate }}
                     </a>
                 </li>
-
+                
                 <!-- Chart View -->
-                <li class="tab-list__item col-12 col-md-4" role="presentation" *ngIf="hasChart">
+                <li class="tab-list__item col-12 col-md-4" role="presentation" *ngIf="hasChart && !isChartTabHidden">
                     <a class="tab-list__link" role="tab" id="tab2"
                         appInfoTooltip="{{'Tour.Tooltip.DataResource.Chart.text' | translate }}"
                         tooltipTitle="{{ 'Tour.Tooltip.DataResource.Chart.title' | translate }}"
@@ -256,20 +365,18 @@
                 </li>
 
                 <!-- Map View -->
-                <ng-container>
-                    <li class="tab-list__item col-12 col-md-4" role="presentation" *ngIf="hasGeoData">
-                        <a class="tab-list__link" role="tab" id="tab3"
-                            appInfoTooltip="{{'Tour.Tooltip.DataResource.Map.text' | translate }}"
-                            tooltipTitle="{{ 'Tour.Tooltip.DataResource.Map.title' | translate }}"
-                            withoutMargin
-                            [routerLink]="['map']"
-                            #tabLinkMapView="routerLinkActive"
-                            [attr.aria-selected]="tabLinkMapView.isActive ? true : null"
-                            routerLinkActive="tab-list__link--active">
-                            {{ 'Resources.MapView' | translate }}
-                        </a>
-                    </li>
-                </ng-container>
+                <li class="tab-list__item col-12 col-md-4" role="presentation" *ngIf="hasGeoData">
+                    <a class="tab-list__link" role="tab" id="tab3"
+                        appInfoTooltip="{{'Tour.Tooltip.DataResource.Map.text' | translate }}"
+                        tooltipTitle="{{ 'Tour.Tooltip.DataResource.Map.title' | translate }}"
+                        withoutMargin
+                        [routerLink]="['map']"
+                        #tabLinkMapView="routerLinkActive"
+                        [attr.aria-selected]="tabLinkMapView.isActive ? true : null"
+                        routerLinkActive="tab-list__link--active">
+                        {{ 'Resources.MapView' | translate }}
+                    </a>
+                </li>
             </ul>
         </div>
 

@@ -90,7 +90,7 @@ export class ImageComponent extends WidgetAbstractComponent implements OnInit {
 
         if (this.banner.type === WidgetType.IMAGE || this.banner.type === WidgetType.SVG) {
             this.urlImage = this.banner.value.download_url;
-        } else if (this.banner.type === WidgetType.BANNER) {
+        } else if (this.banner.type === WidgetType.BANNER && this.banner.value.image) {
             this.urlImage = this.banner.value.image.download_url;
         }
 

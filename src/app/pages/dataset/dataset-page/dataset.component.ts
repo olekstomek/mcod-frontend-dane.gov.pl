@@ -1,31 +1,32 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { DatasetService } from '@app/services/dataset.service';
-import { SeoService } from '@app/services/seo.service';
-import { ObserveService } from '@app/services/observe.service';
 import { toggleVertically } from '@app/animations';
-import { UserService } from '@app/services/user.service';
-import { NotificationsService } from '@app/services/notifications.service';
+import { DatasetCategoriesHelper } from '@app/pages/dataset/dataset-categories-helper.service';
+import { ApiConfig } from '@app/services/api';
+import { ApiModel } from '@app/services/api/api-model';
+import { DatasetService } from '@app/services/dataset.service';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { ListViewDetailsService } from '@app/services/list-view-details.service';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
+import { LoginService } from '@app/services/login-service';
+import { HttpCustomErrorResponse } from '@app/services/models';
 import {
     AggregationFilterNames,
     AggregationOptionType,
     IDatasetListViewFilterAggregationsOptions,
     IListViewFilterAggregationsOptions
 } from '@app/services/models/filters';
-import { ListViewFiltersService } from '@app/services/list-view-filters.service';
-import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
 import { IListViewDatasetCategoryFiltersModel, IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
-import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
-import { ListViewDetailsService } from '@app/services/list-view-details.service';
-import { DatasetCategoriesHelper } from '@app/pages/dataset/dataset-categories-helper.service';
-import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-suggest';
+import { NotificationsService } from '@app/services/notifications.service';
+import { ObserveService } from '@app/services/observe.service';
 import { SearchService } from '@app/services/search.service';
-import { ApiConfig } from '@app/services/api';
-import { HttpCustomErrorResponse } from '@app/services/models';
-import { LoginService } from '@app/services/login-service';
-import { ApiModel } from '@app/services/api/api-model';
+import { SeoService } from '@app/services/seo.service';
+import { UserService } from '@app/services/user.service';
+import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
+import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-suggest';
 
 /**
  * Dataset Component
@@ -102,7 +103,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
                 protected selectedFiltersService: ListViewSelectedFilterService,
                 private listViewDetailsService: ListViewDetailsService,
                 private searchService: SearchService,
-                private categoriesHelper: DatasetCategoriesHelper) {
+                private categoriesHelper: DatasetCategoriesHelper,
+                private featureFlagService: FeatureFlagService) {
         super(filterService, activatedRoute, selectedFiltersService);
         this.Facets = [
             this.categoriesHelper.getOptionName(),
@@ -110,8 +112,13 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
             AggregationOptionType.FORMAT,
             AggregationOptionType.OPENNESS_SCORE,
             AggregationOptionType.VISUALIZATION_TYPE,
-            AggregationOptionType.TYPES
+            AggregationOptionType.TYPES,
+            AggregationOptionType.LICENSES
         ];
+
+        if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
+            this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
+        }
     }
 
     addSubscriptionToQuery(queryForm: NgForm) {
@@ -208,6 +215,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
             [this.categoriesHelper.getFilterName()]: {}, [AggregationFilterNames.INSTITUTION]: {},
             [AggregationFilterNames.FORMAT]: {}, [AggregationFilterNames.OPENNESS_SCORE]: {},
             [AggregationFilterNames.VISUALIZATION_TYPE]: {}, [AggregationFilterNames.TYPES]: {},
+            [AggregationFilterNames.LICENSES]: {}, [AggregationFilterNames.UPDATE_FREQUENCY]: {}, 
             [AggregationFilterNames.DATE_FROM]: null, [AggregationFilterNames.DATE_TO]: null
         };
     }
@@ -223,6 +231,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.OPENNESS_SCORE]) +
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.VISUALIZATION_TYPE]) +
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.TYPES]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
             (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] ||
             this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0);
     }

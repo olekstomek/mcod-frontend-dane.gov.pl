@@ -151,7 +151,7 @@ export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlV
             }]);
             this.isValid = false;
         }
-        return combined;
+        return this.queryEditor.getValue();
 
     }
 
@@ -202,10 +202,12 @@ export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlV
      * @param SparqlMode
      */
     private setupPrefixEditor(SparqlMode): void {
-        this.prefixesEditor = ace.edit('prefixes');
-        this.prefixesEditor.setSession(new EditSession(this.sparqlService.getDefaultPrefixes()));
-        this.prefixesEditor.session.setMode(new SparqlMode());
-        this.prefixesEditor.setTheme('ace/theme/chrome');
+        this.sparqlService.getDefaultPrefixes().subscribe((res) => {
+            this.prefixesEditor = ace.edit('prefixes');
+            this.prefixesEditor.setSession(new EditSession(res));
+            this.prefixesEditor.session.setMode(new SparqlMode());
+            this.prefixesEditor.setTheme('ace/theme/chrome');
+        });
     }
 
     /**

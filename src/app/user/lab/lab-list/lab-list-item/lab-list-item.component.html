@@ -15,20 +15,10 @@
                 </span>
 
                 <!-- keywords -->
-                <ng-container *featureFlag="'S21_keywords.fe'; else tags">
-                    <collapsible-text *ngIf="listItem.attributes.notes" 
-                        [tags]="listItem.attributes.keywords"
-                        [text]="listItem.attributes.notes">
-                    </collapsible-text>
-                </ng-container>
-                
-                <!-- tags -->
-                <ng-template #tags>
-                    <collapsible-text *ngIf="listItem.attributes.notes" 
-                        [tags]="listItem.attributes.tags"
-                        [text]="listItem.attributes.notes">
-                    </collapsible-text>
-                </ng-template>
+                <collapsible-text *ngIf="listItem.attributes.notes" 
+                    [tags]="listItem.attributes.keywords"
+                    [text]="listItem.attributes.notes">
+                </collapsible-text>
             </div>
         </div>
         <div class="col-md-3 order-2 order-md-1">

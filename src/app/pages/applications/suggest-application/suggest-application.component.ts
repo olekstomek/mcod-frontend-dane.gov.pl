@@ -146,7 +146,6 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
             this.cmsService.getSimplePage(CmsHardcodedPages.APPLICATION_DATA_PROCESSING_INFO),
             this.cmsService.getSimplePage(CmsHardcodedPages.APPLICATION_DATA_PROCESSING_CONSENT)
         ).subscribe(([pageInfo, pageConsent]) => {
-            console.log()
             this.cmsPageInfo = pageInfo['body'];
             this.cmsPageConsent = pageConsent['body'];
         });

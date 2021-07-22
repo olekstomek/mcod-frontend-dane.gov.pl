@@ -85,6 +85,19 @@
                                 </svg>Harmonogram OD
                             </a>
                         </li>
+
+                        <!-- forum -->
+                        <li class="vertical-menu__item" *hasPermission="PermissionPerRoles.BROWSE_FORUM">
+                            <a href="{{ forumUrl }}/session/sso" target="_blank">
+                                <svg class="icon icon-forum" role="img" aria-labelledby="icon-forum">
+                                    <title id="icon-forum">Forum</title>
+                                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-forum"></use>
+                                </svg>Forum
+                                <span class="sr-only">
+                                    {{ 'SkipTo.NewWindow' | translate }}
+                                </span>
+                            </a>
+                        </li>
                   </ul>
             </aside>
 

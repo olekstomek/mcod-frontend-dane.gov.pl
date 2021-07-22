@@ -68,16 +68,8 @@
     </div>
     
     <!-- keywords -->
-    <ng-container *featureFlag="'S21_keywords.fe'; else tags">
-        <div *ngIf="item.attributes.keywords?.length">
-            <app-keywords [tags]="item.attributes.keywords"></app-keywords>
-        </div>
-    </ng-container>
+    <div *ngIf="item.attributes.keywords?.length">
+        <app-keywords [tags]="item.attributes.keywords"></app-keywords>
+    </div>
 
-    <!-- tags -->
-    <ng-template #tags>
-        <div *ngIf="item.attributes.tags?.length">
-            <app-keywords [tags]="item.attributes.tags"></app-keywords>
-        </div>
-    </ng-template>
 </ng-container>

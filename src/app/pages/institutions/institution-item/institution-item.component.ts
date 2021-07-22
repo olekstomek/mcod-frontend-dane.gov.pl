@@ -1,25 +1,26 @@
-import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { SeoService } from '@app/services/seo.service';
-import { InstitutionsService } from '@app/services/institutions.service';
-import { UserService } from '@app/services/user.service';
 import { toggle, toggleVertically } from '@app/animations';
-import { IInstitution } from '@app/services/models/institution';
-import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
+import { DatasetCategoriesHelper } from '@app/pages/dataset/dataset-categories-helper.service';
+import { ApiConfig } from '@app/services/api';
+import { ApiModel } from '@app/services/api/api-model';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { InstitutionsService } from '@app/services/institutions.service';
+import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
+import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
+import { IInstitution } from '@app/services/models/institution';
 import {
     IListViewInstitutionItemCategoryFiltersModel,
     IListViewInstitutionItemFiltersModel
 } from '@app/services/models/page-filters/institution-item-filters';
-import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
-import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
-import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { SearchService } from '@app/services/search.service';
+import { SeoService } from '@app/services/seo.service';
+import { UserService } from '@app/services/user.service';
+import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
 import { TemplateHelper } from '@app/shared/helpers';
-import { ApiConfig } from '@app/services/api';
-import { ApiModel } from '@app/services/api/api-model';
-import { DatasetCategoriesHelper } from '@app/pages/dataset/dataset-categories-helper.service';
 
 /**
  * Institution Item Component
@@ -72,7 +73,8 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
                 protected selectedFiltersService: ListViewSelectedFilterService,
                 private listViewDetailsService: ListViewDetailsService,
                 private searchService: SearchService,
-                private categoriesHelper: DatasetCategoriesHelper) {
+                private categoriesHelper: DatasetCategoriesHelper,
+                private featureFlagService: FeatureFlagService) {
         super(filterService, activatedRoute, selectedFiltersService);
         this.Facets = [
             this.categoriesHelper.getOptionName(),
@@ -80,8 +82,13 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
             AggregationOptionType.FORMAT,
             AggregationOptionType.OPENNESS_SCORE,
             AggregationOptionType.VISUALIZATION_TYPE,
-            AggregationOptionType.TYPES
+            AggregationOptionType.TYPES,
+            AggregationOptionType.LICENSES
         ];
+
+        if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
+            this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
+        }
     }
 
     /**
@@ -158,6 +165,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
         return {
             [this.categoriesHelper.getFilterName()]: {}, [AggregationFilterNames.FORMAT]: {}, [AggregationFilterNames.OPENNESS_SCORE]: {},
             [AggregationFilterNames.VISUALIZATION_TYPE]: {}, [AggregationFilterNames.TYPES]: {},
+            [AggregationFilterNames.LICENSES]: {}, [AggregationFilterNames.UPDATE_FREQUENCY]: {},
             [AggregationFilterNames.DATE_FROM]: null, [AggregationFilterNames.DATE_TO]: null
         };
     }
@@ -172,6 +180,8 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.OPENNESS_SCORE]) +
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.VISUALIZATION_TYPE]) +
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.TYPES]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
             (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] ||
             this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0);
     }

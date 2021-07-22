@@ -3,8 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { SparqlExample } from '@app/pages/dataset/sparql/domain/SparqlExample';
 import { SparqlService } from '@app/pages/dataset/sparql/sparql.service';
+import { NotificationsService } from '@app/services/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Ace, edit, EditSession, require as aceRequire } from 'ace-builds';
+import 'ace-builds/src-noconflict/ext-beautify';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/mode-sparql';
 import 'ace-builds/src-noconflict/mode-text';
@@ -49,6 +51,12 @@ export class SparqlComponent implements OnInit, OnDestroy {
     resultCount: number;
 
     /**
+     * Determines if result preview visible
+     * @type {boolean}
+     */
+    isResultPreviewVisible: boolean = false;
+
+    /**
      * Current page
      * @type {number}
      */
@@ -75,6 +83,7 @@ export class SparqlComponent implements OnInit, OnDestroy {
     constructor(private readonly sparqlService: SparqlService,
                 private readonly fb: FormBuilder,
                 private readonly translateService: TranslateService,
+                private readonly notificationsService: NotificationsService,
                 private readonly ngZone: NgZone) {
     }
 
@@ -85,9 +94,15 @@ export class SparqlComponent implements OnInit, OnDestroy {
         this.exampleQueries = this.sparqlService.getExamples();
         this.searchForm = this.fb.group({
             editor: [''],
-            format: ['symbol:application/rdf+xml']
+            format: ['application/rdf+xml']
         });
         this.currentLang = this.translateService.currentLang.toLowerCase();
+
+        this.notificationsService.getAlerts()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+                this.isResultPreviewVisible = false;
+            });
     }
 
     /**
@@ -115,15 +130,19 @@ export class SparqlComponent implements OnInit, OnDestroy {
         this.sparqlService.search(this.searchForm.value.editor, this.searchForm.value.format, this.currentPage)
             .pipe(takeUntil(this.destroy$))
             .subscribe(res => {
+                this.notificationsService.clearAlerts();
                 this.resultCount = res.meta.count;
+                this.isResultPreviewVisible = true;
                 this.editorSetupTimeout = setTimeout(() => {
                     this.ngZone.runOutsideAngular(() => {
+                        const beautify = aceRequire('ace/ext/beautify');
                         this.resultEditor = edit('sparqlResult');
                         this.resultEditor.setReadOnly(true);
-                        this.resultEditor.setSession(new EditSession(res.data));
+                        this.resultEditor.setSession(new EditSession(res.data.attributes.result));
                         const EditorMode = this.getEditMode();
                         this.resultEditor.session.setMode(new EditorMode());
                         this.resultEditor.session.setUseWorker(false);
+                        beautify.beautify(this.resultEditor.session);
                     });
                 });
             });
@@ -147,19 +166,30 @@ export class SparqlComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Downloads result file
+     */
+    download() {
+        this.sparqlService.search(this.searchForm.value.editor, this.searchForm.value.format, this.currentPage)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(res => {
+                window.open(res.data.attributes.download_url, '_blank').focus();
+            });
+    }
+
+    /**
      * Creates edit mode for selected data type
      * @returns {any}
      */
     private getEditMode(): any {
         let EditorMode;
         switch (this.searchForm.value.format) {
-            case 'symbol:application/rdf+xml':
+            case 'application/rdf+xml':
                 EditorMode = aceRequire('ace/mode/xml').Mode;
                 break;
-            case 'symbol:application/sparql-results+xml':
+            case 'application/sparql-results+xml':
                 EditorMode = aceRequire('ace/mode/xml').Mode;
                 break;
-            case 'symbol:application/sparql-results+json':
+            case 'application/sparql-results+json':
                 EditorMode = aceRequire('ace/mode/json').Mode;
                 break;
             default:

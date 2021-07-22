@@ -7,15 +7,14 @@
             </h1>
             
             <!-- METADATA -->
-            <ng-container *featureFlag="'S23_download_metadata.fe'">
-                <app-dataset-metadata class="pb-2" [selfLink]="selfApi" *ngIf="selfApi" @toggleVertically></app-dataset-metadata>
-            </ng-container>
+            <app-dataset-metadata class="pb-2" [selfLink]="selfApi" *ngIf="selfApi"
+                                  @toggleVertically></app-dataset-metadata>
         </div>
 
         <!-- search suggest -->
         <app-search-suggest
             tooltipText="{{ 'Tour.Tooltip.Dataset.SearchBar.text' | translate }}"
-            searchQueryRulesTooltipText="{{ 'Tour.Tooltip.Dataset.SearchQueryRules.text' | translate }}"
+            [isSparqlSearchButtonVisible]="true"
             [searchQuery]="params.q"
             [apiModels]="[apiModel.DATASET, apiModel.RESOURCE]"
             [maxResultsPerModel]="3"
@@ -128,53 +127,26 @@
                     </app-dataset-selected-filters>
 
                     <!-- counters and sort -->
-                    <ng-container *featureFlag="'S24_sparql_editor.fe' else legacyCounter">
-                        <app-found-results-counters-and-sort
-                                *ngIf="count && items?.length"
-                                tooltipText="{{'Tour.Tooltip.Dataset.Found.text' | translate }}"
-                                tooltipTitle="{{ 'Tour.Tooltip.Dataset.Found.title' | translate }}"
-                                [isSparqlSearchButtonVisible]="true"
-                                [selected]="params?.sort"
-                                [selectedModel]="params['model[terms]'] ? params['model[terms]'] : apiModel.DATASET +','+ apiModel.RESOURCE"
-                                (update)="updateParams($event)"
-                                [counters]="[
+                    <app-found-results-counters-and-sort
+                        *ngIf="count && items?.length"
+                        tooltipText="{{'Tour.Tooltip.Dataset.Found.text' | translate }}"
+                        tooltipTitle="{{ 'Tour.Tooltip.Dataset.Found.title' | translate }}"
+                        [selected]="params?.sort"
+                        [selectedModel]="params['model[terms]'] ? params['model[terms]'] : apiModel.DATASET +','+ apiModel.RESOURCE"
+                        (update)="updateParams($event)"
+                        [counters]="[
                             {label:'Attribute.AllData' | translate, count: count, value: apiModel.DATASET +','+ apiModel.RESOURCE, url: null},
                             {label:'Datasets.Self' | translate, count: counters?.datasets, value: apiModel.DATASET, url: null},
                             {label:'Resources.Self' | translate, count: counters?.resources, value: apiModel.RESOURCE, url: null}
                         ]"
-                                [sortOptions]="[
+                        [sortOptions]="[
                                 {label:'Sort.Default' | translate, value: 'relevance'},
                                 {label:'Attribute.NameAsc' | translate, value: 'title'},
                                 {label:'Attribute.NameDesc' | translate, value: '-title'},
                                 {label:'Attribute.Date' | translate, value: '-date'},
                                 {label:'Attribute.Popularity' | translate, value: '-views_count'}
                                 ]">
-                        </app-found-results-counters-and-sort>
-                    </ng-container>
-
-                    <!-- counters and sort without sparql -->
-                    <ng-template #legacyCounter>
-                        <app-found-results-counters-and-sort
-                                *ngIf="count && items?.length"
-                                tooltipText="{{'Tour.Tooltip.Dataset.Found.text' | translate }}"
-                                tooltipTitle="{{ 'Tour.Tooltip.Dataset.Found.title' | translate }}"
-                                [selected]="params?.sort"
-                                [selectedModel]="params['model[terms]'] ? params['model[terms]'] : apiModel.DATASET +','+ apiModel.RESOURCE"
-                                (update)="updateParams($event)"
-                                [counters]="[
-                            {label:'Attribute.AllData' | translate, count: count, value: apiModel.DATASET +','+ apiModel.RESOURCE, url: null},
-                            {label:'Datasets.Self' | translate, count: counters?.datasets, value: apiModel.DATASET, url: null},
-                            {label:'Resources.Self' | translate, count: counters?.resources, value: apiModel.RESOURCE, url: null}
-                        ]"
-                                [sortOptions]="[
-                                {label:'Sort.Default' | translate, value: 'relevance'},
-                                {label:'Attribute.NameAsc' | translate, value: 'title'},
-                                {label:'Attribute.NameDesc' | translate, value: '-title'},
-                                {label:'Attribute.Date' | translate, value: '-date'},
-                                {label:'Attribute.Popularity' | translate, value: '-views_count'}
-                                ]">
-                        </app-found-results-counters-and-sort>
-                    </ng-template>
+                    </app-found-results-counters-and-sort>
 
                     <!-- api notifications -->
                     <app-notifications></app-notifications>

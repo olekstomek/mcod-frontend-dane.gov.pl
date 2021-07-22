@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -57,7 +58,8 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
      */
     constructor(public cmsService: CmsService,
                 public route: ActivatedRoute,
-                public router: Router) {
+                public router: Router,
+                @Inject(DOCUMENT) private document: Document) {
 
         /**
          * sets isDetailView value
@@ -82,9 +84,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (section.type !== 'link' && section.children && (section.children[0].type === 'link' && !section.children[0].settings.url.match(/^http(s)?:\/\//))) {
-            this.router.navigate([this.router.url + '/' + section.children[0].settings.url]);
-        }
+        this.router.navigate([this.router.url + '/' + section.children[0].settings.url]);
     }
 
     /**
@@ -93,7 +93,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.queryParams = {...this.route.snapshot.queryParams};
         this.requestedUrl = this.router.url;
-        this.pageCmsCss = this.route.snapshot.data.slug;
+        this.pageCmsCss = `${this.route.snapshot.data.slug} ${this.route.snapshot.data.cssContainerClass}`;
 
         this.requestedUrl = this.router.url;
         const previewIndex = this.requestedUrl.indexOf(`/${this.routerEndpoints.PREVIEW}`);
@@ -118,8 +118,11 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
         this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev)
             .subscribe((page: IPageCms) => {
                     this.body = Array.isArray(page.body) ? page.body : page.body.blocks;
-                    this.findElementsWithLinks(this.body);
-                    this.addClassnameProperty(this.body);
+
+                    if (this.body) {
+                        this.findElementsWithLinks(this.body);
+                        this.addClassnameProperty(this.body);
+                    }
                 },
                 err => {
                     this.cmsService.displayCmsErrorMessage(this.requestedUrl, err.message);
@@ -148,6 +151,19 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
      * @param {IWidget} component
      */
     private bindLink(component: IWidget) {
+        const {origin} = this.document.location;
+        const {url} = component.settings;
+
+        if (url.indexOf(origin) !== -1) {
+            component.settings.isExternalUrl = true;
+        } else {
+            if (url.match(/^http(s)?:\/\//)) {
+                component.settings.isExternalUrl = true;
+            } else {
+                component.settings.isExternalUrl = false;
+            }
+        }
+
         component.children.forEach(child => {
             if (!child.settings.url) {
                 child.settings.url = component.settings.url;
@@ -155,12 +171,14 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
                 if (component.type === WidgetType.LINK) {
                     if (child.type === WidgetType.TEXT) {
                         component.settings.text = child.settings.text;
-                        component.children = [];
+                        if (!component.children.find(child => child.type === WidgetType.IMAGE)) {
+                            component.children = [];
+                        }
                     }
-                    
+
                     if (child.type === WidgetType.IMAGE && component.settings.title) {
                         child.settings.image.title = component.settings.title;
-                    }                    
+                    }
                 }
             }
         });

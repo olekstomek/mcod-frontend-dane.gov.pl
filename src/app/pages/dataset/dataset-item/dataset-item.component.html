@@ -6,30 +6,18 @@
         </h1>
 
         <!-- metadata -->
-        <ng-container *featureFlag="'S23_download_metadata.fe'">
-            <app-dataset-metadata class="d-block pb-3" 
-                [selfLink]="dataset.links.self" 
-                [datasetId]="dataset.id" 
-                [islistView]="false"
-                @toggleVertically>
-            </app-dataset-metadata>
-        </ng-container>
-        
+        <app-dataset-metadata class="d-block pb-3"
+                              [selfLink]="dataset.links.self"
+                              [datasetId]="dataset.id"
+                              [islistView]="false"
+                              @toggleVertically>
+        </app-dataset-metadata>
+
         <!-- keywords -->
-        <ng-container *featureFlag="'S21_keywords.fe'; else tags">
-            <collapsible-text *ngIf="dataset.attributes.notes" 
-                [tags]="dataset.attributes.keywords"
-                [text]="dataset.attributes.notes">
-            </collapsible-text>
-        </ng-container>
-        
-        <!-- tags -->
-        <ng-template #tags>
-            <collapsible-text *ngIf="dataset.attributes.notes" 
-                [tags]="dataset.attributes.tags"
-                [text]="dataset.attributes.notes">
-            </collapsible-text>
-        </ng-template>
+        <collapsible-text *ngIf="dataset.attributes.notes" 
+            [tags]="keywords"
+            [text]="dataset.attributes.notes">
+        </collapsible-text>
 
         <!-- logo -->
         <div class="pt-2" *ngIf="dataset.attributes.image_url">

@@ -35,6 +35,9 @@ export class CmsService {
      */
     private base_hostname: string;
 
+    /**
+     * @ignore
+     */
     constructor(private http: HttpClient,
                 private sanitizer: DomSanitizer,
                 private landingPageStyleService: LandingPageStyleService,
@@ -70,7 +73,7 @@ export class CmsService {
      */
     getHomePageWidgets(): Observable<any> {
         const url = `${this.base_hostname}${ApiCmsConfig.BASE_URL}${ApiCmsConfig.HOME_PAGE}/?lang=${this.translate.currentLang}`;
-        return this.http.get(url);
+        return this.http.get(url, this.getCredentials());
     }
 
     /**
@@ -80,7 +83,7 @@ export class CmsService {
      */
     getImageMetaData(id: number): Observable<any> {
         const url = ApiCmsConfig.IMAGES + id + '/';
-        return this.get(url);
+        return this.get(url, this.getCredentials());
     }
 
     /**
@@ -88,7 +91,7 @@ export class CmsService {
      * @param url image
      */
     getImage(url: string) {
-        return this.http.get(this.base_hostname + url, {responseType: 'blob'})
+        return this.http.get(this.base_hostname + url, {...this.getCredentials(), responseType: 'blob'})
         .pipe(map(response => {
             return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response));
         }));
@@ -146,7 +149,7 @@ export class CmsService {
             return of();
         }
 
-        return this.http.get<IPageCms>(landingPageUrl, {withCredentials: true,params: params}).pipe(
+        return this.http.get<IPageCms>(landingPageUrl, {...this.getCredentials(), params: params}).pipe(
             map(page => {
                 return {
                     ...page,
@@ -168,7 +171,7 @@ export class CmsService {
         const simplePageUrl = this.getUrl(relativeUrl);
         const params = this.createParamsObj(lang, revision);
 
-        return this.http.get<IPageCms>(simplePageUrl, {withCredentials: true, params: params}).pipe(
+        return this.http.get<IPageCms>(simplePageUrl, {...this.getCredentials(), params: params}).pipe(
             map(page => {
                 return {
                     ...page,
@@ -190,7 +193,7 @@ export class CmsService {
 
         const formsPageUrl = this.getUrl(relativeUrl);
         const params = this.createParamsObj(lang, revision);
-        return this.http.get<ICmsForm>(formsPageUrl, {withCredentials: true, params: params});
+        return this.http.get<ICmsForm>(formsPageUrl, {...this.getCredentials(), params: params});
     }
 
     /**
@@ -234,7 +237,7 @@ export class CmsService {
     /**
      * Create http params objects used in static pages and forms CMS Api requests
      * @param {string} lang
-     * @param {string} revision
+     * @param {string} revision 
      * @return {HttpParams}
      */
     private createParamsObj(lang: string, revision?: string): HttpParams {
@@ -248,5 +251,25 @@ export class CmsService {
         return params;
     }
 
+    /**
+     * Gets credentials based on current environment
+     * @returns {{withCredentials: boolean}}
+     */
+    getCredentials():{[key: string]: boolean} {
+        let hasCredentials: boolean;
+        switch (this.document.location.hostname) {
+            case 'localhost':
+            case 'dev.dane.gov.pl':
+            case 'int.dane.gov.pl':
+                hasCredentials = false;
+                break;
+            default:
+                hasCredentials = true;
+        }
+
+        return {
+            withCredentials: hasCredentials
+        };
+    }
 
 }

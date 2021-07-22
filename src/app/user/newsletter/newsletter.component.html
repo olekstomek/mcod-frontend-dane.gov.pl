@@ -120,16 +120,8 @@
                 </div>
     
                 <!-- personal data use rules -->
-                <ng-container *featureFlag="'S24_cms_consent.fe'; else dataUseRules">
-                    <div class="cms-consent-list ml-5 pl-3" [innerHTML]="cmsPageInfo.body | textToLinks | sanitizeHtml" *ngIf="cmsPageInfo"></div>
-                </ng-container>
+                <div class="cms-consent-list ml-5 pl-3" [innerHTML]="cmsPageInfo.body | textToLinks | sanitizeHtml" *ngIf="cmsPageInfo"></div>
 
-                <ng-template #dataUseRules>
-                    <div class="ml-5 mb-4 text-justify" style="white-space: pre-line;" 
-                        *ngIf="newsletterConsent?.personal_data_use_rules"
-                        [innerHTML]="newsletterConsent?.personal_data_use_rules | textToLinks | sanitizeHtml">
-                    </div>
-                </ng-template>
             </ng-container>
 
             <!-- fake submit -->

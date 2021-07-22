@@ -118,6 +118,11 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     activeTabIndex = 1;
 
     /**
+     * Keywords - coma separated string
+     */
+    keywords = '';
+
+    /**
      * Sort options
      */
     sortOptions: { labelTranslationKey: string, value: string }[] = [
@@ -154,6 +159,10 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
      */
     ngOnInit() {
         const {data: dataset, included: datasetRelated} = this.activatedRoute.snapshot.data.post;
+        
+        if (Array.isArray(dataset.attributes.keywords)) {
+            this.keywords = (dataset.attributes.keywords as []).join(', ');
+        }
 
         this.dataset = dataset;
         this.selfApi = this.dataset.links.self;

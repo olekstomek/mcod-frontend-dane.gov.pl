@@ -10,6 +10,7 @@ export interface ISettings {
     sizeSM?: number;
     sizeXS?: number;
     url?: string;
+    isExternalUrl?: boolean;
     title?: string;
     video_url?: string;
     video_caption?: string;

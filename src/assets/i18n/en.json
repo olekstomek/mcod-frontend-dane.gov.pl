@@ -14,6 +14,7 @@
     "Modal": "Modal window",
     "SourceCode": "Portal source code",
     "ApiDocumentation": "API Documentation",
+    "RDFDocumentation": "RDF Documentation",
     "Hint": "Hint",
 
     "ROUTES.404": "404",
@@ -108,17 +109,7 @@
         "SuggestionSentSuccess": "Thank you for submitting the application suggestion",
         "EnterName": "Enter name",
         "Link": "Link",
-        "DataProcessing": "I hereby confirm that I have taken note of the following information",
-        "DataProcessing1": "The data controller is the Minister of Digital Affairs, based in Warsaw (00-060) at ul. Królewska 27. ",
-        "DataProcessing2": "The data controller can be contacted via the e-mail address mc@mc.gov.pl, via ePUAP or in writing to the address of the controller’s seat.",
-        "DataProcessing3": "The data controller has appointed a data protection officer who can be contacted by e-mail iod@mc.gov.pl. The data protection officer can be contacted in all matters related to the processing of your data by the Ministry of Digital Affairs and the use of your rights related to data processing.",
-        "DataProcessing4": "Your data will be processed for the purpose of contacting and publishing the sent application on the dane.gov.pl portal. Legal basis: consent to data processing (Article 6 para. 1 letter a of the GDPR).",
-        "DataProcessing5": "Your personal data may be made available to entities on the basis of applicable regulations (e.g. court, police).",
-        "DataProcessing6": "Your data will be processed until consent to their processing is revoked. The consent to the processing of personal data may be withdrawn at any time by sending an e-mail to mc@mc.gov.pl, via ePUAP or in writing to the address of the controller's office. Withdrawal of consent does not affect the lawfulness of processing based on consent before the withdrawal thereof.",
-        "DataProcessing7": "You have the right to access your data and the right to request rectification, deletion, processing restrictions, the right to transfer data, the right to withdraw consent at any time without affecting the lawfulness of processing which was made on the basis of consent before its withdrawal.",
-        "DataProcessing8": "Providing data is a condition for submitting the application and failure to do so will make it impossible to submit the application.",
-        "DataProcessing9": "You have the right to lodge a complaint with the supervisory body dealing with the protection of personal data in the Member State of your habitual residence, place of work or place of the alleged infringement in a situation where the processing of personal data violates the provisions on the protection of personal data. President of the Personal Data Protection Office (PUODO) ul. Stawki 2, 00-193 Warsaw",
-        "TermsOfService": " I hereby consent to the processing of my personal data (e-mail, author) in order to make contact and publish the application sent by me on the dane.gov.pl portal. The consent to the processing of personal data may be withdrawn at any time by sending an e-mail to mc@mc.gov.pl, via ePUAP or in writing to the address of the controller's office. Withdrawal of consent does not affect the lawfulness of the processing which was carried out on the basis of consent before the withdrawal thereof."
+        "DataProcessing": "I hereby confirm that I have taken note of the following information"
     },
 
     "Applications": {
@@ -150,6 +141,8 @@
         "Category": "Category",
         "CategoryLong": "Data category",
         "CategoryTooltip": "categories",
+        "LicenseLong": "Choose license",
+        "LicenseTooltip": "license",
         "Format": "Format",
         "FormatLong": "Format of provided data",
         "FormatTooltip": "format",
@@ -318,7 +311,8 @@
         "NoEditPermission": "No permission to define chart",
         "AxisX": "X axis",
         "AxisY": "Y axis",
-        "DataTable": "Chart data in tabular form"
+        "DataTable": "Chart data in tabular form",
+        "Name": "Chart name"
     },
 
     "Cms": {
@@ -364,7 +358,7 @@
         "Institution": "Name of the organization responsible for the data",
         "DataLink": "Data link",
         "ReleaseDate": "Date released",
-        "Feedback": "Enter your feedback on the above suggestion",
+        "Feedback": "Enter your rate or feedback on the above suggestion",
         "Message": "Thank you for your feedback",
         "UserSuggestions": "See what other users have suggested"
     },
@@ -405,8 +399,10 @@
         "LicenseType": "License type",
         "LinkToLicense": "Link to the license",
         "LicenseSummaryLink": "Below is an accessible license summary, which is also available at the link:",
-        "None": "This dataset can be used without any restrictions.",
-        "Intro": "This dataset can be used under following restrictions:",
+        "None": "This data resource can be used without any restrictions.",
+        "Intro": "This data resource can be used under following restrictions:",
+        "NoneDataset": "This dataset can be used without any restrictions.",
+        "IntroDataset": "This dataset can be used under following restrictions:",
         "Source": "The recipient should inform about the date, time of completion and obtaining information from the obliged entity",
         "Original": "The recipient should include a copy of the information in the originally obtained form by providing the processed information",
         "Modification": "The recipient should inform about the processing of the information when it modifies it",
@@ -433,7 +429,8 @@
         "NoResources": "This dataset has currently no resources.",
         "Harvester": "Data collected automatically from:",
         "MetadataRelatedCatalog": "For the catalog",
-        "MetadataRelatedDataset": "For the dataset"
+        "MetadataRelatedDataset": "For the dataset",
+        "SubmissionItemInfo": "Suggestion submitted by user. It is considered by data providers who can make data available on the portal. If you want to express your opinion on the displayed suggestion use the form below."
     },
 
     "Embed": {
@@ -841,7 +838,7 @@
             "HomePage": {
                 "SearchBar": {
                     "title": "Searchbar",
-                    "text": "The word or a phrase entered into the field are searched in all objects on the portal, i.e. titles and descriptions of datasets and data, in data providers, applications, articles and knowledge base. The match rate, i.e. the number of searched words is the key aspect. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                    "text": "The word or a phrase entered into the field are searched in all objects on the portal, i.e. titles and descriptions of datasets and data, in datasets publishers, applications, articles and knowledge base."
                 },
                 "DataCategories": {
                     "title": "Select data category",
@@ -859,29 +856,25 @@
             "SearchResults": {
                 "SearchBar": {
                     "title": "Searchbar",
-                    "text": "The word or a phrase entered into the field are searched in all objects on the portal, i.e. titles and descriptions of datasets and data, in data providers, applications, articles and knowledge base. The match rate, i.e. the number of searched words is the key aspect. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                    "text": "The word or a phrase entered into the field are searched in all objects on the portal, i.e. titles and descriptions of datasets and data, in datasets publishers, applications, articles and knowledge base."
                 }
             },
             "Dataset": {
                 "SearchBar": {
                     "title": "Searchbar",
-                    "text": "The word or a phrase entered in the “Search Data” field are looked up in the contents of the attributes – title, description, keywords – of two objects: data sets and data. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the searched attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter."
-                },
-                "SearchQueryRules": {
-                    "title": "Searchbar",
-                    "text": "Search can be done in four ways:\n- any of the words – it is sufficient for just one from the searched phrase to be found,\n- all the words – all the words from the phrase must be found, however not necessarily in the order they were entered in the search area, otherwise the search brings a negative result,\n- exact words – it is sufficient for just one from the phrase to be found, however it must be identical to the manner in which it was entered in the search field,\n- include the synonyms – the search engine uses a special dictionary of synonyms and also searches for synonyms"
+                    "text": "The word or a phrase entered in the field are searched in the contents of the attributes – title, description, keywords – of two objects: datasets and data. "
                 },
                 "Found": {
                     "title": "Found",
-                    "text": "The searched data sets or data are presented on a single collective list and in separate tabs on top of the list. Clicking the correct tab allows to filter search results of datasets or data."
+                    "text": "The searched objects are presented on a single collective list, divided per object type in separate tabs over the list."
                 },
                 "Follow": {
                     "title": "Follow Button",
-                    "text": "Selecting this function starts the procedure continuously informing the user about all changes in the selected database. The changes are signalled by the notification icon displayed in the status bar in the website header, and the details are provided on the dedicated functionality tile “My dashboard” The function is available only for logged-in users."
+                    "text": "Selecting this function starts the procedure continuously informing the user about all changes in the selected dataset. The changes are signalled by the notification icon displayed in the status bar in the website header."
                 },
                 "FollowSearchResult": {
                     "title": "Follow search result",
-                    "text": "Each search may be saved under a distinctive name. It launches a function for informing about the changes in the number of searched results for the criteria saved earlier. The function is available only for logged-in users.  The changes are signalled by the notification icon displayed in the status bar in the website header, and the details are provided on the dedicated functionality tile “My  dashboard”"
+                    "text": "Selecting this function starts the procedure continuously informing the user about the changes in number of searched results  for the criteria saved earlier. The changes are signalled by the notification icon displayed in the status bar in the website header."
                 },
                 "API": {
                     "title": "See data via API",
@@ -905,7 +898,7 @@
                 },
                 "Follow": {
                     "title": "Follow Button",
-                    "text": "Selecting this function starts the procedure continuously informing the user about all changes in the selected database. The changes are signalled by the notification icon displayed in the status bar in the website header, and the details are provided on the dedicated functionality tile “My dashboard” The function is available only for logged-in users."
+                    "text": "Selecting this function starts the procedure continuously informing the user about all changes in the selected database. The changes are signalled by the notification icon displayed in the status bar in the website header."
                 },
                 "History": {
                     "title": "Dataset history",
@@ -931,43 +924,51 @@
             "Filters": {
                 "Self": {
                     "title": "Filters",
-                    "text": "Using filters allows to match the search results to the user’s needs Selecting the values in subsequent filters narrows the search results. The applied filter is visible on top of the list of search results."
+                    "text": "Using filters allows to match the search results to the user’s needs."
                 },
                 "Attribute": {
                     "CategoryLong": {
                         "title": "Filters - category",
-                        "text": "Selecting one or more categories and clicking the “Apply” button restricts the search results to the datasets belonging to these categories.  The applied filter is visible on top of the list with search results."
+                        "text": "Selecting one or more categories and clicking the “Apply” button restricts the search results to the datasets belonging to these categories. "
+                    },
+                    "LicenseLong": {
+                        "title": "Filters - select license",
+                        "text": "Selecting one or more licenses and clicking the “Apply” button restricts the search results to the datasets and data shared under selecting license."
+                    },
+                    "UpdateFrequency": {
+                        "title": "Filters - update frequency",
+                        "text": "You can select the frequency according to which the data is updated. The data is updated according to the periods specified by the data provider. You can select one or more frequencies. Confirm your choice with the ”Apply” button."
                     },
                     "InstitutionLong": {
                         "title": "Filters - publisher",
-                        "text": "Selecting one or more categories and clicking the “Apply” button restricts the search results to the datasets and data published by these providers.  The applied filter is visible on top of the list with search results."
+                        "text": "Selecting one or more publishers and clicking the “Apply” button restricts the search results to the datasets and data provided by these publishers."
                     },
                     "FormatLong": {
                         "title": "Filters - format",
-                        "text": "Selecting one or more formats and clicking the “Apply” button restricts the search results to the datasets and data in these formats.  The applied filter is visible on top of the list with search results."
+                        "text": "Selecting one or more formats and clicking the “Apply” button restricts the search results to the datasets and data in these formats."
                     },
                     "OpennessScore": {
                         "title": "Filters - openness score",
-                        "text": "5 openness levels is a useful tool used for classifying resources with respect to openness. Higher data openness level means that the data are better prepared for further processing. Selecting one or more openness levels and clicking the “Apply” button restricts the search results to the datasets and data with selected openness.  The applied filter is visible on top of the list with search results."
+                        "text": "5 openness levels is a useful tool used for classifying datasets with respect to openness. Higher data openness level means that the data are better prepared for further processing. Selecting one or more openness levels and clicking the “Apply” button restricts the search results to the datasets and data with selected openness."
                     },
                     "VisualizationType": {
                         "title": "Filters - visualization type",
-                        "text": "Selecting one or more visualisation methods and clicking the “Apply” button restricts the search results to the search results and datasets having these visualisation methods.  The applied filter is visible on top of the list with search results."
+                        "text": "Selecting one or more visualisation methods and clicking the “Apply” button restricts the search results to the datasets and data having these visualisation methods.  Visualisation methods are defined by a publisher."
                     },
                     "ResourceType": {
                         "title": "Filters - resource type",
-                        "text": "Selecting one or more visualisation methods and clicking the “Apply” button restricts the search results to the datasets and data holding these resource types.  The applied filter is visible on top of the list with search results."
+                        "text": "You can select one or more data types: API, download file or visit the publisher website with data. Clicking the “Apply” button restricts the search results to the datasets and data holding these data types."
                     },
                     "DateRange": {
                         "title": "Filters - date range",
-                        "text": "Selecting a range of dates and clicking the “Apply” button restricts the search results to the datasets and data whose update dates and data as at are within the entered range."
+                        "text": "Selecting a range of dates and clicking the “Apply” button restricts the search results to the datasets and data whose update dates are within the entered range."
                     }
                 }
             },
             "Applications": {
                 "Search": {
                     "title": "Searchbar",
-                    "text": "The word or a phrase entered in the “Search Application” field are searched in the contents of the applications attributes – title and description. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the application attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter.  After entering the third letter, the search engine suggest the best matching objects. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                    "text": "The word or a phrase entered in the “Search Application” field are searched in the titles and descriptions."
                 },
                 "Suggest": {
                     "title": "Suggest an application",
@@ -977,7 +978,7 @@
             "Article": {
                 "Search": {
                     "title": "Searchbar",
-                    "text": "The word or a phrase entered in the “Search Article” field are searched in the contents of the applications attributes – title and description. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the searched article attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter.  After entering the third letter, the search engine suggest the best matching objects. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                    "text": "The word or a phrase entered in the “Search Article” field are searched in the titles and descriptions."
                 }
             },
             "ApplicationDetails": {
@@ -993,11 +994,11 @@
             "DataResource": {
                 "Search": {
                     "title": "Searchbar",
-                    "text": "The word or phrase entered in the “Search...” field are found in the data entered in tables in text-type columns. Selecting the “Show Filters” button grants you with access to the filter definition section."
+                    "text": "The word or phrase entered in the “Search...” field are searched in in text-type columns in whole table. Selecting the “Show Filters” button grants you with access to the filter definition section."
                 },
                 "Filters": {
                     "title": "Show filters",
-                    "text": "When defining a filter, we must select a column, operator and value. More than one filter may be defined. Searching and filtering relates to three views – table, chart, map."
+                    "text": "When defining a filter, we must select a column, operator and value. More than one filter may be defined."
                 },
                 "Table": {
                     "title": "Table",
@@ -1012,12 +1013,12 @@
                     "text": "Tab allowing to present the data on a map."
                 },
                 "Parameters": {
-                    "title": "Show parameters",
-                    "text": "The button displays a section allowing to define a chart. If the chart was not defined by the data Provider, or if the user does not accept its current form, he or she may create their own chart and display, copy or save it on the portal."
+                    "title": "Show parameters/Hide parameters",
+                    "text": "The button displays/hides a section allowing to define a chart. The user may create their own chart."
                 },
                 "ShowChart": {
                     "title": "Preview chart",
-                    "text": "Select chart type, select columns for X and Y axes. More than one column may be selected on the Y axis. Select the “Display chart” button to see a defined chart."
+                    "text": "Select the “Display chart” button to see a defined chart."
                 },
                 "SaveChart": {
                     "title": "Save chart",

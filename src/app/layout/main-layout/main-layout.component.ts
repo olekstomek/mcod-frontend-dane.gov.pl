@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { filter, take } from 'rxjs/operators';
 
 import { RoutingHelper } from '@app/services/commons/routing-helper';
 
@@ -16,8 +17,17 @@ export class MainLayoutComponent {
     /**
      * Checks wheater it is homepage or any other page
      * @param router
+     * @param localize
      */
-    constructor(private router: Router) {
+    constructor(private router: Router,
+                private localize: LocalizeRouterService) {
+
+        this.localize.hooks.initialized
+            .pipe(take(1))
+            .subscribe(() => {
+                this.isHomepage = RoutingHelper.isHomePage(router.url);
+            });
+
         this.router.events
             .pipe(
                 filter((event) => event instanceof NavigationEnd)

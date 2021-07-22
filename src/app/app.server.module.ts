@@ -1,6 +1,13 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { TransferState } from '@angular/platform-browser';
 import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
+
+import { AbsoluteUrlInterceptor } from '@app/ssr/absolute-url-interceptor.service';
+import { ResponseService } from '@app/ssr/response.service';
+import { ServerCookieService } from '@app/ssr/server-cookie.service';
+import { ServerStorageService } from '@app/ssr/server-storage.service';
+import { TranslateUniversalLoader } from '@app/ssr/translate-universal-loader.service';
 import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalStorageService } from 'ngx-localstorage';
@@ -8,11 +15,9 @@ import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 
-import { AbsoluteUrlInterceptor } from '@app/ssr/absolute-url-interceptor.service';
-import { ResponseService } from '@app/ssr/response.service';
-import { ServerCookieService } from '@app/ssr/server-cookie.service';
-import { ServerStorageService } from '@app/ssr/server-storage.service';
-import { TranslateUniversalLoader } from '@app/ssr/translate-universal-loader.service';
+export function translateServerLoaderFactory(transferState: TransferState) {
+    return new TranslateUniversalLoader(transferState);
+}
 
 @NgModule({
     imports: [
@@ -22,7 +27,8 @@ import { TranslateUniversalLoader } from '@app/ssr/translate-universal-loader.se
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
-                useClass: TranslateUniversalLoader
+                useFactory: translateServerLoaderFactory,
+                deps: [TransferState]
             },
             parser: {
                 provide: TranslateParser,

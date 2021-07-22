@@ -11,7 +11,7 @@
 </span>
 
 <!-- rdf -->
-<a href="{{ selfApiRdf }}" target="_blank">
+<a href="{{ selfApiRdf }}?lang={{currentLang}}" target="_blank">
     <svg class="icon icon-file-download" role="img" aria-labelledby="icon-file-rdf-title">
         <title id="icon-file-rdf-title">
             {{ 'Action.Download' | translate }} RDF
@@ -21,11 +21,21 @@
 </a>
 
 <!-- csv -->
-<a href="{{ selfApiCsv }}" target="_blank">
+<a href="{{ selfApiCsv }}?lang={{currentLang}}" target="_blank">
     <svg class="icon icon-file-download ml-2" role="img" aria-labelledby="icon-file-csv-title">
         <title id="icon-file-csv-title">
             {{ 'Action.Download' | translate }} CSV
         </title>
         <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-file-csv"></use>
+    </svg>
+</a>
+
+<!-- xml -->
+<a *featureFlag="'S27_xml_metadata.pl'" href="{{ selfApiXml }}?lang={{currentLang}}" target="_blank">
+    <svg class="icon icon-file-download ml-2" role="img" aria-labelledby="icon-file-xml-title">
+        <title id="icon-file-xml-title">
+            {{ 'Action.Download' | translate }} XML
+        </title>
+        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-file-xml"></use>
     </svg>
 </a>

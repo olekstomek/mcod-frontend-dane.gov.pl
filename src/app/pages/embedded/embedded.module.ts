@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ResourceFilterModule } from '@app/shared/resource-filters/resource-filter.module';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
@@ -19,6 +20,7 @@ import { SharedModule } from '@app/shared/shared.module';
         MapModule,
         ResourceChartModule,
         DatepickerModule,
+        ResourceFilterModule,
         TranslateModule.forChild({
             parser: {
                 provide: TranslateParser,

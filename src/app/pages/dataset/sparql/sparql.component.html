@@ -44,11 +44,10 @@
                         <div class="form-group d-md-inline-block sparql-editor--select-container mr-md-2">
                             <label class="heading heading--xs sparql--format-label" for="formatSelect">{{'Sparql.Format' | translate}}</label>
                             <select [formControlName]="'format'" id="formatSelect" class="form-control">
-                                <!--  TODO add proper BE value                              -->
-                                <option value="symbol:application/rdf+xml">RDF/XML</option>
-                                <option value="symbol:application/sparql-results+xml">XML</option>
-                                <option value="symbol:application/sparql-results+json">JSON</option>
-                                <option value="symbol:text/csv">CSV</option>
+                                <option value="application/rdf+xml">RDF/XML</option>
+                                <option value="application/sparql-results+xml">XML</option>
+                                <option value="application/sparql-results+json">JSON</option>
+                                <option value="text/csv">CSV</option>
 
                             </select>
 
@@ -64,7 +63,7 @@
             <app-notifications></app-notifications>
 
             <!--  Result preview -->
-            <ng-container *ngIf="resultCount > 0">
+            <ng-container *ngIf="isResultPreviewVisible">
                 <div class="row mt-4">
                     <div class="col">
                         <h2 class="heading heading--md">{{'Sparql.ResultPreview' | translate}}</h2>
@@ -79,10 +78,11 @@
                         <div class="d-flex align-items-center">
                             <button
                                     type="button"
-                                    class="btn btn-primary">
+                                    class="btn btn-primary"
+                                    (click)="download()">
                                 {{'Action.Download' | translate}}
                             </button>
-                            <div class="ml-auto">
+                            <div class="ml-auto" *ngIf="resultCount > 0">
                                 <app-pagination
                                         [itemsPerPage]="100"
                                         [totalItems]="resultCount"

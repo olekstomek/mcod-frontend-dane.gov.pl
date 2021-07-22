@@ -1,5 +1,5 @@
 <form class="custom-form bg-custom p-2 p-sm-3" [formGroup]="chartForm">
-
+    
     <!-- TYPE -->
     <div class="form-group"
          [ngClass]="{'form-group-invalid': chartForm.get('chart_type').errors}">
@@ -302,24 +302,57 @@
 
         <!-- SAVE & DELETE -->
         <span class="ml-0 ml-md-auto mt-1 mt-sm-0">
-
+            
+            <!-- NAMED CHART MODE -->
+            <ng-container *ngIf="isNamedChartMode">
+            <!-- toggle name form -->
             <span appInfoTooltip="{{'Tour.Tooltip.DataResource.SaveChart.text' | translate }}"
                   tooltipTitle="{{ 'Tour.Tooltip.DataResource.SaveChart.title' | translate }}">
                 <!-- Save -->
-            <button type="button" class="btn btn-primary" *ngIf="isSaveAvailable"
-                    (click)="onSaveChart()">
-                {{ 'Action.Remember' | translate }}
-                {{ 'Chart.Self' | translate | lowercase }}
-            </button>
+                <button type="button" class="btn btn-primary" 
+                    *ngIf="isSaveAvailable" 
+                    attr.aria-controls="chart-name-form-wrapper"
+                    [attr.aria-pressed]="isNameFormVisible"
+                    (click)="isNameFormVisible=!isNameFormVisible">
+                    {{ 'Action.Remember' | translate }}
+                    {{ 'Chart.Self' | translate | lowercase }}
+                </button>
 
                 <!-- fake Save -->
-            <button type="button" class="btn btn-secondary" *ngIf="!isSaveAvailable"
-                    [attr.aria-disabled]="true">
-                {{ 'Action.Remember' | translate }}
-                {{ 'Chart.Self' | translate | lowercase }}
-            </button>
+                <button type="button" class="btn btn-secondary" *ngIf="!isSaveAvailable" [attr.aria-disabled]="true">
+                    {{ 'Action.Remember' | translate }}
+                    {{ 'Chart.Self' | translate | lowercase }}
+                </button>
             </span>
+            
+            <!-- Revoke chart settings -->
+            <button type="button" class="btn btn-outline-danger ml-1" *ngIf="savedChartId && isSaveAvailable"
+                (click)="onRevokeChartSettings()">
+                Przywróć parametry wykresu
+            </button>
+            <button type="button" class="btn btn-outline-secondary ml-1" *ngIf="!savedChartId || !isSaveAvailable">
+                Przywróć parametry wykresu
+            </button>
+            </ng-container>
 
+            
+            <!-- NOT NAMED CHART MODE -->
+            <ng-container *ngIf="!isNamedChartMode">
+            <!-- save form action -->
+            <span appInfoTooltip="{{'Tour.Tooltip.DataResource.SaveChart.text' | translate }}"
+                  tooltipTitle="{{ 'Tour.Tooltip.DataResource.SaveChart.title' | translate }}">
+                <!-- Save -->
+                <button type="button" class="btn btn-primary" *ngIf="isSaveAvailable" (click)="onSaveChart()">
+                    {{ 'Action.Remember' | translate }}
+                    {{ 'Chart.Self' | translate | lowercase }}
+                </button>
+
+                <!-- fake Save -->
+                <button type="button" class="btn btn-secondary" *ngIf="!isSaveAvailable" [attr.aria-disabled]="true">
+                    {{ 'Action.Remember' | translate }}
+                    {{ 'Chart.Self' | translate | lowercase }}
+                </button>
+            </span>
 
             <!-- Delete -->
             <button type="button" class="btn btn-outline-danger ml-1" *ngIf="savedChartId"
@@ -334,6 +367,15 @@
                 {{ 'Action.Remove' | translate }}
                 {{ 'Chart.Self' | translate | lowercase }}
             </button>  
+            </ng-container>
         </span>
+    </div>
+
+    <!-- Save Name Form -->
+    <div id="chart-name-form-wrapper" *ngIf="isNameFormVisible" @toggleVertically>
+        <app-resource-chart-name-form 
+            [name]="savedChartName" 
+            (formSaved)="onChartNameSaved($event)">
+        </app-resource-chart-name-form>
     </div>
 </form>

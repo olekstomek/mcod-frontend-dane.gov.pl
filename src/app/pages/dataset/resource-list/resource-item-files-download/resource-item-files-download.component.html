@@ -27,6 +27,15 @@
             (click)="onDownload(item.attributes.title, item.attributes.csv_download_url)">
         </app-download-link>
         
+        <!-- download jsonld file -->
+        <app-download-link *ngIf="item.attributes.jsonld_download_url"
+            [customCssClass]="'underline ml-3 ml-lg-0'"
+            [fileSize]="item.attributes.jsonld_file_size"
+            [fileUrl]="item.attributes.jsonld_file_url"
+            [format]="'json_ld'"
+            [title]="item.attributes.title"
+            (click)="onDownload(item.attributes.title, item.attributes.jsonld_download_url)">
+        </app-download-link>           
     </ng-container>
 
     <!-- resource api -->

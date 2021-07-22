@@ -52,6 +52,12 @@ export class TourItemTreeNode {
                 parentNode = rootNode.insert(new TourItemTreeNode(step, document));
                 continue;
             }
+
+            if (step.is_optional && !previousStep.is_optional && !previousStep.is_clickable && !previousStep.is_expandable) {
+                parentNode = rootNode.insert(new TourItemTreeNode(step, document));
+                continue;
+            }
+
             parentNode.insert(new TourItemTreeNode(step, document));
         }
         return rootNode;

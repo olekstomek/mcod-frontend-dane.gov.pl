@@ -21,6 +21,7 @@ import { SuggestDatasetComponent } from './suggest-dataset/suggest-dataset.compo
 
 import { AppBootstrapModule } from '@app/app-bootstrap/app-bootstrap.module';
 import { DatasetListViewFiltersComponent } from '@app/pages/dataset/dataset-list-view-filters/dataset-list-view-filters.component';
+import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
 import { DatasetService } from '@app/services/dataset.service';
 import { BreadcrumbsDatasetResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dataset.resolver';
 import { BreadcrumbsResourceResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-resource.resolver';
@@ -29,8 +30,8 @@ import { OfflineResourceResolver } from '@app/shared/breadcrumbs/resolvers/offli
 import { DatepickerModule } from '@app/shared/datepicker/datepicker.module';
 import { MapModule } from '@app/shared/map/map.module';
 import { ResourceChartModule } from '@app/shared/resource-chart/resource-chart.module';
+import { ResourceFilterModule } from '@app/shared/resource-filters/resource-filter.module';
 import { SharedModule } from '@app/shared/shared.module';
-import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
 
 @NgModule({
     imports: [
@@ -52,6 +53,7 @@ import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/da
         TabsModule,
         AccordionModule,
         ReactiveFormsModule,
+        ResourceFilterModule,
     ],
     providers: [
         DatasetService,

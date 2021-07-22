@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import { RestService } from '@app/services/rest.service';
 import { ApiConfig } from '@app/services/api';
-import { SearchHistory } from '@app/services/models/search-history';
 import { LinkHelper } from '@app/shared/helpers';
 import { BasicPageParams } from './models/page-params';
 
@@ -15,17 +14,6 @@ import { BasicPageParams } from './models/page-params';
  */
 @Injectable()
 export class SearchHistoryService extends RestService {
-
-    /**
-     * Gets search history
-     * @param {number} [page] 
-     * @returns {Observable<SearchHistory>} 
-     */
-    getSearchHistory(page = 1): Observable<SearchHistory> {
-        return this.get(ApiConfig.searchHistory, {per_page: 100, page: page}).pipe(
-            map(data => new SearchHistory(data.data))
-        );
-    }
     
     /**
      * Gets search history grouped by date

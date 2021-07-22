@@ -7,13 +7,23 @@
     </cms-image>
 
     <!-- link (with tooltip) -->
-    <ng-container *featureFlag="'S21_cms_link_with_tooltip.fe'" >
+    <ng-container *ngIf="widget.type === widgetType.LINK">
+        
+        <!-- external -->
         <a [href]="widget.settings.url" 
-            [title]="widget.settings.title" 
-            [innerHTML]="widget.settings.text" 
-            *ngIf="widget.type === widgetType.LINK">
+            [title]="widget.settings.title || ''" 
+            [innerHTML]="widget.settings.text"
+            *ngIf="widget.settings.isExternalUrl">
+        </a>
+        
+        <!-- internal -->
+        <a [routerLink]="widget.settings.url" 
+            [title]="widget.settings.title || ''" 
+            [innerHTML]="widget.settings.text"
+            *ngIf="!widget.settings.isExternalUrl">
         </a>
     </ng-container>
+
 
     <!-- raw html, text -->
     <cms-raw-text [rawText]="widget" 

@@ -273,7 +273,7 @@ export abstract class RestService {
 
         return this.http[method](url, {
             headers: this.headers,
-            withCredentials: true,
+            ...this.getCredentials(),
             params: params
         }).pipe(
             catchError(this.errorRedirectionHandler.bind(this, skip404Redirect))
@@ -292,7 +292,7 @@ export abstract class RestService {
         this.initHeaders();
         return this.http[method](url, payload, {
             headers: this.headers,
-            withCredentials: true,
+            ...this.getCredentials(),
             params: params
         }).pipe(
             catchError(this.errorNotificationHandler.bind(this))
@@ -340,13 +340,16 @@ export abstract class RestService {
      * @returns {ErrorObservable}
      */
     protected errorNotificationHandler(err: HttpCustomErrorResponse) {
+        let error = err.error;
         const isdBackendErrorVisible = this.checkBackendErrorVisibility(err.url);
-
+        if (typeof error === 'string') {
+            error = JSON.parse(error);
+        }
         if (isdBackendErrorVisible && navigator.onLine) {
-            const errors: IErrorBackend[] = this.getBackendErrors(err);
+            const errors: IErrorBackend[] = this.getBackendErrors({...err, error: error});
             if (errors) {
                 errors.forEach((error: IErrorBackend) => {
-                    this.notificationService.addError(error.detail);
+                    this.notificationService.addError(error.detail || error.title);
                 });
             } else {
                 this.notificationService.addError('Unknown error');
@@ -387,5 +390,25 @@ export abstract class RestService {
         this.headers = this.headers.append('Accept-Language', this.translate.currentLang);
         this.checkSession();
     }
-
+    
+    /**
+     * Gets credentials based on current environment
+     * @returns {{withCredentials: boolean}}
+     */
+    getCredentials():{[key: string]: boolean} {
+        let hasCredentials: boolean;
+        switch (this.document.location.hostname) {
+            case 'localhost':
+            case 'dev.dane.gov.pl':
+            case 'int.dane.gov.pl':
+                hasCredentials = false;
+                break;
+            default:
+                hasCredentials = true;
+        }
+        
+        return {
+            withCredentials: hasCredentials
+        };
+    }
 }

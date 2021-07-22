@@ -21,7 +21,7 @@ export class PermissionPerRoles {
     /*
       User is allowed to browse forum
     */
-    static readonly BROWSE_FORUM = [Role.OFFICIAL, Role.EDITOR, Role.ADMIN_AOD, Role.ADMIN_LOD, Role.PORTAL_ADMIN, Role.ADMIN, Role.REPRESENTATIVE];
+    static readonly BROWSE_FORUM = [Role.PORTAL_ADMIN, Role.ADMIN, Role.REPRESENTATIVE];
 
     /*
      User is allowed to manage observers

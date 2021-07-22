@@ -1,4 +1,4 @@
-<a *ngIf="fileUrl" [ngClass]="customCssClass" [routerLink]="['.']">
+<a *ngIf="fileUrl" [ngClass]="customCssClass" [routerLink]="['.']" queryParamsHandling="preserve">
 
     <!-- title (filename) -->
     <span class="sr-only">{{ title }}</span>

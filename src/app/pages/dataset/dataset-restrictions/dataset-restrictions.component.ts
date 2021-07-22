@@ -25,6 +25,12 @@ export class DatasetRestrictionsComponent implements OnInit {
      * Is content collapsible
      */
     @Input() isCollapsible = false;
+    
+    /**
+     * Is for dataset or resource
+     */
+    @Input() isForDataset = true;
+    
     /**
      * Determines whether dataset has restrictions
      */
@@ -59,13 +65,11 @@ export class DatasetRestrictionsComponent implements OnInit {
 
         this.checkDatasetRestrictions();
 
-        if (this.featureFlagService.validateFlagSync('S21_licenses.fe')) {
-            this.licensesService
-                .getLicense(this.dataset.attributes.license_name)
-                .subscribe(res => {
-                    this.license = res;
-                });
-        }
+        this.licensesService
+            .getLicense(this.dataset.attributes.license_name)
+            .subscribe(res => {
+                this.license = res;
+            });
     }
 
     /**

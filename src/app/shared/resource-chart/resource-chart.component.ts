@@ -11,7 +11,7 @@ import { ResourceHelper } from '../helpers/resource.helper';
 
 import { toggleVertically } from '@app/animations';
 import { DatasetService } from '@app/services/dataset.service';
-import { IChartBlueprint } from '@app/services/models/chart';
+import { IChartBlueprint, IChartResponse } from '@app/services/models/chart';
 import { UserStateService } from '@app/services/user-state.service';
 import { UserService } from '@app/services/user.service';
 import { TruncateTextPipe } from '@app/shared/pipes/truncate-text.pipe';
@@ -209,6 +209,36 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
      * Chart status translation key
      */
     chartStatusTranslationKey: string;
+    
+    /**
+     * Saved charts - returned from API
+     */
+    savedCharts: IChartResponse[];
+
+    /**
+     * Determines whether named chart mode is on - chart name is mandatory
+     */
+    isNamedChartMode = true;
+
+    /**
+     * Selected chart index - related to chart selector
+     */
+    selectedChartIndex = -1;
+
+    /**
+     * Determines whether form toggle is active
+     */
+    isFormToggleActive = true;
+
+    /**
+     * Determines whether chart preview is available
+     */
+    isChartPreviewAvailable = true;
+
+    /**
+     * Determines whether chart is creation blocked
+     */
+    isChartCreationBlocked = false;
 
     /**
      * @ignore
@@ -227,6 +257,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
      */
     ngOnInit() {
         this.checkEditorPreview();
+        this.isChartCreationBlockedForUser();
 
         if (!this.resourceId) {
             this.resourceId = ActivatedRouteHelper.getParamFromCurrentOrParentRoute(this.activatedRoute, 'resourceId');
@@ -257,13 +288,25 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
                     this.params['sum'] = qParamMap.get('sum');
                 }
 
-                return combineLatest(
+                return combineLatest([
                     this.datasetService.getResourceData(this.resourceId, {...this.params, q: filterQuery}),
                     this.datasetService.getResourceChartById(this.resourceId)
-                );
+                ]);
             })
         )
             .subscribe(([tableDataResponse, chartResponse]) => {
+                
+                if (chartResponse['meta']['named_charts']) {
+                    this.isNamedChartMode = chartResponse['meta']['named_charts'];
+                }
+
+                // filter out user defined charts in editor preview
+                this.savedCharts = this.isEditorPreview ? chartResponse['data'].filter(chart => chart.attributes.is_default) : chartResponse['data'];
+                
+                if (this.isNamedChartMode && !this.isUserLoggedIn) {
+                    this.checkStorage();
+                }
+
                 const tableMeta = tableDataResponse['meta'];
 
                 if (!tableMeta['headers_map']) {
@@ -292,7 +335,12 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
                 if (this.isChartPreview) {
                     this.createChartFromBlueprint();
                 } else {
-                    this.loadChart(chartResponse);
+                    if (!this.isNamedChartMode) {
+                        this.loadChart(chartResponse);
+                    } else {
+                        this.selectedChartIndex = 0;
+                        this.onChartSelected(0);
+                    }
                 }
 
                 this.updateStatus();
@@ -361,11 +409,15 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
                     userChartId = chart['id'];
                 }
             });
+
+            if (this.isNamedChartMode && chartResponse.length === 1) {
+                this.selectedChartIndex = this.savedCharts.findIndex(chart => chart.id === chartResponse[0]['id']);
+            }
         }
 
         // logged in
         if (this.isUserLoggedIn) {
-
+            
             // preview mode
             if (this.isEditorPreview) {
                 if (defaultChart) {
@@ -426,6 +478,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
      * @param {boolean} [isPreview]
      */
     onChartBlueprintCreated(chartBlueprint: IChartBlueprint, isPreview: boolean = true) {
+        this.isChartPreviewAvailable = true;
         this.chartBlueprint = chartBlueprint;
         this.isChartPreview = isPreview;
 
@@ -625,6 +678,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
     saveInStorage() {
         this.localStorage.set(this.localStorageId, JSON.stringify(this.chartBlueprint));
         this.checkStorage();
+        this.selectedChartIndex = this.savedCharts.length-1;
         this.chartId = this.localStorageId;
         this.isChartPreview = false;
         this.isCurrentChartDefault = false;
@@ -636,15 +690,70 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
      * Saves chart blueprint for logged in user or as a default when in editor preview mode
      */
     saveForUser() {
-        this.datasetService
-            .saveResourceChart(this.resourceId, this.chartBlueprint, this.isEditorPreview)
+        if (this.isNamedChartMode) {
+            if (this.chartId) {
+                this.datasetService
+                .updateResourceChart(this.resourceId, this.chartId, this.chartBlueprint, this.isEditorPreview, this.isNamedChartMode)
+                .subscribe(saved => {
+                    this.chartId = saved['data']['id'];
+                    this.isChartPreview = false;
+                    this.changeAfterTime('isChartSaved');
+                    this.updateStatus();
+    
+                    this.savedCharts[this.selectedChartIndex] = saved.data;
+                    this.isChartFormVisible = false;
+
+                });
+            } else {
+                this.datasetService
+                .saveResourceChart(this.resourceId, this.chartBlueprint, this.isEditorPreview, this.isNamedChartMode)
+                .subscribe(saved => {
+                    this.chartId = saved['data']['id'];
+                    this.isChartPreview = false;
+                    this.isCurrentChartDefault = this.isEditorPreview;
+                    this.changeAfterTime('isChartSaved');
+                    this.updateStatus();
+    
+                    let updatedSavedChartes = [];
+    
+                    if(this.isNamedChartMode) {
+                        updatedSavedChartes = [
+                            ...this.savedCharts,
+                            saved.data
+                        ];
+    
+                        this.savedCharts = updatedSavedChartes;
+                        this.selectedChartIndex = this.savedCharts.length-1;
+                        this.isChartFormVisible = false;
+                    }
+                });
+            }
+        } else {
+            this.datasetService
+            .saveResourceChart(this.resourceId, this.chartBlueprint, this.isEditorPreview, this.isNamedChartMode)
             .subscribe(saved => {
                 this.chartId = saved['data']['id'];
                 this.isChartPreview = false;
                 this.isCurrentChartDefault = this.isEditorPreview;
                 this.changeAfterTime('isChartSaved');
                 this.updateStatus();
+
+                let updatedSavedChartes = [];
+
+                if(this.isNamedChartMode) {
+                    updatedSavedChartes = [
+                        ...this.savedCharts,
+                        saved.data
+                    ];
+
+                    this.savedCharts = updatedSavedChartes;
+                    this.selectedChartIndex = this.savedCharts.length-1;
+                    this.isChartFormVisible = false;
+                }
             });
+        }
+        
+
     }
 
     /**
@@ -663,13 +772,14 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
      */
     checkStorage() {
         this.isInStorage = !!this.localStorage.get(this.localStorageId);
+        this.checkStorageAndAttachChartIfExists();
     }
 
     /**
      * Deletes chart blueprint
      */
-    deleteChart() {
-        this.isUserLoggedIn ? this.deleteForUser() : this.deleteFromStorage();
+    deleteChart(chartId?: string) {
+        this.isUserLoggedIn ? this.deleteForUser(chartId) : this.deleteFromStorage();
     }
 
     /**
@@ -682,21 +792,34 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
         this.isChartPreview = true;
         this.changeAfterTime('isChartDeleted');
         this.updateStatus();
+
+        if (this.isNamedChartMode) {
+            this.selectedChartIndex = this.savedCharts.length ? 0 : -1;
+            this.onChartSelected(0);
+        }
     }
 
     /**
      * Removes permanently saved chart blueprint from API
      * Works for logged in user or as a default when in editor preview mode
      */
-    deleteForUser() {
+    deleteForUser(chartId?: string) {
         this.datasetService
-            .deleteResourceChart(this.chartId)
+            .deleteResourceChart(chartId || this.chartId)
             .subscribe(() => {
                 this.chartId = null;
                 this.isChartPreview = true;
                 this.isCurrentChartDefault = this.isEditorPreview;
                 this.changeAfterTime('isChartDeleted');
                 this.updateStatus();
+                
+                if (this.isNamedChartMode) {
+                    this.savedCharts = this.savedCharts.filter(chart => chart.id !== (chartId || this.chartId));
+                    
+                    if (!this.savedCharts.length) {
+                        this.onAddNewChart();
+                    }
+                }
             });
     }
 
@@ -718,5 +841,113 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
         setTimeout(() => {
             this[property] = false;
         }, milliseconds);
+    }
+
+    /**
+     * Event when chart is selected on the chart selector
+     * @param {number} selectedIndex   
+     */
+    onChartSelected(selectedIndex: number) {
+        if (!this.savedCharts.length) {
+            if (!this.isEditorPreview && this.isChartCreationBlocked) {
+                return;
+            }
+            
+            this.onAddNewChart();
+            return;
+        }
+
+        this.isChartFormVisible = false;
+        const chart = this.savedCharts[selectedIndex];
+
+        this.selectedChartIndex = selectedIndex;
+        this.chartId = chart.id;
+
+        this.onChartBlueprintCreated(chart.attributes.chart);
+        this.setFormToggleVisibility();
+    }
+
+    /**
+     * Event when new chart is going to be created
+     */
+    onAddNewChart() {
+        this.selectedChartIndex = -1;
+        this.chartId = null;
+        this.chartBlueprint = null;
+        this.isChartPreviewAvailable = false;
+        this.isChartFormVisible = false;
+        
+        setTimeout(() => {
+            this.isChartFormVisible = true;
+        });
+    }
+
+    /**
+     * Revokes chart to its initial settings
+     */
+    onRevokeChart() {
+        const {chart} = this.savedCharts[this.selectedChartIndex].attributes;
+        const sortedSavedChart = Object.keys(chart).sort().reduce((accumulator, currentValue) => {
+            accumulator[currentValue] = chart[currentValue];
+            return accumulator;
+          }, {});
+        
+        if (JSON.stringify(sortedSavedChart) !== JSON.stringify(this.chartBlueprint)) {
+            this.onChartBlueprintCreated(sortedSavedChart as IChartBlueprint);
+            this.isChartFormVisible = false;
+        }
+    }
+
+    /**
+     * Sets form toggle visibility
+     */
+    setFormToggleVisibility() {
+        if (this.isNamedChartMode) {
+            if (!this.isEditorPreview) {
+                this.isFormToggleActive = !this.savedCharts[this.selectedChartIndex]?.attributes.is_default;
+            } 
+        } else {
+            this.isFormToggleActive = !this.isEditorPreview || (this.isEditorPreview && this.hasAccessToEditorPreview)
+        }
+    }
+
+    /**
+     * Checks storage and attaches stored chart to the list of charts
+     */
+    checkStorageAndAttachChartIfExists() {
+        if (this.isNamedChartMode) {
+            if (this.isInStorage) {
+                const chartBlueprint = this.getFromStorage();
+                this.chartId = this.localStorageId;
+                const chartName = chartBlueprint.name;
+                delete(chartBlueprint.name);
+
+                this.savedCharts = [
+                    ...this.savedCharts.filter(item => item.attributes.is_default),
+                    {
+                        id: this.chartId,
+                        type: 'chart',
+                        attributes: {
+                            is_default: false,
+                            chart: chartBlueprint,
+                            name: chartName
+                        }
+                    }
+                ];
+
+            } else {
+                this.savedCharts = [
+                    ...this.savedCharts.filter(item => item.attributes.is_default)
+                ];
+            }
+        }
+    }
+
+    /**
+     * Determines whether chart creation is blocked for user (not editor)
+     */
+    isChartCreationBlockedForUser() {
+        const resource = ActivatedRouteHelper.getRouteData(this.activatedRoute, 'post');
+        this.isChartCreationBlocked = ObjectHelper.getNested(resource, ['attributes', 'is_chart_creation_blocked']);
     }
 }

@@ -605,6 +605,4 @@
 
 
 <!-- comments -->
-<ng-container *featureFlag="'S19_schedule_item_comments.fe'">
-    <app-schedule-comments [scheduleItemId]="planningFormBlueprint.id" *ngIf="planningFormBlueprint"></app-schedule-comments>
-</ng-container>
+<app-schedule-comments [scheduleItemId]="planningFormBlueprint.id" *ngIf="planningFormBlueprint"></app-schedule-comments>

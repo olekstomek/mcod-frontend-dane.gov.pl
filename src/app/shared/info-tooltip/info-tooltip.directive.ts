@@ -1,5 +1,4 @@
 import {
-    AfterContentInit,
     ChangeDetectorRef,
     ComponentFactory,
     ComponentFactoryResolver,
@@ -13,11 +12,9 @@ import {
     ViewContainerRef
 } from '@angular/core';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { IFeatureFlag } from '@app/services/models/feature-flag';
 
 import { InfoTooltipComponent } from '@app/shared/info-tooltip/info-tooltip.component';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 /**
  * Info Tooltip Directive
@@ -71,11 +68,6 @@ export class InfoTooltipDirective implements OnInit, OnDestroy {
      * @type {Subject<void>}
      */
     private destroy$: Subject<void> = new Subject<void>();
-    /**
-     * Feature flag name
-     * @type {string}
-     */
-    private readonly flagName = 'S14_infoTooltip.fe';
 
     /**
      * @ignore
@@ -102,16 +94,8 @@ export class InfoTooltipDirective implements OnInit, OnDestroy {
         if (!this.tooltipText) {
             return;
         }
-        this.featureFlagService.featureFlags
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(
-                (flagList: IFeatureFlag[]) => {
-                    const isEnabled = this.featureFlagService.validateFlag(this.flagName, flagList);
-                    if (isEnabled) {
-                        this.initializeTooltip();
-                    }
-                }
-            );
+
+        this.initializeTooltip();
     }
 
     /**

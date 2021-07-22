@@ -3,15 +3,16 @@ import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { zip } from 'rxjs';
 
 import { toggleVertically } from '@app/animations/index';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
-import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { SchemaDataService } from '@app/services/schema-data.service';
 import { SchemaService } from '@app/services/schema.service';
 import { SeoService } from '@app/services/seo.service';
 import { LinkHelper } from '@app/shared/helpers';
+import { ActivatedRouteHelper } from '@app/shared/helpers/activated-route.helper';
 
 
 /**
@@ -102,6 +103,11 @@ export class DatasetResourceComponent implements OnInit {
     isSpecialSignsExpanded = false;
 
     /**
+     * Determines whether chart tab is hidden
+     */
+    isChartTabHidden = false;
+
+    /**
      * @ignore 
      */
     constructor(private activatedRoute: ActivatedRoute,
@@ -122,7 +128,7 @@ export class DatasetResourceComponent implements OnInit {
         this.resource = this.activatedRoute.snapshot.data.post;
         this.relatedDataset = this.activatedRoute.parent.snapshot.data.post.data;
 
-        this.frameUrl = 'http://' + this.document.location.host + '/embed/resource/' + this.resource['id'];
+        this.frameUrl = this.document.location.protocol + '//' + this.document.location.host + '/embed/resource/' + this.resource['id'];
         this.selfApi = this.resource.links.self;
 
         this.hasGeoData = this.resource.relationships.hasOwnProperty('geo_data');
@@ -131,10 +137,17 @@ export class DatasetResourceComponent implements OnInit {
 
         this.seoService.setPageTitle(this.resource.attributes.title);
 
-        this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id)
-            .subscribe(data => {
-                this.schemaService.addStructuredData(data);
-            });
+        zip(
+            this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id),
+            this.datasetService.getResourceChartById(this.resource.id)
+        ).subscribe(([structuredData, chartResponse]) => {
+            this.schemaService.addStructuredData(structuredData);
+            const isEditorPreview = ActivatedRouteHelper.getRouteData(this.activatedRoute, 'editorPreview');
+            
+            if (this.resource.attributes.hasOwnProperty('is_chart_creation_blocked')) {
+                this.isChartTabHidden = this.resource.attributes['is_chart_creation_blocked'] && !chartResponse.data.length && !isEditorPreview;
+            }
+        })
     }
     
     /**

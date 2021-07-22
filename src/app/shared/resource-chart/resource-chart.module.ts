@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@app/shared/shared.module';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
@@ -14,6 +14,8 @@ import { ResourceChartFormComponent } from '@app/shared/resource-chart/resource-
 import { ResourceChartLineComponent } from '@app/shared/resource-chart/resource-chart-line/resource-chart-line.component';
 import { ResourceChartScatterComponent } from '@app/shared/resource-chart/resource-chart-scatter/resource-chart-scatter.component';
 import { ResourceChartComponent } from '@app/shared/resource-chart/resource-chart.component';
+import { ResourceChartSelectorComponent } from './resource-chart-selector/resource-chart-selector.component';
+import { ResourceChartNameFormComponent } from './resource-chart-name-form/resource-chart-name-form.component';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import { ResourceChartComponent } from '@app/shared/resource-chart/resource-char
         ResourceChartFormComponent,
         ResourceChartCircleComponent,
         ResourceChartScatterComponent,
+        ResourceChartSelectorComponent,
+        ResourceChartNameFormComponent,
     ],
     exports: [
         ResourceChartBarComponent,
@@ -35,6 +39,7 @@ import { ResourceChartComponent } from '@app/shared/resource-chart/resource-char
     ],
     imports: [
         CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         ChartsModule,
         SharedModule,

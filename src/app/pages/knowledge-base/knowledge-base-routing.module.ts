@@ -57,9 +57,31 @@ const routes: Routes = [
                             children: BreadcrumbsKnowledgeBaseTabDataResolverService
                         },
                         data: {
+                            cssContainerClass: 'cms-tiles',
                             slug: routerEndpoints.USEFUL_MATERIALS,
                             showFooter: true,
                             breadcrumbs: {dataKey: 'children.1.title'},
+                        },
+                        children: [
+                            {
+                                path: `!:id`,
+                                component: KnowledgeBaseItemDetailsComponent,
+                                data: {details: true, breadcrumbs: {dataKey: 'post.title'}},
+                                resolve: {post: BreadcrumbsKnowledgeBaseDataResolver}
+                            },
+                        ]
+                    },
+                    {
+                        path: '!' + routerEndpoints.EVENTS,
+                        component: CmsLandingPageComponent,
+                        resolve: {
+                            children: BreadcrumbsKnowledgeBaseTabDataResolverService
+                        },
+                        data: {
+                            cssContainerClass: 'cms-tiles',
+                            slug: routerEndpoints.EVENTS,
+                            showFooter: true,
+                            breadcrumbs: {dataKey: 'children.2.title'},
                         },
                         children: [
                             {

@@ -52,12 +52,6 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
     @Input() counters: IComponentOptions[];
 
     /**
-     * Determines if sparql is visible
-     * @type {boolean}
-     */
-    @Input()isSparqlSearchButtonVisible: boolean = false;
-
-    /**
      * Tooltip text
      * @type {string}
      */

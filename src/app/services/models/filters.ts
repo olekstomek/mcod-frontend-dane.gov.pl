@@ -10,6 +10,7 @@ export interface IAggregationProperties {
 export enum AggregationOptionType {
     CATEGORY = 'by_category', // TODO remove with S19_DCAT_categories.fe
     CATEGORIES = 'by_categories',
+    LICENSES = 'by_license_code',
     CITY = 'by_city',
     CREATED = 'by_created',
     FORMAT = 'by_format',
@@ -20,6 +21,7 @@ export enum AggregationOptionType {
     TAG = 'by_tag',
     VERIFIED = 'by_verified',
     VISUALIZATION_TYPE = 'by_visualization_types',
+    UPDATE_FREQUENCY = 'by_update_frequency',
     TYPES = 'by_types'
 }
 
@@ -27,9 +29,11 @@ export enum AggregationFilterNames {
     CATEGORY = 'category', // TODO remove with S19_DCAT_categories.fe
     CATEGORIES = 'categories',
     INSTITUTION = 'institution',
+    LICENSES = 'license_code',
     FORMAT = 'format',
     OPENNESS_SCORE = 'openness_score',
     VISUALIZATION_TYPE = 'visualization_types',
+    UPDATE_FREQUENCY = 'update_frequency',
     TYPES = 'types',
     DATE_FROM = 'date[gte]',
     DATE_TO = 'date[lte]',
@@ -42,6 +46,8 @@ export interface IListViewFilterAggregationsOptions {
     [AggregationOptionType.FORMAT]?: IAggregationProperties[];
     [AggregationOptionType.OPENNESS_SCORE]?: IAggregationProperties[];
     [AggregationOptionType.VISUALIZATION_TYPE]?: IAggregationProperties[];
+    [AggregationOptionType.LICENSES]?: IAggregationProperties[];
+    [AggregationOptionType.UPDATE_FREQUENCY]?: IAggregationProperties[];
     [AggregationOptionType.TYPES]?: IAggregationProperties[];
 }
 
@@ -51,6 +57,8 @@ export interface IDatasetListViewFilterAggregationsOptions {
     [AggregationOptionType.FORMAT]?: IAggregationProperties[];
     [AggregationOptionType.OPENNESS_SCORE]?: IAggregationProperties[];
     [AggregationOptionType.VISUALIZATION_TYPE]?: IAggregationProperties[];
+    [AggregationOptionType.LICENSES]?: IAggregationProperties[];
+    [AggregationOptionType.UPDATE_FREQUENCY]?: IAggregationProperties[];
     [AggregationOptionType.TYPES]?: IAggregationProperties[];
 }
 

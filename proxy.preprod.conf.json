@@ -21,7 +21,7 @@
         "changeOrigin": true
     },
     "/cms": {
-        "target": "http://127.0.0.1:8000/",
+        "target": "https://cms.szkolenia.dane.gov.pl/",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,

@@ -10,6 +10,7 @@ export enum RouterEndpoints {
     KNOWLEDGE_BASE = 'knowledgebase',
     MULTIMEDIA_TRAINING = 'multimedia-training',
     USEFUL_MATERIALS = 'useful-materials',
+    EVENTS = 'events',
     PREVIEW = 'preview',
     LOGIN = 'user/login'
 }

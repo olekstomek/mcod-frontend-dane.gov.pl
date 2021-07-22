@@ -34,6 +34,17 @@
                           (removeSelectedFilter)="onClearFilter(AggregationFilterNames.VISUALIZATION_TYPE, $event)">
     </app-selected-filters>
 
+    <!-- Licenses -->
+    <app-selected-filters [items]="selectedIds[AggregationFilterNames.LICENSES]" @toggle
+                          (removeSelectedFilter)="onClearFilter(AggregationFilterNames.LICENSES, $event)">
+    </app-selected-filters>
+
+    <!-- Update frequency -->
+    <app-selected-filters [items]="selectedIds[AggregationFilterNames.UPDATE_FREQUENCY]" @toggle
+                          (removeSelectedFilter)="onClearFilter(AggregationFilterNames.UPDATE_FREQUENCY, $event)"
+                          *featureFlag="'S29_update_frequency_filter.fe'">
+    </app-selected-filters>
+
     <!-- Resource type -->
     <app-selected-filters [items]="selectedIds[AggregationFilterNames.TYPES]" @toggle
                           (removeSelectedFilter)="onClearFilter(AggregationFilterNames.TYPES, $event)">

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+
 import { ApiConfig } from '@app/services/api';
 import { TemplateHelper } from '@app/shared/helpers';
-import { HttpParams } from '@angular/common/http';
 import { RestService } from '@app/services/rest.service';
-import { Resources } from '@app/services/api/resources.enum';
-import { IFilters } from '@app/services/models/filters';
+import { Observable, Subject } from 'rxjs';
+import { BasicPageParams } from '@app/services/models/page-params';
+
 
 /**
  * General following changes service that handles API communication
@@ -12,71 +14,70 @@ import { IFilters } from '@app/services/models/filters';
 @Injectable()
 export class ObserveService extends RestService {
 
+    notificationsChanged: Subject<void> = new Subject<void>();
+
     /**
      * Follow changes of a given resource with specific id
      * Only for logged in users (requires api_key)
-     * @param {string} resource
-     * @param {string} id
+     * @param {string} objectType
+     * @param {string} objectId
      * @returns {Observable<any>}
      */
-    followOne(resource: string, id: string) {
+    addSubscription(objectType: string, objectId: string, name?: string) {
 
-        const url = this.getUrl(resource, {id: id});
-        return this.post(url);
+        if (name) {
+            name = `"name": ${JSON.stringify(name)},`;
+        } else {
+            name = '';
+        }
+
+        const payload = `{
+            "data": {
+                "type": "subscription",
+                "attributes": {
+                    ${name}
+                    "object_name": ${JSON.stringify(objectType)},
+                    "object_ident": ${JSON.stringify(objectId)}
+                }
+            }
+        }`;
+
+        return this.post(ApiConfig.subscribe, JSON.parse(payload));
     }
 
     /**
      * Stop following changes of a given resource with specific id
      * Only for logged in users (requires api_key)
-     * @param {string} resource
-     * @param {string} id
+     * @param {number} id
      * @returns {Observable<any>}
      */
-    unfollowOne(resource: string, id: string) {
-        const url = this.getUrl(resource, {id: id});
+    removeSubscription(id: number) {
+        const url = TemplateHelper.parseUrl(ApiConfig.unsubscribe, { subscriptionId: id });
         return this.delete(url);
     }
 
     /**
-     * Get followed items of a given resource
-     * Only for logged in users (requires api_key)
-     * @param {string} resource
-     * @param {{}} params
+     * @param {string} objectType
+     * @param {BasicPageParams} params
      * @returns {Observable<any>}
      */
-    getFollowed(resource: string, params: IFilters) {
-        const httpParams = new HttpParams({fromObject: params});
-        let url: string = '';
-        switch (resource) {
-            case Resources.application:
-                url = ApiConfig.followedApplications;
-                break;
-            case Resources.dataset:
-                url = ApiConfig.followedDatasets;
-                break;
-            case Resources.article:
-                url = ApiConfig.followedArticles;
-                break;
-        }
-
-        return this.get(url, httpParams);
+    getSubscriptions(objectType: string, params: BasicPageParams): Observable<any> {
+        params['object_name'] = objectType;
+        return this.get(ApiConfig.subscribe, new HttpParams({ fromObject: params }));
     }
 
     /**
-     * Parse url for the given resource
-     * @param {string} resource
-     * @param params
-     * @returns {string}
+     * Gets new notifications
+     * @returns {Observable<any>}
      */
-    private getUrl(resource: string, params: any) {
-        switch (resource) {
-            case Resources.application:
-                return TemplateHelper.parseUrl(ApiConfig.applicationFollow, params);
-            case Resources.dataset:
-                return TemplateHelper.parseUrl(ApiConfig.datasetFollow, params);
-            case Resources.article:
-                return TemplateHelper.parseUrl(ApiConfig.articleFollow, params);
-        }
+    getNewNotifications(): Observable<any> {
+        return this.get(ApiConfig.activityNotifications, new HttpParams().append('status', 'new'));
     }
 
+    /**
+     * Mark all notifications as read.
+     */
+    markAllAsRead() {
+        return this.delete(ApiConfig.markAllNotificationsAsRead);
+    }
 }

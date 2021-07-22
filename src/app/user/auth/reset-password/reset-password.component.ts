@@ -8,6 +8,7 @@ import { UserService } from '@app/services/user.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
 import { toggleVertically } from '../../../animations/index';
+import { CustomFormControlValidators } from '@app/shared/form-validators/string.validators';
 
 /**
  * Reset Password Component
@@ -42,7 +43,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     /**
      * Determines password min length
      */
-    passwordMinLength = 8;
+    passwordMinLength: number;
 
     /**
      * Determines whether to show password hint 
@@ -64,11 +65,20 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
      * Initializes reset password form and its validators.
      */   
     ngOnInit() {
-        this.seoService.setSeoByKeys('User.NewPasswordCreation', 'Slogan');
+        this.seoService.setPageTitleByTranslationKey(['User.NewPasswordCreation']);
         this.token = this.route.snapshot.paramMap.get('token');
 
+        this.passwordMinLength = this.userService.passwordMinLength;
+        const customValidators = this.userService.passwordCustomValidators.map(validator => {
+            return CustomFormControlValidators.checkString(validator[0], validator[1])
+        });
+
         this.resetPasswordForm = this.formBuilder.group({
-                'new_password1': ['', [Validators.required, Validators.minLength(8)]],
+                'new_password1': ['', [
+                    Validators.required, 
+                    Validators.minLength(this.userService.passwordMinLength), 
+                    ...customValidators
+                ]],
                 'new_password2': ['', Validators.required]
             },
             {validator: equalValueValidator('new_password1', 'new_password2')}
@@ -87,6 +97,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
      * Resets password on reset password form submit. Clears API errors (if any).
      */
     onSubmitNewPassword() {
+        if (this.resetPasswordForm.invalid) {
+            return;
+        }
+        
         this.notificationsService.clearAlerts();
 
         this.userSubscription = this.userService
@@ -94,15 +108,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.passwordChanged = true;
             });
-    }
-
-    /**
-     * Determines whether form field is valid 
-     * @param {string} field 
-     * @returns {boolean} true if field valid 
-     */
-    isFieldValid(field: string): boolean {
-        return !this.resetPasswordForm.get(field).valid && this.resetPasswordForm.get(field).touched;
     }
 
     /**

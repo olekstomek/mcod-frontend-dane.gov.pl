@@ -1,4 +1,3 @@
-
 <div class="container vertical-spacing">
     <h1 class="heading heading--separator">
         {{ 'Menu.Sitemap' | translate }}
@@ -7,33 +6,44 @@
     <!-- SITEMAP MENU -->
     <ul class="list-unstyled" role="menu">
         <li role="presentation">
-            <a role="menuitem" [routerLink]="['/']">
+            <a role="menuitem" [routerLink]="['/!'] | localize">
                 {{ 'Menu.Home' | translate }}
             </a>
         </li>
         <li role="presentation">
-            <a role="menuitem" [routerLink]="['/dataset']">
+            <a role="menuitem" [routerLink]="['/!dataset'] | localize">
                 {{ 'Menu.Datasets' | translate }}
             </a>
         </li>
         <li role="presentation">
-            <a role="menuitem" [routerLink]="['/institution']">
+            <a role="menuitem" [routerLink]="['/!institution'] | localize">
                 {{ 'Menu.Institutions' | translate }}
             </a>
         </li>
         <li role="presentation">
-            <a role="menuitem" [routerLink]="['/application']">
+            <a role="menuitem" [routerLink]="['/!application'] | localize">
                 {{ 'Menu.Applications' | translate }}
             </a>
         </li>
         <li role="presentation">
-            <a role="menuitem" [routerLink]="['/article']">
-                {{ 'Menu.Articles' | translate }}
+            <a role="menuitem" [routerLink]="['/!article'] | localize">
+                {{ 'Menu.News' | translate }}
             </a>
         </li>
         <li role="presentation">
-            <a role="menuitem" [routerLink]="['/about']">
+            <a role="menuitem"
+               [routerLink]="['/!' + routerEndpoints.KNOWLEDGE_BASE + '/!' + routerEndpoints.MULTIMEDIA_TRAINING] | localize">
+                {{ 'Menu.KnowledgeBase' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/!about'] | localize">
                 {{ 'Menu.About' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" [routerLink]="['/!forms/!ankieta-o-portalu'] | localize">
+                {{ 'Cms.FillOutSurvey' | translate }}
             </a>
         </li>
         <li role="presentation">

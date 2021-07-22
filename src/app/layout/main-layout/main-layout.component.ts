@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+import { RoutingHelper } from '@app/services/commons/routing-helper';
+
 
 @Component({
     selector: 'app-main-layout',
@@ -21,7 +23,7 @@ export class MainLayoutComponent {
                 filter((event) => event instanceof NavigationEnd)
             )
             .subscribe((event: NavigationEnd) => {
-                this.isHomepage = (event.url.length !== 1) ? false : true;
+                this.isHomepage = RoutingHelper.isHomePage(event.url);
             });
     }
 }

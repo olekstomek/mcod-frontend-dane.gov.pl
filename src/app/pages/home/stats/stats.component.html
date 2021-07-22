@@ -24,15 +24,14 @@
                 {{ 'Home.Stats.Resources' | translate }}
             </li>
 
-            <!-- datasets monthly -->
+            <!-- api number -->
             <li class="col-sm-4 stats__item">
                 <span class="stats__item-figure">
-                    {{ stats?.dataset?.monthly_avg | number:'1.0-0' }}
+                    {{ stats?.api?.doc_count }}
                 </span>
-                {{ 'Home.Stats.MonthlyDatasets' | translate }}
+                {{ 'Home.Stats.ApiNumber' | translate }}
             </li>
         </ul>
     </div>
 </section>
 
-    

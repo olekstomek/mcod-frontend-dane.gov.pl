@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
+import { APP_CONFIG } from '@app/app.config';
 
 @Component({
     selector: 'app-write-us-info',
@@ -9,15 +10,25 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 export class WriteUsInfoComponent implements OnInit {
 
     @Input() textLabel: string;
-    @Input() buttonLabel: string = 'WriteUs.Self';
+    @Input() buttonLabel = 'WriteUs.Self';
     @Input() buttonSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'lg';
     @Input() buttonLook: 'primary' | 'link' = 'primary';
-    @Input() inheritLook: boolean = false;
+    @Input() inheritLook = false;
+    @Input() uppercase = true;
+    @Input() showIcon = true;
 
-    @ViewChild('modalTemplate') modalTemplate: TemplateRef<any>;
+    /**
+     * Modal trigger (button) reference
+     */
+    @ViewChild('modalTrigger', { static: false }) modalTrigger: ElementRef;
+    @ViewChild('modalTemplate', { static: false }) modalTemplate: TemplateRef<any>;
     writeUsModalRef: BsModalRef;
     hasButtonLook: boolean;
 
+    /**
+     * App config
+     */
+    appConfig = APP_CONFIG;
 
     constructor(private modalService: BsModalService) {}
 
@@ -34,5 +45,6 @@ export class WriteUsInfoComponent implements OnInit {
     onWriteUsModalClose() {
         this.writeUsModalRef.hide();
         this.writeUsModalRef = null;
+        (<HTMLButtonElement>this.modalTrigger.nativeElement).focus();
     }
 }

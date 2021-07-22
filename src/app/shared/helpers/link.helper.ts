@@ -1,3 +1,6 @@
+import { IDownloadFile } from '@app/services/models/download-item';
+import { APP_CONFIG } from '@app/app.config';
+
 /**
  * Helper class for generating and triggering download link
  */
@@ -11,7 +14,7 @@ export class LinkHelper {
      * @param sUrl
      * @returns {boolean}
      */
-    static downloadFile(sUrl) {
+    static downloadFile(sUrl): boolean {
         const hasDownloadAttribute = ('download' in document.createElement('a'));
 
         if (/(iP)/g.test(navigator.userAgent)) {
@@ -57,6 +60,19 @@ export class LinkHelper {
         return (str || document.location.search).replace(/(^\?)/, '').split('&').map(function (n) {
             return n = n.split('='), this[n[0]] = decodeURIComponent(n[1]), this;
         }.bind({}))[0];
+    }
+
+    /**
+     * downloads resource
+     * @param {IDownloadFile} file
+     */
+    static downloadResource(file: IDownloadFile) {
+        // Fire away download right after click, regardless of api response,
+        // to not get cought in browser's pop up guard
+        if (document.location.hostname.replace('www.', '') === APP_CONFIG.domain) {
+            (window as any).ga('send', 'event', 'zasob', 'pobieranie', file.title + ' - ' + file.url);
+        }
+        this.downloadFile(file.url);
     }
 }
 

@@ -1,13 +1,7 @@
+// PAGE WITH SEARCH, FILTERS AND LIST VIEW
 
-// SEARCH
 .search {
     background: $color-grey-light-6;
-    padding: 45px 0;
-
-
-    &--with-filters {
-        padding-bottom: 10px;
-    }
 
     &--tight {
         background: transparent;
@@ -22,6 +16,13 @@
         &::-ms-clear {
             display: none;
         }
+    }
+
+    &__info {
+        position: absolute; 
+        right: -8px; 
+        top: 50%; 
+        transform: translateY(-50%)
     }
 
 
@@ -47,54 +48,18 @@
     }
 }
 
+// FILTERS SECTION
+.aggregation-filters {
 
-
-
-
-// FILTERS
-.filters {
-    padding-top: 10px;
-
-    .filter-label {
-        @include control-label;
-    }
-
-    // Toggle filters
-    &-toggle {
-        display: inline-block;
-        margin-top: 10px;
-        color: $color-blue-light;
-        cursor: pointer;
-        background: none;
-        border: 0;
-        padding: 0;
-    }
-
-
-    // Dropdown
-    &__item {
+    &__item-body {
         @include media-breakpoint-down(md) {
-            margin-bottom: 5px;
+            @include visibility-animated;
         }
     }
 
-
-    // SELECTED FILTERS
-    &__selected{
-        padding-top: 15px;
-        padding-bottom: 15px;
-        font-size: 0;
-        overflow: hidden;
-
-        &-group {
-            display: inline;
-            overflow: hidden;
-        }
-
-        .btn {
-            margin: 0 5px 5px 0;
-            text-align: left;
-        }
+    &__divider {
+        display: block;
+        margin: 1rem 0;
+        border-bottom: 1px solid $color-white;
     }
 }
-

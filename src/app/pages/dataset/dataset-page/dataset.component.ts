@@ -1,11 +1,31 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { QueryParamsHandling } from '@angular/router/src/config';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { DatasetService } from '@app/services/dataset.service';
 import { SeoService } from '@app/services/seo.service';
-import { toggle, toggleVertically } from '../../../animations/index';
+import { ObserveService } from '@app/services/observe.service';
+import { toggleVertically } from '@app/animations';
+import { UserService } from '@app/services/user.service';
+import { NotificationsService } from '@app/services/notifications.service';
+import {
+    AggregationFilterNames,
+    AggregationOptionType,
+    IDatasetListViewFilterAggregationsOptions,
+    IListViewFilterAggregationsOptions
+} from '@app/services/models/filters';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
+import { IListViewDatasetCategoryFiltersModel, IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
+import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
+import { ListViewDetailsService } from '@app/services/list-view-details.service';
+import { DatasetCategoriesHelper } from '@app/pages/dataset/dataset-categories-helper.service';
+import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-suggest';
+import { SearchService } from '@app/services/search.service';
+import { ApiConfig } from '@app/services/api';
+import { HttpCustomErrorResponse } from '@app/services/models';
+import { LoginService } from '@app/services/login-service';
+import { ApiModel } from '@app/services/api/api-model';
 
 /**
  * Dataset Component
@@ -14,15 +34,46 @@ import { toggle, toggleVertically } from '../../../animations/index';
     selector: 'app-dataset',
     templateUrl: './dataset.component.html',
     animations: [
-        toggle,
         toggleVertically
     ]
 })
-export class DatasetComponent implements OnInit, OnDestroy {
+export class DatasetComponent extends ListViewFilterPageAbstractComponent implements OnInit {
+
     /**
-     * Query params subscription of dataset component
+     * API model
      */
-    queryParamsSubscription: Subscription;
+    apiModel = ApiModel;
+
+    /**
+     * All date filter fields
+     */
+    readonly DateFields = [AggregationFilterNames.DATE_FROM, AggregationFilterNames.DATE_TO];
+
+    /**
+     * List of filter facets
+     * @type {string[]}
+     */
+    readonly Facets;
+
+    /**
+     * sets query form visibility
+     */
+    isQueryFormVisible = false;
+
+    /**
+     * sets if query form is submitted
+     */
+    isQueryFormSubmitted = false;
+
+    /**
+     * sets if query form is subscribed
+     */
+    isQuerySubscribed = false;
+
+    /**
+     * sets if query form has error
+     */
+    isQueryFormError = false;
 
     /**
      * Self api of dataset parent component
@@ -30,318 +81,177 @@ export class DatasetComponent implements OnInit, OnDestroy {
     selfApi: string;
 
     /**
-     * Array of items (datasets)
+     * Default advanced setting
      */
-    items: any[];
+    defaultAdvancedSetting = SearchAdvancedSettings.ANY;
 
     /**
-     * Determines whether item list is sorted by date
+     * Determines whether user is logged in
      */
-    isSortedByDate: boolean = false;
+    isUserLoggedIn = false;
 
-    /**
-     * Count of items (datasets)
-     */
-    count: number; 
-
-    /**
-     * Number of pagination pages
-     */
-    numPages: number = 0;
-
-    /**
-     * Page settings based on basic params and user interactions
-     */
-    params: any;
-
-    /**
-     * Basic params of dataset component
-     */
-    basicParams = {
-        sort: '-verified',
-        page: 1,
-        q: '',
-        per_page: 5
-    };
-
-    /**
-     * Default filters  of dataset component
-     */
-    filters: any;
-
-    /**
-     * Default filters visibility indicator
-     */
-    filtersCollapsed = true;
-
-    /**
-     * Selected filters of dataset component
-     */
-    selectedFilters: { category: any, institution: any, formats: any, openness_scores: any } = {
-        category: [], 
-        institution: [], 
-        formats: [], 
-        openness_scores: []
-    };
-
-    /**
-     * Selected filters count of dataset component
-     */
-    selectedFiltersCount: number = 0;
-
-    /**
-     * @ignore
-     */    
-    constructor(private activatedRoute: ActivatedRoute,
+    constructor(protected filterService: ListViewFiltersService,
+                protected activatedRoute: ActivatedRoute,
                 private router: Router,
                 private datasetService: DatasetService,
-                private seoService: SeoService) {
+                private seoService: SeoService,
+                private observeService: ObserveService,
+                private userService: UserService,
+                public loginService: LoginService,
+                private notificationsService: NotificationsService,
+                protected selectedFiltersService: ListViewSelectedFilterService,
+                private listViewDetailsService: ListViewDetailsService,
+                private searchService: SearchService,
+                private categoriesHelper: DatasetCategoriesHelper) {
+        super(filterService, activatedRoute, selectedFiltersService);
+        this.Facets = [
+            this.categoriesHelper.getOptionName(),
+            AggregationOptionType.INSTITUTION,
+            AggregationOptionType.FORMAT,
+            AggregationOptionType.OPENNESS_SCORE,
+            AggregationOptionType.VISUALIZATION_TYPE,
+            AggregationOptionType.TYPES
+        ];
     }
 
-    /**
-     * Sets META tags (title). 
-     * Initializes default filters.
-     * Initializes and updates list of items (datasets) on query params change.
-     */    
-    ngOnInit() {
-        this.seoService.setSeoFromTranslation('Datasets');
+    addSubscriptionToQuery(queryForm: NgForm) {
+        if (!queryForm.valid) {
+            return;
+        }
 
-        this.datasetService
-            .getFilters()
-            .subscribe(allFilters => {
-                this.filters = allFilters;
-
-                this.setSelectedFilters(this.activatedRoute.snapshot.queryParams);
-                this.getDatasets();
-        });
-
-        this.queryParamsSubscription = this.activatedRoute.queryParams.subscribe(qParams => {
-            let sort = '';
-
-            if ( !this.allBasicParamsIn(qParams) ) {
-                this.resetSelectedFilters();
-
-                if (qParams['q'])
-                    sort = '';
-                else
-                    sort = this.basicParams['sort'];
-            } 
-
-            this.params = {
-                page: +qParams['page'] || this.basicParams['page'],
-                per_page: +qParams['per_page'] || this.basicParams['per_page'],
-                q: qParams['q'] || '',
-                sort: qParams['sort'] || sort
-            };
-
-            if (qParams['tags']) {
-                this.params.tags = qParams['tags'];
-            }
-
-            if (this.filters) {
-                this.setSelectedFilters(qParams);
-                this.getDatasets();
-            }
-
-            this.checkSortByDate();
-        });
-    }
-
-    /**
-     * Gets list of datasets 
-     */
-    getDatasets() {
-        this.datasetService
-            .getAll(this.params)
-            .subscribe(response => {
-                response.results.forEach(dataset => {
-                    // TODO: move to dataset.service
-                    dataset.institution = response.institutions.find(institution => {
-                        return (
-                            dataset.relationships.institution.data.type === 'institution' && 
-                            +dataset.relationships.institution.data.id === institution.id
-                        );
-                    });
-                });
-
-                this.items = response.results;
-                this.count = response.count;
-                this.selfApi = this.datasetService.base_url + response.links.self;
+        this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput)
+            .subscribe(() => {
+                this.isQueryFormSubmitted = true;
+                this.isQueryFormError = false;
+                this.notificationsService.clearAlerts();
+            }, (errorResponse: HttpCustomErrorResponse) => {
+                this.isQueryFormSubmitted = false;
+                this.notificationsService.clearAlerts();
+                this.isQueryFormError = this.datasetService.isQueryError(errorResponse);
             });
     }
 
     /**
-     * Tracks list of items by single item id to prevent re-rendering of existing elements in the template
-     * @param index 
-     * @param item 
-     * @returns id 
+     * Sets META tags (title).
+     * Initializes default filters.
+     * Initializes and updates list of items (datasets) on query params change.
      */
-    trackById(index, item) {
-        return item.id;
+    ngOnInit() {
+        this.seoService.setPageTitleByTranslationKey(['Datasets.Self']);
+
+        const newModel = this.getFiltersModel();
+        this.selectedFilters = { ...newModel };
+        this.backupSelectedFilters = { ...newModel };
+        this.isUserLoggedIn = this.userService.isLoggedIn();
+
+        const customParams = [{ key: 'model[terms]', value: 'dataset,resource' }];
+
+        this.activatedRoute.queryParams.subscribe((qParams: Params) => {
+            let sort = '';
+
+            if (!this.allBasicParamsIn(qParams)) {
+                this.resetSelectedFilters();
+
+                sort = qParams['q'] ? 'relevance' : '-date';
+            }
+
+            this.params = { ...qParams, ...this.filterService.updateBasicParams(qParams, this.basicParams, sort) };
+
+            if (!qParams['model[terms]']) {
+                this.params['model[terms]'] = 'dataset,resource';
+            }
+
+            if (this.filters) {
+                this.setSelectedFilters(qParams);
+            }
+
+            this.searchService.getFilters(ApiConfig.search, this.Facets, customParams)
+                .subscribe((allFilters: IDatasetListViewFilterAggregationsOptions | IListViewFilterAggregationsOptions) => {
+                    this.filters = allFilters;
+                    this.setSelectedFilters(this.params);
+                    this.getData();
+                });
+        });
     }
 
     /**
-     * Performs search
-     * @param params 
+     * Gets list of datasets
      */
-    performSearch(params: any) {
-        if (!('q' in params)) return;
-
-        params['q'] = (<string>params['q']).trim();
-        params['q'].length ? this.updateParams(params) : this.updateParams({q: ''});
-    }
-
-    /**
-     * Updates query params on every user interaction
-     * @param params 
-     * @param {QueryParamsHandling | null} method 
-     */
-    updateParams(params: any, method: QueryParamsHandling | null = 'merge') {
-        
-        // default sort
-        if (('sort' in params) && !params['sort']) { 
-            params['sort'] = this.basicParams['sort'];
-        }
-
-        const updatedBasicParams = {
-            page: +this.params['page'] || this.basicParams['page'],
-            per_page: +this.params['per_page'] || this.basicParams['per_page'],
-            q: this.params['q'] || '',
-            sort: this.params['sort'] || ''
-        }
-
-        if ( !('page' in params) ) params['page'] = 1;
-
-        this.router.navigate([], {queryParams: {
-            ...updatedBasicParams,
-            ...params
-        }, queryParamsHandling: method});
-    }
-
-    /**
-     * Toggles filter
-     * @param name 
-     * @param filterItems 
-     */
-    toggleFilter(name: string, filterItems: any[]) {
-        this.selectedFilters[name] = filterItems = filterItems.filter(Boolean); 
-
-        if (filterItems.length > 0) { 
-            this.updateParams({[name]: filterItems.map(item => item.key).join(',')});
-        } else { 
-            const queryParams = {...this.activatedRoute.snapshot.queryParams}; 
-            delete queryParams[name];
-            this.updateParams(queryParams, null);
-        }
-    }
-
-    /**
-     * Sets selected filters based on query params
-     * @param qParams 
-     */
-    setSelectedFilters(qParams): void {
-        if (!this.filters) return;
-
-        for (const name of Object.keys(this.selectedFilters)) {
-            if (qParams[name]) {
-                this.params[name + '__in'] = qParams[name].split(',').join('|');
-
-                const filterValues = qParams[name].split(',').map(value => Number.isNaN(+value) ? value : +value);
-
-                if (this.filters['by_' + name]) {
-                    this.selectedFilters[name] = this.filters['by_' + name].filter(item => {
-                        return filterValues.indexOf(Number.isNaN(item.key) ? item.key : +item.key) !== -1
-                    });
+    protected getData() {
+        this.searchService.getData(ApiConfig.search, this.params)
+            .subscribe(response => {
+                let results = response.results ? response.results : [];
+                this.counters = response.aggregations.counters;
+                if (this.filters) {
+                    results = this.addInsitutions(results);
                 }
 
-                if (name === 'formats' && !this.filters['by_' + name]) {
-                    const formatValues = qParams[name].split(',').map(value => Number.isNaN(+value) ? value : +value);
-                    this.selectedFilters[name] = this.filters['by_format'].filter(item => formatValues.indexOf(item.key) !== -1);
+                this.items = this.listViewDetailsService.extendViewDetails(results);
+                this.count = response.count;
+                this.selfApi = response.links.self;
+
+                this.isQueryFormVisible = this.count && ((this.params && this.params.q && this.params.q.length) ||
+                    this.selectedFiltersCount);
+                this.isQueryFormSubmitted = false;
+                this.isQueryFormError = false;
+                this.isQuerySubscribed = !!response.subscription_url;
+            });
+    }
+
+    /**
+     * returns new empty data model for filters
+     * @return {IListViewDatasetFiltersModel}
+     */
+    protected getFiltersModel(): IListViewDatasetFiltersModel | IListViewDatasetCategoryFiltersModel {
+        // @ts-ignore
+        return {
+            [this.categoriesHelper.getFilterName()]: {}, [AggregationFilterNames.INSTITUTION]: {},
+            [AggregationFilterNames.FORMAT]: {}, [AggregationFilterNames.OPENNESS_SCORE]: {},
+            [AggregationFilterNames.VISUALIZATION_TYPE]: {}, [AggregationFilterNames.TYPES]: {},
+            [AggregationFilterNames.DATE_FROM]: null, [AggregationFilterNames.DATE_TO]: null
+        };
+    }
+
+    /**
+     * returns count of selected filters
+     * @return {number}
+     */
+    protected getSelectedFiltersCount(): number {
+        return this.getSelectedFilterCount(this.backupSelectedFilters[this.categoriesHelper.getFilterName()]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.INSTITUTION]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.FORMAT]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.OPENNESS_SCORE]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.VISUALIZATION_TYPE]) +
+            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.TYPES]) +
+            (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] ||
+            this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0);
+    }
+
+    /**
+     * adds institution when relationships is available in the model
+     * @param {any[]} results
+     * @returns {any[]}
+     */
+    private addInsitutions(results: any[]): any[] {
+        let institutionData;
+        let institutionLinkRelated;
+        let lastCommaIndex;
+
+        return results.map(dataset => {
+            if (dataset.relationships) {
+                institutionData = dataset.relationships.institution;
+                dataset.institution = this.filters[AggregationOptionType.INSTITUTION].find(institution => {
+                    return institutionData.data.type === this.apiModel.INSTITUTION && institutionData.data.id === institution.id;
+                });
+
+                if (dataset.institution) {
+                    institutionLinkRelated = institutionData.links.related;
+                    lastCommaIndex = institutionLinkRelated.lastIndexOf(',');
+                    dataset.institution.slug = institutionLinkRelated.slice(lastCommaIndex + 1, institutionLinkRelated.length);
                 }
             }
-        }
-        this.calculateSelectedFiltersCount();
-    }
 
-    /**
-     * Clears selected filters
-     */
-    clearSelectedFilters() {
-        this.resetSelectedFilters();
-        this.updateParams({}, null);
-    }
-
-    /**
-     * Resets selected filters
-     */
-    resetSelectedFilters() {
-        this.selectedFilters = {category: [], institution: [], formats: [], openness_scores: []};
-        this.calculateSelectedFiltersCount();
-    }
-
-    /**
-     * Calculates selected filters count
-     */
-    calculateSelectedFiltersCount() {
-        this.selectedFiltersCount = this.selectedFilters.category.length +
-            this.selectedFilters.institution.length +
-            this.selectedFilters.formats.length +
-            this.selectedFilters.openness_scores.length;
-    }
-
-    /**
-     * Removes selected filter
-     * @param {string} name 
-     * @param {number} index 
-     */
-    removeSelectedFilter(name: string, index: number) {
-        const item = this.selectedFilters[name].splice(index, 1)[0];
-        const updatedQueryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-
-        const paramValues = updatedQueryParams[name].split(',').map(value => Number.isNaN(+value) ? value : +value);
-        paramValues.splice(paramValues.indexOf(item.key), 1);
-
-        if (paramValues.length > 0) {
-            updatedQueryParams[name] = paramValues.join(',');
-        } else {
-            delete updatedQueryParams[name];
-        }
-
-        updatedQueryParams['page'] = 1;
-        this.updateParams(updatedQueryParams, null);
-    }
-
-    /**
-     * Checks whether default page params already exist
-     * @param obj 
-     * @returns {boolean}
-     */
-    allBasicParamsIn(obj) {
-        for (let key of Object.keys(this.basicParams)) {
-            if ( !(key in obj) ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Checks whether item (result) list is sorted by date
-     */
-    checkSortByDate() {
-        if (!this.params) return;
-
-        if (this.params.sort.indexOf('created') !== -1 || this.params.sort.indexOf('verified') !== -1) {
-            this.isSortedByDate = true;
-        } else {
-            this.isSortedByDate = false;
-        }
-    }
-
-    /**
-     * Unsubscribes from existing subscriptions
-     */
-    ngOnDestroy() {
-        this.queryParamsSubscription.unsubscribe();
+            return dataset;
+        });
     }
 }

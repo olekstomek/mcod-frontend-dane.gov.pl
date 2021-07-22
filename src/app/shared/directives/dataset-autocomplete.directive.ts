@@ -2,7 +2,9 @@ import { Directive, ElementRef, Renderer2, OnInit, HostListener, Output, OnDestr
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
 
-import { DatasetService } from '@app/services/dataset.service';
+import { StringHelper } from '../helpers/string.helper';
+import { ApiModel } from '@app/services/api/api-model';
+import { SearchService } from '@app/services/search.service';
 
 /**
  * Dataset Autocomplete Directive
@@ -69,34 +71,46 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
      */
     constructor(private elementRef: ElementRef,
                 private renderer: Renderer2,
-                private datasetService: DatasetService) { 
+                private searchService: SearchService) { 
     }
 
     /**
-     * Initializes search.
-     * Gets datasets list from the data service.
+     * Initalizes dropdown
      */
     ngOnInit() {
+        this.initDropdown();
+    }
+
+    /**
+     * Initializes or recreates dropdown menu of datasets
+     */
+    initDropdown() {
         this.searchChanged
             .pipe(
                 distinctUntilChanged(),
                 debounceTime(400),
-                switchMap(changedParams => this.datasetService.getAll(changedParams))
+                switchMap((changedParams: {[key: string]: string | number}) => {
+                    return this.searchService.search({
+                        ...changedParams,
+                        'model[terms]': ApiModel.DATASET
+                    });
+                })
             )
-            .subscribe(data => {
+            .subscribe(response => {
                 
             this.removeDropdownMenu();
 
-            // no data to display
-            if ( !data['results'].length) return;
+            if (!response['data'] || !response['data'].length) {
+                return;
+            }
 
             // recreate list of options to choose from
             const dropdown = this.createDropdownMenu();
 
-            for (let dataset of data['results']) {
+            for (let dataset of response['data']) {
                 this.renderer.appendChild(dropdown, this.createDropdownMenuItem(dataset));
             }
-        })
+        });
     }
 
     /**
@@ -135,8 +149,9 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
         this.renderer.addClass(button, 'dropdown-item');
 
         // button text
-        const title = this.renderer.createText(dataset.attributes.title);
-        this.renderer.appendChild(button, title);
+        dataset.attributes.title = StringHelper.stripHtmlTags(dataset.attributes.title);
+        const buttonText = this.renderer.createText(dataset.attributes.title);
+        this.renderer.appendChild(button, buttonText);
 
         // button click event
         const itemClickListener = this.renderer.listen(button, 'click', () => {

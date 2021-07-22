@@ -1,0 +1,38 @@
+
+<section class="home-section home-section--apps vertical-spacing" id="applications">
+    <div class="home-apps">
+        <h2 class="heading heading--md heading--centered"
+            appInfoTooltip="{{'Tour.Tooltip.HomePage.Applications.text' | translate }}"
+            tooltipTitle="{{ 'Tour.Tooltip.HomePage.Applications.title' | translate }}">
+            {{ 'Applications.Self' | translate }}
+        </h2>
+
+        <p class="home-apps__description heading--separator heading--centered">
+            {{ 'Home.Apps.Description' | translate }}
+        </p>
+
+        <div class="container" *ngIf="applications">
+
+            <!-- applications grid -->
+            <ul class="category-list row m-0 p-0">
+                <li class="category-list__item col-12 col-sm-6 col-md-6 col-xl-3"
+                    *ngFor="let application of applications">
+                    <a class="category-list__item-wrapper" [routerLink]="['/!application' | localize, application?.id +','+ application.attributes.slug]">
+                        <div class="category-list__item-content">
+                            <div class="category-list__image-wrapper">
+                                <img class="category-list__item-image" src="{{ application.attributes.image_thumb_url }}" *ngIf="application.attributes.image_thumb_url"
+                                     alt="{{application.attributes.image_alt ? application.attributes.image_alt : ('Applications.Logo' | translate) + ' ' + application.attributes.title}}">
+                            </div>
+                            <span class="category-list__item-heading category-list__item-heading--dark">
+                                {{ application.attributes.title }}
+                            </span>
+                        </div>
+                    </a>
+
+                </li>
+            </ul>
+            <!-- view all (anchor) -->
+            <home-section-footer [routerURL]="'/!application'" [text]="'Applications.SeeAll' "></home-section-footer>
+        </div>
+    </div>
+</section>

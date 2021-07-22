@@ -4,6 +4,7 @@ import { empty } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ArticlesService } from '@app/services/articles.service';
+import { ActivatedRouteHelper } from '@app/shared/helpers/activated-route.helper';
 
 /**
  * Breadcrumbs Resolver for /articles page
@@ -24,12 +25,9 @@ export class BreadcrumbsArticleResolver implements Resolve<any> {
      * @returns {any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-        return this.service
-            .getOne(route.paramMap.get('id'))
+        return this.service.getOne(ActivatedRouteHelper.getRoutingId(route))
             .pipe(
-                catchError(() => {
-                    return empty();
-                })
+                catchError(() => empty())
             );
     }
 }

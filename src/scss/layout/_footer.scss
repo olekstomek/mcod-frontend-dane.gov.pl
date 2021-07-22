@@ -1,133 +1,98 @@
 /* PAGE: FOOTER
 ********************/
 
-
 .page-footer {
-    padding: 2.5rem 0 1rem 0;
+    padding-top: 2.5rem;
     background-color: $color-blue-dark;
 	color: $color-white;
 
-    @include media-breakpoint-down(md)
-    {
-        padding: 2rem 0 1.5rem 0;
-    }
+    &__heading {
+        position: relative;
 
-    @include media-breakpoint-down(sm)
-    {
-        padding: 1.5rem 0 1.5rem 0;
-    }
-
-
-    :link,
-    :visited {
-        color: inherit;
-    }
-
-
-    .left-side {
-        display: flex;
-        justify-content: space-between;
-
-		@include media-breakpoint-down(md)
-		{
-            display: block;
-		}
-
-		@include media-breakpoint-down(sm)
-		{
-            display: flex;
-		}
-    }
-
-
-    .brand-wrapper {
-
-		@include media-breakpoint-down(md)
-		{
-            display: block;
-		}
-
-		@include media-breakpoint-down(xs)
-		{
-            display: none;
-		}
-    }
-
-
-    .rodo-toggle {
-        width: 50%;
-
-		@include media-breakpoint-down(lg)
-		{
-            padding-left: 5%;
-		}
-
-		@include media-breakpoint-down(md)
-		{
-            display: block;
-            width: auto;
-            margin-top: 15px;
-            padding-left: 0;
-		}
-
-		@include media-breakpoint-down(sm)
-		{
-            margin-top: 0;
-		}
-
-		@include media-breakpoint-down(xs)
-		{
-            width: 100%;
-            text-align: center;
-		}
-    }
-
-
-	.maintained {
-        margin: 15px 0 0 0;
-        padding-top: 15px;
-        border-top: 1px solid $color-blue-light;
-        text-align: center;
-
-        &__by {
-            text-decoration: underline;
-
-            &-logo {
-                display: inline-block;
-                width: 160px;
-                vertical-align: middle;
-                margin-left: 15px;
+        &-title {
+            font-weight: bold;
+            padding-bottom: 1rem;
+    
+            @include media-breakpoint-down(xs) {
+                padding: 0.25rem 0;
             }
         }
 
-		// < sm
-		@include media-breakpoint-down(xs)
-		{
-            &__label {
-                display: block;
-            }
-
-            &__by {
+        &-toggle {
+            color: inherit;
+            background: transparent;
+            border: 0;
+            font-weight: bold;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            text-align: right;
+            border-bottom: 1px solid $color-blue-light;
+            display: none;
     
-                &-logo {
-                    margin-left: 0;
-                    margin-top: 10px;
+            @include media-breakpoint-down(xs) {
+                display: inline;
+            }
+        }
+
+        @include media-breakpoint-down(xs) {
+            margin-top: 0.5rem;
+        }
+    }
+
+    &__nav {
+        @include media-breakpoint-down(xs) {
+            padding-top: 0.25rem;
+            @include visibility-animated;
+        }
+    }
+
+    &__list {
+        padding-left: 0;
+        list-style: none;
+
+        &-item {
+            & > * {
+                color: inherit;
+                text-decoration: underline;
+                cursor: pointer;
+
+                &:hover {
+                    color: darken($color-hover, 20%);
                 }
             }
-		}
-	}
-
-
-    .footer-nav {
-
-        ul {
-            list-style: none;
         }
+    }
 
-		// < md
-		@include media-breakpoint-down(sm)
-		{
-            @include sr-only();
-		}
+    .external-logos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        height: 80px;
+        background-color: darken($color-white, 10%);
+
+        & > * {
+            margin: 0 2rem;
+
+            @include media-breakpoint-down(lg) {
+                margin: 0 1rem;
+            }
+
+            @include media-breakpoint-down(md) {
+                margin: 0 0.5rem;
+            }
+        }
+    }
+    
+    @include media-breakpoint-down(md) {
+        padding-top: 2rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+        padding-top: 1.5rem;
     }
 }

@@ -21,6 +21,10 @@
         }
     }
 
+    &.btn-link {
+        color: $hcPrimary;
+    }
+
     &.btn-outline-primary,
     &.btn-outline-danger {
         color: currentColor;

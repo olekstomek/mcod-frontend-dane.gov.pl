@@ -33,7 +33,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
      * Verifies email based on provided token.
      */   
     ngOnInit() {
-        this.seoService.setSeoByKeys('Action.Register', 'Slogan');
+        this.seoService.setPageTitleByTranslationKey(['Action.Register']);
         const token = this.route.snapshot.paramMap.get('token');
 
         if (!token) return;

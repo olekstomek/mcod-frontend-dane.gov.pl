@@ -1,0 +1,17 @@
+<!-- DETAILS: HEADER -->
+<header class="item-view__header vertical-spacing" *ngIf="pageData">
+    <div class="container">
+        <h2 class="heading heading--md">
+            {{ pageData.title }}
+        </h2>
+    </div>
+</header>
+
+
+<!-- DETAILS: BODY -->
+<div class="item-view__body vertical-spacing">
+    <div *ngFor="let section of pageData.body">
+        <cms-block class="w-100" [oneWidget]="section" *featureFlag="'S18_cms_block_with_carousel.fe'"></cms-block>
+        <cms-block2 class="w-100" [oneWidget]="section" *featureFlag="'S18_cms_block_without_carousel.fe'"></cms-block2>
+    </div>
+</div>

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { UserStateService } from '@app/services/user-state.service';
+import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { Observable } from 'rxjs';
 
 import { UserService } from '@app/services/user.service';
@@ -13,7 +15,10 @@ export class AuthGuard implements CanActivate {
     /**
      * @ignore
      */
-    constructor(private userService: UserService, private router: Router) {
+    constructor(private userService: UserService,
+                private userStateService: UserStateService,
+                private router: Router,
+                private localizeRouterService: LocalizeRouterService) {
     }
 
     /**
@@ -23,7 +28,7 @@ export class AuthGuard implements CanActivate {
      * @returns {Observable<boolean>} activate 
      */
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        this.userService.getCurrentUser();
+        this.userStateService.getCurrentUser();
         return this.checkLogin(state.url);
     }
 
@@ -39,19 +44,21 @@ export class AuthGuard implements CanActivate {
 
         // Navigate to the login page with extras
         return new Observable(observer => {
-            this.userService
+            this.userStateService
                 .getCurrentUser()
                 .subscribe(data => {
-
                 if (!data) {
-                    this.router.navigate(['/user', 'login']);
+                    this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [],
+                        {queryParams : {redirect: url}});
                     observer.next(false);
                 } else {
                     observer.next(true);
                 }
                 observer.complete();
             }, () => {
-                this.router.navigate(['/user', 'login']);
+
+                this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [],
+                    {queryParams : {redirect: url}});
                 observer.next(false);
             });
         });

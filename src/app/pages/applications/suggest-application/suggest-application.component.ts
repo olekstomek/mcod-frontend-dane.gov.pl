@@ -1,10 +1,14 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { zip } from 'rxjs';
 
 import { SeoService } from '@app/services/seo.service';
 import { ApplicationsService } from '@app/services/applications.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { toggleVertically } from '../../../animations/index';
+import { CmsHardcodedPages } from '@app/services/api/api.cms.config';
+import { CmsService } from '@app/services/cms.service';
+import { IPageCms } from '@app/services/models/cms/page-cms';
 
 /**
  * Suggest Application Component
@@ -71,13 +75,34 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
      * Max number of characters in notes (description)
      */
     maxDescriptionLength: number = 3000;
+
+    /**
+     * Determines whether terms text is exapnded
+     */
+    isTermsTextExapnded = false;
+
+    /**
+     * Temporary field suffix
+     */
+    tempFieldSuffix = '_temp';
     
+    /**
+     * Cms page info
+     */
+    cmsPageInfo: IPageCms;
+    
+    /**
+     * Cms page consent 
+     */
+    cmsPageConsent: IPageCms;
+
     /**
      * @ignore
      */
     constructor(private seoService: SeoService,
                 private applicationsService: ApplicationsService,
-                private notificationsService: NotificationsService) {
+                private notificationsService: NotificationsService,
+                private cmsService: CmsService) {
     }
 
     /**
@@ -85,36 +110,65 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
      * Initializes form with predefined validators
      */
     ngOnInit() {
-        this.seoService.setSeoByKeys('Applications.Suggest');
+        this.seoService.setPageTitleByTranslationKey(['Applications.Suggest']);
+        this.initApplicationForm();
+        this.getCmsInfoAndConsent();
+    }
 
+    /**
+     * Inits application form
+     */
+    initApplicationForm() {
         this.applicationForm = new FormGroup({
             'title': new FormControl(null, Validators.required),
             'url': new FormControl(null, [Validators.required, Validators.pattern("^(https?)[^/]+(/.*)/[^/]+$")]),
             'notes': new FormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
-            'datasets': new FormArray([]),
-            'image': new FormControl(null),
-            'applicant_email': new FormControl(null, [Validators.required, Validators.email]),
-            'author': new FormControl(null, Validators.required),
             'keywords': new FormControl(null),
+            'author': new FormControl(null, Validators.required),
+            'image': new FormControl(null),
+            ['image' + this.tempFieldSuffix]: new FormControl(null),
+            'illustrative_graphics': new FormControl(null),
+            ['illustrative_graphics' + this.tempFieldSuffix]: new FormControl(null),
+            'datasets': new FormArray([]),
             'external_datasets': new FormArray([]),
+            'applicant_email': new FormControl(null, [Validators.required, Validators.email]),
+            'is_personal_data_processing_accepted': new FormControl(false, Validators.requiredTrue),
+            'is_terms_of_service_accepted': new FormControl(false, Validators.requiredTrue),
+            'captcha': new FormControl(null, Validators.required)
         });
     }
-
+    
+    /**
+     * Gets cms info andc onsent
+     */
+    getCmsInfoAndConsent() {
+        zip(
+            this.cmsService.getSimplePage(CmsHardcodedPages.APPLICATION_DATA_PROCESSING_INFO),
+            this.cmsService.getSimplePage(CmsHardcodedPages.APPLICATION_DATA_PROCESSING_CONSENT)
+        ).subscribe(([pageInfo, pageConsent]) => {
+            console.log()
+            this.cmsPageInfo = pageInfo['body'];
+            this.cmsPageConsent = pageConsent['body'];
+        });
+    }
+    
     /**
      * Submits the form
      */
     onApplicationFormSubmit() {
-        if (!this.applicationForm.valid) return;
+        if (!this.applicationForm.valid) {
+            return;
+        }
 
         this.notificationsService.clearAlerts();
         let formValue = {...this.applicationForm.value};
-
-        // remove empty properties
+        
+        // remove empty and temporary properties
         for (let key in formValue) {
-            if (!formValue[key] || (formValue[key] && !formValue[key].length)) {
+            if (!formValue[key] || key == 'captcha' || key.indexOf(this.tempFieldSuffix) !== -1) {
                 delete formValue[key];
-            }
-        }     
+            } 
+        }   
 
         // internal datasets - store only dataset ids
         if (formValue['datasets'] && formValue['datasets'].length) {
@@ -246,26 +300,6 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Removes already uploaded, but not sent image
-     */
-    onImageRemove() {
-        this.uploadedImageFile = null;
-        this.uploadedImagePreview = null;
-        this.isImageTypeAccepted = true;
-        this.applicationForm.get('image').setValue(null);
-        (<HTMLInputElement>this.imageInput.nativeElement).value = null;
-    }
-
-    /**
-     * Determines whether form field is valid 
-     * @param {string} field 
-     * @returns {boolean} true if field valid 
-     */
-    isFieldValid(field: string): boolean {
-        return !this.applicationForm.get(field).valid && this.applicationForm.get(field).touched;
-    }
-
-    /**
      * Sets focus on the last dataset (internal and external) input
      */
     ngAfterViewInit() {
@@ -301,5 +335,18 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
             externalDatasetCount = elements.length;
             (<HTMLInputElement>elements.last.nativeElement).focus();
         });
+    }
+
+    /**
+     * Sets image data on every temp image upload or remove
+     * @param {string} field 
+     * @param {string} imageData 
+     */
+    onFileChange(field: string, imageData: string) {
+        if (field.indexOf(this.tempFieldSuffix) !== -1) {
+            field = field.substr(0, field.indexOf(this.tempFieldSuffix));
+        }
+
+        this.applicationForm.get(field).setValue(imageData);
     }
 }

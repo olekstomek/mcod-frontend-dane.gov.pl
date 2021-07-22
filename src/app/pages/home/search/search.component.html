@@ -14,6 +14,7 @@
                         <input type="text" class="form-control input--search"
                             placeholder="{{ 'Datasets.SearchFor' | translate }}..."
                             [attr.aria-label]="'Datasets.SearchFor' | translate"
+                            [maxLength]="maxLength"
                             ngModel name="query">
 
                         <!-- perform search -->

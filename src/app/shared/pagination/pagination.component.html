@@ -1,20 +1,6 @@
-<nav role="navigation" [attr.aria-label]="'Pagination.Self' | translate">
+<nav [attr.aria-label]="'Pagination.Self' | translate">
     <div class="pager">
-        <ul class="pagination">
-
-            <!-- first -->
-            <li class="page-item" [ngClass]="{disabled: page === 1 }">
-                <a [routerLink]="[]" class="page-link page-link--as-icon" (click)="changePage(1)"
-                    [attr.tabindex]="page === 1 ? -1 : null"
-                    [attr.aria-hidden]="page === 1 ? true : null" disabled>
-                    <span aria-hidden="true">
-                        &laquo;
-                    </span>
-                    <span class="sr-only">
-                        {{ 'Pagination.First' | translate }}
-                    </span>
-                </a>
-            </li>
+        <ul class="pagination d-flex flex-wrap">
 
             <!-- back -1 -->
             <li class="page-item" [ngClass]="{disabled: page <= 1 }">
@@ -32,16 +18,23 @@
 
             <!-- page(s) -->
             <li class="page-item"
-                [ngClass]="{active: page == pageNumber}"
+                [ngClass]="{active: page === pageNumber}"
                 *ngFor="let pageNumber of pageNumbersToShow;">
 
-                <a [routerLink]="[]" class="page-link" (click)="changePage(pageNumber)"
-                    [attr.aria-current]="(page == pageNumber) ? true : null">
-                    <span class="sr-only">
-                        {{ 'Pagination.Page' | translate }}
-                    </span>
-                    {{ pageNumber }}
-                </a>
+                    <!-- number -->
+                    <a *ngIf="pageNumber" [routerLink]="[]" class="page-link" (click)="changePage(pageNumber)"
+                        [attr.aria-current]="(page === pageNumber) ? true : null">
+                        <span class="sr-only">
+                            {{ 'Pagination.Page' | translate }}
+                        </span>
+                        {{ pageNumber }}
+                        <span class="sr-only" *ngIf="pageNumber === totalPages">
+                           , {{ 'Pagination.Last' | translate }}
+                        </span>
+                    </a>
+
+                    <!-- ellipsis -->
+                    <span  *ngIf="!pageNumber" class="page-link page-item--ellipsis" aria-hidden="true">...</span>
             </li>
 
             <!-- next +1 -->
@@ -58,19 +51,6 @@
                 </a>
             </li>
 
-            <!-- last -->
-            <li class="page-item"  [ngClass]="{disabled: page === totalPages }">
-                <a [routerLink]="[]" class="page-link page-link--as-icon" (click)="changePage(totalPages)"
-                    [attr.tabindex]="page === totalPages ? -1 : null"
-                    [attr.aria-hidden]="page === totalPages ? true : null">
-                    <span aria-hidden="true">
-                        &raquo;
-                    </span>
-                    <span class="sr-only">
-                        {{ 'Pagination.Last' | translate }}
-                    </span>
-                </a>
-            </li>
         </ul>
     </div>
 </nav>

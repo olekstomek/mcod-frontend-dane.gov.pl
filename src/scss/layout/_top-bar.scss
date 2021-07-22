@@ -2,23 +2,42 @@
     background-color: $color-white;
 
 	.top-bar {
-		padding: 10px 0;
+        padding: 10px 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
 
-		// < MD
-		@include media-breakpoint-down(sm) {
-			flex-direction: column;
-		}
-
-		// left side wrapper
         .a11y-wrapper {
             display: flex;
             align-items: center;
+            justify-content: flex-start;
+            padding-left: 0.7rem;
+        }
 
-			// < MD
-			@include media-breakpoint-down(sm) {
-                margin-bottom: 0.5rem;
-                justify-content: space-between;
-			}
+        // < XL
+        @include media-breakpoint-down(lg) {
+            .break {
+                flex-basis: 100%;
+            }
+
+            .language-divider {
+                display: none;
+            }
+
+            .a11y-wrapper {
+                margin-left: auto;
+                padding-left: 0;
+            }
+        }
+
+        @include media-breakpoint-down(xs) {
+            .break{
+                flex-basis: initial;
+            }
+            .a11y-wrapper {
+                margin-left: initial;
+            }
         }
 
         
@@ -102,7 +121,12 @@
 				}
             }
 		}
-
+        .language-divider {
+            background-color: $color-text;
+            height: 22px;
+            width: 1px;
+            margin: 0 10px 0 10px;
+        }
 
 		// RIGHT SIDE
 		.user-related {
@@ -129,7 +153,185 @@
                         }
                     }
                 }
+
+                &-logged {
+                    .user-related__auth-link {
+                        position: relative;
+                        top: 2px;
+                    }
+                }
 			}
+
+            @include media-breakpoint-down(xs) {
+                width: 100%;
+                justify-content: flex-end;
+                padding-top: 10px;
+            }
+
+            @include media-breakpoint-down(lg) {
+                &__email {
+                    display: none;
+                }
+            }
+		}
+	}
+}
+
+
+.gov-top-bar-wrapper {
+    background-color: $color-white;
+
+	.top-bar {
+        padding: 10px 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;    
+
+        .language-switcher {
+            border-right: 1px solid $color-black;
+            padding-right: 15px;
+            margin-right: 15px;
+            
+            @include media-breakpoint-down(lg) {
+                border: 0;
+                padding-right: 0;
+                margin-left: 15px;
+                margin-right: auto;
+            }
+        
+            @include media-breakpoint-down(xs) {
+                margin-left: auto;
+                margin-right: 0;
+            } 
+        }
+       
+		// LEFT SIDE
+		.a11y-buttons {
+            display: flex;
+
+			&__group {
+				margin: 0;
+				padding: 0;
+                list-style: none;
+                display: flex;
+                align-items: center;
+
+				&:last-child {
+                    margin-left: 15px;
+
+                    // < MD
+                    @include media-breakpoint-down(sm) {
+                        display: none;
+                    }
+				}
+            }
+
+
+            &__item {
+                margin-right: 3px;
+
+				.btn {
+					padding: 0;
+					// px to prevent font-size scaling
+					font-size: 16px;
+
+                    // font increase
+					&--font {
+						padding: 0 2px;
+						background-color: transparent;
+						position: relative;
+						line-height: 1;
+                        overflow: visible;
+
+                        &-0 { padding-right: 6px; }
+                        &-1 { padding-right: 10px; }
+                        &-2 { padding-right: 16px; }
+                        &-3 { padding-right: 24px; }
+
+						.plus {
+							position: absolute;
+							top: -3px;
+                            left: 12px;
+                            font-weight: bold;
+                        }
+					}
+
+                    // high contrast
+					&--hc {
+						width: 25px;
+                        height: 25px;
+                        box-sizing: border-box;
+                        border: 1px solid $color-black;
+
+                        &-default {
+                            background-color: $color-white;
+                            border-color: inherit;
+                        }
+
+                        &-bw {
+                            background-color: $color-black;
+                            color: $color-white;
+                        }
+
+                        &-by {
+                            background-color: $color-black;
+                            color: $color-yellow;
+                        }
+
+                        &-yb {
+                            background-color: $color-yellow;
+                        }
+					}
+				}
+            }
+		}
+
+		// RIGHT SIDE
+		.user-related {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+			&__auth {
+
+				&-link {
+                    margin-left: 15px;
+
+					&:first-child {
+						margin-left: 0;
+                    }
+
+                    &.active {
+                        color: currentColor;
+                        font-weight: bold;
+                        text-decoration: none;
+
+                        &:hover {
+                            cursor: text;
+                        }
+                    }
+                }
+
+                &-logged {
+                    .user-related__auth-link {
+                        position: relative;
+                        top: 2px;
+                    }
+                }
+			}
+
+            @include media-breakpoint-down(xs) {
+                width: 100%;
+                justify-content: flex-end;
+                padding-top: 10px;
+            }
+
+            @include media-breakpoint-down(lg) {
+                &__email {
+                    display: none;
+                }
+            }
 		}
 	}
 }

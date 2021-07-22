@@ -1,0 +1,60 @@
+<div class="d-flex flex-lg-column small">
+
+    <div class="font-weight-bold">
+        {{(item?.attributes?.media_type === 'file' ? 'Action.Download' : 'Action.Go') | translate}}:
+    </div>
+
+
+    <ng-container *ngIf="item.attributes.media_type === 'file'">
+
+        <!-- download file -->
+        <app-download-link *ngIf="item.attributes.download_url"
+            [customCssClass]="'underline ml-3 ml-lg-0'"
+            [fileSize]="item.attributes.file_size"
+            [fileUrl]="item.attributes.download_url"
+            [format]="item.attributes.format"
+            [title]="item.attributes.title"
+            (click)="onDownload(item.attributes.title, item.attributes.download_url)">
+        </app-download-link>
+
+        <!-- download csv file -->
+        <app-download-link *ngIf="item.attributes.csv_download_url"
+            [customCssClass]="'underline ml-3 ml-lg-0'"
+            [fileSize]="item.attributes.csv_file_size"
+            [fileUrl]="item.attributes.csv_download_url"
+            [format]="'csv'"
+            [title]="item.attributes.title"
+            (click)="onDownload(item.attributes.title, item.attributes.csv_download_url)">
+        </app-download-link>
+        
+    </ng-container>
+
+    <!-- resource api -->
+    <a *ngIf="item.attributes.media_type === 'api' && item.attributes.link"
+        class="underline ml-3 ml-lg-0"
+        target="_blank"
+        href="{{ item.attributes.link }}">
+
+        API <span aria-hidden="true">>></span>
+
+        <span class="sr-only">
+            {{ item?.attributes?.title }}
+            {{ "SkipTo.NewWindow" | translate }}
+        </span>
+    </a>
+
+    <!-- resource website -->
+    <a *ngIf="item.attributes.media_type === 'website' && item.attributes.link" 
+        class="underline ml-3 ml-lg-0" 
+        target="_blank" 
+        href="{{ item.attributes.link }}">
+
+        {{ 'TypesFilters.Website' | translate }} 
+
+        <span aria-hidden="true">>></span>
+        <span class="sr-only">
+            {{ item?.attributes?.title }}
+            {{ "SkipTo.NewWindow" | translate }}
+        </span>
+    </a>
+</div>

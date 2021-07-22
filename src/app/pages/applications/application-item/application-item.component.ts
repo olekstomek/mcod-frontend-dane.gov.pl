@@ -1,12 +1,13 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParamsHandling } from '@angular/router/src/config';
+import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { SeoService } from '@app/services/seo.service';
-import { StringHelper } from '@app/shared/helpers/string.helper';
 import { ApplicationsService } from '@app/services/applications.service';
+import { ListViewDetailsService } from '@app/services/list-view-details.service';
+import { SeoService } from '@app/services/seo.service';
+import { ArrayHelper } from '@app/shared/helpers';
+import { StringHelper } from '@app/shared/helpers/string.helper';
 
 /**
  * Application Item Component
@@ -29,12 +30,7 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
     /**
      * Items (related datasets)
      */
-    items: any[];
-
-    /**
-     * Determines whether item list is sorted by date
-     */
-    isSortedByDate: boolean = false;
+    items: any[] = [];
 
     /**
      * Count of items (related datasets)
@@ -57,22 +53,38 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
     };
 
     /**
+     * Sort options
+     */
+    sortOptions: {labelTranslationKey: string, value: string}[] = [
+        {labelTranslationKey:'Attribute.NameAsc', value: 'title'},
+        {labelTranslationKey:'Attribute.NameDesc', value: '-title'},
+        {labelTranslationKey:'Attribute.UpdateDate', value: '-verified'},
+        {labelTranslationKey:'Attribute.Popularity', value: '-views_count'}
+    ];
+
+    /**
+     * Determines whether sort value is valid
+     */
+    isSortValid: boolean;
+
+    /**
      * @ignore
-     */    
+     */
     constructor(private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private applicationsService: ApplicationsService,
-                private seoService: SeoService) {
+                private seoService: SeoService,
+                private listViewDetailsService: ListViewDetailsService) {
     }
 
     /**
-     * Sets META tags (title, description). 
+     * Sets META tags (title, description).
      * Initializes application detail.
      * Initializes and updates list of items (related datasets) on query params change.
      */
     ngOnInit() {
         this.application = this.activatedRoute.snapshot.data.post;
-        this.application.attributes.tags = this.application.attributes.tags.join(', ');
+        this.application.attributes.tags = ArrayHelper.convertArrayValuesToCommaSeparatedString(this.application.attributes.tags);
 
         this.seoService.setPageTitle(this.application.attributes.title);
         this.seoService.setDescriptionFromText(StringHelper.stripHtmlTags(this.application.attributes.notes));
@@ -86,22 +98,22 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
                         q: qParamMap.get('q') || '',
                         sort: qParamMap.get('sort') || this.basicParams['sort']
                     };
-    
+
                     return this.applicationsService.getDatasets(this.application.id, this.params);
                 })
             )
             .subscribe(data => {
-                this.items = data.results;
+                const results = data.results ? data.results : [];
+                this.items = this.listViewDetailsService.extendViewDetails(results);
                 this.count = data.count;
-
-                this.checkSortByDate();
+                this.isSortValid = !!this.sortOptions.find(option => option.value === this.params.sort);
             });
     }
-    
+
     /**
      * Updates query params on every user interaction
-     * @param params 
-     * @param {QueryParamsHandling | null} method 
+     * @param params
+     * @param {QueryParamsHandling | null} method
      */
     updateParams(params: any, method: QueryParamsHandling | null = 'merge') {
         const updatedBasicParams = {
@@ -109,27 +121,18 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
             per_page: +this.params['per_page'] || this.basicParams['per_page'],
             q: this.params['q'] || '',
             sort: this.params['sort'] || ''
+        };
+
+        if (!('page' in params)) {
+            params['page'] = 1;
         }
-        
-        if ( !('page' in params) ) params['page'] = 1;
 
-        this.router.navigate([], {queryParams: {
-            ...updatedBasicParams,
-            ...params
-        }, queryParamsHandling: method});
-    } 
-
-    /**
-     * Checks whether item (result) list is sorted by date
-     */
-    checkSortByDate() {
-        if (!this.params) return;
-
-        if (this.params.sort.indexOf('created') !== -1 || this.params.sort.indexOf('verified') !== -1) {
-            this.isSortedByDate = true;
-        } else {
-            this.isSortedByDate = false;
-        }
+        this.router.navigate([], {
+            queryParams: {
+                ...updatedBasicParams,
+                ...params
+            }, queryParamsHandling: method
+        });
     }
 
     /**

@@ -12,10 +12,13 @@ $color-white: #fff;
 $color-black: #000;
 
 $color-yellow: #ff0;
+$color-coronavirus: #ffc605;
 $color-red: #d40043;
 
-$color-blue-light: #0971dd;
+$color-blue-light: #0865C9;
 $color-blue-dark: #0f2648;
+$color-outline: #50a6ff;
+$color-highlight: #b0d5fe;
 
 $color-grey-dark: #5e5e5e;
 
@@ -30,12 +33,16 @@ $color-grey-light-7: #9b9b9b;
 $color-heading: #333;
 $color-text: #555;
 $color-hover: #def;
+$color-hover-2: #05407f;
 
+$color-gov-primary: #0052a5;
 
 // font size
 $heading-lg-size: 2.5rem;
 $heading-md-size: 2rem;
 $heading-sm-size: 1.5rem;
+$heading-xs-size: 1.25rem;
+
 
 
 //
@@ -46,3 +53,6 @@ $vertical-spacing: 30px;
 $collapsible-sidebar-width: 250px;
 $collapsible-sidebar-spacing: 15px;
 $collapsible-sidebar-transition-duration: 0.5s;
+
+// outline border
+$outline: 3px solid $color-outline;

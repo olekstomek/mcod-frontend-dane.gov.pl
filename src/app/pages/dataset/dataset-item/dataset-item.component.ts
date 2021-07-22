@@ -1,15 +1,20 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParamsHandling } from '@angular/router/src/config';
-import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
-import { SeoService } from '@app/services/seo.service';
+import { toggleHorizontally, toggleVertically } from '@app/animations';
+import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { IDownloadFile } from '@app/services/models/download-item';
+import { PageParams } from '@app/services/models/page-params';
+import { SchemaDataService } from '@app/services/schema-data.service';
+import { SchemaService } from '@app/services/schema.service';
+import { SeoService } from '@app/services/seo.service';
 import { LinkHelper } from '@app/shared/helpers';
-import { toggleHorizontally, toggleVertically } from '../../../animations/index';
 
 /**
  * Dataset Item Component
@@ -22,10 +27,16 @@ import { toggleHorizontally, toggleVertically } from '../../../animations/index'
     ]
 })
 export class DatasetItemComponent implements OnInit, OnDestroy {
+
+    /**
+     * API model
+     */
+    apiModel = ApiModel;
+
     /**
      * Sidebar visiblity indicator
      */
-    sidebarVisible: boolean = true;
+    sidebarVisible = true;
 
     /**
      * Self api of dataset item component
@@ -35,7 +46,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     /**
      * Modal template reference
      */
-    @ViewChild('feedbackModalTemplate') modalTemplate: TemplateRef<any>;
+    @ViewChild('feedbackModalTemplate', {static: true}) modalTemplate: TemplateRef<any>;
 
     /**
      * Feedback modal service reference
@@ -45,7 +56,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     /**
      * Feedback sent indicator
      */
-    feedbackSent: boolean = false;
+    feedbackSent = false;
 
     /**
      * Page setting based on basic params and user interactions
@@ -57,24 +68,19 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
      */
     basicParams = {
         page: 1,
-        per_page: 5,
-        sort: '-verified',
+        per_page: 20,
+        sort: '-data_date',
     };
 
     /**
      * Dataset  of dataset item component
      */
     dataset: any;
-    
-    /**
-     * Institution  of dataset 
-     */
-    institution: any;
 
     /**
-     * Determines whether dataset has legal restrictions
+     * Institution  of dataset
      */
-    hasRestrictions: boolean;
+    institution: any;
 
     /**
      * Resources subsciption
@@ -87,19 +93,9 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     resources: any[];
 
     /**
-     * Determines whether resources are sorted by date
-     */
-    isSortedByDate: boolean = false;
-
-    /**
-     * Resources count 
+     * Resources count
      */
     resourcesCount: number;
-
-    /**
-     * History visibility indicator
-     */
-    historyVisible: boolean = false;
 
     /**
      * History actions list
@@ -109,70 +105,92 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     /**
      * History actions - current page
      */
-    historyPageNumber: number = 1;
+    historyPageNumber = 1;
 
     /**
      * Total number of history actions
      */
     historyTotal: number;
 
+    /**
+     * Active tab index
+     */
+    activeTabIndex = 1;
+
+    /**
+     * Sort options
+     */
+    sortOptions: { labelTranslationKey: string, value: string }[] = [
+        {labelTranslationKey: 'Attribute.NameAsc', value: 'title'},
+        {labelTranslationKey: 'Attribute.NameDesc', value: '-title'},
+        {labelTranslationKey: 'Attribute.AvailabilityDate', value: '-created'},
+        {labelTranslationKey: 'Attribute.PopularityAsc', value: 'views_count'},
+        {labelTranslationKey: 'Attribute.PopularityDesc', value: '-views_count'}
+    ];
+
+    /**
+     * Determines whether sort value is valid
+     */
+    isSortValid: boolean;
+
 
     /**
      * @ignore
      */
     constructor(private activatedRoute: ActivatedRoute,
+                private filterService: ListViewFiltersService,
                 private router: Router,
                 private datasetService: DatasetService,
                 private seoService: SeoService,
+                private schemaService: SchemaService,
+                private schemaDataService: SchemaDataService,
                 private modalService: BsModalService) {
     }
 
     /**
-     * Sets META tags (title, description). 
+     * Sets META tags (title, description).
      * Initializes dataset,its institution and history.
      * Initializes and updates list of items (resources) on query params change.
      */
     ngOnInit() {
-        this.dataset = this.activatedRoute.snapshot.parent.data.post.data;
-        this.selfApi = this.datasetService.base_url + this.dataset.links.self;
+        const {data: dataset, included: datasetRelated} = this.activatedRoute.snapshot.data.post;
+
+        this.dataset = dataset;
+        this.selfApi = this.dataset.links.self;
+
+        if (this.dataset.attributes.source && this.dataset.attributes.source.type === 'ckan') {
+            this.basicParams.sort = '-created';
+        } else {
+            this.sortOptions.splice(3, 0, {labelTranslationKey: 'Attribute.DataDate', value: '-data_date'});
+        }
 
         this.seoService.setPageTitle(this.dataset.attributes.title);
         this.seoService.setDescriptionFromText(this.dataset.attributes.notes);
 
-        const institutionId = +this.dataset.relationships.institution.data.id;
+        this.schemaDataService.getDatasetStructuredData(this.dataset.id)
+            .subscribe(data => {
+                this.schemaService.addStructuredData(data);
+            });
 
-        if (this.dataset.attributes.license_condition_source ||
-            this.dataset.attributes.license_condition_original ||
-            this.dataset.attributes.license_condition_modification ||
-            this.dataset.attributes.license_condition_responsibilities ||
-            this.dataset.attributes.license_condition_db_or_copyrighted
-        ) {
-            this.hasRestrictions = true;
-        } else
-            this.hasRestrictions = false;
+        this.institution = datasetRelated.find(item => item.type === this.apiModel.INSTITUTION);
 
-        // TODO: move to dataset.service
-        this.institution = this.activatedRoute.snapshot.parent.data.post.included.find(item => {
-            return item.id === institutionId && item.type === 'institution';
-        });
-
-        this.resourcesSubsciption =  this.activatedRoute.queryParamMap
-            .pipe(     
+        this.resourcesSubsciption = this.activatedRoute.queryParamMap
+            .pipe(
                 switchMap(qParamMap => {
                     this.params = {
                         page: +qParamMap.get('page') || this.basicParams['page'],
                         per_page: +qParamMap.get('per_page') || this.basicParams['per_page'],
-                        sort: qParamMap.get('sort') || this.basicParams['sort']
+                        sort: qParamMap.get('sort') || this.basicParams['sort'],
+                        include: this.apiModel.INSTITUTION
                     };
 
-                    return this.datasetService.getResourcesList(this.dataset.id, this.params)
+                    return this.datasetService.getResourcesList(this.dataset.id, this.params);
                 })
             )
             .subscribe(response => {
                 this.resources = response.results;
                 this.resourcesCount = response.count;
-
-                this.checkSortByDate();
+                this.isSortValid = !!this.sortOptions.find(option => option.value === this.params.sort);
             });
 
         this.loadHistory(this.historyPageNumber);
@@ -180,7 +198,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
 
     /**
      * Loads dataset history actions
-     * @param {number} page 
+     * @param {number} page
      */
     public loadHistory(page: number) {
         this.historyPageNumber = page;
@@ -195,41 +213,36 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
 
     /**
      * Updates query params on every user interaction
-     * @param params 
-     * @param {QueryParamsHandling | null} method 
+     * @param {PageParams} params
+     * @param {QueryParamsHandling | null} method
      */
-    updateParams(params: any, method: QueryParamsHandling | null = 'merge') {
-        const updatedBasicParams = {
-            page: +this.params['page'] || this.basicParams['page'],
-            per_page: +this.params['per_page'] || this.basicParams['per_page'],
-            sort: this.params['sort'] || ''
-        }
-        
-        if ( !('page' in params) ) params['page'] = 1;
+    updateParams(params: PageParams, method: QueryParamsHandling | null = 'merge') {
 
-        this.router.navigate([], {queryParams: {
-            ...updatedBasicParams,
-            ...params
-        }, queryParamsHandling: method});
-    }    
+        const updatedBasicParams = this.filterService.updateBasicParams(this.params, this.basicParams);
+
+        if (!('page' in params)) {
+            params['page'] = 1;
+        }
+
+        this.router.navigate([], {
+            queryParams: {
+                ...updatedBasicParams,
+                ...params
+            }, queryParamsHandling: method
+        });
+    }
 
     /**
      * Increments download counter and initializes resource (file) download.
-     * @param resource 
-     * @returns {boolean}
+     * @param {IDownloadFile} file
      */
-    downloadResource(resource) {
-        this.datasetService
-            .tickDownloadCounter(resource.id)
-            .subscribe(() => {});
-        // Fire away download right after click, regardless of api response, 
-        // to not get cought in browser's pop up guard
-        return LinkHelper.downloadFile(resource.attributes.file_url);
+    downloadResource(file: IDownloadFile) {
+        LinkHelper.downloadResource(file);
     }
 
     /**
      * Sends feedback on feedback form submits
-     * @param feedbackForm 
+     * @param feedbackForm
      */
     sendFeedback(feedbackForm: NgForm) {
         if (feedbackForm.valid && feedbackForm.value.feedback) {
@@ -251,9 +264,10 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
 
     /**
      * Opens feedback modal
-     * @param template 
+     * @param template
      */
     openFeedbackModal(template: TemplateRef<any>) {
+        this.feedbackSent = false;
         this.feedbackModalRef = this.modalService.show(template);
     }
 
@@ -264,22 +278,6 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
         this.feedbackModalRef.hide();
         this.feedbackModalRef = null;
         this.feedbackSent = false;
-    }
-
-    /**
-     * Checks whether resources are sorted by date
-     */
-    checkSortByDate() {
-        if (!this.params) return;
-
-        if (this.params.sort.indexOf('created') !== -1 || 
-            this.params.sort.indexOf('verified') !== -1 ||
-            this.params.sort.indexOf('data_date') !== -1
-        ) {
-            this.isSortedByDate = true;
-        } else {
-            this.isSortedByDate = false;
-        }
     }
 
     /**

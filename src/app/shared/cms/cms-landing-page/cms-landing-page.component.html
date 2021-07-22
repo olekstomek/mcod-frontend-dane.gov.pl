@@ -1,0 +1,32 @@
+
+<ng-container *ngIf="!isDetailView; else routerOutlet">    
+    <div *ngFor="let section of body" [ngClass]="pageCmsCss" class="container cms-landing-page">
+        <ng-template [ngTemplateOutletContext]="{ $implicit: section }" [ngTemplateOutlet]="landingPageSection"></ng-template>
+    </div>
+</ng-container>
+
+
+
+<ng-template #landingPageSection let-section>
+
+    <div (click)="navigateToDetail(section)" *ngIf="section && section.children && section.children.length"
+         [ngClass]="section.classname">
+        <ng-template ngFor
+                     [ngForOf]="section.children"
+                     [ngForTemplate]="landingPageSection">
+        </ng-template>
+    </div>
+
+
+    <div *ngIf="section && section.children && !section.children.length" class="col p-0 hover justify-content-center">
+        <cms-block [oneWidget]="section" *featureFlag="'S18_cms_block_with_carousel.fe'"></cms-block>
+        <cms-block2 [oneWidget]="section" *featureFlag="'S18_cms_block_without_carousel.fe'"></cms-block2>
+    </div>
+
+</ng-template>
+
+<ng-template #routerOutlet>
+    <div [ngClass]="pageCmsCss" class="container cms-landing-page">
+        <router-outlet></router-outlet>
+    </div>
+</ng-template>

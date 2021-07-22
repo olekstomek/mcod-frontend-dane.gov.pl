@@ -1,0 +1,11 @@
+<app-result-list [items]="items" class="pt-1">
+
+    <ng-template let-item>
+        <app-default-result-item [showNotes]="true" [item]="item" [detailsUrl]="item.url.substring(3)"></app-default-result-item>
+    </ng-template>
+
+    <ng-template let-item>
+        <app-details-result-item [detailsData]="item.detailsData" [titleTranslationKey]="item.titleTranslationKey"></app-details-result-item>
+    </ng-template>
+
+</app-result-list>

@@ -12,4 +12,6 @@ export const environment = {
     VERSION: config.version,
     HASH: ENV.COMMIT_HASH,
     DATE: ENV.COMMIT_DATE,
+    name: 'local',
+    PWA: false
 };

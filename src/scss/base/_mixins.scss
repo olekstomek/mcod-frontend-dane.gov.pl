@@ -3,3 +3,21 @@
     font-size: 0.875rem;
     font-weight: bold;
 }
+
+/*
+    Provides show/hide animation with transition instead of display block/none - from hidden to visible state
+*/
+@mixin visibility-animated {
+    transition: all .5s ease;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+
+    &.visibility-animated {
+        max-height: 500px;
+        height: auto;
+        opacity: 1;
+        visibility: visible;
+    }
+}

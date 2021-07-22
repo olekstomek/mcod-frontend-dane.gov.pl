@@ -1,6 +1,9 @@
 // bootstratp override
 .pager {
+    display: flex;
+    justify-content: flex-end;
     .pagination {
+        margin: 0;
         .page-item {
             .page-link {
                 border: 0;
@@ -12,6 +15,10 @@
                     font-size: 200%;
                     padding: 0px 10px 2px 10px;
                 }
+            }
+
+            &--ellipsis {
+                cursor: default;
             }
 
             &.active {

@@ -10,15 +10,18 @@
 
 		<link rel="icon" type="image/x-icon" href="favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-        <link href="assets/compatibility.css" type="text/css" rel="stylesheet"  />
+        <link href="assets/index.css" type="text/css" rel="stylesheet"  />
+        <link rel="stylesheet" href="https://unpkg.com/ngx-bootstrap/datepicker/bs-datepicker.css">
         <!-- IE support, a script that will not run until after the page has loaded -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/svgxuse/1.2.6/svgxuse.min.js" defer></script>
+        <link rel="apple-touch-icon" href="/assets/icons/icon-192x192-apple.png">
+        <meta name="theme-color" content="#1976d2">
 	</head>
 	<body>
 
         <noscript>
             <div class="compatibility">
-                <div class="compatibility--info">
+                <div class="compatibility__info">
                     <p><strong>Obsługa skryptów JavaScript jest wyłączona.</strong></p>
                     <p>Włącz obsługę skryptów JavaScript, aby zobaczyć tę stronę.</p>
                     <p>
@@ -27,7 +30,7 @@
                         </a>
                     </p>
                 </div>
-                <div class="compatibility--info">
+                <div class="compatibility__info">
                     <p><strong>JavaScript is not enabled.</strong></p>
                     <p>Enable JavaScript in your browser to see this page.</p>
                     <p>
@@ -41,7 +44,7 @@
 
         <!--[if lte IE 9]>
         <div class="compatibility">
-            <div class="compatibility--info">
+            <div class="compatibility__info">
                 <p><strong>Zaktualizuj przeglądarkę internetowa</strong></p>
                 <p>Ta aplikacja nie wspiera przeglądarki starszej niż Internet Explorer 10. Aby przeglądać tą stronę zaktualizuj swoją przeglądarkę</p>
                 <p>
@@ -50,7 +53,7 @@
                     </a>
                 </p>
             </div>
-            <div class="compatibility--info">
+            <div class="compatibility__info">
                 <p><strong>Update your browser</strong></p>
                 <p>This application does not support browsers older then Internet Explorer 10. To view this page update your browser</p>
                 <p>
@@ -64,7 +67,11 @@
 
 
         <!--[if gte IE 10]> <!-->
-        <app-root></app-root>
+        <app-root>
+            <div class="index-loader-wrapper">
+                <div class="index-loader"></div>  
+            </div>        
+        </app-root>
         <!--[endif]-->
 
 

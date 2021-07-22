@@ -5,8 +5,8 @@ import { map, publishReplay, refCount } from 'rxjs/operators';
 
 import { RestService } from '@app/services/rest.service';
 import { ApiConfig, ApiResponse } from '@app/services/api';
-import { IFilters } from '@app/services/models/filters';
 import { TemplateHelper } from '@app/shared/helpers';
+import { IHasImageThumbParams } from '@app/services/models/page-params';
 
 /**
  * Application service handles backend connectivity for `\/applications` page
@@ -16,11 +16,15 @@ export class ApplicationsService extends RestService {
 
     /**
      * Get applications list from given filters in `params` variable
-     * @param params
+     * @param {IHasImageThumbParams} params
+     * @param {key: string, value: string} additionalParameter
      * @returns {Observable<ApiResponse>}
      */
-    getAll(params: IFilters): Observable<ApiResponse> {
-        const httpParams = new HttpParams({fromObject: params});
+    getAll(params: IHasImageThumbParams, additionalParameter?: { key: string, value: string }): Observable<ApiResponse> {
+        let httpParams = new HttpParams({ fromObject: params });
+        if (additionalParameter) {
+            httpParams = httpParams.append(additionalParameter.key, additionalParameter.value);
+        }
 
         return this.get(ApiConfig.applications, httpParams)
             .pipe(map(response => {
@@ -42,54 +46,32 @@ export class ApplicationsService extends RestService {
     }
 
     /**
-     * Follow changes of a given application item
-     * Only for logged in users (requires api_key)
-     * @param {string} id
-     * @returns {Observable<any>}
-     */
-    followOne(id: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.applicationFollow, {id: id});
-        return this.post(url);
-    }
-
-    /**
-     * Unfollow changes of a given application item
-     * Only for logged in users (requires api_key)
-     * @param {string} id
-     * @returns {Observable<any>}
-     */
-    unfollowOne(id: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.applicationFollow, {id: id});
-        return this.delete(url);
-    }
-
-    /**
-     * Get followed applications list with givent parameters
-     * Only for logged in users (requires api_key)
-     * @param {{}} params
-     * @returns {Observable<any>}
-     */
-    getFollowed(params = {}) {
-        const httpParams = new HttpParams({fromObject: params});
-        return this.get(ApiConfig.followedApplications, httpParams);
-    }
-
-    /**
      * Get related datasets for a given application item
      * @param {string} id
      * @param {{}} params
      * @returns {Observable<ApiResponse>}
      */
     getDatasets(id: string, params = {}): Observable<ApiResponse> {
-        const url = TemplateHelper.parseUrl(ApiConfig.applicationsDatasets, {id: id});
-        const httpParams = new HttpParams({fromObject: params});
+        const url = TemplateHelper.parseUrl(ApiConfig.applicationsDatasets, { id: id });
+        const httpParams = new HttpParams({ fromObject: params });
 
         return this.get(url, httpParams)
             .pipe(map(response => new ApiResponse(response)));
     }
 
-    suggest(application: Object) {
-        const url = TemplateHelper.parseUrl(ApiConfig.suggestApplication, {});
-        return this.post(url, application);
+    /**
+     * Sends application data
+     * @param {[key: string]: string} application 
+     * @returns {Observable<ApiResponse>} 
+     */
+    suggest(application: {[key: string]: string}): Observable<ApiResponse> {
+        const payload = `{
+            "data": {
+                "type": "application",
+                "attributes": ${JSON.stringify(application)}
+            }
+        }`;
+
+        return this.post(ApiConfig.suggestApplication, JSON.parse(payload));
     }
 }

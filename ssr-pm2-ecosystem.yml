@@ -1,0 +1,3 @@
+apps:
+  - script   : dist/frontend/server/main.js
+    name     : 'mcod-frontend-ssr'

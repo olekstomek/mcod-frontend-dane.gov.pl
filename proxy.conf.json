@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "http://api.dev.dane.gov.pl/",
+        "target": "http://api.dev.dane.gov.pl/1.4/",
         "secure": false,
         "pathRewrite": {
             "^/api": ""
@@ -13,5 +13,20 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
+    },
+    "/flags": {
+        "target": "https://dane.gov.pl/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/cms": {
+        "target": "http://cms.dev.dane.gov.pl/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/cms": ""
+        }
     }
 }

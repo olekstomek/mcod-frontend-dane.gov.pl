@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
+import moment from 'moment';
 
 import { RestService } from '@app/services/rest.service';
 import { ApiConfig } from '@app/services/api';
 import { SearchHistory } from '@app/services/models/search-history';
+import { LinkHelper } from '@app/shared/helpers';
+import { BasicPageParams } from './models/page-params';
 
 /**
  * Search history service
@@ -13,10 +16,66 @@ import { SearchHistory } from '@app/services/models/search-history';
 @Injectable()
 export class SearchHistoryService extends RestService {
 
+    /**
+     * Gets search history
+     * @param {number} [page] 
+     * @returns {Observable<SearchHistory>} 
+     */
     getSearchHistory(page = 1): Observable<SearchHistory> {
         return this.get(ApiConfig.searchHistory, {per_page: 100, page: page}).pipe(
             map(data => new SearchHistory(data.data))
         );
     }
+    
+    /**
+     * Gets search history grouped by date
+     * @param {number} [page] 
+     * @returns {Observable<GroupedSearchHistory>} 
+     */
+    getGroupedSearchHistory(page = 1): Observable<GroupedSearchHistory> {
+        return this.get(ApiConfig.searchHistory, {per_page: 100, page: page, sort: '-modified'}).pipe(
+            map(data => this.groupByDate(data))
+        );
+    }
 
+    /**
+     * Groups history by date
+     * @param {any} historyResponse 
+     * @returns {GroupedSearchHistory} 
+     */
+    private groupByDate(historyResponse: any): GroupedSearchHistory {
+        const regex = /.*\/(\w*)/;
+        return historyResponse.data.reduce((object: GroupedSearchHistory[], item: any) => {
+            const date = moment(item.attributes.modified).format('YYYY.MM.DD');
+            const queryString = item.attributes.url.split('?')[1];
+            const params = LinkHelper.parseQueryString(queryString);
+            let resource = regex.exec(item.attributes.url)[1];
+            
+            if (resource.endsWith('s')) {
+                resource = resource.substring(0, resource.length - 1);
+            }
+            
+            if (!object[date]) {
+                object[date] = [];
+            }    
+            
+            object[date].push({
+                params: params,
+                resource: resource,
+                sentence: item.attributes.query_sentence
+            });
+
+            return object;
+        }, {}) as GroupedSearchHistory;
+    }
+}
+
+export interface GroupedSearchHistory {
+    [key: string]: SearchHistoryQuery[];
+}
+
+export interface SearchHistoryQuery {
+    params: BasicPageParams,
+    resource: string,
+    sentence: string
 }

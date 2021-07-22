@@ -3,8 +3,10 @@ export class ApiResponse {
         this._results = response['data'];
         this._count = response['meta']['count'];
         this._filters = response['meta']['aggs'];
+        this._aggregations = response['meta']['aggregations'];
         this._institutions = response['included'];
         this._links = response['links'];
+        this._subscription_url = response['meta']['subscription_url'];
     }
 
     private _links: any;
@@ -35,5 +37,17 @@ export class ApiResponse {
 
     get filters(): {} {
         return this._filters;
+    }
+
+    private _aggregations: any;
+
+    get aggregations(): any {
+        return this._aggregations;
+    }
+
+    private _subscription_url = '';
+
+    get subscription_url(): string {
+        return this._subscription_url;
     }
 }

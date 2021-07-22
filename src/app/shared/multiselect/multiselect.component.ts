@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 
 import { toggleVertically } from '@app/animations';
+import { StringHelper } from '@app/shared/helpers/string.helper';
 
 /**
  * Custom dropdown component with multi-selection capability
@@ -54,7 +55,7 @@ export class MultiselectComponent implements OnInit, OnDestroy {
     @Input() labelId: string;
     @Output() selectedChange: EventEmitter<any[] | any> = new EventEmitter<any[] | any>();
 
-    @ViewChild('inputFilter', {read: ElementRef}) inputFilter: ElementRef;
+    @ViewChild('inputFilter', { read: ElementRef }) inputFilter: ElementRef;
     @ViewChild('toggler') toggler: ElementRef;
 
     isExpanded = false;
@@ -88,7 +89,7 @@ export class MultiselectComponent implements OnInit, OnDestroy {
      * Create ID and attach events
      */
     ngOnInit() {
-        this.generatedId = `dropdown-${ Math.floor(Math.random() * 899 + 100)}`;
+        this.generatedId = `dropdown-${StringHelper.generateRandomHex()}`;
         this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
         this.clickEscapeListener = this.renderer.listen('body', 'keydown.esc', (event: KeyboardEvent) => {
             // event.key may vary depending on a browser
@@ -190,7 +191,7 @@ export class MultiselectComponent implements OnInit, OnDestroy {
             this.isExpanded = !this.isExpanded;
         }
 
-        window.setTimeout(() => {
+       setTimeout(() => {
             this.toggler && this.toggler.nativeElement.focus();
         }, 0);
     }

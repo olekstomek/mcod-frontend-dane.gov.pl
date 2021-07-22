@@ -5,7 +5,6 @@
 
 .text-justify  { text-align: justify; }
 .text-nowrap   { white-space: nowrap; }
-.text-truncate { @include text-truncate; }
 
 
 
@@ -38,6 +37,9 @@
 .font-weight-bold   { font-weight: $font-weight-bold; }
 .font-italic        { font-style: italic; }
 
+// Contextual colors
+
+.text-white { color: $white; }
 
 
 @each $color, $value in $theme-colors {

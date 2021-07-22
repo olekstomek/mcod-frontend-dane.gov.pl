@@ -31,7 +31,7 @@ export class TranslateDateFormatPipe implements PipeTransform {
      * @returns {string} transform
      */
     transform(value: string, format?: string): any {
-        format = format ? format : APP_CONFIG.date;
+        format = format ? format : APP_CONFIG.dateTime;
 
         const initialValue = moment(value).locale(this.translate.currentLang).format(format);
         const translatedDateSubject = new BehaviorSubject<string>(initialValue);

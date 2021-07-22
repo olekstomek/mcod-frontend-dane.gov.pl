@@ -11,8 +11,8 @@ describe('AbstractService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule(ServiceTestbed.module(AbstractService));
-        service = TestBed.get(AbstractService);
-        httpMock = TestBed.get(HttpTestingController);
+        service = TestBed.inject(AbstractService);
+        httpMock = TestBed.inject(HttpTestingController);
     });
 
     afterEach(() => {

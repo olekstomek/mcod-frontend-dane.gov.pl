@@ -5,6 +5,10 @@
     height: 50px;
     width: 200px;
 
+    &--md {
+        height: 40px;
+    }
+
     &__text {
         fill: $color-white;
         font-size: 24px;
@@ -13,6 +17,12 @@
 
     &__do {
         fill: $color-blue-light;
+    }
+
+    &--dark {
+        .brand-img__text {
+            fill: $color-heading;
+        }
     }
 
     // < MD

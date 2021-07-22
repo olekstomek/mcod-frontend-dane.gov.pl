@@ -12,11 +12,11 @@ article,
 section,
 header,
 footer,
-form {
+form,
+option {
     color: currentColor;
     background: $hcSecondary;
 }
-
 
 h1,
 h2,
@@ -34,13 +34,10 @@ a:not(.btn-primary) {
 // }
 
 // all svg graphics
-svg * {
+svg.icon:not(.non-hc) svg *,
+svg.icon:not(.non-hc) *,
+svg.brand-img * {
     fill: $hcPrimary;
-}
-
-
-img {
-    opacity: 0.2;
 }
 
 :focus {
@@ -48,6 +45,13 @@ img {
     outline-offset: initial;
 }
 
+.border-custom,
+.icon-rounded-wrapper {
+    border-color: $hcPrimary;
+}
+
+
+@import "bootstrap-overwrite/bootstrap-utilities-text";
 
 @import "bootstrap-overwrite/form";
 
@@ -90,23 +94,67 @@ img {
 
 @import "views/resource-list";
 
+@import "views/resource-chart-table";
 
 @import "components/datagrid";
 
+@import "components/datepicker";
 
-@import "views/item-view";
+@import "components/language-switcher";
 
+@import "components/tabpanel";
 
-@import "pages/myaccount";
+@import "components/tour";
+
+@import "components/tour-button";
 
 
 @import "views/tabs";
 
+@import "views/collapsible-sidebar-view";
 
 @import "pages/auth";
 
+@import "pages/map";
+
+@import "pages/search";
+
+@import "pages/stats";
 
 @import "bootstrap-overwrite/modal";
 
+@import "bootstrap-overwrite/badge";
 
 @import "components/notifications";
+
+@import "components/cta-widget";
+
+@import "views/custom-form";
+
+@import "bootstrap-overwrite/carousel";
+
+@import "components/text-widget";
+
+@import "components/search-suggest";
+
+@import "views/common";
+
+@import "components/survey";
+
+@import "components/tooltip";
+
+@import "components/link";
+
+@import "components/sparql";
+
+@import "components/subscribe-button-light";
+
+@import "views/aod";
+
+@import "views/schedule";
+
+@import "views/dashboard-filtered-list";
+
+// cms
+
+@import "views/useful-materials";

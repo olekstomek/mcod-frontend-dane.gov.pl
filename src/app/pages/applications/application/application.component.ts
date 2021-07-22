@@ -1,11 +1,13 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { QueryParamsHandling } from '@angular/router/src/config';
-import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { ActivatedRoute, Params, Router, QueryParamsHandling } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 import { ApplicationsService } from '@app/services/applications.service';
 import { SeoService } from '@app/services/seo.service';
+import { SearchService } from '@app/services/search.service';
+import { ApiConfig } from '@app/services/api';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { BasicPageParams } from '@app/services/models/page-params';
+import { ApiModel } from '@app/services/api/api-model';
 
 /**
  * Application Component
@@ -14,16 +16,12 @@ import { SeoService } from '@app/services/seo.service';
     selector: 'app-application',
     templateUrl: './application.component.html'
 })
-export class ApplicationComponent implements OnInit, OnDestroy {
-    /**
-     * Data subscription of application component
-     */
-    dataSubscription: Subscription;
+export class ApplicationComponent implements OnInit {
 
     /**
-     * Self api of application component
+     * API model 
      */
-    selfApi: string;
+    apiModel = ApiModel;
 
     /**
      * Array of items (applications)
@@ -33,131 +31,110 @@ export class ApplicationComponent implements OnInit, OnDestroy {
     /**
      * Count of items (applications)
      */
-    count: number; 
+    count: number;
 
     /**
      * Number of pagination pages
      */
-    numPages: number = 0;
+    numPages = 0;
 
     /**
      * Page setting based on basic params and user interactions
      */
-    params: any;
+    params: Params;
 
     /**
      * Basic params of application component
      */
-    basicParams = {
-        sort: '-modified',
+    basicParams: BasicPageParams = {
+        sort: '-date',
         page: 1,
         q: '',
         per_page: 5
     };
 
-    /**
-     * @ignore
-     */
     constructor(private activatedRoute: ActivatedRoute,
                 private seoService: SeoService,
                 private router: Router,
-                private applicationsService: ApplicationsService) {
-    }
-
-    /**
-     * Sets META tags (title). 
-     * Initializes and updates list of items (applications) on query params change.
-     */
-    ngOnInit() {
-        this.seoService.setSeoFromTranslation('Applications');
-
-        this.dataSubscription = this.activatedRoute.queryParamMap
-            .pipe(
-                switchMap(qParamMap => {
-                    let sort = '';
-    
-                    if ( !this.allBasicParamsIn(qParamMap['params']) ) {
-                        sort = this.basicParams['sort'];
-                    } 
-        
-                    this.params = {
-                        page: +qParamMap.get('page') || this.basicParams['page'],
-                        per_page: +qParamMap.get('per_page') || this.basicParams['per_page'],
-                        q: qParamMap.get('q') || '',
-                        sort: qParamMap.get('sort') || sort
-                    };
-        
-                    if (qParamMap.get('tags')) {
-                        this.params['tags'] = qParamMap.get('tags');
-                    }
-    
-                    return this.applicationsService.getAll(this.params);
-                })
-            )
-            .subscribe(response => {
-                this.items = response.results;
-                this.count = response.count;
-                this.selfApi = this.applicationsService.base_url + response.links.self;
-            });
+                private applicationsService: ApplicationsService,
+                private searchService: SearchService,
+                private filterService: ListViewFiltersService) {
     }
 
     /**
      * Updates query params on every user interaction
-     * @param params 
-     * @param {QueryParamsHandling | null} method 
+     * @param params
+     * @param {QueryParamsHandling | null} method
      */
     updateParams(params: any, method: QueryParamsHandling | null = 'merge') {
 
         // empty search
-        if (('sort' in params) && params['sort'] && (('q' in params) && !(<string>params['q']).trim().length)) {
+        if (!('sort' in params) && params['sort'] && (('q' in params) && !(<string>params['q']).trim().length)) {
             return;
         } else if (('sort' in params) && !params['sort']) { // default sort
             params['sort'] = this.basicParams['sort'];
         }
-        
+
         const updatedBasicParams = {
             page: +this.params['page'] || this.basicParams['page'],
             per_page: +this.params['per_page'] || this.basicParams['per_page'],
             q: this.params['q'] || '',
             sort: this.params['sort'] || ''
-        }
-        
-        if ( !('page' in params) ) params['page'] = 1;
+        };
 
-        this.router.navigate([], {queryParams: {
-            ...updatedBasicParams,
-            ...params
-        }, queryParamsHandling: method});
-    }    
+        if (!('page' in params)) {
+            params['page'] = 1;
+        }
+
+        this.router.navigate([], {
+            queryParams: {
+                ...updatedBasicParams,
+                ...params
+            }, queryParamsHandling: method
+        });
+    }
 
     /**
      * Checks whether default page params already exist
-     * @param obj 
+     * @param {Params} params
      * @returns {boolean}
      */
-    allBasicParamsIn(obj) {
-        for (let key of Object.keys(this.basicParams)) {
-            if ( !(key in obj) ) {
-                return false;
+    private allBasicParamsIn(params: Params) {
+        return this.filterService.allBasicParamsIn(params, this.basicParams);
+    }
+
+    /**
+     * Sets META tags (title).
+     * Initializes and updates list of items (applications) on query params change.
+     */
+    ngOnInit() {
+        this.seoService.setPageTitleByTranslationKey(['Applications.Self']);
+
+        this.activatedRoute.queryParams.subscribe((qParams: Params) => {
+            let sort = '';
+
+            if (!this.allBasicParamsIn(qParams)) {
+                sort = qParams['q'] ? 'relevance' : this.basicParams['sort'];
             }
-        }
-        return true;
+
+            this.params = { ...qParams, ...this.filterService.updateBasicParams(qParams, this.basicParams, sort) };
+
+            if (!qParams['model[terms]']) {
+                this.params['model[terms]'] = ApiModel.APPLICATION;
+            }
+
+            this.getData();
+        });
     }
 
     /**
-     * Tracks list of items by single item id to prevent re-rendering of existing elements in the template
-     * @param index 
-     * @param item 
-     * @returns id 
+     * Gets list of applications
      */
-    trackById(index, item) {
-        return item.id;
-    }
-
-    /**
-     * Unsubscribes from existing subscriptions
-     */
-    ngOnDestroy() {
-        this.dataSubscription.unsubscribe();
+    private getData() {
+        this.searchService.getData(ApiConfig.search, this.params)
+            .subscribe(response => {
+                this.items = response.results;
+                this.count = response.count;
+            });
     }
 }

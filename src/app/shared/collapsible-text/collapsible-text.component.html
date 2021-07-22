@@ -1,0 +1,24 @@
+<div *ngIf="text">
+
+    <!--description-->
+    <div id="text-{{generatedId}}" aria-live="polite"
+        [innerHTML]="(isCollapsed ? (text | truncateText:maxTextLength)  : text) | sanitizeHtml ">
+    </div>
+
+    <!--keywords-->
+    <p class="mt-4" *ngIf="tags && (text.length <= maxTextLength || !isCollapsed)">
+        <strong>{{ 'Attribute.Tags' | translate }}</strong>:
+        {{ tags }}
+    </p>
+
+    <!--collapse / expand button-->
+    <button *ngIf="text.length > maxTextLength"
+        (click)="isCollapsed = !isCollapsed"
+        attr.aria-controls="{{'text-' + generatedId}}"
+        [attr.aria-pressed]="!isCollapsed"
+        class="btn btn-link pl-0"
+        type="button">
+        {{(isCollapsed ? 'Action.ExpandDescription' : 'Action.CollapseDescription') | translate }}
+    </button>
+
+</div>

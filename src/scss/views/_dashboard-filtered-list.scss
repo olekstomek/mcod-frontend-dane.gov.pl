@@ -1,0 +1,109 @@
+
+.dashboard-filtered-list {
+
+  &-point {
+    position: relative;
+    display: inline-block;
+    margin-left: 1rem;
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -0.75rem;
+    }
+
+    &--planned {
+      &::before {
+        background-color: theme-color("primary");
+      }
+    }
+
+    &--current {
+      &::before {
+        background-color: theme-color("danger");
+      }
+    }
+
+    &--finished {
+      &::before {
+        background-color: theme-color("success");
+      }
+    }
+
+    &--law {
+      &::before {
+        background-color: color("cyan");
+      }
+    }
+
+    &--technical {
+      &::before {
+        background-color: color("orange");
+      }
+    }
+
+    &--extra {
+      &::before {
+        background-color: color("teal");
+      }
+    }
+
+    &--exam {
+      &::before {
+        background-color: color("purple");
+      }
+    }
+
+    &--general {
+      &::before {
+        background-color: color("pink");
+      }
+    }
+
+    &--law_technical {
+      &::before {
+        background-color: $color-text;
+      }
+    }
+  }
+
+  &-item {
+    border-left: 4px solid $color-white;
+
+    & > &__state {
+      float: right;
+      padding: 0.125rem 0.5rem;
+      text-align: right;
+      color: $color-white;
+    }
+
+    &--planned {
+      border-color: theme-color("primary");
+
+      .dashboard-filtered-list-item__state {
+        background-color: theme-color("primary");
+      }
+    }
+
+    &--current {
+      border-color: theme-color("danger");
+
+      .dashboard-filtered-list-item__state {
+        background-color: theme-color("danger");
+      }
+    }
+
+    &--finished {
+      border-color: theme-color("success");
+
+      .dashboard-filtered-list-item__state {
+        background-color: theme-color("success");
+      }
+    }
+  }
+}

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'underscore';
 
-import { Column } from '@app/shared/datagrid/types';
 import { DatasetService } from '@app/services/dataset.service';
+import { SeoService } from '@app/services/seo.service';
 
 /**
  * Embedded Component
@@ -15,53 +14,60 @@ import { DatasetService } from '@app/services/dataset.service';
     styleUrls: ['./embedded.component.scss']
 })
 export class EmbeddedComponent implements OnInit {
-    /**
-     * Tabular data
-     */
-    result: { columns: Column[]; data: any[] };
 
     /**
-     * Determines whether data id loading
+     * Resource id
      */
-    private isLoading: boolean = true;
+    resourceId: string;
+
+    /**
+     * Determines whether resource has tabular view
+     */
+    hasTabularData = false;
+
+    /**
+     * Determines whether resource has chart view
+     */
+    hasChart = false;
+
+    /**
+     * Determines whether resource has geo view
+     */
+    hasGeoData = false;
 
     /**
      * @ignore
      */
-    constructor(private datasetService: DatasetService,
+    constructor(private seoService: SeoService,
                 private translate: TranslateService,
-                private route: ActivatedRoute) {}
+                private route: ActivatedRoute,
+                private datasetService: DatasetService) {
+    }
 
     /**
-     * Initializes resource of the dataset.
      * Initializes and updates tabular data (result) and component language on query params change.
+     * Checks availability of related data (tabs).
      */
     ngOnInit() {
-        this.result = {columns: [], data: []};
-
-        const resourceId = this.route.snapshot.paramMap.get('id');
+        this.resourceId = this.route.snapshot.paramMap.get('resourceId');
         const lang = this.route.snapshot.queryParamMap.get('lang');
 
         if (lang && ['pl', 'en'].indexOf(lang) !== -1) {
             this.translate.use(lang);
         }
 
-        this.datasetService
-            .getResourceDataById(resourceId)
-            .subscribe(data => {
-                this.isLoading = false;
+        return this.datasetService
+            .getResourceById(this.resourceId)
+            .subscribe(resource => {
+                this.seoService.setPageTitle(resource['attributes']['title'])
 
-                if (data) {
-                    data.attributes.headers.forEach(item => {
-                        this.result.columns.push(new Column(item, item));
-                    });
-
-                    const items = [];
-                    data.attributes.data.forEach(item => {
-                        items.push(_.object(data.attributes.headers, item));
-                    });
-                    this.result.data = items;
+                if (!resource['relationships']) {
+                    return;
                 }
+
+                this.hasGeoData = resource['relationships']['geo_data'];
+                this.hasChart = resource['relationships']['chart'];
+                this.hasTabularData = this.hasGeoData || resource['relationships']['tabular_data'];
             });
     }
 }

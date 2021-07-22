@@ -11,7 +11,9 @@
     &__header {
         background-color: $color-grey-light-6;
 
-        .icon {
+        .icon-location-pin,
+        .icon-mobile,
+        .icon-paper-plane {
             height: 50px;
             width: 50px;
             position: absolute;

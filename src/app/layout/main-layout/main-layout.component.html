@@ -2,7 +2,7 @@
 <div id="top" tabindex="-1" class="sr-only">
     {{ 'PageTop' | translate }}
 </div>
-
+<app-tour-picker></app-tour-picker>
 
 <!-- progress bar (entire app) - visible during data request -->
 <ng-progress [color]="'blue'"></ng-progress>
@@ -13,10 +13,11 @@
 
 
 <!-- main content - different styling for the homepage -->
-<main role="main" id="main-content" tabindex="-1" [ngClass]="{'page': !isHomepage}">
+<main id="main-content" tabindex="-1" [ngClass]="{'page': !isHomepage}">
     <router-outlet></router-outlet>
 </main>
 
 
 <!-- application footer for the entire app (except embedded view) -->
 <app-footer></app-footer>
+<app-tour-button></app-tour-button>

@@ -8,10 +8,4 @@ import { Component } from '@angular/core';
     templateUrl: './knowledge-base.component.html'
 })
 export class KnowledgeBaseComponent {
-    
-    /**
-     * @ignore
-     */
-    constructor() { }
-
 }

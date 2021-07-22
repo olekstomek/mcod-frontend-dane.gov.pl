@@ -1,13 +1,15 @@
 .language-switcher {
-    margin-left: 1rem;
-    
-    &__label {
-        vertical-align: middle;
+    margin-left: auto;
+    display: flex;
 
-        // <SM
-        @include media-breakpoint-down(xs) {
-            display: none;
-        }
+    @include media-breakpoint-down(lg) {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    @include media-breakpoint-down(xs) {
+        margin-left: auto;
+        margin-right: 0;
     }
 
 

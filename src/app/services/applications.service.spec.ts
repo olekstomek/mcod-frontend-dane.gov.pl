@@ -13,8 +13,8 @@ describe('ApplicationsService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule(ServiceTestbed.module(ApplicationsService));
 
-        service = TestBed.get(ApplicationsService);
-        httpMock = TestBed.get(HttpTestingController);
+        service = TestBed.inject(ApplicationsService);
+        httpMock = TestBed.inject(HttpTestingController);
     });
 
     afterEach(() => {

@@ -22,7 +22,7 @@ export class AboutComponent implements OnInit {
      * @ignore
      */
     constructor(private seoService: SeoService,
-                private articleService: ArticlesService) {
+        private articleService: ArticlesService) {
     }
 
     /**
@@ -30,15 +30,15 @@ export class AboutComponent implements OnInit {
      * Initializes about page from an article.
      */
     ngOnInit() {
-        this.seoService.setSeoFromTranslation('About');
+        this.seoService.setPageTitleByTranslationKey(['Menu.About']);
 
         this.articleService
-            .getAll({per_page: 1, category: 5})
+            .getAll({ per_page: 1, category: 5 })
             .subscribe(response => {
                 if (response.results && !response.results.length) return;
 
                 this.article = response.results[0];
             }
-        );
+            );
     }
 }

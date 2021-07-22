@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-end">
+    <div  class=" mb-4"
+         appTooltip="{{'Tour.Tooltip.DataResource.MapSettings.text' | translate }}"
+         title="{{ 'Tour.Tooltip.DataResource.MapSettings.title' | translate }}">
+        <button class="btn btn-primary mapOptionsBtn"
+                [attr.aria-pressed]="isMapOptionsVisible"
+                (click)="toggleMapOptions()">{{ "Map.Options" | translate }} </button>
+    </div>
+    <app-map-options [hidden]="!isMapOptionsVisible"
+                     (displayPointsInRange)="displayUserPreferences($event)"
+                     (allowCustomLocalization)="toggleClickEventOnMap($event)"
+                     (saveUserSettings)="saveUserSettings($event)"
+                     (selectLabel)="highlightObjectOnMap($event)"
+                     (clearForm)="clearForm()"
+                     [labels]="labels"
+                     [userSettings]="userSettings"
+    ></app-map-options>
+</div>
+
+<div class="d-flex flex-nowrap">
+    <div class="resource-map" >
+        <div #mapRef class="resource-map" id="resourceMap"
+             role="application"
+             [attr.aria-label]="'Resources.MapDescription' | translate"
+        ></div>
+    </div>
+</div>

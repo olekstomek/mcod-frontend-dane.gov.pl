@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormsModule } from '@angular/forms';
+import { LocalizeRouterModule, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 
@@ -16,6 +17,8 @@ import { NewsComponent } from './news/news.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { CookieService } from 'ngx-cookie-service';
 import { ServiceAlertComponent } from './service-alert/service-alert.component';
+import { ApplicationsComponent } from '@app/pages/home/applications/applications.component';
+import { FooterComponent } from '@app/shared/footer/footer.component';
 
 describe('HomeComponent', () => {
     let component: HomeComponent;
@@ -30,7 +33,8 @@ describe('HomeComponent', () => {
                 FormsModule,
                 ServicesModule,
                 TranslateModule.forRoot({}),
-                NgxLocalStorageModule.forRoot({prefix: 'mcod'})
+                NgxLocalStorageModule.forRoot({prefix: 'mcod'}),
+                LocalizeRouterModule.forRoot([])
             ],
             declarations: [
                 HomeComponent,
@@ -39,7 +43,9 @@ describe('HomeComponent', () => {
                 StatsComponent,
                 InstitutionsComponent,
                 NewsComponent,
-                ServiceAlertComponent
+                ServiceAlertComponent,
+                ApplicationsComponent,
+                FooterComponent
             ],
             providers: [
                 CookieService

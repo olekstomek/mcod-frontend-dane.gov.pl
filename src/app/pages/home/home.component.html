@@ -4,66 +4,57 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-8 offset-md-2">
-					<h1>
-						{{ 'Slogan' | translate }}
-					</h1>
+                    <h1>
+                        {{ 'Slogan' | translate }}
+                    </h1>
+                    <h2>
+                        {{ 'SloganDescription' | translate }}
+                    </h2>
 				</div>
 			</div>
 		</div>
 	</section>
 
+
+	<!-- SEARCH and SUGGESTIONS -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 mb-sm-5 pb-5">
+                <app-search-suggest [apiModels]="[apiModel.APPLICATION, apiModel.ARTICLE, apiModel.DATASET, apiModel.INSTITUTION, apiModel.KNOWLEDGE_BASE, apiModel.RESOURCE]"></app-search-suggest>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- api notifications -->
+    <div class="container" *ngIf="apiError">
+        <app-notifications></app-notifications>
+    </div>
     
-	<!-- SEARCH -->
-    <home-search></home-search>
-
-
     <!-- SERVICE ALERT -->
     <home-service-alert></home-service-alert>
 
+    <!-- BANNER - CMS-SECTION -->
+    <cms-block [widgetsSubject]="cmsSectionOverSearchFieldCb" *featureFlag="'S18_cms_block_with_carousel.fe'"></cms-block>
+    <cms-block2 className="text-center" [widgetsSubject]="cmsSectionOverSearchFieldCb" [isFullWidth]="true" *featureFlag="'S18_cms_block_without_carousel.fe'"></cms-block2>
 
 	<!-- CATEGORIES -->
-    <home-categories></home-categories>
+    <home-categories [items]="categories"></home-categories>
 
 
     <!-- STATISTICS -->
-    <home-stats></home-stats>
+    <home-stats [stats]="stats"></home-stats>
 
 
     <!-- INSTITUTIONS -->
-    <home-institutions></home-institutions>
+    <home-institutions [items]="institutions"></home-institutions>
 
-
-	<!-- HOME: APPS -->
-	<section class="home-section home-section--apps" id="apps">
-		<div class="container home-apps">
-			<div class="row no-gutters">
-				<div class="col-sm-6 order-12 order-sm-1 home-apps__img-wrapper">
-					<img class="home-apps__img" src="assets/apps.png" alt="" aria-hidden="true">
-				</div>
-				<div class="home-apps__text-wrapper col-sm-6 order-1 order-sm-12 vertical-spacing">
-					<h2 class="heading heading--md">
-						{{ 'Home.Apps.Title' | translate }}
-                    </h2>
-
-                    <a class="btn btn-primary" [routerLink]="['/application', 'suggest']">
-                        {{ 'Applications.Suggest' | translate }}
-                    </a>
-
-					<p class="home-apps__description">
-						{{ 'Home.Apps.Description' | translate }}
-                    </p>
-
-					<a class="home-apps__all with-chevron" [routerLink]="['/application']">
-						{{ 'Home.Apps.All' | translate | uppercase }}
-                        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-                            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-                        </svg></a>
-				</div>
-			</div>
-		</div>
-	</section>
-
+    <!-- CMS SECTION -->
+    <cms-block class="pt-3 pb-3" [widgetsSubject]="cmsSectionOverLatestNewsCb" *featureFlag="'S18_cms_block_with_carousel.fe'"></cms-block>
+    <cms-block2 class="pt-3 pb-3" [widgetsSubject]="cmsSectionOverLatestNewsCb" [isFullWidth]="true" *featureFlag="'S18_cms_block_without_carousel.fe'"></cms-block2>
+    
+    <!-- HOME: APPS -->
+    <home-applications [applications]="applications"></home-applications>
 
 	<!-- NEWS -->
     <home-news></home-news>
-    

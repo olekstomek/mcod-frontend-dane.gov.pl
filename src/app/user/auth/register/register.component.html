@@ -13,14 +13,14 @@
                     </strong>
                     {{ 'User.SuccessfullRegistration' | translate }}
                 </p>
-                <p class="no-margin">
+                <p class="mb-0">
                     {{ 'User.ActivationEmailSent' | translate }}
                 </p>
             </div>
 
             <!-- login page redirection -->
-            <p class="center-text">
-                <a [routerLink]="['/user','login']" class="btn btn-primary">
+            <p class="text-center">
+                <a [routerLink]="['/!user','!login'] | localize" class="btn btn-primary">
                     {{ 'Action.Login' | translate }}
                 </a>
             </p>
@@ -29,31 +29,30 @@
 
 		<!-- REGISTRATION FORM -->
 		<div class="row" *ngIf="!isRegistered">
-			<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
 				<form class="auth-form" (ngSubmit)="onSubmit()" [formGroup]="registrationForm">
 					<h1 class="heading heading--md heading--separator">
                         {{ 'User.Registration' | translate }}
                     </h1>
 
                     <!-- api notifications  -->
-                    <app-notifications aria-live="polite"></app-notifications>
+                    <app-notifications aria-live="assertive"></app-notifications>
 
 
 					<!-- EMAIL -->
 					<div class="form-group"
-                        [ngClass]="{'form-group-invalid': isFieldValid('email')}">
+                        [ngClass]="{'form-group-invalid': registrationForm.controls.email.invalid && registrationForm.controls.email.touched}">
 
 						<label for="email">E-mail</label>
 
 						<input type="email" class="form-control" id="email"
-                            placeholder="{{'Enter' | translate }} {{'User.Email' | translate | lowercase }}"
+                            placeholder="{{ 'Action.Enter' | translate }} {{'User.Email' | translate | lowercase }}"
                             formControlName="email"
-                            [attr.aria-describedby]="'email_required_error email_other_error'"
-                            [attr.aria-invalid]="isFieldValid('email')">
+                            [attr.aria-invalid]="registrationForm.controls.email.invalid && registrationForm.controls.email.touched">
 
                         <!-- Email - required error -->
-						<small class="form-text text-danger" id="email_required_error"
-							*ngIf="isFieldValid('email')"
+						<small class="form-text text-danger" role="alert" id="email_required_error" aria-live="polite"
+							*ngIf="registrationForm.controls.email.invalid && registrationForm.controls.email.touched"
                             @toggleVertically>
 							{{ 'Validation.RequiredEmail' | translate }}
                         </small>
@@ -62,7 +61,7 @@
 
 					<!-- PASSWORD -->
 					<div class="form-group"
-                        [ngClass]="{'form-group-invalid': isFieldValid('password1')}">
+                        [ngClass]="{'form-group-invalid': registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched}">
 
                         <label for="password1">
                             {{ 'User.Password' | translate }}
@@ -71,9 +70,9 @@
                         <!-- Password with hint (tooltip) -->
                         <div style="position: relative">
                             <input type="password" class="form-control" id="password1"
-                                placeholder="{{ 'Enter' | translate }} {{ 'User.Password' | translate | lowercase }}"
-                                [attr.aria-describedby]="'password_policy password_required_error password_other_error'"
-                                [attr.aria-invalid]="isFieldValid('password1')"
+                                placeholder="{{ 'Action.Enter' | translate }} {{ 'User.Password' | translate | lowercase }}"
+                                 [attr.aria-label]=" 'Validation.VarPasswordPolicy' | translate:{param: passwordMinLength}"
+                                [attr.aria-invalid]="registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched"
                                 formControlName="password1"
                                 (focus)="showPasswordHint = true"
                                 (blur)="showPasswordHint = false"
@@ -90,23 +89,21 @@
                         </div>
 
                         <!-- Password - required error -->
-						<small class="form-text text-danger" id="password_required_error"
-                            *ngIf="isFieldValid('password1')"
+						<small class="form-text text-danger" role="alert" id="password_required_error" aria-live="polite"
+                            *ngIf="registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched"
                             @toggleVertically>
                             "{{ 'User.Password' | translate }}"
 							{{ 'Validation.IsRequired' | translate }}
                         </small>
 
-                        <!-- password strength indicator -->
-                        <app-password-strength
-                            [passwordToCheck]="registrationForm.value.password1">
-                        </app-password-strength>
+                        <!-- visual password validator -->
+                        <app-visual-password-validator [control]="registrationForm.get('password1')"></app-visual-password-validator>
 					</div>
 
 
 					<!-- PASSWORD CONFIRMATION -->
 					<div class="form-group"
-                        [ngClass]="{'form-group-invalid': isFieldValid('password2') || registrationForm.hasError('notEqualValues')}">
+                        [ngClass]="{'form-group-invalid': (registrationForm.controls.password2.invalid && registrationForm.controls.password2.touched) || registrationForm.hasError('notEqualValues')}">
 
 						<label for="password2">
 							{{ 'User.RetypePassword' | translate }}
@@ -117,31 +114,81 @@
                             placeholder="{{ 'User.RetypePassword' | translate }}"
 							formControlName="password2"
                             autocomplete="off"
-                            role="presentation"
-                            [attr.aria-describedby]="'password2_required_error password2_other_error'"
-                            [attr.aria-invalid]="isFieldValid('password2') || registrationForm.hasError('notEqualValues')">
+                            [attr.aria-invalid]="(registrationForm.controls.password2.invalid && registrationForm.controls.password2.touched) || registrationForm.hasError('notEqualValues')">
 
                         <!-- Password confirmation - required error -->
-						<small class="form-text text-danger" id="password2_required_error"
-							*ngIf="isFieldValid('password2') || registrationForm.hasError('notEqualValues')"
+						<small class="form-text text-danger" id="password2_required_error" role="alert" aria-live="polite"
+							*ngIf="(registrationForm.controls.password2.invalid && registrationForm.controls.password2.touched) || registrationForm.hasError('notEqualValues')"
                             @toggleVertically>
 							{{ 'Validation.RequiredPasswordConfirmation' | translate }}
                         </small>
 					</div>
 
+                    <!-- CHECKBOXES-->
+                    <!-- regulations checkbox-->
+                    <div class="form-group form-check mb-0">
+                        <input type="checkbox" class="form-check-input" 
+                            id="regulationsConsent" 
+                            formControlName="regulationsConsent">
 
-					<!-- REMEMBER ME & SUBMIT -->
-					<div class="form-check clearfix">
+                        <label class="form-check-label" for="regulationsConsent">
+                            {{ 'User.RegulationsCheckboxText' | translate }}
+                        </label>
+
+                        <!-- required error -->
+                        <small class="form-text text-danger"  role="alert" aria-live="polite"
+                            *ngIf="registrationForm.controls.regulationsConsent.invalid && registrationForm.controls.regulationsConsent.touched"
+                            @toggleVertically>
+                            {{ 'Validation.RegulationsCheckbox' | translate }}
+                        </small>
+                    </div>
+
+                    <!-- rodo checkbox-->
+                    <div class="form-group form-check mb-4">
+                        <input type="checkbox" class="form-check-input" 
+                            id="rodoConsent" 
+                            formControlName="rodoConsent">
+
+                        <label class="form-check-label" for="rodoConsent">
+                            {{ 'User.RodoCheckboxText' | translate }}
+                        </label>
+
+                        <!-- required error -->
+                        <small class="form-text text-danger" role="alert" aria-live="polite"
+                            *ngIf="registrationForm.controls.rodoConsent.invalid && registrationForm.controls.rodoConsent.touched"
+                            @toggleVertically>
+                            {{ 'Validation.RodoCheckbox' | translate }}
+                        </small>
+                    </div>
+
+
+					<!-- RODO & SUBMIT -->
+					<div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+
+                        <!-- Links to GDPR and regulations -->
+                        <div class="d-flex flex-column">
+                            <a href="/regulations" target="_blank">
+                                {{ "Menu.Regulations" | translate }}
+
+                                <span class="sr-only">
+                                    {{ 'SkipTo.NewWindow' | translate }}
+                                </span>
+                            </a>
+                            
+                            <button type="button" class="btn btn-link pl-0 pt-0" (click)="onRodoModalOpen($event)" #rodoModalTrigger>
+                                {{ 'Rodo.Title' | translate }}
+                            </button>
+                        </div>
 
                         <!-- fake button to indicate 'disabled' state -->
-                        <button type="button" class="btn btn-secondary disabled" *ngIf="!registrationForm.valid"
-                            aria-describedby="backend_notifications email_required_error password_required_error password2_required_error"
+                        <button type="button" class="btn btn-secondary disabled align-content-center" *ngIf="!registrationForm.valid"
+                            [attr.aria-label]="'Validation.InvalidEmailOrPassword' | translate:{param: 'User.CreateAccount' | translate }"
 							[attr.aria-disabled]="true">
 							{{ 'User.CreateAccount' | translate | uppercase }}
                         </button>
 
                         <!-- submit form -->
-						<button type="submit" class="btn btn-primary" *ngIf="registrationForm.valid">
+						<button type="submit" class="btn btn-primary mt-2" *ngIf="registrationForm.valid">
 							{{ 'User.CreateAccount' | translate | uppercase }}
 						</button>
 					</div>
@@ -150,4 +197,8 @@
 			</div>
 		</div>
 	</div>
+
+    <ng-template #rodoModalTemplate>
+        <app-rodo-modal (isModalClosed)="onRodoModalClose()"></app-rodo-modal>
+    </ng-template>
 </section>

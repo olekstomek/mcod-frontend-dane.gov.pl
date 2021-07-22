@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { ArrayHelper } from '@app/shared/helpers';
+
 /**
  * Dataset Parent Component
  */
@@ -18,13 +20,21 @@ export class DatasetParentComponent implements OnInit {
     /**
      * @ignore
      */
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(private activatedRoute: ActivatedRoute) {
+    }
 
     /**
      * Initializes dataset.
      */
     ngOnInit() {
         this.dataset = this.activatedRoute.snapshot.data.post.data;
-        this.dataset.attributes['tags'] = this.dataset.attributes['tags'] ? this.dataset.attributes['tags'].join(', ') : '';
+        this.dataset.attributes['tags'] = this.dataset.attributes['tags'] ? this.convertTagsToString() : '';
+    }
+
+    /**
+     * Converts tags attributes to comma separated string
+     */
+    private convertTagsToString(): string {
+      return ArrayHelper.convertArrayValuesToCommaSeparatedString(this.dataset.attributes['tags']);
     }
 }

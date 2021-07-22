@@ -1,38 +1,30 @@
 <section class="home-section vertical-spacing" id="institutions">
-    <h2 class="heading heading--md heading--separator heading--centered">
+    <h2 class="heading heading--md heading--separator heading--centered"
+        appInfoTooltip="{{'Tour.Tooltip.HomePage.Institution.text' | translate }}"
+        tooltipTitle="{{ 'Tour.Tooltip.HomePage.Institution.title' | translate }}">
         {{ "Home.Organizations.Title" | translate }}
     </h2>
 
-    <div class="container">
-
-        <!-- api notifications -->
-        <app-notifications></app-notifications>
+    <div class="container" *ngIf="items">
 
         <!-- institutions grid -->
         <ul class="category-list row m-0 p-0">
             <li class="category-list__item col-12 col-sm-6 col-md-6 col-xl-3"
                 *ngFor="let item of items">
-                <a class="category-list__item-wrapper" [routerLink]="['/institution', item?.key]">
+                <a class="category-list__item-wrapper" [routerLink]="['/!institution' | localize, item?.id +','+ item.slug]">
                     <div class="category-list__item-content">
                         <span class="category-list__item-heading heading heading--sm">
                             {{ item?.title }}
                         </span>
                         <span class="category-list__item-info m-0">
-                            {{ 'Datasets.Count' | translate }}: {{ item?.doc_count }}
+                            {{ 'Datasets.Count' | translate }}: {{ item?.count }}
                         </span>
                     </div>
                 </a>
                 
             </li>
         </ul>
-
         <!-- view all (anchor) -->
-        <footer class="section-footer">
-            <a class="section-footer__all with-chevron" [routerLink]="['/institution']">
-                {{ 'Home.Organizations.All' | translate | uppercase }}
-                <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-                </svg></a>
-        </footer>
+        <home-section-footer [routerURL]="'/!institution' " [text]="'Home.Organizations.All'"></home-section-footer>
     </div>
 </section>

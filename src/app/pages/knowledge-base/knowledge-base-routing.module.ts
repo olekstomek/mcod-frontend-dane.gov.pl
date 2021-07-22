@@ -1,28 +1,31 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
+import { KnowledgeBaseItemDetailsComponent } from '@app/pages/knowledge-base/knowledge-base-item-details/knowledge-base-item-details.component';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { BreadcrumbsArticleResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-article.resolver';
-
-import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
+import { BreadcrumbsKnowledgeBaseTabDataResolverService } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-base-tab-data-resolver.service';
+import { BreadcrumbsKnowledgeBaseDataResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-data-resolver.service';
+import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { KnowledgeBaseItemPreviewComponent } from './knowledge-base-item-preview/knowledge-base-item-preview.component';
-
 import { KnowledgeBaseTabsComponent } from './knowledge-base-tabs/knowledge-base-tabs.component';
-import { KnowledgeBaseTabHelpComponent } from './knowledge-base-tab-help/knowledge-base-tab-help.component';
-import { KnowledgeBaseTabEducationComponent } from './knowledge-base-tab-education/knowledge-base-tab-education.component';
-import { KnowledgeBaseTabFaqComponent } from './knowledge-base-tab-faq/knowledge-base-tab-faq.component';
-import { KnowledgeBaseTabListComponent } from './knowledge-base-tab-list/knowledge-base-tab-list.component';
-import { KnowledgeBaseTabItemComponent } from './knowledge-base-tab-item/knowledge-base-tab-item.component';
+import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
 
+/**
+ * Router endpoints
+ */
+const routerEndpoints = RouterEndpoints;
 
 const routes: Routes = [
-    { 
+    {
         path: '', component: KnowledgeBaseComponent, children: [
 
             // general article preview
             {
-                path: 'preview/:id', component: KnowledgeBaseItemPreviewComponent, 
+                path: `!${routerEndpoints.PREVIEW}/!:id`, component: KnowledgeBaseItemPreviewComponent,
                 data: {
-                    breadcrumbs: '{{ post.attributes.title }}'
+                    breadcrumbs: {dataKey: 'post.attributes.title'}
                 },
                 resolve: {
                     post: BreadcrumbsArticleResolver
@@ -32,53 +35,56 @@ const routes: Routes = [
             // tabs
             {
                 path: '',
-                component: KnowledgeBaseTabsComponent,           
+                component: KnowledgeBaseTabsComponent,
                 children: [
-                    {path: '', redirectTo: 'education', pathMatch: 'full'},
-
-                    // education
-                    {path: 'education', component: KnowledgeBaseTabEducationComponent, children: [
-                        {path: '', component: KnowledgeBaseTabListComponent, data: { category: 3 }},
-                        {
-                            path: ':id', component: KnowledgeBaseTabItemComponent, 
-                            data: {
-                                breadcrumbs: '{{ post.attributes.title }}'
-                            },
-                            resolve: {
-                                post: BreadcrumbsArticleResolver
-                            }
+                    { path: '', redirectTo: '!' + routerEndpoints.MULTIMEDIA_TRAINING, pathMatch: 'full' },
+                    {
+                        path: '!' + routerEndpoints.MULTIMEDIA_TRAINING,
+                        component: CmsLandingPageComponent,
+                        resolve: {
+                            children: BreadcrumbsKnowledgeBaseTabDataResolverService
                         },
-                    ]},
-
-                    // faq
-                    {path: 'faq', component: KnowledgeBaseTabFaqComponent},
-
-                    // help
-                    {path: 'help', component: KnowledgeBaseTabHelpComponent, children: [
-                        {path: '', component: KnowledgeBaseTabListComponent, data: { category: 2 }},
-                        {
-                            path: ':id', component: KnowledgeBaseTabItemComponent, 
-                            data: {
-                                breadcrumbs: '{{ post.attributes.title }}'
-                            },
-                            resolve: {
-                                post: BreadcrumbsArticleResolver
-                            }
+                        data: {
+                            slug: routerEndpoints.MULTIMEDIA_TRAINING,
+                            showFooter: true,
+                            breadcrumbs: {dataKey: 'children.0.title'},
+                        }
+                    },
+                    {
+                        path: '!' + routerEndpoints.USEFUL_MATERIALS,
+                        component: CmsLandingPageComponent,
+                        resolve: {
+                            children: BreadcrumbsKnowledgeBaseTabDataResolverService
                         },
-                    ]},
-                    
-                    {path: '**', redirectTo: 'education', pathMatch: 'full'}
-                ]
+                        data: {
+                            slug: routerEndpoints.USEFUL_MATERIALS,
+                            showFooter: true,
+                            breadcrumbs: {dataKey: 'children.1.title'},
+                        },
+                        children: [
+                            {
+                                path: `!:id`,
+                                component: KnowledgeBaseItemDetailsComponent,
+                                data: {details: true, breadcrumbs: {dataKey: 'post.title'}},
+                                resolve: {post: BreadcrumbsKnowledgeBaseDataResolver}
+                            },
+                        ]
+                    }
+                ],
+                resolve: {
+                    post: BreadcrumbsKnowledgeBaseDataResolver
+                }
             }
-        ] 
+        ]
     },
 ];
 
-/**
- * @ignore
- */
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    imports: [
+        RouterModule.forChild(routes),
+        LocalizeRouterModule.forChild(routes),
+    ],
+    exports: [RouterModule, LocalizeRouterModule]
 })
-export class KnowledgeBaseRoutingModule { }
+export class KnowledgeBaseRoutingModule {
+}

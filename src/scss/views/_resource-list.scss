@@ -54,16 +54,12 @@
             :first-child {
                 margin-right: 1rem;
             }
-            
+
             @include media-breakpoint-down(lg) {
                 flex-direction: column;
 
                 :first-child {
                     margin-right: 0;
-                }
-
-                & > * {
-                    margin-bottom: 0.5rem;
                 }
             }
         }

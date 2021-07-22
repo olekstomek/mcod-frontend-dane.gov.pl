@@ -1,7 +1,8 @@
 {
     "MC": "Ministry of Digital Affairs",
     "MaintainedBy": "Maintained by",
-    "Slogan": "Use data!",
+    "Slogan": "Poland's Open Data Portal",
+    "SloganDescription": "Use public data free of charge, also for commercial purposes",
     "Description": "Data of particular importance for the development of innovation in the state and development of the information society in one location",
     "GoTo": "Go to",
     "PageTop": "Top of the page",
@@ -11,8 +12,11 @@
     "HistoryBack": "Back to previous page",
     "Version": "Version: ",
     "Modal": "Modal window",
-    "Enter": "Enter",
+    "SourceCode": "Portal source code",
+    "ApiDocumentation": "API Documentation",
+    "Hint": "Hint",
 
+    "ROUTES.404": "404",
 
     "About": {
         "Self": "About the portal"
@@ -24,20 +28,21 @@
         "Open": "Open",
         "Close": "Close",
         "Choose": "Select",
-        "ChooseCategory": "Select category",
-        "ChooseFromTheList": "Select from the list",
         "Save": "Save",
         "Cancel": "Cancel",
         "Edit": "Edit",
         "Download": "Download",
         "Show": "Show",
         "Hide": "Hide",
+        "ExpandDescription": "Expand description",
+        "CollapseDescription": "Collapse description",
         "Search": "Search",
         "SearchFor": "Search for",
         "Register": "Register",
         "Login": "Log in",
         "Logout": "Log out",
-        "Remember": "Remember me",
+        "Remember": "Save",
+        "RememberMe": "Remember me",
         "Check": "Check",
         "Uncheck": "Uncheck",
         "See": "See",
@@ -45,24 +50,56 @@
         "Decrease": "Decrease",
         "Change": "Change",
         "Sort": "Sort",
-        "SeeResultsViaApi": "See the API response in JSON format for presenting data on the current page",
-        "DownloadAllAsCsv": "Download all resources in CSV format",
+        "SeeResultsViaApiTooltip": "See the API response in JSON format for presenting data on the current page",
+        "SeeResultsViaApi": "See data via API",
         "Send": "Send",
         "SwitchViewTo": "Switch view to",
         "Observe": "Follow",
         "StopObserve": "Stop following",
         "GoToSource": "Go to source",
         "GoTo": "Go to",
+        "Go": "Go",
         "OpenInNewWindow": "Open in new window",
-        "LoadMore": "Load more"
+        "LoadMore": "Load more",
+        "Subscribe": "Subscribe",
+        "Preview": "Preview",
+        "Enter": "Enter",
+        "Expand": "Expand",
+        "Collapse": "Collapse"
+    },
+
+    "ActivityNotification": {
+        "object_restored": "Restored",
+        "object_trashed": "Removed",
+        "object_removed": "Removed",
+        "object_updated": "Updated",
+        "updated": "Updated",
+        "application": {
+            "related_object_publicated": "Published dataset associated with",
+            "related_object_updated": "Updated dataset associated with",
+            "related_object_restored": "Restored dataset associated with",
+            "related_object_removed": "Removed dataset associated with",
+            "related_object_trashed": "Removed dataset associated with"
+        },
+        "dataset": {
+            "related_object_publicated": "Published resource associated with",
+            "related_object_updated": "Updated resource associated with",
+            "related_object_restored": "Restored resource associated with",
+            "related_object_removed": "Removed resource associated with",
+            "related_object_trashed": "Removed resource associated with"
+        },
+        "query": {
+            "result_count_incresed": "Response count has increased for",
+            "result_count_decresed": "Response count has decreased for"
+        }
     },
 
     "ApplicationForm": {
         "Name": "Application name",
-        "DescriptionLength": "Maximum {param} characters",
         "ApplicantEmail": "Applicant e-mail",
         "Author": "Application author",
         "Logo": "Application logo (logo displayed when browsing)",
+        "Graphics": "Illustrative graphics (graphics displayed in application details)",
         "InternalDatasets": "Search for the dataset on the portal that was used to build the application",
         "ExternalDatasets": "If you used public data which is not available on the portal, enter the dataset name or provide the link to the dataset",
         "ComaSeparated": "Coma separated",
@@ -70,7 +107,18 @@
         "Website": "Website URL with information about the application",
         "SuggestionSentSuccess": "Thank you for submitting the application suggestion",
         "EnterName": "Enter name",
-        "Link": "Link"
+        "Link": "Link",
+        "DataProcessing": "I hereby confirm that I have taken note of the following information",
+        "DataProcessing1": "The data controller is the Minister of Digital Affairs, based in Warsaw (00-060) at ul. Królewska 27. ",
+        "DataProcessing2": "The data controller can be contacted via the e-mail address mc@mc.gov.pl, via ePUAP or in writing to the address of the controller’s seat.",
+        "DataProcessing3": "The data controller has appointed a data protection officer who can be contacted by e-mail iod@mc.gov.pl. The data protection officer can be contacted in all matters related to the processing of your data by the Ministry of Digital Affairs and the use of your rights related to data processing.",
+        "DataProcessing4": "Your data will be processed for the purpose of contacting and publishing the sent application on the dane.gov.pl portal. Legal basis: consent to data processing (Article 6 para. 1 letter a of the GDPR).",
+        "DataProcessing5": "Your personal data may be made available to entities on the basis of applicable regulations (e.g. court, police).",
+        "DataProcessing6": "Your data will be processed until consent to their processing is revoked. The consent to the processing of personal data may be withdrawn at any time by sending an e-mail to mc@mc.gov.pl, via ePUAP or in writing to the address of the controller's office. Withdrawal of consent does not affect the lawfulness of processing based on consent before the withdrawal thereof.",
+        "DataProcessing7": "You have the right to access your data and the right to request rectification, deletion, processing restrictions, the right to transfer data, the right to withdraw consent at any time without affecting the lawfulness of processing which was made on the basis of consent before its withdrawal.",
+        "DataProcessing8": "Providing data is a condition for submitting the application and failure to do so will make it impossible to submit the application.",
+        "DataProcessing9": "You have the right to lodge a complaint with the supervisory body dealing with the protection of personal data in the Member State of your habitual residence, place of work or place of the alleged infringement in a situation where the processing of personal data violates the provisions on the protection of personal data. President of the Personal Data Protection Office (PUODO) ul. Stawki 2, 00-193 Warsaw",
+        "TermsOfService": " I hereby consent to the processing of my personal data (e-mail, author) in order to make contact and publish the application sent by me on the dane.gov.pl portal. The consent to the processing of personal data may be withdrawn at any time by sending an e-mail to mc@mc.gov.pl, via ePUAP or in writing to the address of the controller's office. Withdrawal of consent does not affect the lawfulness of the processing which was carried out on the basis of consent before the withdrawal thereof."
     },
 
     "Applications": {
@@ -83,20 +131,17 @@
         "CreateOwn": "Create your own app",
         "SeeAlreadyBuilt": "See already built applications",
         "Link": "Link to the application",
+        "Logo": "Application logo",
         "Suggest": "Suggest an application",
         "Description1of3": "Open public data is public administration data that everyone can use. Based on the data, more and more modern products, services and applications are being created.",
         "Description2of3": "Below we present examples of public data utilization in applications, products and services. We do not promote a specific solution, we only disseminate information about selected projects using data.",
-        "Description3of3": "We are interested in further examples."
+        "Description3of3": "We are interested in further examples",
+        "NoLogo": "No logo"
     },
 
     "Articles": {
-        "Self": "Articles",
-        "Single": "Article",
-        "Genitive": "Article",
-        "Description": "Description",
         "News": "News",
-        "SearchFor": "Search for article",
-        "SeeAll": "See all articles"
+        "SearchFor": "Search for article"
     },
 
     "Attribute": {
@@ -104,23 +149,30 @@
         "Author": "Author",
         "Category": "Category",
         "CategoryLong": "Data category",
+        "CategoryTooltip": "categories",
         "Format": "Format",
         "FormatLong": "Format of provided data",
-        "Institution": "Institution",
-        "InstitutionLong": "Institution (data provider)",
+        "FormatTooltip": "format",
+        "Institution": "Publisher",
+        "InstitutionLong": "Data publisher",
+        "InstitutionTooltip": "publishers",
         "Order": "Order",
         "License": "License",
         "Tags": "Tags",
         "Type": "Type",
         "Source": "Source",
+        "HarvestedSource": "The data comes from external source",
         "DownloadCount": "Downloads count",
         "ViewsCount": "Views count",
+        "VisualizationType": "Data visualization type",
+        "ResourceType": "Resource type",
         "OpennessScore": "Openness score",
         "Popularity": "Popularity",
         "Created": "Created",
         "Modified": "Modified",
         "Updated": "Updated",
         "Available": "Available",
+        "Date": "Date",
         "AddDate": "Addition date",
         "CreationDate": "Creation date",
         "ModificationDate": "Modification date",
@@ -133,26 +185,37 @@
         "NameDesc": "Name descending",
         "PopularityAsc": "Popularity ascending",
         "PopularityDesc": "Popularity descending",
-        "Views": "Views",
-        "Downloads": "Downloads",
         "Required": "Required",
         "UpdateFrequency": "Update frequency",
         "Image": "Image",
         "Size": "Size",
-        "Title": "Title"
+        "Title": "Title",
+        "DataSource": "Data Source",
+        "DateRange": "Date range",
+        "From": "From",
+        "To": "To",
+        "AllData": "All data",
+        "LastImportDate": "Last import date",
+        "HarvesterUpdateFrequency": "Import frequency",
+        "Period": "Period",
+        "Metadata": "Metadata"
+
     },
 
     "Breadcrumbs": {
         "YouAreHere": "You are here",
         "Root": "Home",
         "HomeComponent": "",
+        "HelpAndRegulations": "Help and regulations",
+        "RegulationsComponent": "Regulations",
 
-        "DatasetModule": "Datasets",
+        "DatasetModule": "Data",
         "DatasetComponent": "",
         "DatasetItemComponent": "",
         "SuggestDatasetComponent": "Suggest dataset",
+        "SubmissionListComponent": "Suggested Datasets",
 
-        "InstitutionModule": "Institutions",
+        "InstitutionModule": "Publishers",
         "InstitutionComponent": "",
         "InstitutionItemComponent": "",
 
@@ -163,30 +226,117 @@
 
         "ArticleModule": "News",
 
-        "KnowledgeBaseComponent": "Knowledge base",
-        "KnowledgeBaseTabHelpComponent": "Help",
-        "KnowledgeBaseTabEducationComponent": "Educational materials",
-        "KnowledgeBaseTabFaqComponent": "FAQ",
-
         "LoginComponent": "Login",
         "RegisterComponent": "Registration",
 
-        "UserModule": "",
-        "MyAccountComponent": "My account",
-        "ActivityComponent": "",
         "SearchHistoryComponent": "Search history",
-        "FollowedComponent": "Following",
+        "FollowedDatasetsComponent": "Followed - List",
+        "FollowedObjectActivityComponent": "Followed - Activity",
+        "FollowedQueryComponent": "Followed - Search results",
+        
         "ChangePasswordComponent": "Password change",
         "LostPasswordComponent": "New password creation",
         "ResetPasswordComponent": "New password creation",
+        
+        "DashboardComponent": "My Dashboard",
+        "LabComponent": "Laboratorium OD",
+        "AcademyComponent": "Akademia OD",
+        "DataProposalComponent": "Propozycje nowych danych",
+        "MeetingsComponent": "Spotkania pełnomocników",
+        "ForumRegulationsComponent": "Forum regulations",
 
         "AboutComponent": "About us",
         "SitemapComponent": "Sitemap",
-        "PageNotFoundComponent": "Page not found"
+        "PageNotFoundComponent": "Page not found",
+        "SearchComponent": "Search results",
+        "SurveyComponent": "Survey",
+        "NewsletterComponent": "Newsletter",
+        "DeclarationComponent": "Declaration of accessibility"
+    },
+
+    "Calendar": {
+        "CalendarLabel": "Calendar",
+        "NextMonthLabel": "Next month",
+        "NextMultiYearLabel": "Next 20 years",
+        "NextYearLabel": "Next year",
+        "OpenCalendarLabel": "Open calendar",
+        "PrevMonthLabel": "Previous month",
+        "PrevMultiYearLabel": "Previous 20 years",
+        "PrevYearLabel": "Previous year",
+        "SwitchToMonthViewLabel": "Choose date",
+        "SwitchToMultiYearViewLabel": "Choose month and year",
+        "DataPickerMask": "dd/mm/yyyy"
+    },
+
+    "Captcha": {
+        "Description": "To prevent spam, please solve this simple math problem below",
+        "Label": "Math problem"
+    },
+
+    "Changes": {
+        "Self": "Activities",
+        "Title": "Notifications about changes in observed objects",
+        "VarCount": "{param, plural, =1 {one changes} few {{param} changes} other {{param} changes}}",
+        "Number": "Number of activities",
+        "None": "No activities",
+        "NoneTitle": "No activities in followed objects",
+        "NoneDescription": "If a new activity appears, it will be visible here",
+        "MarkAllNotifications": "Mark all notifications as read"
+    },
+
+    "Chart": {
+        "Self": "Chart",
+        "Type": "Chart type",
+        "Params": "Chart parameters",
+        "Line": "Line",
+        "Bar": "Bar",
+        "Scatter": "Scatter",
+        "Pie": "Pie",
+        "Doughnut": "Doughnut",
+        "Polararea": "Polar area",
+        "XaxisFormLabel": "X-axis (label) - select column with data",
+        "XaxisFormLabelValue": "X-axis (value) - select column with data",
+        "YaxisFormLabel": "Y-axis (value) - select column with data",
+        "YaxisNewColumn": "Y-axis add new column",
+        "YaxisNewColumnStatus": "Active only for chart types with a coordinate system",
+        "YaxisOnlyOneColumnAllowed": "Only one data column can be defined for the Y axis (value)",
+        "Preview": "Chart preview",
+        "MaxColumnReached": "Reached the maxium number of columns",
+        "DuplicatesEncountered": "Selected values occur more than once",
+        "SelectedValueExists": "Selected value already exists. Values for both axes must be different",
+        "MoreThanOneValueSelected": "More than one value selected",
+        "BeforeSaveMessage": "If you want to save the defined chart permanently and have access to it regardless of the device you are using,",
+        "Saved": "Chrt has been successfully saved",
+        "InMemory":"in browser memory",
+        "Deleted": "Chart has been successfully deleted",
+        "EditorPreview": "Editor view:",
+        "StatusNoChart": "Chart is not yet defined",
+        "StatusPreview": "Chart in a preview mode",
+        "StatusDefault": "Chart defined by data publisher",
+        "StatusUserLoggedIn": "User defined chart",
+        "StatusUserNotLoggedIn": "User defined chart (stored in a browser memory)",
+        "NoEditPermission": "No permission to define chart",
+        "AxisX": "X axis",
+        "AxisY": "Y axis",
+        "DataTable": "Chart data in tabular form"
+    },
+
+    "Cms": {
+        "NotSupportedPlayer" : "The selected movie player is not supported.",
+        "FillOutSurvey": "Fill out survey",
+        "FormSubmitted": "Form successfully submitted",
+        "FormSubmitError": "There was an error during submitting the form. Please try send it again in a moment.",
+        "FillRequired": "Fill all required fields"
     },
 
     "Connector": {
-        "About": "about"
+        "About": "about",
+        "Or": "or"
+    },
+
+    "CoronavirusAlert": {
+        "Alert": "Coronavirus: current information and recommendations",
+        "LinkText": "Learn more"
     },
 
     "DatabaseOperations": {
@@ -207,26 +357,62 @@
         "article_tag": "Article tag",
         "application_dataset": "Application dataset"
     },
-    
+
+    "DataProposal": {
+        "Self": "Suggested Datasets",
+        "Info": "Dataset suggestions submitted by users are displayed below. They are considered by data providers who can make data available on the portal. If you want to express your opinion on the displayed suggestions, click on its title to go to the appropriate form.",
+        "Institution": "Name of the organization responsible for the data",
+        "DataLink": "Data link",
+        "ReleaseDate": "Date released",
+        "Feedback": "Enter your feedback on the above suggestion",
+        "Message": "Thank you for your feedback",
+        "UserSuggestions": "See what other users have suggested"
+    },
+
     "DatasetForm": {
         "Suggest": "Describe the data you are looking at dane.gov.pl",
-        "SuggestDataset": "Suggest dataset",
         "DataDescription": "Data description",
         "DataDescriptionLong": "Describe precisely the data you are looking for and if you can indicate the entity that may have it. You can also provide a link to the data on the internet. We will analyze the submitted suggestions and discuss with the data owner the possibility of sharing them on the open data portal.",
-        "DescriptionLength": "Maximum {param} characters",
+        "EnterName": "Enter name",
+
+        "SuggestDataset": "Suggest dataset",
         "SuggestionSentSuccess": "Thank you for submitting the suggestion",
-        "EnterName": "Enter name"
+        
+        "Heading": "Describe the data you have not found on the dane.gov.pl portal",
+        "Title": "Name, type, field of proposed data",
+        "Notes": "Data description",
+        "OrganizationName": "Name of the organization responsible for the data",
+        "DataLink": "Did you find this data elsewhere? if so, please provide the link",
+        "PotentialPossibilities": "Potential use of the data",
+
+        "TitlePlaceholder": "name",
+        "OrganizationNamePlaceholder": "organization",
+        "DataLinkPlaceholder": "link",
+        "PotentialPossibilitiesPlaceholder": "potential use"
+    },
+
+    "DatasetQueryForm": {
+        "Placeholder": "Enter search name",
+        "Submit": "Save the search results",
+        "SuccessfulSubmit": "Search results has been saved and are accessible in",
+        "ErrorSubmit": "You are already following this query"
     },
 
     "DatasetRestrictions": {
-        "Self": "Restrictions on reuse of this dataset",
-        "None": "This dataset is considered public data and can be used without any restrictions.",
-        "Intro": "This dataset is considered public data and can be used under following restrictions:",
+        "Self": "Restrictions on reuse",
+        "Allowed": "You are free to",
+        "Terms": "Under the following terms",
+        "LicenseType": "License type",
+        "LinkToLicense": "Link to the license",
+        "LicenseSummaryLink": "Below is an accessible license summary, which is also available at the link:",
+        "None": "This dataset can be used without any restrictions.",
+        "Intro": "This dataset can be used under following restrictions:",
         "Source": "The recipient should inform about the date, time of completion and obtaining information from the obliged entity",
         "Original": "The recipient should include a copy of the information in the originally obtained form by providing the processed information",
         "Modification": "The recipient should inform about the processing of the information when it modifies it",
-        "Responsibilities": "The scope of the provider's responsibility for the information provided:",
-        "DbOrCopyrighted": "Conditions for using public information that meets the characteristics of the work or constitute a database (Article 23b paragraph 3 of the Act on Access to Public Information):"
+        "Responsibilities": "The scope of the publisher's responsibility for the information provided:",
+        "DbOrCopyrighted": "The conditions of re-use of information meeting the characteristics of a work within the meaning of the act on copyright and related rights or constituting a database within the meaning of the Act on the protection of databases (art. 13 (3) of the Act on the re-use of public sector information):",
+        "ConditionPersonalData": "The conditions of re-use of information containing personal data (Article 14 (1) (4) of the Act on the re-use of public sector information):"
     },
 
     "Datasets": {
@@ -244,7 +430,10 @@
         "FeedbackSentSuccess": "Thank you for your feedback.",
         "ShowHistory": "Show dataset history",
         "HideHistory": "Hide dataset history",
-        "NoResources": "This dataset has currently no resources."
+        "NoResources": "This dataset has currently no resources.",
+        "Harvester": "Data collected automatically from:",
+        "MetadataRelatedCatalog": "For the catalog",
+        "MetadataRelatedDataset": "For the dataset"
     },
 
     "Embed": {
@@ -252,7 +441,8 @@
         "Description": "You can copy the code of the data visualizer to your CMS platform or blog if it supports pasting HTML code.",
         "Width": "Width",
         "Height": "Height",
-        "Code": "Code"
+        "Code": "Code",
+        "OriginText": "Data come from"
     },
 
     "Errors": {
@@ -274,9 +464,14 @@
 
     "Filters": {
         "Self": "Filters",
-        "Show": "Show filters",
-        "Hide": "Hide filters",
+        "ShowFilters": "Show filters",
+        "HideFilters": "Hide filters",
+        "ApplyFilter": "Apply",
+        "Applied": "Applied",
         "Apply": "Apply filters",
+        "ApplyOne": "Apply filter",
+        "ActiveFilters": "Active filters",
+        "AppliedFilters": "Applied filters",
         "Add": "Add filter",
         "Remove": "Remove filter",
         "RemoveSelected": "Remove selected filters",
@@ -285,7 +480,12 @@
         "Hint": "For numeric fields, you can use Boolean expressions (>, <, >=, <=), np.: '> 3500'",
         "Selected": "Selected",
         "VarSelected": "{param, plural, =1 {1 filter} few {{param} filters} other {{param} filters}} selected",
-        "NoFiltersSelected": "No filters selected"
+        "NoFiltersSelected": "No filters selected",
+        "ChooseOperation": "Choose operation",
+        "RestoreInitialView": "Restore orginal view",
+        "NoResults": "No results",
+        "NoResultsFound": "No results found",
+        "VarElements": "{param, plural, =1 {1 element} few {{param} elements} other {{param} elements}}"
     },
 
     "Font": {
@@ -295,6 +495,7 @@
     },
 
     "Found": {
+        "Self": "Found",
         "VarCount": "{ param } results were found",
         "PluralCount": "Found {param, plural, =1 {one matching result} other {{param} matching results}}",
         "Nothing": "No results found",
@@ -312,24 +513,25 @@
     },
 
     "Home": {
-        "Self": "Home",
+        "OpenData": "Open Data",
         "Description": "Data of particular importance for the development of innovation in the state and development of the information society in one location",
         "Stats": {
             "Title": "Data in figures",
-            "Institutions": "Related Organizations",
+            "Institutions": "Related Publishers",
             "Resources": "Resources up to date ",
-            "MonthlyDatasets": "New datasets monthly"
+            "MonthlyDatasets": "New datasets monthly",
+            "ApiNumber": "API number"
         },
         "Search": {
             "Title": "Search",
-            "PlaceholderText": "Enter search query e.g. baza teleadresowa"
+            "PlaceholderText": "Enter search query"
         },
         "Categories": {
-            "Title": "Select category"
+            "Title": "Select data category"
         },
         "Organizations": {
-            "Title": "Select institution",
-            "All": "See all institutions",
+            "Title": "Select data publisher",
+            "All": "See all publishers",
             "Datasets": "Number of datasets"
         },
         "News": {
@@ -340,8 +542,10 @@
         },
         "Apps": {
             "Title": "Share the application!",
-			"Description": "We show examples of applications, products and services that use data, cultural resources, libraries or exhibits.",
-            "All": "See application examples"
+            "Information": "We show examples of applications, products and services that use data, cultural resources, libraries or exhibits.",
+            "SeeAll": "See application examples",
+            "Description": "Examples of applications that were created using open data",
+            "All": "See all applications"
         },
         "ServiceAlert": {
             "Self": "Service alert"
@@ -349,26 +553,28 @@
     },
 
     "Institutions": {
-        "Self": "Institutions",
-        "Description": "Institutions Description",
-        "Single": "Institution",
-        "Genitive": "Institution",
-        "Choose": "Select institution",
-        "SearchFor": "Search for institution",
-        "SeeAll": "See all institutions",
+        "Self": "Publishers",
+        "Single": "Publisher",
+        "Description": "Publisher Description",
+        "Genitive": "Publisher",
+        "Choose": "Select publisher",
+        "SearchFor": "Search for publishers",
+        "SeeAll": "See all publishers",
         "RelatedDatasets": "Related datasets",
         "EpuapMailBox": "ePUAP mailbox",
-        "Type": "Institution type",
+        "Type": "Publisher type",
         "TypeLocal": "Local government",
         "TypeState": "Public government",
-        "TypeOther": "Other"
+        "TypeOther": "Other",
+        "TypePrivate": "Private entities"
     },
 
     "KnowledgeBase": {
         "Self": "Knowledge base",
         "News": "News",
         "Help": "Help",
-        "EducationalMaterials": "Educational materials",
+        "MultimediaTraining": "Multimedia training",
+        "OtherMaterials": "Other materials",
         "Faq": "Frequently asked questions",
         "ListHeader": "Topic list"
     },
@@ -381,13 +587,26 @@
         "ChangeTo": "Change to"
     },
 
+    "Map": {
+        "AddressInput": "Enter address",
+        "AddressLengthErrorMessage": "The address should contain at least of 3 characters.",
+        "AllPoints": "all objects",
+        "Options": "Map options",
+        "NotFoundLocation": "The location could not be found.",
+        "Point": "Object without label",
+        "PointsFound": "Objects found:",
+        "Range": "Search radius",
+        "Show": "Show location on map",
+        "UserLocation": "provide your location"
+    },
+
     "Menu": {
         "Self": "Menu",
         "Main": "Main menu",
         "Home": "Homepage",
         "Datasets": "Data",
         "Applications": "Applications",
-        "Institutions": "Institutions",
+        "Institutions": "Publishers",
         "Articles": "Knowledge base",
         "About": "About",
         "Sitemap": "Sitemap",
@@ -395,19 +614,65 @@
         "KnowledgeBase": "Knowledge base",
         "News": "News",
         "Open": "Open menu",
-        "Close": "Close menu"
+        "Close": "Close menu",
+        "Faq": "FAQ",
+        "Declaration": "Declaration of accessibility",
+        "Regulations": "Regulations"
+    },
+
+    "MyDashboard": {
+        "Self": "My dashboard",
+        "AdminPanel": "Admin panel",
+        "MyAccount": "My account",
+        "MyAccountId": "Account id",
+        "MyAccountActiveFrom": "Active account from",
+        "FollowedObjects": "Followed objects",
+        "Lod": "Open Data Laboratory",
+        "Reports": "Reports",
+        "Analyzes": "Analyzes",
+        "Research": "Research",
+        "Clock": "Clock",
+        "Stats": "Stats",
+        "AllStats": "all stats",
+        "Chart": "chart"
+    },
+
+    "Schedule": {
+        "Edit": "Edit",
+        "Delete": "Delete",
+        "Details": "Details"
+    },
+
+    "Newsletter": {
+        "Self": "Newsletter",
+        "Subscribe": "Subscribe to newsletter",
+        "Contact": "Stay in touch with us",
+        "Description" : "To subscribe to the newsletter, enter your email address",
+        "Description2" : "If you want to receive our newsletter, accept the rules and consent then click",
+        "RequiredMessage": "Acceptance is required",
+        "SelectAll" : "I accept all of the following consents",
+        "SubscriptionSent" : "Your subscription has been sent.",
+        "Unsubscription" : "Unsubscribing from the newsletter"
+    },
+
+    "NotificationConsent": {
+        "Header": "Consent to receive notifications",
+        "Required": "Must agree to receive notifications",
+        "ResignNotificationsButton": "Disable e-mail notifications",
+        "EnableNotificationsButton": "Enable e-mail notifications",
+        "AcceptButton": "Accept",
+        "CheckboxText": "I wish to receive notifications of changes in the observed resources of the website and therefore I agree to their sending electronically to the electronic address given when registering."
     },
 
     "Pagination": {
         "Self": "Pagination",
-        "First": "First page",
         "Prev": "Previous page",
         "VarRewind": "Backward {param, plural, =1 {1 page} other {{param} pages}} back",
         "VarPage": "Page {{ param }}",
         "Page": "Page",
         "VarForward": "Forward {param, plural, =1 {1 page} other {{param} pages}} pages forward",
         "Next": "Next page",
-        "Last": "Last page",
+        "Last": "Last",
         "ItemsPerPage": "Results per page"
     },
 
@@ -430,44 +695,340 @@
         "TabularDataDescription": "Tabular data in JSON format",
         "Feedback": "Feedback",
         "SendFeedback": "Send feedback",
-        "FeedbackSentSuccess": "Thank you for your feedback."
+        "FeedbackSentSuccess": "Thank you for your feedback.",
+        "VarTableRowsLimited": "The table displays { param } from { param1 }. If you want to view the entire file, download the resource.",
+        "MapView": "Map",
+        "TableView": "Table",
+        "ChartView": "Chart",
+        "NoChartView": "The resource has no chart view",
+        "VarChartRowsLimited": "The chart displays { param } from { param1 }.",
+        "MapDescription": "Map showing data from the resource",
+        "SpecialSigns": "Special signs"
+    },
+
+    "ResourceFilter": {
+        "Column": "Column",
+        "Operator": "Operator",
+        "Phrase": "Value",
+        "DataTypeLabel": "Data type",
+        "DataType": {
+            "integer": "Number",
+            "number": "Number",
+            "float": "Float",
+            "datetime": "Datetime",
+            "date": "Date",
+            "time": "Time",
+            "string": "Text",
+            "boolean": "Boolean",
+            "any": "any"
+        },
+        "Operators": {
+            "string": {
+                "isEqual": "is equal to",
+                "isNotEqual": "is not equal to",
+                "beginsWith": "starts with",
+                "itContains": "contains",
+                "doNotContain": "does not contain",
+                "isEmpty": "is blank",
+                "isNotEmpty": "is not blank"
+            },
+            "integer": {
+                "isEqual": "is equal to",
+                "isNotEqual": "is not equal to",
+                "isEmpty": "is blank",
+                "isNotEmpty": "is not blank",
+                "isGreaterThan": "is greater than",
+                "isLessThan": "is less than",
+                "isGreaterOrEqual": "is at least",
+                "isLessOrEqual": "is at most"
+            },
+            "datetime": {
+                "isEqual": "is equal to",
+                "isNotEqual": "is not equal to",
+                "isEmpty": "is blank",
+                "isNotEmpty": "is not blank",
+                "isGreaterThan": "is later",
+                "isLessThan": "is earlier",
+                "isGreaterOrEqual": "is later or equal to",
+                "isLessOrEqual": "is earlier or equal to"
+            },
+            "date": {
+                "isEqual": "is equal to",
+                "isNotEqual": "is not equal to",
+                "isEmpty": "is blank",
+                "isNotEmpty": "is not blank",
+                "isGreaterThan": "is later",
+                "isLessThan": "is earlier",
+                "isGreaterOrEqual": "is later or equal to",
+                "isLessOrEqual": "is earlier or equal to"
+            },
+            "boolean": {
+                "isEqual": "is equal to",
+                "isNotEqual": "is not equal to",
+                "isEmpty": "is blank",
+                "isNotEmpty": "is not blank"
+            }
+        }
+    },
+
+    "VisualizationTypesFilters": {
+        "Map": "Map",
+        "Chart": "Chart",
+        "Table": "Tabular view",
+        "None": "None"
+    },
+
+    "TypesFilters": {
+        "Api": "Api",
+        "File": "File",
+        "Website": "Website"
     },
 
     "Rodo": {
-        "Title": "Privacy policy and GDPR",
-        "PrivacyLabel": "Privacy policy",
-        "RodoLabel": "Information concerning GDPR",
-        "Info0": "The data controller is the Minister of Digital Affairs, with registered office in Warsaw (00-060) at Królewska 27. The data controller can be contacted via e-mail at mc@mc.gov.pl, by using the contact form at https://www.gov.pl/cyfryzacja/kontakt – the link will open in a new window, or by sending a letter to the address of the controller’s registered office. Your personal data may be made available to authorities or institutions which make their resources available for the operation of the website. Your personal data may also be transferred to the Centre for Informatics Technology with its registered office in Warsaw (02-305) at Al. Jerozolimskie 132-136 as a processor, carrying out tasks in the scope of maintenance and development of the website for the data controller.",
-        "Info1": "The controller has appointed a Data Protection Officer who can be contacted by e-mail at iod@mc.gov.pl. The Data Protection Officer may be contacted on all matters concerning the processing of personal data and the exercise of data processing rights.",
-        "Info2": "Your personal data will be processed in order to operate the data.gov.pl website. The legal basis for the processing of your data is the necessity to fulfil the legal obligations of the controller under the provisions of the Act of 6 September 2001 on Access to Public Information.",
-        "Info3": "Your data will be kept for the period of time necessary for carrying out the goals.",
-        "Info4": "The provision of your personal data is necessary in order to operate the dane.gov.pl website. The provision of personal data is mandatory, in line with the legal basis mentioned above.",
-        "Info5": "The processing of your data may be restricted, except for valid considerations of public interest of the Republic of Poland or the European Union.",
-        "Info6": "You have the right to access and rectify your data. The right of rectification shall be exercised in accordance with relevant procedures in Poland.",
-        "Info7a": "You have the right to lodge a complaint with the data protection supervisory authority of the Member State of your residence, place of work or place of the alleged breach.",
-        "Info7b": "President of the Office for the Protection of Personal Data (PUODO)",
-        "Info7c": "Stawki 2",
-        "Info7d": "00-193 Warsaw",
-        "Info7e": "tel.: 22 531 03 00 lub 606 950 000",
-        "EmailUse": "By providing an email address, you consent to the processing of your personal data for the purpose of this service. More under the \"Information on the RODO\" button in the footer.",
-        "PrivacyPolicy": "This website uses cookies. These are text values that are stored by the browser on the end user's device. The service has access to these values and uses them to support users who are logged in. Using the dane.gov.pl website is tantamount to consenting to the use of cookies. You can change the cookie settings in your browser."
+        "Title": "Privacy policy and GDPR"
     },
 
     "Search": {
-        "ClearInput": "Clear search field"
+        "Results": "Search results",
+        "ClearInput": "Clear search field",
+        "Any": "Any of these words",
+        "All": "All words",
+        "Exact": "Exactly these words",
+        "Synonym": "Synonyms of these words",
+        "AutoContentReload": "Automatic content reload",
+        "Advanced": "Advanced search"
     },
 
     "SkipTo": {
         "Menu": "Skip to main menu",
         "Content": "Skip to content",
-        "Footer": "Skip to footer"
+        "Footer": "Skip to footer",
+        "NewWindow": "(Opens a new window)"
     },
 
     "Sort": {
-        "By":"Sort by",
+        "By": "Sort by",
         "Ascending": "Ascending",
         "Descending": "Descending",
         "Default": "Relevance"
+    },
+
+    "Sparql": {
+        "Prefixes": "Prefiksy",
+        "SearchBy": "Wyszukiwanie przy pomocy zapytań",
+        "Description": "Wyszukiwanie metadanych dostawców danych, zbiorów danych oraz danych w bazie danych RDF z wykorzystaniem języka zapytań SPARQL. Narzędzie przeznaczone jest dla doświadczonych użytkowników języka SPARQL. Specyfikację SPARQL można znaleźć na",
+        "W3CPage": "stronie W3C.",
+        "Examples": "Przykłady",
+        "Format": "Wybierz Format",
+        "Request": "Wykonaj zapytanie",
+        "ResultPreview": "Podgląd wyniku"
+    },
+
+    "Tour" : {
+        "Button": {
+            "IconLabel": "Student Cup",
+            "TooltipTitle": "Portal tour",
+            "TooltipText": "Browse the most important features of the portal."
+        },
+        "Show": "Show Tour",
+        "Tooltip": {
+            "Header": {
+                "MyDashboard": {
+                    "title": "Dashboard",
+                    "text": "Access to the additional functions of the portal: password change, observation of the objects, statistics and open data laboratory."
+                }
+            },
+            "HomePage": {
+                "SearchBar": {
+                    "title": "Searchbar",
+                    "text": "The word or a phrase entered into the field are searched in all objects on the portal, i.e. titles and descriptions of datasets and data, in data providers, applications, articles and knowledge base. The match rate, i.e. the number of searched words is the key aspect. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                },
+                "DataCategories": {
+                    "title": "Select data category",
+                    "text": "The data are assigned to categories of topics. That allows for an easier access to the searched data."
+                },
+                "Institution": {
+                    "title": "Select data publisher",
+                    "text": "The data published on the portal are submitted by providers. Selecting a specific provider brings up a subpage containing information about the provider and the data set it provided."
+                },
+                "Applications": {
+                    "title": "Applications",
+                    "text": "This section includes innovative information technology solutions using public data gathered both on the portal and originating rom other sources i.e., in the form of an application for mobile devices."
+                }
+            },
+            "SearchResults": {
+                "SearchBar": {
+                    "title": "Searchbar",
+                    "text": "The word or a phrase entered into the field are searched in all objects on the portal, i.e. titles and descriptions of datasets and data, in data providers, applications, articles and knowledge base. The match rate, i.e. the number of searched words is the key aspect. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                }
+            },
+            "Dataset": {
+                "SearchBar": {
+                    "title": "Searchbar",
+                    "text": "The word or a phrase entered in the “Search Data” field are looked up in the contents of the attributes – title, description, keywords – of two objects: data sets and data. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the searched attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter."
+                },
+                "SearchQueryRules": {
+                    "title": "Searchbar",
+                    "text": "Search can be done in four ways:\n- any of the words – it is sufficient for just one from the searched phrase to be found,\n- all the words – all the words from the phrase must be found, however not necessarily in the order they were entered in the search area, otherwise the search brings a negative result,\n- exact words – it is sufficient for just one from the phrase to be found, however it must be identical to the manner in which it was entered in the search field,\n- include the synonyms – the search engine uses a special dictionary of synonyms and also searches for synonyms"
+                },
+                "Found": {
+                    "title": "Found",
+                    "text": "The searched data sets or data are presented on a single collective list and in separate tabs on top of the list. Clicking the correct tab allows to filter search results of datasets or data."
+                },
+                "Follow": {
+                    "title": "Follow Button",
+                    "text": "Selecting this function starts the procedure continuously informing the user about all changes in the selected database. The changes are signalled by the notification icon displayed in the status bar in the website header, and the details are provided on the dedicated functionality tile “My dashboard” The function is available only for logged-in users."
+                },
+                "FollowSearchResult": {
+                    "title": "Follow search result",
+                    "text": "Each search may be saved under a distinctive name. It launches a function for informing about the changes in the number of searched results for the criteria saved earlier. The function is available only for logged-in users.  The changes are signalled by the notification icon displayed in the status bar in the website header, and the details are provided on the dedicated functionality tile “My  dashboard”"
+                },
+                "API": {
+                    "title": "See data via API",
+                    "text": "The button launches a new subpage containing the data in JSON format, provided by the portal’s system API. The data are used to display the contents of the current website."
+                }
+            },
+            "WriteUs": {
+                "Self": {
+                    "title": "Contact Us",
+                    "text": "If you cannot find the data that interests you on the portal, describe the data you need by using the displayed form."
+                }
+            },
+            "DatasetDetails": {
+                "Data": {
+                    "title": "Resources",
+                    "text": "List of data available on the portal within the specific dataset. The data can be downloaded by pressing the link on the right."
+                },
+                "Conditions": {
+                    "title": "Restrictions on reuse",
+                    "text": "Information on the conditions for reuse of the data in this dataset."
+                },
+                "Follow": {
+                    "title": "Follow Button",
+                    "text": "Selecting this function starts the procedure continuously informing the user about all changes in the selected database. The changes are signalled by the notification icon displayed in the status bar in the website header, and the details are provided on the dedicated functionality tile “My dashboard” The function is available only for logged-in users."
+                },
+                "History": {
+                    "title": "Dataset history",
+                    "text": "Information regarding the changes made to the dataset"
+                }
+            },
+            "Institutions": {
+                "Search": {
+                    "title": "Searchbar",
+                    "text": "The word or a phrase entered in the “Search Provider” field are searched in the contents of the data provider attributes – title and description. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the searched provider attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter.  After entering the third letter, the search engine suggest the best matching objects. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                },
+                "Filters": {
+                    "title": "Filters",
+                    "text": "Selecting provider type and clicking the “Apply” button restricts the search results to providers of a specific type.  The applied filter is visible on top of the list with search results."
+                }
+            },
+            "InstitutionDetails": {
+                "Search": {
+                    "title": "Searchbar",
+                    "text": "The word or a phrase entered in the “Search Data” field are looked up in the contents of the attributes – title, description, keywords – of two objects: data sets and data published by a provider. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the searched attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter.  After entering the third letter, the search engine suggest the best matching objects. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                }
+            },
+            "Filters": {
+                "Self": {
+                    "title": "Filters",
+                    "text": "Using filters allows to match the search results to the user’s needs Selecting the values in subsequent filters narrows the search results. The applied filter is visible on top of the list of search results."
+                },
+                "Attribute": {
+                    "CategoryLong": {
+                        "title": "Filters - category",
+                        "text": "Selecting one or more categories and clicking the “Apply” button restricts the search results to the datasets belonging to these categories.  The applied filter is visible on top of the list with search results."
+                    },
+                    "InstitutionLong": {
+                        "title": "Filters - publisher",
+                        "text": "Selecting one or more categories and clicking the “Apply” button restricts the search results to the datasets and data published by these providers.  The applied filter is visible on top of the list with search results."
+                    },
+                    "FormatLong": {
+                        "title": "Filters - format",
+                        "text": "Selecting one or more formats and clicking the “Apply” button restricts the search results to the datasets and data in these formats.  The applied filter is visible on top of the list with search results."
+                    },
+                    "OpennessScore": {
+                        "title": "Filters - openness score",
+                        "text": "5 openness levels is a useful tool used for classifying resources with respect to openness. Higher data openness level means that the data are better prepared for further processing. Selecting one or more openness levels and clicking the “Apply” button restricts the search results to the datasets and data with selected openness.  The applied filter is visible on top of the list with search results."
+                    },
+                    "VisualizationType": {
+                        "title": "Filters - visualization type",
+                        "text": "Selecting one or more visualisation methods and clicking the “Apply” button restricts the search results to the search results and datasets having these visualisation methods.  The applied filter is visible on top of the list with search results."
+                    },
+                    "ResourceType": {
+                        "title": "Filters - resource type",
+                        "text": "Selecting one or more visualisation methods and clicking the “Apply” button restricts the search results to the datasets and data holding these resource types.  The applied filter is visible on top of the list with search results."
+                    },
+                    "DateRange": {
+                        "title": "Filters - date range",
+                        "text": "Selecting a range of dates and clicking the “Apply” button restricts the search results to the datasets and data whose update dates and data as at are within the entered range."
+                    }
+                }
+            },
+            "Applications": {
+                "Search": {
+                    "title": "Searchbar",
+                    "text": "The word or a phrase entered in the “Search Application” field are searched in the contents of the applications attributes – title and description. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the application attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter.  After entering the third letter, the search engine suggest the best matching objects. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                },
+                "Suggest": {
+                    "title": "Suggest an application",
+                    "text": "Each author of an application based on open data can submit it to the dane.gov.pl portal administration to have it shared on the portal."
+                }
+            },
+            "Article": {
+                "Search": {
+                    "title": "Searchbar",
+                    "text": "The word or a phrase entered in the “Search Article” field are searched in the contents of the applications attributes – title and description. The search engine divides the entered phrase into individual words and by using the full-text mode, i.e. considering declension, searches for identical or very similar words in the searched article attributes. The number of the searched words and their similarity to the entered template are reflected by the Accuracy parameter.  After entering the third letter, the search engine suggest the best matching objects. The suggestion changes when the phrase is entered. The search ends with selecting a suggestions or by clicking the magnifier icon."
+                }
+            },
+            "ApplicationDetails": {
+                "Link": {
+                    "title": "Link to the application",
+                    "text": "You can check how the application works. Is some cases it also contains the technical information prepared by the author and allows to download the application from the store."
+                },
+                "RelatedDatasets": {
+                    "title": "Related datasets",
+                    "text": "A list of open data which are used in the application."
+                }
+            },
+            "DataResource": {
+                "Search": {
+                    "title": "Searchbar",
+                    "text": "The word or phrase entered in the “Search...” field are found in the data entered in tables in text-type columns. Selecting the “Show Filters” button grants you with access to the filter definition section."
+                },
+                "Filters": {
+                    "title": "Show filters",
+                    "text": "When defining a filter, we must select a column, operator and value. More than one filter may be defined. Searching and filtering relates to three views – table, chart, map."
+                },
+                "Table": {
+                    "title": "Table",
+                    "text": "Table containing data presented in a table."
+                },
+                "Chart": {
+                    "title": "Chart",
+                    "text": "Tab allowing to present the data as a chart."
+                },
+                "Map": {
+                    "title": "Map",
+                    "text": "Tab allowing to present the data on a map."
+                },
+                "Parameters": {
+                    "title": "Show parameters",
+                    "text": "The button displays a section allowing to define a chart. If the chart was not defined by the data Provider, or if the user does not accept its current form, he or she may create their own chart and display, copy or save it on the portal."
+                },
+                "ShowChart": {
+                    "title": "Preview chart",
+                    "text": "Select chart type, select columns for X and Y axes. More than one column may be selected on the Y axis. Select the “Display chart” button to see a defined chart."
+                },
+                "SaveChart": {
+                    "title": "Save chart",
+                    "text": "Select the “Save chart” button to permanently save the chart. The function is available to logged in users."
+                },
+                "MapSettings": {
+                    "title": "Map options",
+                    "text": "It is possible to limit the number of points displayed on a map to the area that interests us by using your location or by clicking a point on a map and entering radius."
+                }
+            }
+        }
     },
 
     "UseCases": {
@@ -483,14 +1044,13 @@
         "Self": "User",
         "Single": "User",
         "Genitive": "User",
-        "Logged": "Logged in user",
         "Admin": "Administrator",
         "Email": "E-mail",
         "EmailVerification": "E-mail address verification",
         "Password": "Password",
         "NewPassword": "New password",
         "CurrentPassword": "Current password",
-        "RetypePassword": "Retype password",
+        "RetypePassword": "Repeat password",
         "ForgottenPassword": "Forgot password?",
         "NewPasswordCreation": "New password creation",
         "NewPasswordCreationDescription": "Enter the e-mail address, and then check your e-mail address, to which we will send you a link to the new password creation form.",
@@ -498,11 +1058,13 @@
         "NewPasswordCreationDescription2of3": "password change form",
         "NewPasswordCreationDescription3of3": "and enter the code you received in the message",
         "NewPasswordCreationLinkSent": "Link to the new password creation form has been sent to your email address. Please check also your Junk/Spam folder.",
-        "Login": "Log in",
+        "RodoCheckboxText": "I acknowledge having been acquainted with the Privacy Policy and the GDPR made available on dane.gov.pl",
+        "RegulationsCheckboxText": "I acknowledge having been acquainted with the regulations made available on dane.gov.pl",
+        "Login": "Log in",        
+        "Logout": "Log out",
         "Registration": "Registration",
         "SuccessfullRegistration": "Your registration has been successfully submitted",
-        "AdminPanel": "Admin panel",
-        "MyAccount": "My account",
+        "AdminPanel": "Go to admin panel",
         "CreateAccount": "Create an account",
         "LogIn": "Log in to your account",
         "CreatePassword": "Create password",
@@ -511,14 +1073,14 @@
         "PasswordChanged": "Your password has benn successfully changed",
         "Congratulations": "Congratulations!",
         "ActivationEmailSent": "Activation link has been sent to your email address. Please check also your Junk/Spam folder.",
-        "Activities":"Activities",
         "SearchHistory": "Search history",
         "Followed": "Followed",
+        "FollowedList": "Followed objects list",
+        "FollowedActivity": "Followed objects activity",
         "AccountActivated": "Your account has been activated. You can now log in.",
-        "AccountActiveSince": "Account active since",
-        "EmptyActivity": "User does not have any changes recorded yet.",
-        "DatasetsCreated": "Datasets created",
-        "DatasetsModified": "Datasets modified"
+        "Unregistered": "Don`t have an account?",
+        "LogInToFollow": "If you want to follow datasets log in or register. Following datasets is available to users who have an account on the portal."
+
     },
 
     "Validation": {
@@ -527,16 +1089,30 @@
         "RequiredField": "Required field",
         "VarRequired": "\"{ param }\" field is required",
         "RequiredEmail": "\"E-mail\" field is required and must be valid",
+        "InvalidDate": "Invalid date",
         "InvalidEmail": "Invalid e-mail address",
+        "InvalidEmailOrPassword": "{ param } invalid e-mail or password",
         "InvalidWebsiteUrl": "Invalid website url",
+        "InvalidNumber": "Invalid number",
+        "InvalidForm": "The form contains errors.",
+        "VarMinLength": "Field should be at least {param, plural, =1 {1 character} other {{param} characters}} long",
+        "VarMaxLength": "Maximum {param} characters",
+        "AtLeastOneOption": "Please select at least one option",
         "RequiredPassword": "\"Password\" field is required",
         "RequiredPasswordConfirmation": "\"Retype password\" field is required and its content must match password entered before",
-        "PasswordPolicy": "Password should be at least 8 characters long including one uppercase letter, one lowercase letter and one special character",
-        "VarPasswordPolicy": "Password should be at least {param, plural, =1 {1 character} other {{param} characters}} long including one uppercase letter, one lowercase letter and one special character",
+        "PasswordPolicy": "Password should be at least 8 characters long including one uppercase letter, one lowercase letter, number and one special character",
+        "VarPasswordPolicy": "Password should be at least {param, plural, =1 {1 character} other {{param} characters}} long including one uppercase letter, one lowercase letter, number and one special character",
         "PasswordStrength": "Password strength",
         "NotAcceptedFileType": "Not accepted file type",
         "FormatNotRecognized": "Format not recognized",
-        "VarMaxFieldLengthExceeded": "Maximum field length is exceeded by {param, plural, =1 {1 character} other {{param} characters}}"
+        "VarMaxFieldLengthExceeded": "Maximum field length is exceeded by {param, plural, =1 {1 character} other {{param} characters}}",
+        "RodoCheckbox": "Please accept privacy policy and GDPR",
+        "RegulationsCheckbox": "Please accept regulations",
+        "NoLowercase": "Lowercase",
+        "NoUppercase": "Uppercase",
+        "NoNumbers": "Number",
+        "NoSpecialChars": "Special character",
+        "VarNoMinLength": "{param, plural, =1 {1 character} other {{param} characters}}"
     },
 
     "WriteUs": {

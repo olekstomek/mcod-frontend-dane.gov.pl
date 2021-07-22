@@ -6,14 +6,13 @@
 	.home-section {
         background-color: $color-grey-light-1;
 
-		.section-footer {
-			margin-top: 2.825rem;
+		&-footer {
 			padding-top: 1.5rem;
-			border-top: 1px solid $color-grey-light-2;
 			text-align: right;
 
 			&__all {
 				position: relative;
+                text-decoration: underline;
 			}
         }
 
@@ -26,9 +25,18 @@
             padding-bottom: 25px;
             text-align: center;
 
-            h1 {
+            h1, h2 {
                 color: $color-white;
-                font-size: 2rem;
+                margin-bottom: 0.7rem;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                font-weight: bold;
+            }
+
+            h2 {
+                font-size: 1.1rem;
             }
         }
 
@@ -106,12 +114,10 @@
             }
         }
 
-
         // HOME: APPS
         /********************/
         &--apps {
             background: $color-grey-light-6;
-            padding-bottom: 0;
 
             .home-apps {
 
@@ -122,20 +128,50 @@
                     right: 10%;
                 }
 
-                &__text-wrapper {
-                    min-height: 350px;
-                }
-
                 &__header {
                     font-weight: 700;
                     color: $color-heading;
                 }
 
                 &__description {
-                    max-width: 75%;
                     margin-top: 1.5rem;
+                    font-size: 0.9rem;
+                    font-weight: bold;
                 }
 
+                .category-list {
+                    min-height: 200px;
+
+                    &__item-content {
+                        vertical-align: inherit;
+                        padding: 0;
+                    }
+
+                    &__image-wrapper {
+                        height: 120px;
+                        margin: 15px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    &__item-image {
+                        max-height: 100%;
+                    }
+
+                    &__item-heading {
+                        text-align: center;
+                        font-size: 1rem;
+                        font-weight: bold;
+                        padding: 0 15px 0 15px;
+                        max-height: 3.7rem;
+                        margin-bottom: 15px;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                    }
+                }
 
                 // < LG
                 @include media-breakpoint-down(md)
@@ -156,12 +192,9 @@
                         text-align: center;
                     }
 
-                    &__text-wrapper {
-                        min-height: auto;
-                    }
-
                     &__description {
                         max-width: 100%;
+                        padding: 0 15px 0 15px;
                     }
                 }
             }
@@ -178,7 +211,6 @@
 
                 &__item {
 
-                    &-heading {}
 
                     &:not(:first-child)::after {
                         background: linear-gradient(to top, $color-white, $color-grey-light-5, $color-white);
@@ -218,3 +250,21 @@
     }
 }
 
+// gov.pl related home components
+.bg-gov {
+
+    &--coronavirus {
+        background-color: $color-coronavirus;
+        color: $color-black;    
+    }
+
+    &--primary {
+        background-color: $color-gov-primary;
+        color: $color-white;
+    }
+
+    :link,
+    :visited {
+        color: inherit;
+    }
+}

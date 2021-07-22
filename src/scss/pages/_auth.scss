@@ -64,4 +64,22 @@
             z-index: 100000;
         }
     }
+
+    &__submit {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+
+        div {
+            display: flex;
+            flex-direction: column;
+            margin: 2em 0;
+
+            button {
+                border: none;
+            }
+        }
+
+    }
 }

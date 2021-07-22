@@ -9,7 +9,7 @@
     }
 
 
-    .section-footer {
+    &-footer {
         border-top: 0;
     }
 
@@ -53,4 +53,10 @@
             }
         }
     }
+}
+
+.bg-gov,
+.bg-gov > * {
+    background-color: $hcPrimary;
+    color: $hcSecondary;
 }

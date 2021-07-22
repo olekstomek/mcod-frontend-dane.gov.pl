@@ -1,5 +1,6 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import moment from 'moment';
+import {TranslateService} from '@ngx-translate/core';
 
 /**
  * Timespan Pipe
@@ -16,17 +17,16 @@ export class TimespanPipe implements PipeTransform {
     /**
      * @ignore
      */
-    constructor() {
+    constructor(private translate: TranslateService) {
     }
 
     /**
      * Transforms timespan pipe
      * @param {any} value
-     * @param lang
+     * @param lang - by default is a currentLang from TranslateService
      * @returns {any}
      */
-    transform(value: any, lang: string): any {
-        // TODO: Custom DateTime timespan helper
+    transform(value: any, lang = this.translate.currentLang): any {
         moment.locale(lang);
         const _moment: moment.Moment = moment(value);
         return _moment.fromNow();

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Alert } from '@app/services/models/alert';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Global Notifications Service that handles displaying alert messages
@@ -16,7 +17,7 @@ export class NotificationsService {
     /**
      * Initialize empty list of alerts and push initial notification with empty arry
      */
-    constructor() {
+    constructor(private translate: TranslateService) {
         this.alertsArray = [];
         this.alertsSource.next(this.alertsArray);
     }
@@ -27,6 +28,17 @@ export class NotificationsService {
      */
     public addSuccess(text: string) {
         this.addAlert('success', text);
+    }
+
+    /**
+     * Shortcut for new alert with translation
+     * @param {string} type alert
+     * @param {string} key translation
+     */
+    public addAlertWithTranslation(type: string, key: string): void {
+            this.translate.get(key).subscribe((data) => {
+                this.addAlert(type, data);
+            });
     }
 
     /**

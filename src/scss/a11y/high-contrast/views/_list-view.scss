@@ -3,15 +3,48 @@
 *********************/
 .results-section {
 
-    .result-list {
-        .result-item {
+    .results-footer {
+        .other-data {
             border-color: currentColor;
         }
     }
 
-    .results-footer {
-        .other-data {
-            border-color: currentColor;
+    .result-item {
+        background: $hcSecondary;
+
+        border-color: currentColor;
+        color: currentColor;
+
+        &__right {
+            border-left-color: currentColor;
+            background-color: $hcSecondary;
+
+            @include media-breakpoint-down(md) {
+                border-top: 1px solid currentColor;
+            }
+        }
+
+        @include media-breakpoint-down(md) {
+            &__right {
+                border-left: none;
+            }
+        }
+    }
+
+    .result-item-attributes {
+        &__list {
+            color: currentColor;
+        }
+
+        @include media-breakpoint-down(md) {
+
+            &__heading {
+                border-right-color: currentColor;
+            }
+
+            &__list-item {
+                border-left-color: currentColor;
+            }
         }
     }
 }

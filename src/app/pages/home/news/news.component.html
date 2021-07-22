@@ -15,7 +15,7 @@
                 *ngFor="let item of items">
 
                 <h3 class="home-news__item-heading heading heading--sm">
-                    <a [routerLink]="['/article', item.id]">
+                    <a [routerLink]="['/!article' | localize, item.id +','+ item.attributes.slug]">
                         {{ item.attributes.title }}
                     </a>
                 </h3>
@@ -31,7 +31,7 @@
                 </p>
 
                 <!-- read more -->
-                <a class="home-news__item-read-more with-chevron" [routerLink]="['/article', item.id]">
+                <a class="home-news__item-read-more with-chevron" [routerLink]="['/!article' | localize, item.id + ',' + item.attributes.slug]">
                     {{ 'Home.News.ReadMore' | translate }}
                     <span class="sr-only">
                         {{ 'Connector.About' | translate }}
@@ -44,12 +44,6 @@
         </ul>
 
         <!-- view all (anchor) -->
-        <footer class="section-footer">
-            <a class="section-footer__all with-chevron" [routerLink]="['/article']">
-                {{ 'Home.News.All' | translate | uppercase }}
-                <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-                </svg></a>
-        </footer>
+        <home-section-footer [routerURL]="'/!article'" [text]="'Home.News.All'"></home-section-footer>
     </div>
 </section>

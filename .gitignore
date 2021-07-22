@@ -49,3 +49,9 @@ testem.log
 .DS_Store
 Thumbs.db
 *.retry
+
+.vscode
+proxy.local.conf.json
+!docker/frontend/local/proxy.local.conf.json
+
+error.log

@@ -1,41 +1,61 @@
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//  runtime information about the current platform and the appId by injection.
-import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { NgProgressHttpModule } from '@ngx-progressbar/http';
-import { NgProgressModule } from '@ngx-progressbar/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+//  runtime information about the current platform and the appId by injection.
+import { APP_ID, APP_INITIALIZER, Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EmbedLayoutComponent } from '@app/layout/embed-layout/embed-layout.component';
+import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
+import { EmbeddedComponent } from '@app/pages/embedded/embedded.component';
+import { HomeModule } from '@app/pages/home/home.module';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { OfflineInterceptorService } from '@app/services/http/offline-interceptor.service';
+import { LanguageBootstrapService } from '@app/services/language-bootstrap.service';
+import { ServicesModule } from '@app/services/services.module';
+import { UnregisteredInterceptor } from '@app/services/unregistered-interceptor';
+import { SharedModule } from '@app/shared/shared.module';
+import { TransferHttpCacheModule } from '@app/ssr/transfer-http-cache.module';
+import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newsletter/active-newsletter.component';
 
-import { TranslateModule, TranslateLoader, TranslateParser } from '@ngx-translate/core';
+import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
+import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
+
+import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AccordionModule, ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { CookieService } from 'ngx-cookie-service';
-
-import { AuthGuard } from './user/auth/auth.guard';
-import { SharedModule } from '@app/shared/shared.module';
-import { ServicesModule } from '@app/services/services.module';
-import { HomeModule } from '@app/pages/home/home.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
-import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
-import { EmbedLayoutComponent } from '@app/layout/embed-layout/embed-layout.component';
-import { EmbeddedComponent } from '@app/pages/embedded/embedded.component';
 
 
 import { AppBootstrapModule } from './app-bootstrap/app-bootstrap.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './layout/header/header.component';
+import { FooterNavLinkExternalComponent } from './layout/footer/footer-nav-link-external/footer-nav-link-external.component';
+import { FooterNavLinkInternalComponent } from './layout/footer/footer-nav-link-internal/footer-nav-link-internal.component';
+import { FooterNavListComponent } from './layout/footer/footer-nav-list/footer-nav-list.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { AboutComponent } from './pages/about/about.component';
-import { SitemapComponent } from './pages/sitemap/sitemap.component';
+import { ActivityNotificationsComponent } from './layout/header/activity-notifications/activity-notifications.component';
+import { HeaderComponent } from './layout/header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AboutComponent } from './pages/about/about.component';
+import { DeclarationComponent } from './pages/declaration/declaration.component';
 import { KnowledgeBaseModule } from './pages/knowledge-base/knowledge-base.module';
+import { PreviewCmsComponent } from './pages/preview-cms/preview-cms.component';
+import { RegulationsComponent } from './pages/regulations/regulations.component';
+import { SearchResultsComponent } from './pages/search-results/search-results.component';
+import { SitemapComponent } from './pages/sitemap/sitemap.component';
+import { SurveyComponent } from './pages/survey/survey.component';
+
+import { AuthGuard } from './user/auth/auth.guard';
+
+export function flagsFactory(featureFlagService: FeatureFlagService) {
+    return () => featureFlagService.initialize();
+}
 
 @NgModule({
     declarations: [
@@ -47,27 +67,25 @@ import { KnowledgeBaseModule } from './pages/knowledge-base/knowledge-base.modul
         EmbedLayoutComponent,
         PageNotFoundComponent,
         SitemapComponent,
-        EmbeddedComponent
+        ActivityNotificationsComponent,
+        NewsletterComponent,
+        ActiveNewsletterComponent,
+        UnsubcribeNewsletterComponent,
+        RegulationsComponent,
+        PreviewCmsComponent,
+        SearchResultsComponent,
+        SurveyComponent,
+        FooterNavListComponent,
+        FooterNavLinkInternalComponent,
+        FooterNavLinkExternalComponent,
+        DeclarationComponent
     ],
     imports: [
         // Add .withServerTransition() to support Universal rendering.
         // The application ID can be any identifier which is unique on the page.
         BrowserModule.withServerTransition({appId: 'otwarte-dane-ssr'}),
+        TransferHttpCacheModule,
         AppRoutingModule,
-        AppBootstrapModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        HomeModule,
-        ServicesModule.forRoot(),
-        NgProgressModule.forRoot(),
-        NgProgressHttpModule.forRoot(),
-        SharedModule,
-        ModalModule.forRoot(),
-        TabsModule.forRoot(),
-        AccordionModule.forRoot(),
-        TooltipModule.forRoot(),
-        NgxLocalStorageModule.forRoot({prefix: 'mcod'}),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -79,13 +97,37 @@ import { KnowledgeBaseModule } from './pages/knowledge-base/knowledge-base.modul
                 useClass: TranslateICUParser
             }
         }),
+        AppBootstrapModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        HomeModule,
+        ServicesModule.forRoot(),
+        NgProgressModule,
+        NgProgressHttpModule,
+        SharedModule,
+        ModalModule.forRoot(),
+        TabsModule.forRoot(),
+        AccordionModule.forRoot(),
+        TooltipModule.forRoot(),
+        TranslateModule.forChild(),
+        NgxLocalStorageModule.forRoot({prefix: 'mcod'}),
         BrowserAnimationsModule,
-        KnowledgeBaseModule
+        KnowledgeBaseModule,
     ],
     providers: [
         Title,
         AuthGuard,
         CookieService,
+        LanguageBootstrapService,
+        {provide: HTTP_INTERCEPTORS, useClass: UnregisteredInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: OfflineInterceptorService, multi: true},
+        {
+            provide: APP_INITIALIZER,
+            useFactory: flagsFactory,
+            deps: [FeatureFlagService],
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

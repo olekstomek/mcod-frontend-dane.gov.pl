@@ -1,11 +1,13 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { QueryParamsHandling } from '@angular/router/src/config';
-import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { ActivatedRoute, Params, Router, QueryParamsHandling } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 import { SeoService } from '@app/services/seo.service';
-import { ArticlesService } from '@app/services/articles.service';
+import { APP_CONFIG } from '@app/app.config';
+import { ICategoryPageParams } from '@app/services/models/page-params';
+import { SearchService } from '@app/services/search.service';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { ApiConfig } from '@app/services/api';
+import { ApiModel } from '@app/services/api/api-model';
 
 /**
  * Article Component
@@ -14,16 +16,12 @@ import { ArticlesService } from '@app/services/articles.service';
     selector: 'app-article',
     templateUrl: './article.component.html'
 })
-export class ArticleComponent implements OnInit, OnDestroy {
-    /**
-     * Articles subscription of article component
-     */
-    articlesSubscription: Subscription;
+export class ArticleComponent implements OnInit {
 
     /**
-     * Self api of article component
+     * API model 
      */
-    selfApi: string;
+    apiModel = ApiModel;
 
     /**
      * Items (articles from one category - news)
@@ -38,130 +36,117 @@ export class ArticleComponent implements OnInit, OnDestroy {
     /**
      * Number of pagination pages
      */
-    numPages: number = 0;
+    numPages = 0;
 
     /**
      * Page setting based on basic params and user interactions
      */
-    params: any;
+    params: ICategoryPageParams;
 
     /**
      * Basic params of article component
      */
-    basicParams = {
-        sort: '-created',
+    basicParams: ICategoryPageParams = {
+        sort: '-date',
         page: 1,
         q: '',
         per_page: 5,
-        category: 1
+        'category[id]': 1
     };
 
     /**
+     * Max length of search input
+     */
+    maxLength = APP_CONFIG.searchInputMaxLength;
+
+    /**
      * @ignore
-     */    
+     */
     constructor(private activatedRoute: ActivatedRoute,
                 private seoService: SeoService,
                 private router: Router,
-                private articlesService: ArticlesService) {
+                private searchService: SearchService,
+                private filterService: ListViewFiltersService) {
     }
 
     /**
-     * Sets META tags (title). 
+     * Sets META tags (title).
      * Initializes and updates list of items (articles) on query params change.
      */
     ngOnInit() {
-        this.seoService.setSeoFromTranslation('Articles');
+        this.seoService.setPageTitleByTranslationKey(['Articles.News']);
 
-        this.articlesSubscription = this.activatedRoute.queryParamMap
-            .pipe(
-                switchMap(qParamMap => {
-                    let sort = '';
-    
-                    if ( !this.allBasicParamsIn(qParamMap['params']) ) {
-                        sort = this.basicParams['sort'];
-                    } 
-        
-                    this.params = {
-                        page: +qParamMap.get('page') || this.basicParams['page'],
-                        per_page: +qParamMap.get('per_page') || this.basicParams['per_page'],
-                        q: qParamMap.get('q') || '',
-                        sort: qParamMap.get('sort') || sort,
-                        category: this.basicParams['category']
-                    };
-        
-                    if (qParamMap.get('tags')) {
-                        this.params['tags'] = qParamMap.get('tags');
-                    }
-    
-                    return this.articlesService.getAll(this.params);
-    
-                })
-            )
-            .subscribe(response => {
-                this.items = response.results;
-                this.count = response.count;
-                this.selfApi = this.articlesService.base_url + response.links.self;
-            });
+        this.activatedRoute.queryParams.subscribe((qParams: Params) => {
+            let sort = '';
+
+            if (!this.allBasicParamsIn(qParams)) {
+                sort = qParams['q'] ? 'relevance' : this.basicParams['sort'];
+            }
+
+            this.params = {
+                ...qParams, ...this.filterService.updateBasicParams(qParams, this.basicParams, sort),
+                ...{ 'category[id]': this.basicParams['category[id]'] }
+            };
+
+            if (!qParams['model[terms]']) {
+                this.params['model[terms]'] = ApiModel.ARTICLE;
+            }
+
+            this.getData();
+        });
     }
 
     /**
      * Updates query params on every user interaction
-     * @param params 
-     * @param {QueryParamsHandling | null} method 
+     * @param params
+     * @param {QueryParamsHandling | null} method
      */
     updateParams(params: any, method: QueryParamsHandling | null = 'merge') {
-        
+
         // empty search
-        if (('sort' in params) && params['sort'] && (('q' in params) && !(<string>params['q']).trim().length)) {
+        if (!('sort' in params) && params['sort'] && (('q' in params) && !(<string>params['q']).trim().length)) {
             return;
         } else if (('sort' in params) && !params['sort']) { // default sort
             params['sort'] = this.basicParams['sort'];
         }
-        
+
         const updatedBasicParams = {
             page: +this.params['page'] || this.basicParams['page'],
             per_page: +this.params['per_page'] || this.basicParams['per_page'],
             q: this.params['q'] || '',
             sort: this.params['sort'] || '',
-            category: this.basicParams['category']
+            'category[id]': this.basicParams['category[id]']
+        };
+
+        if (!('page' in params)) {
+            params['page'] = 1;
         }
 
-        if ( !('page' in params) ) params['page'] = 1;
-
-        this.router.navigate([], {queryParams: {
-            ...updatedBasicParams,
-            ...params
-        }, queryParamsHandling: method});
-    } 
-   
-    /**
-     * Tracks list of items by single itme id to prevent re-rendering existing elements in the template
-     * @param index 
-     * @param item 
-     * @returns id 
-     */
-    trackById(index, item) {
-        return item.id;
+        this.router.navigate([], {
+            queryParams: {
+                ...updatedBasicParams,
+                ...params
+            }, queryParamsHandling: method
+        });
     }
 
     /**
      * Checks whether default page params already exist
-     * @param obj 
+     * @param {Params} params
      * @returns {boolean}
      */
-    allBasicParamsIn(obj) {
-        for (let key of Object.keys(this.basicParams)) {
-            if ( !(key in obj) ) {
-                return false;
-            }
-        }
-        return true;
+    private allBasicParamsIn(params: Params): boolean {
+        return this.filterService.allBasicParamsIn(params, this.basicParams);
     }
 
     /**
-     * Unsubscribe from existing subscriptions
+     * Gets list of articles
      */
-    ngOnDestroy() {
-        this.articlesSubscription.unsubscribe();
+    private getData() {
+        this.searchService.getData(ApiConfig.search, this.params)
+            .subscribe(response => {
+                this.items = response.results;
+                this.count = response.count;
+            });
     }
 }

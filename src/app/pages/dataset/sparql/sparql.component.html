@@ -1,0 +1,101 @@
+<article class="item-view sparql">
+
+    <!-- DETAILS: HEADER -->
+    <header class="item-view__header vertical-spacing">
+        <div class="container">
+            <h1 class="heading">
+                {{'Sparql.SearchBy' | translate}} SPARQL
+            </h1>
+            <p> {{'Sparql.Description' | translate}} <a href="https://www.w3.org/TR/sparql11-query/"> {{'Sparql.W3CPage' | translate}}</a>
+            </p>
+        </div>
+    </header>
+
+
+    <!-- DETAILS: BODY -->
+    <div class="item-view__body vertical-spacing">
+        <div class="container">
+
+            <form [formGroup]="searchForm" (ngSubmit)="startNewSearch()">
+                <div class="row mb-5">
+                    <!--  Editor-->
+                    <div class="col-9 sparql-editor--wrapper p-4">
+                        <app-sparql-editor [formControlName]="'editor'"></app-sparql-editor>
+                    </div>
+
+                    <!-- Examples-->
+                    <aside class="col-3">
+                        <h2 class="h6 font-weight-bold">{{'Sparql.Examples' | translate}}:</h2>
+                        <ul class="list-unstyled">
+                            <li *ngFor="let example of exampleQueries" class="mb-1">
+                                <button type="button"
+                                        (click)="updateEditorContent(example.codeSnippet)"
+                                        class="btn btn-link text-left w-100 p-2 sparql--example">
+                                    {{example.displayName[currentLang]}}
+                                </button>
+                            </li>
+                        </ul>
+                    </aside>
+                </div>
+
+                <!-- Format selector-->
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group d-md-inline-block sparql-editor--select-container mr-md-2">
+                            <label class="heading heading--xs sparql--format-label" for="formatSelect">{{'Sparql.Format' | translate}}</label>
+                            <select [formControlName]="'format'" id="formatSelect" class="form-control">
+                                <!--  TODO add proper BE value                              -->
+                                <option value="symbol:application/rdf+xml">RDF/XML</option>
+                                <option value="symbol:application/sparql-results+xml">XML</option>
+                                <option value="symbol:application/sparql-results+json">JSON</option>
+                                <option value="symbol:text/csv">CSV</option>
+
+                            </select>
+
+                        </div>
+                        <button [disabled]="!searchForm.valid"
+                                class="btn btn-primary sparql-editor--btn">{{'Sparql.Request' | translate}} SPARQL
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- api notifications -->
+            <app-notifications></app-notifications>
+
+            <!--  Result preview -->
+            <ng-container *ngIf="resultCount > 0">
+                <div class="row mt-4">
+                    <div class="col">
+                        <h2 class="heading heading--md">{{'Sparql.ResultPreview' | translate}}</h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-9">
+                        <div class="sparql-editor--wrapper p-2 mb-2">
+                            <div id="sparqlResult"></div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button
+                                    type="button"
+                                    class="btn btn-primary">
+                                {{'Action.Download' | translate}}
+                            </button>
+                            <div class="ml-auto">
+                                <app-pagination
+                                        [itemsPerPage]="100"
+                                        [totalItems]="resultCount"
+                                        [(page)]="currentPage"
+                                        (pageChange)="updatePage($event)">
+                                </app-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+    </div>
+
+</article>

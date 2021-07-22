@@ -1,19 +1,13 @@
-FROM node:8-alpine
+FROM node:12-alpine
+ENV WORKERS=1
 
 WORKDIR /usr/src/app
 
-COPY *.json ./
-COPY src ./src
-COPY ./*.ts ./
-COPY ./*.js ./
+RUN npm install pm2 -g
 
-# CMD [ "npm", "i", "npm@latest", "-g" ]
-# CMD [ "npm", "install" ]
-RUN npm i npm@5.6.0 -g
-RUN npm install --loglevel notice
-RUN npm run build:ssr
-
+COPY ./ssr-pm2-ecosystem.yml ./
+COPY ./dist/frontend/ ./dist/frontend/
 
 EXPOSE 4000
-#CMD [ "npm", "run build:ssr" ]
-CMD [ "npm", "run", "serve:ssr" ]
+
+CMD ["sh", "-c", "pm2-runtime -i ${WORKERS} dist/frontend/server/main.js"]

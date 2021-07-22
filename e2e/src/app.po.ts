@@ -27,11 +27,11 @@ export class AppPage {
     }
 
     getResultList() {
-        return element.all(by.css('app-root .result-list .result-item'));
+        return element.all(by.css('app-root .result-item'));
     }
 
     getFirstResultLink() {
         // browser.wait(item, 5000, 'Item should be rendered within 5 seconds');
-        return element.all(by.css('app-root .result-list .result-item > h2 > a')).first();
+        return element.all(by.css('app-root .result-item > h2 > a')).first();
     }
 }

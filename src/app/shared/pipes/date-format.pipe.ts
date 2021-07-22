@@ -32,7 +32,7 @@ export class DateFormatPipe implements PipeTransform {
         const lang = this.translate.currentLang;
         const _moment: moment.Moment = moment(value);
         moment.locale(lang);
-        return _moment.format(APP_CONFIG.date);
+        return _moment.format(APP_CONFIG.dateTime);
     }
 
 }

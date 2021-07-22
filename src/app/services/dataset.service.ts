@@ -1,13 +1,24 @@
-import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
+import { LocalStorageService } from 'ngx-localstorage';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, publishReplay, refCount } from 'rxjs/operators';
-import * as _ from 'underscore';
 
-import { RestService } from '@app/services/rest.service';
 import { ApiConfig, ApiResponse } from '@app/services/api';
+import { ApiModel } from '@app/services/api/api-model';
+import { SearchHttpParamEncoder } from '@app/services/http/SearchHttpParamEncoder';
+import { LoginService } from '@app/services/login-service';
+import { HttpCustomErrorResponse } from '@app/services/models';
+import { IChartBlueprint } from '@app/services/models/chart';
+import { IMapFilterParams } from '@app/services/models/map';
+import { PageParams } from '@app/services/models/page-params';
+import { NotificationsService } from '@app/services/notifications.service';
+import { RestService } from '@app/services/rest.service';
 import { TemplateHelper } from '@app/shared/helpers';
-import { IFilters } from '@app/services/models/filters';
 
 /**
  *  Dataset services that handles communication with Dataset API `\/datasets`
@@ -16,25 +27,39 @@ import { IFilters } from '@app/services/models/filters';
 export class DatasetService extends RestService {
 
     /**
-     * List of filter facets
-     * @type {string[]}
+     * Determines whether a new resource filter was generated
      */
-    facets = [
-        'categories',
-        'institutions',
-        'formats',
-        'openness_scores'
-    ];
+    resourceFilterChanged = new BehaviorSubject<string>('');
+
+    /**
+     * Notifies when a new resource filter was generated
+     */
+    readonly resourceFilterChanged$ = this.resourceFilterChanged.asObservable();
+
+    /**
+     * @ignore
+     */
+    constructor(protected http: HttpClient,
+                public translate: TranslateService,
+                public router: Router,
+                public notificationService: NotificationsService,
+                public storageService: LocalStorageService,
+                public cookieService: CookieService,
+                public loginService: LoginService,
+                @Inject(DOCUMENT) public document: any,
+                @Inject(PLATFORM_ID) public platformId: string) {
+        super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+    }
 
     /**
      * Get list of dataset items from given filters in `params` variable
-     * @param params
+     * @param {PageParams} params
      * @returns {Observable<ApiResponse>}
      */
-    getAll(params: IFilters): Observable<ApiResponse> {
-        const httpParams = new HttpParams({fromObject: params});
+    getAll(params: PageParams): Observable<ApiResponse> {
+        const httpParams = new HttpParams({ fromObject: params });
 
-        return this.get(ApiConfig.datasets, httpParams)
+        return this.get(ApiConfig.search, httpParams)
             .pipe(map(response => {
                     return new ApiResponse(response);
                 })
@@ -44,55 +69,15 @@ export class DatasetService extends RestService {
     }
 
     /**
-     * Get list of available filter values from facets set in class root
-     * @returns {Observable<any>}
-     */
-    getFilters() {
-        let httpParams = new HttpParams();
-        httpParams = httpParams.append('per_page', '1');
-        httpParams = httpParams.append('facet', this.facets.join(','));
-
-        return this.get(ApiConfig.datasets, httpParams)
-            .pipe(
-                map(response => {
-                    const filters = response['meta']['aggs'];
-
-                    for (const key in filters) {
-                        if (filters[key]) {
-                            if (key === 'by_category') {
-                                filters[key] = filters[key].sort((a, b) => {
-                                    return a['title'].localeCompare(b['title']);
-                                });
-                            } else
-                                filters[key] = _.sortBy(filters[key], 'title');
-                        }
-                    }
-
-                    if (filters['by_openness_scores']) {
-                        filters['by_openness_scores'].forEach(item => {
-                            item.title = '';
-                            item.hiddenLabel = 'Attribute.OpennessScore';
-
-                            for (let i = 0; i < 5; i++) {
-                                item.title += i < +item.key ? '&#x2605; ' : '&#x2606; ';
-                            }
-                        });
-                    }
-
-                    return filters;
-                }),
-                publishReplay(1),
-                refCount()
-            );
-    }
-
-    /**
      * Get one dataset item from a given id
      * @param {string} id
      * @returns {Observable<any>}
      */
     getOneById(id: string) {
-        return this.get(ApiConfig.datasets + '/' + id);
+        let httpParams = new HttpParams();
+        httpParams = httpParams.append('include', ApiModel.INSTITUTION);
+
+        return this.get(ApiConfig.datasets + '/' + id, httpParams);
     }
 
     /**
@@ -104,7 +89,7 @@ export class DatasetService extends RestService {
      */
     getHistoryById(id: string, page: number = 1, per_page: number = 10) {
         let httpParams = new HttpParams();
-        httpParams = httpParams.append('table_name', 'dataset');
+        httpParams = httpParams.append('table_name', ApiModel.DATASET);
         httpParams = httpParams.append('row_id', id);
         httpParams = httpParams.append('page', page.toString());
         httpParams = httpParams.append('sort', '-change_timestamp');
@@ -123,7 +108,7 @@ export class DatasetService extends RestService {
      * @returns {Observable<ApiResponse>}
      */
     getResourcesList(id: string, params: any = {}): Observable<ApiResponse> {
-        const url = TemplateHelper.parseUrl(ApiConfig.resources, {id: id});
+        const url = TemplateHelper.parseUrl(ApiConfig.resources, { id: id });
 
         return this.get(url, params).pipe(
             map(response => new ApiResponse(response))
@@ -136,66 +121,22 @@ export class DatasetService extends RestService {
      * @returns {Observable<any>}
      */
     getResourceById(resourceId: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.resourceDetails, {resourceId: resourceId});
+        const url = TemplateHelper.parseUrl(ApiConfig.resourceDetails, { resourceId: resourceId });
 
         return this.get(url)
             .pipe(map(data => data['data']));
     }
 
     /**
-     * Increase download counter for resource with given id
+     *
      * @param {string} resourceId
-     * @returns {Observable<any>}
+     * @param {any} params
      */
-    tickDownloadCounter(resourceId: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.resourceDownload, {resourceId: resourceId});
+    getResourceData(resourceId: string, params: any) {
+        const url = TemplateHelper.parseUrl(ApiConfig.resourceData, { resourceId: resourceId });
+        const httpParams = new HttpParams({ fromObject: params, encoder: new SearchHttpParamEncoder()});
 
-        return this.put(url);
-    }
-
-    /**
-     * Get table contents of resource with given id
-     * @param {string} resourceId
-     * @returns {Observable<any>}
-     */
-    getResourceDataById(resourceId: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.resourceData, {resourceId: resourceId});
-
-        return this.get(url)
-            .pipe(map(data => data['data']));
-    }
-
-    /**
-     * Follow changes of dataset with given id
-     * Only logged in users
-     * @param {string} id
-     * @returns {Observable<any>}
-     */
-    followOne(id: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.datasetFollow, {id: id});
-        return this.post(url);
-    }
-
-    /**
-     * Stop following changes of dataset with given id
-     * Only logged in users
-     * @param {string} id
-     * @returns {Observable<any>}
-     */
-    unfollowOne(id: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.datasetFollow, {id: id});
-        return this.delete(url);
-    }
-
-    /**
-     * Get list of datasets that are followed by user
-     * Only logged in users
-     * @param {{}} params
-     * @returns {Observable<any>}
-     */
-    getFollowed(params = {}) {
-        const httpParams = new HttpParams({fromObject: params});
-        return this.get(ApiConfig.followedDatasets, httpParams);
+        return this.get(url, httpParams);
     }
 
     /**
@@ -205,7 +146,7 @@ export class DatasetService extends RestService {
      * @returns {Observable<any>}
      */
     sendDatasetFeedback(id: string, feedback: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.datasetFeedback, {id: id});
+        const url = TemplateHelper.parseUrl(ApiConfig.datasetFeedback, { id: id });
         return this.post(url, feedback);
     }
 
@@ -216,16 +157,128 @@ export class DatasetService extends RestService {
      * @returns {Observable<any>}
      */
     sendResourceFeedback(id: string, feedback: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.resourceFeedback, {resourceId: id});
+        const url = TemplateHelper.parseUrl(ApiConfig.resourceFeedback, { resourceId: id });
         return this.post(url, feedback);
     }
 
     /**
      * Sends dataset submission
-     * @param {string} submission 
-     * @returns {Observable<any>} 
+     * @param {string} submission
+     * @returns {Observable<any>}
      */
     sendSubmission(submission: string) {
         return this.post(ApiConfig.submissions, submission);
+    }
+
+    /**
+     * Gets submissions
+     * @param {PageParams} params 
+     * @returns {Observable<ApiResponse>} 
+     */
+    getSubmissions(params: PageParams): Observable<ApiResponse> {
+        const httpParams = new HttpParams({ fromObject: params });
+        return this.get(`${ApiConfig.acceptedPublicSubmissions}`, httpParams)
+            .pipe(map(response => {
+                return new ApiResponse(response);
+            }), 
+            publishReplay(1), 
+            refCount()
+        );
+    }
+
+    /**
+     * Gets submission by id
+     * @param {string} id 
+     * @returns {: Observable<any>}
+     */
+    getSubmission(id: string): Observable<any> {
+        return this.get(`${ApiConfig.acceptedPublicSubmissions}/${+id}`);
+    }
+
+    /**
+     * Sends submission feedback
+     * @param {string} id 
+     * @param {string} feedback 
+     * @returns {Observable<any>} 
+     */
+    sendSubmissionFeedback(id: string, feedback: string): Observable<any> {
+        const url = TemplateHelper.parseUrl(ApiConfig.acceptedPublicSubmissionComment, { id: id });
+        return this.post(url, feedback);
+    }
+
+    /**
+     * Get geo data of resource with given id and parameters
+     * @param {string} id
+     * @param {IMapFilterParams} filters
+     * @returns {Observable<any>}
+     */
+    getGeoData(id: string, filters?: IMapFilterParams) {
+        const url = TemplateHelper.parseUrl(ApiConfig.resourceGeoData, { resourceId: id });
+        let httpParams = new HttpParams();
+
+        if (filters && filters.noData) {
+            httpParams = httpParams.append('no_data', filters.noData);
+        }
+        if (filters && filters.boundaryBox) {
+            httpParams = httpParams.append('bbox', filters.boundaryBox);
+        }
+        if (filters && filters.shapesCount) {
+            httpParams = httpParams.append('per_page', filters.shapesCount);
+        }
+        if (filters && filters.distance && filters.coordinates) {
+            httpParams = httpParams.append('dist', `${filters.coordinates[1]},${filters.coordinates[0]},${filters.distance}`);
+        }
+        if (filters && filters.q) {
+            httpParams = httpParams.append('q', filters.q);
+        }
+        return this.get(url, httpParams);
+    }
+
+    /**
+     * Gets chart related to the resource
+     * @param {string} resourceId
+     * @returns {Observable<any>}
+     */
+    getResourceChartById(resourceId: string) {
+        const url = TemplateHelper.parseUrl(ApiConfig.resourceCharts, { resourceId: resourceId });
+        return this.get(url).pipe(map(data => data['data']));
+    }
+
+    /**
+     * Saves chart related to the resource
+     * @param {string} resourceId
+     * @param {IChartBlueprint} chart
+     * @param {boolean} isDefault
+     * @returns {Observable<any>}
+     */
+    saveResourceChart(resourceId: string, chart: IChartBlueprint, isDefault: boolean = false) {
+        const payload = `{
+            "data": {
+                "type": "chart",
+                "attributes": {
+                    "is_default": ${isDefault},
+                    "chart": ${JSON.stringify(chart)}
+                }
+            }
+        }`;
+
+        return this.post(TemplateHelper.parseUrl(ApiConfig.resourceChart, { resourceId: resourceId }), JSON.parse(payload));
+    }
+
+    /**
+     * Removes chart related to the resource
+     * @param {string} chartId
+     * @returns {Observable<any>}
+     */
+    deleteResourceChart(chartId: string) {
+        return this.delete(TemplateHelper.parseUrl(ApiConfig.resourceChartDelete, { chartId: chartId }));
+    }
+
+    /**
+     * checks if query form has error
+     * @param {HttpCustomErrorResponse} err
+     */
+    isQueryError(err: HttpCustomErrorResponse): boolean {
+        return !!this.getBackendErrors(err);
     }
 }

@@ -1,0 +1,35 @@
+<span [appTooltip]="text"
+      [title]="title"
+      [style.color]="iconColor"
+      *featureFlag="'S21_custom_tooltip.fe' else bsTooltip;"
+      class="info-tooltip ml-2"
+      placement="bottom"
+      tabindex="0">
+    <svg attr.aria-labelledby="icon-info-{{uniqueId}}" class="icon icon-info"
+         height="20" role="img" width="20">
+    <title class="sr-only" id="icon-info-{{uniqueId}}">{{ 'Hint' | translate }}</title>
+    <use [attr.xlink:href]="'/assets/icomoon/sprite/sprite.svg#icon-info'"></use>
+</svg>
+
+</span>
+
+<!-- TODO remove with S21_custom_tooltip.fe -->
+<ng-template #bsTooltip>
+    <span [tooltip]="tooltipTemplate"
+          class="info-tooltip ml-2"
+          placement="top"
+          tabindex="0">
+    <svg attr.aria-labelledby="icon-info-{{uniqueId}}" class="icon icon-info"
+         height="20" role="img" width="20">
+    <title class="sr-only" id="icon-info-{{uniqueId}}">{{ 'Hint' | translate }}</title>
+    <use [attr.xlink:href]="'/assets/icomoon/sprite/sprite.svg#icon-info'"></use>
+</svg>
+</span>
+</ng-template>
+
+<ng-template #tooltipTemplate>
+    <app-tooltip-with-title
+            [text]="text"
+            [title]="title">
+    </app-tooltip-with-title>
+</ng-template>

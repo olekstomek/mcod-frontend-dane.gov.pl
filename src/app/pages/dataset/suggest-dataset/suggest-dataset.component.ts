@@ -42,13 +42,21 @@ export class SuggestDatasetComponent implements OnInit {
      * Initializes form with predefined validators
      */
     ngOnInit() {
-        this.seoService.setSeoByKeys('DatasetForm.Suggest');
+        this.seoService.setPageTitleByTranslationKey(['DatasetForm.Heading']);
 
         this.datasetForm = new FormGroup({
-            'notes': new FormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)])
+            'title': new FormControl(null, Validators.required),
+            'notes': new FormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
+            'organization_name': new FormControl(null),
+            'data_link': new FormControl(null, Validators.pattern("^(https?)[^/]+(/.*)/[^/]+$")),
+            'potential_possibilities': new FormControl(null),
+            'captcha': new FormControl(null, Validators.required)
         });
     }
 
+    /**
+     * Determines whether dataset form is submitted
+     */
     onDatasetFormSubmit() {
         if (!this.datasetForm.valid) return;
 
@@ -57,12 +65,12 @@ export class SuggestDatasetComponent implements OnInit {
 
         // remove empty properties
         for (let key in formValue) {
-            if (!formValue[key] || (formValue[key] && !formValue[key].length)) {
+            if (!formValue[key] || (formValue[key] && !formValue[key].length) || key === 'captcha') {
                 delete formValue[key];
             }
         } 
 
-        let payload = `{
+        const payload = `{
             "data": {
                 "type": "submission",
                 "attributes": ${JSON.stringify(formValue)}
@@ -77,14 +85,5 @@ export class SuggestDatasetComponent implements OnInit {
                     this.notificationsService.addError(error);
                 }
             );
-    }
-
-    /**
-     * Determines whether form field is valid 
-     * @param {string} field 
-     * @returns {boolean} true if field valid 
-     */
-    isFieldValid(field: string): boolean {
-        return !this.datasetForm.get(field).valid && this.datasetForm.get(field).touched;
     }
 }

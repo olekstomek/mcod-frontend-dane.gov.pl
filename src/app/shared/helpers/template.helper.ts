@@ -45,7 +45,8 @@ export class TemplateHelper {
      * @param binding
      */
     static compileTemplate(templateSource: string, binding: any): string {
-        const compiled = _.template(templateSource);
+        const templateFn = typeof _.template === 'function' ? _.template : _.template.default;
+        const compiled = templateFn(templateSource);
         return compiled(binding);
     }
 

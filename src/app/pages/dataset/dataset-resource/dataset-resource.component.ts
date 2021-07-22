@@ -1,15 +1,18 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { switchMap } from 'rxjs/operators';
-import * as _ from 'underscore';
 
-import { Column } from '@app/shared/datagrid/types';
-import { SeoService } from '@app/services/seo.service';
+import { toggleVertically } from '@app/animations/index';
+import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { SchemaDataService } from '@app/services/schema-data.service';
+import { SchemaService } from '@app/services/schema.service';
+import { SeoService } from '@app/services/seo.service';
 import { LinkHelper } from '@app/shared/helpers';
-import { toggleVertically } from '../../../animations/index';
+
 
 /**
  * Dataset Resource Component
@@ -24,19 +27,19 @@ import { toggleVertically } from '../../../animations/index';
 export class DatasetResourceComponent implements OnInit {
 
     /**
-     * Tabular data
+     * API model
      */
-    result: { columns: Column[]; data: any[] };
+    apiModel = ApiModel;
 
     /**
-     * Resource  of dataset 
+     * Resource  of dataset
      */
     resource: any;
 
     /**
-     * Resource id
+     * Related dataset of dataset resource component
      */
-    resourceId: string | null;
+    relatedDataset: any;
 
     /**
      * Self api of dataset resource component
@@ -56,7 +59,7 @@ export class DatasetResourceComponent implements OnInit {
     /**
      * Feedback sent indicator
      */
-    feedbackSent: boolean = false;
+    feedbackSent = false;
 
     /**
      * Modal including iIframe
@@ -79,90 +82,81 @@ export class DatasetResourceComponent implements OnInit {
     frameUrl: string;
 
     /**
-     * Dataset  of dataset resource component
+     * Determines whether resource has tabular view
      */
-    dataset: any;
+    hasTabularData = false;
 
     /**
-     * Determines whether data is loading
+     * Determines whether resource has chart view
      */
-    isLoading: boolean = true;
+    hasChart = false;
 
     /**
-     * @ignore
+     * Determines whether resource has geo view
+     */
+    hasGeoData = false;
+
+    /**
+     * Determines whether special signs block is expanded
+     */
+    isSpecialSignsExpanded = false;
+
+    /**
+     * @ignore 
      */
     constructor(private activatedRoute: ActivatedRoute,
                 private datasetService: DatasetService,
                 private seoService: SeoService,
-                private modalService: BsModalService) {
+                private schemaService: SchemaService,
+                private schemaDataService: SchemaDataService,
+                private modalService: BsModalService,
+                @Inject(DOCUMENT) private readonly document: Document) {
     }
 
     /**
-     * Sets META tags (title, description). 
-     * Initializes dataset and its resource.
-     * Initializes and updates tabular data (result) on query params change.
+     * Sets META tags (title, description).
+     * Initializes resource and corresponding actions.
+     * Checks availability of related data (tabs).
      */
     ngOnInit() {
-        this.result = {columns: [], data: []};
-        this.dataset = this.activatedRoute.snapshot.parent.data.post.data;
         this.resource = this.activatedRoute.snapshot.data.post;
+        this.relatedDataset = this.activatedRoute.parent.snapshot.data.post.data;
+
+        this.frameUrl = 'http://' + this.document.location.host + '/embed/resource/' + this.resource['id'];
+        this.selfApi = this.resource.links.self;
+
+        this.hasGeoData = this.resource.relationships.hasOwnProperty('geo_data');
+        this.hasChart = this.resource.relationships.hasOwnProperty('chart');
+        this.hasTabularData = this.hasGeoData || this.resource.relationships.hasOwnProperty('tabular_data');
 
         this.seoService.setPageTitle(this.resource.attributes.title);
-        this.seoService.setPageDescription(this.resource.attributes.title);
 
-        this.activatedRoute.paramMap
-            .pipe(
-                switchMap(routeParams => {
-                    this.resourceId = routeParams.get('resourceId');
-                    this.frameUrl = 'http://' + document.location.host + '/embed/resource/' + this.resourceId;
-    
-                    return this.datasetService.getResourceDataById(this.resourceId);
-                })
-            )
+        this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id)
             .subscribe(data => {
-                this.isLoading = false;
-                this.selfApi = this.datasetService.base_url + this.resource.links.self;
-
-                if (data) {
-                    data.attributes.headers.forEach(item => {
-                        this.result.columns.push(new Column(item, item));
-                    });
-
-                    const items = [];
-                    data.attributes.data.forEach(item => {
-                        items.push(_.object(data.attributes.headers, item));
-                    });
-
-                    this.result.data = items;
-                }
+                this.schemaService.addStructuredData(data);
             });
     }
-
+    
     /**
      * Opens modal width iframe settings
-     * @param {TemplateRef<any>} template 
+     * @param {TemplateRef<any>} template
      */
     openModal(template: TemplateRef<any>) {
-        this.modal = this.modalService.show(template, {class: 'modal-lg'});
+        this.modal = this.modalService.show(template, { class: 'modal-lg' });
     }
 
     /**
      * Increments download counter and initializes resource (file) download.
-     * @param resource 
-     * @returns {boolean}
+     * @param {string} title
+     * @param {string} url
      */
-    downloadResource(resource) {
-        this.datasetService
-            .tickDownloadCounter(resource.id)
-            .subscribe(() => {});
-        // Fire away download right after click, regardless of api response, 
-        // to not get cought in browser's pop up guard
-        return LinkHelper.downloadFile(resource.attributes.file_url);
+    downloadResource(title: string, url: string) {
+        LinkHelper.downloadResource({ title, url });
     }
 
     /**
      * Sends feedback on feedback form submits
-     * @param feedbackForm 
+     * @param feedbackForm
      */
     sendFeedback(feedbackForm: NgForm) {
         if (feedbackForm.valid && feedbackForm.value.feedback) {
@@ -179,15 +173,16 @@ export class DatasetResourceComponent implements OnInit {
             this.datasetService
                 .sendResourceFeedback(this.resource['id'], JSON.parse(payload))
                 .subscribe(() => this.feedbackSent = true);
-            
+
         }
     }
 
     /**
      * Opens feedback modal
-     * @param template 
+     * @param template
      */
     openFeedbackModal(template: TemplateRef<any>) {
+        this.feedbackSent = false;
         this.feedbackModalRef = this.modalService.show(template);
     }
 
@@ -198,5 +193,5 @@ export class DatasetResourceComponent implements OnInit {
         this.feedbackModalRef.hide();
         this.feedbackModalRef = null;
         this.feedbackSent = false;
-    }    
+    }
 }

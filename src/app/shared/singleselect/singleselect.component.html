@@ -10,6 +10,7 @@
         [attr.aria-expanded]="isExpanded"
         [attr.aria-labelledby]="labelId ? labelId : null"
         (click)="toggleDropdown()"
+        (keydown)="onKeydown($event)"
         #toggler>
         {{ togglerLabel || ('Action.Choose' | translate) }}
     </button>
@@ -23,13 +24,19 @@
         *ngIf="isExpanded"
         @toggleVertically> <!-- animation -->
 
-        <ul class="dropdown__list">
-            <li class="dropdown-item"
-                *ngFor="let item of options"
-                [ngClass]="{'active': isItemSelected(item)}"
+        <ul class="dropdown__list" role="menu">
+            <li class="dropdown-item" role="menuitem"
+                *ngFor="let item of options; let i = index;"
+                [ngClass]="{
+                    'active': i === selectedIndex, 
+                    'current': i !== selectedIndex &&  i === currentIndex
+                }"
                 (click)="selectItem(item)"
-                tabindex="0">
-                {{ isObject(item) ? item.label :  item }}
+                [attr.aria-selected]="i === selectedIndex"
+                (mouseenter)="currentIndex = i"
+                (mouseleave)="currentIndex = this.selectedIndex">
+
+                {{ item.label ? item.label : item }}
             </li>
         </ul>
     </div>

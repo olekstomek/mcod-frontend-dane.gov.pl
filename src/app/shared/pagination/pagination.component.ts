@@ -21,7 +21,7 @@ export class PaginationComponent implements  OnChanges {
      * How many pages link to show on each end
      * @type {number}
      */
-    @Input() maxRange: number = 2;
+    @Input() maxRange = 2;
 
     /**
      * How many items are shown on each page
@@ -111,6 +111,19 @@ export class PaginationComponent implements  OnChanges {
 
         for (let i = startPage; i <= visiblePageCount; i++) {
             this.pageNumbersToShow.push(i);
+        }
+
+        if (startPage - 1 >= this.maxRange) {
+            this.pageNumbersToShow.unshift(null);
+        }
+        if (startPage !== 1) {
+            this.pageNumbersToShow.unshift(1);
+        }
+        if (this.totalPages - visiblePageCount >= this.maxRange) {
+            this.pageNumbersToShow.push(null);
+        }
+        if (this.totalPages !== visiblePageCount) {
+            this.pageNumbersToShow.push(this.totalPages);
         }
 
         this.numPages.emit(visiblePageCount);

@@ -1,8 +1,14 @@
-import { APP_CONFIG } from '@app/app.config';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Component, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { isPlatformBrowser, PlatformLocation, DOCUMENT } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
+import { DOCUMENT, isPlatformBrowser, PlatformLocation } from '@angular/common';
+import { Component, Inject, OnInit, Optional, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { RoutingHelper } from '@app/services/commons/routing-helper';
+
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { LanguageBootstrapService } from '@app/services/language-bootstrap.service';
+import { SchemaService } from '@app/services/schema.service';
+import { CookieService } from 'ngx-cookie-service';
+import { LocalStorageService } from 'ngx-localstorage';
+import { RouterEndpoints } from './services/models/routerEndpoints';
 
 
 /**
@@ -13,22 +19,48 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-
-    isEmbedded: boolean;
+    /**
+     * Homepage flag
+     */
     isHomepage: boolean;
-    isMyAccount: boolean;
 
-    private isBackState: boolean = false;
+    /**
+     * User Dashboard flag
+     */
+    isUserDashboard: boolean;
+
+    /**
+     * Resource Page flag
+     */
+    isResourcePage: boolean;
+
+    /**
+     * Back state flag
+     */
+    private isBackState = false;
+
+    /**
+     * Default lang
+     */
+    private defaultLang = 'pl';
+
+    /**
+     * Current Lang Cookie Key
+     */
+    private currentLangCookieKey = 'currentLang';
 
     /**
      * @ignore
      */
     constructor(private renderer: Renderer2,
-                private activatedRoute: ActivatedRoute,
                 private location: PlatformLocation,
                 private router: Router,
-                private translate: TranslateService,
-                @Inject(DOCUMENT) private document: string,
+                private localStorage: LocalStorageService,
+                private cookieService: CookieService,
+                private languageBootstrapService: LanguageBootstrapService,
+                private featureFlagsService: FeatureFlagService,
+                private schemaService: SchemaService,
+                @Inject(DOCUMENT) private document: Document,
                 @Inject(PLATFORM_ID) private platformId: string) {
 
     }
@@ -37,55 +69,23 @@ export class AppComponent implements OnInit {
      * Navigation checks and default language setting
      */
     ngOnInit() {
+
         this.router.events
             .subscribe(event => {
-
                 if (event instanceof NavigationStart) {
-                    this.isEmbedded = (event.url.indexOf('/embed') !== -1) ? true : false;
-                    this.isMyAccount = (event.url.indexOf('myaccount') !== -1) ? true : false;
+                    this.isResourcePage = (event.url.indexOf(RouterEndpoints.RESOURCES) !== -1) ? true : false;
+                    this.schemaService.removeStructuredData();
                 }
 
                 if (event instanceof NavigationEnd) {
-                    this.isHomepage = (event.url.length !== 1) ? false : true;
-                    (!this.isMyAccount && !this.isEmbedded) && this.scrollTop();
+                    this.isHomepage = RoutingHelper.isHomePage(event.url);
+                    !this.isResourcePage && this.scrollTop();
                 }
             });
 
         this.location.onPopState(() => {
             this.isBackState = true;
         });
-
-
-        if (isPlatformBrowser(this.platformId)) {
-            const browserLanguage = window.navigator.languages
-                ? window.navigator.languages[0]
-                : (window.navigator['userLanguage'] || window.navigator.language);
-
-            let currentLanguage = APP_CONFIG.availableLanguages[0];
-
-            for ( let language of APP_CONFIG.availableLanguages) {
-                (browserLanguage.toLowerCase().indexOf(language) !== -1) && (currentLanguage = language);
-            }
-
-            this.useLanguage(currentLanguage);
-
-        } else {
-            this.translate.setDefaultLang('pl');
-        }
-    }
-
-    /**
-     * Sets specific language across whole application
-     * @example
-     * // Simply pass language short code
-     * useLanguage(\'pl\');
-     *
-     * @param {string} language
-     */
-    useLanguage(language: string) {
-        this.translate.setDefaultLang(language);
-        this.translate.use(language);
-        isPlatformBrowser(this.platformId) && this.renderer.setAttribute(document.documentElement, 'lang', language);
     }
 
     /**
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
     private scrollTop() {
         if (isPlatformBrowser(this.platformId) && !this.isBackState) {
             window.scrollTo(0, 0);
-            document.getElementById('top').focus();
+            document.getElementById('top')?.focus();
         } else {
             this.isBackState = false;
         }

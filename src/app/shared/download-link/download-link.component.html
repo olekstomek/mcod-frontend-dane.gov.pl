@@ -1,0 +1,31 @@
+<a *ngIf="fileUrl" [ngClass]="customCssClass" [routerLink]="['.']">
+
+    <!-- title (filename) -->
+    <span class="sr-only">{{ title }}</span>
+
+    <!-- download prefix text -->
+    <span *ngIf="showDownloadText">{{ 'Action.Download' | translate }}{{' '}}</span>
+
+    <!-- format -->
+    <ng-container *ngIf="format">
+        {{ format ? (format| uppercase) : 'Action.Download' | translate }}
+    </ng-container>
+
+    <!-- file size -->
+    <ng-container *ngIf="fileSize !== null">
+
+        (<app-file-size [fileSize]="fileSize"></app-file-size>)
+
+        <!-- link -->
+        <span aria-hidden="true" *ngIf="!showDownloadText">>></span>
+
+        <!-- btn -->
+        <ng-container *ngIf="showDownloadText">
+            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+            </svg>
+        </ng-container>
+
+    </ng-container>
+</a>
+

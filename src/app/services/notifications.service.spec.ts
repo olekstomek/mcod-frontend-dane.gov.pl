@@ -1,11 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { NotificationsService } from './notifications.service';
+import {TranslateService} from '@ngx-translate/core';
 
 describe('NotificationsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NotificationsService]
+      providers: [NotificationsService,
+          {provide: TranslateService, useValue: TranslateService}
+          ]
     });
   });
 

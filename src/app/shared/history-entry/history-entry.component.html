@@ -6,14 +6,14 @@
 
     <!-- no message -->
     <span *ngIf="!item.attributes.message">
-        {{ action }}
+        {{ "DatabaseOperations." + item.attributes.action | translate }}
 
         <strong *ngIf="title || (!link && !title)">
-            {{ module | lowercase }}
+              {{ 'DatabaseTables.' + item.attributes.table_name | translate | lowercase }}
         </strong>
 
         <a href="{{ link }}" *ngIf="link && !title">
-            {{ module | lowercase }}
+             {{ 'DatabaseTables.' + item.attributes.table_name | translate | lowercase }}
         </a>
 
         <a href="{{ link }}" *ngIf="link && title">
@@ -25,6 +25,6 @@
 
     <!-- activity date -->
     <span class="activity__date" [title]="item.attributes.change_timestamp | translateDateFormat | async">
-        {{ item.attributes.change_timestamp | timespan:lang }}
+        {{ item.attributes.change_timestamp | timespan}}
     </span>
 </div>

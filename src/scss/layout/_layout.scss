@@ -4,6 +4,9 @@
     PAGE - GENERAL
 ********************/
 
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     min-width:320px;
@@ -21,3 +24,4 @@ body {
 .page {
     background-color: $color-grey-light-1;
 }
+

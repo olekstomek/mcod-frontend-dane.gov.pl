@@ -48,6 +48,10 @@
                 overflow-wrap: break-word;
                 display: block;
                 line-height: 1.2;
+
+                &--dark {
+                    color: $color-heading;
+                }
 			}
 
 			&-info {

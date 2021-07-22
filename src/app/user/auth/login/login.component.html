@@ -8,24 +8,24 @@
                     </h1>
 
                     <!-- api notifications  -->
-                    <app-notifications></app-notifications>
+                        <app-notifications  aria-live="assertive"></app-notifications>
+                        <app-notifications-front></app-notifications-front>
 
 					<!-- EMAIL -->
 					<div class="form-group"
 						[ngClass]="{'form-group-invalid': !email.valid && email.touched}">
 						<label for="email">E-mail</label>
 						<input type="email" class="form-control" id="email"
-							placeholder="{{'Enter' | translate }} {{'User.Email' | translate | lowercase }}"
+							placeholder="{{ 'Action.Enter' | translate }} {{'User.Email' | translate | lowercase }}"
 							ngModel
 							name="email"
 							required
 							email
 							#email="ngModel"
-                            [attr.aria-describedby]="'email_error'"
                             [attr.aria-invalid]="!email.valid && email.touched">
 
                         <!-- email field validation error -->
-						<small class="form-text text-danger" role="alert" id="email_error"
+						<small class="form-text text-danger" role="alert" id="email_error" aria-live="polite"
                             *ngIf="!email.valid && email.touched"
                             @toggleVertically>
 							{{ 'Validation.RequiredEmail' | translate }}
@@ -40,16 +40,15 @@
                             {{ 'User.Password' | translate }}
                         </label>
                         <input type="password" class="form-control" id="password"
-                            placeholder="{{'Enter' | translate }} {{ 'User.Password' | translate | lowercase }}"
+                            placeholder="{{ 'Action.Enter' | translate }} {{ 'User.Password' | translate | lowercase }}"
 							ngModel
 							name="password"
 							required
 							#password="ngModel"
-                            [attr.aria-describedby]="'password_error'"
                             [attr.aria-invalid]="!password.valid && password.touched">
 
                         <!-- password field validation error -->
-						<small class="form-text text-danger" role="alert" id="password_error"
+						<small class="form-text text-danger" role="alert" id="password_error" aria-live="polite"
 							*ngIf="!password.valid && password.touched"
                             @toggleVertically>
                             "{{ 'User.Password' | translate }}"
@@ -64,15 +63,16 @@
                             ngModel
                             name="rememberCheck"
                             #rememberCheck="ngModel"
-                            [attr.aria-checked]="f.value.rememberCheck || false">
+                            [checked]="f.value.rememberCheck || false"
+							[attr.aria-checked]="f.value.rememberCheck || false">
 
 						<label class="form-check-label" for="rememberCheck">
-							{{ 'Action.Remember' | translate | uppercase }}
+							{{ 'Action.RememberMe' | translate | uppercase }}
                         </label>
 
                         <!-- fake button to indicate 'disabled' state -->
                         <button type="button" class="btn btn-secondary disabled" *ngIf="!f.valid"
-                            aria-describedby="backend_notifications email_error password_error"
+                            [attr.aria-label]="'Validation.InvalidEmailOrPassword' | translate:{param: 'Action.Login' | translate }"
                             [attr.aria-disabled]="true">
 							{{ 'Action.Login' | translate | uppercase }}
 						</button>
@@ -86,13 +86,20 @@
 
 					<!-- FORGOTTEN PASSWORD -->
 					<p class="forgotten">
-						<a [routerLink]="['/user', 'lost-password']">
+						<a [routerLink]="['/!user', '!lost-password'] | localize">
 							{{ 'User.ForgottenPassword' | translate }} &raquo;
 						</a>
 					</p>
+
+                    <p>
+                        {{ 'User.Unregistered' | translate }}
+                        <a [routerLink]="['/!user', '!register'] | localize" >
+                            {{ 'Action.Register' | translate }}
+                        </a>
+                    </p>
 				</form>
 
-			</div>
+            </div>
 		</div>
 	</div>
 </section>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BreadcrumbsKnowledgeBaseTabDataResolverService } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-base-tab-data-resolver.service';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
@@ -13,11 +14,8 @@ import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.componen
 import { KnowledgeBaseItemPreviewComponent } from './knowledge-base-item-preview/knowledge-base-item-preview.component';
 
 import { KnowledgeBaseTabsComponent } from './knowledge-base-tabs/knowledge-base-tabs.component';
-import { KnowledgeBaseTabHelpComponent } from './knowledge-base-tab-help/knowledge-base-tab-help.component';
-import { KnowledgeBaseTabEducationComponent } from './knowledge-base-tab-education/knowledge-base-tab-education.component';
-import { KnowledgeBaseTabFaqComponent } from './knowledge-base-tab-faq/knowledge-base-tab-faq.component';
-import { KnowledgeBaseTabListComponent } from './knowledge-base-tab-list/knowledge-base-tab-list.component';
-import { KnowledgeBaseTabItemComponent } from './knowledge-base-tab-item/knowledge-base-tab-item.component';
+import { BreadcrumbsKnowledgeBaseDataResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-data-resolver.service';
+import { KnowledgeBaseItemDetailsComponent } from './knowledge-base-item-details/knowledge-base-item-details.component';
 
 
 @NgModule({
@@ -25,24 +23,27 @@ import { KnowledgeBaseTabItemComponent } from './knowledge-base-tab-item/knowled
         CommonModule,
         KnowledgeBaseRoutingModule,
         AppBootstrapModule,
-        TranslateModule.forChild({parser: {
+        TranslateModule.forChild({
+            parser: {
                 provide: TranslateParser,
                 useClass: TranslateICUParser
-            }}),
+            }
+        }),
         FormsModule,
         SharedModule,
         ReactiveFormsModule
     ],
-    providers: [BreadcrumbsArticleResolver],
+    providers: [
+        BreadcrumbsArticleResolver,
+        BreadcrumbsKnowledgeBaseDataResolver,
+        BreadcrumbsKnowledgeBaseTabDataResolverService
+    ],
     declarations: [
-        KnowledgeBaseComponent, 
+        KnowledgeBaseComponent,
         KnowledgeBaseItemPreviewComponent,
-        KnowledgeBaseTabsComponent, 
-        KnowledgeBaseTabHelpComponent, 
-        KnowledgeBaseTabEducationComponent,
-        KnowledgeBaseTabFaqComponent,
-        KnowledgeBaseTabListComponent, 
-        KnowledgeBaseTabItemComponent
+        KnowledgeBaseTabsComponent,
+        KnowledgeBaseItemDetailsComponent
     ]
 })
-export class KnowledgeBaseModule { }
+export class KnowledgeBaseModule {
+}

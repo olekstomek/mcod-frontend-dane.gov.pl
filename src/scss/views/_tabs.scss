@@ -32,6 +32,12 @@
                 background-color: $color-white;
             }
 
+            &--disabled {
+                text-decoration: none;
+                color: $color-grey-light-7;
+                cursor: text;
+            }
+
             // < MD
             @include media-breakpoint-down(sm)
             {
@@ -73,7 +79,7 @@
     {
         border: 1px solid $color-grey-light-6;
         border-bottom-color: $color-white;
-        padding: 15px;
+        padding: 30px;
         background-color: $color-white;
         margin-bottom: -16px;
     }

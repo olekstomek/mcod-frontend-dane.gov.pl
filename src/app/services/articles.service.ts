@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 
 import { RestService } from '@app/services/rest.service';
 import { ApiConfig, ApiResponse } from '@app/services/api';
-import { TemplateHelper } from '@app/shared/helpers';
-import { IFilters } from '@app/services/models/filters';
+import { ICategoryPageParams } from '@app/services/models/page-params';
 
 /**
  * Articles Services that handles communication with Articles API `\/articles`
@@ -16,10 +15,16 @@ export class ArticlesService extends RestService {
 
     /**
      * Get articles list from given filters in `params` variable
-     * @param params
+     * @param {ICategoryPageParams} params
      * @returns {Observable<ApiResponse>}
      */
-    getAll(params: IFilters): Observable<ApiResponse> {
+    getAll(params: ICategoryPageParams): Observable<ApiResponse> {
+
+        if (params.category) {
+            params['category[id]'] = params.category;
+            delete params.category;
+        }
+
         const httpParams = new HttpParams({fromObject: params});
 
         return this.get(ApiConfig.articles, httpParams)
@@ -41,38 +46,5 @@ export class ArticlesService extends RestService {
                 map(response => response['data']),
                 publishReplay(1), refCount()
             );
-    }
-
-    /**
-     * Follow changes of a given article item
-     * Only for logged in users (requires api_key)
-     * @param {string} id
-     * @returns {Observable<any>}
-     */
-    followOne(id: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.articleFollow, {id: id});
-        return this.post(url);
-    }
-
-    /**
-     * Unfollow changes of a given article item
-     * Only for logged in users (requires api_key)
-     * @param {string} id
-     * @returns {Observable<any>}
-     */
-    unfollowOne(id: string) {
-        const url = TemplateHelper.parseUrl(ApiConfig.articleFollow, {id: id});
-        return this.delete(url);
-    }
-
-    /**
-     * Get list of followed articles
-     * Only for logged in users (requires api_key)
-     * @param {IFilters} params
-     * @returns {Observable<any>}
-     */
-    getFollowed(params: IFilters) {
-        const httpParams = new HttpParams({fromObject: params});
-        return this.get(ApiConfig.followedArticles, httpParams);
     }
 }

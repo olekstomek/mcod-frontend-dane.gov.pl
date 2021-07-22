@@ -1,0 +1,26 @@
+<section class="aggregation-filters p-3">
+    
+    <h2 class="heading heading--xs"
+        appInfoTooltip="{{'Tour.Tooltip.Institutions.Filters.text' | translate }}"
+        tooltipTitle="{{ 'Tour.Tooltip.Institutions.Filters.title' | translate }}">
+        {{'Filters.Self'| translate}} 
+    </h2>
+
+    <!-- Institution type -->
+    <app-expandable-multiselect 
+        id="institution-type-filter"
+        [titleTranslationKey]="'Institutions.Type'"
+        [options]="filtersOptions && filtersOptions[OptionsNames.INSTITUTION_TYPE]"
+        [selectedIds]="selectedData[FiletersNames.INSTITUTION_TYPE]"
+        [enableApply]="availabilityFilterMap[FiletersNames.INSTITUTION_TYPE]"
+        [showSearchInput]="false"
+        [showDivider]="false"
+        [displayShowMore]="false"
+        [maxLength]="maxLength"
+        [ariaLabel]="'category-filter-label'"
+        (selectedChange)="onSelectedChange(FiletersNames.INSTITUTION_TYPE, $event)"
+        (applyFilter)="applyFilter()">
+    </app-expandable-multiselect>
+
+</section>
+

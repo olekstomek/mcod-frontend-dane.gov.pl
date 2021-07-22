@@ -18,6 +18,24 @@
         }
     }
 
+    &--primary-link {
+        :link,
+        :visited {
+            color: theme-color('primary'); 
+            border-bottom: 0;   
+            text-decoration: underline;
+
+            &:hover {
+                color: $color-hover-2;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &--xs {
+        font-size: $heading-xs-size;
+    }
+
     &--sm {
         font-size: $heading-sm-size;
     }
@@ -28,14 +46,7 @@
 
 
     &--separator {
-        &::after {
-            content: "";
-            display: block;
-            height: 5px;
-            width: 25px;
-            background-color: $color-grey-light-4;
-            margin-top: 15px;
-        }
+        @include separator;
     }
 
 

@@ -26,12 +26,12 @@ export class LostPasswordComponent implements OnInit, OnDestroy {
     /**
      * Form submission availability indicator
      */
-    isSubmitDisabled: boolean = false;
+    isSubmitDisabled = false;
 
     /**
      * Determines whether lost password message Was sent
      */
-    mailSent: boolean = false;
+    mailSent = false;
 
     /**
      * @ignore
@@ -39,18 +39,19 @@ export class LostPasswordComponent implements OnInit, OnDestroy {
     constructor(private notificationsService: NotificationsService,
                 private userService: UserService,
                 private seoService: SeoService
-    ) {}
+    ) {
+    }
 
     /**
-     * Sets META tags (title). 
-     */  
+     * Sets META tags (title).
+     */
     ngOnInit() {
-        this.seoService.setSeoByKeys('User.NewPasswordCreation', 'Slogan');
+        this.seoService.setPageTitleByTranslationKey(['User.NewPasswordCreation']);
     }
 
     /**
      * Sends mail regarding lost password on form submit
-     * @param {NgForm} form 
+     * @param {NgForm} form
      */
     onSubmit(form: NgForm) {
         this.notificationsService.clearAlerts();
@@ -69,7 +70,8 @@ export class LostPasswordComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.notificationsService.clearAlerts();
 
-        if (this.forgottenPasswordSubscription)
+        if (this.forgottenPasswordSubscription) {
             this.forgottenPasswordSubscription.unsubscribe();
+        }
     }
 }

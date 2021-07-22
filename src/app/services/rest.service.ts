@@ -1,18 +1,21 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {DOCUMENT} from '@angular/platform-browser';
-import {Router} from '@angular/router';
-import {LocalStorageService} from 'ngx-localstorage';
-import {TranslateService} from '@ngx-translate/core';
-import {CookieService} from 'ngx-cookie-service';
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-import * as jwt from 'jsonwebtoken';
+import { DOCUMENT } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '@env/environment';
+import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
+import { CookieService } from 'ngx-cookie-service';
+import { LocalStorageService } from 'ngx-localstorage';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import {environment} from '@env/environment';
-import {NotificationsService} from '@app/services/notifications.service';
-import {UserToken} from '@app/services/models/user-token';
+import { ApiConfig } from '@app/services/api';
+import { LoginService } from '@app/services/login-service';
+import { HttpCustomErrorResponse, IErrorBackend } from '@app/services/models';
+import { UserToken } from '@app/services/models/user-token';
+import { NotificationsService } from '@app/services/notifications.service';
 
 
 /**
@@ -20,13 +23,48 @@ import {UserToken} from '@app/services/models/user-token';
  */
 @Injectable()
 export abstract class RestService {
-
+    /**
+     * Base url
+     * @type {string}
+     */
     public base_url: string;
+    /**
+     * Token
+     * @type {string}
+     */
     public token: string;
+    /**
+     * Api Endpoint url
+     * @type {string}
+     */
+    /**
+     * Jwt helper service instance
+     */
+    public jwtHelperService;
+
+    private readonly API = '/api';
+    /**
+     * Request errors without notifications
+     * @type {string[]}
+     */
+    private readonly requestsErrorsWithoutNotifications: string[] = [ApiConfig.unsubscribeNewsletter,
+        ApiConfig.confirmSubscribeNewsletter];
+    /**
+     * Cookie domain
+     * @type {string}
+     */
     private cookie_domain: string;
+
+    /**
+     * Session expires
+     */
     private sessionExpires;
-    private apiVersion = '1.0';
-    private prefix = '';
+
+    /**
+     * Cookie Prefix
+     * @type {string}
+     */
+    private cookie_prefix = '';
 
     /**
      * Dependency injection required for api calls, and base_url setup
@@ -36,29 +74,33 @@ export abstract class RestService {
      * @param {NotificationsService} notificationService
      * @param {LocalStorageService} storageService
      * @param {CookieService} cookieService
+     * @param loginService
      * @param document
      * @param {string} platformId
      */
     constructor(protected http: HttpClient,
-                private translate: TranslateService,
-                private router: Router,
-                private notificationService: NotificationsService,
-                private storageService: LocalStorageService,
-                private cookieService: CookieService,
-                @Inject(DOCUMENT) private document: any,
-                @Inject(PLATFORM_ID) private platformId: string) {
+                protected translate: TranslateService,
+                protected router: Router,
+                protected notificationService: NotificationsService,
+                protected storageService: LocalStorageService,
+                protected cookieService: CookieService,
+                protected loginService: LoginService,
+                @Inject(DOCUMENT) protected document: Document,
+                @Inject(PLATFORM_ID) protected platformId: string) {
+        this.jwtHelperService = new JwtHelperService();
         if (!environment.production) {
-            this.base_url = '/api';
+            this.base_url = this.API;
             this.cookie_domain = 'localhost';
         } else {
             this.base_url = this.document.location.protocol + '//api.' + this.document.location.hostname.replace('www.', '');
+            this.base_url += ApiConfig.apiVersion;
             this.cookie_domain = '.' + this.document.location.hostname.replace('www.', '');
         }
-
+        const hostname = this.document.location.hostname;
         const regex = /^(\w*)\.?dane\.gov\.pl$/gi;
         const prefixArr = regex.exec(this.document.location.hostname.replace('www.', ''));
+        this.cookie_prefix = !prefixArr ? 'local_' : prefixArr[1] ? `${prefixArr[1]}_` : '';
 
-        this.prefix = (prefixArr && prefixArr[1]) ? `${prefixArr[1]}_` : '';
         this.initHeaders();
     }
 
@@ -81,14 +123,6 @@ export abstract class RestService {
     }
 
     /**
-     * Setup language calls
-     * @param {string} language
-     */
-    public setLang(language: string) {
-        this._headers = this._headers.append('Accept-Language', language);
-    }
-
-    /**
      * Setup token, save it in browser and setup admin user cookie
      * @param {string} token
      * @param {boolean} remember
@@ -96,13 +130,31 @@ export abstract class RestService {
     setToken(token: string, remember: boolean = false) {
         this.token = token;
 
-        const jwtData: any = jwt.decode(this.token);
+        const jwtData: any = this.jwtHelperService.decodeToken(this.token);
+        const isSecure = this.document.location.protocol === 'https:';
 
         if (jwtData.user && jwtData.user.session_key) {
-            this.cookieService.set(`${this.prefix}sessionid`, jwtData.user.session_key,
-                new Date(jwtData.exp * 1000), '/', this.cookie_domain);
+            this.cookieService.set(
+                `${this.cookie_prefix}sessionid`,
+                jwtData.user.session_key,
+                new Date(jwtData.exp * 1000),
+                '/',
+                this.cookie_domain,
+                isSecure,
+                'Lax'
+            );
         }
-        this.cookieService.set(`${this.prefix}mcod_token`, token, new Date(jwtData.exp * 1000), '/', this.cookie_domain);
+
+        this.cookieService.set(
+            `${this.cookie_prefix}apiauthtoken`,
+            token,
+            new Date(jwtData.exp * 1000),
+            '/',
+            this.cookie_domain,
+            isSecure,
+            'Lax'
+        );
+
         this.storageService.set('remember', remember ? '1' : '0');
     }
 
@@ -111,7 +163,7 @@ export abstract class RestService {
      * @returns {string}
      */
     getToken(): string {
-        this.token = this.cookieService.get(`${this.prefix}mcod_token`);
+        this.token = this.cookieService.get(`${this.cookie_prefix}apiauthtoken`);
         if (this.token) {
             const remember: boolean = Boolean(+this.storageService.get('remember'));
             this.sessionExpires = this.getTokenData().exp;
@@ -132,7 +184,7 @@ export abstract class RestService {
      * @returns {any}
      */
     public getTokenData(): UserToken {
-        return <UserToken>jwt.decode(this.token);
+        return <UserToken>this.jwtHelperService.decodeToken(this.token);
     }
 
     /**
@@ -141,18 +193,28 @@ export abstract class RestService {
     clearToken() {
         this.token = null;
         this.storageService.remove('remember');
-        this.cookieService.delete(`${this.prefix}mcod_token`, '/', this.cookie_domain);
-        this.cookieService.delete(`${this.prefix}sessionid`, '/', this.cookie_domain);
+        this.cookieService.delete(`${this.cookie_prefix}apiauthtoken`, '/', this.cookie_domain);
+        this.cookieService.delete(`${this.cookie_prefix}sessionid`, '/', this.cookie_domain);
+    }
+
+    /**
+     * Return array with errors or null
+     * @param {HttpCustomErrorResponse} err
+     * @returns {IErrorBackend [] | null}
+     */
+    getBackendErrors(err: HttpCustomErrorResponse): IErrorBackend[] | null {
+        return err.error && err.error.errors ? err.error.errors : null;
     }
 
     /**
      * Overridable GET Method Api call
      * @param {string} relativeUrl
      * @param params
+     * @param skip404Redirect
      * @returns {Observable<any>}
      */
-    protected get(relativeUrl: string, params?: any): Observable<any> {
-        return this.request('get', this.base_url + relativeUrl, params);
+    protected get(relativeUrl: string, params?: any, skip404Redirect?: boolean): Observable<any> {
+        return this.request('get', this.base_url + relativeUrl, params, skip404Redirect);
     }
 
     /**
@@ -188,20 +250,33 @@ export abstract class RestService {
     }
 
     /**
+     * Overridable PATCH Method Api Call
+     * @param {string} relativeUrl
+     * @param payload
+     * @param params
+     * @returns {Observable<any>}
+     */
+    protected patch(relativeUrl: string, payload?: any, params?: any): Observable<any> {
+        return this.requestWithPayload('patch', this.base_url + relativeUrl, payload, params);
+    }
+
+    /**
      * Basic Api Call method without payload
      * @param {"get" | "delete"} method
      * @param url
      * @param params
+     * @param skip404Redirect
      * @returns {Observable<any>}
      */
-    protected request(method: 'get' | 'delete', url, params?: any): Observable<any> {
+    protected request(method: 'get' | 'delete', url, params?: any, skip404Redirect?: boolean): Observable<any> {
         this.initHeaders();
 
         return this.http[method](url, {
             headers: this.headers,
+            withCredentials: true,
             params: params
         }).pipe(
-            catchError(this.errorRedirectionHandler.bind(this))
+            catchError(this.errorRedirectionHandler.bind(this, skip404Redirect))
         );
     }
 
@@ -213,11 +288,11 @@ export abstract class RestService {
      * @param params
      * @returns {Observable<any>}
      */
-    protected requestWithPayload(method: 'post' | 'put', url, payload?: any, params?: any): Observable<any> {
+    protected requestWithPayload(method: 'post' | 'put' | 'patch', url, payload?: any, params?: any): Observable<any> {
         this.initHeaders();
-
         return this.http[method](url, payload, {
             headers: this.headers,
+            withCredentials: true,
             params: params
         }).pipe(
             catchError(this.errorNotificationHandler.bind(this))
@@ -233,21 +308,26 @@ export abstract class RestService {
         if (token) {
             this.token = token;
             this._headers = this._headers.append('Authorization', 'Bearer ' + token);
+            this.loginService.next(true);
             return true;
         }
         this._headers = this._headers.delete('Authorization');
+        this.loginService.next(false);
         return false;
     }
 
     /**
      * Global error handler for all API calls
      * Here 404 redirection is created for GET Methods
-     * @param {HttpErrorResponse} err
+     * @param skip404Redirect
+     * @param {HttpCustomErrorResponse} err
      * @returns {ErrorObservable}
      */
-    protected errorRedirectionHandler(err: HttpErrorResponse) {
+    protected errorRedirectionHandler(skip404Redirect: boolean = false, err: HttpCustomErrorResponse) {
         if (err.status === 404) {
-            this.router.navigate(['/404']);
+            if (!skip404Redirect) {
+                this.router.navigate(['/404']);
+            }
             return throwError(err);
         }
         return this.errorNotificationHandler(err);
@@ -256,38 +336,56 @@ export abstract class RestService {
     /**
      * Global error handler for all API calls
      * Here notifications are created
-     * @param {HttpErrorResponse} err
+     * @param {HttpCustomErrorResponse} err
      * @returns {ErrorObservable}
      */
-    protected errorNotificationHandler(err: HttpErrorResponse) {
-        if (err.error && err.error.description) {
-            let msg = err.error.description;
-            if (err.error.errors) {
-                msg += ': ';
-                for (const param in err.error.errors) {
-                    if (err.error.errors[param]) {
-                        const field = err.error.errors[param];
-                        msg += field.join(', ').toLowerCase();
-                    }
-                }
-            }
+    protected errorNotificationHandler(err: HttpCustomErrorResponse) {
+        const isdBackendErrorVisible = this.checkBackendErrorVisibility(err.url);
 
-            msg += '. ';
-            this.notificationService.addError(msg);
-        } else if (err.message) {
-            this.notificationService.addError(err.message);
+        if (isdBackendErrorVisible && navigator.onLine) {
+            const errors: IErrorBackend[] = this.getBackendErrors(err);
+            if (errors) {
+                errors.forEach((error: IErrorBackend) => {
+                    this.notificationService.addError(error.detail);
+                });
+            } else {
+                this.notificationService.addError('Unknown error');
+            }
         }
+
         return throwError(err);
+    }
+
+    /**
+     * Should backend error be visible by notification service
+     * Here notifications are created
+     * @param {string} requestUrl
+     * @returns {boolean}
+     */
+    private checkBackendErrorVisibility(requestUrl: string): boolean {
+        const separator = this.base_url === this.API ? this.API : ApiConfig.apiVersion;
+        const urlParts = requestUrl.split(separator);
+
+        if (urlParts.length !== 2) {
+            return true;
+        }
+
+        const checkedUrlResults = this.requestsErrorsWithoutNotifications.map((noNotificationUrl: string) => {
+            return new RegExp(noNotificationUrl.replace(':resourceId', '[0-9]+'), 'i').test(urlParts[1]) ||
+                new RegExp(noNotificationUrl.replace(':token', `[A-Za-z0-9\\-\\_]+`), 'i').test(urlParts[1]) ||
+                new RegExp(noNotificationUrl.replace(':id', '[0-9]+'), 'i').test(urlParts[1]);
+        });
+
+        return !checkedUrlResults.some(val => val === true);
     }
 
     /**
      * Initial headers setup, creates headers, checks active sessions, and sets browser's active language
      */
     private initHeaders() {
-        this._headers = new HttpHeaders();
-        this._headers = this._headers.append('X-API-VERSION', this.apiVersion);
+        this.headers = new HttpHeaders();
+        this.headers = this.headers.append('Accept-Language', this.translate.currentLang);
         this.checkSession();
-        this.setLang(this.translate.currentLang);
     }
 
 }

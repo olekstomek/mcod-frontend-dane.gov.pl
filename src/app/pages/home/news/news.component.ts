@@ -37,13 +37,7 @@ export class NewsComponent implements OnInit {
         this.articlesSubstription = this.articlesService
             .getAll({per_page: 3, sort: '-created', category: 1})
             .subscribe(
-                news => this.items = news.results,
-                error => {
-                    if (error.message)
-                        this.notificationsService.addError(error.message)
-                    if (error.description)
-                        this.notificationsService.addError(error.description)
-                }
+                news => this.items = news.results
         );
     }
 

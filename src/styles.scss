@@ -23,7 +23,7 @@ $enable-rounded: false;
 
 // Bootstrap's primary color
 
-$primary: #0971dd; // same as $color-blue-light;
+$primary: #0865C9; // same as $color-blue-light;
 
 // Bootstrap's tooltip
 $tooltip-bg: #0f2648; // same as $color-blue-dark
@@ -36,6 +36,7 @@ $tooltip-max-width: 300px;
 @import "variables";
 @import "mixins";
 @import "scss/bootstrap-overwrite/mixins/text-emphasis";
+@import "scss/bootstrap-overwrite/mixins/collapse-btn";
 
 
 // OPTIONAL parts of Bootstrap
@@ -58,7 +59,7 @@ $tooltip-max-width: 300px;
 // @import "card";
 @import "breadcrumb";
 @import "pagination";
-// @import "badge";
+@import "badge";
 // @import "jumbotron";
 @import "alert";
 // @import "progress";
@@ -68,7 +69,7 @@ $tooltip-max-width: 300px;
 @import "modal";
 @import "tooltip";
 @import "popover";
-// @import "carousel";
+@import "carousel";
 //@import "utilities";
 @import "utilities/align";
 @import "utilities/background";

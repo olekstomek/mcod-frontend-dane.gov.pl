@@ -1,56 +1,44 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { DatasetService } from '@app/services/dataset.service';
-import { NotificationsService } from '@app/services/notifications.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { DatasetCategoriesHelper } from '@app/pages/dataset/dataset-categories-helper.service';
 
 /**
  * Categories Component
  */
 @Component({
-	selector: 'home-categories',
-	templateUrl: './categories.component.html',
-    providers: [NotificationsService]
+    selector: 'home-categories',
+    templateUrl: './categories.component.html'
 })
-export class CategoriesComponent implements OnInit, OnDestroy {
-    /**
-     * Dataset subscription of categories component
-     */
-    datasetSubscription: Subscription;
+export class CategoriesComponent implements OnInit {
 
     /**
      * Items (categories) of categories component
      */
-    items;
+    @Input() items;
+
+    /**
+     * Query param name
+     * @type {string}
+     */
+    queryParamName: string;
 
     /**
      * @ignore
      */
-    constructor(private datasetService: DatasetService,
-                private notificationsService: NotificationsService) {
+    constructor(private readonly categoriesHelper: DatasetCategoriesHelper) {
     }
 
     /**
-     * Initializes list of items (dataset categories).
-     */    
-	ngOnInit() {
-        this.datasetSubscription = this.datasetService
-            .getFilters()
-            .subscribe(
-                filters => this.items = filters['by_category'],
-                error => {
-                    if (error.message)
-                        this.notificationsService.addError(error.message)
-                    if (error.description)
-                        this.notificationsService.addError(error.description)
-                }
-        );
-    }
-
-    /**
-     * Unsubscribes from existing subscriptions
+     * Gets query param name
      */
-    ngOnDestroy() {
-        this.datasetSubscription.unsubscribe();
+    ngOnInit() {
+        this.queryParamName = this.categoriesHelper.getQueryParamName();
+    }
+
+    /**
+     * Gets query params
+     * @param id
+     */
+    getQueryParam(id: string): { [key: string]: any } {
+        return {[this.queryParamName]: id};
     }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 
 import { ArticleComponent } from './article/article.component';
 import { ArticleItemComponent } from './article-item/article-item.component';
@@ -8,10 +9,10 @@ import { BreadcrumbsArticleResolver } from '@app/shared/breadcrumbs/resolvers/br
 const routes: Routes = [
     { path: '', component: ArticleComponent },
     {
-        path: ':id', 
+        path: '!:id',
         component: ArticleItemComponent, 
         data: {
-            breadcrumbs: '{{ post.attributes.title }}'
+            breadcrumbs: {dataKey: 'post.attributes.title'}
         },
         resolve: {
             post: BreadcrumbsArticleResolver
@@ -22,7 +23,10 @@ const routes: Routes = [
  * @ignore
  */
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    imports: [
+        RouterModule.forChild(routes),
+        LocalizeRouterModule.forChild(routes),
+    ],
+    exports: [RouterModule, LocalizeRouterModule]
 })
 export class ArticlesRoutingModule { }

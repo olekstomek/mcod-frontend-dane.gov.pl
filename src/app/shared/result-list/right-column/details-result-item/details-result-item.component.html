@@ -1,0 +1,31 @@
+<div class="result-item-attributes">
+
+    <div *ngIf="titleTranslationKey" class="result-item-attributes__heading">
+        {{ titleTranslationKey | translate }}
+    </div>
+
+    <div class="result-item-attributes__list">
+        <div class="result-item-attributes__list-item" 
+            [ngClass]="{'pt-lg-3': i > 1}"
+            *ngFor="let details of detailsData; let i = index;">
+
+            <!-- title -->
+            <strong>{{ details.titleTranslationKey | translate }}: </strong>
+
+            <!-- attribute -->
+            <span [ngClass]="{'d-lg-block': !showEachDetailInRow}">
+
+                <!-- date -->
+                <ng-container *ngIf="details.isDate">
+                    {{ details.data | translateDateFormat: details.dateFormat | async }}
+                </ng-container>
+
+                <!-- not a date -->
+                <ng-container *ngIf="!details.isDate">
+                    {{ details.data }}
+                </ng-container>
+            </span>
+        </div>
+    </div>
+
+</div>

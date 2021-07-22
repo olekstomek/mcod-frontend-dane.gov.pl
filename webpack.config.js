@@ -1,14 +1,11 @@
+const VersionOutputWebpackPlugin = require('./webpack.version.plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+
 module.exports = {
-    node: {
-        crypto: true,
-        stream: true,
-        fs: 'empty',
-        global: true,
-        tls: 'empty',
-        net: 'empty',
-        process: true,
-        module: false,
-        clearImmediate: false,
-        setImmediate: false
-    }
+    plugins: [
+        new VersionOutputWebpackPlugin({outputPath: 'dist/frontend/version.txt'}),
+        new MomentLocalesPlugin({
+            localesToKeep: ['en', 'pl'],
+        }),
+    ]
 };

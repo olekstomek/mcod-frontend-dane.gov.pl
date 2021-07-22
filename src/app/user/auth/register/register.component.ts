@@ -1,14 +1,14 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild, TemplateRef, ElementRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 import { UserService } from '@app/services/user.service';
 import { IRegistration } from '@app/services/models';
-import { IErrorBackend } from '@app/services/models/error-backend';
 import { SeoService } from '@app/services/seo.service';
 import { NotificationsService } from '@app/services/notifications.service';
-import { toggleVertically } from '../../../animations/index';
+import { toggleVertically } from '@app/animations';
 import { equalValueValidator } from '../equal-value-validator';
+import { CustomFormControlValidators } from '@app/shared/form-validators/string.validators';
 
 /**
  * Register Component
@@ -19,36 +19,34 @@ import { equalValueValidator } from '../equal-value-validator';
         toggleVertically
     ]
 })
-export class RegisterComponent implements OnInit, OnDestroy {
-    /**
-     * User subscription of register component
-     */
-    userSubscription: Subscription;
-
+export class RegisterComponent implements OnInit {
     /**
      * Registration form of register component
      */
     registrationForm: FormGroup;
 
     /**
-     * Registration form errors of register component
-     */
-    formErrors: IErrorBackend;
-
-    /**
      * Determines whether a user is registered
      */
-    isRegistered: boolean = false;
+    isRegistered = false;
 
     /**
      * Determines password min length
      */
-    passwordMinLength = 8;
+    passwordMinLength: number;
 
     /**
-     * Determines whether to show password hint 
+     * Determines whether to show password hint
      */
-    showPasswordHint: boolean = false;
+    showPasswordHint = false;
+
+    rodoModalRef: BsModalRef;
+    @ViewChild('rodoModalTemplate') modalTemplate: TemplateRef<any>;
+    
+    /**
+     * Rodo modal trigger (button) reference
+     */
+    @ViewChild('rodoModalTrigger', { static: false }) rodoModalTrigger: ElementRef;
 
     /**
      * @ignore
@@ -56,52 +54,68 @@ export class RegisterComponent implements OnInit, OnDestroy {
     constructor(private formBuilder: FormBuilder,
                 private seoService: SeoService,
                 private userService: UserService,
-                private notificationsService: NotificationsService) {
+                private notificationsService: NotificationsService,
+                private modalService: BsModalService) {
     }
 
     /**
-     * Sets META tags (title). 
+     * Sets META tags (title).
      * Initializes registration form and its validators.
-     */   
+     */
     ngOnInit() {
-        this.seoService.setSeoByKeys('Action.Register', 'Slogan');
+        this.seoService.setPageTitleByTranslationKey(['Action.Register']);
+
+        this.passwordMinLength = this.userService.passwordMinLength;
+        const customValidators = this.userService.passwordCustomValidators.map(validator => {
+            return CustomFormControlValidators.checkString(validator[0], validator[1]);
+        });
 
         this.registrationForm = this.formBuilder.group({
                 'email': ['', [Validators.required, Validators.email]],
-                'password1': ['', [Validators.required, Validators.minLength(this.passwordMinLength)]],
-                'password2': ['', Validators.required]
+                'password1': ['', [
+                    Validators.required,
+                    Validators.minLength(this.userService.passwordMinLength),
+                    ...customValidators
+                ]],
+                'password2': ['', Validators.required],
+                'rodoConsent': [false, Validators.requiredTrue],
+                'regulationsConsent': [false, Validators.requiredTrue]
             },
-            {validator: equalValueValidator('password1', 'password2')}
-        );
+            { validator: equalValueValidator('password1', 'password2') 
+        });
     }
 
     /**
      * Registers a user on form submit. Clears API errors (if any).
      */
     onSubmit() {
+        if (this.registrationForm.invalid) {
+            return;
+        }
+
         this.notificationsService.clearAlerts();
-        const user: IRegistration = this.registrationForm.value as IRegistration;
+        const { email, password1, password2 } = this.registrationForm.value as IRegistration;
 
-        this.userSubscription = this.userService
-            .registerUser(user)
-            .subscribe(() => {
-                this.isRegistered = true;
-            });
+        this.userService.registerUser({
+            email,
+            password1,
+            password2,
+            subscriptions_report_opt_in: true,
+            rodo_privacy_policy_opt_in: true
+        }).subscribe(() => {
+            this.isRegistered = true;
+        });
     }
 
-    /**
-     * Determines whether form field is valid 
-     * @param {string} field 
-     * @returns {boolean} true if field valid 
-     */
-    isFieldValid(field: string): boolean {
-        return !this.registrationForm.get(field).valid && this.registrationForm.get(field).touched;
+    onRodoModalOpen(event) {
+        event.preventDefault();
+        this.rodoModalRef = this.modalService.show(
+            this.modalTemplate, { class: 'modal-lg' }
+        );
     }
 
-    /**
-     * Unsubscribes from existing subscriptions
-     */
-    ngOnDestroy() {
-        this.userSubscription && this.userSubscription.unsubscribe();
-    }    
+    onRodoModalClose() {
+        this.rodoModalRef.hide();
+        (<HTMLButtonElement>this.rodoModalTrigger.nativeElement).focus();
+    }
 }

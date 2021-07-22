@@ -1,0 +1,53 @@
+    <h1 class="heading heading--separator">
+        Harmonogram otwierania danych
+    </h1>
+
+    <!-- settings and notifications -->
+    <!-- //TODO - attach appropriate roles -->
+    <app-schedule-notifications-switch *hasPermission="PermissionPerRoles.PREVIEW_UNPUBLISHED_APPLICATION"></app-schedule-notifications-switch>
+
+    
+    <!-- TABS: ANCHORS -->
+    <div class="tabs">
+        <ul class="tab-list row no-gutters" role="tablist">
+
+            <!-- Planning -->
+            <li class="tab-list__item col-md-4" role="presentation">
+                <a class="tab-list__link" role="tab" id="tab1"
+                    [routerLink]="['planning']"
+                    routerLinkActive="tab-list__link--active"
+                    #planningActive="routerLinkActive"
+                    [attr.aria-selected]="planningActive.isActive ? true : null">
+                    Planowanie
+                </a>
+            </li>
+
+            <!-- In progress -->
+            <li class="tab-list__item col-md-4" role="presentation">
+                <a class="tab-list__link" role="tab" id="tab2"
+                    [routerLink]="['in-progress']"
+                    routerLinkActive="tab-list__link--active"
+                    #inProgressActive="routerLinkActive"
+                    [attr.aria-selected]="inProgressActive.isActive ? true : null">
+                    Realizacja
+                </a>
+            </li>
+
+            <!-- Archive -->
+            <li class="tab-list__item col-md-4" role="presentation">
+                <a class="tab-list__link" role="tab" id="tab3"
+                   [routerLink]="['archive']"
+                   routerLinkActive="tab-list__link--active"
+                   #archiveActive="routerLinkActive"
+                   [attr.aria-selected]="archiveActive.isActive ? true : null">
+                    Archiwum
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div class="tabs-content">
+        <router-outlet></router-outlet>
+    </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
@@ -13,17 +14,22 @@ import { InstitutionsComponent } from './institutions/institutions.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { StatsComponent } from '@app/pages/home/stats/stats.component';
 import { ServiceAlertComponent } from './service-alert/service-alert.component';
+import { ApplicationsComponent } from '@app/pages/home/applications/applications.component';
+import { FooterComponent } from '@app/shared/footer/footer.component';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
         FormsModule,
-        TranslateModule.forChild({parser: {
+        TranslateModule.forChild({
+            parser: {
                 provide: TranslateParser,
                 useClass: TranslateICUParser
-            }}),
-        SharedModule
+            }
+        }),
+        SharedModule,
+        LocalizeRouterModule
     ],
     declarations: [
         HomeComponent,
@@ -32,7 +38,9 @@ import { ServiceAlertComponent } from './service-alert/service-alert.component';
         InstitutionsComponent,
         NewsComponent,
         SearchComponent,
-        ServiceAlertComponent
+        ServiceAlertComponent,
+        ApplicationsComponent,
+        FooterComponent
     ],
     exports: [
         HomeComponent,

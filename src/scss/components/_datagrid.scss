@@ -1,92 +1,79 @@
-.resource-view {
+.datagrid {
+    width: 100%;
+    color: currentColor;
+    border-bottom : 1px solid $color-grey-light-6;
 
-    .filters-wrapper {
-        margin:30px 0;
+    &-wrapper {
+        overflow-x: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
 
-        .filters {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 0;
+    // thead th
+    &__heading {
+        padding: 15px;
+        font-weight: normal;
+        background-color: $color-blue-dark;
+        color: $color-white;
+        font-size: 0.875rem;
+        vertical-align: top;
 
-            .filter {
-                margin-bottom: 5px;
+        &:not(:first-child) {
+            border-left : 1px solid $color-grey-light-5;
+        }
+    }
 
-                &__value {
-                    border-right: 0;
-                    border-left: 0;
-                }
-            }
+    &__sort-column {
+        color: $color-white;
+        padding-left: 20px;
+        position: relative;
+
+        &::before {
+            content: "\2191\2193";
+            color: $color-grey-light-7;
+            margin-left: -20px;
+            position: absolute;
+        }
+
+        &.ascending::before {
+            content: "\2191";
+            color: $color-white;
+        }
+
+        &.descending::before {
+            content: "\2193";
+            color: $color-white;
+        }
+    }
+
+    // tr
+    &__row {
+
+        &:nth-child(odd) {
+            background-color: $color-white;
+        }
+
+        &:nth-child(even) {
+            background-color: $color-grey-light-1;
+        }
+
+        &.hovered {
+            background-color: $color-hover;
         }
     }
 
 
-    .resource-table {
-        width: 100%;
+    // td
+    &__cell {
+        padding: 10px;
+        border-top: 1px solid $color-grey-light-1;
+        font-size: 0.875rem;
+        position: relative;
+        vertical-align: top;
 
-        &-wrapper {
-            overflow-x: auto;
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-
-        // thead th
-        &__heading {
-            padding: 15px;
-            font-weight: normal;
-            background-color: $color-blue-dark;
-            font-size: 0.875rem;
-
-            &:not(:first-child) {
-                border-left : 1px solid $color-grey-light-5;
-            }
-        }
-
-        &__sort-column {
-            color: $color-white;
-            white-space: nowrap;
-
-            &::before {
-                content: "\2191\2193";
-                color: $color-grey-light-7;
-            }
-
-            &.ascending::before {
-                content: "\2191";
-                color: $color-white;
-            }
-
-            &.descending::before {
-                content: "\2193";
-                color: $color-white;
-            }
-        }
-
-        // tr
-        &__row {
-
-            &:nth-child(odd) {
-                background-color: $color-white;
-            }
-
-            &:nth-child(even) {
-                background-color: $color-grey-light-1;
-            }
-
-            &.hovered {
-                background-color: $color-hover;
-            }
-        }
-
-
-        // td
-        &__cell {
-            padding: 10px;
-            border-top: 1px solid $color-grey-light-1;
-            font-size: 0.875rem;
-
-            &:not(:first-child) {
-                border-left : 1px solid $color-grey-light-5;
-            }
+        &:not(:first-child) {
+            border-left : 1px solid $color-grey-light-5;
         }
     }
 }
+

@@ -52,7 +52,14 @@ export class MeetingsComponent implements OnInit {
      */
     private setupListConfig(): void {
         const currentUserHasPermissionToFilters = this.userService.hasRequiredRole(PermissionPerRoles.FILTER_MEETINGS);
-        const filterConfig = {filterType: MeetingType, selectedFilters: [MeetingType.PLANNED.toString()], title: 'Status spotkań'};
+        const filterConfig = {
+            filterType: MeetingType, 
+            selectedFilters: [
+                MeetingType.PLANNED.toString(),
+                MeetingType.FINISHED.toString()
+            ], 
+            title: 'Status spotkań'
+        };
         this.config = new UserDashboardListViewConfig
             .builder()
             .default()

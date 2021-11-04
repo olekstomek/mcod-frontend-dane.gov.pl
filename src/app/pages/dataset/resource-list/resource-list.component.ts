@@ -33,7 +33,7 @@ export class ResourceListComponent {
     /**
      * Event emitter for download event
      */
-    @Output() download = new EventEmitter<IDownloadFile>()
+    @Output() download = new EventEmitter<IDownloadFile>();
 
     /**
      * triggers download event emitter

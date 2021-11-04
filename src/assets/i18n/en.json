@@ -16,13 +16,10 @@
     "ApiDocumentation": "API Documentation",
     "RDFDocumentation": "RDF Documentation",
     "Hint": "Hint",
-
     "ROUTES.404": "404",
-
     "About": {
         "Self": "About the portal"
     },
-
     "Action": {
         "Add": "Add",
         "Remove": "Remove",
@@ -68,7 +65,6 @@
         "Expand": "Expand",
         "Collapse": "Collapse"
     },
-
     "ActivityNotification": {
         "object_restored": "Restored",
         "object_trashed": "Removed",
@@ -94,7 +90,6 @@
             "result_count_decresed": "Response count has decreased for"
         }
     },
-
     "ApplicationForm": {
         "Name": "Application name",
         "ApplicantEmail": "Applicant e-mail",
@@ -111,7 +106,6 @@
         "Link": "Link",
         "DataProcessing": "I hereby confirm that I have taken note of the following information"
     },
-
     "Applications": {
         "Self": "Applications",
         "Single": "Application",
@@ -129,12 +123,10 @@
         "Description3of3": "We are interested in further examples",
         "NoLogo": "No logo"
     },
-
     "Articles": {
         "News": "News",
         "SearchFor": "Search for article"
     },
-
     "Attribute": {
         "Details": "Details",
         "Author": "Author",
@@ -192,52 +184,41 @@
         "HarvesterUpdateFrequency": "Import frequency",
         "Period": "Period",
         "Metadata": "Metadata"
-
     },
-
     "Breadcrumbs": {
         "YouAreHere": "You are here",
         "Root": "Home",
         "HomeComponent": "",
         "HelpAndRegulations": "Help and regulations",
         "RegulationsComponent": "Regulations",
-
         "DatasetModule": "Data",
         "DatasetComponent": "",
         "DatasetItemComponent": "",
         "SuggestDatasetComponent": "Suggest dataset",
         "SubmissionListComponent": "Suggested Datasets",
-
         "InstitutionModule": "Publishers",
         "InstitutionComponent": "",
         "InstitutionItemComponent": "",
-
         "ApplicationModule": "Applications",
         "ApplicationComponent": "",
         "ApplicationItemComponent": "",
         "SuggestApplicationComponent": "Suggest an application",
-
         "ArticleModule": "News",
-
         "LoginComponent": "Login",
         "RegisterComponent": "Registration",
-
         "SearchHistoryComponent": "Search history",
         "FollowedDatasetsComponent": "Followed - List",
         "FollowedObjectActivityComponent": "Followed - Activity",
         "FollowedQueryComponent": "Followed - Search results",
-        
         "ChangePasswordComponent": "Password change",
         "LostPasswordComponent": "New password creation",
         "ResetPasswordComponent": "New password creation",
-        
         "DashboardComponent": "My Dashboard",
         "LabComponent": "Laboratorium OD",
         "AcademyComponent": "Akademia OD",
         "DataProposalComponent": "Propozycje nowych danych",
         "MeetingsComponent": "Spotkania pełnomocników",
         "ForumRegulationsComponent": "Forum regulations",
-
         "AboutComponent": "About us",
         "SitemapComponent": "Sitemap",
         "PageNotFoundComponent": "Page not found",
@@ -246,7 +227,6 @@
         "NewsletterComponent": "Newsletter",
         "DeclarationComponent": "Declaration of accessibility"
     },
-
     "Calendar": {
         "CalendarLabel": "Calendar",
         "NextMonthLabel": "Next month",
@@ -260,12 +240,10 @@
         "SwitchToMultiYearViewLabel": "Choose month and year",
         "DataPickerMask": "dd/mm/yyyy"
     },
-
     "Captcha": {
         "Description": "To prevent spam, please solve this simple math problem below",
         "Label": "Math problem"
     },
-
     "Changes": {
         "Self": "Activities",
         "Title": "Notifications about changes in observed objects",
@@ -276,7 +254,6 @@
         "NoneDescription": "If a new activity appears, it will be visible here",
         "MarkAllNotifications": "Mark all notifications as read"
     },
-
     "Chart": {
         "Self": "Chart",
         "Type": "Chart type",
@@ -300,7 +277,7 @@
         "MoreThanOneValueSelected": "More than one value selected",
         "BeforeSaveMessage": "If you want to save the defined chart permanently and have access to it regardless of the device you are using,",
         "Saved": "Chrt has been successfully saved",
-        "InMemory":"in browser memory",
+        "InMemory": "in browser memory",
         "Deleted": "Chart has been successfully deleted",
         "EditorPreview": "Editor view:",
         "StatusNoChart": "Chart is not yet defined",
@@ -314,31 +291,26 @@
         "DataTable": "Chart data in tabular form",
         "Name": "Chart name"
     },
-
     "Cms": {
-        "NotSupportedPlayer" : "The selected movie player is not supported.",
+        "NotSupportedPlayer": "The selected movie player is not supported.",
         "FillOutSurvey": "Fill out survey",
         "FormSubmitted": "Form successfully submitted",
         "FormSubmitError": "There was an error during submitting the form. Please try send it again in a moment.",
         "FillRequired": "Fill all required fields"
     },
-
     "Connector": {
         "About": "about",
         "Or": "or"
     },
-
     "CoronavirusAlert": {
         "Alert": "Coronavirus: current information and recommendations",
         "LinkText": "Learn more"
     },
-
     "DatabaseOperations": {
         "INSERT": "Created",
         "UPDATE": "Updated",
         "DELETE": "Removed"
     },
-
     "DatabaseTables": {
         "dataset": "Dataset",
         "application": "Application",
@@ -351,7 +323,6 @@
         "article_tag": "Article tag",
         "application_dataset": "Application dataset"
     },
-
     "DataProposal": {
         "Self": "Suggested Datasets",
         "Info": "Dataset suggestions submitted by users are displayed below. They are considered by data providers who can make data available on the portal. If you want to express your opinion on the displayed suggestions, click on its title to go to the appropriate form.",
@@ -362,36 +333,30 @@
         "Message": "Thank you for your feedback",
         "UserSuggestions": "See what other users have suggested"
     },
-
     "DatasetForm": {
         "Suggest": "Describe the data you are looking at dane.gov.pl",
         "DataDescription": "Data description",
         "DataDescriptionLong": "Describe precisely the data you are looking for and if you can indicate the entity that may have it. You can also provide a link to the data on the internet. We will analyze the submitted suggestions and discuss with the data owner the possibility of sharing them on the open data portal.",
         "EnterName": "Enter name",
-
         "SuggestDataset": "Suggest dataset",
         "SuggestionSentSuccess": "Thank you for submitting the suggestion",
-        
         "Heading": "Describe the data you have not found on the dane.gov.pl portal",
         "Title": "Name, type, field of proposed data",
         "Notes": "Data description",
         "OrganizationName": "Name of the organization responsible for the data",
         "DataLink": "Did you find this data elsewhere? if so, please provide the link",
         "PotentialPossibilities": "Potential use of the data",
-
         "TitlePlaceholder": "name",
         "OrganizationNamePlaceholder": "organization",
         "DataLinkPlaceholder": "link",
         "PotentialPossibilitiesPlaceholder": "potential use"
     },
-
     "DatasetQueryForm": {
         "Placeholder": "Enter search name",
         "Submit": "Save the search results",
         "SuccessfulSubmit": "Search results has been saved and are accessible in",
         "ErrorSubmit": "You are already following this query"
     },
-
     "DatasetRestrictions": {
         "Self": "Restrictions on reuse",
         "Allowed": "You are free to",
@@ -410,7 +375,6 @@
         "DbOrCopyrighted": "The conditions of re-use of information meeting the characteristics of a work within the meaning of the act on copyright and related rights or constituting a database within the meaning of the Act on the protection of databases (art. 13 (3) of the Act on the re-use of public sector information):",
         "ConditionPersonalData": "The conditions of re-use of information containing personal data (Article 14 (1) (4) of the Act on the re-use of public sector information):"
     },
-
     "Datasets": {
         "Self": "Datasets",
         "Single": "Dataset",
@@ -432,7 +396,6 @@
         "MetadataRelatedDataset": "For the dataset",
         "SubmissionItemInfo": "Suggestion submitted by user. It is considered by data providers who can make data available on the portal. If you want to express your opinion on the displayed suggestion use the form below."
     },
-
     "Embed": {
         "Self": "Embed on Your website",
         "Description": "You can copy the code of the data visualizer to your CMS platform or blog if it supports pasting HTML code.",
@@ -441,14 +404,12 @@
         "Code": "Code",
         "OriginText": "Data come from"
     },
-
     "Errors": {
         "Self": "Errors",
         "Single": "Error",
         "PageNotFound": "Page not found",
         "404": "The link may be broken or the page may have been removed"
     },
-
     "File": {
         "Self": "File",
         "Size": "File size",
@@ -458,7 +419,6 @@
         "MbAbbreviation": "Megabytes",
         "GbAbbreviation": "Gigabytes"
     },
-
     "Filters": {
         "Self": "Filters",
         "ShowFilters": "Show filters",
@@ -484,13 +444,11 @@
         "NoResultsFound": "No results found",
         "VarElements": "{param, plural, =1 {1 element} few {{param} elements} other {{param} elements}}"
     },
-
     "Font": {
         "Self": "Font",
         "Default": "Default font",
         "Increased": "Increased font"
     },
-
     "Found": {
         "Self": "Found",
         "VarCount": "{ param } results were found",
@@ -500,7 +458,6 @@
         "NothingForPhrase": "No results found for the entered phrase",
         "NothingForCriteria": "No results found for selected criteria"
     },
-
     "HighContrast": {
         "Self": "High contrast",
         "Default": "Default contrast",
@@ -508,7 +465,6 @@
         "BY": "Yellow text on a black background",
         "YB": "Black text on a yellow background"
     },
-
     "Home": {
         "OpenData": "Open Data",
         "Description": "Data of particular importance for the development of innovation in the state and development of the information society in one location",
@@ -548,7 +504,6 @@
             "Self": "Service alert"
         }
     },
-
     "Institutions": {
         "Self": "Publishers",
         "Single": "Publisher",
@@ -565,7 +520,6 @@
         "TypeOther": "Other",
         "TypePrivate": "Private entities"
     },
-
     "KnowledgeBase": {
         "Self": "Knowledge base",
         "News": "News",
@@ -575,7 +529,6 @@
         "Faq": "Frequently asked questions",
         "ListHeader": "Topic list"
     },
-
     "Language": {
         "Self": "Language",
         "Polish": "Polish",
@@ -583,7 +536,6 @@
         "Current": "Current language",
         "ChangeTo": "Change to"
     },
-
     "Map": {
         "AddressInput": "Enter address",
         "AddressLengthErrorMessage": "The address should contain at least of 3 characters.",
@@ -596,7 +548,6 @@
         "Show": "Show location on map",
         "UserLocation": "provide your location"
     },
-
     "Menu": {
         "Self": "Menu",
         "Main": "Main menu",
@@ -616,7 +567,6 @@
         "Declaration": "Declaration of accessibility",
         "Regulations": "Regulations"
     },
-
     "MyDashboard": {
         "Self": "My dashboard",
         "AdminPanel": "Admin panel",
@@ -633,25 +583,22 @@
         "AllStats": "all stats",
         "Chart": "chart"
     },
-
     "Schedule": {
         "Edit": "Edit",
         "Delete": "Delete",
         "Details": "Details"
     },
-
     "Newsletter": {
         "Self": "Newsletter",
         "Subscribe": "Subscribe to newsletter",
         "Contact": "Stay in touch with us",
-        "Description" : "To subscribe to the newsletter, enter your email address",
-        "Description2" : "If you want to receive our newsletter, accept the rules and consent then click",
+        "Description": "To subscribe to the newsletter, enter your email address",
+        "Description2": "If you want to receive our newsletter, accept the rules and consent then click",
         "RequiredMessage": "Acceptance is required",
-        "SelectAll" : "I accept all of the following consents",
-        "SubscriptionSent" : "Your subscription has been sent.",
-        "Unsubscription" : "Unsubscribing from the newsletter"
+        "SelectAll": "I accept all of the following consents",
+        "SubscriptionSent": "Your subscription has been sent.",
+        "Unsubscription": "Unsubscribing from the newsletter"
     },
-
     "NotificationConsent": {
         "Header": "Consent to receive notifications",
         "Required": "Must agree to receive notifications",
@@ -660,7 +607,6 @@
         "AcceptButton": "Accept",
         "CheckboxText": "I wish to receive notifications of changes in the observed resources of the website and therefore I agree to their sending electronically to the electronic address given when registering."
     },
-
     "Pagination": {
         "Self": "Pagination",
         "Prev": "Previous page",
@@ -672,7 +618,6 @@
         "Last": "Last",
         "ItemsPerPage": "Results per page"
     },
-
     "PasswordStrength": {
         "Self": "Password strength",
         "Weak": "Weak",
@@ -680,7 +625,6 @@
         "Good": "Good",
         "Strong": "Strong"
     },
-
     "Resources": {
         "Self": "Resources",
         "Single": "Resource",
@@ -702,7 +646,6 @@
         "MapDescription": "Map showing data from the resource",
         "SpecialSigns": "Special signs"
     },
-
     "ResourceFilter": {
         "Column": "Column",
         "Operator": "Operator",
@@ -767,24 +710,20 @@
             }
         }
     },
-
     "VisualizationTypesFilters": {
         "Map": "Map",
         "Chart": "Chart",
         "Table": "Tabular view",
         "None": "None"
     },
-
     "TypesFilters": {
         "Api": "Api",
         "File": "File",
         "Website": "Website"
     },
-
     "Rodo": {
         "Title": "Privacy policy and GDPR"
     },
-
     "Search": {
         "Results": "Search results",
         "ClearInput": "Clear search field",
@@ -795,33 +734,33 @@
         "AutoContentReload": "Automatic content reload",
         "Advanced": "Advanced search"
     },
-
     "SkipTo": {
         "Menu": "Skip to main menu",
         "Content": "Skip to content",
         "Footer": "Skip to footer",
         "NewWindow": "(Opens a new window)"
     },
-
     "Sort": {
         "By": "Sort by",
         "Ascending": "Ascending",
         "Descending": "Descending",
         "Default": "Relevance"
     },
-
     "Sparql": {
-        "Prefixes": "Prefiksy",
-        "SearchBy": "Wyszukiwanie przy pomocy zapytań",
-        "Description": "Wyszukiwanie metadanych dostawców danych, zbiorów danych oraz danych w bazie danych RDF z wykorzystaniem języka zapytań SPARQL. Narzędzie przeznaczone jest dla doświadczonych użytkowników języka SPARQL. Specyfikację SPARQL można znaleźć na",
-        "W3CPage": "stronie W3C.",
-        "Examples": "Przykłady",
-        "Format": "Wybierz Format",
-        "Request": "Wykonaj zapytanie",
-        "ResultPreview": "Podgląd wyniku"
+        "Prefixes": "Prefixes",
+        "SearchBy": "Search with queries",
+        "Description": "Search for metadata for data providers, data sets and data in the RDF database using the SPARQL query language. The tool is designed for experienced SPARQL users. The SPARQL specification can be found at",
+        "W3CPage": "W3C website.",
+        "Examples": "Examples",
+        "DaneExamples": "Examples of queries for dane.gov.pl",
+        "KronikaExamples": "Examples of queries for Kronik@",
+        "Format": "Select Format",
+        "Request": "Execute query",
+        "ResultPreview": "Preview the result",
+        "SearchResultFor": "Search result for",
+        "ExitFromTextAreaForSr": "Click CONTROL+q to exit from multiline edit field, click CONTROL+e to exit from multiline edit field and go to the previous item"
     },
-
-    "Tour" : {
+    "Tour": {
         "Button": {
             "IconLabel": "Student Cup",
             "TooltipTitle": "Portal tour",
@@ -1031,7 +970,6 @@
             }
         }
     },
-
     "UseCases": {
         "Self": "Examples of use",
         "Single": "Example of use",
@@ -1040,7 +978,6 @@
         "Description1of2": "Access to datasets via API with support for search engines. You can find more information in",
         "Description2of2": "in the main CKAN Data API documentation and the DataStore extension (in English)."
     },
-
     "User": {
         "Self": "User",
         "Single": "User",
@@ -1061,7 +998,7 @@
         "NewPasswordCreationLinkSent": "Link to the new password creation form has been sent to your email address. Please check also your Junk/Spam folder.",
         "RodoCheckboxText": "I acknowledge having been acquainted with the Privacy Policy and the GDPR made available on dane.gov.pl",
         "RegulationsCheckboxText": "I acknowledge having been acquainted with the regulations made available on dane.gov.pl",
-        "Login": "Log in",        
+        "Login": "Log in",
         "Logout": "Log out",
         "Registration": "Registration",
         "SuccessfullRegistration": "Your registration has been successfully submitted",
@@ -1081,9 +1018,7 @@
         "AccountActivated": "Your account has been activated. You can now log in.",
         "Unregistered": "Don`t have an account?",
         "LogInToFollow": "If you want to follow datasets log in or register. Following datasets is available to users who have an account on the portal."
-
     },
-
     "Validation": {
         "Self": "Validation",
         "IsRequired": "is required",
@@ -1115,7 +1050,6 @@
         "NoSpecialChars": "Special character",
         "VarNoMinLength": "{param, plural, =1 {1 character} other {{param} characters}}"
     },
-
     "WriteUs": {
         "Self": "Contact Us",
         "Info1of2": "Describe exactly what data in your opinion should be available on our website. We will analyze the submitted proposals and discuss with potential suppliers the opportunity to share them",

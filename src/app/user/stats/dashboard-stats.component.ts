@@ -60,7 +60,7 @@ export class DashboardStatsComponent implements OnInit, AfterViewInit, OnDestroy
         if (environment.production) {
             this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(APP_CONFIG.urls.stats);
         } else {
-            this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(`http://dev.dane.gov.pl${APP_CONFIG.urls.stats}`);
+            this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://dev.dane.gov.pl${APP_CONFIG.urls.stats}`);
         }
     }
 

@@ -14,233 +14,231 @@ import { RouterEndpoints } from '@app/services/models/routerEndpoints';
  * Hyper editor pages component
  */
 @Component({
-    selector: 'cms-landing-page',
-    templateUrl: './cms-landing-page.component.html'
+  selector: 'cms-landing-page',
+  templateUrl: './cms-landing-page.component.html',
 })
-
 export class CmsLandingPageComponent implements OnInit, OnDestroy {
-    /**
-     * Router endpoints
-     */
-    readonly routerEndpoints = RouterEndpoints;
+  /**
+   * Router endpoints
+   */
+  readonly routerEndpoints = RouterEndpoints;
 
-    /**
-     * is detail view
-     */
-    isDetailView = false;
+  /**
+   * is detail view
+   */
+  isDetailView = false;
 
-    /**
-     * Page slug
-     */
-    requestedUrl: string;
+  /**
+   * Page slug
+   */
+  requestedUrl: string;
 
-    /**
-     * Page query params
-     */
-    queryParams: Params;
+  /**
+   * Page query params
+   */
+  queryParams: Params;
 
-    /**
-     * page css name created from slug for styling purposes
-     */
-    pageCmsCss: string;
+  /**
+   * page css name created from slug for styling purposes
+   */
+  pageCmsCss: string;
 
-    /**
-     * router events subscription for checking if page is in preview
-     */
-    routerEventsSubscription: Subscription;
-    /**
-     * Array of widgets to display
-     */
-    body: IWidget[];
+  /**
+   * router events subscription for checking if page is in preview
+   */
+  routerEventsSubscription: Subscription;
+  /**
+   * Array of widgets to display
+   */
+  body: IWidget[];
 
+  /**
+   * @ignore
+   */
+  constructor(
+    public cmsService: CmsService,
+    public route: ActivatedRoute,
+    public router: Router,
+    @Inject(DOCUMENT) private document: Document,
+  ) {
     /**
-     * @ignore
+     * sets isDetailView value
      */
-    constructor(public cmsService: CmsService,
-                public route: ActivatedRoute,
-                public router: Router,
-                @Inject(DOCUMENT) private document: Document) {
+    this.routerEventsSubscription = router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isDetailView = event.url && event.url.split('/').length > 4;
+      }
+    });
+  }
 
-        /**
-         * sets isDetailView value
-         */
-        this.routerEventsSubscription = router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                this.isDetailView = event.url && event.url.split('/').length > 4;
+  /**
+   * if link is a first children of the element then the element is clickable and navigation to detail view should be triggered
+   * @param {IWidget} section
+   */
+  navigateToDetail(section: IWidget) {
+    const isBanner =
+      section.children && section.children[0].children.length && (section.children[0].children[0] as IBanner).value?.action_url;
+
+    if (isBanner) {
+      return;
+    }
+
+    this.router.navigate([this.router.url + '/' + section.children[0].settings.url]);
+  }
+
+  /**
+   * Get page from cms api, if page is draft, then displays it only for admin users
+   */
+  ngOnInit() {
+    this.queryParams = { ...this.route.snapshot.queryParams };
+    this.requestedUrl = this.router.url;
+    this.pageCmsCss = `${this.route.snapshot.data.slug} ${this.route.snapshot.data.cssContainerClass}`;
+
+    this.requestedUrl = this.router.url;
+    const previewIndex = this.requestedUrl.indexOf(`/${this.routerEndpoints.PREVIEW}`);
+    if (previewIndex !== -1) {
+      this.requestedUrl = this.requestedUrl.substring(0, previewIndex);
+    }
+    this.requestedUrl = this.requestedUrl.substring(3);
+    this.getPageData();
+  }
+
+  ngOnDestroy() {
+    this.routerEventsSubscription.unsubscribe();
+  }
+
+  /**
+   * Gets page data from API if necessary
+   */
+  private getPageData(): void {
+    if (this.isDetailView) {
+      return;
+    }
+    this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev).subscribe(
+      (page: IPageCms) => {
+        this.body = Array.isArray(page.body) ? page.body : page.body.blocks;
+
+        if (this.body) {
+          this.findElementsWithLinks(this.body);
+          this.addClassnameProperty(this.body);
+        }
+      },
+      err => {
+        this.cmsService.displayCmsErrorMessage(this.requestedUrl, err.message);
+        this.router.navigate(['/']);
+      },
+    );
+  }
+
+  /**
+   * Find element which are links
+   * @param {IWidget[]} components
+   */
+  private findElementsWithLinks(components: IWidget[]) {
+    components.forEach(component => {
+      if (!component.children || !component.children.length) {
+        return;
+      }
+      if (this.isLinkElementWithValidUrl(component)) {
+        this.bindLink(component);
+      }
+      this.findElementsWithLinks(component.children);
+    });
+  }
+
+  /**
+   * Bind link from parent to children elements if widget has link type
+   * @param {IWidget} component
+   */
+  private bindLink(component: IWidget) {
+    const { origin } = this.document.location;
+    const { url } = component.settings;
+
+    if (url.indexOf(origin) !== -1) {
+      component.settings.isExternalUrl = true;
+    } else {
+      if (url.match(/^http(s)?:\/\//)) {
+        component.settings.isExternalUrl = true;
+      } else {
+        component.settings.isExternalUrl = false;
+      }
+    }
+
+    component.children.forEach(child => {
+      if (!child.settings.url) {
+        child.settings.url = component.settings.url;
+
+        if (component.type === WidgetType.LINK) {
+          if (child.type === WidgetType.TEXT) {
+            component.settings.text = child.settings.text;
+            if (!component.children.find(child => child.type === WidgetType.IMAGE)) {
+              component.children = [];
             }
-        });
+          }
+
+          if (child.type === WidgetType.IMAGE && component.settings.title) {
+            child.settings.image.title = component.settings.title;
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Add class name property to widgets
+   * @param {IWidget[]} elements
+   */
+  private addClassnameProperty(elements: IWidget[]) {
+    elements.forEach(element => {
+      element.classname = element.type === 'row' ? 'row' : element.type === 'column' ? this.getColumnClassnameString(element.settings) : '';
+      if (element.children && element.children.length > 0) {
+        this.addClassnameProperty(element.children);
+      }
+    });
+  }
+
+  /**
+   * Check if widget has link type and valid url
+   * @param {IWidget} element
+   */
+  private isLinkElementWithValidUrl(element: IWidget): boolean {
+    return element.type === WidgetType.LINK && !!element.settings.url;
+  }
+
+  /**
+   * Build class name string
+   * @param  properties
+   * @return string
+   */
+  private getColumnClassnameString(properties): string {
+    let classname = '';
+    if (!properties) {
+      return classname;
     }
-
-    /**
-     * if link is a first children of the element then the element is clickable and navigation to detail view should be triggered
-     * @param {IWidget} section
-     */
-    navigateToDetail(section: IWidget) {
-        const isBanner = section.children &&
-            section.children[0].children.length &&
-            (section.children[0].children[0] as IBanner).value?.action_url;
-
-        if (isBanner) {
-            return;
-        }
-
-        this.router.navigate([this.router.url + '/' + section.children[0].settings.url]);
+    if (properties.sizeLG) {
+      classname += `col-lg-${properties.sizeLG} `;
     }
-
-    /**
-     * Get page from cms api, if page is draft, then displays it only for admin users
-     */
-    ngOnInit() {
-        this.queryParams = {...this.route.snapshot.queryParams};
-        this.requestedUrl = this.router.url;
-        this.pageCmsCss = `${this.route.snapshot.data.slug} ${this.route.snapshot.data.cssContainerClass}`;
-
-        this.requestedUrl = this.router.url;
-        const previewIndex = this.requestedUrl.indexOf(`/${this.routerEndpoints.PREVIEW}`);
-        if (previewIndex !== -1) {
-            this.requestedUrl = this.requestedUrl.substring(0, previewIndex);
-        }
-        this.requestedUrl = this.requestedUrl.substring(3);
-        this.getPageData();
+    if (properties.sizeMD) {
+      classname += `col-md-${properties.sizeMD} `;
     }
-
-    ngOnDestroy() {
-        this.routerEventsSubscription.unsubscribe();
+    if (properties.sizeSM) {
+      classname += `col-sm-${properties.sizeSM} `;
     }
-
-    /**
-     * Gets page data from API if necessary
-     */
-    private getPageData(): void {
-        if (this.isDetailView) {
-            return;
-        }
-        this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev)
-            .subscribe((page: IPageCms) => {
-                    this.body = Array.isArray(page.body) ? page.body : page.body.blocks;
-
-                    if (this.body) {
-                        this.findElementsWithLinks(this.body);
-                        this.addClassnameProperty(this.body);
-                    }
-                },
-                err => {
-                    this.cmsService.displayCmsErrorMessage(this.requestedUrl, err.message);
-                    this.router.navigate(['/']);
-                });
+    if (properties.sizeXS) {
+      classname += `col-xs-${properties.sizeXS} `;
     }
-
-    /**
-     * Find element which are links
-     * @param {IWidget[]} components
-     */
-    private findElementsWithLinks(components: IWidget[]) {
-        components.forEach(component => {
-            if (!component.children || !component.children.length) {
-                return;
-            }
-            if (this.isLinkElementWithValidUrl(component)) {
-                this.bindLink(component);
-            }
-            this.findElementsWithLinks(component.children);
-        });
+    if (properties.offsetLG) {
+      classname += `offset-lg-${properties.offsetLG} `;
     }
-
-    /**
-     * Bind link from parent to children elements if widget has link type
-     * @param {IWidget} component
-     */
-    private bindLink(component: IWidget) {
-        const {origin} = this.document.location;
-        const {url} = component.settings;
-
-        if (url.indexOf(origin) !== -1) {
-            component.settings.isExternalUrl = true;
-        } else {
-            if (url.match(/^http(s)?:\/\//)) {
-                component.settings.isExternalUrl = true;
-            } else {
-                component.settings.isExternalUrl = false;
-            }
-        }
-
-        component.children.forEach(child => {
-            if (!child.settings.url) {
-                child.settings.url = component.settings.url;
-
-                if (component.type === WidgetType.LINK) {
-                    if (child.type === WidgetType.TEXT) {
-                        component.settings.text = child.settings.text;
-                        if (!component.children.find(child => child.type === WidgetType.IMAGE)) {
-                            component.children = [];
-                        }
-                    }
-
-                    if (child.type === WidgetType.IMAGE && component.settings.title) {
-                        child.settings.image.title = component.settings.title;
-                    }
-                }
-            }
-        });
+    if (properties.offsetMD) {
+      classname += `offset-md-${properties.offsetMD} `;
     }
-
-    /**
-     * Add class name property to widgets
-     * @param {IWidget[]} elements
-     */
-    private addClassnameProperty(elements: IWidget[]) {
-        elements.forEach(element => {
-            element.classname = element.type === 'row' ?
-                'row' : element.type === 'column' ?
-                    this.getColumnClassnameString(element.settings) : '';
-            if (element.children && element.children.length > 0) {
-                this.addClassnameProperty(element.children);
-            }
-        });
+    if (properties.offsetSM) {
+      classname += `offset-sm-${properties.offsetSM} `;
     }
-
-    /**
-     * Check if widget has link type and valid url
-     * @param {IWidget} element
-     */
-    private isLinkElementWithValidUrl(element: IWidget): boolean {
-        return element.type === WidgetType.LINK && !!element.settings.url;
+    if (properties.offsetXS) {
+      classname += `offset-xs-${properties.offsetXS}`;
     }
-
-    /**
-     * Build class name string
-     * @param  properties
-     * @return string
-     */
-    private getColumnClassnameString(properties): string {
-        let classname = '';
-        if (!properties) {
-            return classname;
-        }
-        if (properties.sizeLG) {
-            classname += `col-lg-${properties.sizeLG} `;
-        }
-        if (properties.sizeMD) {
-            classname += `col-md-${properties.sizeMD} `;
-        }
-        if (properties.sizeSM) {
-            classname += `col-sm-${properties.sizeSM} `;
-        }
-        if (properties.sizeXS) {
-            classname += `col-xs-${properties.sizeXS} `;
-        }
-        if (properties.offsetLG) {
-            classname += `offset-lg-${properties.offsetLG} `;
-        }
-        if (properties.offsetMD) {
-            classname += `offset-md-${properties.offsetMD} `;
-        }
-        if (properties.offsetSM) {
-            classname += `offset-sm-${properties.offsetSM} `;
-        }
-        if (properties.offsetXS) {
-            classname += `offset-xs-${properties.offsetXS}`;
-        }
-        return classname;
-    }
+    return classname;
+  }
 }

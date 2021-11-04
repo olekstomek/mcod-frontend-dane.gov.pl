@@ -37,7 +37,14 @@ export class AcademyCoursesComponent implements OnInit {
             .default()
             .withSort('start')
             .withFoundedItemsCountHeader('Kursy')
-            .withFilterConfig({filterType: AodCourseType, selectedFilters: [AodCourseType.PLANNED.toString()], title: 'Status kursów'})
+            .withFilterConfig({
+                filterType: AodCourseType, 
+                selectedFilters: [
+                    AodCourseType.PLANNED.toString(),
+                    AodCourseType.CURRENT.toString(),
+                    AodCourseType.FINISHED.toString()
+                ], 
+                title: 'Status kursów'})
             .build();
     }
 }

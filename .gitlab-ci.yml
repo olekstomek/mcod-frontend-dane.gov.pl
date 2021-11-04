@@ -34,7 +34,7 @@ test-feat-branch:
 release-feat-to-int:
   stage: release
   script:
-    - "./node_modules/@angular/cli/bin/ng build -c production"
+    - "./node_modules/@angular/cli/bin/ng build -c production --buildOptimizer"
     - "./node_modules/@angular/cli/bin/ng run frontend:server:production"
     - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:feat .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
@@ -79,7 +79,7 @@ build-dev:
 build-master:
   stage: build
   script:
-    - "./node_modules/@angular/cli/bin/ng build -c production"
+    - "./node_modules/@angular/cli/bin/ng build -c production --buildOptimizer"
     - "./node_modules/@angular/cli/bin/ng run frontend:server:production"
     - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:master .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST

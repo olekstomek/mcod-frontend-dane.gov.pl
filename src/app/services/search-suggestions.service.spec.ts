@@ -34,7 +34,7 @@ const responseMock = {
                         "id": "154"
                     },
                     "links": {
-                        "related": "http://api.dev.dane.gov.pl/1.4/institutions/154,gdanskie-centrum-informatyczne"
+                        "related": "https://api.dev.dane.gov.pl/1.4/institutions/154,gdanskie-centrum-informatyczne"
                     }
                 },
                 "dataset": {
@@ -43,12 +43,12 @@ const responseMock = {
                         "id": "2437"
                     },
                     "links": {
-                        "related": "http://api.dev.dane.gov.pl/1.4/datasets/2437,wifi-gdansk-2021"
+                        "related": "https://api.dev.dane.gov.pl/1.4/datasets/2437,wifi-gdansk-2021"
                     }
                 }
             },
             "links": {
-                "self": "http://api.dev.dane.gov.pl/resources/19954,202101-raport"
+                "self": "https://api.dev.dane.gov.pl/resources/19954,202101-raport"
             },
             "type": "common",
             "id": "resource-19954"
@@ -65,7 +65,7 @@ const responseMock = {
                     "badania kosmiczne"
                 ],
                 "category": {
-                    "image_url": "http://sun.dane.gov.pl/media/images/common/2015-05-18-152059.079726nauka-oswiata.png",
+                    "image_url": "https://dev.dane.gov.pl/media/images/common/2015-05-18-152059.079726nauka-oswiata.png",
                     "description": "{}",
                     "title": "Nauka i Oświata",
                     "id": "4"
@@ -88,12 +88,12 @@ const responseMock = {
                         "id": "144"
                     },
                     "links": {
-                        "related": "http://api.dev.dane.gov.pl/1.4/institutions/144,polska-agencja-kosmiczna"
+                        "related": "https://api.dev.dane.gov.pl/1.4/institutions/144,polska-agencja-kosmiczna"
                     }
                 }
             },
             "links": {
-                "self": "http://api.dev.dane.gov.pl/datasets/1432,raporty-o-stanie-ksztacenia-na-poziomie-wyzszym-w-obszarze-badan-kosmicznych-i-satelitarnych-w-polsce"
+                "self": "https://api.dev.dane.gov.pl/datasets/1432,raporty-o-stanie-ksztacenia-na-poziomie-wyzszym-w-obszarze-badan-kosmicznych-i-satelitarnych-w-polsce"
             },
             "type": "common",
             "id": "dataset-1432"
@@ -113,7 +113,7 @@ const responseMock = {
         "count": 2
     },
     "links": {
-        "self": "http://api.dev.dane.gov.pl/1.4/search/suggest?per_model=1&q=raport&models=dataset%2Cresource&page=1"
+        "self": "https://api.dev.dane.gov.pl/1.4/search/suggest?per_model=1&q=raport&models=dataset%2Cresource&page=1"
     },
     "jsonapi": {
         "version": "1.0"

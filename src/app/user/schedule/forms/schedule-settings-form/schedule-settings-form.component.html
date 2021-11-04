@@ -9,7 +9,7 @@
             <label for="period-name" class="font-weight-bold">
                 Okres:
             </label>
-            <input *featureFlag="'S21_custom_tooltip.fe' else bsTooltip;"
+            <input
                    type="text"
                    id="period-name"
                    style="width: 150px;"
@@ -112,17 +112,6 @@
         *ngIf="settingsForm.valid">
         Zapisz
     </button>
-    
-    <!-- TODO remove with S21_custom_tooltip.fe - must be nested inside <form> to work properly  -->
-    <ng-template #bsTooltip>
-        <input type="text"
-               id="period-name"
-               style="width: 150px;"
-               formControlName="period_name"
-               class="form-control schedule-settings-input"
-               [tooltip]="settingsForm.controls.period_name.value.length > 18 ? settingsForm.controls.period_name.value : ''"
-               [readOnly]="isOnlyLinkEditable">
-    </ng-template>
 </form>
 
 <!-- form submitted message -->

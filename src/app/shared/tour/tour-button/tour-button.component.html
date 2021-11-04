@@ -1,4 +1,4 @@
-<div *featureFlag="'S21_custom_tooltip.fe' else bsTooltip;"
+<div
      class="tour-button-wrapper"
      placement="left"
      appTooltip="{{isButtonVisible && isButtonActive ? ('Tour.Button.TooltipText' | translate) : '' }}"
@@ -22,23 +22,3 @@
     </app-tooltip-with-title>
 </ng-template>
 
-<!-- TODO remove with S21_custom_tooltip.fe -->
-<ng-template #bsTooltip>
-
-    <div [tooltip]="isButtonVisible ? tooltipTemplate : ''"
-         class="tour-button-wrapper"
-         #tooltip="bs-tooltip"
-         placement="auto">
-        <button *ngIf="isButtonVisible"
-                (click)="showTour()"
-                [disabled]="!isButtonActive"
-                class="btn tour-button">
-            <svg aria-labelledby="icon-tour" class="icon icon-tour-button"
-                 role="img">
-                <title id="icon-tour">{{ 'Tour.Button.IconLabel' | translate }}</title>
-                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-tour-button"></use>
-            </svg>
-        </button>
-    </div>
-
-</ng-template>

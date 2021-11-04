@@ -1,11 +1,9 @@
 <div class="d-flex align-items-baseline">
-    <h2 class="h6 font-weight-bold text-dark">{{'Sparql.Prefixes' | translate}}</h2>
-    <button class="btn btn-link font-weight-bold p-0 ml-auto"
-            type="button"
-            [attr.aria-hidden]="isPrefixesHidden"
-            (click)="togglePrefixes()">
-        {{isPrefixesHidden ? ('Action.Expand' | translate) : ('Action.Collapse' | translate)}}
-    </button>
+  <h2 class="h6 font-weight-bold text-dark">{{'Sparql.Prefixes' | translate}}</h2>
+  <button class="btn btn-link font-weight-bold p-0 ml-auto" type="button" [attr.aria-hidden]="isPrefixesHidden" (click)="togglePrefixes()">
+    {{isPrefixesHidden ? ('Action.Expand' | translate) : ('Action.Collapse' | translate)}}
+  </button>
 </div>
+<span *featureFlag="'S37_WCAG_sparql_key_tab.fe'" id="labelForSr" class="sr-only">{{'Sparql.ExitFromTextAreaForSr' | translate}}</span>
 <div id="prefixes" [hidden]="isPrefixesHidden" class="mb-4"></div>
 <div id="editor"></div>

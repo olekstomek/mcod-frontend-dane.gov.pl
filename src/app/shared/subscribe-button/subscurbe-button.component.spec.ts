@@ -59,7 +59,7 @@ const MOCK_ITEM_WITHOUT_SUBSCRIPTION = {
             'title': 'Praca i Pomoc Społeczna',
             'description': '{}',
             'id': '5',
-            'image_url': 'http://int.dane.gov.pl/media/images/common/2015-05-18-152059.250972praca-pomoc-spoleczna.png'
+            'image_url': 'https://int.dane.gov.pl/media/images/common/2015-05-18-152059.250972praca-pomoc-spoleczna.png'
         },
         'visualization_types': [],
         'tags': [],
@@ -67,11 +67,11 @@ const MOCK_ITEM_WITHOUT_SUBSCRIPTION = {
         'title': 'SI KDR - wykaz oddziałów partnerów programu'
     },
     'type': 'common',
-    'links': {'self': 'http://api.int.dane.gov.pl/datasets/2060,si-kdr-wykaz-oddziaow-partnerow-programu'},
+    'links': {'self': 'https://api.int.dane.gov.pl/datasets/2060,si-kdr-wykaz-oddziaow-partnerow-programu'},
     'relationships': {
         'institution': {
             'data': {'id': '41', 'type': 'institution'},
-            'links': {'related': 'http://api.int.dane.gov.pl/1.4/institutions/41,ministerstwo-energii'}
+            'links': {'related': 'https://api.int.dane.gov.pl/1.4/institutions/41,ministerstwo-energii'}
         }
     },
     'id': '2060',
@@ -114,7 +114,7 @@ const MOCK_ITEM_WITH_SUBSCRIPTION = {
             'title': 'Sport i Turystyka',
             'description': '{}',
             'id': '8',
-            'image_url': 'http://int.dane.gov.pl/media/images/common/2015-05-18-152059.683653sport-turystyka.png'
+            'image_url': 'https://int.dane.gov.pl/media/images/common/2015-05-18-152059.683653sport-turystyka.png'
         },
         'visualization_types': [],
         'tags': [],
@@ -122,15 +122,15 @@ const MOCK_ITEM_WITH_SUBSCRIPTION = {
         'title': 'Dane statystyczne wytwarzane wg przepisów odrębnych'
     },
     'type': 'common',
-    'links': {'self': 'http://api.int.dane.gov.pl/datasets/2062,dane-statystyczne-wytwarzane-wg-przepisow-odrebnych'},
+    'links': {'self': 'https://api.int.dane.gov.pl/datasets/2062,dane-statystyczne-wytwarzane-wg-przepisow-odrebnych'},
     'relationships': {
         'subscription': {
             'data': {'id': '282', 'type': 'subscription'},
-            'links': {'related': 'http://api.int.dane.gov.pl/1.4/auth/subscriptions/282'}
+            'links': {'related': 'https://api.int.dane.gov.pl/1.4/auth/subscriptions/282'}
         },
         'institution': {
             'data': {'id': '295', 'type': 'institution'},
-            'links': {'related': 'http://api.int.dane.gov.pl/1.4/institutions/295,zarzad-drog-i-zieleni'}
+            'links': {'related': 'https://api.int.dane.gov.pl/1.4/institutions/295,zarzad-drog-i-zieleni'}
         }
     },
     'id': '2062',

@@ -22,13 +22,12 @@ import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newslette
 import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
 import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 
-import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { AccordionModule, ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressHttpModule } from 'ngx-progressbar/http';
-import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 import { PrebootModule } from 'preboot';
 
 
@@ -84,7 +83,7 @@ export function flagsFactory(featureFlagService: FeatureFlagService) {
         // Add .withServerTransition() to support Universal rendering.
         // The application ID can be any identifier which is unique on the page.
         BrowserModule.withServerTransition({appId: 'otwarte-dane-ssr'}),
-        PrebootModule.withConfig({ appRoot: 'app-root' }),
+        PrebootModule.withConfig({ appRoot: 'app-root', disableOverlay: false, eventSelectors: [{ selector: 'button', events: ['click'], preventDefault: true, freeze: false, action: function () { alert('przepraszamy, strona potrzebuje jeszcze chwili') } }] }),
         TransferHttpCacheModule,
         AppRoutingModule,
         AppBootstrapModule,

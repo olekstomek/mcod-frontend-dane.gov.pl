@@ -61,7 +61,7 @@ describe('HttpXsrfInterceptorService', () => {
     });
 
     it('should not applies XSRF protection to outgoing POST requests to other endpoint then API', () => {
-        const cmsURL = 'http://cms.dev.dane.gov.pl/';
+        const cmsURL = 'https://cms.dev.dane.gov.pl/';
         httpClient.post<any>(cmsURL, {})
             .subscribe();
         const req = httpTestingController.expectOne(cmsURL);

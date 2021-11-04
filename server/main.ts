@@ -17,7 +17,7 @@ async function bootstrap() {
 
     if (!environment.production) {
         app.use('/api/ping', requestProxy({
-            url: 'http://api.dev.dane.gov.pl/ping',
+            url: 'https://api.dev.dane.gov.pl/ping',
             originalQuery: true
         }));
         app.use('/api/*', (req: Request, res, next) => {
@@ -26,13 +26,13 @@ async function bootstrap() {
                 return;
             }
             requestProxy({
-                url: 'http://api.dev.dane.gov.pl/1.4/*',
+                url: 'https://api.dev.dane.gov.pl/1.4/*',
                 originalQuery: true
             })(req, res, next);
         });
         app.use('/cms/*',
             requestProxy({
-                url: 'http://cms.dev.dane.gov.pl/*',
+                url: 'https://cms.dev.dane.gov.pl/*',
             }));
     }
 

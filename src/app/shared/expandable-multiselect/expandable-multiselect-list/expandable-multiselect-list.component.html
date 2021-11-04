@@ -2,12 +2,12 @@
     <li class="dropdown-item" *ngFor="let item of options; let itemIndex = index">
 
         <input type="checkbox" class="dropdown-item__input"
-            id="chk-{{generatedId}}-{{ itemIndex }}"
+            id="chk-{{ itemIndex }}-{{generatedId}}"
             [checked]="selectedIds && !!selectedIds[item.id]"
             (click)="selectItem(item)"
             (keyup.enter)="selectItem(item)"/>
 
-        <label for="chk-{{generatedId}}-{{ itemIndex }}" class="dropdown-item__content">
+        <label for="chk-{{ itemIndex }}-{{generatedId}}" class="dropdown-item__content">
             
             <span class="dropdown-item__content-wrapper"
                 title="{{ item.titleTranslationKey ? (item.titleTranslationKey | translate) + ' ' + item.id : item.title }}">

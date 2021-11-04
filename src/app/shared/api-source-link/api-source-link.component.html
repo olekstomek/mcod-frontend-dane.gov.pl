@@ -1,5 +1,5 @@
 <!-- API source link -->
-<div *featureFlag="'S21_custom_tooltip.fe' else bsTooltip;">
+<div>
     <a href="{{ apiUrl }}" target="_blank" class="btn btn-primary"
        [ngClass]="customCssClass"
        [appTooltip]="'Tour.Tooltip.Dataset.API.text' | translate"
@@ -17,21 +17,3 @@
         </svg>
     </a></div>
 
-<!-- TODO remove with S21_custom_tooltip.fe -->
-<ng-template #bsTooltip>
-    <!-- API source link -->
-    <a href="{{ apiUrl }}" target="_blank" class="btn btn-primary"
-       [ngClass]="customCssClass"
-       [tooltip]="'Action.SeeResultsViaApiTooltip' | translate"
-       placement="auto"
-       *ngIf="apiUrl">
-
-        {{ 'Action.SeeResultsViaApi' | translate }}
-        <span class="sr-only">
-        {{ "SkipTo.NewWindow" | translate }}
-    </span>
-
-        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-        </svg>
-    </a></ng-template>

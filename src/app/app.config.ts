@@ -9,8 +9,8 @@ export const APP_CONFIG = {
     csrfToken: 'X-Mcod-Csrf-Token',
     statsHighContrastEventName: 'theme_changed',
     urls: {
-        adminPanelDev: 'http://admin.dev.dane.gov.pl',
-        forumInt: 'http://forum.int.dane.gov.pl',
+        adminPanelDev: 'https://admin.dev.dane.gov.pl',
+        forumInt: 'https://forum.int.dane.gov.pl',
         doc: 'https://api.dane.gov.pl/doc',
         flags: {
             features: 'https://flags.dane.gov.pl/api/client/features',
@@ -18,7 +18,6 @@ export const APP_CONFIG = {
         },
         gitlab: 'https://gitlab.dane.gov.pl/otwarte-dane',
         gov: 'https://www.gov.pl',
-        apm: 'https://apm.dane.gov.pl',
         stats: '/pn-apps/stats/'
     },
     contactEmail: 'kontakt@dane.gov.pl'

@@ -15,14 +15,14 @@ const responseMock = {
             'attributes': {
                 'modified': '2021-03-15 07:48:47.210927+00:00',
                 'query_sentence': 'gdańsk',
-                'url': 'http://api.int.dane.gov.pl/1.4/search?page=1&per_page=20&q=gda%C5%84sk&sort=relevance',
+                'url': 'https://api.int.dane.gov.pl/1.4/search?page=1&per_page=20&q=gda%C5%84sk&sort=relevance',
                 'user': {
                     'id': '3'
                 }
             },
             'id': '4644',
             'links': {
-                'self': 'http://api.int.dane.gov.pl/1.4/searchhistories/4644'
+                'self': 'https://api.int.dane.gov.pl/1.4/searchhistories/4644'
             }
         },
         {
@@ -30,14 +30,14 @@ const responseMock = {
             'attributes': {
                 'modified': '2021-03-15 07:48:47.203671+00:00',
                 'query_sentence': 'warszawa',
-                'url': 'http://api.int.dane.gov.pl/1.4/search?sort=relevance&page=1&q=warszawa&per_page=20',
+                'url': 'https://api.int.dane.gov.pl/1.4/search?sort=relevance&page=1&q=warszawa&per_page=20',
                 'user': {
                     'id': '3'
                 }
             },
             'id': '4643',
             'links': {
-                'self': 'http://api.int.dane.gov.pl/1.4/searchhistories/4643'
+                'self': 'https://api.int.dane.gov.pl/1.4/searchhistories/4643'
             }
         }
     ]

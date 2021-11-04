@@ -17,13 +17,13 @@ const userSchedulesMock = {
     'data': {
         'relationships': {
             'user': {'data': {'id': '2573', 'type': 'user'}},
-            'period': {'data': {'id': '13', 'type': 'period'}, 'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/periods/13'}},
+            'period': {'data': {'id': '13', 'type': 'period'}, 'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/periods/13'}},
             'schedule': {
                 'data': {'id': '13', 'type': 'schedule'},
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/schedules/13'}
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/schedules/13'}
             },
             'user_schedule_items': {
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedules/16/items'},
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedules/16/items'},
                 'meta': {'count': 2}
             }
         },
@@ -37,7 +37,7 @@ const userSchedulesMock = {
             'state': 'implemented'
         },
         'id': '16',
-        'links': {'self': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedules/16'},
+        'links': {'self': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedules/16'},
         'type': 'user_schedule'
     },
     'jsonapi': {'version': '1.0'},
@@ -45,14 +45,14 @@ const userSchedulesMock = {
         'relationships': {
             'period': {
                 'data': {'id': '13', 'type': 'period'},
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/periods/13'}
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/periods/13'}
             },
             'user_schedules': {
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/schedules/13/user_schedules'},
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/schedules/13/user_schedules'},
                 'meta': {'count': 1}
             },
             'user_schedule_items': {
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/schedules/13/user_schedule_items'},
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/schedules/13/user_schedule_items'},
                 'meta': {'count': 2}
             }
         },
@@ -65,20 +65,20 @@ const userSchedulesMock = {
             'name': 'Harmonogram otwierania danych na II p\u00f3\u0142rocze 2026'
         },
         'id': '13',
-        'links': {'self': 'http://api.dev.dane.gov.pl/1.4/auth/schedules/13'},
+        'links': {'self': 'https://api.dev.dane.gov.pl/1.4/auth/schedules/13'},
         'type': 'schedule'
     }, {
         'relationships': {
             'user': {'data': {'id': '2573', 'type': 'user'}},
             'schedule': {
                 'data': {'id': '13', 'type': 'schedule'},
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/schedules/13'}
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/schedules/13'}
             },
             'user_schedule': {
                 'data': {'id': '16', 'type': 'user_schedule'},
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedules/16'}
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedules/16'}
             },
-            'comments': {'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/51/comments'}, 'meta': {'count': 0}}
+            'comments': {'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/51/comments'}, 'meta': {'count': 0}}
         },
         'attributes': {
             'institution': 'Urz\u0105d Miejski w B\u0142oniu 30.11.2020',
@@ -97,20 +97,20 @@ const userSchedulesMock = {
             'resource_link': 'http://example.com'
         },
         'id': '51',
-        'links': {'self': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/51'},
+        'links': {'self': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/51'},
         'type': 'user_schedule_item'
     }, {
         'relationships': {
             'user': {'data': {'id': '2573', 'type': 'user'}},
             'schedule': {
                 'data': {'id': '13', 'type': 'schedule'},
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/schedules/13'}
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/schedules/13'}
             },
             'user_schedule': {
                 'data': {'id': '16', 'type': 'user_schedule'},
-                'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedules/16'}
+                'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedules/16'}
             },
-            'comments': {'links': {'related': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/52/comments'}, 'meta': {'count': 0}}
+            'comments': {'links': {'related': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/52/comments'}, 'meta': {'count': 0}}
         },
         'attributes': {
             'institution': 'Urz\u0105d Miejski w B\u0142oniu',
@@ -129,10 +129,10 @@ const userSchedulesMock = {
             'resource_link': 'http://www.example.com?q=pelnomocnik1&realizacja=tak'
         },
         'id': '52',
-        'links': {'self': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/52'},
+        'links': {'self': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/52'},
         'type': 'user_schedule_item'
     }],
-    'links': {'self': 'http://api.dev.dane.gov.pl/1.4/auth/user_schedules/16?include=schedule,user_schedule_item'}
+    'links': {'self': 'https://api.dev.dane.gov.pl/1.4/auth/user_schedules/16?include=schedule,user_schedule_item'}
 };
 
 describe('ApplicationsService', () => {

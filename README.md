@@ -21,13 +21,18 @@ npm install
 
 ### Start application locally
 
+If you run application for the first time you need to build the app.
+
+```shell
+npm run build
+```
+
 To run your application locally, all you need to run is npm script. Script definition can be 
 found inside `package.json`.
 
 ```shell
 npm run start
 ```
-
 
 ### Building application for production 
 

@@ -71,7 +71,7 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
      * Forum url
      */
     forumUrl: string;
-    
+
     /**
      * @ignore
      */
@@ -88,12 +88,11 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
      * Checks whether current user has admin rights
      */
     ngOnInit() {
-        this.isAdmin = this.userService.isAdmin(); 
-        
+        this.isAdmin = this.userService.isAdmin();
+
         if (!this.isSchedulePopup) {
             const {protocol, hostname} = this.document.location;
             this.forumUrl = !environment.production ? APP_CONFIG.urls.forumInt : protocol + '//forum.' + hostname.replace('www.', '');
-            
             this.discourseService.getNotificationsWithBadges().subscribe(notifications => {
                 this.notifications = notifications;
             });
@@ -109,7 +108,6 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
             this.isPopupVisible = false;
             this.onPopupBlur();
         });
-        
     }
 
     /**
@@ -138,7 +136,7 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
 
     /**
      * Removes notification and redirects to the schedule view or directly to the schedule item
-     * @param {number} id 
+     * @param {number} id
      */
     onNotificationClick(id: number) {
         this.isPopupVisible = false;
@@ -147,17 +145,17 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
 
     /**
      * Sets notification as read. Redirects to the related schedule.
-     * @param {number} id 
+     * @param {number} id
      */
     private redirectToSchedule(id: number) {
         this.scheduleNotificationsService.removeById(id).subscribe(() => {
             this.router.navigate(this.buildScheduleRedirectionRoute(id), { relativeTo: this.activatedRoute });
-        })
+        });
     }
 
     /**
      * Builds schedule redirection route
-     * @param {number} notificationId 
+     * @param {number} notificationId
      * @returns {string[]}
      */
     private buildScheduleRedirectionRoute(notificationId: number): string[] {
@@ -195,7 +193,7 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
                 url = [...url, user_schedule_item_id];
             }
         }
-        
+
         return url;
     }
 
@@ -209,14 +207,14 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
             this.onPopupBlur();
         });
     }
-    
+
     /**
      * Sets focus on popup trigger on popup blur
      */
     onPopupBlur() {
         ((<HTMLElement>this.notificationsRef.nativeElement).firstElementChild as HTMLButtonElement).focus();
     }
-    
+
     /**
      * Closes popup on keyboard key combination
      */
@@ -228,7 +226,7 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
                 }
 
                 if (this.isPopupVisible && !this.notifications?.length) {
-                    this.isPopupVisible = false;    
+                    this.isPopupVisible = false;
                 }
 
                 break;

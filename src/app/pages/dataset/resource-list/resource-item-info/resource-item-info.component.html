@@ -20,7 +20,7 @@
         {{ item.attributes.data_date | translateDateFormat:'D MMMM YYYY' | async }}
     </span>
 
-    <ng-container *featureFlag="'S21_custom_tooltip.fe' else bsTooltip;">
+    <ng-container>
         <!-- icons -->
         <span class="visualization-types">
 
@@ -58,41 +58,3 @@
     </span></ng-container>
 </ng-container>
 
-<!-- TODO remove with S21_custom_tooltip.fe -->
-<ng-template #bsTooltip>
-    <!-- icons -->
-    <span class="visualization-types">
-
-    <!-- icon database -->
-    <svg *ngIf="item.attributes.visualization_types.includes('database')"
-         class="icon ml-2"
-         [tooltip]="'Resources.Single' | translate"
-         [placement]="'bottom'">
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-database"></use>
-    </svg>
-
-    <!-- icon chart -->
-    <svg *ngIf="item.attributes.visualization_types.includes('chart')"
-         class="icon ml-2"
-         [tooltip]="'Resources.ChartView' | translate"
-         [placement]="'bottom'">
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chart"></use>
-    </svg>
-
-    <!-- icon map -->
-    <svg *ngIf="item.attributes.visualization_types.includes('map')"
-         class="icon ml-2"
-         [tooltip]="'Resources.MapView' | translate"
-         [placement]="'bottom'">
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-map"></use>
-    </svg>
-
-    <!-- icon table -->
-    <svg *ngIf="item.attributes.visualization_types.includes('table')"
-         class="icon ml-2"
-         [tooltip]="'Resources.TableView' | translate"
-         [placement]="'bottom'">
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-table"></use>
-    </svg>
-    </span>
-</ng-template>

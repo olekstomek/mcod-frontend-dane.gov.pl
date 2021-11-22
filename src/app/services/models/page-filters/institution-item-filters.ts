@@ -13,7 +13,7 @@ export interface IListViewInstitutionItemFiltersModel {
 
 }
 export interface IListViewInstitutionItemCategoryFiltersModel {
-    [AggregationFilterNames.CATEGORY]: MultiselectOption;
+    [AggregationFilterNames.CATEGORIES]: MultiselectOption;
     [AggregationFilterNames.FORMAT]: MultiselectOption;
     [AggregationFilterNames.OPENNESS_SCORE]: MultiselectOption;
     [AggregationFilterNames.VISUALIZATION_TYPE]: MultiselectOption;
@@ -26,7 +26,7 @@ export interface IListViewInstitutionItemCategoryFiltersModel {
 }
 
 export const InstitutionItemListViewFilterNames = [
-    AggregationFilterNames.CATEGORY,
+    AggregationFilterNames.CATEGORIES,
     AggregationFilterNames.CATEGORIES,
     AggregationFilterNames.FORMAT,
     AggregationFilterNames.OPENNESS_SCORE,

@@ -8,7 +8,6 @@ export interface IAggregationProperties {
 }
 
 export enum AggregationOptionType {
-    CATEGORY = 'by_category', // TODO remove with S19_DCAT_categories.fe
     CATEGORIES = 'by_categories',
     LICENSES = 'by_license_code',
     CITY = 'by_city',
@@ -26,7 +25,6 @@ export enum AggregationOptionType {
 }
 
 export enum AggregationFilterNames {
-    CATEGORY = 'category', // TODO remove with S19_DCAT_categories.fe
     CATEGORIES = 'categories',
     INSTITUTION = 'institution',
     LICENSES = 'license_code',
@@ -41,7 +39,7 @@ export enum AggregationFilterNames {
 }
 
 export interface IListViewFilterAggregationsOptions {
-    [AggregationOptionType.CATEGORY]?: IAggregationProperties[];
+    [AggregationOptionType.CATEGORIES]?: IAggregationProperties[];
     [AggregationOptionType.INSTITUTION]?: IAggregationProperties[];
     [AggregationOptionType.FORMAT]?: IAggregationProperties[];
     [AggregationOptionType.OPENNESS_SCORE]?: IAggregationProperties[];

@@ -1,133 +1,159 @@
 <section class="aggregation-filters p-3">
-    
-    <h2 class="heading heading--xs"
-        appInfoTooltip="{{'Tour.Tooltip.Filters.Self.text' | translate }}"
-        tooltipTitle="{{ 'Tour.Tooltip.Filters.Self.title' | translate }}">
-        {{'Filters.Self'| translate}} 
-    </h2>
-    
-    <!-- Categories -->
-    <app-expandable-multiselect id="dataset-category-filter"
-        [titleTranslationKey]="'Attribute.CategoryLong'"
-        [titleTooltipTranslationKey]="'Attribute.CategoryTooltip'"
-        [options]="filtersOptions && filtersOptions[categoriesHelper.getOptionName()]"
-        [selectedIds]="selectedData[categoriesHelper.getFilterName()]"
-        [enableApply]="availabilityFilterMap[categoriesHelper.getFilterName()]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'category-filter-label'"
-        (selectedChange)="onSelectedChange(categoriesHelper.getFilterName(), $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <h2
+    class="heading heading--xs"
+    appInfoTooltip="{{ 'Tour.Tooltip.Filters.Self.text' | translate }}"
+    tooltipTitle="{{ 'Tour.Tooltip.Filters.Self.title' | translate }}"
+  >
+    {{ 'Filters.Self' | translate }}
+  </h2>
 
-    <!-- Institutions -->
-    <app-expandable-multiselect id="dataset-institution-filter"
-        [titleTranslationKey]="'Attribute.InstitutionLong'"
-        [titleTooltipTranslationKey]="'Attribute.InstitutionTooltip'"
-        [options]="filtersOptions && filtersOptions[OptionsNames.INSTITUTION]"
-        [selectedIds]="selectedData[FiletersNames.INSTITUTION]"
-        [enableApply]="availabilityFilterMap[FiletersNames.INSTITUTION]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'institution-filter-label'"
-        (selectedChange)="onSelectedChange(FiletersNames.INSTITUTION, $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <!-- Categories -->
+  <app-expandable-multiselect
+    id="dataset-category-filter"
+    [titleTranslationKey]="'Attribute.CategoryLong'"
+    [titleTooltipTranslationKey]="'Attribute.CategoryTooltip'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.CATEGORIES]"
+    [selectedIds]="selectedData[FiletersNames.CATEGORIES]"
+    [enableApply]="availabilityFilterMap[FiletersNames.CATEGORIES]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'category-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.CATEGORIES, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'category'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- Format -->
-    <app-expandable-multiselect id="dataset-format-filter"
-        [titleTranslationKey]="'Attribute.FormatLong'"
-        [options]="filtersOptions && filtersOptions[OptionsNames.FORMAT]"
-        [titleTooltipTranslationKey]="'Attribute.FormatTooltip'"
-        [selectedIds]="selectedData[FiletersNames.FORMAT]"
-        [enableApply]="availabilityFilterMap[FiletersNames.FORMAT]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'format-filter-label'"
-        (selectedChange)="onSelectedChange(FiletersNames.FORMAT, $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <!-- Institutions -->
+  <app-expandable-multiselect
+    id="dataset-institution-filter"
+    [titleTranslationKey]="'Attribute.InstitutionLong'"
+    [titleTooltipTranslationKey]="'Attribute.InstitutionTooltip'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.INSTITUTION]"
+    [selectedIds]="selectedData[FiletersNames.INSTITUTION]"
+    [enableApply]="availabilityFilterMap[FiletersNames.INSTITUTION]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'institution-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.INSTITUTION, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'institution'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- Openness score -->
-    <app-expandable-multiselect id="dataset-openness-filter"
-        [titleTranslationKey]="'Attribute.OpennessScore'"
-        [titleTooltipTranslationKey]="'Attribute.OpennessScore'"
-        [showSearchInput]="false"
-        [displayShowMore]="false"
-        [options]="filtersOptions && filtersOptions[OptionsNames.OPENNESS_SCORE]"
-        [selectedIds]="selectedData[FiletersNames.OPENNESS_SCORE]"
-        [enableApply]="availabilityFilterMap[FiletersNames.OPENNESS_SCORE]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'openness-filter-label'"
-        (selectedChange)="onSelectedChange(FiletersNames.OPENNESS_SCORE, $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <!-- Format -->
+  <app-expandable-multiselect
+    id="dataset-format-filter"
+    [titleTranslationKey]="'Attribute.FormatLong'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.FORMAT]"
+    [titleTooltipTranslationKey]="'Attribute.FormatTooltip'"
+    [selectedIds]="selectedData[FiletersNames.FORMAT]"
+    [enableApply]="availabilityFilterMap[FiletersNames.FORMAT]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'format-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.FORMAT, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'format'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- Visualization type -->
-    <app-expandable-multiselect id="dataset-visualization-types-filter"
-        [titleTranslationKey]="'Attribute.VisualizationType'"
-        [titleTooltipTranslationKey]="'Attribute.VisualizationType'"
-        [showSearchInput]="false"
-        [displayShowMore]="false"
-        [options]="filtersOptions && filtersOptions[OptionsNames.VISUALIZATION_TYPE]"
-        [selectedIds]="selectedData[FiletersNames.VISUALIZATION_TYPE]"
-        [enableApply]="availabilityFilterMap[FiletersNames.VISUALIZATION_TYPE]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'visualization-types-filter-label'"
-        (selectedChange)="onSelectedChange(FiletersNames.VISUALIZATION_TYPE, $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <!-- Openness score -->
+  <app-expandable-multiselect
+    id="dataset-openness-filter"
+    [titleTranslationKey]="'Attribute.OpennessScore'"
+    [titleTooltipTranslationKey]="'Attribute.OpennessScore'"
+    [showSearchInput]="false"
+    [displayShowMore]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.OPENNESS_SCORE]"
+    [selectedIds]="selectedData[FiletersNames.OPENNESS_SCORE]"
+    [enableApply]="availabilityFilterMap[FiletersNames.OPENNESS_SCORE]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'openness-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.OPENNESS_SCORE, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'openness'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- Licenses -->
-    <app-expandable-multiselect
-        id="dataset-licenses-filter"
-        [titleTranslationKey]="'Attribute.LicenseLong'"
-        [titleTooltipTranslationKey]="'Attribute.LicenseTooltip'"
-        [options]="filtersOptions && filtersOptions[OptionsNames.LICENSES]"
-        [selectedIds]="selectedData[FiletersNames.LICENSES]"
-        [enableApply]="availabilityFilterMap[FiletersNames.LICENSES]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'licenses-filter-label'"
-        (selectedChange)="onSelectedChange(FiletersNames.LICENSES, $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <!-- Visualization type -->
+  <app-expandable-multiselect
+    id="dataset-visualization-types-filter"
+    [titleTranslationKey]="'Attribute.VisualizationType'"
+    [titleTooltipTranslationKey]="'Attribute.VisualizationType'"
+    [showSearchInput]="false"
+    [displayShowMore]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.VISUALIZATION_TYPE]"
+    [selectedIds]="selectedData[FiletersNames.VISUALIZATION_TYPE]"
+    [enableApply]="availabilityFilterMap[FiletersNames.VISUALIZATION_TYPE]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'visualization-types-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.VISUALIZATION_TYPE, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'visualization'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- Update frequency -->
-    <app-expandable-multiselect *featureFlag="'S29_update_frequency_filter.fe'"
-        id="dataset-update-frequency-filter"
-        [titleTranslationKey]="'Attribute.UpdateFrequency'"
-        [titleTooltipTranslationKey]="'Attribute.UpdateFrequency'"
-        [options]="filtersOptions && filtersOptions[OptionsNames.UPDATE_FREQUENCY]"
-        [selectedIds]="selectedData[FiletersNames.UPDATE_FREQUENCY]"
-        [enableApply]="availabilityFilterMap[FiletersNames.UPDATE_FREQUENCY]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'update-frequency-filter-label'"
-        (selectedChange)="onSelectedChange(FiletersNames.UPDATE_FREQUENCY, $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <!-- Licenses -->
+  <app-expandable-multiselect
+    id="dataset-licenses-filter"
+    [titleTranslationKey]="'Attribute.LicenseLong'"
+    [titleTooltipTranslationKey]="'Attribute.LicenseTooltip'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.LICENSES]"
+    [selectedIds]="selectedData[FiletersNames.LICENSES]"
+    [enableApply]="availabilityFilterMap[FiletersNames.LICENSES]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'licenses-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.LICENSES, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'licenses'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- Resource type -->
-    <app-expandable-multiselect id="dataset-resource-type-filter"
-        [titleTranslationKey]="'Attribute.ResourceType'"
-        [titleTooltipTranslationKey]="'Attribute.ResourceType'"
-        [showSearchInput]="false"
-        [options]="filtersOptions && filtersOptions[OptionsNames.TYPES]"
-        [selectedIds]="selectedData[FiletersNames.TYPES]"
-        [enableApply]="availabilityFilterMap[FiletersNames.TYPES]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'types-filter-label'"
-        (selectedChange)="onSelectedChange(FiletersNames.TYPES, $event)"
-        (applyFilter)="applyFilter()">
-    </app-expandable-multiselect>
+  <!-- Update frequency -->
+  <app-expandable-multiselect
+    *featureFlag="'S29_update_frequency_filter.fe'"
+    id="dataset-update-frequency-filter"
+    [titleTranslationKey]="'Attribute.UpdateFrequency'"
+    [titleTooltipTranslationKey]="'Attribute.UpdateFrequency'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.UPDATE_FREQUENCY]"
+    [selectedIds]="selectedData[FiletersNames.UPDATE_FREQUENCY]"
+    [enableApply]="availabilityFilterMap[FiletersNames.UPDATE_FREQUENCY]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'update-frequency-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.UPDATE_FREQUENCY, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'update'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- Upload date range -->
-    <app-date-range-picker id="dataset-daterange"
-        [startDate]="selectedData[FiletersNames.DATE_FROM]"
-        [endDate]="selectedData[FiletersNames.DATE_TO]"
-        [enableApply]="availabilityFilterMap[FiletersNames.DATE_FROM] ||
-        availabilityFilterMap[FiletersNames.DATE_TO]"
-        (datesChanged)="onDaterangeChange([
-            {name: FiletersNames.DATE_FROM, value: $event.startDate},
-            {name: FiletersNames.DATE_TO, value: $event.endDate}
-        ])"
-        (applyFilterChanged)="applyFilter()">
-    </app-date-range-picker>
+  <!-- Resource type -->
+  <app-expandable-multiselect
+    id="dataset-resource-type-filter"
+    [titleTranslationKey]="'Attribute.ResourceType'"
+    [titleTooltipTranslationKey]="'Attribute.ResourceType'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.TYPES]"
+    [selectedIds]="selectedData[FiletersNames.TYPES]"
+    [enableApply]="availabilityFilterMap[FiletersNames.TYPES]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'types-filter-label'"
+    (selectedChange)="onSelectedChange(FiletersNames.TYPES, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'resource'"
+  >
+  </app-expandable-multiselect>
 
+  <!-- Upload date range -->
+  <app-date-range-picker
+    id="dataset-daterange"
+    [startDate]="selectedData[FiletersNames.DATE_FROM]"
+    [endDate]="selectedData[FiletersNames.DATE_TO]"
+    [enableApply]="availabilityFilterMap[FiletersNames.DATE_FROM] || availabilityFilterMap[FiletersNames.DATE_TO]"
+    (datesChanged)="
+      onDaterangeChange([
+        { name: FiletersNames.DATE_FROM, value: $event.startDate },
+        { name: FiletersNames.DATE_TO, value: $event.endDate }
+      ])
+    "
+    (applyFilterChanged)="applyFilter()"
+  >
+  </app-date-range-picker>
 </section>

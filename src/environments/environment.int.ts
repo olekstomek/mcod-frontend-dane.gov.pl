@@ -9,5 +9,5 @@ export const environment = {
     HASH: ENV.COMMIT_HASH,
     DATE: ENV.COMMIT_DATE,
     name: 'int',
-    PWA: true
+    PWA: false
 };

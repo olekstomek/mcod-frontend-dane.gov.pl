@@ -7,41 +7,56 @@ import { ApplicationModule } from './app.module';
 
 const cookieParser = require('cookie-parser');
 const requestProxy = require('express-request-proxy');
+const fs = require('fs');
 
 async function bootstrap() {
-    const app = await NestFactory.create<NestExpressApplication>(ApplicationModule);
+  let httpsOptions;
+  if (environment.name === 'int') {
+    httpsOptions = {
+      key: fs.readFileSync(__dirname + '/security/privkey.pem'),
+      cert: fs.readFileSync(__dirname + '/security/pubkey.pem'),
+    };
+  } else {
+    httpsOptions = {};
+  }
 
-    app.use(cookieParser());
-    app.use(Helmet.hidePoweredBy());
-    app.set('trust proxy', true);
+  const app = await NestFactory.create<NestExpressApplication>(ApplicationModule, { httpsOptions });
 
-    if (!environment.production) {
-        app.use('/api/ping', requestProxy({
-            url: 'https://api.dev.dane.gov.pl/ping',
-            originalQuery: true
-        }));
-        app.use('/api/*', (req: Request, res, next) => {
-            if (req.baseUrl.includes('mock') || req.baseUrl.includes('api/license')) {
-                next();
-                return;
-            }
-            requestProxy({
-                url: 'https://api.dev.dane.gov.pl/1.4/*',
-                originalQuery: true
-            })(req, res, next);
-        });
-        app.use('/cms/*',
-            requestProxy({
-                url: 'https://cms.dev.dane.gov.pl/*',
-            }));
-    }
+  app.use(cookieParser());
+  app.use(Helmet.hidePoweredBy());
+  app.set('trust proxy', true);
 
-
-    app.enableCors({
-        methods: 'GET',
-        maxAge: 3600
+  if (!environment.production) {
+    app.use(
+      '/api/ping',
+      requestProxy({
+        url: 'https://api.dev.dane.gov.pl/ping',
+        originalQuery: true,
+      }),
+    );
+    app.use('/api/*', (req: Request, res, next) => {
+      if (req.baseUrl.includes('mock') || req.baseUrl.includes('api/license')) {
+        next();
+        return;
+      }
+      requestProxy({
+        url: 'https://api.dev.dane.gov.pl/1.4/*',
+        originalQuery: true,
+      })(req, res, next);
     });
-    await app.listen(process.env.PORT || 4000);
+    app.use(
+      '/cms/*',
+      requestProxy({
+        url: 'https://cms.dev.dane.gov.pl/*',
+      }),
+    );
+  }
+
+  app.enableCors({
+    methods: 'GET',
+    maxAge: 3600,
+  });
+  await app.listen(process.env.PORT || 4000);
 }
 
 // Webpack will replace 'require' with '__webpack_require__'
@@ -51,5 +66,5 @@ declare const __non_webpack_require__: NodeRequire;
 const mainModule = __non_webpack_require__.main;
 const moduleFilename = (mainModule && mainModule.filename) || '';
 if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
-    bootstrap().catch(err => console.error(err));
+  bootstrap().catch(err => console.error(err));
 }

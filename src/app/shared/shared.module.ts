@@ -23,6 +23,7 @@ import { DropdownToogleComponent } from '@app/shared/expandable-multiselect/drop
 import { ExpandableMultiselectListComponent } from '@app/shared/expandable-multiselect/expandable-multiselect-list/expandable-multiselect-list.component';
 import { ExpandableMultiselectSearchInputComponent } from '@app/shared/expandable-multiselect/expandable-multiselect-search-input/expandable-multiselect-search-input.component';
 import { ExpandableMultiselectComponent } from '@app/shared/expandable-multiselect/expandable-multiselect.component';
+import {FeatureFlagsModule} from '@app/shared/feature-flags/feature-flags.module';
 import { FeedbackComponent } from '@app/shared/feedback/feedback.component';
 import { FileSizeComponent } from '@app/shared/file-size/file-size.component';
 import { ListViewFiltersActionButtonsComponent } from '@app/shared/filters/list-view-action-buttons/list-view-filters-action-buttons.component';
@@ -73,7 +74,6 @@ import { RawTextComponent } from './cms/widget/raw-text/raw-text.component';
 import { SloganComponent } from './cms/widget/slogan/slogan.component';
 import { VideoComponent } from './cms/widget/video/video.component';
 import { DatasetAutocompleteDirective } from './directives/dataset-autocomplete.directive';
-import { FeatureFlagDirective } from './directives/feature-flag.directive';
 import { FixedSidebarDirective } from './directives/fixed-sidebar.directive';
 import { FocusTrapDirective } from './directives/focus-trap/focus-trap.directive';
 import { HistoryEntryComponent } from './history-entry/history-entry.component';
@@ -121,7 +121,8 @@ import { WriteUsInfoComponent } from './write-us-info/write-us-info.component';
         CarouselModule,
         LocalizeRouterModule,
         FontAwesomeModule,
-        TooltipModule
+        TooltipModule,
+        FeatureFlagsModule,
     ],
     declarations: [
         SanitizeHtmlPipe,
@@ -149,7 +150,6 @@ import { WriteUsInfoComponent } from './write-us-info/write-us-info.component';
         SubscribeButtonComponent,
         RodoModalComponent,
         LinkButtonComponent,
-        FeatureFlagDirective,
         WidgetAbstractComponent,
         ImageComponent,
         CmsBlockComponent,
@@ -248,7 +248,6 @@ import { WriteUsInfoComponent } from './write-us-info/write-us-info.component';
         SubscribeButtonComponent,
         RodoModalComponent,
         LinkButtonComponent,
-        FeatureFlagDirective,
         CmsBlockComponent,
         RawTextEmbedComponent,
         ResourceTableNoFiltersComponent,
@@ -310,7 +309,8 @@ import { WriteUsInfoComponent } from './write-us-info/write-us-info.component';
         CmsBlock2Component,
         TourPickerComponent,
         FixedSidebarDirective,
-        TooltipModule
+        TooltipModule,
+        FeatureFlagsModule,
     ]
 })
 export class SharedModule {

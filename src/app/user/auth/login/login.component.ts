@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { Subscription } from 'rxjs';
 
@@ -14,77 +15,75 @@ import { toggleVertically } from '@app/animations';
  * Login Component
  */
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    animations: [
-        toggleVertically
-    ]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  animations: [toggleVertically],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    /**
-     * User subscription of login component
-     */
-    userSubscription: Subscription;
+  /**
+   * User subscription of login component
+   */
+  userSubscription: Subscription;
 
-    /**
-     * Login error
-     */
-    error: IErrorBackend;
+  /**
+   * Login error
+   */
+  error: IErrorBackend;
 
-    /**
-     * Redirect url on login error
-     */
-    redirectUrl: string;
+  /**
+   * Redirect url on login error
+   */
+  redirectUrl: string;
 
+  /**
+   * @ignore
+   */
+  constructor(
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private userService: UserService,
+    private seoService: SeoService,
+    private notificationsService: NotificationsService,
+    private localizeRouterService: LocalizeRouterService,
+    public featureFlagsService: FeatureFlagService,
+  ) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private router: Router,
-                private activeRoute: ActivatedRoute,
-                private userService: UserService,
-                private seoService: SeoService,
-                private notificationsService: NotificationsService,
-                private localizeRouterService: LocalizeRouterService) {
+  /**
+   * Sets META tags (title).
+   * Initializes redirection URL.
+   * Gets Csrf token
+   */
+  ngOnInit() {
+    this.seoService.setPageTitleByTranslationKey(['Action.Login']);
+    this.redirectUrl = this.activeRoute.snapshot.queryParamMap.get('redirect');
+    this.userService.getCsrfToken().subscribe();
+  }
+
+  /**
+   * Redirects user on form submit
+   * @param {NgForm} form
+   */
+  onSubmit(form: NgForm) {
+    if (form.invalid) {
+      return;
     }
 
-    /**
-     * Sets META tags (title).
-     * Initializes redirection URL.
-     * Gets Csrf token
-     */
-    ngOnInit() {
-        this.seoService.setPageTitleByTranslationKey(['Action.Login']);
-        this.redirectUrl = this.activeRoute.snapshot.queryParamMap.get('redirect');
-        this.userService.getCsrfToken().subscribe();
-    }
-
-    /**
-     * Redirects user on form submit
-     * @param {NgForm} form
-     */
-    onSubmit(form: NgForm) {
-        if (form.invalid) {
-            return;
-        }
-        
+    this.notificationsService.clearAlerts();
+    this.redirectUrl = this.activeRoute.snapshot.queryParams.redirect;
+    this.userService.login(form.value.email, form.value.password, !!form.value.rememberCheck).subscribe(() => {
+      if (this.redirectUrl) {
         this.notificationsService.clearAlerts();
-        this.redirectUrl = this.activeRoute.snapshot.queryParams.redirect;
-        this.userService.login(form.value.email, form.value.password, !!form.value.rememberCheck)
-            .subscribe(() => {
-                if (this.redirectUrl) {
-                    this.notificationsService.clearAlerts();
-                    this.router.navigateByUrl(this.redirectUrl);
-                } else {
-                    this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!dashboard']) as []);
-                }
-            });
-    }
+        this.router.navigateByUrl(this.redirectUrl);
+      } else {
+        this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!dashboard']) as []);
+      }
+    });
+  }
 
-    /**
-     * Unsubscribes from existing subscriptions
-     */
-    ngOnDestroy() {
-        this.userSubscription && this.userSubscription.unsubscribe();
-    }
+  /**
+   * Unsubscribes from existing subscriptions
+   */
+  ngOnDestroy() {
+    this.userSubscription && this.userSubscription.unsubscribe();
+  }
 }

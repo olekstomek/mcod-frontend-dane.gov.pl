@@ -1,140 +1,135 @@
 <article class="item-view">
+  <!-- DETAILS: HEADER -->
+  <header class="item-view__header vertical-spacing">
+    <div class="container">
+      <h1 class="heading">
+        {{ application?.attributes.title }}
+      </h1>
 
-    <!-- DETAILS: HEADER -->
-    <header class="item-view__header vertical-spacing">
-        <div class="container">
-            <h1 class="heading">
-                {{ application?.attributes.title }}
-            </h1>
+      <!-- application link -->
+      <div
+        class="d-flex"
+        appInfoTooltip="{{ 'Tour.Tooltip.ApplicationDetails.Link.text' | translate }}"
+        tooltipTitle="{{ 'Tour.Tooltip.ApplicationDetails.Link.title' | translate }}"
+        withoutMargin
+      >
+        <p class="item-view__attribute">
+          <a class="with-chevron" href="{{ application.attributes.url }}" target="_blank" *ngIf="application?.attributes.url">
+            {{ 'Applications.Link' | translate }}
 
-            <!-- application link -->
-            <div class="d-flex"
-               appInfoTooltip="{{'Tour.Tooltip.ApplicationDetails.Link.text' | translate }}"
-               tooltipTitle="{{ 'Tour.Tooltip.ApplicationDetails.Link.title' | translate }}"
-                withoutMargin>
-            <p class="item-view__attribute">
-                <a class="with-chevron" href="{{ application.attributes.url }}" target="_blank"
-                   *ngIf="application?.attributes.url">
-                    {{ 'Applications.Link' | translate }}
+            <span class="sr-only">
+              {{ application?.attributes.title }}
+              {{ 'SkipTo.NewWindow' | translate }}
+            </span>
+            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+            </svg>
+          </a>
+        </p>
+        <div class="ml-3"></div>
+      </div>
 
-                    <span class="sr-only">
-                        {{ application?.attributes.title }}
-                        {{ "SkipTo.NewWindow" | translate }}
-                    </span>
-                    <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-                    </svg>
-                </a>
-            </p>
-            <div class="ml-3"></div>
-            </div>
+      <!-- created -->
+      <p class="item-view__attribute">
+        <strong>{{ 'Attribute.AvailabilityDate' | translate }}</strong
+        >:
+        {{ application?.attributes.created | translateDateFormat | async }}
+      </p>
 
+      <!-- modified -->
+      <p class="item-view__attribute">
+        <strong>{{ 'Attribute.ModificationDate' | translate }}</strong
+        >:
+        {{ application?.attributes.modified | translateDateFormat | async }}
+      </p>
 
-            <!-- created -->
-            <p class="item-view__attribute">
-                <strong>{{ 'Attribute.AvailabilityDate' | translate }}</strong>:
-                {{ application?.attributes.created | translateDateFormat | async }}
-            </p>
+      <!-- author -->
+      <p class="item-view__attribute" *ngIf="application?.attributes.author">
+        <strong>{{ 'Attribute.Author' | translate }}</strong
+        >:
+        {{ application?.attributes.author }}
+      </p>
 
-            <!-- modified -->
-            <p class="item-view__attribute">
-                <strong>{{ 'Attribute.ModificationDate' | translate }}</strong>:
-                {{ application?.attributes.modified | translateDateFormat | async }}
-            </p>
+      <!-- keywords -->
+      <p class="item-view__attribute" *ngIf="application?.attributes.keywords?.length">
+        <app-keywords [tags]="application?.attributes.keywords"></app-keywords>
+      </p>
+    </div>
+  </header>
 
-            <!-- author -->
-            <p class="item-view__attribute" *ngIf="application?.attributes.author">
-                <strong>{{ 'Attribute.Author' | translate }}</strong>:
-                {{ application?.attributes.author }}
-            </p>
+  <!-- DETAILS: BODY -->
+  <section class="item-view__body vertical-spacing">
+    <div class="container clearfix">
+      <!-- api notifications -->
+      <app-notifications></app-notifications>
 
-            <!-- keywords -->
-            <p class="item-view__attribute" *ngIf="application?.attributes.keywords?.length">
-                <app-keywords [tags]="application?.attributes.keywords"></app-keywords>
-            </p>
+      <h2 class="heading heading--md">
+        {{ 'Applications.Description' | translate }}
+      </h2>
 
+      <!-- illustrative graphics -->
+      <div *ngIf="application?.attributes.illustrative_graphics_url" class="float-left mr-4">
+        <img
+          src="{{ application?.attributes.illustrative_graphics_url }}"
+          alt="{{ application?.attributes.illustrative_graphics_alt ? application?.attributes.illustrative_graphics_alt : '' }}"
+        />
+      </div>
+
+      <!-- api notifications -->
+      <div [innerHTML]="application?.attributes.notes | sanitizeHtml"></div>
+    </div>
+  </section>
+
+  <!-- RELATED DATASETS -->
+  <section class="results-section vertical-spacing" *ngIf="items && items.length">
+    <div class="container">
+      <header class="results-header">
+        <div
+          class="heading heading--sm heading--separator"
+          appInfoTooltip="{{ 'Tour.Tooltip.ApplicationDetails.RelatedDatasets.text' | translate }}"
+          tooltipTitle="{{ 'Tour.Tooltip.ApplicationDetails.RelatedDatasets.title' | translate }}"
+        >
+          {{ 'Institutions.RelatedDatasets' | translate }}
+          <small>({{ count || 0 }})</small>
         </div>
-    </header>
 
+        <!-- sort order -->
+        <div class="d-md-inline-flex align-items-center pt-2 pb-2 pb-md-0">
+          <span class="dropdown-label pr-2" id="sortby-label">
+            {{ 'Sort.By' | translate }}:
+            <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
+          </span>
 
-    <!-- DETAILS: BODY -->
-    <section class="item-view__body vertical-spacing">
-        <div class="container clearfix">
-
-            <!-- api notifications -->
-            <app-notifications></app-notifications>
-
-            <h2 class="heading heading--md">
-                {{ 'Applications.Description' | translate }}
-            </h2>
-
-            <!-- illustrative graphics -->
-            <div *ngIf="application?.attributes.illustrative_graphics_url" class="float-left mr-4">
-                <img src="{{ application?.attributes.illustrative_graphics_url }}"
-                        alt="{{ application?.attributes.illustrative_graphics_alt ? application?.attributes.illustrative_graphics_alt : '' }}">
-            </div>
-
-            <!-- api notifications -->
-            <div [innerHTML]="application?.attributes.notes | sanitizeHtml"></div>
+          <select class="form-control sort-order" (change)="updateParams({ sort: $event.target.value })" aria-labelledby="sortby-label">
+            <option [ngValue]="null" *ngIf="!isSortValid">
+              {{ 'Action.Choose' | translate }}
+            </option>
+            <option *ngFor="let item of sortOptions" [value]="item.value" [selected]="params?.sort === item.value">
+              {{ item.labelTranslationKey | translate }}
+            </option>
+          </select>
         </div>
-    </section>
+      </header>
 
+      <!-- RESULT LIST -->
+      <app-application-item-results [items]="items"></app-application-item-results>
 
-    <!-- RELATED DATASETS -->
-    <section class="results-section vertical-spacing" *ngIf="items && items.length">
-        <div class="container">
-            <header class="results-header">
-                <div class="heading heading--sm heading--separator"
-                     appInfoTooltip="{{'Tour.Tooltip.ApplicationDetails.RelatedDatasets.text' | translate }}"
-                     tooltipTitle="{{ 'Tour.Tooltip.ApplicationDetails.RelatedDatasets.title' | translate }}">
-                    {{ 'Institutions.RelatedDatasets' | translate }}
-                    <small>({{ count || 0 }})</small>
-                </div>
+      <!-- RESULTS FOOTER -->
+      <footer class="results-footer" *ngIf="items && items.length">
+        <div class="d-flex justify-content-between align-items-center">
+          <!-- results per page -->
+          <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
 
-                <!-- sort order -->
-                <div class="d-md-inline-flex align-items-center pt-2 pb-2 pb-md-0">
-                    <span class="dropdown-label pr-2" id="sortby-label">
-                        {{ 'Sort.By' | translate }}:
-                        <span class="sr-only">
-                            ({{ 'Search.AutoContentReload' | translate }})
-                        </span>
-                    </span>
-            
-                    <select class="form-control sort-order" (change)="updateParams({sort: $event.target.value})" aria-labelledby="sortby-label">
-                        <option [ngValue]="null" *ngIf="!isSortValid">
-                            {{ 'Action.Choose' | translate }}
-                        </option>
-                        <option *ngFor="let item of sortOptions" [value]="item.value" [selected]="params?.sort === item.value">
-                            {{ item.labelTranslationKey | translate }}
-                        </option>
-                    </select>
-                </div>
-            </header>
-
-
-            <!-- RESULT LIST -->
-            <app-application-item-results [items]="items"></app-application-item-results>
-
-
-            <!-- RESULTS FOOTER -->
-            <footer class="results-footer" *ngIf="items && items.length">
-                <div class="d-flex justify-content-between align-items-center">
-
-                    <!-- results per page -->
-                    <app-items-per-page 
-                        [selected]="params?.per_page" 
-                        (selectedChange)="updateParams({per_page: $event})">
-                    </app-items-per-page>
-
-                    <!-- pagination -->
-                    <app-pagination
-                        [itemsPerPage]="params.per_page"
-                        [totalItems]="count"
-                        [(page)]="params.page"
-                        (pageChange)="updateParams({page: $event})">
-                    </app-pagination>
-                </div>
-            </footer>
+          <!-- pagination -->
+          <app-pagination
+            [itemsPerPage]="params.per_page"
+            [totalItems]="count"
+            [(page)]="params.page"
+            (pageChange)="updateParams({ page: $event })"
+          >
+          </app-pagination>
         </div>
-    </section>
+      </footer>
+    </div>
+  </section>
 </article>

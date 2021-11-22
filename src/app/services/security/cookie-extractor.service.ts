@@ -36,7 +36,7 @@ export class CookieExtractor implements HttpXsrfTokenExtractor {
      * @ignore
      */
     constructor(
-        @Inject(DOCUMENT) private doc: any,
+        @Inject(DOCUMENT) private doc: Document,
         @Inject(PLATFORM_ID) private platform: string) {
     }
 

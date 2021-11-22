@@ -7,15 +7,14 @@ import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-f
  * Dataset filter wrapper for all components
  */
 @Component({
-    selector: 'app-dataset-list-view-filters',
-    templateUrl: './dataset-list-view-filters.component.html'
+  selector: 'app-dataset-list-view-filters',
+  templateUrl: './dataset-list-view-filters.component.html',
 })
 export class DatasetListViewFiltersComponent extends ListViewFilterAbstractComponent {
-
-    /**
-     * invokes applyFilter from extended component with dataset filter names
-     */
-    applyFilter() {
-        super.applyFilter(DatasetListViewFilterNames);
-    }
+  /**
+   * invokes applyFilter from extended component with dataset filter names
+   */
+  applyFilter() {
+    super.applyFilter(DatasetListViewFilterNames);
+  }
 }

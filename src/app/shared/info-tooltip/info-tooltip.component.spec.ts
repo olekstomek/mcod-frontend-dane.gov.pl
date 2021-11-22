@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { FeatureFlagDirective } from '@app/shared/directives/feature-flag.directive';
+import { FeatureFlagDirective } from '@app/shared/feature-flags/feature-flag.directive';
 import { InfoTooltipComponent } from '@app/shared/info-tooltip/info-tooltip.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipDirective } from 'ngx-bootstrap';

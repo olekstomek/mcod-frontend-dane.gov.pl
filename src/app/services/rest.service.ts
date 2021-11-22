@@ -270,7 +270,6 @@ export abstract class RestService {
      */
     protected request(method: 'get' | 'delete', url, params?: any, skip404Redirect?: boolean): Observable<any> {
         this.initHeaders();
-
         return this.http[method](url, {
             headers: this.headers,
             ...this.getCredentials(),

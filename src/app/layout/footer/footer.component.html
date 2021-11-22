@@ -150,17 +150,8 @@
                         [labelTranslationKey]="'Menu.Declaration'">
                     </li>
 
-                    <!-- Sitemap xml  -->
-                    <li class="page-footer__list-item" role="presentation"
-                        *featureFlag="'S12_sitemaps_xml.fe'"
-                        app-footer-nav-link-internal
-                        [href]="'/sitemap-index.xml.gz'"
-                        [labelTranslationKey]="'Breadcrumbs.SitemapComponent'">
-                    </li>
-
                     <!-- Sitemap html -->
                     <li class="page-footer__list-item" role="presentation"
-                        *featureFlag="'S12_sitemaps_html.fe'"
                         app-footer-nav-link-internal
                         [link]="'/!sitemap'"
                         [labelTranslationKey]="'Breadcrumbs.SitemapComponent'">

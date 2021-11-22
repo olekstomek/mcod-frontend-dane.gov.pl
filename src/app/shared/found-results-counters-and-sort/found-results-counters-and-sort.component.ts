@@ -89,11 +89,11 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
     /**
      * Determines whether provided sort value exists on the list of sort options.
      * Filters out counters with '0' value
-     * @param {SimpleChanges} changes 
+     * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges) {
         if (changes.selected) {
-            this.isSortValid = !!this.sortOptions.find(option => option.value === changes.selected.currentValue)
+            this.isSortValid = !!this.sortOptions.find(option => option.value === changes.selected.currentValue);
         }
 
         if (changes.counters && changes.counters.currentValue instanceof Array) {

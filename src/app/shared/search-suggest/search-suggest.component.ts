@@ -1,17 +1,17 @@
 import { Location } from '@angular/common';
 import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    Output,
-    Renderer2,
-    SimpleChanges,
-    ViewChild
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,6 +19,7 @@ import { toggleVertically } from '@app/animations';
 
 import { APP_CONFIG } from '@app/app.config';
 import { ApiModel } from '@app/services/api/api-model';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { SearchSuggestionsService } from '@app/services/search-suggestions.service';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
@@ -55,479 +56,496 @@ import { SearchAdvancedSettings, SearchSuggestListboxOption } from './search-sug
     </app-search-suggest>
  */
 @Component({
-    selector: "app-search-suggest",
-    templateUrl: "./search-suggest.component.html",
-    animations: [toggleVertically]
+  selector: 'app-search-suggest',
+  templateUrl: './search-suggest.component.html',
+  animations: [toggleVertically],
 })
 export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-    /**
-     * Router endpoints
-     */
-    readonly routerEndpoints = RouterEndpoints;
+  /**
+   * Router endpoints
+   */
+  readonly routerEndpoints = RouterEndpoints;
 
-    /**
-     * Emits new search value on search query change
-     */
-    searchTextChanged = new Subject<string>();
+  /**
+   * Emits new search value on search query change
+   */
+  searchTextChanged = new Subject<string>();
 
-    /**
-     * Emits new value after search text is cleared
-     */
-    searchTextCleared = new Subject<boolean>();
+  /**
+   * Emits new value after search text is cleared
+   */
+  searchTextCleared = new Subject<boolean>();
 
-    /**
-     * Search query placeholder and aria label text
-     */
-    @Input('placeholderTranslationKey') placeholderTranslationKey = 'Home.Search.PlaceholderText';
+  /**
+   * Search query placeholder and aria label text
+   */
+  @Input('placeholderTranslationKey') placeholderTranslationKey = 'Home.Search.PlaceholderText';
 
-    /**
-     * Search query
-     */
-    private _searchText: string;
+  /**
+   * Search query
+   */
+  private _searchText: string;
 
-    /**
-     * Tooltip color
-     * @type {string}
-     */
-    tooltipColor: string;
+  /**
+   * Tooltip color
+   * @type {string}
+   */
+  tooltipColor: string;
 
-    /**
-     * Tooltip text
-     * @type {string}
-     */
-    @Input()
-    tooltipText: string;
-    get searchText(): string {
-        return this._searchText;
+  /**
+   * Tooltip text
+   * @type {string}
+   */
+  @Input()
+  tooltipText: string;
+  get searchText(): string {
+    return this._searchText;
+  }
+  @Input('searchQuery') set searchText(value: string) {
+    this._searchText = decodeURIComponent(value.trim()); //value.trim();
+    this.searchTextChanged.next(this.searchText);
+  }
+
+  /**
+   * Determines api models of data to search within
+   */
+  @Input() apiModels: ApiModel[] = [];
+
+  /**
+   * Determines max search results per one model
+   */
+  @Input() maxResultsPerModel = 1;
+
+  /**
+   * Determines wether search advanced settings are visible
+   */
+  @Input() showAdvancedSettings = false;
+
+  /**
+   * Search results url
+   */
+  @Input() searchResultsUrl = '/!search';
+
+  /**
+   * Enables manual mode.
+   * Auto mode - updates query params on search and clear.
+   * Manual mode - returns data on search and clear.
+   */
+  @Input() useTriggers = false;
+
+  /**
+   * Search query results tooltip text
+   * @type {string}
+   */
+  @Input() searchQueryRulesTooltipText: string;
+
+  /**
+   * Emits new value on search
+   */
+  @Output() searchTrigger = new EventEmitter<{ [key: string]: string }>();
+
+  /**
+   * Emits new value on clear
+   */
+  @Output() clearTrigger = new EventEmitter<{ [key: string]: string }>();
+
+  /**
+   * Emits click event to move into search results for screen reader
+   */
+  @Output() moveToSearchResultTrigger = new EventEmitter();
+
+  /**
+   * Reference to the search query input
+   */
+  @ViewChild('q', { read: ElementRef }) queryInputRef: ElementRef;
+
+  /**
+   * Listens on events outside suggestions component
+   */
+  private clickOutsideListener: () => void;
+
+  /**
+   * Min number of characters to perfmorm search
+   */
+  minChars = 2;
+
+  /**
+   * Max number of characters to perfmorm search
+   */
+  maxChars = APP_CONFIG.searchInputMaxLength;
+
+  /**
+   * Listbox options - suggestion list
+   */
+  listBoxOptions: SearchSuggestListboxOption[] = [];
+
+  /**
+   * Determines whether listbox (suggestion list) is expanded
+   */
+  isListBoxExpanded = false;
+
+  /**
+   * Default index of the suggestion list
+   */
+  notSelectedSuggestionIndex = -1;
+
+  /**
+   * Active listbox index of the suggestion list
+   */
+  activeSuggestionIndex = this.notSelectedSuggestionIndex;
+
+  /**
+   * Determines invalid search query
+   */
+  isSearchQueryInvalid: boolean;
+
+  /**
+   * Search advanced settings
+   */
+  searchAdvancedSettings = SearchAdvancedSettings;
+
+  /**
+   * Active advanced setting
+   */
+  @Input('advancedSetting') activeSetting = SearchAdvancedSettings.ANY;
+
+  /**
+   * Sparql button visibility flag
+   */
+  @Input() isSparqlSearchButtonVisible: boolean;
+
+  /**
+   * @ignore
+   */
+  constructor(
+    private renderer: Renderer2,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private location: Location,
+    private searchSuggestionsService: SearchSuggestionsService,
+    private localize: LocalizeRouterService,
+    private translateService: TranslateService,
+    private featureFlagsService: FeatureFlagService,
+  ) {}
+
+  /**
+   * Listens on search query changes.
+   * Conditionally toggles dropdown.
+   */
+  ngOnInit() {
+    if (!this.apiModels || (this.apiModels && !this.apiModels.length)) {
+      return;
     }
-    @Input('searchQuery') set searchText(value: string) {
-        this._searchText = decodeURIComponent(value.trim()); //value.trim();
-        this.searchTextChanged.next(this.searchText);
-    }
 
-    /**
-     * Determines api models of data to search within
-     */
-    @Input() apiModels: ApiModel[] = [];
+    this.tooltipColor = this.location.path().split('/').length === 2 ? '#fff' : undefined;
 
-    /**
-     * Determines max search results per one model
-     */
-    @Input() maxResultsPerModel = 1;
+    this.searchTextChanged
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(400),
+        switchMap((changedPhrase: string) => {
+          this.toggleDropdown();
 
-    /**
-     * Determines wether search advanced settings are visible
-     */
-    @Input() showAdvancedSettings = false;
+          if (!changedPhrase || (changedPhrase && changedPhrase.length < this.minChars)) {
+            return of(null);
+          }
 
-    /**
-     * Search results url
-     */
-    @Input() searchResultsUrl = '/!search';
-
-    /**
-     * Enables manual mode.
-     * Auto mode - updates query params on search and clear.
-     * Manual mode - returns data on search and clear.
-     */
-    @Input() useTriggers = false;
-
-    /**
-     * Search query results tooltip text
-     * @type {string}
-     */
-    @Input() searchQueryRulesTooltipText: string;
-
-    /**
-     * Emits new value on search
-     */
-    @Output() searchTrigger = new EventEmitter<{[key: string]: string}>();
-
-    /**
-     * Emits new value on clear
-     */
-    @Output() clearTrigger = new EventEmitter<{[key: string]: string}>();
-
-
-    /**
-     * Reference to the search query input
-     */
-    @ViewChild('q', { read: ElementRef }) queryInputRef: ElementRef;
-
-    /**
-     * Listens on events outside suggestions component
-     */
-    private clickOutsideListener: () => void;
-
-    /**
-     * Min number of characters to perfmorm search
-     */
-    minChars = 2;
-
-    /**
-     * Max number of characters to perfmorm search
-     */
-    maxChars = APP_CONFIG.searchInputMaxLength;
-
-    /**
-     * Listbox options - suggestion list
-     */
-    listBoxOptions: SearchSuggestListboxOption[] = [];
-
-    /**
-     * Determines whether listbox (suggestion list) is expanded
-     */
-    isListBoxExpanded = false;
-
-    /**
-     * Default index of the suggestion list
-     */
-    notSelectedSuggestionIndex = -1;
-
-    /**
-     * Active listbox index of the suggestion list
-     */
-    activeSuggestionIndex = this.notSelectedSuggestionIndex;
-
-    /**
-     * Determines invalid search query
-     */
-    isSearchQueryInvalid: boolean;
-
-    /**
-     * Search advanced settings
-     */
-    searchAdvancedSettings = SearchAdvancedSettings;
-
-    /**
-     * Active advanced setting
-     */
-    @Input('advancedSetting') activeSetting = SearchAdvancedSettings.ANY;
-
-    /**
-     * Sparql button visibility flag
-     */
-    @Input() isSparqlSearchButtonVisible: boolean;
-
-
-    /**
-     * @ignore
-     */
-    constructor(private renderer: Renderer2,
-                private router: Router,
-                private activatedRoute: ActivatedRoute,
-                private location: Location,
-                private searchSuggestionsService: SearchSuggestionsService,
-                private localize: LocalizeRouterService,
-                private translateService: TranslateService) {}
-
-    /**
-     * Listens on search query changes.
-     * Conditionally toggles dropdown.
-     */
-    ngOnInit() {
-        if (!this.apiModels || (this.apiModels && !this.apiModels.length)) {
-            return;
+          return this.searchSuggestionsService.getSuggestions(changedPhrase, this.apiModels, this.maxResultsPerModel);
+        }),
+      )
+      .subscribe(response => {
+        if (!response || !response['data']) {
+          return;
         }
 
-        this.tooltipColor = this.location.path().split('/').length === 2 ? '#fff' : undefined;
-
-        this.searchTextChanged.pipe(
-            distinctUntilChanged(),
-            debounceTime(400),
-            switchMap((changedPhrase: string) => {
-                this.toggleDropdown();
-
-                if (!changedPhrase || (changedPhrase && changedPhrase.length < this.minChars)) {
-                    return of(null);
-                }
-
-                return this.searchSuggestionsService.getSuggestions(changedPhrase, this.apiModels, this.maxResultsPerModel);
-            })
-        ).subscribe(response => {
-            if (!response || !response['data']) {
-                return;
-            }
-
-            this.toggleDropdown(this.prepareListboxOptions(response.data));
-        })
-
-        this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
-    }
-
-    /**
-     * Emits an event after search input is cleared
-     * @param {SimpleChanges} changes
-     */
-    ngOnChanges(changes: SimpleChanges) {
-        const {searchText} = changes;
-        const isSearchTextEmpty = searchText && searchText.previousValue && !searchText.currentValue;
-        this.searchTextCleared.next(isSearchTextEmpty);
-    }
-
-    /**
-     * Sets focus after search input is cleared
-     */
-    ngAfterViewInit() {
-        this.searchTextCleared.subscribe(isSearchTextEmpty => {
-            if (isSearchTextEmpty) {
-                (<HTMLInputElement>this.queryInputRef.nativeElement).focus();
-            }
-        });
-    }
-
-    /**
-     * Populates suggestions list.
-     * Toggles suggestions list.
-     * Resets active descendant index.
-     * @param {SearchSuggestListboxOption[]} [items]
-     */
-    toggleDropdown(items: SearchSuggestListboxOption[] = []) {
-        this.listBoxOptions = [...items];
-        this.isListBoxExpanded = !!items.length;
-        this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
-    }
-
-    /**
-     * Creates listbox option from a data item of the api response
-     * @param {any} item
-     * @returns {SearchSuggestListboxOption} listbox option from item
-     */
-    createListboxOptionFromItem(item: any): SearchSuggestListboxOption {
-        const {title, model, slug}: {title: string, model: ApiModel, slug: string} = item.attributes;
-        const id: string = (item.id.indexOf('-') !== -1 ) ? item.id.split('-')[1] : item.id;
-        const updatedModel = model.replace('_', '-');
-
-        let url = `/${updatedModel}`;
-        let areaTranslationKey = `${StringHelper.capitalizeFirstLetter(updatedModel)}s.Self`;
-
-        if (model === ApiModel.ARTICLE) {
-            areaTranslationKey = 'Articles.News';
-        } else if (model === ApiModel.KNOWLEDGE_BASE) {
-            const updatedModel = model.replace('_', '-');
-            areaTranslationKey = `${StringHelper.capitalizeFirstLetter(StringHelper.toCamelCase(updatedModel))}.Self`;
-            url = this.parseKnowledgeBaseUrl(item.attributes.html_url);
-
-        } else if (model === ApiModel.RESOURCE) {
-            const relatedType: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'data', 'type']);
-            const relatedTypeApiUrl: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'links', 'related']);
-
-            if (relatedType && relatedTypeApiUrl) {
-                const relatedTypeApiUrlArray = relatedTypeApiUrl.split('/');
-                const relatedTypeUrlPart = relatedTypeApiUrlArray[relatedTypeApiUrlArray.length-1];
-                url = `/${relatedType}/${relatedTypeUrlPart}/${updatedModel}`;
-            }
+        this.toggleDropdown(this.prepareListboxOptions(response.data));
+        if (this.featureFlagsService.validateFlagSync('S_38_WCAG_button_in_data_view.fe')) {
+          document.getElementById('search-counters-label').focus(); // TODO: stay after remove S_38_WCAG_button_in_data_view.fe
         }
+      });
 
-        return {
-            title: title,
-            url: (model === ApiModel.KNOWLEDGE_BASE) ? url : url += `/${id},${slug}`,
-            areaTranslationKey: areaTranslationKey
-        };
-    }
+    this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
+  }
 
-    /**
-     * Parses knowledge base url
-     * @param {string} htmlUrl
-     * @returns {string}
-     */
-    parseKnowledgeBaseUrl(htmlUrl: string) {
-        const slashLastIndex = htmlUrl.lastIndexOf('/');
-        const kbUrl = (slashLastIndex === htmlUrl.length-1) ? htmlUrl.substr(0, htmlUrl.length-1) : htmlUrl;
-        const kbIndex = kbUrl.indexOf(`/${this.routerEndpoints.KNOWLEDGE_BASE}`);
-        return kbUrl.substr(kbIndex);
-    }
+  /**
+   * Emits an event after search input is cleared
+   * @param {SimpleChanges} changes
+   */
+  ngOnChanges(changes: SimpleChanges) {
+    const { searchText } = changes;
+    const isSearchTextEmpty = searchText && searchText.previousValue && !searchText.currentValue;
+    this.searchTextCleared.next(isSearchTextEmpty);
+  }
 
-    /**
-     * Prepares listbox options
-     * @param {any[]} responseData
-     * @returns {SearchSuggestListboxOption[]} listbox options
-     */
-    prepareListboxOptions(responseData: any[]): SearchSuggestListboxOption[] {
-        return responseData.map(item => {
-            return this.createListboxOptionFromItem(item);
-        });
-    }
-
-    /**
-     * Initializes and displays suggestion list.
-     * Redirects user to a search results route base on a condition.
-     * Toggles error message.
-     * Returns query params in non auto mode (useTriggers=true)
-     * @param {NgForm} searchForm
-     */
-    onSearch(searchForm: NgForm) {
-        const {q} = searchForm.value;
-        this.isSearchQueryInvalid = !searchForm.valid || !q || (q && q.length < this.minChars);
-
-        if (this.isSearchQueryInvalid) {
-            return;
-        }
-
-        if (this.activeSuggestionIndex !== this.notSelectedSuggestionIndex) {
-            this.onActiveSuggestionClick();
-        } else {
-            const queryParams = this.prepareQueryParams({...searchForm.value});
-
-            if (this.useTriggers) {
-                this.searchTrigger.emit(queryParams);
-            } else {
-                this.updateParamsOrRedirect(this.searchResultsUrl, queryParams);
-            }
-        }
-    }
-
-    /**
-     * Clears query input and sets focus on it.
-     * Updates view with query params in auto mode (useTriggers=false).
-     * Returns query params in non auto mode (useTriggers=true)
-     */
-    onClear() {
-        this.searchText = '';
-        this.activeSetting = this.searchAdvancedSettings.ANY;
+  /**
+   * Sets focus after search input is cleared
+   */
+  ngAfterViewInit() {
+    this.searchTextCleared.subscribe(isSearchTextEmpty => {
+      if (isSearchTextEmpty) {
         (<HTMLInputElement>this.queryInputRef.nativeElement).focus();
+      }
+    });
+  }
 
-        const queryParams = this.prepareQueryParams({q: ''});
+  /**
+   * Populates suggestions list.
+   * Toggles suggestions list.
+   * Resets active descendant index.
+   * @param {SearchSuggestListboxOption[]} [items]
+   */
+  toggleDropdown(items: SearchSuggestListboxOption[] = []) {
+    this.listBoxOptions = [...items];
+    this.isListBoxExpanded = !!items.length;
+    this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
+  }
 
-        if (this.useTriggers) {
-            this.clearTrigger.emit(queryParams);
-        } else {
-            this.updateParamsOrRedirect('.', queryParams);
+  /**
+   * Creates listbox option from a data item of the api response
+   * @param {any} item
+   * @returns {SearchSuggestListboxOption} listbox option from item
+   */
+  createListboxOptionFromItem(item: any): SearchSuggestListboxOption {
+    const { title, model, slug }: { title: string; model: ApiModel; slug: string } = item.attributes;
+    const id: string = item.id.indexOf('-') !== -1 ? item.id.split('-')[1] : item.id;
+    const updatedModel = model.replace('_', '-');
+
+    let url = `/${updatedModel}`;
+    let areaTranslationKey = `${StringHelper.capitalizeFirstLetter(updatedModel)}s.Self`;
+
+    if (model === ApiModel.ARTICLE) {
+      areaTranslationKey = 'Articles.News';
+    } else if (model === ApiModel.KNOWLEDGE_BASE) {
+      const updatedModel = model.replace('_', '-');
+      areaTranslationKey = `${StringHelper.capitalizeFirstLetter(StringHelper.toCamelCase(updatedModel))}.Self`;
+      url = this.parseKnowledgeBaseUrl(item.attributes.html_url);
+    } else if (model === ApiModel.RESOURCE) {
+      const relatedType: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'data', 'type']);
+      const relatedTypeApiUrl: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'links', 'related']);
+
+      if (relatedType && relatedTypeApiUrl) {
+        const relatedTypeApiUrlArray = relatedTypeApiUrl.split('/');
+        const relatedTypeUrlPart = relatedTypeApiUrlArray[relatedTypeApiUrlArray.length - 1];
+        url = `/${relatedType}/${relatedTypeUrlPart}/${updatedModel}`;
+      }
+    }
+
+    return {
+      title: title,
+      url: model === ApiModel.KNOWLEDGE_BASE ? url : (url += `/${id},${slug}`),
+      areaTranslationKey: areaTranslationKey,
+    };
+  }
+
+  /**
+   * Parses knowledge base url
+   * @param {string} htmlUrl
+   * @returns {string}
+   */
+  parseKnowledgeBaseUrl(htmlUrl: string) {
+    const slashLastIndex = htmlUrl.lastIndexOf('/');
+    const kbUrl = slashLastIndex === htmlUrl.length - 1 ? htmlUrl.substr(0, htmlUrl.length - 1) : htmlUrl;
+    const kbIndex = kbUrl.indexOf(`/${this.routerEndpoints.KNOWLEDGE_BASE}`);
+    return kbUrl.substr(kbIndex);
+  }
+
+  /**
+   * Prepares listbox options
+   * @param {any[]} responseData
+   * @returns {SearchSuggestListboxOption[]} listbox options
+   */
+  prepareListboxOptions(responseData: any[]): SearchSuggestListboxOption[] {
+    return responseData.map(item => {
+      return this.createListboxOptionFromItem(item);
+    });
+  }
+
+  /**
+   * Initializes and displays suggestion list.
+   * Redirects user to a search results route base on a condition.
+   * Toggles error message.
+   * Returns query params in non auto mode (useTriggers=true)
+   * @param {NgForm} searchForm
+   */
+  onSearch(searchForm: NgForm) {
+    const { q } = searchForm.value;
+    this.isSearchQueryInvalid = !searchForm.valid || !q || (q && q.length < this.minChars);
+
+    if (this.isSearchQueryInvalid) {
+      return;
+    }
+
+    if (this.activeSuggestionIndex !== this.notSelectedSuggestionIndex) {
+      this.onActiveSuggestionClick();
+    } else {
+      const queryParams = this.prepareQueryParams({ ...searchForm.value });
+
+      if (this.useTriggers) {
+        this.searchTrigger.emit(queryParams);
+      } else {
+        this.updateParamsOrRedirect(this.searchResultsUrl, queryParams);
+      }
+    }
+  }
+
+  /**
+   * Clears query input and sets focus on it.
+   * Updates view with query params in auto mode (useTriggers=false).
+   * Returns query params in non auto mode (useTriggers=true)
+   */
+  onClear() {
+    this.searchText = '';
+    this.activeSetting = this.searchAdvancedSettings.ANY;
+    (<HTMLInputElement>this.queryInputRef.nativeElement).focus();
+
+    const queryParams = this.prepareQueryParams({ q: '' });
+
+    if (this.useTriggers) {
+      this.clearTrigger.emit(queryParams);
+    } else {
+      this.updateParamsOrRedirect('.', queryParams);
+    }
+  }
+
+  /**
+   * Prepares query params
+   * @param {[key: string]: string} queryParams
+   * @returns {[key: string]: string}
+   */
+  prepareQueryParams(queryParams: { [key: string]: string }): { [key: string]: string } {
+    if (this.showAdvancedSettings) {
+      queryParams['advanced'] = this.activeSetting !== SearchAdvancedSettings.ANY ? this.activeSetting : null;
+    }
+
+    return queryParams;
+  }
+
+  /**
+   * Navigates to the same or specified URL.
+   * Updates query params.
+   * Redirects to a main search if more than 1 apiModel specified.
+   * @param {string} url
+   * @param {[key: string]: string} queryParams
+   */
+  updateParamsOrRedirect(url: string, queryParams: { [key: string]: string }) {
+    const localizedURL: Array<string> = url !== '.' ? (this.localize.translateRoute([url]) as Array<string>) : [url];
+    this.router.navigate(localizedURL, {
+      queryParams: queryParams,
+      queryParamsHandling: 'merge',
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+  /**
+   * Sets next index on the list as active
+   */
+  setNextActiveSuggestionIndex() {
+    if (this.activeSuggestionIndex === this.notSelectedSuggestionIndex) {
+      this.activeSuggestionIndex = 0;
+    } else if (this.activeSuggestionIndex === this.listBoxOptions.length - 1) {
+      this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
+    } else {
+      this.activeSuggestionIndex++;
+    }
+  }
+
+  /**
+   * Sets previous index on the list as active
+   */
+  setPreviousActiveSuggestionIndex() {
+    if (this.activeSuggestionIndex === this.notSelectedSuggestionIndex) {
+      this.activeSuggestionIndex = this.listBoxOptions.length - 1;
+    } else if (this.activeSuggestionIndex === 0) {
+      this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
+    } else {
+      this.activeSuggestionIndex--;
+    }
+  }
+
+  /**
+   * Enables keyboard navigation.
+   * Performs actions on keyboard events.
+   * @param {KeyboardEvent} event
+   */
+  onKeydown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowDown':
+        this.setNextActiveSuggestionIndex();
+        break;
+
+      case 'ArrowUp':
+        this.setPreviousActiveSuggestionIndex();
+        break;
+
+      case 'Enter':
+        this.onActiveSuggestionClick();
+        break;
+
+      case 'Tab':
+        this.isListBoxExpanded = !this.isListBoxExpanded;
+        break;
+
+      case 'Space':
+        if (event.shiftKey) {
+          this.isListBoxExpanded = true;
+          event.preventDefault();
         }
+        break;
+
+      case 'Escape':
+        this.isListBoxExpanded = false;
+    }
+  }
+
+  /**
+   * Conditionally show suggestion list when input has focus
+   */
+  onFocusIn() {
+    this.toggleDropdown(this.listBoxOptions);
+    this.isSearchQueryInvalid = false;
+  }
+
+  /**
+   * Navigates to a details of the active item on the suggestion list
+   */
+  onActiveSuggestionClick() {
+    if (this.activeSuggestionIndex === this.notSelectedSuggestionIndex) {
+      return;
     }
 
-    /**
-     * Prepares query params
-     * @param {[key: string]: string} queryParams
-     * @returns {[key: string]: string}
-     */
-    prepareQueryParams(queryParams: {[key: string]: string}): {[key: string]: string} {
-        if (this.showAdvancedSettings) {
-            queryParams['advanced'] = (this.activeSetting !== SearchAdvancedSettings.ANY) ? this.activeSetting : null;
-        }
+    const listboxOption = this.listBoxOptions[this.activeSuggestionIndex];
+    this.router.navigate([listboxOption.url.replace('/', `/${this.translateService.currentLang}/`)]);
+  }
 
-        return queryParams;
+  /**
+   * Listens on click outside query input. Hides suggestions list.
+   * @param {Event} event
+   */
+  clickOutside(event: Event) {
+    const targetElement = event.target as HTMLElement;
+    const parentElement = this.queryInputRef.nativeElement as HTMLElement;
+    const clickedInside = parentElement.outerHTML.indexOf(targetElement.outerHTML) !== -1;
+
+    if (!clickedInside) {
+      this.isListBoxExpanded = false;
     }
+  }
 
-    /**
-     * Navigates to the same or specified URL.
-     * Updates query params.
-     * Redirects to a main search if more than 1 apiModel specified.
-     * @param {string} url
-     * @param {[key: string]: string} queryParams
-     */
-    updateParamsOrRedirect(url: string, queryParams: {[key: string]: string}) {
-        const localizedURL: Array<string> = url !== '.' ? this.localize.translateRoute([url]) as Array<string> : [url];
-        this.router.navigate(localizedURL, {
-            queryParams: queryParams,
-            queryParamsHandling: 'merge',
-            relativeTo: this.activatedRoute
-        });
+  /**
+   * Destroys unnecessary listeners
+   */
+  ngOnDestroy() {
+    if (this.clickOutsideListener instanceof Function) {
+      this.clickOutsideListener();
     }
+    this.searchTextChanged && this.searchTextChanged.unsubscribe();
+    this.searchTextCleared && this.searchTextCleared.unsubscribe();
+  }
 
-    /**
-     * Sets next index on the list as active
-     */
-    setNextActiveSuggestionIndex() {
-        if (this.activeSuggestionIndex === this.notSelectedSuggestionIndex) {
-            this.activeSuggestionIndex = 0;
-        } else if (this.activeSuggestionIndex === this.listBoxOptions.length-1) {
-            this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
-        } else {
-            this.activeSuggestionIndex++;
-        }
-    }
-
-    /**
-     * Sets previous index on the list as active
-     */
-    setPreviousActiveSuggestionIndex() {
-        if (this.activeSuggestionIndex === this.notSelectedSuggestionIndex) {
-            this.activeSuggestionIndex = this.listBoxOptions.length-1;
-        } else if (this.activeSuggestionIndex === 0) {
-            this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
-        } else {
-            this.activeSuggestionIndex--;
-        }
-    }
-
-    /**
-     * Enables keyboard navigation.
-     * Performs actions on keyboard events.
-     * @param {KeyboardEvent} event
-     */
-    onKeydown(event: KeyboardEvent) {
-        switch (event.key) {
-            case 'ArrowDown':
-                this.setNextActiveSuggestionIndex();
-                break;
-
-            case 'ArrowUp':
-                this.setPreviousActiveSuggestionIndex();
-                break;
-
-            case 'Enter':
-                this.onActiveSuggestionClick();
-                break;
-
-            case 'Tab':
-                this.isListBoxExpanded = !this.isListBoxExpanded;
-                break;
-
-            case 'Space':
-                if (event.shiftKey) {
-                    this.isListBoxExpanded = true;
-                    event.preventDefault();
-                }
-                break;
-
-            case 'Escape':
-                this.isListBoxExpanded = false;
-        }
-    }
-
-    /**
-     * Conditionally show suggestion list when input has focus
-     */
-    onFocusIn() {
-        this.toggleDropdown(this.listBoxOptions);
-        this.isSearchQueryInvalid = false;
-    }
-
-    /**
-     * Navigates to a details of the active item on the suggestion list
-     */
-    onActiveSuggestionClick() {
-        if (this.activeSuggestionIndex === this.notSelectedSuggestionIndex) {
-            return;
-        }
-
-        const listboxOption = this.listBoxOptions[this.activeSuggestionIndex];
-        this.router.navigate([listboxOption.url.replace('/', `/${this.translateService.currentLang}/`)]);
-    }
-
-    /**
-     * Listens on click outside query input. Hides suggestions list.
-     * @param {Event} event
-     */
-    clickOutside(event: Event) {
-        const targetElement = event.target as HTMLElement;
-        const parentElement = this.queryInputRef.nativeElement as HTMLElement;
-        const clickedInside = parentElement.outerHTML.indexOf(targetElement.outerHTML) !== -1;
-
-        if (!clickedInside) {
-            this.isListBoxExpanded = false;
-        }
-    }
-
-    /**
-     * Destroys unnecessary listeners
-     */
-    ngOnDestroy() {
-        if (this.clickOutsideListener instanceof Function) {
-            this.clickOutsideListener();
-        }
-        this.searchTextChanged && this.searchTextChanged.unsubscribe();
-        this.searchTextCleared && this.searchTextCleared.unsubscribe();
-    }
+  /**
+   * Emit event click to move into search results for screen reader
+   */
+  emitMoveToSearchResult() {
+    this.moveToSearchResultTrigger.emit();
+  }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { toggle, toggleVertically } from '@app/animations';
-import { DatasetCategoriesHelper } from '@app/pages/dataset/dataset-categories-helper.service';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
@@ -36,7 +35,7 @@ import { TemplateHelper } from '@app/shared/helpers';
 export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit {
 
     /**
-     * API model 
+     * API model
      */
     apiModel = ApiModel;
 
@@ -73,11 +72,10 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
                 protected selectedFiltersService: ListViewSelectedFilterService,
                 private listViewDetailsService: ListViewDetailsService,
                 private searchService: SearchService,
-                private categoriesHelper: DatasetCategoriesHelper,
                 private featureFlagService: FeatureFlagService) {
         super(filterService, activatedRoute, selectedFiltersService);
         this.Facets = [
-            this.categoriesHelper.getOptionName(),
+            AggregationOptionType.CATEGORIES,
             AggregationOptionType.INSTITUTION,
             AggregationOptionType.FORMAT,
             AggregationOptionType.OPENNESS_SCORE,
@@ -163,7 +161,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     protected getFiltersModel(): IListViewInstitutionItemFiltersModel | IListViewInstitutionItemCategoryFiltersModel  {
         // @ts-ignore
         return {
-            [this.categoriesHelper.getFilterName()]: {}, [AggregationFilterNames.FORMAT]: {}, [AggregationFilterNames.OPENNESS_SCORE]: {},
+            [AggregationFilterNames.CATEGORIES]: {}, [AggregationFilterNames.FORMAT]: {}, [AggregationFilterNames.OPENNESS_SCORE]: {},
             [AggregationFilterNames.VISUALIZATION_TYPE]: {}, [AggregationFilterNames.TYPES]: {},
             [AggregationFilterNames.LICENSES]: {}, [AggregationFilterNames.UPDATE_FREQUENCY]: {},
             [AggregationFilterNames.DATE_FROM]: null, [AggregationFilterNames.DATE_TO]: null
@@ -175,7 +173,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
      * @return {number}
      */
     protected getSelectedFiltersCount(): number {
-        return this.getSelectedFilterCount(this.backupSelectedFilters[this.categoriesHelper.getFilterName()]) +
+        return this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.CATEGORIES]) +
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.FORMAT]) +
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.OPENNESS_SCORE]) +
             this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.VISUALIZATION_TYPE]) +

@@ -51,7 +51,7 @@ export class CmsService {
             this.base_hostname = this.document.location.protocol + '//cms.' + this.document.location.hostname.replace('www.', '');
         }
 
-        // TODO CMS fix when endpoint /documents retun
+        // TODO CMS fix when endpoint /documents return
         // this.http.get(`${this.base_hostname}/api/documents/`)
         //     .subscribe((resp: any) => this.cmsDocumentsList = resp);
     }

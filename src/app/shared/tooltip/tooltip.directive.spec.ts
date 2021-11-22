@@ -7,7 +7,7 @@ import { TooltipDirective as BsTooltip } from 'ngx-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 
 import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { FeatureFlagDirective } from '@app/shared/directives/feature-flag.directive';
+import { FeatureFlagDirective } from '@app/shared/feature-flags/feature-flag.directive';
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
 
 

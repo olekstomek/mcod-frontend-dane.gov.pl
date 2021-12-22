@@ -15,26 +15,22 @@ import { InstitutionItemComponent } from './institution-item/institution-item.co
 import { InstitutionsRoutingModule } from './institutions-routing.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        InstitutionsRoutingModule,
-        AppBootstrapModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        FormsModule,
-        SharedModule,
-        DatepickerModule,
-        ReactiveFormsModule    
-    ],
-    providers: [BreadcrumbsInstitutionResolver],
-    declarations: [
-        InstitutionComponent,
-        InstitutionItemComponent,
-        InstitutionItemListViewFiltersComponent
-    ]
+  imports: [
+    CommonModule,
+    InstitutionsRoutingModule,
+    AppBootstrapModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    FormsModule,
+    SharedModule,
+    DatepickerModule,
+    ReactiveFormsModule,
+  ],
+  providers: [BreadcrumbsInstitutionResolver],
+  declarations: [InstitutionComponent, InstitutionItemComponent, InstitutionItemListViewFiltersComponent],
 })
 export class InstitutionsModule {}

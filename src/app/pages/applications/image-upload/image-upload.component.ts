@@ -52,6 +52,11 @@ export class ImageUploadComponent implements OnInit, ControlValueAccessor {
     @Input() labelTranslationKey = 'File.Self';
 
     /**
+     * Text next to label for hint
+     */
+    @Input() labelTranslationKeyHint = '';
+
+    /**
      * Related formcontrol
      */
     @Input() formControl: FormControl;

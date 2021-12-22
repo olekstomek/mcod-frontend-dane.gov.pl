@@ -15,7 +15,7 @@
 
             <ng-template #customTemplate>
                 <span class="sr-only">{{ 'Filters.Remove' | translate }}</span>
-                {{ item.value.title }}
+                <span *ngIf="isHighValueData">{{'Attribute.HighValueData' | translate}} - </span> {{ item.value.title }}
             </ng-template>
 
             <ng-template #starsTemplate>

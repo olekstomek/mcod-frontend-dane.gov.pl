@@ -1,75 +1,103 @@
 <ng-container *ngIf="item">
+  <h2 class="heading heading--primary-link heading--sm highlight" *featureFlag="'S39_high_value_data_filter.fe'; else WithoutHighValueData">
+    <a
+      [routerLink]="[detailsUrl]"
+      [queryParams]="queryParams ? queryParams : ''"
+      [innerHTML]="
+        item.attributes.abbreviation
+          ? (item.attributes.title + ' (' + item.attributes.abbreviation + ')' | stripHtmlTagsExceptHighlight | sanitizeHtml)
+          : (item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml)
+      "
+    >
+    </a>
+    <img
+      *ngIf="item.attributes.has_high_value_data"
+      class="ml-2"
+      src="assets/icomoon/SVG/high-value-data.svg"
+      appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueData.text' | translate }}"
+      title="{{ 'Tour.Tooltip.DatasetItem.HighValueData.title' | translate }}"
+      alt="ikona"
+      tabindex="0"
+    />
+  </h2>
+
+  <ng-template #WithoutHighValueData>
     <h2 class="heading heading--primary-link heading--sm highlight">
-        <a [routerLink]="[detailsUrl]"
-           [queryParams]="queryParams ? queryParams : ''"
-           [innerHTML]="
-           item.attributes.abbreviation ?
-           ((item.attributes.title + ' (' + item.attributes.abbreviation + ')') | stripHtmlTagsExceptHighlight | sanitizeHtml) :
-           (item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml)">
-        </a>
+      <a
+        [routerLink]="[detailsUrl]"
+        [queryParams]="queryParams ? queryParams : ''"
+        [innerHTML]="
+          item.attributes.abbreviation
+            ? (item.attributes.title + ' (' + item.attributes.abbreviation + ')' | stripHtmlTagsExceptHighlight | sanitizeHtml)
+            : (item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml)
+        "
+      >
+      </a>
     </h2>
+  </ng-template>
 
-    <!-- notes -->
-    <app-notes *ngIf="showNotes" [notes]="item.attributes.notes"></app-notes>
+  <!-- notes -->
+  <app-notes *ngIf="showNotes" [notes]="item.attributes.notes"></app-notes>
 
-    <!-- institution (short) -->
-    <ng-container *ngIf="!fromDatasetEndpoint">
-        <div *ngIf="item?.institution?.title">
-            <strong class="pr-1">{{'Attribute.InstitutionLong' | translate}}:</strong>
-            <a [routerLink]="['/' | localize,'!institution', item.institution?.id +','+ item.institution?.slug]"
-                [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight | sanitizeHtml">
-            </a>
-        </div>
-    </ng-container>
-
-    <!-- institution (full name) -->
-    <ng-container *ngIf="fromDatasetEndpoint">
-        <div *ngIf="item.attributes.model === apiModel.DATASET && item?.institution?.title">
-            <strong class="pr-1">{{'Attribute.InstitutionLong' | translate}}:</strong>
-            <a [routerLink]="['/' | localize ,'institution', item.institution?.id +','+ item.institution?.slug]"
-                [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight | sanitizeHtml">
-            </a>
-        </div>
-    </ng-container>
-
-    <!-- datasource -->
-    <div *ngIf="item.attributes.source?.type === 'ckan'" class="pt-1">
-        <strong class="pr-1">{{'Attribute.DataSource' | translate}}:</strong>
-        <a href="{{item.attributes.source?.url}}" target="_blank">
-            <span [innerHTML]="item.attributes.source?.title | stripHtmlTagsExceptHighlight | sanitizeHtml"></span>
-            <span aria-hidden="true">>></span>
-            <span class="sr-only">
-                {{ 'SkipTo.NewWindow' | translate }}
-            </span>
-        </a>
+  <!-- institution (short) -->
+  <ng-container *ngIf="!fromDatasetEndpoint">
+    <div *ngIf="item?.institution?.title">
+      <strong class="pr-1">{{ 'Attribute.InstitutionLong' | translate }}:</strong>
+      <a
+        [routerLink]="['/' | localize, '!institution', item.institution?.id + ',' + item.institution?.slug]"
+        [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight | sanitizeHtml"
+      >
+      </a>
     </div>
+  </ng-container>
 
-    <!-- sources - only one when type is 'ckan' -->
-    <div *ngIf="item.attributes.sources?.length && item.attributes.sources[0].source_type === 'ckan'">
-        <strong>
-            {{ 'Attribute.DataSource' | translate }}:
-        </strong>
-        <a href="{{ item.attributes.sources[0].url }}" target="_blank">
-            {{ item.attributes.sources[0].title | stripHtmlTagsExceptHighlight }} 
-            
-            <span aria-hidden="true">>></span>
-            <span class="sr-only">
-                {{ 'SkipTo.NewWindow' | translate }}
-            </span>
-        </a>
+  <!-- institution (full name) -->
+  <ng-container *ngIf="fromDatasetEndpoint">
+    <div *ngIf="item.attributes.model === apiModel.DATASET && item?.institution?.title">
+      <strong class="pr-1">{{ 'Attribute.InstitutionLong' | translate }}:</strong>
+      <a
+        [routerLink]="['/' | localize, 'institution', item.institution?.id + ',' + item.institution?.slug]"
+        [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight | sanitizeHtml"
+      >
+      </a>
     </div>
+  </ng-container>
 
-    <!-- applied filters -->
-    <div *ngIf="appliedFiltersNames.length" class="pt-1">
-        <strong class="pr-1">{{'Filters.AppliedFilters' | translate}}:</strong>
-        <span *ngFor="let filterName of appliedFiltersNames; let i=index ">
-            {{filterName | translate | lowercase}}<span *ngIf="i < appliedFiltersNames.length - 1">, </span>
-        </span>
-    </div>
-    
-    <!-- keywords -->
-    <div *ngIf="item.attributes.keywords?.length">
-        <app-keywords [tags]="item.attributes.keywords"></app-keywords>
-    </div>
+  <!-- datasource -->
+  <div *ngIf="item.attributes.source?.type === 'ckan'" class="pt-1">
+    <strong class="pr-1">{{ 'Attribute.DataSource' | translate }}:</strong>
+    <a href="{{ item.attributes.source?.url }}" target="_blank">
+      <span [innerHTML]="item.attributes.source?.title | stripHtmlTagsExceptHighlight | sanitizeHtml"></span>
+      <span aria-hidden="true">>></span>
+      <span class="sr-only">
+        {{ 'SkipTo.NewWindow' | translate }}
+      </span>
+    </a>
+  </div>
 
+  <!-- sources - only one when type is 'ckan' -->
+  <div *ngIf="item.attributes.sources?.length && item.attributes.sources[0].source_type === 'ckan'">
+    <strong> {{ 'Attribute.DataSource' | translate }}: </strong>
+    <a href="{{ item.attributes.sources[0].url }}" target="_blank">
+      {{ item.attributes.sources[0].title | stripHtmlTagsExceptHighlight }}
+
+      <span aria-hidden="true">>></span>
+      <span class="sr-only">
+        {{ 'SkipTo.NewWindow' | translate }}
+      </span>
+    </a>
+  </div>
+
+  <!-- applied filters -->
+  <div *ngIf="appliedFiltersNames.length" class="pt-1">
+    <strong class="pr-1">{{ 'Filters.AppliedFilters' | translate }}:</strong>
+    <span *ngFor="let filterName of appliedFiltersNames; let i = index">
+      {{ filterName | translate | lowercase }}<span *ngIf="i < appliedFiltersNames.length - 1">, </span>
+    </span>
+  </div>
+
+  <!-- keywords -->
+  <div *ngIf="item.attributes.keywords?.length">
+    <app-keywords [tags]="item.attributes.keywords"></app-keywords>
+  </div>
 </ng-container>

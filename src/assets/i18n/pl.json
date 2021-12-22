@@ -2,6 +2,7 @@
   "MC": "Ministerstwo Cyfryzacji",
   "MaintainedBy": "Serwis prowadzony przez",
   "Slogan": "Portal z danymi publicznymi",
+  "NewSlogan": "Portal danych",
   "SloganDescription": "Korzystaj z danych bezpłatnie, również do celów komercyjnych",
   "Description": "Dane o szczególnym znaczeniu dla rozwoju innowacyjności w państwie i rozwoju społeczeństwa informacyjnego w jednym miejscu",
   "GoTo": "Przejdź do strony",
@@ -17,6 +18,7 @@
   "RDFDocumentation": "Dokumentacja RDF",
   "Hint": "Podpowiedź",
   "ROUTES.404": "404",
+  "Yes": "Tak",
   "About": {
     "Self": "O serwisie"
   },
@@ -63,7 +65,8 @@
     "Preview": "Wyświetl",
     "Enter": "Wprowadź",
     "Expand": "Rozwiń",
-    "Collapse": "Zwiń"
+    "Collapse": "Zwiń",
+    "ChooseCategory": "Wybierz kategorię"
   },
   "ActivityNotification": {
     "object_restored": "Przywrócono",
@@ -91,20 +94,44 @@
     }
   },
   "ApplicationForm": {
+    "Self": "Innowacje",
+    "Title": "Zaproponuj",
     "Name": "Nazwa aplikacji",
+    "NewName": "Nazwa",
     "ApplicantEmail": "E-mail zgłaszającego",
     "Author": "Autor aplikacji",
-    "Logo": "Logo aplikacji (logo, które będzie wyświetlane podczas przeglądania)",
-    "Graphics": "Grafika ilustracyjna (grafika będzie wyświetlana w szczegółach aplikacji)",
-    "InternalDatasets": "Wyszukaj zbiór danych na portalu, który został wykorzystany do budowy aplikacji",
-    "ExternalDatasets": "Jeśli wykorzystałeś dane publiczne spoza portalu, to wprowadź nazwę zbioru lub podaj link do zbioru",
+    "NewAuthor": "Autor",
+    "Logo": "Logo aplikacji",
+    "LogoHint": "(logo, które będzie wyświetlane podczas przeglądania)",
+    "Graphics": "Grafika ilustracyjna",
+    "GraphicsHint": "(grafika będzie wyświetlana w szczegółach aplikacji)",
+    "InternalDatasets": "Wyszukaj zbiór danych na portalu",
+    "InternalDatasetsHint": "(który został wykorzystany do budowy aplikacji)",
+    "ExternalDatasets": "Jeśli wykorzystałeś dane publiczne spoza portalu",
+    "ExternalDatasetsHint": "(wprowadź nazwę zbioru lub podaj link do zbioru)",
     "ComaSeparated": "Oddzielone przecinkami",
     "RelatedDatasetsLimitAlert": "Została osiągnięta maksymalna liczba {param} zbiorów danych dla propozycji aplikacji",
     "Website": "Adres strony z informacją o aplikacji",
+    "NewWebsite": "Adres strony z informacją",
     "SuggestionSentSuccess": "Dziękujemy za zgłoszenie propozycji aplikacji.",
+    "SuggestionShowcasesSentSuccess": "Dziękujemy za zgłoszenie propozycji innowacji",
     "EnterName": "Wprowadź nazwę",
     "Link": "Link",
-    "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji"
+    "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji",
+    "Url": "https://",
+    "ApplicationType": "Rodzaj aplikacji",
+    "ApplicationTypeHint": "wymagane jest uzupełnienie przynajmniej jednego linku",
+    "MobileType": "Aplikacja mobilna",
+    "DesktopType": "Aplikacja desktopowa",
+    "LicenceType": "Rodzaj licencji",
+    "FreeLicence": "Darmowa aplikacja",
+    "PaidLicence": "Płatna aplikacja",
+    "iOSLinkText": "iOS - link do aplikacji:",
+    "AndroidLinkText": "Android - link do aplikacji:",
+    "WinLinkText": "Windows - link do aplikacji:",
+    "LinLinkText": "Linux - link do aplikacji:",
+    "MacLinkText": "MacOS - link do aplikacji:",
+    "EnterAuthor": "Wprowadź autora"
   },
   "Applications": {
     "Self": "Aplikacje",
@@ -118,10 +145,16 @@
     "Link": "Link do aplikacji",
     "Logo": "Logo aplikacji",
     "Suggest": "Zaproponuj aplikację",
+    "NewSuggest": "Zaproponuj",
     "Description1of3": "Otwarte dane publiczne to dane administracji publicznej, z których każdy może korzystać. Na bazie danych powstaje coraz więcej nowoczesnych produktów, usług i aplikacji.",
     "Description2of3": "Poniżej przedstawiamy przykłady wykorzystania danych publicznych w aplikacjach, produktach i usługach. Nie promujemy konkretnego rozwiązania, tylko upowszechniamy informacje o wybranych projektach wykorzystujących dane.",
     "Description3of3": "Jesteśmy zainteresowani kolejnymi przykładami",
+    "Description4": "Jesteśmy zainteresowani kolejnymi przykładami wykorzystania danych",
     "NoLogo": "Brak logo"
+  },
+  "Innovations": {
+    "Self": "Innowacje",
+    "SearchFor": "Wyszukaj"
   },
   "Articles": {
     "News": "Aktualności",
@@ -183,7 +216,10 @@
     "LastImportDate": "Data ostatniego importu",
     "HarvesterUpdateFrequency": "Częstotliwość importu",
     "Period": "Okres",
-    "Metadata": "Metadane"
+    "Metadata": "Metadane",
+    "HighValueData": "Dane o wysokiej wartości",
+    "ApplicationTypes": "Rodzaje aplickacji",
+    "PlatformTypes": "Rodzaje platformy"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",
@@ -567,7 +603,8 @@
     "Close": "Zamknij menu",
     "Faq": "Często zadawane pytania",
     "Declaration": "Deklaracja dostępności",
-    "Regulations": "Regulamin"
+    "Regulations": "Regulamin",
+    "Showcases": "PoCoTo"
   },
   "MyDashboard": {
     "Self": "Mój pulpit",
@@ -792,6 +829,10 @@
         "Applications": {
           "title": "Aplikacje",
           "text": "W tej sekcji można się zapoznać z innowacyjnymi rozwiązaniami informatycznymi wykorzystującymi dane publiczne zarówno zgromadzone na portalu jak też pochodzące z innych źródeł, na przykład w postaci aplikacji na urządzenia mobilne."
+        },
+        "Innovations": {
+          "title": "Innowacje",
+          "text": ""
         }
       },
       "SearchResults": {
@@ -844,6 +885,12 @@
         "History": {
           "title": "Historia zbioru",
           "text": "Informacje dotyczące zmian wprowadzonych w zbiorze danych."
+        }
+      },
+      "DatasetItem": {
+        "HighValueData": {
+          "title": "Dane o wysokiej wartości",
+          "text": "To informacje sektora publicznego, których ponowne wykorzystanie wiąże się z istotnymi korzyściami dla społeczeństwa, środowiska i gospodarki, w szczególności ze względu na ich przydatność do tworzenia usług, generowania miejsc pracy i innych zastosowań o wartości dodanej."
         }
       },
       "Institutions": {
@@ -903,6 +950,10 @@
           "DateRange": {
             "title": "Filtry - daty",
             "text": "Możesz wybrać przedział czasowy określający aktualność danych. Swój wybór potwierdź przyciskiem „Zastosuj”."
+          },
+          "HighValueData": {
+            "title": "Filtry - dane o wysokiej wartości",
+            "text": ""
           }
         }
       },
@@ -912,7 +963,7 @@
           "text": "Wpisane słowo lub fraza są wyszukiwane w tytułach i opisach aplikacji."
         },
         "Suggest": {
-          "title": "Zaproponuj aplikację",
+          "title": "Zaproponuj innowację",
           "text": "Każdy autor aplikacji, która bazuje na otwartych danych, może ją zgłosić do administratora portalu dane.gov.pl w celu udostepnienia jej na portalu."
         }
       },
@@ -1050,7 +1101,8 @@
     "NoUppercase": "Duża litera",
     "NoNumbers": "Liczba",
     "NoSpecialChars": "Znak specjalny",
-    "VarNoMinLength": "{param, plural, =1 {1 znak} few {{param} znaki} other {{param} znaków}}"
+    "VarNoMinLength": "{param, plural, =1 {1 znak} few {{param} znaki} other {{param} znaków}}",
+    "requireOneUrl": "Wymagane jest podanie przynajmniej jednego linku"
   },
   "WriteUs": {
     "Self": "Napisz do nas",

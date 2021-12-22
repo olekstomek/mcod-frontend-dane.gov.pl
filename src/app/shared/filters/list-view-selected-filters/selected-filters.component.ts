@@ -25,6 +25,8 @@ export class SelectedFiltersComponent {
      */
     @Input() isStarsType = false;
 
+    @Input() isHighValueData = false;
+
     /**
      * event for removing filter
      */

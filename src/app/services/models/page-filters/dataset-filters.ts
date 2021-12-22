@@ -21,6 +21,7 @@ export interface IListViewDatasetCategoryFiltersModel {
   [AggregationFilterNames.LICENSES]: MultiselectOption;
   [AggregationFilterNames.UPDATE_FREQUENCY]: MultiselectOption;
   [AggregationFilterNames.TYPES]: MultiselectOption;
+  [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
   [AggregationFilterNames.DATE_FROM]: Date;
   [AggregationFilterNames.DATE_TO]: Date;
 }
@@ -34,6 +35,7 @@ export const DatasetListViewFilterNames = [
   AggregationFilterNames.LICENSES,
   AggregationFilterNames.UPDATE_FREQUENCY,
   AggregationFilterNames.TYPES,
+  AggregationFilterNames.HIGH_VALUE_DATA,
   AggregationFilterNames.DATE_FROM,
   AggregationFilterNames.DATE_TO,
 ];

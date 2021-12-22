@@ -13,6 +13,7 @@ import { IInstitutionSource, InstitutionSourceType } from '@app/services/models/
 import { SearchService } from '@app/services/search.service';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Institution Component
@@ -43,12 +44,13 @@ export class InstitutionComponent extends ListViewFilterPageAbstractComponent im
     protected filterService: ListViewFiltersService,
     protected activatedRoute: ActivatedRoute,
     protected selectedFiltersService: ListViewSelectedFilterService,
+    protected featureFlagService: FeatureFlagService,
     private router: Router,
     private institutionsService: InstitutionsService,
     private seoService: SeoService,
     private searchService: SearchService,
   ) {
-    super(filterService, activatedRoute, selectedFiltersService);
+    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
   }
 
   /**

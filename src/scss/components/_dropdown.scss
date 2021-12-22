@@ -84,6 +84,10 @@
             &-title, &-doc-count {
                 white-space: nowrap;
             }
+
+            &-hint {
+                margin-left: 5px;
+            }
         }
 
         //Todo remove after replacing by new filters
@@ -119,6 +123,12 @@
                 overflow-y: auto;
             }
         }
+    }
+
+    &__list-custom {
+        list-style: none;
+        margin: 5px 0 0 0;
+        padding: 0;
     }
 
     &__apply-wrapper {

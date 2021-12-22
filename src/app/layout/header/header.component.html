@@ -325,18 +325,31 @@
                                 {{ 'Menu.Institutions' | translate }}
                             </a>
                         </li>
-                
-                        <!-- applications -->
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" role="menuitem" 
-                                [routerLink]="['/!application' | localize]" 
-                                routerLinkActive="active"
-                                #menuLinkApplications="routerLinkActive"
-                                [attr.aria-current]="menuLinkApplications.isActive ? true : null">
-                                {{ 'Menu.Applications' | translate }}
+
+                        <!-- PoCoTo -->
+                        <li *featureFlag="'S39_innovation_view.fe'; else oldView" class="nav-item" role="presentation">
+                            <a class="nav-link" role="menuitem"
+                               [routerLink]="['/!application' | localize]"
+                               routerLinkActive="active"
+                               #menuLinkApplications="routerLinkActive"
+                               [attr.aria-current]="menuLinkApplications.isActive ? true : null">
+                                {{ 'Menu.Showcases' | translate }}
                             </a>
                         </li>
                 
+                        <!-- applications -->
+                        <ng-template #oldView>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" role="menuitem"
+                                   [routerLink]="['/!application' | localize]"
+                                   routerLinkActive="active"
+                                   #menuLinkApplications="routerLinkActive"
+                                   [attr.aria-current]="menuLinkApplications.isActive ? true : null">
+                                    {{ 'Menu.Applications' | translate }}
+                                </a>
+                            </li>
+                        </ng-template>
+
                         <!-- news (articles) -->
                         <!-- news is a subset of knowledge base in the admin panel -->
                         <li class="nav-item" role="presentation">

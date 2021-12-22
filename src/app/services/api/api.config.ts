@@ -20,6 +20,7 @@ export enum ApiConfig {
     applications = '/applications',
     applicationsDatasets = '/applications/:id/datasets',
     suggestApplication = '/applications/suggest',
+    suggestShowcases = '/showcases/suggest',
     articles = '/articles',
     institutions = '/institutions',
     datasets = '/datasets',

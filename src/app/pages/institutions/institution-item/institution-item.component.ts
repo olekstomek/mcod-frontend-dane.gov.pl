@@ -72,8 +72,8 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
                 protected selectedFiltersService: ListViewSelectedFilterService,
                 private listViewDetailsService: ListViewDetailsService,
                 private searchService: SearchService,
-                private featureFlagService: FeatureFlagService) {
-        super(filterService, activatedRoute, selectedFiltersService);
+                protected featureFlagService: FeatureFlagService) {
+        super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
         this.Facets = [
             AggregationOptionType.CATEGORIES,
             AggregationOptionType.INSTITUTION,

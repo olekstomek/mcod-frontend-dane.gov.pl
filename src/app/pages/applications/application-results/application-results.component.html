@@ -7,7 +7,7 @@
     <ng-template let-item>
         <app-details-result-item [detailsData]="[
                 { titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes?.created, isDate: true }
-            ]">
+            ]" [isApplicationView]="true">
         </app-details-result-item>
     </ng-template>
 

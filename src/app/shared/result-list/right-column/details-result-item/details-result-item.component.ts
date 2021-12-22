@@ -24,4 +24,6 @@ export class DetailsResultItemComponent {
      * enable/disable displaying each detail {key: value} in one row
      */
     @Input() showEachDetailInRow = false;
+
+    @Input() isApplicationView = false;
 }

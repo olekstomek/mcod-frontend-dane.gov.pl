@@ -74,6 +74,16 @@
   >
   </app-selected-filters>
 
+  <!-- High value data -->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.HIGH_VALUE_DATA]"
+    [isHighValueData] = true
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA, $event)"
+    *featureFlag="'S39_high_value_data_filter.fe'"
+  >
+  </app-selected-filters>
+
   <!-- Date range -->
   <app-selected-filters
     [items]="{

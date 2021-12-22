@@ -26,6 +26,7 @@ export class HttpXsrfInterceptorService implements HttpInterceptor {
     if (req.method === 'GET' || req.method === 'HEAD' || !this.isRequestToApi(lowerCaseURL)) {
       return next.handle(req);
     }
+
     const token = this.cookieExtractor.getToken();
 
     if (token !== null && !req.headers.has(APP_CONFIG.csrfToken)) {

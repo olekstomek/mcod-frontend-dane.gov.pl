@@ -21,7 +21,7 @@ export class ListViewFilterAbstractComponent {
   /**
    * All available Names for Filters
    */
-  readonly FiletersNames = AggregationFilterNames;
+  readonly FiltersNames = AggregationFilterNames;
 
   /**
    * All available Names for Options

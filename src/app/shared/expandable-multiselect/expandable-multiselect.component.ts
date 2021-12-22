@@ -20,7 +20,7 @@ export class ExpandableMultiselectComponent {
    */
   selectedCount = 0;
   /**
-   * fitlered options after user type in input
+   * filtered options after user type in input
    */
   filteredOptions: IAggregationProperties[] = [];
   /**
@@ -114,6 +114,11 @@ export class ExpandableMultiselectComponent {
    * set filter name for automatic test
    */
   @Input() filterName: string;
+
+    /**
+     * single select option for filter
+     */
+  @Input() singleSelectOption = false;
 
   /**
    * event emitter for changing of selected filters

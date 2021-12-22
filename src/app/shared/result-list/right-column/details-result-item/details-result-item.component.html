@@ -1,31 +1,32 @@
 <div class="result-item-attributes">
+  <div *ngIf="titleTranslationKey" class="result-item-attributes__heading">
+    {{ titleTranslationKey | translate }}
+  </div>
 
-    <div *ngIf="titleTranslationKey" class="result-item-attributes__heading">
-        {{ titleTranslationKey | translate }}
+  <ng-container *featureFlag="'S39_innovation_view.fe'">
+    <div *ngIf="isApplicationView" class="mb-5">
+      <img src="assets/icomoon/SVG/ic-aplikacje.svg" alt="" />
+      <strong>Aplikacja</strong>
     </div>
+  </ng-container>
 
-    <div class="result-item-attributes__list">
-        <div class="result-item-attributes__list-item" 
-            [ngClass]="{'pt-lg-3': i > 1}"
-            *ngFor="let details of detailsData; let i = index;">
+  <div class="result-item-attributes__list">
+    <div class="result-item-attributes__list-item" [ngClass]="{ 'pt-lg-3': i > 1 }" *ngFor="let details of detailsData; let i = index">
+      <!-- title -->
+      <strong>{{ details.titleTranslationKey | translate }}: </strong>
 
-            <!-- title -->
-            <strong>{{ details.titleTranslationKey | translate }}: </strong>
+      <!-- attribute -->
+      <span [ngClass]="{ 'd-lg-block': !showEachDetailInRow }">
+        <!-- date -->
+        <ng-container *ngIf="details.isDate">
+          {{ details.data | translateDateFormat: details.dateFormat | async }}
+        </ng-container>
 
-            <!-- attribute -->
-            <span [ngClass]="{'d-lg-block': !showEachDetailInRow}">
-
-                <!-- date -->
-                <ng-container *ngIf="details.isDate">
-                    {{ details.data | translateDateFormat: details.dateFormat | async }}
-                </ng-container>
-
-                <!-- not a date -->
-                <ng-container *ngIf="!details.isDate">
-                    {{ details.data }}
-                </ng-container>
-            </span>
-        </div>
+        <!-- not a date -->
+        <ng-container *ngIf="!details.isDate">
+          {{ details.data }}
+        </ng-container>
+      </span>
     </div>
-
+  </div>
 </div>

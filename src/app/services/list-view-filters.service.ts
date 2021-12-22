@@ -26,9 +26,22 @@ export class ListViewFiltersService {
    * @return {string}
    */
   addTermsSuffix(name: string): string {
-    return name === AggregationFilterNames.CATEGORIES || name === AggregationFilterNames.INSTITUTION
-      ? name + '[id][terms]'
-      : name + '[terms]';
+    let filterNameWithSuffix: string;
+
+    switch (name) {
+      case AggregationFilterNames.CATEGORIES:
+      case AggregationFilterNames.INSTITUTION:
+        filterNameWithSuffix = name + '[id][terms]';
+        break;
+      case AggregationFilterNames.HIGH_VALUE_DATA:
+        filterNameWithSuffix = name + '[term]';
+        break;
+      default:
+        filterNameWithSuffix = name + '[terms]';
+        break;
+    }
+
+    return filterNameWithSuffix;
   }
 
   /**

@@ -100,9 +100,9 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     protected selectedFiltersService: ListViewSelectedFilterService,
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
-    private featureFlagService: FeatureFlagService,
+    protected featureFlagService: FeatureFlagService,
   ) {
-    super(filterService, activatedRoute, selectedFiltersService);
+    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
     this.Facets = [
       AggregationOptionType.CATEGORIES,
       AggregationOptionType.INSTITUTION,
@@ -115,6 +115,9 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
 
     if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
       this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
+    }
+    if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
+      this.Facets = [...this.Facets, AggregationOptionType.HIGH_VALUE_DATA];
     }
   }
 
@@ -233,6 +236,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.TYPES]: {},
       [AggregationFilterNames.LICENSES]: {},
       [AggregationFilterNames.UPDATE_FREQUENCY]: {},
+      [AggregationFilterNames.HIGH_VALUE_DATA]: {},
       [AggregationFilterNames.DATE_FROM]: null,
       [AggregationFilterNames.DATE_TO]: null,
     };
@@ -252,6 +256,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.TYPES]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
   }

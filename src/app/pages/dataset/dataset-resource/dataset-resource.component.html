@@ -21,6 +21,12 @@
         </span>
       </li>
 
+      <!--high value data-->
+      <li *ngIf="resource?.attributes?.has_high_value_data">
+        <strong> {{ 'Attribute.HighValueData' | translate }}: </strong>
+        <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      </li>
+
       <!-- dates info -->
       <li>
         <strong> {{ 'Attribute.AvailabilityDate' | translate }}: </strong>

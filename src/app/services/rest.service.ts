@@ -272,7 +272,7 @@ export abstract class RestService {
         this.initHeaders();
         return this.http[method](url, {
             headers: this.headers,
-            ...this.getCredentials(),
+            withCredentials: true,
             params: params
         }).pipe(
             catchError(this.errorRedirectionHandler.bind(this, skip404Redirect))
@@ -291,7 +291,7 @@ export abstract class RestService {
         this.initHeaders();
         return this.http[method](url, payload, {
             headers: this.headers,
-            ...this.getCredentials(),
+            withCredentials: true,
             params: params
         }).pipe(
             catchError(this.errorNotificationHandler.bind(this))
@@ -388,26 +388,5 @@ export abstract class RestService {
         this.headers = new HttpHeaders();
         this.headers = this.headers.append('Accept-Language', this.translate.currentLang);
         this.checkSession();
-    }
-    
-    /**
-     * Gets credentials based on current environment
-     * @returns {{withCredentials: boolean}}
-     */
-    getCredentials():{[key: string]: boolean} {
-        let hasCredentials: boolean;
-        switch (this.document.location.hostname) {
-            case 'localhost':
-            case 'dev.dane.gov.pl':
-            case 'int.dane.gov.pl':
-                hasCredentials = false;
-                break;
-            default:
-                hasCredentials = true;
-        }
-        
-        return {
-            withCredentials: hasCredentials
-        };
     }
 }

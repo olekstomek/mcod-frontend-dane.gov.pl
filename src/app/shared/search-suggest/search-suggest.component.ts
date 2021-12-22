@@ -259,9 +259,6 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         }
 
         this.toggleDropdown(this.prepareListboxOptions(response.data));
-        if (this.featureFlagsService.validateFlagSync('S_38_WCAG_button_in_data_view.fe')) {
-          document.getElementById('search-counters-label').focus(); // TODO: stay after remove S_38_WCAG_button_in_data_view.fe
-        }
       });
 
     this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));

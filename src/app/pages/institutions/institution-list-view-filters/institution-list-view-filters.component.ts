@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ListViewManageFiltersService } from '@app/services/filters/list-view-manage-filters.service';
 import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-filter-abstract/list-view-filter-abstract.component';
 import { InstitutionListViewFilterNames } from '@app/services/models/page-filters/institution-filters';
 

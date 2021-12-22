@@ -7,56 +7,55 @@ import { ApiModel } from '@app/services/api/api-model';
  * Component which displays deafult data for the left side column
  */
 @Component({
-    selector: 'app-default-result-item',
-    templateUrl: './default-result-item.component.html',
+  selector: 'app-default-result-item',
+  templateUrl: './default-result-item.component.html',
 })
 export class DefaultResultItemComponent implements OnInit {
-    
-    /**
-     * API model
-     */
-    apiModel = ApiModel;
+  /**
+   * API model
+   */
+  apiModel = ApiModel;
 
-    /**
-     * dataset item to display
-     */
-    @Input() item: any;
+  /**
+   * dataset item to display
+   */
+  @Input() item: any;
 
-    /**
-     * flag to indicate if notes should be displayed
-     */
-    @Input() showNotes = true;
+  /**
+   * flag to indicate if notes should be displayed
+   */
+  @Input() showNotes = true;
 
-    /**
-     * url router link
-     */
-    @Input() detailsUrl: string | Array<string>;
+  /**
+   * url router link
+   */
+  @Input() detailsUrl: string | Array<string>;
 
-    /**
-     * query params object
-     */
-    @Input() queryParams: Params;
+  /**
+   * query params object
+   */
+  @Input() queryParams: Params;
 
-    /**
-     * List of translations keys for applied filters (params)
-     */
-    appliedFiltersNames: string[] = [];
+  /**
+   * List of translations keys for applied filters (params)
+   */
+  appliedFiltersNames: string[] = [];
 
-    /**
-     * determinate if list is called from /dataset route
-     */
-    @Input() fromDatasetEndpoint = false;
+  /**
+   * determinate if list is called from /dataset route
+   */
+  @Input() fromDatasetEndpoint = false;
 
-    constructor(private mapParamsToTranslationKeysService: MapParamsToTranslationKeysService) {
+
+  constructor(private mapParamsToTranslationKeysService: MapParamsToTranslationKeysService) {}
+
+  /**
+   * gets filters names if item has params
+   */
+  ngOnInit() {
+    if (!this.queryParams) {
+      return;
     }
-
-    /**
-     * gets filters names if item has params
-     */
-    ngOnInit() {
-        if (!this.queryParams) {
-            return;
-        }
-        this.appliedFiltersNames = this.mapParamsToTranslationKeysService.getFiltersTranslations(this.queryParams);
-    }
+    this.appliedFiltersNames = this.mapParamsToTranslationKeysService.getFiltersTranslations(this.queryParams);
+  }
 }

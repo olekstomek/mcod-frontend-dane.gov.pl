@@ -13,11 +13,11 @@
     [titleTranslationKey]="'Attribute.CategoryLong'"
     [titleTooltipTranslationKey]="'Attribute.CategoryTooltip'"
     [options]="filtersOptions && filtersOptions[OptionsNames.CATEGORIES]"
-    [selectedIds]="selectedData[FiletersNames.CATEGORIES]"
-    [enableApply]="availabilityFilterMap[FiletersNames.CATEGORIES]"
+    [selectedIds]="selectedData[FiltersNames.CATEGORIES]"
+    [enableApply]="availabilityFilterMap[FiltersNames.CATEGORIES]"
     [maxLength]="maxLength"
     [ariaLabel]="'category-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.CATEGORIES, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.CATEGORIES, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'category'"
   >
@@ -29,11 +29,11 @@
     [titleTranslationKey]="'Attribute.InstitutionLong'"
     [titleTooltipTranslationKey]="'Attribute.InstitutionTooltip'"
     [options]="filtersOptions && filtersOptions[OptionsNames.INSTITUTION]"
-    [selectedIds]="selectedData[FiletersNames.INSTITUTION]"
-    [enableApply]="availabilityFilterMap[FiletersNames.INSTITUTION]"
+    [selectedIds]="selectedData[FiltersNames.INSTITUTION]"
+    [enableApply]="availabilityFilterMap[FiltersNames.INSTITUTION]"
     [maxLength]="maxLength"
     [ariaLabel]="'institution-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.INSTITUTION, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.INSTITUTION, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'institution'"
   >
@@ -45,11 +45,11 @@
     [titleTranslationKey]="'Attribute.FormatLong'"
     [options]="filtersOptions && filtersOptions[OptionsNames.FORMAT]"
     [titleTooltipTranslationKey]="'Attribute.FormatTooltip'"
-    [selectedIds]="selectedData[FiletersNames.FORMAT]"
-    [enableApply]="availabilityFilterMap[FiletersNames.FORMAT]"
+    [selectedIds]="selectedData[FiltersNames.FORMAT]"
+    [enableApply]="availabilityFilterMap[FiltersNames.FORMAT]"
     [maxLength]="maxLength"
     [ariaLabel]="'format-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.FORMAT, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.FORMAT, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'format'"
   >
@@ -63,11 +63,11 @@
     [showSearchInput]="false"
     [displayShowMore]="false"
     [options]="filtersOptions && filtersOptions[OptionsNames.OPENNESS_SCORE]"
-    [selectedIds]="selectedData[FiletersNames.OPENNESS_SCORE]"
-    [enableApply]="availabilityFilterMap[FiletersNames.OPENNESS_SCORE]"
+    [selectedIds]="selectedData[FiltersNames.OPENNESS_SCORE]"
+    [enableApply]="availabilityFilterMap[FiltersNames.OPENNESS_SCORE]"
     [maxLength]="maxLength"
     [ariaLabel]="'openness-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.OPENNESS_SCORE, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.OPENNESS_SCORE, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'openness'"
   >
@@ -81,11 +81,11 @@
     [showSearchInput]="false"
     [displayShowMore]="false"
     [options]="filtersOptions && filtersOptions[OptionsNames.VISUALIZATION_TYPE]"
-    [selectedIds]="selectedData[FiletersNames.VISUALIZATION_TYPE]"
-    [enableApply]="availabilityFilterMap[FiletersNames.VISUALIZATION_TYPE]"
+    [selectedIds]="selectedData[FiltersNames.VISUALIZATION_TYPE]"
+    [enableApply]="availabilityFilterMap[FiltersNames.VISUALIZATION_TYPE]"
     [maxLength]="maxLength"
     [ariaLabel]="'visualization-types-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.VISUALIZATION_TYPE, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.VISUALIZATION_TYPE, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'visualization'"
   >
@@ -97,11 +97,11 @@
     [titleTranslationKey]="'Attribute.LicenseLong'"
     [titleTooltipTranslationKey]="'Attribute.LicenseTooltip'"
     [options]="filtersOptions && filtersOptions[OptionsNames.LICENSES]"
-    [selectedIds]="selectedData[FiletersNames.LICENSES]"
-    [enableApply]="availabilityFilterMap[FiletersNames.LICENSES]"
+    [selectedIds]="selectedData[FiltersNames.LICENSES]"
+    [enableApply]="availabilityFilterMap[FiltersNames.LICENSES]"
     [maxLength]="maxLength"
     [ariaLabel]="'licenses-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.LICENSES, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.LICENSES, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'licenses'"
   >
@@ -114,11 +114,11 @@
     [titleTranslationKey]="'Attribute.UpdateFrequency'"
     [titleTooltipTranslationKey]="'Attribute.UpdateFrequency'"
     [options]="filtersOptions && filtersOptions[OptionsNames.UPDATE_FREQUENCY]"
-    [selectedIds]="selectedData[FiletersNames.UPDATE_FREQUENCY]"
-    [enableApply]="availabilityFilterMap[FiletersNames.UPDATE_FREQUENCY]"
+    [selectedIds]="selectedData[FiltersNames.UPDATE_FREQUENCY]"
+    [enableApply]="availabilityFilterMap[FiltersNames.UPDATE_FREQUENCY]"
     [maxLength]="maxLength"
     [ariaLabel]="'update-frequency-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.UPDATE_FREQUENCY, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.UPDATE_FREQUENCY, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'update'"
   >
@@ -131,26 +131,44 @@
     [titleTooltipTranslationKey]="'Attribute.ResourceType'"
     [showSearchInput]="false"
     [options]="filtersOptions && filtersOptions[OptionsNames.TYPES]"
-    [selectedIds]="selectedData[FiletersNames.TYPES]"
-    [enableApply]="availabilityFilterMap[FiletersNames.TYPES]"
+    [selectedIds]="selectedData[FiltersNames.TYPES]"
+    [enableApply]="availabilityFilterMap[FiltersNames.TYPES]"
     [maxLength]="maxLength"
     [ariaLabel]="'types-filter-label'"
-    (selectedChange)="onSelectedChange(FiletersNames.TYPES, $event)"
+    (selectedChange)="onSelectedChange(FiltersNames.TYPES, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'resource'"
   >
   </app-expandable-multiselect>
 
+    <!--High value data-->
+    <app-expandable-multiselect
+        *featureFlag="'S39_high_value_data_filter.fe'"
+        id="dataset-high-value-data-filter"
+        [titleTranslationKey]="'Attribute.HighValueData'"
+        [showSearchInput]="false"
+        [singleSelectOption]="true"
+        [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA]"
+        [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA]"
+        [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA]"
+        [maxLength]="maxLength"
+        [ariaLabel]="'high-value-data-label'"
+        (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
+        (applyFilter)="applyFilter()"
+        [filterName]="'high'"
+    >
+    </app-expandable-multiselect>
+
   <!-- Upload date range -->
   <app-date-range-picker
     id="dataset-daterange"
-    [startDate]="selectedData[FiletersNames.DATE_FROM]"
-    [endDate]="selectedData[FiletersNames.DATE_TO]"
-    [enableApply]="availabilityFilterMap[FiletersNames.DATE_FROM] || availabilityFilterMap[FiletersNames.DATE_TO]"
+    [startDate]="selectedData[FiltersNames.DATE_FROM]"
+    [endDate]="selectedData[FiltersNames.DATE_TO]"
+    [enableApply]="availabilityFilterMap[FiltersNames.DATE_FROM] || availabilityFilterMap[FiltersNames.DATE_TO]"
     (datesChanged)="
       onDaterangeChange([
-        { name: FiletersNames.DATE_FROM, value: $event.startDate },
-        { name: FiletersNames.DATE_TO, value: $event.endDate }
+        { name: FiltersNames.DATE_FROM, value: $event.startDate },
+        { name: FiltersNames.DATE_TO, value: $event.endDate }
       ])
     "
     (applyFilterChanged)="applyFilter()"

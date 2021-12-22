@@ -164,7 +164,8 @@ publish-code:
   stage: release
   script:
     - git archive --output /gluster/mcod/code/frontend_$PACKAGE_VERSION.zip -9 HEAD
-    - ln -sfn /gluster/mcod/code/frontend_$PACKAGE_VERSION.zip /gluster/mcod/code/frontend_latest.zip
+    - cd /gluster/mcod/code
+    - ln -sf frontend_$PACKAGE_VERSION.zip frontend_latest.zip
   except:
     - schedules
   only:

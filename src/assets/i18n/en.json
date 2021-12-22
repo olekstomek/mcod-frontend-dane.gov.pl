@@ -2,6 +2,7 @@
   "MC": "Ministry of Digital Affairs",
   "MaintainedBy": "Maintained by",
   "Slogan": "Poland's Open Data Portal",
+  "NewSlogan": "Poland's Data Portal",
   "SloganDescription": "Use public data free of charge, also for commercial purposes",
   "Description": "Data of particular importance for the development of innovation in the state and development of the information society in one location",
   "GoTo": "Go to",
@@ -17,6 +18,7 @@
   "RDFDocumentation": "RDF Documentation",
   "Hint": "Hint",
   "ROUTES.404": "404",
+  "Yes": "yes",
   "About": {
     "Self": "About the portal"
   },
@@ -63,7 +65,8 @@
     "Preview": "Preview",
     "Enter": "Enter",
     "Expand": "Expand",
-    "Collapse": "Collapse"
+    "Collapse": "Collapse",
+    "ChooseCategory": "Select category"
   },
   "ActivityNotification": {
     "object_restored": "Restored",
@@ -91,20 +94,44 @@
     }
   },
   "ApplicationForm": {
+    "Self": "Innovation",
+    "Title": "Suggest",
     "Name": "Application name",
+    "NewName": "Name",
     "ApplicantEmail": "Applicant e-mail",
     "Author": "Application author",
+    "NewAuthor": "Author",
     "Logo": "Application logo (logo displayed when browsing)",
-    "Graphics": "Illustrative graphics (graphics displayed in application details)",
-    "InternalDatasets": "Search for the dataset on the portal that was used to build the application",
+    "LogoHint": "(logo displayed when browsing)",
+    "Graphics": "Illustrative graphics",
+    "GraphicsHint": "(graphics displayed in application details)",
+    "InternalDatasets": "Search for the dataset on the portal",
+    "InternalDatasetsHint": "(that was used to build the application)",
     "ExternalDatasets": "If you used public data which is not available on the portal, enter the dataset name or provide the link to the dataset",
+    "ExternalDatasetsHint": "(enter the dataset name or provide the link to the dataset)",
     "ComaSeparated": "Coma separated",
     "RelatedDatasetsLimitAlert": "You've reached maximum number of {param} related datasets per the application suggestion",
     "Website": "Website URL with information about the application",
+    "NewWebsite": "Website URL with information",
     "SuggestionSentSuccess": "Thank you for submitting the application suggestion",
+    "SuggestionShowcasesSentSuccess": "Thank you for submitting the innovation suggestion",
     "EnterName": "Enter name",
     "Link": "Link",
-    "DataProcessing": "I hereby confirm that I have taken note of the following information"
+    "DataProcessing": "I hereby confirm that I have taken note of the following information",
+    "Url": "https://",
+    "ApplicationType": "Application type",
+    "ApplicationTypeHint": "(at least one link is required to be completed)",
+    "MobileType": "Mobile application",
+    "DesktopType": "Desktop application",
+    "LicenceType": "Licence type",
+    "FreeLicence": "Free application",
+    "PaidLicence": "Paid application",
+    "iOSLinkText": "iOS - application link:",
+    "AndroidLinkText": "Android - application link:",
+    "WinLinkText": "Windows - application link:",
+    "LinLinkText": "Linux - application link:",
+    "MacLinkText": "MacOS - application link:",
+    "EnterAuthor": "Enter author"
   },
   "Applications": {
     "Self": "Applications",
@@ -118,10 +145,16 @@
     "Link": "Link to the application",
     "Logo": "Application logo",
     "Suggest": "Suggest an application",
+    "NewSuggest": "Suggest",
     "Description1of3": "Open public data is public administration data that everyone can use. Based on the data, more and more modern products, services and applications are being created.",
     "Description2of3": "Below we present examples of public data utilization in applications, products and services. We do not promote a specific solution, we only disseminate information about selected projects using data.",
     "Description3of3": "We are interested in further examples",
+    "Description4": "We are interested in further examples of data use",
     "NoLogo": "No logo"
+  },
+  "Innovations": {
+    "Self": "Innovations",
+    "SearchFor": "Search"
   },
   "Articles": {
     "News": "News",
@@ -183,7 +216,10 @@
     "LastImportDate": "Last import date",
     "HarvesterUpdateFrequency": "Import frequency",
     "Period": "Period",
-    "Metadata": "Metadata"
+    "Metadata": "Metadata",
+    "HighValueData": "Dane o wysokiej wartości",
+    "ApplicationTypes": "Rodzaje aplickacji",
+    "PlatformTypes": "Rodzaje platformy"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -567,7 +603,8 @@
     "Close": "Close menu",
     "Faq": "FAQ",
     "Declaration": "Declaration of accessibility",
-    "Regulations": "Regulations"
+    "Regulations": "Regulations",
+    "Showcases": "PoCoTo"
   },
   "MyDashboard": {
     "Self": "My dashboard",
@@ -846,6 +883,12 @@
           "text": "Information regarding the changes made to the dataset"
         }
       },
+      "DatasetItem": {
+        "HighValueData": {
+          "title": "High value data",
+          "text": "It is public sector information whose re-use has significant benefits for society, the environment and the economy, in particular because of its suitability for services, job creation and other value-added applications."
+        }
+      },
       "Institutions": {
         "Search": {
           "title": "Searchbar",
@@ -903,6 +946,10 @@
           "DateRange": {
             "title": "Filters - date range",
             "text": "Selecting a range of dates and clicking the “Apply” button restricts the search results to the datasets and data whose update dates are within the entered range."
+          },
+          "HighValueData": {
+            "title": "Filters - high calue data",
+            "text": ""
           }
         }
       },
@@ -912,7 +959,7 @@
           "text": "The word or a phrase entered in the “Search Application” field are searched in the titles and descriptions."
         },
         "Suggest": {
-          "title": "Suggest an application",
+          "title": "Suggest an innovation",
           "text": "Each author of an application based on open data can submit it to the dane.gov.pl portal administration to have it shared on the portal."
         }
       },
@@ -1050,7 +1097,8 @@
     "NoUppercase": "Uppercase",
     "NoNumbers": "Number",
     "NoSpecialChars": "Special character",
-    "VarNoMinLength": "{param, plural, =1 {1 character} other {{param} characters}}"
+    "VarNoMinLength": "{param, plural, =1 {1 character} other {{param} characters}}",
+    "requireOneUrl": "at least one link is required to be completed"
   },
   "WriteUs": {
     "Self": "Contact Us",

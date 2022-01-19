@@ -3,15 +3,22 @@
     {{ titleTranslationKey | translate }}
   </div>
 
-  <ng-container *featureFlag="'S39_innovation_view.fe'">
-    <div *ngIf="isApplicationView" class="mb-5">
-      <img src="assets/icomoon/SVG/ic-aplikacje.svg" alt="" />
-      <strong>Aplikacja</strong>
-    </div>
-  </ng-container>
-
   <div class="result-item-attributes__list">
     <div class="result-item-attributes__list-item" [ngClass]="{ 'pt-lg-3': i > 1 }" *ngFor="let details of detailsData; let i = index">
+      <ng-container *featureFlag="'S39_innovation_view.fe'">
+        <div *ngIf="isShowcaseView" class="mb-5">
+          <p>
+            <img class="mr-2" [src]="'assets/icomoon/SVG/' + categoryIcon + '.svg'" alt="" />
+            <strong>{{ showcaseCategoryName }}</strong>
+          </p>
+        </div>
+          <div *ngIf="isSearchShowcaseView && details.isDate">
+              <p>
+                  <img class="mr-2" [src]="'assets/icomoon/SVG/' + categoryIcon + '.svg'" alt="" />
+                  <strong>{{ showcaseCategoryName }}</strong>
+              </p>
+          </div>
+      </ng-container>
       <!-- title -->
       <strong>{{ details.titleTranslationKey | translate }}: </strong>
 

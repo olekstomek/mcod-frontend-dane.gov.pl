@@ -21,6 +21,9 @@ export enum AggregationOptionType {
   UPDATE_FREQUENCY = 'by_update_frequency',
   TYPES = 'by_types',
   HIGH_VALUE_DATA = 'by_has_high_value_data',
+  SHOWCASE_TYPE = 'by_showcase_types',
+  SHOWCASE_CATEGORY = 'by_showcase_category',
+  SHOWCASE_PLATFORMS = 'by_showcase_platforms',
 }
 
 export enum AggregationFilterNames {
@@ -36,8 +39,9 @@ export enum AggregationFilterNames {
   DATE_TO = 'date[lte]',
   INSTITUTION_TYPE = 'institution_type',
   HIGH_VALUE_DATA = 'has_high_value_data',
-  APPLICATIONS_TYPE = 'applications_type',
-  PLATFORM_TYPE = 'platform_type',
+  SHOWCASE_TYPE = 'showcase_types',
+  SHOWCASE_CATEGORY = 'showcase_category',
+  SHOWCASE_PLATFORMS = 'showcase_platforms',
 }
 
 export interface IListViewFilterAggregationsOptions {
@@ -50,6 +54,9 @@ export interface IListViewFilterAggregationsOptions {
   [AggregationOptionType.UPDATE_FREQUENCY]?: IAggregationProperties[];
   [AggregationOptionType.TYPES]?: IAggregationProperties[];
   [AggregationOptionType.HIGH_VALUE_DATA]?: IAggregationProperties[];
+  [AggregationOptionType.SHOWCASE_TYPE]?: IAggregationProperties[];
+  [AggregationOptionType.SHOWCASE_CATEGORY]?: IAggregationProperties[];
+  [AggregationOptionType.SHOWCASE_PLATFORMS]?: IAggregationProperties[];
 }
 
 export interface IDatasetListViewFilterAggregationsOptions {

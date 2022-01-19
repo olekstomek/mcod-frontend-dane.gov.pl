@@ -5,12 +5,11 @@ import { Component, Input } from '@angular/core';
  */
 @Component({
   selector: 'app-search-results-view',
-  templateUrl: './search-results-view.component.html'
+  templateUrl: './search-results-view.component.html',
 })
 export class SearchResultsViewComponent {
-
-    /**
-     * data to display
-     */
-    @Input() items: any[];
+  /**
+   * data to display
+   */
+  @Input() items: any[];
 }

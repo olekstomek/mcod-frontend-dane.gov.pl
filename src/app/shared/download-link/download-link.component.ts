@@ -37,4 +37,9 @@ export class DownloadLinkComponent {
      * custom css class for styling
      */
     @Input() customCssClass: string;
+
+    /**
+     * show star rating data openness
+     */
+    @Input() opennessScore: number;
 }

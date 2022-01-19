@@ -5,5 +5,6 @@ export enum ApiModel {
     INSTITUTION = 'institution',
     KNOWLEDGE_BASE = 'knowledge_base',
     RESOURCE = 'resource',
-    QUERY = 'query'
+    QUERY = 'query',
+    SHOWCASE = 'showcase'
 }

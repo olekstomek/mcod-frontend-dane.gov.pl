@@ -70,6 +70,11 @@ export class SparqlComponent implements OnInit, OnDestroy {
    */
   currentLang: string;
   /**
+   * link for sparql result file
+   * @type {string}
+   */
+  downloadUrl: string;
+  /**
    * Cleanup subscriptions
    * @type {Subject<void>}
    */
@@ -141,6 +146,7 @@ export class SparqlComponent implements OnInit, OnDestroy {
         this.notificationsService.clearAlerts();
         this.resultCount = res.meta.count;
         this.isResultPreviewVisible = true;
+        this.downloadUrl = res.data.attributes.download_url;
         this.editorSetupTimeout = setTimeout(() => {
           this.ngZone.runOutsideAngular(() => {
             const beautify = aceRequire('ace/ext/beautify');
@@ -177,12 +183,7 @@ export class SparqlComponent implements OnInit, OnDestroy {
    * Downloads result file
    */
   download() {
-    this.sparqlService
-      .search(this.searchForm.value.editor, this.searchForm.value.format, this.currentPage, this.searchForm.value.options)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        window.open(res.data.attributes.download_url, '_blank').focus();
-      });
+    window.open(this.downloadUrl, '_blank').focus();
   }
 
   /**

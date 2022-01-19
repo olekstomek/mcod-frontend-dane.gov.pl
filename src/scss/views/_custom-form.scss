@@ -1,5 +1,5 @@
 .custom-form {
-  label {
+  label:not(.not-bold-label) {
     @include control-label;
     margin: 0;
 

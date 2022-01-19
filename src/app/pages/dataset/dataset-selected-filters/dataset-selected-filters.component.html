@@ -77,7 +77,7 @@
   <!-- High value data -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.HIGH_VALUE_DATA]"
-    [isHighValueData] = true
+    [isHighValueData]="true"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA, $event)"
     *featureFlag="'S39_high_value_data_filter.fe'"
@@ -93,6 +93,34 @@
     [isDateType]="true"
     @toggle
     (removeSelectedFilter)="onClearFilter([AggregationFilterNames.DATE_FROM, AggregationFilterNames.DATE_TO], $event, true)"
+  >
+  </app-selected-filters>
+
+  <!-- showcase category -->
+  <app-selected-filters
+    [attr.data-t]="AggregationFilterNames.SHOWCASE_CATEGORY"
+    [items]="selectedIds[AggregationFilterNames.SHOWCASE_CATEGORY]"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.SHOWCASE_CATEGORY, $event)"
+    *featureFlag="'S39_innovation_view.fe'"
+  >
+  </app-selected-filters>
+
+  <!-- showcase type -->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.SHOWCASE_TYPE]"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.SHOWCASE_TYPE, $event)"
+    *featureFlag="'S39_innovation_view.fe'"
+  >
+  </app-selected-filters>
+
+  <!-- showcase platform -->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.SHOWCASE_PLATFORMS]"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.SHOWCASE_PLATFORMS, $event)"
+    *featureFlag="'S39_innovation_view.fe'"
   >
   </app-selected-filters>
 </div>

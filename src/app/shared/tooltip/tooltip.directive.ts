@@ -6,6 +6,7 @@ import { Directive, ElementRef, HostListener, Injector, Input, OnInit, Renderer2
 import { TooltipWithTitleComponent } from '@app/shared/large-tooltip/tooltip-with-title.component';
 import { TOOLTIP_DATA } from '@app/shared/tooltip/TooltipData';
 import { TooltipPlacement } from '@app/shared/tooltip/tooltipPlacement';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Tooltip Directive
@@ -64,6 +65,13 @@ export class TooltipDirective implements OnInit {
   title: string;
 
   /**
+   * star rating for dataset openness
+   * @type {number}
+   */
+  @Input('levelDataOpennessTooltip')
+  levelDataOpenness: number;
+
+  /**
    * Tooltip placement
    * When array provided, tooltip will find the best position starting from the beginning of the array.
    * If first array item fits to screen it will be picked, if not tooltip chose next
@@ -91,6 +99,7 @@ export class TooltipDirective implements OnInit {
     private readonly elementRef: ElementRef,
     private readonly injector: Injector,
     private readonly renderer: Renderer2,
+    private featureFlagService: FeatureFlagService,
   ) {}
 
   /**
@@ -135,15 +144,27 @@ export class TooltipDirective implements OnInit {
     if (!this.text || this.overlayRef.hasAttached()) {
       return;
     }
-
-    const userProfilePortal = new ComponentPortal(
-      TooltipWithTitleComponent,
-      null,
-      this.createInjector({
-        title: this.title,
-        text: this.text,
-      }),
-    );
+    let userProfilePortal;
+    if (this.featureFlagService.validateFlagSync('S41_opennes_score_in_tooltip.fe')) {
+      userProfilePortal = new ComponentPortal(
+        TooltipWithTitleComponent,
+        null,
+        this.createInjector({
+          title: this.title,
+          text: this.text,
+          levelDataOpenness: this.levelDataOpenness,
+        }),
+      );
+    } else {
+      userProfilePortal = new ComponentPortal(
+        TooltipWithTitleComponent,
+        null,
+        this.createInjector({
+          title: this.title,
+          text: this.text,
+        }),
+      );
+    }
 
     this.overlayRef.attach(userProfilePortal);
     this.renderer.setAttribute(this.elementRef.nativeElement, 'aria-describedby', 'app-tooltip');

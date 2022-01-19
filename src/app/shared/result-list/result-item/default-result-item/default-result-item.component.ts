@@ -46,7 +46,6 @@ export class DefaultResultItemComponent implements OnInit {
    */
   @Input() fromDatasetEndpoint = false;
 
-
   constructor(private mapParamsToTranslationKeysService: MapParamsToTranslationKeysService) {}
 
   /**

@@ -43,9 +43,9 @@ release-feat-to-int:
   when: manual
   dependencies:
     - test-feat-branch
-  artifacts:
-    paths:
-      - "dist/"
+  # artifacts:
+  #   paths:
+  #     - "dist/"
   only:
     - /^feat-.*$/
 
@@ -70,9 +70,9 @@ build-dev:
     - docker push $REGISTRY_PATH/frontend-ssr:dev
   only:
     - develop
-  artifacts:
-    paths:
-      - "dist/"
+  # artifacts:
+  #   paths:
+  #     - "dist/"
   except:
     - schedules
 
@@ -86,9 +86,9 @@ build-master:
     - docker push $REGISTRY_PATH/frontend-ssr:master
   only:
     - master
-  artifacts:
-    paths:
-      - "dist/"
+  # artifacts:
+  #   paths:
+  #     - "dist/"
   except:
     - schedules
 
@@ -102,9 +102,9 @@ build-master-pwa:
     - docker push $REGISTRY_PATH/frontend-ssr:pwa
   only:
     - master
-  artifacts:
-    paths:
-      - "dist/"
+  # artifacts:
+  #   paths:
+  #     - "dist/"
   except:
     - schedules
 

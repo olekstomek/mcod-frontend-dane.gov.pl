@@ -4,17 +4,12 @@ import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
 import { AppServerModule } from '../src/main.server';
 import { CsrfMiddleware } from './csrf-middleware';
-import { LicensesController } from './licenses/licenses.controller';
-import { MockController } from './mock/mock.controller';
 import { MultiLanguageMiddleware } from './multi-language-middleware';
-
-const controllers = environment.production ? [LicensesController] : [MockController, LicensesController];
 
 /**
  * Application Module
  */
 @Module({
-    controllers: controllers,
     imports: [
         HttpModule,
         AngularUniversalModule.forRoot({

@@ -1,9 +1,10 @@
-import { Location } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -205,6 +206,11 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
   searchAdvancedSettings = SearchAdvancedSettings;
 
   /**
+   * validation API url
+   */
+  apiValidationUrl: string;
+
+  /**
    * Active advanced setting
    */
   @Input('advancedSetting') activeSetting = SearchAdvancedSettings.ANY;
@@ -213,6 +219,11 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * Sparql button visibility flag
    */
   @Input() isSparqlSearchButtonVisible: boolean;
+
+  /**
+   * API validation button visibility flag
+   */
+  @Input() isApiValidationButtonVisible: boolean;
 
   /**
    * @ignore
@@ -226,6 +237,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     private localize: LocalizeRouterService,
     private translateService: TranslateService,
     private featureFlagsService: FeatureFlagService,
+    @Inject(DOCUMENT) private document: any,
   ) {}
 
   /**
@@ -262,6 +274,12 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
       });
 
     this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
+
+    if (this.featureFlagsService.validateFlagSync('S41_api_validation_button.fe')) {
+        this.apiValidationUrl = `https://dev.dane.gov.pl/tools/api-validator`;
+      // this.apiValidationUrl = `https://${this.document.location.hostname.replace('www.', '') + ':' + this.document.location.port}/tools/api-validator`;
+      // to localhost jak będzie już działać walidator to trzeba potestować
+    }
   }
 
   /**
@@ -295,6 +313,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     this.listBoxOptions = [...items];
     this.isListBoxExpanded = !!items.length;
     this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
+    console.log('hmm', this.listBoxOptions);
   }
 
   /**
@@ -310,21 +329,26 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     let url = `/${updatedModel}`;
     let areaTranslationKey = `${StringHelper.capitalizeFirstLetter(updatedModel)}s.Self`;
 
-    if (model === ApiModel.ARTICLE) {
-      areaTranslationKey = 'Articles.News';
-    } else if (model === ApiModel.KNOWLEDGE_BASE) {
-      const updatedModel = model.replace('_', '-');
-      areaTranslationKey = `${StringHelper.capitalizeFirstLetter(StringHelper.toCamelCase(updatedModel))}.Self`;
-      url = this.parseKnowledgeBaseUrl(item.attributes.html_url);
-    } else if (model === ApiModel.RESOURCE) {
-      const relatedType: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'data', 'type']);
-      const relatedTypeApiUrl: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'links', 'related']);
-
-      if (relatedType && relatedTypeApiUrl) {
-        const relatedTypeApiUrlArray = relatedTypeApiUrl.split('/');
-        const relatedTypeUrlPart = relatedTypeApiUrlArray[relatedTypeApiUrlArray.length - 1];
-        url = `/${relatedType}/${relatedTypeUrlPart}/${updatedModel}`;
-      }
+    switch (model) {
+      case ApiModel.ARTICLE:
+        areaTranslationKey = 'Articles.News';
+        break;
+      case ApiModel.KNOWLEDGE_BASE:
+        areaTranslationKey = `${StringHelper.capitalizeFirstLetter(StringHelper.toCamelCase(updatedModel))}.Self`;
+        url = this.parseKnowledgeBaseUrl(item.attributes.html_url);
+        break;
+      case ApiModel.RESOURCE:
+        const relatedType: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'data', 'type']);
+        const relatedTypeApiUrl: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'links', 'related']);
+        if (relatedType && relatedTypeApiUrl) {
+          const relatedTypeApiUrlArray = relatedTypeApiUrl.split('/');
+          const relatedTypeUrlPart = relatedTypeApiUrlArray[relatedTypeApiUrlArray.length - 1];
+          url = `/${relatedType}/${relatedTypeUrlPart}/${updatedModel}`;
+        }
+        break;
+      case ApiModel.SHOWCASE:
+        areaTranslationKey = 'Menu.Showcases';
+        break;
     }
 
     return {

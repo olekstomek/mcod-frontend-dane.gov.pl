@@ -1,27 +1,28 @@
-
-
 /********************
     PAGE - GENERAL
 ********************/
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    min-width:320px;
-    font-family: "Roboto", Arial, sans-serif;
-    background-color: $color-white;
-    color: $color-text;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+  min-width: 320px;
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: $color-white;
+  color: $color-text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
-    @include media-breakpoint-up(lg) {
-        overflow-y: scroll;
-    }
+  @include media-breakpoint-up(lg) {
+    overflow-y: scroll;
+  }
 }
 
 .page {
-    background-color: $color-grey-light-1;
+  background-color: $color-grey-light-1;
 }
 
+.text-wrap {
+  word-break: break-word;
+}

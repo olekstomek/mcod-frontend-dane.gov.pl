@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ResultItemDetailsData } from '@app/services/models/result-item-details';
 
 /**
@@ -6,24 +6,60 @@ import { ResultItemDetailsData } from '@app/services/models/result-item-details'
  * Component which displays additional data on the right column of list view
  */
 @Component({
-    selector: 'app-details-result-item',
-    templateUrl: './details-result-item.component.html'
+  selector: 'app-details-result-item',
+  templateUrl: './details-result-item.component.html',
 })
-export class DetailsResultItemComponent {
-    /**
-     * array with data which will be displayed
-     */
-    @Input() detailsData: ResultItemDetailsData [];
+export class DetailsResultItemComponent implements OnInit {
+  /**
+   * icon name based on category
+   */
+  categoryIcon: string;
+  /**
+   * array with data which will be displayed
+   */
+  @Input() detailsData: ResultItemDetailsData[];
 
-    /**
-     * key to translation
-     */
-    @Input() titleTranslationKey: string;
+  /**
+   * showcase category name to display
+   */
+  @Input() showcaseCategoryName: string;
 
-    /**
-     * enable/disable displaying each detail {key: value} in one row
-     */
-    @Input() showEachDetailInRow = false;
+  /**
+   * showcase category key
+   */
+  @Input() showcaseCategoryKey: string;
 
-    @Input() isApplicationView = false;
+  /**
+   * key to translation
+   */
+  @Input() titleTranslationKey: string;
+
+  /**
+   * enable/disable displaying each detail {key: value} in one row
+   */
+  @Input() showEachDetailInRow = false;
+
+  /**
+   * check if is showcases view
+   */
+  @Input() isShowcaseView = false;
+
+  /**
+   * check if is search and showcase view
+   */
+  @Input() isSearchShowcaseView = false;
+
+  ngOnInit() {
+    switch (this.showcaseCategoryKey) {
+      case 'app':
+        this.categoryIcon = 'ic-aplikacje';
+        break;
+      case 'www':
+        this.categoryIcon = 'ic-portal-www';
+        break;
+      case 'other':
+        this.categoryIcon = 'ic-inne';
+        break;
+    }
+  }
 }

@@ -3,199 +3,48 @@
     {{ 'Filters.Self' | translate }}
   </h2>
 
-  <fieldset>
-    <!-- header -->
-    <legend class="m-0">
-      <h3 class="h6 d-flex align-items-center m-0">
-        <span class="font-weight-bold" id="categories">
-          {{ 'Attribute.CategoryLong' | translate }}
-        </span>
-      </h3>
-    </legend>
+  <!-- Categories -->
+  <app-expandable-multiselect
+    id="showcase-category-filter"
+    [titleTranslationKey]="'Attribute.ShowcasesCategory'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.SHOWCASE_CATEGORY]"
+    [selectedIds]="selectedData[FiltersNames.SHOWCASE_CATEGORY]"
+    [enableApply]="availabilityFilterMap[FiltersNames.SHOWCASE_CATEGORY]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'category-filter-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.SHOWCASE_CATEGORY, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'category'"
+  >
+  </app-expandable-multiselect>
 
-    <!-- body -->
-    <div class="aggregation-filters__item-body">
-      <div class="dropdown" style="display: flex;flex-direction: column;">
-        <!-- search within a list -->
-        <div class="dropdown-item-search">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            placeholder="{{ 'Action.Search' | translate }}..."
-            [maxLength]="maxLength"
-          />
-        </div>
+  <!-- Types -->
+  <app-expandable-multiselect
+    id="showcase-type-filter"
+    [titleTranslationKey]="'Attribute.ApplicationTypes'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.SHOWCASE_TYPE]"
+    [selectedIds]="selectedData[FiltersNames.SHOWCASE_TYPE]"
+    [enableApply]="availabilityFilterMap[FiltersNames.SHOWCASE_TYPE]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'type-filter-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.SHOWCASE_TYPE, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'type'"
+  >
+  </app-expandable-multiselect>
 
-        <!-- list of items (filters) -->
-        <ul class="dropdown__list dropdown__list-expandable dropdown__list-categories">
-          <li class="dropdown-item">
-            <input type="checkbox" class="dropdown-item__input" id="chk-0-1" />
-
-            <label for="chk-0-1" class="dropdown-item__content">
-              <span class="dropdown-item__content-wrapper">
-                <span class="dropdown-item__content-title"> Aplikacje </span>
-              </span>
-
-              <span class="dropdown-item__content-doc-count">
-                <span aria-hidden="true">(120)</span>
-              </span>
-            </label>
-          </li>
-          <li class="dropdown-item">
-            <input type="checkbox" class="dropdown-item__input" id="chk-0-2" />
-
-            <label for="chk-0-1" class="dropdown-item__content">
-              <span class="dropdown-item__content-wrapper">
-                <span class="dropdown-item__content-title"> Portale www </span>
-              </span>
-
-              <span class="dropdown-item__content-doc-count">
-                <span aria-hidden="true">(15)</span>
-              </span>
-            </label>
-          </li>
-          <li class="dropdown-item">
-            <input type="checkbox" class="dropdown-item__input" id="chk-0-3" />
-
-            <label for="chk-0-1" class="dropdown-item__content">
-              <span class="dropdown-item__content-wrapper">
-                <span class="dropdown-item__content-title"> Inne </span>
-              </span>
-
-              <span class="dropdown-item__content-doc-count">
-                <span aria-hidden="true">(25)</span>
-              </span>
-            </label>
-          </li>
-        </ul>
-
-        <!-- additional actions - show/hide, apply -->
-        <button type="button" class="btn btn-link font-weight-bold ml-auto p-0">
-          {{ 'Filters.ApplyFilter' | translate }}
-        </button>
-      </div>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <!-- header -->
-    <legend class="m-0">
-      <h3 class="h6 d-flex align-items-center m-0">
-        <span class="font-weight-bold" id="applicationTypes">
-          {{ 'Attribute.ApplicationTypes' | translate }}
-        </span>
-      </h3>
-    </legend>
-
-    <!-- body -->
-    <div class="aggregation-filters__item-body">
-      <div class="dropdown" style="display: flex;flex-direction: column;">
-        <!-- search within a list -->
-        <div class="dropdown-item-search">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            placeholder="{{ 'Action.Search' | translate }}..."
-            [maxLength]="maxLength"
-          />
-        </div>
-
-        <!-- list of items (filters) -->
-        <ul class="dropdown__list dropdown__list-expandable dropdown__list-categories">
-          <li class="dropdown-item">
-            <input type="checkbox" class="dropdown-item__input" id="chk-1-1" />
-
-            <label for="chk-0-1" class="dropdown-item__content">
-              <span class="dropdown-item__content-wrapper">
-                <span class="dropdown-item__content-title"> Aplikacje mobilne </span>
-              </span>
-
-              <span class="dropdown-item__content-doc-count">
-                <span aria-hidden="true">(120)</span>
-              </span>
-            </label>
-          </li>
-          <li class="dropdown-item">
-            <input type="checkbox" class="dropdown-item__input" id="chk-1-2" />
-
-            <label for="chk-0-1" class="dropdown-item__content">
-              <span class="dropdown-item__content-wrapper">
-                <span class="dropdown-item__content-title"> Aplikacje desktop </span>
-              </span>
-
-              <span class="dropdown-item__content-doc-count">
-                <span aria-hidden="true">(15)</span>
-              </span>
-            </label>
-          </li>
-        </ul>
-
-        <!-- additional actions - show/hide, apply -->
-        <button type="button" class="btn btn-link font-weight-bold ml-auto p-0">
-          {{ 'Filters.ApplyFilter' | translate }}
-        </button>
-      </div>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <!-- header -->
-    <legend class="m-0">
-      <h3 class="h6 d-flex align-items-center m-0">
-        <span class="font-weight-bold" id="platformTypes">
-          {{ 'Attribute.PlatformTypes' | translate }}
-        </span>
-      </h3>
-    </legend>
-
-    <!-- body -->
-    <div class="aggregation-filters__item-body">
-      <div class="dropdown" style="display: flex;flex-direction: column;">
-        <!-- search within a list -->
-        <div class="dropdown-item-search">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            placeholder="{{ 'Action.Search' | translate }}..."
-            [maxLength]="maxLength"
-          />
-        </div>
-
-        <!-- list of items (filters) -->
-        <ul class="dropdown__list dropdown__list-expandable dropdown__list-categories">
-          <li class="dropdown-item">
-            <input type="checkbox" class="dropdown-item__input" id="chk-2-1" />
-
-            <label for="chk-0-1" class="dropdown-item__content">
-              <span class="dropdown-item__content-wrapper">
-                <span class="dropdown-item__content-title"> iOS </span>
-              </span>
-
-              <span class="dropdown-item__content-doc-count">
-                <span aria-hidden="true">(165)</span>
-              </span>
-            </label>
-          </li>
-          <li class="dropdown-item">
-            <input type="checkbox" class="dropdown-item__input" id="chk-2-2" />
-
-            <label for="chk-0-1" class="dropdown-item__content">
-              <span class="dropdown-item__content-wrapper">
-                <span class="dropdown-item__content-title"> Android </span>
-              </span>
-
-              <span class="dropdown-item__content-doc-count">
-                <span aria-hidden="true">(15)</span>
-              </span>
-            </label>
-          </li>
-        </ul>
-
-        <!-- additional actions - show/hide, apply -->
-        <button type="button" class="btn btn-link font-weight-bold ml-auto p-0">
-          {{ 'Filters.ApplyFilter' | translate }}
-        </button>
-      </div>
-    </div>
-  </fieldset>
+  <!-- Platforms -->
+  <app-expandable-multiselect
+    id="showcase-platform-filter"
+    [titleTranslationKey]="'Attribute.PlatformTypes'"
+    [options]="filtersOptions && filtersOptions[OptionsNames.SHOWCASE_PLATFORMS]"
+    [selectedIds]="selectedData[FiltersNames.SHOWCASE_PLATFORMS]"
+    [enableApply]="availabilityFilterMap[FiltersNames.SHOWCASE_PLATFORMS]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'platform-filter-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.SHOWCASE_PLATFORMS, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'platform'"
+  >
+  </app-expandable-multiselect>
 </section>

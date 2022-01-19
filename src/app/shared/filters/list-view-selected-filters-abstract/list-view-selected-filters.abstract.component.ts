@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SelectedFilter, AggregationFilterNames } from '@app/services/models/filters';
+import {IListViewApplicationsFiltersModel} from '@app/services/models/page-filters/applications-filters';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
 
@@ -20,7 +21,7 @@ export class ListViewSelectedFiltersAbstractComponent {
     /**
      * map of selected filters
      */
-    @Input() selectedIds: IListViewDatasetFiltersModel | IListViewInstitutionFiltersModel | {};
+    @Input() selectedIds: IListViewDatasetFiltersModel | IListViewInstitutionFiltersModel | IListViewApplicationsFiltersModel | {};
 
     /**
      * clear all filters event

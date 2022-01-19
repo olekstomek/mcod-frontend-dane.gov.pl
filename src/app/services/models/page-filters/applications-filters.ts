@@ -1,13 +1,13 @@
 import { AggregationFilterNames, MultiselectOption } from '@app/services/models/filters';
 
 export interface IListViewApplicationsFiltersModel {
-  [AggregationFilterNames.CATEGORIES]: MultiselectOption;
-  [AggregationFilterNames.APPLICATIONS_TYPE]: MultiselectOption;
-  [AggregationFilterNames.PLATFORM_TYPE]: MultiselectOption;
+  [AggregationFilterNames.SHOWCASE_CATEGORY]: MultiselectOption;
+  [AggregationFilterNames.SHOWCASE_TYPE]: MultiselectOption;
+  [AggregationFilterNames.SHOWCASE_PLATFORMS]: MultiselectOption;
 }
 
 export const ApplicationsListViewFilterNames = [
-  AggregationFilterNames.CATEGORIES,
-  AggregationFilterNames.APPLICATIONS_TYPE,
-  AggregationFilterNames.PLATFORM_TYPE,
+  AggregationFilterNames.SHOWCASE_CATEGORY,
+  AggregationFilterNames.SHOWCASE_TYPE,
+  AggregationFilterNames.SHOWCASE_PLATFORMS,
 ];

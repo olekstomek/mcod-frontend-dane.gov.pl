@@ -10,40 +10,41 @@ import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { SuggestApplicationComponent } from './suggest-application/suggest-application.component';
 
 const routes: Routes = [
-    { path: '', component: ApplicationComponent },
-    { path: '!suggest', component: SuggestApplicationComponent },
-    {
-        path: '!:id',
-        component: ApplicationItemComponent, 
-        data: {
-            breadcrumbs: {dataKey: 'post.attributes.title'}
-        },
-        resolve: {
-            post: BreadcrumbsAppsResolver
-        }
+  { path: '', component: ApplicationComponent },
+  {
+    path: '!suggest',
+    component: SuggestApplicationComponent,
+    data: { breadcrumbs: { translationKey: 'Breadcrumbs.SuggestApplicationComponent' } },
+  },
+  {
+    path: '!:id',
+    component: ApplicationItemComponent,
+    data: {
+      breadcrumbs: { dataKey: 'post.attributes.title' },
     },
-    {
-        path: '!preview/!:id',
-        component: ApplicationItemComponent,
-        canActivate: [RoleGuard],
-        data: {
-            breadcrumbs: '{{ post.attributes.title }}',
-            roles: PermissionPerRoles.PREVIEW_UNPUBLISHED_APPLICATION
-        },
-        resolve: {
-            post: BreadcrumbsAppsResolver
-        }
-    }
+    resolve: {
+      post: BreadcrumbsAppsResolver,
+    },
+  },
+  {
+    path: '!preview/!:id',
+    component: ApplicationItemComponent,
+    canActivate: [RoleGuard],
+    data: {
+      breadcrumbs: '{{ post.attributes.title }}',
+      roles: PermissionPerRoles.PREVIEW_UNPUBLISHED_APPLICATION,
+    },
+    resolve: {
+      post: BreadcrumbsAppsResolver,
+    },
+  },
 ];
 
 /**
  * @ignore
  */
 @NgModule({
-    imports: [
-        RouterModule.forChild(routes),
-        LocalizeRouterModule.forChild(routes),
-    ],
-    exports: [RouterModule, LocalizeRouterModule]
+  imports: [RouterModule.forChild(routes), LocalizeRouterModule.forChild(routes)],
+  exports: [RouterModule, LocalizeRouterModule],
 })
 export class ApplicationsRoutingModule {}

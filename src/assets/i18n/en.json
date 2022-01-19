@@ -101,7 +101,7 @@
     "ApplicantEmail": "Applicant e-mail",
     "Author": "Application author",
     "NewAuthor": "Author",
-    "Logo": "Application logo (logo displayed when browsing)",
+    "Logo": "Logo",
     "LogoHint": "(logo displayed when browsing)",
     "Graphics": "Illustrative graphics",
     "GraphicsHint": "(graphics displayed in application details)",
@@ -114,13 +114,13 @@
     "Website": "Website URL with information about the application",
     "NewWebsite": "Website URL with information",
     "SuggestionSentSuccess": "Thank you for submitting the application suggestion",
-    "SuggestionShowcasesSentSuccess": "Thank you for submitting the innovation suggestion",
+    "SuggestionShowcasesSentSuccess": "Thank you for submitting a proposal for data reuse",
     "EnterName": "Enter name",
     "Link": "Link",
     "DataProcessing": "I hereby confirm that I have taken note of the following information",
     "Url": "https://",
     "ApplicationType": "Application type",
-    "ApplicationTypeHint": "(at least one link is required to be completed)",
+    "ApplicationTypeHint": "At least one link is required to be completed",
     "MobileType": "Mobile application",
     "DesktopType": "Desktop application",
     "LicenceType": "Licence type",
@@ -146,15 +146,25 @@
     "Logo": "Application logo",
     "Suggest": "Suggest an application",
     "NewSuggest": "Suggest",
-    "Description1of3": "Open public data is public administration data that everyone can use. Based on the data, more and more modern products, services and applications are being created.",
+    "SuggestFooterName": "Suggest reuse",
+    "Description1Aof3": "If you have created or you know an application, website or other product that uses data, among others from the",
+    "Description1Bof3": "portal and you want to share information about them on the portal - click the",
+    "Description1Cof3": "button and fill in the form. We will post your proposal on the",
     "Description2of3": "Below we present examples of public data utilization in applications, products and services. We do not promote a specific solution, we only disseminate information about selected projects using data.",
     "Description3of3": "We are interested in further examples",
     "Description4": "We are interested in further examples of data use",
     "NoLogo": "No logo"
   },
   "Innovations": {
-    "Self": "Innovations",
-    "SearchFor": "Search"
+    "Self": "Data reuse",
+    "SearchFor": "Search",
+    "ShowDetails": "Show details",
+    "HideDetails": "Hide details",
+    "Description": "Description",
+    "Logo": "Logo",
+    "SeeAll": "See all examples",
+    "Link": "Link to the application",
+    "LinkNoApp": "Link"
   },
   "Articles": {
     "News": "News",
@@ -218,8 +228,18 @@
     "Period": "Period",
     "Metadata": "Metadata",
     "HighValueData": "Dane o wysokiej wartości",
-    "ApplicationTypes": "Rodzaje aplickacji",
-    "PlatformTypes": "Rodzaje platformy"
+    "ApplicationTypes": "Application types",
+    "PlatformTypes": "Platform types",
+    "ShowcasesCategory": "Data category",
+    "LicenceType": "Licence type",
+    "UsefulLinks": "Useful links",
+    "Page": "Page",
+    "GoTo": "Go to",
+    "AppStore": "App Store",
+    "GooglePlay": "Google Play",
+    "IosStore": "iOS application",
+    "LinuxStore": "Linux application",
+    "WindowsStore": "Windows application"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -238,7 +258,7 @@
     "ApplicationModule": "Applications",
     "ApplicationComponent": "",
     "ApplicationItemComponent": "",
-    "SuggestApplicationComponent": "Suggest an application",
+    "SuggestApplicationComponent": "Suggest",
     "ArticleModule": "News",
     "LoginComponent": "Login",
     "RegisterComponent": "Registration",
@@ -261,7 +281,8 @@
     "SearchComponent": "Search results",
     "SurveyComponent": "Survey",
     "NewsletterComponent": "Newsletter",
-    "DeclarationComponent": "Declaration of accessibility"
+    "DeclarationComponent": "Declaration of accessibility",
+    "ShowcasesComponent": "PoCoTo"
   },
   "Calendar": {
     "CalendarLabel": "Calendar",
@@ -773,6 +794,11 @@
     "AutoContentReload": "Automatic content reload",
     "Advanced": "Advanced search"
   },
+  "ShowcasesCategory": {
+    "app": "Application",
+    "www": "Website",
+    "others": "Others"
+  },
   "SkipTo": {
     "Menu": "Skip to main menu",
     "Content": "Skip to content",
@@ -829,6 +855,10 @@
         "Applications": {
           "title": "Applications",
           "text": "This section includes innovative information technology solutions using public data gathered both on the portal and originating rom other sources i.e., in the form of an application for mobile devices."
+        },
+        "Innovations": {
+          "title": "PoCoTo - Data reuse",
+          "text": "In this section you can see examples of data reuse, in particular IT solutions (e.g. applications, websites) that use data collected on the Dane.gov.pl portal and other sources."
         }
       },
       "SearchResults": {
@@ -857,12 +887,6 @@
         "API": {
           "title": "See data via API",
           "text": "The button launches a new subpage containing the data in JSON format, provided by the portal’s system API. The data are used to display the contents of the current website."
-        }
-      },
-      "WriteUs": {
-        "Self": {
-          "title": "Contact Us",
-          "text": "If you cannot find the data that interests you on the portal, describe the data you need by using the displayed form."
         }
       },
       "DatasetDetails": {
@@ -956,11 +980,15 @@
       "Applications": {
         "Search": {
           "title": "Searchbar",
-          "text": "The word or a phrase entered in the “Search Application” field are searched in the titles and descriptions."
+          "text": "The typed word or phrase are searched for in the titles and descriptions of the data reuse solutions."
         },
         "Suggest": {
           "title": "Suggest an innovation",
           "text": "Each author of an application based on open data can submit it to the dane.gov.pl portal administration to have it shared on the portal."
+        },
+        "NewSuggest": {
+          "title": "Suggest",
+          "text": "Any author of an app that relies on open data can report it to the portal administrator dane.gov.pl for sharing on the portal"
         }
       },
       "Article": {
@@ -977,6 +1005,19 @@
         "RelatedDatasets": {
           "title": "Related datasets",
           "text": "A list of open data which are used in the application."
+        }
+      },
+      "InnovationDetails": {
+        "RelatedDatasets": {
+          "title": "Related datasets",
+          "text": "A list of open data which are used in the {param}."
+        },
+        "Link": {
+          "title": "Link to the application",
+          "text": "You can check how the {param1} works. Is some cases it also contains the technical information prepared by the author and allows to download the {param2} from the store."
+        },
+        "LinkNoApp": {
+          "title": "Link"
         }
       },
       "DataResource": {
@@ -1016,6 +1057,10 @@
           "title": "Map options",
           "text": "It is possible to limit the number of points displayed on a map to the area that interests us by using your location or by clicking a point on a map and entering radius."
         }
+      },
+      "ApiValidation": {
+        "title": "API Compliance Validator",
+        "text": "A tool that allows you to check whether the API is compliant with the API standard."
       }
     }
   },
@@ -1077,7 +1122,8 @@
     "InvalidDate": "Invalid date",
     "InvalidEmail": "Invalid e-mail address",
     "InvalidEmailOrPassword": "{ param } invalid e-mail or password",
-    "InvalidWebsiteUrl": "Invalid website url",
+    "InvalidWebsiteUrl": "Invalid website url. The address should contain the prefix: https://*",
+    "InvalidUrl": "Invalid website url.",
     "InvalidNumber": "Invalid number",
     "InvalidForm": "The form contains errors.",
     "VarMinLength": "Field should be at least {param, plural, =1 {1 character} other {{param} characters}} long",
@@ -1098,7 +1144,8 @@
     "NoNumbers": "Number",
     "NoSpecialChars": "Special character",
     "VarNoMinLength": "{param, plural, =1 {1 character} other {{param} characters}}",
-    "requireOneUrl": "at least one link is required to be completed"
+    "RequireOneUrl": "At least one link is required to be completed",
+    "RequireDataFromList": "A dataset must be selected from the list"
   },
   "WriteUs": {
     "Self": "Contact Us",
@@ -1107,6 +1154,6 @@
     "MessageLabel": "Message body",
     "EmailLabel": "Enter your e-mail (if you want to receive the response)",
     "ThankYou": "Thank you for your opinion!",
-    "Suggestions": "Send suggestions to the e-mail address provided below:"
+    "Suggestions": "Write to us at the e-mail address provided below:"
   }
 }

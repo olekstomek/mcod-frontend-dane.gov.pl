@@ -12,5 +12,6 @@ export enum RouterEndpoints {
     USEFUL_MATERIALS = 'useful-materials',
     EVENTS = 'events',
     PREVIEW = 'preview',
-    LOGIN = 'user/login'
+    LOGIN = 'user/login',
+    SHOWCASE = 'showcase'
 }

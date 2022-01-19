@@ -1,7 +1,5 @@
 <!-- modal trigger -->
 <button class="btn btn-{{ buttonLook }} btn-{{ buttonSize }} write-us-info"
-        appTooltip="{{'Tour.Tooltip.WriteUs.Self.text' | translate }}"
-        title="{{ 'Tour.Tooltip.WriteUs.Self.title' | translate }}"
         [ngClass]="{'inherit-look': inheritLook}"
         (click)="openWriteUsModal(modalTemplate)"
         #modalTrigger>

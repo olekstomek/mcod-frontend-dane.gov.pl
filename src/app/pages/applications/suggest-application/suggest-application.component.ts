@@ -90,9 +90,9 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * fill select control categories
    */
   categoryOptions: IComponentOptions[] = [
-    { label: 'Aplikacja', value: 'app' },
-    { label: 'Portal www', value: 'www' },
-    { label: 'Inne', value: 'other' },
+    { label: 'ShowcasesCategory.app', value: 'app' },
+    { label: 'ShowcasesCategory.www', value: 'www' },
+    { label: 'ShowcasesCategory.others', value: 'other' },
   ];
 
   /**
@@ -141,7 +141,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * Initializes form with predefined validators
    */
   ngOnInit() {
-    this.seoService.setPageTitleByTranslationKey(['Applications.Suggest']);
+    this.seoService.setPageTitleByTranslationKey(['Applications.NewSuggest']);
     this.initApplicationForm();
     this.getCmsInfoAndConsent();
   }
@@ -152,7 +152,10 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
   initApplicationForm() {
     this.applicationForm = new FormGroup({
       title: new FormControl(null, Validators.required),
-      url: new FormControl(null, [Validators.required, Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')]),
+      url: new FormControl(null, [
+        Validators.required,
+        Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+      ]),
       notes: new FormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
       keywords: new FormControl(null),
       author: new FormControl(null, Validators.required),
@@ -175,17 +178,27 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
         is_mobile_app: new FormControl(false),
         myMobileUrlGroup: new FormGroup(
           {
-            mobile_apple_url: new FormControl(null, [Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')]),
-            mobile_google_url: new FormControl(null, [Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')]),
+            mobile_apple_url: new FormControl(null, [
+              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+            ]),
+            mobile_google_url: new FormControl(null, [
+              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+            ]),
           },
           requireOneUrlValidator(),
         ),
         is_desktop_app: new FormControl(false),
         myDesktopUrlGroup: new FormGroup(
           {
-            desktop_linux_url: new FormControl(null, [Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')]),
-            desktop_macos_url: new FormControl(null, [Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')]),
-            desktop_windows_url: new FormControl(null, [Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')]),
+            desktop_linux_url: new FormControl(null, [
+              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+            ]),
+            desktop_macos_url: new FormControl(null, [
+              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+            ]),
+            desktop_windows_url: new FormControl(null, [
+              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+            ]),
           },
           requireOneUrlValidator(),
         ),
@@ -241,22 +254,26 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
 
     this.notificationsService.clearAlerts();
     let formValue = { ...this.applicationForm.value };
+    formValue['url'] = this.addHttpIfMissing(formValue['url']);
 
     // remove empty and temporary properties
     for (let key in formValue) {
-      if (!formValue[key] || key == 'captcha' || key.indexOf(this.tempFieldSuffix) !== -1) {
+      if (!formValue[key] || key === 'captcha' || key.indexOf(this.tempFieldSuffix) !== -1) {
         delete formValue[key];
       }
     }
 
     // internal datasets - store only dataset ids
     if (formValue['datasets'] && formValue['datasets'].length) {
+      console.log('heee', formValue['datasets']);
       formValue['datasets'] = formValue['datasets']
         .filter(Boolean) // remove null values
         .map(dataset => dataset['id']) // only ids
         .reduce(function (a, b) {
           // remove duplicates
-          if (a.indexOf(b) < 0) a.push(b);
+          if (a.indexOf(b) < 0) {
+            a.push(b);
+          }
           return a;
         }, []);
     }
@@ -274,11 +291,13 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     if (formValue['external_datasets'] && formValue['external_datasets'].length) {
       formValue['external_datasets'] = formValue['external_datasets'].filter(item => {
         if (item['title'] && item['url']) {
+          item['url'] = this.addHttpIfMissing(item['url']);
           return item;
         } else if (item['title'] && !item['url']) {
           delete item['url'];
           return item;
         } else if (!item['title'] && item['url']) {
+          item['url'] = this.addHttpIfMissing(item['url']);
           delete item['title'];
           return item;
         }
@@ -286,6 +305,31 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     }
 
     if (this.featureFlagService.validateFlagSync('S39_innovation_form.fe')) {
+      // url groups - flat request
+
+      if (formValue['myDesktopUrlGroup']) {
+        formValue['desktop_linux_url'] = formValue['myDesktopUrlGroup'].desktop_linux_url
+          ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_linux_url)
+          : '';
+        formValue['desktop_macos_url'] = formValue['myDesktopUrlGroup'].desktop_macos_url
+          ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_macos_url)
+          : '';
+        formValue['desktop_windows_url'] = formValue['myDesktopUrlGroup'].desktop_windows_url
+          ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_windows_url)
+          : '';
+        delete formValue['myDesktopUrlGroup'];
+      }
+
+      if (formValue['myMobileUrlGroup']) {
+        formValue['mobile_apple_url'] = formValue['myMobileUrlGroup'].mobile_apple_url
+          ? this.addHttpIfMissing(formValue['myMobileUrlGroup'].mobile_apple_url)
+          : '';
+        formValue['mobile_google_url'] = formValue['myMobileUrlGroup'].mobile_google_url
+          ? this.addHttpIfMissing(formValue['myMobileUrlGroup'].mobile_google_url)
+          : '';
+        delete formValue['myMobileUrlGroup'];
+      }
+
       this.applicationsService.suggest(formValue, 'showcases').subscribe(
         () => (this.isSuggestionSent = true),
         error => {
@@ -299,6 +343,14 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
           this.notificationsService.addError(error);
         },
       );
+    }
+  }
+
+  addHttpIfMissing(url: string): string {
+    if (url.split('http://').length > 1 || url.split('https://').length > 1) {
+      return url;
+    } else {
+      return 'http://' + url;
     }
   }
 
@@ -321,7 +373,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     (<FormArray>this.applicationForm.get('external_datasets')).push(
       new FormGroup({
         title: new FormControl(null),
-        url: new FormControl(null, Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')),
+        url: new FormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
       }),
     );
   }
@@ -465,5 +517,16 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     this.applicationForm.get('is_desktop_app').reset();
     this.applicationForm.get('myMobileUrlGroup').reset();
     this.applicationForm.get('myDesktopUrlGroup').reset();
+  }
+
+  /**
+   * check if item form autocompleted list is selected, if not set invalid error
+   * @param event
+   * @param {number} index
+   */
+  onCheckIfItemIsSelected(event, index: number) {
+    if (!event.target.attributes.readonly) {
+      this.applicationForm.get('datasets')['controls'][index].controls.dataset.setErrors({ invalid: true });
+    }
   }
 }

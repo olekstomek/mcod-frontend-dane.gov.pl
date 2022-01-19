@@ -94,14 +94,14 @@
     }
   },
   "ApplicationForm": {
-    "Self": "Innowacje",
+    "Self": "PoCoTo",
     "Title": "Zaproponuj",
     "Name": "Nazwa aplikacji",
     "NewName": "Nazwa",
     "ApplicantEmail": "E-mail zgłaszającego",
     "Author": "Autor aplikacji",
     "NewAuthor": "Autor",
-    "Logo": "Logo aplikacji",
+    "Logo": "Logo",
     "LogoHint": "(logo, które będzie wyświetlane podczas przeglądania)",
     "Graphics": "Grafika ilustracyjna",
     "GraphicsHint": "(grafika będzie wyświetlana w szczegółach aplikacji)",
@@ -114,13 +114,13 @@
     "Website": "Adres strony z informacją o aplikacji",
     "NewWebsite": "Adres strony z informacją",
     "SuggestionSentSuccess": "Dziękujemy za zgłoszenie propozycji aplikacji.",
-    "SuggestionShowcasesSentSuccess": "Dziękujemy za zgłoszenie propozycji innowacji",
+    "SuggestionShowcasesSentSuccess": "Dziękujemy za zgłoszenie propozycji ponownego wykorzystania danych",
     "EnterName": "Wprowadź nazwę",
     "Link": "Link",
     "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji",
     "Url": "https://",
     "ApplicationType": "Rodzaj aplikacji",
-    "ApplicationTypeHint": "wymagane jest uzupełnienie przynajmniej jednego linku",
+    "ApplicationTypeHint": "Wymagane jest uzupełnienie przynajmniej jednego linku",
     "MobileType": "Aplikacja mobilna",
     "DesktopType": "Aplikacja desktopowa",
     "LicenceType": "Rodzaj licencji",
@@ -137,7 +137,7 @@
     "Self": "Aplikacje",
     "Single": "Aplikacja",
     "Genitive": "Aplikacji",
-    "Description": "Opis aplikacji",
+    "Description": "Opis",
     "SearchFor": "Wyszukaj aplikację",
     "SeeAll": "Zobacz wszystkie aplikacje",
     "CreateOwn": "Twórz własne aplikacje",
@@ -146,15 +146,25 @@
     "Logo": "Logo aplikacji",
     "Suggest": "Zaproponuj aplikację",
     "NewSuggest": "Zaproponuj",
-    "Description1of3": "Otwarte dane publiczne to dane administracji publicznej, z których każdy może korzystać. Na bazie danych powstaje coraz więcej nowoczesnych produktów, usług i aplikacji.",
-    "Description2of3": "Poniżej przedstawiamy przykłady wykorzystania danych publicznych w aplikacjach, produktach i usługach. Nie promujemy konkretnego rozwiązania, tylko upowszechniamy informacje o wybranych projektach wykorzystujących dane.",
+    "SuggestFooterName": "Zaproponuj ponowne wykorzystanie",
+    "Description1Aof3": "Jeśli stworzyłeś lub znasz aplikację, stronę internetową lub inny produkt wykorzystujący dane m.in. z portalu",
+    "Description1Bof3": "i chcesz udostępnić informacje o nich w portalu – kliknij przycisk",
+    "Description1Cof3": "i wypełnij formularz. Zamieścimy Twoją propozycję na stronie",
+    "Description2of3": "Nie promujemy konkretnych rozwiązań, ale upowszechniamy informacje o projektach wykorzystujących dane.",
     "Description3of3": "Jesteśmy zainteresowani kolejnymi przykładami",
     "Description4": "Jesteśmy zainteresowani kolejnymi przykładami wykorzystania danych",
     "NoLogo": "Brak logo"
   },
   "Innovations": {
-    "Self": "Innowacje",
-    "SearchFor": "Wyszukaj"
+    "Self": "Ponowne wykorzystanie danych",
+    "SearchFor": "Wyszukaj",
+    "ShowDetails": "Pokaż szczegóły",
+    "HideDetails": "Ukryj szczegóły",
+    "Description": "Opis",
+    "Logo": "Logo",
+    "SeeAll": "Zobacz wszystkie przykłady",
+    "Link": "Link do aplikacji",
+    "LinkNoApp": "Link"
   },
   "Articles": {
     "News": "Aktualności",
@@ -218,8 +228,18 @@
     "Period": "Okres",
     "Metadata": "Metadane",
     "HighValueData": "Dane o wysokiej wartości",
-    "ApplicationTypes": "Rodzaje aplickacji",
-    "PlatformTypes": "Rodzaje platformy"
+    "ShowcasesCategory": "Kategoria danych",
+    "ApplicationTypes": "Rodzaje aplikacji",
+    "PlatformTypes": "Rodzaje platformy",
+    "LicenceType": "Rodzaj licencji",
+    "UsefulLinks": "Przydatne linki",
+    "Page": "Strona",
+    "GoTo": "Przejdź do",
+    "AppStore": "App Store",
+    "GooglePlay": "Google Play",
+    "IosStore": "aplikacji iOS",
+    "LinuxStore": "aplikacji Linux",
+    "WindowsStore": "aplikacji Windows"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",
@@ -238,7 +258,7 @@
     "ApplicationModule": "Aplikacje",
     "ApplicationComponent": "",
     "ApplicationItemComponent": "",
-    "SuggestApplicationComponent": "Zaproponuj aplikację",
+    "SuggestApplicationComponent": "Zaproponuj",
     "ArticleModule": "Aktualności",
     "LoginComponent": "Logowanie",
     "RegisterComponent": "Rejestracja",
@@ -261,7 +281,8 @@
     "SearchComponent": "Wyniki wyszukiwania",
     "SurveyComponent": "Ankieta",
     "NewsletterComponent": "Zamów newsletter",
-    "DeclarationComponent": "Deklaracja dostępności"
+    "DeclarationComponent": "Deklaracja dostępności",
+    "ShowcasesComponent": "PoCoTo"
   },
   "Calendar": {
     "CalendarLabel": "Kalendarz",
@@ -773,6 +794,11 @@
     "AutoContentReload": "Automatyczne przeładowanie treści",
     "Advanced": "Wyszukiwanie zaawansowane"
   },
+  "ShowcasesCategory": {
+    "app": "Aplikacja",
+    "www": "Serwis WWW",
+    "others": "Inne"
+  },
   "SkipTo": {
     "Menu": "Przejdź do menu głównego",
     "Content": "Przejdź do treści",
@@ -831,8 +857,8 @@
           "text": "W tej sekcji można się zapoznać z innowacyjnymi rozwiązaniami informatycznymi wykorzystującymi dane publiczne zarówno zgromadzone na portalu jak też pochodzące z innych źródeł, na przykład w postaci aplikacji na urządzenia mobilne."
         },
         "Innovations": {
-          "title": "Innowacje",
-          "text": ""
+          "title": "PoCoTo - Ponowne wykorzystanie danych",
+          "text": "W tej sekcji można zapoznać się z przykładami ponownego wykorzystywania danych, w szczególności z rozwiązaniami informatycznymi (np. aplikacjami, serwisami www), które wykorzystują dane zgromadzone w portalu Dane.gov.pl oraz w innych źródłach."
         }
       },
       "SearchResults": {
@@ -861,12 +887,6 @@
         "API": {
           "title": "Wyświetl dane poprzez API",
           "text": "Przycisk uruchamia nową podstronę zawierającą dane w formacie JSON dostarczane przez systemowe API portalu. Dane te służą do wyświetlania zawartości bieżącej strony internetowej."
-        }
-      },
-      "WriteUs": {
-        "Self": {
-          "title": "Napisz do nas",
-          "text": "Jeżeli wśród danych udostępnianych na portalu nie możesz znaleźć tych, które Cię interesują, opisz dane, których potrzebujesz, wykorzystując wyświetlony formularz."
         }
       },
       "DatasetDetails": {
@@ -960,11 +980,15 @@
       "Applications": {
         "Search": {
           "title": "Wyszukiwarka",
-          "text": "Wpisane słowo lub fraza są wyszukiwane w tytułach i opisach aplikacji."
+          "text": "Wpisane słowo lub fraza są wyszukiwane w tytułach i opisach w rozwiązaniach do ponownego wykorzystania danych."
         },
         "Suggest": {
           "title": "Zaproponuj innowację",
           "text": "Każdy autor aplikacji, która bazuje na otwartych danych, może ją zgłosić do administratora portalu dane.gov.pl w celu udostepnienia jej na portalu."
+        },
+        "NewSuggest": {
+          "title": "Zaproponuj",
+          "text": "Każdy autor aplikacji, która bazuje na otwartych danych, może ją zgłosić do administratora portalu dane.gov.pl w celu udostępnienia jej na portalu."
         }
       },
       "Article": {
@@ -981,6 +1005,19 @@
         "RelatedDatasets": {
           "title": "Powiązane dane",
           "text": "Lista otwartych danych, które są wykorzystywane w aplikacji."
+        }
+      },
+      "InnovationDetails": {
+        "RelatedDatasets": {
+          "title": "Powiązane dane",
+          "text": "Lista otwartych danych, które są wykorzystywane w {param}."
+        },
+        "Link": {
+          "title": "Link do aplikacji",
+          "text": "Możesz zobaczyć i sprawdzić jak działa {param1}. W niektórych wypadkach zawiera też informacje techniczne przygotowane przez autora oraz umożliwia pobranie {param2} ze sklepu."
+        },
+        "LinkNoApp": {
+          "title": "Link"
         }
       },
       "DataResource": {
@@ -1020,6 +1057,10 @@
           "title": "Opcje mapy",
           "text": "Funkcja umożliwia wybór interesującego obszaru na mapie pod względem własnej lokalizacji lub zadanego promienia wokół wybranego punktu."
         }
+      },
+      "ApiValidation": {
+        "title": "Walidator zgodności API",
+        "text": "Narzędzie umożliwiające sprawdzenie czy API, jest zgodne ze standardem API."
       }
     }
   },
@@ -1080,7 +1121,8 @@
     "RequiredEmail": "Pole \"e-mail\" jest wymagane i musi zawierać poprawny adres e-mail",
     "InvalidDate": "Niepoprawna data",
     "InvalidEmail": "Niepoprawny adres e-mail",
-    "InvalidWebsiteUrl": "Niepoprawny adres strony",
+    "InvalidWebsiteUrl": "Niepoprawny adres strony. Adres powinien zawierać przedrostek: https://*",
+    "InvalidUrl": "Niepoprawny adres strony.",
     "InvalidEmailOrPassword": "{ param } niepoprawny e-mail lub hasło",
     "InvalidNumber": "Niepoprawna liczba",
     "InvalidForm": "Formularz zawiera błędy.",
@@ -1102,7 +1144,8 @@
     "NoNumbers": "Liczba",
     "NoSpecialChars": "Znak specjalny",
     "VarNoMinLength": "{param, plural, =1 {1 znak} few {{param} znaki} other {{param} znaków}}",
-    "requireOneUrl": "Wymagane jest podanie przynajmniej jednego linku"
+    "RequireOneUrl": "Wymagane jest podanie przynajmniej jednego linku",
+    "RequireDataFromList": "Wymagany jest wybór zbioru danych z listy"
   },
   "WriteUs": {
     "Self": "Napisz do nas",
@@ -1111,6 +1154,6 @@
     "MessageLabel": "Treść wiadomości",
     "EmailLabel": "Zostaw email, jeżeli mamy odpisać",
     "ThankYou": "Dziękujmy za Twoją opinię!",
-    "Suggestions": "Prześlij sugestie na adres e-mail:"
+    "Suggestions": "Napisz do nas na adres e-mail:"
   }
 }

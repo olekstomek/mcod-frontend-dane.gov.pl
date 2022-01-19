@@ -55,8 +55,8 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
                 const searchParams = {
                     page: 1,
                     per_page:  10,
-                    q: 'title|'+ inputValue,
-                    sort: 'title'
+                    q: inputValue,
+                    sort: 'relevance'
                 };
 
                 this.searchChanged.next(searchParams);

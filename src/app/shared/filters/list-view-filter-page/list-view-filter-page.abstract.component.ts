@@ -1,4 +1,5 @@
 import { SelectedFilter, IListViewFilterAggregationsOptions, MultiselectOption } from '@app/services/models/filters';
+import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
 import { ActivatedRoute, Params, QueryParamsHandling } from '@angular/router';
@@ -24,7 +25,8 @@ export abstract class ListViewFilterPageAbstractComponent {
     | IListViewDatasetFiltersModel
     | IListViewInstitutionFiltersModel
     | IListViewInstitutionItemFiltersModel
-    | IListViewInstitutionItemCategoryFiltersModel;
+    | IListViewInstitutionItemCategoryFiltersModel
+    | IListViewApplicationsFiltersModel;
 
   /**
    * Selected filters
@@ -33,7 +35,8 @@ export abstract class ListViewFilterPageAbstractComponent {
     | IListViewDatasetFiltersModel
     | IListViewInstitutionFiltersModel
     | IListViewInstitutionItemFiltersModel
-    | IListViewInstitutionItemCategoryFiltersModel;
+    | IListViewInstitutionItemCategoryFiltersModel
+    | IListViewApplicationsFiltersModel;
 
   /**
    * Default filters of dataset component
@@ -172,22 +175,22 @@ export abstract class ListViewFilterPageAbstractComponent {
   protected resetSelectedFilters() {
     this.backupSelectedFilters = this.getFiltersModel();
     this.selectedFiltersCount = 0;
-    this.resetHighValueDataFilterCheckboxes();
+    if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
+      this.resetHighValueDataFilterCheckboxes();
+    }
   }
 
   /**
    * Resets high value data disabled checkbox for filters
    */
   protected resetHighValueDataFilterCheckboxes() {
-    if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
-      const hasHighValueDataInputNo = document.getElementById('chk-0');
-      const hasHighValueDataInputYes = document.getElementById('chk-1');
-      if (hasHighValueDataInputNo?.hasAttribute('disabled')) {
-        hasHighValueDataInputNo.removeAttribute('disabled');
-      }
-      if (hasHighValueDataInputYes?.hasAttribute('disabled')) {
-        hasHighValueDataInputYes.removeAttribute('disabled');
-      }
+    const hasHighValueDataInputNo = document.getElementById('chk-0');
+    const hasHighValueDataInputYes = document.getElementById('chk-1');
+    if (hasHighValueDataInputNo?.hasAttribute('disabled')) {
+      hasHighValueDataInputNo.removeAttribute('disabled');
+    }
+    if (hasHighValueDataInputYes?.hasAttribute('disabled')) {
+      hasHighValueDataInputYes.removeAttribute('disabled');
     }
   }
 

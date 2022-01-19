@@ -61,6 +61,7 @@ export interface ISearchCounters {
     institutions: number;
     knowledge_base: number;
     resources: number;
+    showcases: number;
 }
 
 interface ISearchResultRelationshipsData {

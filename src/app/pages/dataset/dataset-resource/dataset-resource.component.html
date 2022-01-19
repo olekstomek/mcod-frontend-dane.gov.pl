@@ -134,38 +134,56 @@
             <ng-container *ngIf="resource?.attributes?.media_type === 'file'">
               <span class="font-weight-bold" style="min-width: 85px"> {{ 'Action.Download' | translate }}: </span>
 
-              <!-- download file -->
-              <app-download-link
-                [fileSize]="resource.attributes.file_size"
-                [fileUrl]="resource.attributes.download_url"
-                [format]="resource.attributes.format"
-                [title]="resource.attributes.title"
-                [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
-                (click)="downloadResource(resource.attributes.title, resource.attributes.download_url)"
-              >
-              </app-download-link>
+              <ng-container *featureFlag="'S41_opennes_score_in_tooltip.fe'; else oldDownloadLinkView">
+                <!-- download file -->
+                <div *ngFor="let dataFiles of downloadFilesList">
+                  <app-download-link
+                    [fileSize]="dataFiles.file_size"
+                    [fileUrl]="dataFiles.download_url"
+                    [format]="dataFiles.format"
+                    [title]="resource.attributes.title"
+                    [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                    [opennessScore]="dataFiles.openness_score"
+                    (click)="downloadResource(resource.attributes.title, dataFiles.download_url)"
+                  >
+                  </app-download-link>
+                </div>
+              </ng-container>
 
-              <!-- download csv file -->
-              <app-download-link
-                [fileSize]="resource.attributes.csv_file_size"
-                [fileUrl]="resource.attributes.csv_download_url"
-                [format]="'csv'"
-                [title]="resource.attributes.title"
-                [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
-                (click)="downloadResource(resource.attributes.title, resource.attributes.csv_download_url)"
-              >
-              </app-download-link>
+              <ng-template #oldDownloadLinkView>
+                <!-- download file -->
+                <app-download-link
+                  [fileSize]="resource.attributes.file_size"
+                  [fileUrl]="resource.attributes.download_url"
+                  [format]="resource.attributes.format"
+                  [title]="resource.attributes.title"
+                  [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                  (click)="downloadResource(resource.attributes.title, resource.attributes.download_url)"
+                >
+                </app-download-link>
 
-              <!-- download jsonld file -->
-              <app-download-link
-                [fileSize]="resource.attributes.jsonld_file_size"
-                [fileUrl]="resource.attributes.jsonld_file_url"
-                [format]="'json_ld'"
-                [title]="resource.attributes.title"
-                [customCssClass]="'btn btn-primary btn-sm mb-1'"
-                (click)="downloadResource(resource.attributes.title, resource.attributes.jsonld_download_url)"
-              >
-              </app-download-link>
+                <!-- download csv file -->
+                <app-download-link
+                  [fileSize]="resource.attributes.csv_file_size"
+                  [fileUrl]="resource.attributes.csv_download_url"
+                  [format]="'csv'"
+                  [title]="resource.attributes.title"
+                  [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                  (click)="downloadResource(resource.attributes.title, resource.attributes.csv_download_url)"
+                >
+                </app-download-link>
+
+                <!-- download jsonld file -->
+                <app-download-link
+                  [fileSize]="resource.attributes.jsonld_file_size"
+                  [fileUrl]="resource.attributes.jsonld_file_url"
+                  [format]="'json_ld'"
+                  [title]="resource.attributes.title"
+                  [customCssClass]="'btn btn-primary btn-sm mb-1'"
+                  (click)="downloadResource(resource.attributes.title, resource.attributes.jsonld_download_url)"
+                >
+                </app-download-link>
+              </ng-template>
             </ng-container>
           </div>
 

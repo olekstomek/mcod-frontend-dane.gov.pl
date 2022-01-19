@@ -13,6 +13,7 @@ import { ApplicationsService } from '@app/services/applications.service';
 import { IHasImageThumbParams } from '@app/services/models/page-params';
 import { APP_CONFIG } from '@app/app.config';
 import { ApiModel } from '@app/services/api/api-model';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Home Component
@@ -58,6 +59,7 @@ export class HomeComponent implements OnInit {
     public cmsService: CmsService,
     private applicationsService: ApplicationsService,
     public translateService: TranslateService,
+    private featureFlagService: FeatureFlagService,
   ) {}
 
   /**
@@ -102,9 +104,15 @@ export class HomeComponent implements OnInit {
       has_image_thumb: true,
     };
 
-    return this.applicationsService.getAll(params, { key: 'sort', value: '-modified' }).subscribe(response => {
-      this.applications = response.results;
-    });
+    if (this.featureFlagService.validateFlagSync('S40_innovation_routing.fe')) {
+      return this.applicationsService.getAll(params, 'showcases', { key: 'sort', value: '-modified' }).subscribe(response => {
+        this.applications = response.results;
+      });
+    } else {
+      return this.applicationsService.getAll(params, 'application', { key: 'sort', value: '-modified' }).subscribe(response => {
+        this.applications = response.results;
+      });
+    }
   }
 
   private assignCmsSection() {

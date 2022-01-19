@@ -70,11 +70,11 @@
               (change)="onChangeCategory($event.target.value)"
               aria-labelledby="categories-label"
             >
-              <option [ngValue]="null">
+              <option [ngValue]="null" selected hidden>
                 {{ 'Action.ChooseCategory' | translate }}
               </option>
               <option *ngFor="let item of categoryOptions" [value]="item.value">
-                {{ item.label }}
+                {{ item.label | translate }}
               </option>
             </select>
           </div>
@@ -111,7 +111,7 @@
                   *ngIf="applicationForm.controls.title.invalid && applicationForm.controls.title.touched"
                   @toggleVertically
                 >
-                  {{ 'Validation.VarRequired' | translate: { param: 'ApplicationForm.Name' | translate } }}
+                  {{ 'Validation.VarRequired' | translate: { param: 'ApplicationForm.NewName' | translate } }}
                 </small>
               </div>
 
@@ -129,7 +129,7 @@
                   type="text"
                   class="form-control"
                   id="url"
-                  placeholder="{{ 'ApplicationForm.Url' | translate }}"
+                  placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
                   formControlName="url"
                   [attr.aria-describedby]="
                     applicationForm.controls.url.invalid && applicationForm.controls.url.touched
@@ -161,7 +161,7 @@
                     *ngIf="applicationForm.get('url').errors['pattern']"
                     @toggleVertically
                   >
-                    {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                    {{ 'Validation.InvalidUrl' | translate }}
                   </small>
                 </ng-container>
               </div>
@@ -184,10 +184,10 @@
 
                     <label for="chk-0" class="dropdown-item__content">
                       <span class="dropdown-item__content-wrapper" title="{{ 'ApplicationForm.MobileType' | translate }}">
-                        <span class="dropdown-item__content-title">{{ 'ApplicationForm.MobileType' | translate }}</span>
-                        <small class="dropdown-item__content-hint"
-                          >({{ 'ApplicationForm.ApplicationTypeHint' | translate | lowercase }})</small
-                        >
+                        <span class="dropdown-item__content-title font-weight-normal">{{ 'ApplicationForm.MobileType' | translate }}</span>
+                        <small class="dropdown-item__content-hint" *ngIf="selectedMobileType">
+                          ({{ 'ApplicationForm.ApplicationTypeHint' | translate | lowercase }})
+                        </small>
                       </span>
                     </label>
                     <div
@@ -209,12 +209,12 @@
                         }"
                       >
                         <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-apple.svg" alt="" />
-                        <label>{{ 'ApplicationForm.iOSLinkText' | translate }}</label>
+                        <label for="iosApp" class="not-bold-label">{{ 'ApplicationForm.iOSLinkText' | translate }}</label>
                         <input
                           type="text"
                           class="form-control flex-fill iw-custom-1"
                           id="iosApp"
-                          placeholder="{{ 'ApplicationForm.Url' | translate }}"
+                          placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
                           formControlName="mobile_apple_url"
                           [attr.aria-describedby]="
                             applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').invalid &&
@@ -243,7 +243,7 @@
                           "
                           @toggleVertically
                         >
-                          {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                          {{ 'Validation.InvalidUrl' | translate }}
                         </small>
                       </div>
 
@@ -257,12 +257,12 @@
                         }"
                       >
                         <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-android.svg" alt="" />
-                        <label>{{ 'ApplicationForm.AndroidLinkText' | translate }}</label>
+                        <label for="androidApp" class="not-bold-label">{{ 'ApplicationForm.AndroidLinkText' | translate }}</label>
                         <input
                           type="text"
                           class="form-control flex-fill iw-custom-2"
                           id="androidApp"
-                          placeholder="{{ 'ApplicationForm.Url' | translate }}"
+                          placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
                           formControlName="mobile_google_url"
                           [attr.aria-describedby]="
                             applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').invalid &&
@@ -291,7 +291,7 @@
                           "
                           @toggleVertically
                         >
-                          {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                          {{ 'Validation.InvalidUrl' | translate }}
                         </small>
                       </div>
 
@@ -305,7 +305,7 @@
                         "
                         @toggleVertically
                       >
-                        {{ 'Validation.requireOneUrl' | translate }}
+                        {{ 'Validation.RequireOneUrl' | translate }}
                       </small>
                     </div>
                   </li>
@@ -321,10 +321,10 @@
 
                     <label for="chk-1" class="dropdown-item__content">
                       <span class="dropdown-item__content-wrapper" title="{{ 'ApplicationForm.DesktopType' | translate }}">
-                        <span class="dropdown-item__content-title">{{ 'ApplicationForm.DesktopType' | translate }}</span>
-                        <small class="dropdown-item__content-hint"
-                          >({{ 'ApplicationForm.ApplicationTypeHint' | translate | lowercase }})</small
-                        >
+                        <span class="dropdown-item__content-title font-weight-normal">{{ 'ApplicationForm.DesktopType' | translate }}</span>
+                        <small class="dropdown-item__content-hint" *ngIf="selectedDesktopType">
+                          ({{ 'ApplicationForm.ApplicationTypeHint' | translate | lowercase }})
+                        </small>
                       </span>
                     </label>
                     <div
@@ -346,12 +346,12 @@
                         }"
                       >
                         <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-windows.svg" alt="" />
-                        <label>{{ 'ApplicationForm.WinLinkText' | translate }}</label>
+                        <label for="winApp" class="not-bold-label">{{ 'ApplicationForm.WinLinkText' | translate }}</label>
                         <input
                           type="text"
                           class="form-control flex-fill iw-custom-3"
                           id="winApp"
-                          placeholder="{{ 'ApplicationForm.Url' | translate }}"
+                          placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
                           formControlName="desktop_windows_url"
                           [attr.aria-describedby]="
                             applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').invalid &&
@@ -380,7 +380,7 @@
                           "
                           @toggleVertically
                         >
-                          {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                          {{ 'Validation.InvalidUrl' | translate }}
                         </small>
                       </div>
                       <!--Linux application url-->
@@ -393,12 +393,12 @@
                         }"
                       >
                         <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-linux.svg" alt="" />
-                        <label>{{ 'ApplicationForm.LinLinkText' | translate }}</label>
+                        <label for="linApp" class="not-bold-label">{{ 'ApplicationForm.LinLinkText' | translate }}</label>
                         <input
                           type="text"
                           class="form-control flex-fill iw-custom-4"
                           id="linApp"
-                          placeholder="{{ 'ApplicationForm.Url' | translate }}"
+                          placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
                           formControlName="desktop_linux_url"
                           [attr.aria-describedby]="
                             applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').invalid &&
@@ -427,7 +427,7 @@
                           "
                           @toggleVertically
                         >
-                          {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                          {{ 'Validation.InvalidUrl' | translate }}
                         </small>
                       </div>
                       <!--MacOS application url-->
@@ -440,12 +440,12 @@
                         }"
                       >
                         <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-apple.svg" alt="" />
-                        <label>{{ 'ApplicationForm.MacLinkText' | translate }}</label>
+                        <label for="macApp" class="not-bold-label">{{ 'ApplicationForm.MacLinkText' | translate }}</label>
                         <input
                           type="text"
                           class="form-control flex-fill iw-custom-5"
                           id="macApp"
-                          placeholder="{{ 'ApplicationForm.Url' | translate }}"
+                          placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
                           formControlName="desktop_macos_url"
                           [attr.aria-describedby]="
                             applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').invalid &&
@@ -474,7 +474,7 @@
                           "
                           @toggleVertically
                         >
-                          {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                          {{ 'Validation.InvalidUrl' | translate }}
                         </small>
                       </div>
 
@@ -488,7 +488,7 @@
                         "
                         @toggleVertically
                       >
-                        {{ 'Validation.requireOneUrl' | translate }}
+                        {{ 'Validation.RequireOneUrl' | translate }}
                       </small>
                     </div>
                   </li>
@@ -629,7 +629,7 @@
                   *ngIf="applicationForm.controls.author.invalid && applicationForm.controls.author.touched"
                   @toggleVertically
                 >
-                  {{ 'Validation.VarRequired' | translate: { param: 'ApplicationForm.Author' | translate } }}
+                  {{ 'Validation.VarRequired' | translate: { param: 'ApplicationForm.NewAuthor' | translate } }}
                 </small>
               </div>
 
@@ -670,18 +670,24 @@
                   *ngFor="let datasetControl of applicationForm.get('datasets')['controls']; let i = index"
                   [formGroupName]="i"
                   @toggleVertically
+                  [ngClass]="{ 'form-group-invalid': applicationForm.get('datasets')?.controls[i].controls.dataset.invalid }"
                 >
                   <!-- dataset autocomplete -->
                   <input
+                    #datasetInput
                     type="text"
                     class="form-control"
                     aria-labelledby="datasets"
                     placeholder="{{ 'Datasets.SearchFor' | translate }}..."
-                    [formControlName]="'dataset'"
                     app-dataset-autocomplete
+                    [formControlName]="'dataset'"
                     (datasetSelected)="onDatasetSelected($event, i)"
-                    #datasetInput
                     (keydown.enter)="$event.preventDefault()"
+                    (change)="onCheckIfItemIsSelected($event, i)"
+                    [attr.aria-describedby]="
+                      applicationForm.get('datasets')?.controls[i].controls.dataset.invalid ? 'dataset_invalid_error' : null
+                    "
+                    [attr.aria-invalid]="applicationForm.get('datasets')?.controls[i].controls.dataset.invalid"
                   />
 
                   <!-- remove dataset -->
@@ -693,6 +699,18 @@
                       {{ i }}
                     </span>
                   </button>
+                  <!-- invalid error -->
+                  <ng-container *ngIf="applicationForm.get('datasets')?.controls[i].controls.dataset.invalid">
+                    <small
+                      class="form-text text-danger w-100"
+                      role="alert"
+                      id="dataset_invalid_error"
+                      *ngIf="applicationForm.get('datasets')?.controls[i].controls.dataset?.errors['invalid']"
+                      @toggleVertically
+                    >
+                      {{ 'Validation.RequireDataFromList' | translate }}
+                    </small>
+                  </ng-container>
                 </div>
 
                 <!-- add dataset input -->
@@ -781,7 +799,7 @@
                     *ngIf="applicationForm.controls.external_datasets.invalid && applicationForm.controls.external_datasets.touched"
                     @toggleVertically
                   >
-                    {{ 'Validation.InvalidWebsiteUrl' | translate }}
+                    {{ 'Validation.InvalidUrl' | translate }}
                   </small>
                 </p>
 
@@ -1015,7 +1033,7 @@
                 type="text"
                 class="form-control"
                 id="url"
-                placeholder="{{ 'Action.Enter' | translate }} {{ 'Applications.Link' | translate | lowercase }}"
+                placeholder="{{ 'ApplicationForm.Url' | translate }}"
                 formControlName="url"
                 [attr.aria-describedby]="
                   applicationForm.controls.url.invalid && applicationForm.controls.url.touched

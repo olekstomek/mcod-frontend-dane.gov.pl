@@ -20,11 +20,18 @@
                 {{ 'Menu.Institutions' | translate }}
             </a>
         </li>
-        <li role="presentation">
-            <a role="menuitem" [routerLink]="['/!application'] | localize">
-                {{ 'Menu.Applications' | translate }}
+        <li role="presentation" *featureFlag="'S40_innovation_routing.fe'; else oldAppView">
+            <a role="menuitem" [routerLink]="['/!showcase'] | localize">
+                {{ 'Menu.Showcases' | translate }}
             </a>
         </li>
+        <ng-template #oldAppView>
+            <li role="presentation">
+                <a role="menuitem" [routerLink]="['/!application'] | localize">
+                    {{ 'Menu.Applications' | translate }}
+                </a>
+            </li>
+        </ng-template>
         <li role="presentation">
             <a role="menuitem" [routerLink]="['/!article'] | localize">
                 {{ 'Menu.News' | translate }}

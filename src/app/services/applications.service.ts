@@ -19,17 +19,29 @@ export class ApplicationsService extends RestService {
    * @param {key: string, value: string} additionalParameter
    * @returns {Observable<ApiResponse>}
    */
-  getAll(params: IHasImageThumbParams, additionalParameter?: { key: string; value: string }): Observable<ApiResponse> {
+  // clean after remove S40_innovation_routing.fe
+  getAll(params: IHasImageThumbParams, apiConfig: string, additionalParameter?: { key: string; value: string }): Observable<ApiResponse> {
     let httpParams = new HttpParams({ fromObject: params });
     if (additionalParameter) {
       httpParams = httpParams.append(additionalParameter.key, additionalParameter.value);
     }
 
-    return this.get(ApiConfig.applications, httpParams).pipe(
-      map(response => {
-        return new ApiResponse(response);
-      }),
-    );
+    switch (apiConfig) {
+      case 'application':
+        return this.get(ApiConfig.applications, httpParams).pipe(
+          map(response => {
+            return new ApiResponse(response);
+          }),
+        );
+        break;
+      case 'showcases':
+        return this.get(ApiConfig.showcases, httpParams).pipe(
+          map(response => {
+            return new ApiResponse(response);
+          }),
+        );
+        break;
+    }
   }
 
   /**
@@ -37,12 +49,24 @@ export class ApplicationsService extends RestService {
    * @param {string} id
    * @returns {Observable<any>}
    */
-  getOne(id: string): Observable<any> {
-    return this.get(ApiConfig.applications + '/' + id).pipe(
-      map(response => response['data']),
-      publishReplay(1),
-      refCount(),
-    );
+  // clean after remove S40_innovation_routing.fe
+  getOne(id: string, apiConfig: string): Observable<any> {
+    switch (apiConfig) {
+      case 'application':
+        return this.get(ApiConfig.applications + '/' + id).pipe(
+          map(response => response['data']),
+          publishReplay(1),
+          refCount(),
+        );
+        break;
+      case 'showcases':
+        return this.get(ApiConfig.showcases + '/' + id).pipe(
+          map(response => response['data']),
+          publishReplay(1),
+          refCount(),
+        );
+        break;
+    }
   }
 
   /**
@@ -51,8 +75,18 @@ export class ApplicationsService extends RestService {
    * @param {{}} params
    * @returns {Observable<ApiResponse>}
    */
-  getDatasets(id: string, params = {}): Observable<ApiResponse> {
-    const url = TemplateHelper.parseUrl(ApiConfig.applicationsDatasets, { id: id });
+  // clean after remove S40_innovation_routing.fe
+  getDatasets(id: string, params = {}, apiConfig: string): Observable<ApiResponse> {
+    let url: string;
+    switch (apiConfig) {
+      case 'application':
+        url = TemplateHelper.parseUrl(ApiConfig.applicationsDatasets, { id: id });
+        break;
+      case 'showcases':
+        url = TemplateHelper.parseUrl(ApiConfig.showcasesDatasets, { id: id });
+        break;
+    }
+
     const httpParams = new HttpParams({ fromObject: params });
 
     return this.get(url, httpParams).pipe(map(response => new ApiResponse(response)));
@@ -63,6 +97,7 @@ export class ApplicationsService extends RestService {
    * @param {[key: string]: string} application
    * @returns {Observable<ApiResponse>}
    */
+  // clean after remove S40_innovation_routing.fe
   suggest(application: { [key: string]: string }, apiConfig: string): Observable<ApiResponse> {
     const payload = `{
             "data": {

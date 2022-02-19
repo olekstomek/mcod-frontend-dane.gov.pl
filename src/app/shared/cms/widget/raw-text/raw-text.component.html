@@ -1,6 +1,6 @@
 <div *ngIf="rawText.type === widgetType.TEXT" 
     class="text-justify raw-text-container" 
-    [ngClass]="{'container': !isFullWidth}">
+    [ngClass]="classes ? classes + ' ' + {'container': !isFullWidth} : {'container': !isFullWidth}">
     
     <div *ngFor="let el of rawTextObjects">
         <div *ngIf="el.type === 0 && !rawText.settings?.url" [ngStyle]="style" [innerHTML]="el.text | sanitizeHtml" class="hc-Cms-Text"></div>

@@ -18,38 +18,37 @@ import { ApplicationsComponent } from '@app/pages/home/applications/applications
 import { FooterComponent } from '@app/shared/footer/footer.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        SharedModule,
-        LocalizeRouterModule
-    ],
-    declarations: [
-        HomeComponent,
-        StatsComponent,
-        CategoriesComponent,
-        InstitutionsComponent,
-        NewsComponent,
-        SearchComponent,
-        ServiceAlertComponent,
-        ApplicationsComponent,
-        FooterComponent
-    ],
-    exports: [
-        HomeComponent,
-        StatsComponent,
-        InstitutionsComponent,
-        CategoriesComponent,
-        NewsComponent,
-        SearchComponent
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    SharedModule,
+    LocalizeRouterModule,
+  ],
+  declarations: [
+    HomeComponent,
+    StatsComponent,
+    CategoriesComponent,
+    InstitutionsComponent,
+    NewsComponent,
+    SearchComponent,
+    ServiceAlertComponent,
+    ApplicationsComponent,
+    FooterComponent,
+  ],
+  exports: [
+    HomeComponent,
+    StatsComponent,
+    InstitutionsComponent,
+    CategoriesComponent,
+    NewsComponent,
+    SearchComponent,
+  ],
 })
-export class HomeModule {
-}
+export class HomeModule {}

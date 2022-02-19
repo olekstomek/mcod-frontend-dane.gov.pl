@@ -1,17 +1,7 @@
 <div class="d-flex justify-content-between flex-wrap align-items-center">
   <!-- counters -->
   <div class="pt-2">
-    <strong
-      class="pr-2"
-      id="search-counters-label"
-      tabindex="-1"
-      *featureFlag="'S_38_WCAG_button_in_data_view.fe'; else WithoutWCAG"
-      >{{ 'Found.Self' | translate }}:</strong
-    >
-
-    <ng-template #WithoutWCAG>
-      <strong class="pr-2" id="search-counters-label">{{ 'Found.Self' | translate }}:</strong>
-    </ng-template>
+    <strong class="pr-2" id="search-counters-label" tabindex="-1">{{ 'Found.Self' | translate }}:</strong>
 
     <!-- one counter -->
     <ng-container *ngIf="counters.length === 1"> {{ counters[0].label }} ({{ counters[0].count }}) </ng-container>
@@ -24,7 +14,6 @@
       [appInfoTooltip]="tooltipText"
       [tooltipTitle]="tooltipTitle"
     >
-
       <ng-container *ngFor="let counter of counters; let isLastCounter = last">
         <li class="list-inline-item">
           <!-- outer route -->

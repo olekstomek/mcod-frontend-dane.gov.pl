@@ -1,6 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { toggleVertically } from '@app/animations';
-import { IAggregationProperties, MultiselectOption } from '@app/services/models/filters';
+import {
+  IAggregationProperties,
+  IAggregationPropertiesForRegions,
+  MultiselectOption,
+  MultiselectOptionForRegions,
+} from '@app/services/models/filters';
 
 /**
  * Multiselect which options are expandable
@@ -30,7 +35,7 @@ export class ExpandableMultiselectComponent {
   /**
    * selected Options
    */
-  selectedData: MultiselectOption;
+  selectedData: MultiselectOption | MultiselectOptionForRegions;
 
   /**
    * is filter body visible
@@ -55,7 +60,7 @@ export class ExpandableMultiselectComponent {
    * when selected Ids (keys) of options change then selectedData is being updated and count of it
    * @param {MultiselectOption} data
    */
-  @Input() set selectedIds(data: MultiselectOption) {
+  @Input() set selectedIds(data: MultiselectOption | MultiselectOptionForRegions) {
     this.selectedData = data;
     this.selectedCount = data && Object.keys(data).length;
   }
@@ -115,26 +120,40 @@ export class ExpandableMultiselectComponent {
    */
   @Input() filterName: string;
 
-    /**
-     * single select option for filter
-     */
+  /**
+   * single select option for filter
+   */
   @Input() singleSelectOption = false;
+
+  /**
+   * don't show multiselect-list if is geodata search filter
+   */
+  @Input() isGeodataSearch = false;
+
+  @Input() showHideMapButton = false;
+
+  /**
+   * index for inputs single select option for filter
+   */
+  @Input() inputIndex: number;
 
   /**
    * event emitter for changing of selected filters
    */
-  @Output() selectedChange = new EventEmitter<IAggregationProperties>();
+  @Output() selectedChange = new EventEmitter<IAggregationProperties | IAggregationPropertiesForRegions>();
 
   /**
    * event emitter for applying changes
    */
   @Output() applyFilter = new EventEmitter<void>();
 
+  @Output() showMap = new EventEmitter<boolean>();
+
   /**
    * sends new selected option
    * @param {IAggregationProperties} option
    */
-  selectItem(option: IAggregationProperties) {
+  selectItem(option: IAggregationProperties | IAggregationPropertiesForRegions) {
     this.selectedChange.emit(option);
   }
 
@@ -162,6 +181,10 @@ export class ExpandableMultiselectComponent {
    */
   triggerApply() {
     this.applyFilter.emit();
+  }
+
+  ShowMap() {
+    this.showMap.emit(true);
   }
 
   /**

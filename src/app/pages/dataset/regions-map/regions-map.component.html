@@ -1,0 +1,10 @@
+<div class="d-flex flex-row justify-content-end">
+  <div class="align-self-end mb-2">
+    <button type="button" class="btn btn-primary" (click)="onCloseMap()">{{ 'Map.CloseMap' | translate }}</button>
+  </div>
+</div>
+<div class="d-flex flex-nowrap">
+  <div class="dataset-map">
+    <div #mapRef class="dataset-map" id="datasetMap" role="application" [attr.aria-label]="'Resources.MapDescription' | translate"></div>
+  </div>
+</div>

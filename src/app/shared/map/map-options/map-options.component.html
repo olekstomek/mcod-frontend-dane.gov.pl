@@ -67,11 +67,7 @@
   <ng-container *ngIf="labelsList && (hasFoundAddress | async)">
     <div>
       <p class="resultBelt p-3 mb-0">{{ 'Map.PointsFound' | translate }} {{ labelsList.length }}</p>
-      <div
-        *featureFlag="'S37_WCAG_map_view.fe'; else mapOptionsWithoutTab"
-        class="points pt-1"
-        [ngClass]="{ pointsSmall: isAddressFormVisible, pointsLarge: !isAddressFormVisible }"
-      >
+      <div class="points pt-1" [ngClass]="{ pointsSmall: isAddressFormVisible, pointsLarge: !isAddressFormVisible }">
         <p
           tabindex="0"
           *ngFor="let element of labelsList; let i = index"
@@ -82,18 +78,6 @@
           {{ element.label ? element.label : ('Map.Point' | translate) }}
         </p>
       </div>
-      <ng-template #mapOptionsWithoutTab>
-        <div class="points pt-1" [ngClass]="{ pointsSmall: isAddressFormVisible, pointsLarge: !isAddressFormVisible }">
-          <p
-            *ngFor="let element of labelsList; let i = index"
-            id="{{ element.id }}"
-            (click)="markObject(element)"
-            [ngClass]="element.id === selectedListItem.id ? 'points__selected' : 'points__unselected'"
-          >
-            {{ element.label ? element.label : ('Map.Point' | translate) }}
-          </p>
-        </div>
-      </ng-template>
     </div>
   </ng-container>
 </div>

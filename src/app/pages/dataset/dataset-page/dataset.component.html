@@ -104,6 +104,8 @@
         [originalSelectedData]="backupSelectedFilters"
         [data]="selectedFilters"
         (applyFilters)="updateParams($event, null, true)"
+        [showHideMapButton]="selectedFiltersCount > 0 ? true: false"
+        (showMapEmit)="showMap = $event"
       >
       </app-dataset-list-view-filters>
     </aside>
@@ -119,6 +121,11 @@
             (clearSingleFilter)="clearSelectedFilter($event)"
           >
           </app-dataset-selected-filters>
+
+          <!-- Map for regions -->
+          <div *featureFlag="'S43_geodata_map.fe'">
+            <app-regions-map *ngIf="showMap" [item]="selectedFilters" [aggregations]="mapAggregations" (hideMap)="showMap = !$event" (datasetFromMap)="getDataFromMap($event)"></app-regions-map>
+          </div>
 
           <!-- counters and sort -->
           <app-found-results-counters-and-sort
@@ -169,7 +176,7 @@
               </app-pagination>
 
               <!-- button for screen readers only, back to search input -->
-              <button type="button" class="btn sr-only" (click)="backToSearchControl()" *featureFlag="'S_38_WCAG_button_in_data_view.fe'">
+              <button type="button" class="btn sr-only" (click)="backToSearchControl()">
                 {{ 'Datasets.BackToSearchInputText' | translate }}
               </button>
             </div>

@@ -16,6 +16,7 @@ export interface IAggregationFiltersParams {
   'institution[id][terms]'?: number;
   'format[terms]'?: string;
   'openness_score[terms]'?: number;
+  'regions[id][terms]'?: number;
 }
 
 export interface IModelTermsParams extends BasicPageParams {

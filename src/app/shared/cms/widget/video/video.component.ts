@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CmsService } from '@app/services/cms.service';
@@ -11,97 +12,119 @@ import { IWidgetStyleForHtmlInject } from '@app/services/models/cms/controls/wid
  * <cms-video></app-video>
  */
 @Component({
-    selector: 'cms-video',
-    templateUrl: './video.component.html'
+  selector: 'cms-video',
+  templateUrl: './video.component.html',
 })
 
 /**
-* @ignore
-*/
+ * @ignore
+ */
 export class VideoComponent extends WidgetAbstractComponent implements OnInit {
+  /**
+   * Video to display
+   */
+  @Input() video: IVideo | IVideoHyperEditor;
 
-    /**
-     * Video to display
-    */
-    @Input() video: IVideo | IVideoHyperEditor ;
+  /**
+   * Safe resource url for video
+   */
+  videoYoutubeUrl: SafeResourceUrl;
 
-    /**
-     * Safe resource url for video
-     */
-    videoUrl: SafeResourceUrl;
+  /**
+   * resource url for video
+   */
+  videoUrl: string;
 
-    /**
-    * Css styles for video div container
-    */
-    videoStyles: IWidgetStyleForHtmlInject;
+  /**
+   * thumbnail url for video
+   */
+  poster: string;
 
-    /**
-    * Is supported video player
-    */
-    isPlayerSupported = true;
+  /**
+   * Css styles for video youtube div container
+   */
+  videoStyles: IWidgetStyleForHtmlInject;
 
-    /**
-    * Predefined video players properties
-    */
-    videoPlayers = [
-        {
-            name: 'youtube',
-            separator: '=',
-            url: 'https://www.youtube.com/embed/',
-        },
-        {
-            name: 'youtu.be',
-            separator: '/',
-            url: 'https://www.youtube.com/embed/',
-        },
-        {
-            name: 'vimeo',
-            separator: '/',
-            url: 'https://player.vimeo.com/video/',
-        },
-        {
-            name: 'dailymotion',
-            separator: 'video/',
-            url: 'https://www.dailymotion.com/embed/video/',
-        }
-    ];
+  /**
+   * Css class for video div container
+   */
+  videoClass: string;
 
-    /**
-     * @ignore
-     */
-    constructor(cmsService: CmsService, sanitizer: DomSanitizer) {
-        super(cmsService, sanitizer);
+  /**
+   * Is supported video player
+   */
+  isPlayerSupported = true;
+
+  /**
+   * Predefined video players properties
+   */
+  videoPlayers = [
+    {
+      name: 'youtube',
+      separator: '=',
+      url: 'https://www.youtube.com/embed/',
+    },
+    {
+      name: 'youtu.be',
+      separator: '/',
+      url: 'https://www.youtube.com/embed/',
+    },
+    {
+      name: 'vimeo',
+      separator: '/',
+      url: 'https://player.vimeo.com/video/',
+    },
+    {
+      name: 'dailymotion',
+      separator: 'video/',
+      url: 'https://www.dailymotion.com/embed/video/',
+    },
+  ];
+
+  /**
+   * @ignore
+   */
+  constructor(cmsService: CmsService, sanitizer: DomSanitizer, private featureFlagService: FeatureFlagService) {
+    super(cmsService, sanitizer);
+  }
+
+  /**
+   *  Prepare url and styles
+   */
+  ngOnInit() {
+    if (this.video.settings && this.video.settings.video_url) {
+      this.videoYoutubeUrl = this.createEmbedUrl(this.video.settings.video_url);
+      this.videoStyles = this.cmsService.addStyle(this.video, 'hyperEditor');
+      return;
     }
 
-
-    /**
-    *  Prepare url and styles
-    */
-    ngOnInit() {
-        if (this.video.settings && this.video.settings.video_url) {
-            this.videoUrl = this.createEmbedUrl(this.video.settings.video_url);
-            this.videoStyles = this.cmsService.addStyle(this.video, 'hyperEditor');
-            return;
-        }
-
-        const videoFromCmsTextEditor = this.video as IVideo;
-        if (videoFromCmsTextEditor.value && videoFromCmsTextEditor.value.video) {
-            this.videoUrl = this.createEmbedUrl((this.video as IVideo).value.video);
-        }
+    if (this.featureFlagService.validateFlagSync('S44_uploaded_video_from_cms.fe')) {
+      if ((this.video as IVideo).value) {
+        this.videoUrl = (this.video as IVideo).value.uploaded_video.download_url;
+        this.poster = (this.video as IVideo).value.uploaded_video.thumbnail_url;
+        this.videoClass = 'video-center';
+        return;
+      }
     }
 
-    /**
-    *  Create embed url
-    *  @param {string} originalUrl
-    *  @return {SafeUrl}
-    */
-    private createEmbedUrl(originalUrl: string): SafeUrl {
-        const videoPlayer = this.videoPlayers.find(player => RegExp(player.name, 'i').test(originalUrl));
-        if (!videoPlayer) {
-            this.isPlayerSupported = false;
-            return null;
-        }
-        const videoId = originalUrl.split(videoPlayer.separator).pop();
-        return this.sanitizer.bypassSecurityTrustResourceUrl(videoPlayer.url + videoId);
+    const videoFromCmsTextEditor = this.video as IVideo;
+    if (videoFromCmsTextEditor.value && videoFromCmsTextEditor.value.video) {
+      this.videoYoutubeUrl = this.createEmbedUrl((this.video as IVideo).value.video);
     }
+  }
+
+  /**
+   *  Create embed url
+   *  @param {string} originalUrl
+   *  @return {SafeUrl}
+   */
+  private createEmbedUrl(originalUrl: string): SafeUrl {
+    const videoPlayer = this.videoPlayers.find(player => RegExp(player.name, 'i').test(originalUrl));
+    if (!videoPlayer) {
+      this.isPlayerSupported = false;
+      return null;
+    }
+    const videoId = originalUrl.split(videoPlayer.separator)[1].split('&').shift();
+    return this.sanitizer.bypassSecurityTrustResourceUrl(videoPlayer.url + videoId);
+  }
 }

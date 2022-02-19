@@ -1,4 +1,4 @@
-import { AggregationFilterNames, MultiselectOption } from '@app/services/models/filters';
+import { AggregationFilterNames, MultiselectOption, MultiselectOptionForRegions } from '@app/services/models/filters';
 
 export interface IListViewDatasetFiltersModel {
   [AggregationFilterNames.CATEGORIES]: MultiselectOption;
@@ -10,6 +10,9 @@ export interface IListViewDatasetFiltersModel {
   [AggregationFilterNames.TYPES]: MultiselectOption;
   [AggregationFilterNames.DATE_FROM]: Date;
   [AggregationFilterNames.DATE_TO]: Date;
+  [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
+  [AggregationFilterNames.REGIONS]: MultiselectOptionForRegions;
+  [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
 }
 
 export interface IListViewDatasetCategoryFiltersModel {
@@ -24,6 +27,8 @@ export interface IListViewDatasetCategoryFiltersModel {
   [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
   [AggregationFilterNames.DATE_FROM]: Date;
   [AggregationFilterNames.DATE_TO]: Date;
+  [AggregationFilterNames.REGIONS]: MultiselectOptionForRegions;
+  [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
 }
 
 export const DatasetListViewFilterNames = [
@@ -38,4 +43,6 @@ export const DatasetListViewFilterNames = [
   AggregationFilterNames.HIGH_VALUE_DATA,
   AggregationFilterNames.DATE_FROM,
   AggregationFilterNames.DATE_TO,
+  AggregationFilterNames.REGIONS,
+  AggregationFilterNames.DYNAMIC_DATA,
 ];

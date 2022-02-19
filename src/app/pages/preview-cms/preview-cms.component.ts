@@ -30,6 +30,7 @@ export class PreviewCmsComponent implements OnInit {
     ngOnInit() {
         this.queryParams = this.activatedRoute.snapshot.queryParams;
         this.requestedPageUrl = this.router.url;
+        this.requestedPageUrl = this.requestedPageUrl.substring(3);
     }
 }
 

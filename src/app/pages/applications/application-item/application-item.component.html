@@ -83,7 +83,7 @@
 
         <!-- mobile application -->
         <div class="d-flex mt-2" *ngIf="application?.attributes.is_mobile_app">
-          <p class="item-view__attribute">
+          <p class="item-view__attribute item-view__attribute-app">
             <span class="font-weight-bold mr-1">{{ 'ApplicationForm.MobileType' | translate }}:</span>
             <a
               class="btn btn-outline-primary btn-sm pr-3 pl-3 mr-3"
@@ -120,7 +120,7 @@
 
         <!-- desktop application -->
         <div class="d-flex mt-2" *ngIf="application?.attributes.is_desktop_app">
-          <p class="item-view__attribute">
+          <p class="item-view__attribute item-view__attribute-app">
             <span class="font-weight-bold mr-1">{{ 'ApplicationForm.DesktopType' | translate }}:</span>
             <a
               class="btn btn-outline-primary btn-sm pr-3 pl-3 mr-3"
@@ -246,7 +246,7 @@
         </h2>
       </ng-template>
 
-      <div class="d-flex" *featureFlag="'S40_innovation_details.fe'; else oldViewBody">
+      <div class="d-flex item-view__body-content" *featureFlag="'S40_innovation_details.fe'; else oldViewBody">
         <!-- illustrative graphics -->
         <div *ngIf="application?.attributes.illustrative_graphics_url" class="mr-4 mw-50">
           <img
@@ -255,7 +255,7 @@
           />
         </div>
 
-        <!-- api notifications -->
+        <!-- notes -->
         <div [innerHTML]="application?.attributes.notes | sanitizeHtml" [ngClass]="application?.attributes.illustrative_graphics_url ? 'mw-50' : 'mw-100'"></div>
       </div>
 

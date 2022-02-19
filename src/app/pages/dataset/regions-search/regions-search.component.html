@@ -1,0 +1,12 @@
+<app-search-suggest
+  [placeholderTranslationKey]="placeholderTranslationKey"
+  [searchQuery]="basicParams.q"
+  [maxResultsPerModel]="3"
+  [useTriggers]="true"
+  [isGeodataSearch]="true"
+  [apiModels]="[apiModel.REGION]"
+  (searchTrigger)="performSearch({ q: $event.q, sort: 'relevance' })"
+  (clearTrigger)="updateParams({ q: '', sort: 'title' })"
+  (regionListboxOption)="getAllFilters($event)"
+></app-search-suggest>
+<div class="mt-1" *ngIf="noResults">{{ 'Filters.NoResults' | translate }}</div>

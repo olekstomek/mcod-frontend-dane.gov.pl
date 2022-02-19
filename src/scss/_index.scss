@@ -2,104 +2,96 @@
 // @import "bootstrap/variables";
 // @import "bootstrap/mixins";
 
-
 // BASE - internal variables, mixins etc...
-@import "base/variables";
-@import "base/mixins";
-@import "base/separator";
-@import "base/animations";
-@import "base/typography";
-@import "base/functions";
-@import "base/link";
-
+@import 'base/variables';
+@import 'base/mixins';
+@import 'base/separator';
+@import 'base/animations';
+@import 'base/typography';
+@import 'base/functions';
+@import 'base/link';
 
 // GLOBAL overwrites
-@import "bootstrap-overwrite/brand";
-@import "bootstrap-overwrite/badge";
-@import "bootstrap-overwrite/form";
-@import "bootstrap-overwrite/container";
-@import "bootstrap-overwrite/btn";
-@import "bootstrap-overwrite/modal";
-@import "bootstrap-overwrite/tooltip";
-@import "bootstrap-overwrite/carousel";
-@import "bootstrap-overwrite/sizing";
-
+@import 'bootstrap-overwrite/brand';
+@import 'bootstrap-overwrite/badge';
+@import 'bootstrap-overwrite/form';
+@import 'bootstrap-overwrite/container';
+@import 'bootstrap-overwrite/btn';
+@import 'bootstrap-overwrite/modal';
+@import 'bootstrap-overwrite/tooltip';
+@import 'bootstrap-overwrite/carousel';
+@import 'bootstrap-overwrite/sizing';
 
 // LAYOUT - general layout
-@import "layout/layout";
-@import "layout/gov-bar";
-@import "layout/top-bar"; // page top bar
-@import "layout/header";
-@import "layout/footer";
-
+@import 'layout/layout';
+@import 'layout/gov-bar';
+@import 'layout/top-bar'; // page top bar
+@import 'layout/header';
+@import 'layout/footer';
 
 // COMPONENTS
-@import "components/activity-notifications";
-@import "components/cta-widget";
-@import "components/notifications";
-@import "components/star-rating";
-@import "components/breadcrumbs";
-@import "components/category-list";
-@import "components/dropdown";
-@import "components/datagrid";
-@import "components/password-stength";
-@import "components/pager";
-@import "components/search-and-filters";
-@import "components/page-not-found";
-@import "components/language-switcher";
-@import "components/tags";
-@import "components/search-suggest";
-@import "components/loader";
-@import "components/datepicker";
-@import "components/result-item-logo";
-@import "components/visual-password-validator";
-@import "components/survey";
-@import "components/subscribe-button-light";
-@import "components/tabpanel";
-@import "components/search-history";
-@import "components/sparql";
-@import "components/info-tooltip.scss";
-@import "components/tour-button";
-@import "components/tooltip";
-@import "components/tour";
-@import "components/tour-picker";
-@import "components/text-widget";
+@import 'components/activity-notifications';
+@import 'components/cta-widget';
+@import 'components/notifications';
+@import 'components/star-rating';
+@import 'components/breadcrumbs';
+@import 'components/category-list';
+@import 'components/dropdown';
+@import 'components/datagrid';
+@import 'components/password-stength';
+@import 'components/pager';
+@import 'components/search-and-filters';
+@import 'components/page-not-found';
+@import 'components/language-switcher';
+@import 'components/tags';
+@import 'components/search-suggest';
+@import 'components/loader';
+@import 'components/datepicker';
+@import 'components/result-item-logo';
+@import 'components/visual-password-validator';
+@import 'components/survey';
+@import 'components/subscribe-button-light';
+@import 'components/tabpanel';
+@import 'components/search-history';
+@import 'components/sparql';
+@import 'components/info-tooltip.scss';
+@import 'components/tour-button';
+@import 'components/tooltip';
+@import 'components/tour';
+@import 'components/tour-picker';
+@import 'components/text-widget';
 
 // VIEWS
-@import "views/common";
-@import "views/list-view";
-@import "views/item-view";
-@import "views/resource-view";
-@import "views/resource-list";
-@import "views/activity";
-@import "views/tabs";
-@import "views/embed-view";
-@import "views/collapsible-sidebar-view";
-@import "views/custom-form";
-@import "views/aod";
-@import "views/dashboard-filtered-list";
-@import "views/schedule";
+@import 'views/common';
+@import 'views/list-view';
+@import 'views/item-view';
+@import 'views/resource-view';
+@import 'views/resource-list';
+@import 'views/activity';
+@import 'views/tabs';
+@import 'views/embed-view';
+@import 'views/collapsible-sidebar-view';
+@import 'views/custom-form';
+@import 'views/aod';
+@import 'views/dashboard-filtered-list';
+@import 'views/schedule';
 
 // CMS
-@import "cms/multimedia-training";
-@import "cms/cms-tiles";
-
+@import 'cms/multimedia-training';
+@import 'cms/cms-tiles';
+@import 'cms/cms-footer_nav';
 
 // PAGES
-@import "pages/auth";
-@import "pages/about";
-@import "pages/home";
-@import "pages/map";
-@import "pages/search";
-@import "pages/stats";
-
+@import 'pages/auth';
+@import 'pages/about';
+@import 'pages/home';
+@import 'pages/map';
+@import 'pages/search';
+@import 'pages/stats';
 
 // accessibility
-@import "a11y/skip-menu";
-@import "a11y/high-contrast/index";
-
-
-
+@import 'a11y/skip-menu';
+@import 'a11y/high-contrast/index';
 
 /***************************/
 // Bootstrap's breakpoint mixins
@@ -109,4 +101,3 @@
 // media-breakpoint-down
 // media-breakpoint-between
 // media-breakpoint-only
-

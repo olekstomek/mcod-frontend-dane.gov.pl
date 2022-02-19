@@ -3,18 +3,12 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-8 offset-md-2">
-        <h1 *featureFlag="'S40_slogan_change_in_homepage.fe'; else oldSlogan">
-          {{ 'NewSlogan' | translate }}
+        <h1>
+          {{ 'Slogan' | translate }}
         </h1>
         <h2>
           {{ 'SloganDescription' | translate }}
         </h2>
-
-        <ng-template #oldSlogan>
-          <h1>
-            {{ 'Slogan' | translate }}
-          </h1>
-        </ng-template>
       </div>
     </div>
   </div>

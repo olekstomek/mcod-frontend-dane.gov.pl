@@ -19,9 +19,44 @@
       alt="ikona"
       tabindex="0"
     />
+    <div *featureFlag="'S43_dynamic_data_filter.fe'" style="display: inline">
+      <img
+        *ngIf="item.attributes.has_dynamic_data"
+        class="ml-2"
+        src="assets/icomoon/SVG/ic-dane-dynamiczne.svg"
+        appTooltip="{{ 'Tour.Tooltip.DatasetItem.DynamicData.text' | translate }}"
+        title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
+        alt="ikona"
+        tabindex="0"
+      />
+    </div>
   </h2>
 
   <ng-template #WithoutHighValueData>
+    <h2 class="heading heading--primary-link heading--sm highlight" *featureFlag="'S43_dynamic_data_filter.fe'; else WithoutDynamicData">
+      <a
+        [routerLink]="[detailsUrl]"
+        [queryParams]="queryParams ? queryParams : ''"
+        [innerHTML]="
+          item.attributes.abbreviation
+            ? (item.attributes.title + ' (' + item.attributes.abbreviation + ')' | stripHtmlTagsExceptHighlight | sanitizeHtml)
+            : (item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml)
+        "
+      >
+      </a>
+      <img
+        *ngIf="item.attributes.has_dynamic_data"
+        class="ml-2"
+        src="assets/icomoon/SVG/ic-dane-dynamiczne.svg"
+        appTooltip="{{ 'Tour.Tooltip.DatasetItem.DynamicData.text' | translate }}"
+        title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
+        alt="ikona"
+        tabindex="0"
+      />
+    </h2>
+  </ng-template>
+
+  <ng-template #WithoutDynamicData>
     <h2 class="heading heading--primary-link heading--sm highlight">
       <a
         [routerLink]="[detailsUrl]"

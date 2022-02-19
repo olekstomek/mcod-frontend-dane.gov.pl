@@ -5,6 +5,14 @@ export interface IAggregationProperties {
   titleTranslationKey?: string;
 }
 
+export interface IAggregationPropertiesForRegions {
+  bbox?: [];
+  hierarchy_label?: string;
+  region_id: number;
+  title: string;
+  areaTranslationKey?: string;
+}
+
 export enum AggregationOptionType {
   CATEGORIES = 'by_categories',
   LICENSES = 'by_license_code',
@@ -24,6 +32,7 @@ export enum AggregationOptionType {
   SHOWCASE_TYPE = 'by_showcase_types',
   SHOWCASE_CATEGORY = 'by_showcase_category',
   SHOWCASE_PLATFORMS = 'by_showcase_platforms',
+  DYNAMIC_DATA = 'by_has_dynamic_data',
 }
 
 export enum AggregationFilterNames {
@@ -42,6 +51,8 @@ export enum AggregationFilterNames {
   SHOWCASE_TYPE = 'showcase_types',
   SHOWCASE_CATEGORY = 'showcase_category',
   SHOWCASE_PLATFORMS = 'showcase_platforms',
+  REGIONS = 'regions',
+  DYNAMIC_DATA = 'has_dynamic_data',
 }
 
 export interface IListViewFilterAggregationsOptions {
@@ -57,6 +68,7 @@ export interface IListViewFilterAggregationsOptions {
   [AggregationOptionType.SHOWCASE_TYPE]?: IAggregationProperties[];
   [AggregationOptionType.SHOWCASE_CATEGORY]?: IAggregationProperties[];
   [AggregationOptionType.SHOWCASE_PLATFORMS]?: IAggregationProperties[];
+  [AggregationOptionType.DYNAMIC_DATA]?: IAggregationProperties[];
 }
 
 export interface IDatasetListViewFilterAggregationsOptions {
@@ -69,10 +81,15 @@ export interface IDatasetListViewFilterAggregationsOptions {
   [AggregationOptionType.UPDATE_FREQUENCY]?: IAggregationProperties[];
   [AggregationOptionType.TYPES]?: IAggregationProperties[];
   [AggregationOptionType.HIGH_VALUE_DATA]?: IAggregationProperties[];
+  [AggregationOptionType.DYNAMIC_DATA]?: IAggregationProperties[];
 }
 
 export interface MultiselectOption {
   [key: string]: IAggregationProperties;
+}
+
+export interface MultiselectOptionForRegions {
+  [key: string]: IAggregationPropertiesForRegions;
 }
 
 export interface DaterangeFilterUpdated {

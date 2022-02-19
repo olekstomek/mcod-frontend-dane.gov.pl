@@ -1,8 +1,7 @@
 {
   "MC": "Ministry of Digital Affairs",
   "MaintainedBy": "Maintained by",
-  "Slogan": "Poland's Open Data Portal",
-  "NewSlogan": "Poland's Data Portal",
+  "Slogan": "Poland's Data Portal",
   "SloganDescription": "Use public data free of charge, also for commercial purposes",
   "Description": "Data of particular importance for the development of innovation in the state and development of the information society in one location",
   "GoTo": "Go to",
@@ -66,7 +65,9 @@
     "Enter": "Enter",
     "Expand": "Expand",
     "Collapse": "Collapse",
-    "ChooseCategory": "Select category"
+    "ChooseCategory": "Select category",
+    "EnterRegion": "Enter locations",
+    "DownloadAll": "Download all"
   },
   "ActivityNotification": {
     "object_restored": "Restored",
@@ -230,7 +231,7 @@
     "HighValueData": "Dane o wysokiej wartości",
     "ApplicationTypes": "Application types",
     "PlatformTypes": "Platform types",
-    "ShowcasesCategory": "Data category",
+    "ShowcasesCategory": "Category",
     "LicenceType": "Licence type",
     "UsefulLinks": "Useful links",
     "Page": "Page",
@@ -239,7 +240,9 @@
     "GooglePlay": "Google Play",
     "IosStore": "iOS application",
     "LinuxStore": "Linux application",
-    "WindowsStore": "Windows application"
+    "WindowsStore": "Windows application",
+    "Region": "Chose location",
+    "DynamicData": "Dynamic data"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -453,7 +456,8 @@
     "MetadataRelatedDataset": "For the dataset",
     "SubmissionItemInfo": "Suggestion submitted by user. It is considered by data providers who can make data available on the portal. If you want to express your opinion on the displayed suggestion use the form below.",
     "MoveToSearchResultText": "To go directly to the search results click enter. At the end of the document is a button to return to the search box.",
-    "BackToSearchInputText": "To return to the search box at the top of the page, click enter."
+    "BackToSearchInputText": "To return to the search box at the top of the page, click enter.",
+    "RelatedShowcases": "Related reuse examples"
   },
   "Embed": {
     "Self": "Embed on Your website",
@@ -605,7 +609,10 @@
     "PointsFound": "Objects found:",
     "Range": "Search radius",
     "Show": "Show location on map",
-    "UserLocation": "provide your location"
+    "UserLocation": "provide your location",
+    "MapView": "Map View - See the map",
+    "ChangeRegion": "Change location",
+    "CloseMap": "Close map"
   },
   "Menu": {
     "Self": "Menu",
@@ -887,6 +894,9 @@
         "API": {
           "title": "See data via API",
           "text": "The button launches a new subpage containing the data in JSON format, provided by the portal’s system API. The data are used to display the contents of the current website."
+        },
+        "RelatedShowcases": {
+          "text": "Examples of reusing related data from a dataset."
         }
       },
       "DatasetDetails": {
@@ -905,12 +915,19 @@
         "History": {
           "title": "Dataset history",
           "text": "Information regarding the changes made to the dataset"
+        },
+        "DownloadAll": {
+          "text": "Selection of function enables download a compressed file  contains all the data (resource files) associated the dataset."
         }
       },
       "DatasetItem": {
         "HighValueData": {
           "title": "High value data",
           "text": "It is public sector information whose re-use has significant benefits for society, the environment and the economy, in particular because of its suitability for services, job creation and other value-added applications."
+        },
+        "DynamicData": {
+          "title": "Dynamic data",
+          "text": "Data that is subject to frequent updates due to its variability or rapid outdated."
         }
       },
       "Institutions": {
@@ -973,7 +990,11 @@
           },
           "HighValueData": {
             "title": "Filters - high calue data",
-            "text": ""
+            "text": "It is public sector information whose re-use has significant benefits for society, the environment and the economy, in particular because of its suitability for services, job creation and other value-added applications."
+          },
+          "DynamicData": {
+            "title": "Filters - dynamic data",
+            "text": "Data that is subject to frequent updates due to its variability or rapid outdated."
           }
         }
       },

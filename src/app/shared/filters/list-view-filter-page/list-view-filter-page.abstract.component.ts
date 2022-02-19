@@ -1,4 +1,9 @@
-import { SelectedFilter, IListViewFilterAggregationsOptions, MultiselectOption } from '@app/services/models/filters';
+import {
+  SelectedFilter,
+  IListViewFilterAggregationsOptions,
+  MultiselectOption,
+  MultiselectOptionForRegions,
+} from '@app/services/models/filters';
 import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
@@ -54,7 +59,7 @@ export abstract class ListViewFilterPageAbstractComponent {
   items: any[];
 
   /**
-   * Count of itemss)
+   * Count of items
    */
   count: number;
 
@@ -111,6 +116,20 @@ export abstract class ListViewFilterPageAbstractComponent {
         document.getElementById('chk-1').removeAttribute('disabled');
       }
     }
+
+    if (this.featureFlagService.validateFlagSync('S43_dynamic_data_filter.fe')) {
+      if (filter.names === 'has_dynamic_data') {
+        document.getElementById('chk-2').removeAttribute('disabled');
+        document.getElementById('chk-3').removeAttribute('disabled');
+      }
+    }
+
+    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
+      if (filter.names === 'regions') {
+        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      }
+    }
+
     const updatedQueryParams: PageParams = this.selectedFiltersService.removeSelectedFilter(
       filter,
       this.activatedRoute.snapshot.queryParams,
@@ -178,6 +197,15 @@ export abstract class ListViewFilterPageAbstractComponent {
     if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
       this.resetHighValueDataFilterCheckboxes();
     }
+    if (this.featureFlagService.validateFlagSync('S43_dynamic_data_filter.fe')) {
+      this.resetDynamicDataFilterCheckboxes();
+    }
+    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
+      const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
+      if (regionsSearchInput) {
+        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      }
+    }
   }
 
   /**
@@ -194,6 +222,17 @@ export abstract class ListViewFilterPageAbstractComponent {
     }
   }
 
+  protected resetDynamicDataFilterCheckboxes() {
+    const hasDynamicDataInputNo = document.getElementById('chk-2');
+    const hasDynamicDataInputYes = document.getElementById('chk-3');
+    if (hasDynamicDataInputNo?.hasAttribute('disabled')) {
+      hasDynamicDataInputNo.removeAttribute('disabled');
+    }
+    if (hasDynamicDataInputYes?.hasAttribute('disabled')) {
+      hasDynamicDataInputYes.removeAttribute('disabled');
+    }
+  }
+
   /**
    * Checks whether default page params already exist
    * @param {Params} params
@@ -207,7 +246,7 @@ export abstract class ListViewFilterPageAbstractComponent {
    * gets one particular selected filter count
    * @param {MultiselectOption} filters
    */
-  protected getSelectedFilterCount(filters: MultiselectOption) {
+  protected getSelectedFilterCount(filters: MultiselectOption | MultiselectOptionForRegions) {
     return filters ? Object.keys(filters).length : 0;
   }
 

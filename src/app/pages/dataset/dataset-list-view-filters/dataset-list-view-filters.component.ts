@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { DatasetListViewFilterNames } from '@app/services/models/page-filters/dataset-filters';
 import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-filter-abstract/list-view-filter-abstract.component';
@@ -11,10 +11,16 @@ import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-f
   templateUrl: './dataset-list-view-filters.component.html',
 })
 export class DatasetListViewFiltersComponent extends ListViewFilterAbstractComponent {
+  @Input() showHideMapButton = false;
+  @Output() showMapEmit = new EventEmitter<boolean>();
   /**
    * invokes applyFilter from extended component with dataset filter names
    */
   applyFilter() {
     super.applyFilter(DatasetListViewFilterNames);
+  }
+
+  showMap(event) {
+    this.showMapEmit.emit(event);
   }
 }

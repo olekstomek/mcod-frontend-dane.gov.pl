@@ -5,69 +5,67 @@ import { BehaviorSubject } from 'rxjs';
 import { toggleVertically } from '@app/animations/toggle-vertically';
 
 /**
-* Cms blocks component
-*/
+ * Cms blocks component
+ */
 @Component({
-    selector: 'cms-block2',
-    templateUrl: './cms-block2.component.html',
-    animations: [
-        toggleVertically
-    ]
+  selector: 'cms-block2',
+  templateUrl: './cms-block2.component.html',
+  animations: [toggleVertically],
 })
-
 export class CmsBlock2Component implements OnInit {
+  /**
+   * Widget subject
+   */
+  @Input() widgetsSubject: BehaviorSubject<IWidget[]>;
 
-    /**
-    * Widget subject
-    */
-    @Input() widgetsSubject: BehaviorSubject<IWidget[]>;
+  /**
+   * Determines whether to show the carousel
+   */
+  @Input() showCarousel = false;
 
-    /**
-    * Determines whether to show the carousel
-    */
-    @Input() showCarousel = false;
+  /**
+   * Widget to display
+   */
+  @Input() oneWidget: IWidget;
 
-    /**
-    * Widget to display
-    */
-    @Input() oneWidget: IWidget;
+  /**
+   * Is full width
+   */
+  @Input() isFullWidth = true;
 
-    /**
-     * Is full width
-     */
-    @Input() isFullWidth = true;
+  /**
+   * Additional container class
+   * @type {string}
+   */
+  @Input() className: string;
 
-    /**
-     * Additional container class
-     * @type {string}
-     */
-    @Input() className: string;
+  @Input() isFooterLogos = false;
 
-    /**
-    * Widget type enum
-    */
-    readonly  widgetType = WidgetType;
+  /**
+   * Widget type enum
+   */
+  readonly widgetType = WidgetType;
 
-    /**
-    * Array of widgets
-    */
-    widgets: IWidget[] = [];
+  /**
+   * Array of widgets
+   */
+  widgets: IWidget[] = [];
 
-    /**
-    * Flag for loaded content, does not display carousel if content is not ready
-    */
-    contentHasLoaded = false;
+  /**
+   * Flag for loaded content, does not display carousel if content is not ready
+   */
+  contentHasLoaded = false;
 
-    /**
-    * Subscribe to widgetSubject
-    */
-    ngOnInit() {
-        if (this.widgetsSubject) {
-            this.widgetsSubject.subscribe(response => {
-                this.widgets = response;
-            });
-        } else {
-            this.widgets.push(this.oneWidget);
-        }
+  /**
+   * Subscribe to widgetSubject
+   */
+  ngOnInit() {
+    if (this.widgetsSubject) {
+      this.widgetsSubject.subscribe(response => {
+        this.widgets = response;
+      });
+    } else {
+      this.widgets.push(this.oneWidget);
     }
+  }
 }

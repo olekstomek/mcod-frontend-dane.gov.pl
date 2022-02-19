@@ -21,11 +21,21 @@
         </span>
       </li>
 
+      <!--dynamic data-->
+      <div *featureFlag="'S43_dynamic_data_filter.fe'">
+        <li *ngIf="resource?.attributes?.has_dynamic_data">
+          <strong> {{ 'Attribute.DynamicData' | translate }}: </strong>
+          <img src="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+        </li>
+      </div>
+
       <!--high value data-->
-      <li *ngIf="resource?.attributes?.has_high_value_data">
-        <strong> {{ 'Attribute.HighValueData' | translate }}: </strong>
-        <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
-      </li>
+      <div *featureFlag="'S39_high_value_data_filter.fe'">
+        <li *ngIf="resource?.attributes?.has_high_value_data">
+          <strong> {{ 'Attribute.HighValueData' | translate }}: </strong>
+          <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+        </li>
+      </div>
 
       <!-- dates info -->
       <li>

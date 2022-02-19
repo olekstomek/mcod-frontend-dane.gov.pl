@@ -7,6 +7,26 @@
     {{ 'Filters.Self' | translate }}
   </h2>
 
+  <!-- Region -->
+  <app-expandable-multiselect
+    *featureFlag="'S42_geodata_search.fe'"
+    id="dataset-location-filter"
+    [isGeodataSearch]="true"
+    [titleTranslationKey]="'Attribute.Region'"
+    [titleTooltipTranslationKey]="'Attribute.CategoryTooltip'"
+    [selectedIds]="selectedData[FiltersNames.REGIONS]"
+    [displayShowMore]="false"
+    [placeholderTranslationKey]="'Action.EnterRegion'"
+    [maxLength]="maxLength"
+    [ariaLabel]="'region-filter-label'"
+    [enableApply]="availabilityFilterMap[FiltersNames.REGIONS]"
+    [showHideMapButton]="showHideMapButton && selectedData[FiltersNames.REGIONS]"
+    (applyFilter)="applyFilter()"
+    (selectedChange)="onSelectedChange(FiltersNames.REGIONS, $event)"
+    (showMap)="showMap($event)"
+  >
+  </app-expandable-multiselect>
+
   <!-- Categories -->
   <app-expandable-multiselect
     id="dataset-category-filter"
@@ -141,23 +161,44 @@
   >
   </app-expandable-multiselect>
 
-    <!--High value data-->
-    <app-expandable-multiselect
-        *featureFlag="'S39_high_value_data_filter.fe'"
-        id="dataset-high-value-data-filter"
-        [titleTranslationKey]="'Attribute.HighValueData'"
-        [showSearchInput]="false"
-        [singleSelectOption]="true"
-        [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA]"
-        [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA]"
-        [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA]"
-        [maxLength]="maxLength"
-        [ariaLabel]="'high-value-data-label'"
-        (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
-        (applyFilter)="applyFilter()"
-        [filterName]="'high'"
-    >
-    </app-expandable-multiselect>
+  <!--High value data-->
+  <app-expandable-multiselect
+    *featureFlag="'S39_high_value_data_filter.fe'"
+    id="dataset-high-value-data-filter"
+    [titleTranslationKey]="'Attribute.HighValueData'"
+    [showSearchInput]="false"
+    [singleSelectOption]="true"
+    [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA]"
+    [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'high-value-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'high'"
+    [inputIndex]="0"
+  >
+  </app-expandable-multiselect>
+
+  <!--dynamic data-->
+  <app-expandable-multiselect
+    *featureFlag="'S43_dynamic_data_filter.fe'"
+    id="dataset-dynamic-data-filter"
+    [titleTranslationKey]="'Attribute.DynamicData'"
+    [titleTooltipTranslationKey]="'Attribute.DynamicData'"
+    [showSearchInput]="false"
+    [singleSelectOption]="true"
+    [options]="filtersOptions && filtersOptions[OptionsNames.DYNAMIC_DATA]"
+    [selectedIds]="selectedData[FiltersNames.DYNAMIC_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.DYNAMIC_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'dynamic-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.DYNAMIC_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'dynamic'"
+    [inputIndex]="2"
+  >
+  </app-expandable-multiselect>
 
   <!-- Upload date range -->
   <app-date-range-picker

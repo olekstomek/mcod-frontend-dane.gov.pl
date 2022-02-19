@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-end">
-  <div class="mb-4" *featureFlag="'S37_WCAG_map_view.fe'; else mapOptionsWithoutReadTooltip">
+  <div class="mb-4">
     <button
       class="btn btn-primary mapOptionsBtn"
       [attr.aria-pressed]="isMapOptionsVisible"
@@ -9,17 +9,6 @@
       {{ 'Map.Options' | translate }}
     </button>
   </div>
-  <ng-template #mapOptionsWithoutReadTooltip>
-    <div
-      class="mb-4"
-      appTooltip="{{ 'Tour.Tooltip.DataResource.MapSettings.text' | translate }}"
-      title="{{ 'Tour.Tooltip.DataResource.MapSettings.title' | translate }}"
-    >
-      <button class="btn btn-primary mapOptionsBtn" [attr.aria-pressed]="isMapOptionsVisible" (click)="toggleMapOptions()">
-        {{ 'Map.Options' | translate }}
-      </button>
-    </div>
-  </ng-template>
   <app-map-options
     [hidden]="!isMapOptionsVisible"
     (displayPointsInRange)="displayUserPreferences($event)"

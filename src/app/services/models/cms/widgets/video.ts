@@ -5,6 +5,11 @@ export interface IVideo extends IWidget {
     value: {
         caption: string;
         video: string;
+        uploaded_video?: {
+            tilte: string;
+            download_url: string;
+            thumbnail_url: string;
+        }
     };
 }
 

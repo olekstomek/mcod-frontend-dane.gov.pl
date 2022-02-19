@@ -63,6 +63,11 @@ export class ExpandableMultiselectListComponent implements OnChanges {
   @Input() singleSelectOption = false;
 
   /**
+   * index for inputs single select option for filter
+   */
+  @Input() inputIndex: number;
+
+  /**
    * emits new option selection change
    */
   @Output() selectedChange = new EventEmitter<IAggregationProperties>();

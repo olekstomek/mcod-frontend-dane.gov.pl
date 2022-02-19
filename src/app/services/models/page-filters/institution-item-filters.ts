@@ -10,7 +10,6 @@ export interface IListViewInstitutionItemFiltersModel {
     [AggregationFilterNames.UPDATE_FREQUENCY]: MultiselectOption;
     [AggregationFilterNames.DATE_FROM]: Date;
     [AggregationFilterNames.DATE_TO]: Date;
-
 }
 export interface IListViewInstitutionItemCategoryFiltersModel {
     [AggregationFilterNames.CATEGORIES]: MultiselectOption;
@@ -22,7 +21,6 @@ export interface IListViewInstitutionItemCategoryFiltersModel {
     [AggregationFilterNames.UPDATE_FREQUENCY]: MultiselectOption;
     [AggregationFilterNames.DATE_FROM]: Date;
     [AggregationFilterNames.DATE_TO]: Date;
-
 }
 
 export const InstitutionItemListViewFilterNames = [

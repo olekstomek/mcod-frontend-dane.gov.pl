@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegionsMapComponent } from '@app/pages/dataset/regions-map/regions-map.component';
+import { DatasetItemResultsComponent } from '@app/pages/dataset/dataset-item-results/dataset-item-results.component';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { AccordionModule, TabsModule } from 'ngx-bootstrap';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
@@ -34,52 +36,53 @@ import { ResourceFilterModule } from '@app/shared/resource-filters/resource-filt
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        DatasetRoutingModule,
-        AppBootstrapModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        FormsModule,
-        SharedModule,
-        DatepickerModule,
-        MapModule,
-        ResourceChartModule,
-        DatepickerModule,
-        TabsModule,
-        AccordionModule,
-        ReactiveFormsModule,
-        ResourceFilterModule,
-    ],
-    providers: [
-        DatasetService,
-        BreadcrumbsDatasetResolver,
-        BreadcrumbsSubmissionResolver,
-        BreadcrumbsResourceResolver,
-        OfflineResourceResolver
-    ],
-    declarations: [
-        DatasetComponent,
-        DatasetItemComponent,
-        DatasetResourceComponent,
-        DatasetParentComponent,
-        SuggestDatasetComponent,
-        DatasetResourceMapComponent,
-        SuggestDatasetComponent,
-        FeedbackFormComponent,
-        DatasetRestrictionsComponent,
-        DatasetListViewFiltersComponent,
-        ResourceListComponent,
-        ResourceItemInfoComponent,
-        ResourceItemFilesDownloadComponent,
-        SubmissionListComponent,
-        SubmissionItemComponent,
-        DatasetMetadataComponent
-    ]
+  imports: [
+    CommonModule,
+    DatasetRoutingModule,
+    AppBootstrapModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    FormsModule,
+    SharedModule,
+    DatepickerModule,
+    MapModule,
+    ResourceChartModule,
+    DatepickerModule,
+    TabsModule,
+    AccordionModule,
+    ReactiveFormsModule,
+    ResourceFilterModule,
+  ],
+  providers: [
+    DatasetService,
+    BreadcrumbsDatasetResolver,
+    BreadcrumbsSubmissionResolver,
+    BreadcrumbsResourceResolver,
+    OfflineResourceResolver,
+  ],
+  declarations: [
+    DatasetComponent,
+    DatasetItemComponent,
+    DatasetResourceComponent,
+    DatasetParentComponent,
+    SuggestDatasetComponent,
+    DatasetResourceMapComponent,
+    SuggestDatasetComponent,
+    FeedbackFormComponent,
+    DatasetRestrictionsComponent,
+    DatasetListViewFiltersComponent,
+    ResourceListComponent,
+    ResourceItemInfoComponent,
+    ResourceItemFilesDownloadComponent,
+    SubmissionListComponent,
+    SubmissionItemComponent,
+    DatasetMetadataComponent,
+    RegionsMapComponent,
+    DatasetItemResultsComponent,
+  ],
 })
-export class DatasetModule {
-}
+export class DatasetModule {}

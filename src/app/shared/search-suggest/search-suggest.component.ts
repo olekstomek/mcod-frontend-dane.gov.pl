@@ -29,7 +29,7 @@ import { of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ObjectHelper } from '../helpers/object.helper';
 import { StringHelper } from '../helpers/string.helper';
-import { SearchAdvancedSettings, SearchSuggestListboxOption } from './search-suggest';
+import { SearchAdvancedSettings, SearchSuggestListboxOption, SearchSuggestRegionListboxOption } from './search-suggest';
 
 /**
  * Search Suggest Component
@@ -97,11 +97,12 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * Tooltip text
    * @type {string}
    */
-  @Input()
-  tooltipText: string;
+  @Input() tooltipText: string;
+
   get searchText(): string {
     return this._searchText;
   }
+
   @Input('searchQuery') set searchText(value: string) {
     this._searchText = decodeURIComponent(value.trim()); //value.trim();
     this.searchTextChanged.next(this.searchText);
@@ -178,7 +179,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
   /**
    * Listbox options - suggestion list
    */
-  listBoxOptions: SearchSuggestListboxOption[] = [];
+  listBoxOptions = [];
 
   /**
    * Determines whether listbox (suggestion list) is expanded
@@ -225,6 +226,10 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    */
   @Input() isApiValidationButtonVisible: boolean;
 
+  @Input() isGeodataSearch = false;
+
+  @Output() regionListboxOption = new EventEmitter<SearchSuggestRegionListboxOption>();
+
   /**
    * @ignore
    */
@@ -266,8 +271,19 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         }),
       )
       .subscribe(response => {
-        if (!response || !response['data']) {
-          return;
+        if (this.featureFlagsService.validateFlagSync('S42_geodata_search.fe')) {
+          if (!response || response.data.length === 0) {
+            if (this.apiModels[0] === 'region') {
+              this.regionListboxOption.emit(null);
+              return;
+            } else {
+              return;
+            }
+          }
+        } else {
+          if (!response || !response['data']) {
+            return;
+          }
         }
 
         this.toggleDropdown(this.prepareListboxOptions(response.data));
@@ -276,9 +292,15 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
 
     if (this.featureFlagsService.validateFlagSync('S41_api_validation_button.fe')) {
-        this.apiValidationUrl = `https://dev.dane.gov.pl/tools/api-validator`;
-      // this.apiValidationUrl = `https://${this.document.location.hostname.replace('www.', '') + ':' + this.document.location.port}/tools/api-validator`;
-      // to localhost jak będzie już działać walidator to trzeba potestować
+      const hostname = this.document.location.hostname.replace('www.', '');
+      switch (hostname) {
+        case 'localhost':
+          this.apiValidationUrl = `https://dev.dane.gov.pl/tools/api-validator`;
+          break;
+        default:
+          this.apiValidationUrl = `https://${this.document.location.hostname.replace('www.', '')}/tools/api-validator`;
+          break;
+      }
     }
   }
 
@@ -309,11 +331,10 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * Resets active descendant index.
    * @param {SearchSuggestListboxOption[]} [items]
    */
-  toggleDropdown(items: SearchSuggestListboxOption[] = []) {
+  toggleDropdown(items = []) {
     this.listBoxOptions = [...items];
     this.isListBoxExpanded = !!items.length;
     this.activeSuggestionIndex = this.notSelectedSuggestionIndex;
-    console.log('hmm', this.listBoxOptions);
   }
 
   /**
@@ -321,7 +342,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * @param {any} item
    * @returns {SearchSuggestListboxOption} listbox option from item
    */
-  createListboxOptionFromItem(item: any): SearchSuggestListboxOption {
+  createListboxOptionFromItem(item: any): SearchSuggestListboxOption | SearchSuggestRegionListboxOption {
     const { title, model, slug }: { title: string; model: ApiModel; slug: string } = item.attributes;
     const id: string = item.id.indexOf('-') !== -1 ? item.id.split('-')[1] : item.id;
     const updatedModel = model.replace('_', '-');
@@ -351,11 +372,21 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         break;
     }
 
-    return {
-      title: title,
-      url: model === ApiModel.KNOWLEDGE_BASE ? url : (url += `/${id},${slug}`),
-      areaTranslationKey: areaTranslationKey,
-    };
+    if (this.isGeodataSearch) {
+      return {
+        bbox: item.attributes.bbox,
+        hierarchy_label: item.attributes.hierarchy_label,
+        region_id: item.attributes.region_id,
+        title: title,
+        areaTranslationKey: areaTranslationKey,
+      };
+    } else {
+      return {
+        title: title,
+        url: model === ApiModel.KNOWLEDGE_BASE ? url : (url += `/${id},${slug}`),
+        areaTranslationKey: areaTranslationKey,
+      };
+    }
   }
 
   /**
@@ -375,7 +406,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * @param {any[]} responseData
    * @returns {SearchSuggestListboxOption[]} listbox options
    */
-  prepareListboxOptions(responseData: any[]): SearchSuggestListboxOption[] {
+  prepareListboxOptions(responseData: any[]) {
     return responseData.map(item => {
       return this.createListboxOptionFromItem(item);
     });
@@ -493,26 +524,25 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
       case 'ArrowDown':
         this.setNextActiveSuggestionIndex();
         break;
-
       case 'ArrowUp':
         this.setPreviousActiveSuggestionIndex();
         break;
-
       case 'Enter':
-        this.onActiveSuggestionClick();
+        if ((event.target as Element).id === 'regions-search-input') {
+          this.onSuggestionSearchClick();
+        } else {
+          this.onActiveSuggestionClick();
+        }
         break;
-
       case 'Tab':
         this.isListBoxExpanded = !this.isListBoxExpanded;
         break;
-
       case 'Space':
         if (event.shiftKey) {
           this.isListBoxExpanded = true;
           event.preventDefault();
         }
         break;
-
       case 'Escape':
         this.isListBoxExpanded = false;
     }
@@ -568,5 +598,19 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    */
   emitMoveToSearchResult() {
     this.moveToSearchResultTrigger.emit();
+  }
+
+  /**
+   * chose and emit of the active item on the suggestion region list
+   */
+  onSuggestionSearchClick() {
+    if (this.activeSuggestionIndex === this.notSelectedSuggestionIndex) {
+      return;
+    }
+
+    const listboxOption = this.listBoxOptions[this.activeSuggestionIndex];
+    this._searchText = listboxOption.title;
+    this.regionListboxOption.emit(listboxOption);
+    this.listBoxOptions = [];
   }
 }

@@ -30,7 +30,7 @@
             <!-- email field validation error -->
             <small
               class="form-text"
-              [ngClass]="featureFlagsService.validateFlagSync('S37_WCAG_color_err.fe') ? 'text-err' : 'text-danger'"
+              [ngClass]="'text-err'"
               role="alert"
               id="email_error"
               aria-live="polite"
@@ -61,7 +61,7 @@
             <!-- password field validation error -->
             <small
               class="form-text"
-              [ngClass]="featureFlagsService.validateFlagSync('S37_WCAG_color_err.fe') ? 'text-err' : 'text-danger'"
+              [ngClass]="'text-err'"
               role="alert"
               id="password_error"
               aria-live="polite"

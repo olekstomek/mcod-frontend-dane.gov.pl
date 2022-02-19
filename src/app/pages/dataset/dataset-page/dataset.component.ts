@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -18,6 +18,7 @@ import {
   IDatasetListViewFilterAggregationsOptions,
   IListViewFilterAggregationsOptions,
 } from '@app/services/models/filters';
+import { IAggregationArray } from '@app/services/models/map';
 import { IListViewDatasetCategoryFiltersModel, IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { NotificationsService } from '@app/services/notifications.service';
 import { ObserveService } from '@app/services/observe.service';
@@ -87,6 +88,16 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    */
   isUserLoggedIn = false;
 
+  /**
+   * show map button
+   */
+  showMap = false;
+
+  /**
+   * map aggregation array
+   */
+  mapAggregations: IAggregationArray;
+
   constructor(
     protected filterService: ListViewFiltersService,
     protected activatedRoute: ActivatedRoute,
@@ -101,6 +112,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
     protected featureFlagService: FeatureFlagService,
+    private cdrf: ChangeDetectorRef,
   ) {
     super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
     this.Facets = [
@@ -118,6 +130,9 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     }
     if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
       this.Facets = [...this.Facets, AggregationOptionType.HIGH_VALUE_DATA];
+    }
+    if (this.featureFlagService.validateFlagSync('S43_dynamic_data_filter.fe')) {
+      this.Facets = [...this.Facets, AggregationOptionType.DYNAMIC_DATA];
     }
   }
 
@@ -178,7 +193,6 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
         .getFilters(ApiConfig.search, this.Facets, customParams)
         .subscribe((allFilters: IDatasetListViewFilterAggregationsOptions | IListViewFilterAggregationsOptions) => {
           this.filters = allFilters;
-          this.setSelectedFilters(this.params);
           this.getData();
         });
     });
@@ -218,7 +232,25 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.isQueryFormSubmitted = false;
       this.isQueryFormError = false;
       this.isQuerySubscribed = !!response.subscription_url;
+
+      if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
+        this.mapAggregations = response.aggregations;
+      }
     });
+  }
+
+  /**
+   * Gets list of datasets from boundary box
+   */
+  getDataFromMap(event) {
+    if (event.data) {
+      this.items = this.listViewDetailsService.extendViewDetails(event.data);
+      this.counters = event.meta.aggregations.counters;
+      this.count = event.meta.count;
+      this.cdrf.detectChanges();
+    } else {
+      this.items = null;
+    }
   }
 
   /**
@@ -239,6 +271,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.HIGH_VALUE_DATA]: {},
       [AggregationFilterNames.DATE_FROM]: null,
       [AggregationFilterNames.DATE_TO]: null,
+      [AggregationFilterNames.REGIONS]: {},
+      [AggregationFilterNames.DYNAMIC_DATA]: {},
     };
   }
 
@@ -247,6 +281,12 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * @return {number}
    */
   protected getSelectedFiltersCount(): number {
+    if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
+      if (this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) === 0) {
+        this.showMap = false;
+      }
+    }
+
     return (
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.CATEGORIES]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.INSTITUTION]) +
@@ -257,6 +297,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
   }

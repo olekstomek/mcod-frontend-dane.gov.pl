@@ -30,7 +30,6 @@ import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { PrebootModule } from 'preboot';
 
-
 import { AppBootstrapModule } from './app-bootstrap/app-bootstrap.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,82 +52,94 @@ import { SurveyComponent } from './pages/survey/survey.component';
 import { AuthGuard } from './user/auth/auth.guard';
 
 export function flagsFactory(featureFlagService: FeatureFlagService) {
-    return () => featureFlagService.initialize();
+  return () => featureFlagService.initialize();
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        FooterComponent,
-        AboutComponent,
-        MainLayoutComponent,
-        EmbedLayoutComponent,
-        PageNotFoundComponent,
-        SitemapComponent,
-        ActivityNotificationsComponent,
-        NewsletterComponent,
-        ActiveNewsletterComponent,
-        UnsubcribeNewsletterComponent,
-        RegulationsComponent,
-        PreviewCmsComponent,
-        SearchResultsComponent,
-        SurveyComponent,
-        FooterNavListComponent,
-        FooterNavLinkInternalComponent,
-        FooterNavLinkExternalComponent,
-        DeclarationComponent
-    ],
-    imports: [
-        // Add .withServerTransition() to support Universal rendering.
-        // The application ID can be any identifier which is unique on the page.
-        BrowserModule.withServerTransition({appId: 'otwarte-dane-ssr'}),
-        PrebootModule.withConfig({ appRoot: 'app-root', disableOverlay: false, eventSelectors: [{ selector: 'button', events: ['click'], preventDefault: true, freeze: false, action: function () { alert('przepraszamy, strona potrzebuje jeszcze chwili') } }] }),
-        TransferHttpCacheModule,
-        AppRoutingModule,
-        AppBootstrapModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        HomeModule,
-        ServicesModule.forRoot(),
-        NgProgressModule,
-        NgProgressHttpModule,
-        SharedModule,
-        ModalModule.forRoot(),
-        TabsModule.forRoot(),
-        AccordionModule.forRoot(),
-        TooltipModule.forRoot(),
-        TranslateModule.forChild(),
-        NgxLocalStorageModule.forRoot({prefix: 'mcod'}),
-        BrowserAnimationsModule,
-        KnowledgeBaseModule,
-    ],
-    providers: [
-        Title,
-        AuthGuard,
-        CookieService,
-        LanguageBootstrapService,
-        {provide: HTTP_INTERCEPTORS, useClass: UnregisteredInterceptor, multi: true},
-        {provide: HTTP_INTERCEPTORS, useClass: OfflineInterceptorService, multi: true},
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    AboutComponent,
+    MainLayoutComponent,
+    EmbedLayoutComponent,
+    PageNotFoundComponent,
+    SitemapComponent,
+    ActivityNotificationsComponent,
+    NewsletterComponent,
+    ActiveNewsletterComponent,
+    UnsubcribeNewsletterComponent,
+    RegulationsComponent,
+    PreviewCmsComponent,
+    SearchResultsComponent,
+    SurveyComponent,
+    FooterNavListComponent,
+    FooterNavLinkInternalComponent,
+    FooterNavLinkExternalComponent,
+    DeclarationComponent,
+  ],
+  imports: [
+    // Add .withServerTransition() to support Universal rendering.
+    // The application ID can be any identifier which is unique on the page.
+    BrowserModule.withServerTransition({ appId: 'otwarte-dane-ssr' }),
+    PrebootModule.withConfig({
+      appRoot: 'app-root',
+      disableOverlay: false,
+      eventSelectors: [
         {
-            provide: APP_INITIALIZER,
-            useFactory: flagsFactory,
-            deps: [FeatureFlagService],
-            multi: true
-        }
-    ],
-    bootstrap: [AppComponent]
+          selector: 'button',
+          events: ['click'],
+          preventDefault: true,
+          freeze: false,
+          action: function () {
+            alert('przepraszamy, strona potrzebuje jeszcze chwili');
+          },
+        },
+      ],
+    }),
+    TransferHttpCacheModule,
+    AppRoutingModule,
+    AppBootstrapModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    HomeModule,
+    ServicesModule.forRoot(),
+    NgProgressModule,
+    NgProgressHttpModule,
+    SharedModule,
+    ModalModule.forRoot(),
+    TabsModule.forRoot(),
+    AccordionModule.forRoot(),
+    TooltipModule.forRoot(),
+    TranslateModule.forChild(),
+    NgxLocalStorageModule.forRoot({ prefix: 'mcod' }),
+    BrowserAnimationsModule,
+    KnowledgeBaseModule,
+  ],
+  providers: [
+    Title,
+    AuthGuard,
+    CookieService,
+    LanguageBootstrapService,
+    { provide: HTTP_INTERCEPTORS, useClass: UnregisteredInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: OfflineInterceptorService, multi: true },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: flagsFactory,
+      deps: [FeatureFlagService],
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
-    constructor(@Inject(PLATFORM_ID) private platformId: Object,
-                @Inject(APP_ID) private appId: string) {
-
-        const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
-        //console.log(`Running ${platform} with appId=${appId}`);
-    }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, @Inject(APP_ID) private appId: string) {
+    const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
+    //console.log(`Running ${platform} with appId=${appId}`);
+  }
 }
 
 export function HttpLoaderFactory(http: HttpClient, transferState: TransferState) {
-    return new TranslateBrowserLoaderService(http, transferState);
+  return new TranslateBrowserLoaderService(http, transferState);
 }

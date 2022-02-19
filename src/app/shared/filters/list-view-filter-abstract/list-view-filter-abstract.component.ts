@@ -1,15 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
-  FilterModel,
-  DaterangeFilterUpdated,
-  DaterangeFilterModel,
-  FiltersToSend,
-  AvailabilityFilterMap,
-  DaterangeFilterAvailability,
-  AggregationFilterNames,
-  AggregationOptionType,
-  IListViewFilterAggregationsOptions,
-  IAggregationProperties,
+    FilterModel,
+    DaterangeFilterUpdated,
+    DaterangeFilterModel,
+    FiltersToSend,
+    AvailabilityFilterMap,
+    DaterangeFilterAvailability,
+    AggregationFilterNames,
+    AggregationOptionType,
+    IListViewFilterAggregationsOptions,
+    IAggregationProperties,
+    IAggregationPropertiesForRegions,
 } from '@app/services/models/filters';
 import { ListViewManageFiltersService } from '@app/services/filters/list-view-manage-filters.service';
 
@@ -31,7 +32,7 @@ export class ListViewFilterAbstractComponent {
   /**
    * selected Options
    */
-  selectedData: FilterModel;
+  selectedData;
 
   /**
    * map for each filter, determines if option selection has changed
@@ -46,7 +47,7 @@ export class ListViewFilterAbstractComponent {
   /**
    * original data before all changes, neede to determine if filter has changed
    */
-  @Input() originalSelectedData: FilterModel;
+  @Input() originalSelectedData;
 
   /**
    * max length of search input
@@ -57,7 +58,7 @@ export class ListViewFilterAbstractComponent {
    * sets selected filters and builds availability model for tracking changes inside filters
    * @param {FilterModel} dataModel
    */
-  @Input() set data(dataModel: FilterModel) {
+  @Input() set data(dataModel) {
     this.selectedData = dataModel;
     this.availabilityFilterMap = this.manageFiltersService.buildAvailibilityMap(Object.keys(this.selectedData));
   }
@@ -74,7 +75,7 @@ export class ListViewFilterAbstractComponent {
    * @param {string} name
    * @param {IAggregationProperties} selectedOption
    */
-  onSelectedChange(name: string, selectedOption: IAggregationProperties) {
+  onSelectedChange(name: string, selectedOption: IAggregationProperties | IAggregationPropertiesForRegions) {
     this.selectedData[name] = this.manageFiltersService.changeMultiselectFilter(this.selectedData[name], selectedOption) as any;
     const shouldEnable: boolean = this.manageFiltersService.checkIfMultiselectChanged(
       this.selectedData[name],

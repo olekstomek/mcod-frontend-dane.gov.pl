@@ -8,6 +8,16 @@
     <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
   </button>
 
+  <!-- Regions -->
+  <app-selected-filters
+    [regions]="selectedIds[AggregationFilterNames.REGIONS]"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.REGIONS, $event)"
+    [isRegionsData]="true"
+    *featureFlag="'S42_geodata_search.fe'"
+  >
+  </app-selected-filters>
+
   <!-- Categories -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.CATEGORIES]"
@@ -77,12 +87,24 @@
   <!-- High value data -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.HIGH_VALUE_DATA]"
-    [isHighValueData]="true"
+    [isCustomFilterName]="true"
+    [customFiltersName] = "'Attribute.HighValueData'"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA, $event)"
     *featureFlag="'S39_high_value_data_filter.fe'"
   >
   </app-selected-filters>
+
+    <!-- Dynamic data -->
+    <app-selected-filters
+        [items]="selectedIds[AggregationFilterNames.DYNAMIC_DATA]"
+        [isCustomFilterName]="true"
+        [customFiltersName] = "'Attribute.DynamicData'"
+        @toggle
+        (removeSelectedFilter)="onClearFilter(AggregationFilterNames.DYNAMIC_DATA, $event)"
+        *featureFlag="'S43_dynamic_data_filter.fe'"
+    >
+    </app-selected-filters>
 
   <!-- Date range -->
   <app-selected-filters

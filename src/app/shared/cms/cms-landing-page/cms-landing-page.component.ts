@@ -1,7 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { CmsService } from '@app/services/cms.service';
 import { IPageCms } from '@app/services/models/cms/page-cms';
@@ -53,12 +54,18 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
   body: IWidget[];
 
   /**
+   * Widget subject for footer and header
+   */
+  @Input() widgetFooterSubject: BehaviorSubject<IWidget[]>;
+
+  /**
    * @ignore
    */
   constructor(
     public cmsService: CmsService,
     public route: ActivatedRoute,
     public router: Router,
+    private featureFlagService: FeatureFlagService,
     @Inject(DOCUMENT) private document: Document,
   ) {
     /**
@@ -90,8 +97,31 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
    * Get page from cms api, if page is draft, then displays it only for admin users
    */
   ngOnInit() {
+    if (this.featureFlagService.validateFlagSync('S44_footer_cms.fe')) {
+      if (this.widgetFooterSubject) {
+        this.widgetFooterSubject.subscribe(response => {
+          this.body = response;
+          if (this.body) {
+            this.findElementsWithLinks(this.body);
+            this.addClassnameProperty(this.body);
+          }
+        });
+      } else {
+        this.setContentCmsPage();
+      }
+    } else {
+      this.setContentCmsPage();
+    }
+  }
+
+  ngOnDestroy() {
+    this.routerEventsSubscription.unsubscribe();
+  }
+
+  setContentCmsPage() {
     this.queryParams = { ...this.route.snapshot.queryParams };
     this.requestedUrl = this.router.url;
+
     this.pageCmsCss = `${this.route.snapshot.data.slug} ${this.route.snapshot.data.cssContainerClass}`;
 
     this.requestedUrl = this.router.url;
@@ -101,10 +131,6 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     }
     this.requestedUrl = this.requestedUrl.substring(3);
     this.getPageData();
-  }
-
-  ngOnDestroy() {
-    this.routerEventsSubscription.unsubscribe();
   }
 
   /**

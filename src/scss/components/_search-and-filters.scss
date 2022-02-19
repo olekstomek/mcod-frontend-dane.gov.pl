@@ -57,6 +57,12 @@
         }
     }
 
+    &__item-body-custom {
+        @include media-breakpoint-down(md) {
+            @include visibility-animated-custom;
+        }
+    }
+
     &__divider {
         display: block;
         margin: 1rem 0;

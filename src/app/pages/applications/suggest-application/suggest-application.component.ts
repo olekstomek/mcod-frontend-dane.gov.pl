@@ -265,7 +265,6 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
 
     // internal datasets - store only dataset ids
     if (formValue['datasets'] && formValue['datasets'].length) {
-      console.log('heee', formValue['datasets']);
       formValue['datasets'] = formValue['datasets']
         .filter(Boolean) // remove null values
         .map(dataset => dataset['id']) // only ids

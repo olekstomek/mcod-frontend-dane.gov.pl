@@ -20,6 +20,11 @@
     </ng-template>
   </div>
 
-  <app-default-result-item class="text-wrap result-item-logo__result" [item]="item" [detailsUrl]="item.id + ',' + item.attributes.slug">
+  <app-default-result-item *ngIf="fromDatasetEndpoint; else defaultView" class="text-wrap result-item-logo__result" [item]="item" [detailsUrl]="('/' | localize) + '/showcase/' + item.id + ',' + item.attributes.slug">
   </app-default-result-item>
+
+    <ng-template #defaultView>
+        <app-default-result-item class="text-wrap result-item-logo__result" [item]="item" [detailsUrl]="item.id + ',' + item.attributes.slug">
+        </app-default-result-item>
+    </ng-template>
 </div>

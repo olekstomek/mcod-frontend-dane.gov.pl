@@ -31,9 +31,11 @@ export class ListViewFiltersService {
     switch (name) {
       case AggregationFilterNames.CATEGORIES:
       case AggregationFilterNames.INSTITUTION:
+      case AggregationFilterNames.REGIONS:
         filterNameWithSuffix = name + '[id][terms]';
         break;
       case AggregationFilterNames.HIGH_VALUE_DATA:
+      case AggregationFilterNames.DYNAMIC_DATA:
         filterNameWithSuffix = name + '[term]';
         break;
       default:

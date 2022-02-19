@@ -6,5 +6,6 @@ export enum ApiModel {
     KNOWLEDGE_BASE = 'knowledge_base',
     RESOURCE = 'resource',
     QUERY = 'query',
-    SHOWCASE = 'showcase'
+    SHOWCASE = 'showcase',
+    REGION = 'region'
 }

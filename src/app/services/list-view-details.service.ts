@@ -24,7 +24,6 @@ export class ListViewDetailsService {
   extendViewDetails(items: ISearchResult[]): ISearchResult[] {
     items.map(item => {
       item.id = item.id.split('-').pop();
-
       switch (item.attributes.model) {
         case ApiModel.RESOURCE:
           this.extendResource(item);

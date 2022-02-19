@@ -8,14 +8,14 @@
       #checkboxNo
       type="checkbox"
       class="dropdown-item__input"
-      id="chk-0"
+      [id]="'chk-'+inputIndex"
       [checked]="selectedIds && !!selectedIds[options[0].id]"
       (click)="selectItem(options[0])"
       (keyup.enter)="selectItem(options[0])"
       (change)="onChangeDisabled($event, 'checkboxNo')"
     />
 
-    <label for="chk-0" class="dropdown-item__content">
+    <label [for]="'chk-'+inputIndex" class="dropdown-item__content">
       <span class="dropdown-item__content-wrapper" title="{{ options[0]?.title }}">
         <span class="dropdown-item__content-title" [innerHtml]="options[0][displayValue] || options[0]"> </span>
       </span>
@@ -33,14 +33,14 @@
       #checkboxYes
       type="checkbox"
       class="dropdown-item__input"
-      id="chk-1"
+      [id]="'chk-'+(inputIndex+1)"
       [checked]="selectedIds && !!selectedIds[options[1].id]"
       (click)="selectItem(options[1])"
       (keyup.enter)="selectItem(options[1])"
       (change)="onChangeDisabled($event, 'checkboxYes')"
     />
 
-    <label for="chk-1" class="dropdown-item__content">
+    <label [for]="'chk-'+(inputIndex+1)" class="dropdown-item__content">
       <span class="dropdown-item__content-wrapper" title="{{ options[1]?.title }}">
         <span class="dropdown-item__content-title" [innerHtml]="options[1][displayValue] || options[1]"> </span>
       </span>

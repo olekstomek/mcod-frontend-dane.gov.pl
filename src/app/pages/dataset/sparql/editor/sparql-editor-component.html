@@ -4,6 +4,6 @@
     {{isPrefixesHidden ? ('Action.Expand' | translate) : ('Action.Collapse' | translate)}}
   </button>
 </div>
-<span *featureFlag="'S37_WCAG_sparql_key_tab.fe'" id="labelForSr" class="sr-only">{{'Sparql.ExitFromTextAreaForSr' | translate}}</span>
+<span id="labelForSr" class="sr-only">{{'Sparql.ExitFromTextAreaForSr' | translate}}</span>
 <div id="prefixes" [hidden]="isPrefixesHidden" class="mb-4"></div>
 <div id="editor"></div>

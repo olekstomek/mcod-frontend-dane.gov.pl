@@ -21,87 +21,87 @@ import { BreadcrumbsSubmissionResolver } from '@app/shared/breadcrumbs/resolvers
 import { OfflineResourceResolver } from '@app/shared/breadcrumbs/resolvers/offline-resource.resolver';
 
 const routes: Routes = [
-    { path: '', component: DatasetComponent },
-    { path: '!sparql', loadChildren: () => import('./sparql/sparql.module').then(m => m.SparqlModule)},
-    { path: '!submissions', component: SuggestDatasetComponent },
-    { path: '!submissions/!accepted', component: SubmissionListComponent },
-    { 
-        path: '!submissions/!accepted/!:id', 
-        component: SubmissionItemComponent, 
-        data: {
-            breadcrumbs: {dataKey: 'post.data.attributes.title'}
-        },
-        resolve: {
-            post: BreadcrumbsSubmissionResolver
-        },
+  { path: '', component: DatasetComponent },
+  { path: '!sparql', loadChildren: () => import('./sparql/sparql.module').then(m => m.SparqlModule) },
+  { path: '!submissions', component: SuggestDatasetComponent },
+  { path: '!submissions/!accepted', component: SubmissionListComponent },
+  {
+    path: '!submissions/!accepted/!:id',
+    component: SubmissionItemComponent,
+    data: {
+      breadcrumbs: { dataKey: 'post.data.attributes.title' },
     },
-    {
-        path: '!:id',
-        component: DatasetParentComponent,
+    resolve: {
+      post: BreadcrumbsSubmissionResolver,
+    },
+  },
+  {
+    path: '!:id',
+    component: DatasetParentComponent,
+    data: {
+      breadcrumbs: { dataKey: 'post.data.attributes.title' },
+    },
+    resolve: {
+      post: BreadcrumbsDatasetResolver,
+    },
+    children: [
+      {
+        path: '',
+        component: DatasetItemComponent,
+        resolve: {
+          post: OfflineResourceResolver,
+        },
+      },
+      {
+        path: '!resource/!:resourceId',
+        component: DatasetResourceComponent,
         data: {
-            breadcrumbs: {dataKey: 'post.data.attributes.title'}
+          breadcrumbs: { dataKey: 'post.attributes.title' },
         },
         resolve: {
-            post: BreadcrumbsDatasetResolver
+          post: BreadcrumbsResourceResolver,
         },
         children: [
-            {
-                path: '',
-                component: DatasetItemComponent,
-                resolve: {
-                    post: OfflineResourceResolver
-                },
+          { path: '', redirectTo: '!table', pathMatch: 'full' },
+          {
+            path: '!table',
+            component: ResourceTableNoFiltersComponent,
+            resolve: {
+              post: OfflineResourceResolver,
             },
-            {
-                path: '!resource/!:resourceId',
-                component: DatasetResourceComponent,
-                data: {
-                    breadcrumbs: {dataKey: 'post.attributes.title'}
-                },
-                resolve: {
-                    post: BreadcrumbsResourceResolver
-                },
-                children: [
-                    { path: '', redirectTo: '!table', pathMatch: 'full',  },
-                    { path: '!table', component: ResourceTableNoFiltersComponent, resolve: {
-                            post: OfflineResourceResolver
-                        }, },
-                    { path: '!chart', component: ResourceChartComponent },
-                    { path: '!map', component: DatasetResourceMapComponent }
-                ]
-            },
-            {
-                path: '!resource/!:resourceId/!preview',
-                component: DatasetResourceComponent,
-                data: {
-                    breadcrumbs: {dataKey: 'post.attributes.title'},
-                    editorPreview: true,
-                    roles: [Role.ADMIN, Role.EDITOR],
-                },
-                resolve: {
-                    post: BreadcrumbsResourceResolver
-                },
-                canActivate: [RoleGuard],
-                children: [
-                    { path: '', redirectTo: '!table', pathMatch: 'full' },
-                    { path: '!table', component: ResourceTableNoFiltersComponent },
-                    { path: '!chart', component: ResourceChartComponent },
-                    { path: '!map', component: DatasetResourceMapComponent },
-                ]
-            }
-        ]
-    },
+          },
+          { path: '!chart', component: ResourceChartComponent },
+          { path: '!map', component: DatasetResourceMapComponent },
+        ],
+      },
+      {
+        path: '!resource/!:resourceId/!preview',
+        component: DatasetResourceComponent,
+        data: {
+          breadcrumbs: { dataKey: 'post.attributes.title' },
+          editorPreview: true,
+          roles: [Role.ADMIN, Role.EDITOR],
+        },
+        resolve: {
+          post: BreadcrumbsResourceResolver,
+        },
+        canActivate: [RoleGuard],
+        children: [
+          { path: '', redirectTo: '!table', pathMatch: 'full' },
+          { path: '!table', component: ResourceTableNoFiltersComponent },
+          { path: '!chart', component: ResourceChartComponent },
+          { path: '!map', component: DatasetResourceMapComponent },
+        ],
+      },
+    ],
+  },
 ];
 
 /**
  * @ignore
  */
 @NgModule({
-    imports: [
-        RouterModule.forChild(routes),
-        LocalizeRouterModule.forChild(routes),
-    ],
-    exports: [RouterModule, LocalizeRouterModule]
+  imports: [RouterModule.forChild(routes), LocalizeRouterModule.forChild(routes)],
+  exports: [RouterModule, LocalizeRouterModule],
 })
 export class DatasetRoutingModule {}
-

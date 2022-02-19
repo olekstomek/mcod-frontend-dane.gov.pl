@@ -86,17 +86,27 @@
             </li>
           </ng-container>
 
+          <!-- dynamic data -->
+          <div *featureFlag="'S43_dynamic_data_filter.fe'">
+            <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_dynamic_data">
+              <span class="vertical-list__item-label"> {{ 'Attribute.DynamicData' | translate }}: </span>
+              <img src="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+            </li>
+          </div>
+
           <!-- update frequency -->
           <li class="vertical-list__item" *ngIf="dataset?.attributes?.update_frequency">
             <span class="vertical-list__item-label"> {{ 'Attribute.UpdateFrequency' | translate }}: </span>
             {{ dataset.attributes?.update_frequency }}
           </li>
 
-            <!-- high value data -->
+          <!-- high value data -->
+          <div *featureFlag="'S39_high_value_data_filter.fe'">
             <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_high_value_data">
-                <span class="vertical-list__item-label"> {{ 'Attribute.HighValueData' | translate }}: </span>
-                <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1">{{ 'Yes' | translate }}
+              <span class="vertical-list__item-label"> {{ 'Attribute.HighValueData' | translate }}: </span>
+              <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
             </li>
+          </div>
 
           <!-- available (created) -->
           <li class="vertical-list__item" *ngIf="dataset?.attributes?.created">
@@ -239,6 +249,19 @@
           <!-- RESOURCE LIST -->
           <div role="tabpanel" aria-labelledby="tab1" *ngIf="activeTabIndex === 1">
             <div class="results-section">
+              <!-- download all button -->
+              <div *featureFlag="'S43_button_download_all_datasets.fe'">
+                <a
+                  *ngIf="isExistsZipFileForDownload"
+                  appTooltip="{{ 'Tour.Tooltip.DatasetDetails.DownloadAll.text' | translate }}"
+                  type="button"
+                  class="btn btn-primary"
+                  [href]="dataset.attributes.archived_resources_files_url"
+                >
+                  {{ 'Action.DownloadAll' | translate }} >>
+                </a>
+              </div>
+
               <!-- sort order -->
               <div class="d-flex justify-content-end align-items-baseline pb-2" *ngIf="resources && resources.length">
                 <div class="d-md-inline-flex align-items-center">
@@ -246,7 +269,7 @@
 
                   <select
                     class="form-control sort-order"
-                    (change)="updateParams({ sort: $event.target.value })"
+                    (change)="updateParams({ sort: $event.target.value }, 'resources')"
                     aria-labelledby="sortby-label"
                   >
                     <option [ngValue]="null" *ngIf="!isSortValid">
@@ -277,7 +300,7 @@
               <footer class="results-footer pt-5" *ngIf="resources && resources.length" id="resource-pagination">
                 <div class="d-flex justify-content-between align-items-center">
                   <!-- results per page -->
-                  <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+                  <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event }, 'resources')">
                   </app-items-per-page>
 
                   <!-- pagination -->
@@ -285,7 +308,7 @@
                     [itemsPerPage]="params.per_page"
                     [totalItems]="resourcesCount"
                     [page]="params.page"
-                    (pageChange)="updateParams({ page: $event })"
+                    (pageChange)="updateParams({ page: $event }, 'resources')"
                   >
                   </app-pagination>
                 </div>
@@ -319,6 +342,67 @@
         <!-- current page api -->
         <div class="mt-3">
           <app-api-source-link [apiUrl]="selfApi"></app-api-source-link>
+        </div>
+
+        <!-- RELATED SHOWCASES -->
+        <div *featureFlag="'S43_related_showcases_in_dataset_item.fe'">
+          <section class="results-section vertical-spacing" *ngIf="items && items.length">
+            <div class="container">
+              <header class="results-header">
+                <div
+                  class="heading heading--sm heading--separator"
+                  appInfoTooltip="{{ 'Tour.Tooltip.Dataset.RelatedShowcases.text' | translate }}"
+                >
+                  {{ 'Datasets.RelatedShowcases' | translate }}
+                  <small>({{ showcasesCount || 0 }})</small>
+                </div>
+                <!-- sort order -->
+                <div class="d-md-inline-flex align-items-center pt-2 pb-2 pb-md-0">
+                  <span class="dropdown-label pr-2" id="sortby-showcases-label">
+                    {{ 'Sort.By' | translate }}:
+                    <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
+                  </span>
+
+                  <select
+                    class="form-control sort-order"
+                    (change)="updateParams({ sort: $event.target.value }, 'showcases')"
+                    aria-labelledby="sortby-showcases-label"
+                  >
+                    <option [ngValue]="null" *ngIf="!isSortValid">
+                      {{ 'Action.Choose' | translate }}
+                    </option>
+                    <option *ngFor="let item of sortOptions" [value]="item.value" [selected]="params?.sort === item.value">
+                      {{ item.labelTranslationKey | translate }}
+                    </option>
+                  </select>
+                </div>
+              </header>
+
+              <!-- RESULT LIST -->
+              <app-dataset-item-results [items]="items"></app-dataset-item-results>
+
+              <!-- RESULTS FOOTER -->
+              <footer class="results-footer" *ngIf="items && items.length">
+                <div class="d-flex justify-content-between align-items-center">
+                  <!-- results per page -->
+                  <app-items-per-page
+                    [selected]="paramsShowcases?.per_page"
+                    (selectedChange)="updateParams({ per_page: $event }, 'showcases')"
+                  >
+                  </app-items-per-page>
+
+                  <!-- pagination -->
+                  <app-pagination
+                    [itemsPerPage]="paramsShowcases.per_page"
+                    [totalItems]="showcasesCount"
+                    [(page)]="paramsShowcases.page"
+                    (pageChange)="updateParams({ page: $event }, 'showcases')"
+                  >
+                  </app-pagination>
+                </div>
+              </footer>
+            </div>
+          </section>
         </div>
       </div>
     </div>

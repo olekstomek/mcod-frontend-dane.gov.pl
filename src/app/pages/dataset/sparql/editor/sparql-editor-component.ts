@@ -219,27 +219,25 @@ export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlV
     this.queryEditor.setSession(new EditSession(this.queryEditorValue));
     this.queryEditor.session.setMode(new SparqlMode());
     this.queryEditor.setTheme('ace/theme/chrome');
-    if (this.featureFlagService.validateFlagSync('S37_WCAG_sparql_key_tab.fe')) {
-      this.queryEditor.commands.addCommand({
-        name: 'goToNextElement',
-        bindKey: { win: 'Ctrl+q', mac: 'Command-q' },
-        exec: function () {
-          document.querySelector<HTMLInputElement>('.sparql--example').focus();
-        },
-        readOnly: false,
-      });
-      this.queryEditor.commands.addCommand({
-        name: 'goToPrevElement',
-        bindKey: { win: 'Ctrl+e', mac: 'Command-e' },
-        exec: function () {
-          document.querySelector<HTMLInputElement>('.btn-link').focus();
-        },
-        readOnly: false,
-      });
-      this.queryEditor.on('focus', function () {
-        document.getElementsByClassName('ace_text-input')[1].setAttribute('aria-describedby', 'labelForSr');
-      });
-    }
+    this.queryEditor.commands.addCommand({
+      name: 'goToNextElement',
+      bindKey: { win: 'Ctrl+q', mac: 'Command-q' },
+      exec: function () {
+        document.querySelector<HTMLInputElement>('.sparql--example').focus();
+      },
+      readOnly: false,
+    });
+    this.queryEditor.commands.addCommand({
+      name: 'goToPrevElement',
+      bindKey: { win: 'Ctrl+e', mac: 'Command-e' },
+      exec: function () {
+        document.querySelector<HTMLInputElement>('.btn-link').focus();
+      },
+      readOnly: false,
+    });
+    this.queryEditor.on('focus', function () {
+      document.getElementsByClassName('ace_text-input')[1].setAttribute('aria-describedby', 'labelForSr');
+    });
   }
 
   /**

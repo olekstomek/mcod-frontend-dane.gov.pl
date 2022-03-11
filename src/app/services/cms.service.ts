@@ -2,13 +2,14 @@ import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { INewsPageParams } from '@app/services/models/page-params';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { map } from 'rxjs/operators';
 
-import { ApiCmsConfig } from '@app/services/api/api.cms.config';
+import { ApiCmsConfig, CmsHardcodedPages } from '@app/services/api/api.cms.config';
 import { LandingPageStyleService } from '@app/services/landing-page-style.service';
 import { CmsRequestOptions } from '@app/services/models/cms/cms-request-options';
 import { IRawTextDocumentMetadata } from '@app/services/models/cms/controls/raw-text/raw-text-object';
@@ -72,8 +73,63 @@ export class CmsService {
     return this.http.get(this.createUrl(url), options);
   }
 
+  /**
+   * General method to check if footer navigation is existed
+   * @param {boolean} isVisible
+   */
   footerNavIsExist(isVisible: boolean) {
     this.elementFooterNavIsExist.next(isVisible);
+  }
+
+  /**
+   * General method to get all News/Articles from CMS
+   * @param {INewsPageParams} params
+   */
+  getAllNewsWidgets(params: INewsPageParams): Observable<any> {
+    const url = `${this.base_hostname}${ApiCmsConfig.BASE_URL}${CmsHardcodedPages.NEWS}/`;
+    return this.http.get(url, { ...this.getCredentials(), params: params }).pipe(
+      map(resp => {
+        return {
+          data: resp['meta'].children.map(child => {
+            return {
+              attributes: {
+                author: child.author,
+                created: child.meta.first_published_at,
+                title: child.title,
+                notes: child.body,
+                keywords: child.tags,
+                slug: child.meta.slug,
+                html_url: child.meta.html_url,
+                url_path: child.meta.url_path,
+              },
+            };
+          }),
+          children_count: resp['meta'].children_count,
+        };
+      }),
+    );
+  }
+
+  /**
+   * General method to get specific News/Article from CMS
+   * @param {string} id
+   */
+  getNewsWidgets(id: string): Observable<any> {
+    const url = `${this.base_hostname}${ApiCmsConfig.BASE_URL}${CmsHardcodedPages.NEWS}/${id}/`;
+    return this.http.get(url, this.getCredentials()).pipe(
+      map(resp => {
+        return {
+          attributes: {
+            author: resp['author'],
+            created: resp['meta'].first_published_at,
+            title: resp['title'],
+            notes: resp['body'],
+            keywords: resp['tags'],
+            slug: resp['meta'].slug,
+          },
+        };
+      }),
+    );
   }
 
   /**
@@ -268,7 +324,6 @@ export class CmsService {
     switch (this.document.location.hostname) {
       case 'localhost':
       case 'dev.dane.gov.pl':
-      case 'int.dane.gov.pl':
         hasCredentials = false;
         break;
       default:

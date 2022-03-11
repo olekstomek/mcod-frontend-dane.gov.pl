@@ -8,12 +8,12 @@
 
         <!-- SEARCH and SUGGESTIONS -->
         <app-search-suggest
-          *featureFlag="'S39_innovation_view.fe'; else oldSearch"
+          *featureFlag="'S46_articles_form_cms.fe'; else oldSearch"
           tooltipText="{{ 'Tour.Tooltip.SearchResults.SearchBar.text' | translate }}"
           [searchQuery]="basicParams.q"
           [apiModels]="[
             apiModel.SHOWCASE,
-            apiModel.ARTICLE,
+            apiModel.NEWS,
             apiModel.DATASET,
             apiModel.INSTITUTION,
             apiModel.KNOWLEDGE_BASE,
@@ -26,7 +26,7 @@
             tooltipText="{{ 'Tour.Tooltip.SearchResults.SearchBar.text' | translate }}"
             [searchQuery]="basicParams.q"
             [apiModels]="[
-              apiModel.APPLICATION,
+              apiModel.SHOWCASE,
               apiModel.ARTICLE,
               apiModel.DATASET,
               apiModel.INSTITUTION,
@@ -50,106 +50,115 @@
   <app-notifications></app-notifications>
 
   <!-- AGGREGATIONS and SORT -->
-    <ng-container *featureFlag="'S39_innovation_view.fe'; else oldFoundResults">
-        <app-found-results-counters-and-sort
-            *ngIf="counters && results?.length"
-            [selected]="basicParams?.sort"
-            tooltipText="{{ 'Tour.Tooltip.Dataset.Found.text' | translate }}"
-            tooltipTitle="{{ 'Tour.Tooltip.Dataset.Found.title' | translate }}"
-            (update)="updateParams($event)"
-            [counters]="[
-      { label: 'Datasets.Self' | translate, count: counters.datasets, url: '../' + routerEndpoints.DATASETS, param: { q: basicParams.q } },
-      {
-        label: 'Resources.Self' | translate,
-        count: counters.resources,
-        url: '../' + routerEndpoints.DATASETS,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'Institutions.Self' | translate,
-        count: counters.institutions,
-        url: '../' + routerEndpoints.PROVIDERS,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'ApplicationForm.Self' | translate,
-        count: counters.showcases,
-        url: '../' + routerEndpoints.SHOWCASE,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'KnowledgeBase.Self' | translate,
-        count: counters.knowledge_base,
-        url: '../' + routerEndpoints.KNOWLEDGE_BASE + '/' + routerEndpoints.USEFUL_MATERIALS,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'KnowledgeBase.News' | translate,
-        count: counters.articles,
-        url: '../' + routerEndpoints.ARTICLES,
-        param: { q: basicParams.q }
-      }
-    ]"
-            [sortOptions]="[
-      { label: 'Sort.Default' | translate, value: 'relevance' },
-      { label: 'Attribute.NameAsc' | translate, value: 'title' },
-      { label: 'Attribute.NameDesc' | translate, value: '-title' },
-      { label: 'Attribute.Date' | translate, value: '-date' }
-    ]"
-        >
-        </app-found-results-counters-and-sort>
-    </ng-container>
+  <ng-container *featureFlag="'S46_articles_form_cms.fe'; else oldFoundResults">
+    <app-found-results-counters-and-sort
+      *ngIf="counters && results?.length"
+      [selected]="basicParams?.sort"
+      tooltipText="{{ 'Tour.Tooltip.Dataset.Found.text' | translate }}"
+      tooltipTitle="{{ 'Tour.Tooltip.Dataset.Found.title' | translate }}"
+      (update)="updateParams($event)"
+      [counters]="[
+        {
+          label: 'Datasets.Self' | translate,
+          count: counters.datasets,
+          url: '../' + routerEndpoints.DATASETS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'Resources.Self' | translate,
+          count: counters.resources,
+          url: '../' + routerEndpoints.DATASETS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'Institutions.Self' | translate,
+          count: counters.institutions,
+          url: '../' + routerEndpoints.PROVIDERS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'ApplicationForm.Self' | translate,
+          count: counters.showcases,
+          url: '../' + routerEndpoints.SHOWCASE,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'KnowledgeBase.Self' | translate,
+          count: counters.knowledge_base,
+          url: '../' + routerEndpoints.KNOWLEDGE_BASE + '/' + routerEndpoints.USEFUL_MATERIALS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'KnowledgeBase.News' | translate,
+          count: counters.news,
+          url: '../' + routerEndpoints.NEWS,
+          param: { q: basicParams.q }
+        }
+      ]"
+      [sortOptions]="[
+        { label: 'Sort.Default' | translate, value: 'relevance' },
+        { label: 'Attribute.NameAsc' | translate, value: 'title' },
+        { label: 'Attribute.NameDesc' | translate, value: '-title' },
+        { label: 'Attribute.Date' | translate, value: '-date' }
+      ]"
+    >
+    </app-found-results-counters-and-sort>
+  </ng-container>
 
-
-    <ng-template #oldFoundResults>
-        <app-found-results-counters-and-sort
-            *ngIf="counters && results?.length"
-            [selected]="basicParams?.sort"
-            tooltipText="{{ 'Tour.Tooltip.Dataset.Found.text' | translate }}"
-            tooltipTitle="{{ 'Tour.Tooltip.Dataset.Found.title' | translate }}"
-            (update)="updateParams($event)"
-            [counters]="[
-      { label: 'Datasets.Self' | translate, count: counters.datasets, url: '../' + routerEndpoints.DATASETS, param: { q: basicParams.q } },
-      {
-        label: 'Resources.Self' | translate,
-        count: counters.resources,
-        url: '../' + routerEndpoints.DATASETS,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'Institutions.Self' | translate,
-        count: counters.institutions,
-        url: '../' + routerEndpoints.PROVIDERS,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'Applications.Self' | translate,
-        count: counters.applications,
-        url: '../' + routerEndpoints.APPLICATIONS,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'KnowledgeBase.Self' | translate,
-        count: counters.knowledge_base,
-        url: '../' + routerEndpoints.KNOWLEDGE_BASE + '/' + routerEndpoints.USEFUL_MATERIALS,
-        param: { q: basicParams.q }
-      },
-      {
-        label: 'KnowledgeBase.News' | translate,
-        count: counters.articles,
-        url: '../' + routerEndpoints.ARTICLES,
-        param: { q: basicParams.q }
-      }
-    ]"
-            [sortOptions]="[
-      { label: 'Sort.Default' | translate, value: 'relevance' },
-      { label: 'Attribute.NameAsc' | translate, value: 'title' },
-      { label: 'Attribute.NameDesc' | translate, value: '-title' },
-      { label: 'Attribute.Date' | translate, value: '-date' }
-    ]"
-        >
-        </app-found-results-counters-and-sort>
-    </ng-template>
+  <ng-template #oldFoundResults>
+    <app-found-results-counters-and-sort
+      *ngIf="counters && results?.length"
+      [selected]="basicParams?.sort"
+      tooltipText="{{ 'Tour.Tooltip.Dataset.Found.text' | translate }}"
+      tooltipTitle="{{ 'Tour.Tooltip.Dataset.Found.title' | translate }}"
+      (update)="updateParams($event)"
+      [counters]="[
+        {
+          label: 'Datasets.Self' | translate,
+          count: counters.datasets,
+          url: '../' + routerEndpoints.DATASETS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'Resources.Self' | translate,
+          count: counters.resources,
+          url: '../' + routerEndpoints.DATASETS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'Institutions.Self' | translate,
+          count: counters.institutions,
+          url: '../' + routerEndpoints.PROVIDERS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'Applications.Self' | translate,
+          count: counters.showcases,
+          url: '../' + routerEndpoints.SHOWCASE,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'KnowledgeBase.Self' | translate,
+          count: counters.knowledge_base,
+          url: '../' + routerEndpoints.KNOWLEDGE_BASE + '/' + routerEndpoints.USEFUL_MATERIALS,
+          param: { q: basicParams.q }
+        },
+        {
+          label: 'KnowledgeBase.News' | translate,
+          count: counters.articles,
+          url: '../' + routerEndpoints.ARTICLES,
+          param: { q: basicParams.q }
+        }
+      ]"
+      [sortOptions]="[
+        { label: 'Sort.Default' | translate, value: 'relevance' },
+        { label: 'Attribute.NameAsc' | translate, value: 'title' },
+        { label: 'Attribute.NameDesc' | translate, value: '-title' },
+        { label: 'Attribute.Date' | translate, value: '-date' }
+      ]"
+    >
+    </app-found-results-counters-and-sort>
+  </ng-template>
 
   <!-- RESULTS SECTION -->
   <div class="results-section">

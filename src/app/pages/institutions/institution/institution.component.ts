@@ -110,7 +110,9 @@ export class InstitutionComponent extends ListViewFilterPageAbstractComponent im
    * @returns {IListViewInstitutionFiltersModel}
    */
   protected getFiltersModel(): IListViewInstitutionFiltersModel {
-    return { [AggregationFilterNames.INSTITUTION_TYPE]: {} };
+    return {
+      [AggregationFilterNames.INSTITUTION_TYPE]: {},
+    };
   }
 
   /**

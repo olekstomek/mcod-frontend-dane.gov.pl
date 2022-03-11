@@ -428,12 +428,7 @@
     "Intro": "Te dane mogą być ponownie wykorzystywane pod poniższymi warunkami:",
     "NoneDataset": "Ten zbiór danych może być ponownie wykorzystywany bez ograniczeń.",
     "IntroDataset": "Ten zbiór danych może być ponownie wykorzystywany pod poniższymi warunkami:",
-    "Source": "Odbiorca powinien poinformować o źródle, czasie wytworzenia i pozyskania informacji od podmiotu zobowiązanego",
-    "Original": "Odbiorca powinien zawrzeć kopię informacji w pierwotnie pozyskanej formie udostępniając przetworzoną informację",
-    "Modification": "Odbiorca powinien poinformować o przetworzeniu informacji, gdy ją jakkolwiek modyfikuje",
-    "Responsibilities": "Zakres odpowiedzialności dostawcy za przekazywane informacje:",
-    "DbOrCopyrighted": "Warunki wykorzystywania informacji sektora publicznego spełniających cechy utworu lub stanowiących bazę danych (art. 13 ust. 2 ustawy o ponownym wykorzystywaniu informacji sektora publicznego):",
-    "ConditionPersonalData": "Warunki wykorzystywania informacji sektora publicznego zawierającej dane osobowe (art. 14 ust. 1 pkt 4 ustawy o ponownym wykorzystywaniu informacji sektora publicznego):"
+    "Original": "Odbiorca powinien zawrzeć kopię informacji w pierwotnie pozyskanej formie udostępniając przetworzoną informację"
   },
   "Datasets": {
     "Self": "Zbiory danych",
@@ -835,8 +830,9 @@
   "Tour": {
     "Button": {
       "IconLabel": "Czapka studencka",
+      "NewIconLabel": "Ikonka - zobacz funkcje portalu",
       "TooltipTitle": "Przewodnik po portalu",
-      "TooltipText": "Przeglądaj najważniejsze funkcję dotyczące portalu."
+      "TooltipText": "Przeglądaj najważniejsze funkcje dotyczące portalu."
     },
     "Show": "Pokaż przewodnik",
     "Tooltip": {

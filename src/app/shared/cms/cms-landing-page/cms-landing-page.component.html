@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isDetailView; else routerOutlet">
+<ng-container *ngIf="!isDetailView || widgetFooterSubject; else routerOutlet">
   <div *ngFor="let section of body" [ngClass]="pageCmsCss" class="container cms-landing-page">
     <ng-template [ngTemplateOutletContext]="{ $implicit: section }" [ngTemplateOutlet]="landingPageSection"></ng-template>
   </div>

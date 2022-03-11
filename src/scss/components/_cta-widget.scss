@@ -83,15 +83,19 @@
   &--logo {
     height: 60px;
     display: inline-block;
+
+    @include media-breakpoint-down(md) {
+      width: 80px;
+    }
   }
 }
 
 .external-logos {
-    &--cms-block {
-        display: flex;
-        justify-content: space-between;
-        width: 30%;
-    }
+  &--cms-block {
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+  }
 }
 
 .video-center {

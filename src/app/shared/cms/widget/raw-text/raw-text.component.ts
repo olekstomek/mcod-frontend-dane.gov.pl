@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 import { IRawText } from '@app/services/models/cms/widgets/raw-text';
 import { IRawTextObject } from '@app/services/models/cms/controls/raw-text/raw-text-object';
@@ -31,6 +32,8 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit 
    */
   @Output() rawTextHasLoaded = new EventEmitter();
 
+  isFooterNav: boolean;
+
   /**
    * Widget type enum
    */
@@ -54,6 +57,18 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit 
   classes: string;
 
   /**
+   * Randomly generated id for every navigation list
+   */
+  listId: string;
+
+  /**
+   * Is navigation list visible
+   */
+  isVisible = false;
+
+  strippedText: string;
+
+  /**
    * @ignore
    */
   constructor(
@@ -61,6 +76,7 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit 
     sanitizer: DomSanitizer,
     private embedRawTextService: EmbedRawTextService,
     private featureFlagService: FeatureFlagService,
+    @Inject(DOCUMENT) private document: Document,
   ) {
     super(cmsService, sanitizer);
   }
@@ -81,6 +97,7 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit 
     if (this.featureFlagService.validateFlagSync('S44_footer_cms.fe')) {
       if (this.rawText.general?.classes) {
         this.classes = this.rawText.general.classes;
+        this.IsListFooterNav(this.rawText.general.classes);
       }
 
       if (
@@ -90,5 +107,23 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit 
         this.cmsService.footerNavIsExist(true);
       }
     }
+  }
+
+  IsListFooterNav(classNames: string) {
+    if (classNames.split(' ')[0] === 'page-footer__nav-title') {
+      this.isFooterNav = true;
+      this.strippedText = this.rawText.settings.text.replace(/(<([^>]+)>)/gi, '');
+    } else {
+      this.isFooterNav = false;
+    }
+  }
+
+  toggleMenu() {
+    this.isVisible = !this.isVisible;
+    const className = this.classes.split(' ')[1];
+    const elem = this.document.querySelector('.page-footer__nav.' + className);
+    elem.classList.contains('visibility-animated')
+      ? elem.classList.remove('visibility-animated')
+      : elem.classList.add('visibility-animated');
   }
 }

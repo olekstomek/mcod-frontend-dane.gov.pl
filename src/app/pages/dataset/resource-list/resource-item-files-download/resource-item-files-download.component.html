@@ -1,21 +1,35 @@
 <div class="d-flex flex-lg-column small">
-  <div class="font-weight-bold">{{ (item?.attributes?.media_type === 'file' ? 'Action.Download' : 'Action.Go') | translate }}:</div>
+  <div class="font-weight-bold">
+    {{ (item?.attributes?.media_type === 'file' && downloadFilesList.length > 0 ? 'Action.Download' : 'Action.Go') | translate }}:
+  </div>
 
   <ng-container *ngIf="item.attributes.media_type === 'file'">
-    <ng-container *featureFlag="'S41_opennes_score_in_tooltip.fe'; else oldDownloadLinkView">
-      <!-- download file -->
-      <div *ngFor="let dataFiles of downloadFilesList">
-        <app-download-link
-          [customCssClass]="'underline ml-3 ml-lg-0'"
-          [fileSize]="dataFiles.file_size"
-          [fileUrl]="dataFiles.download_url"
-          [format]="dataFiles.format"
-          [title]="item.attributes.title"
-          (click)="onDownload(item.attributes.title, dataFiles.download_url)"
-        >
-        </app-download-link>
-      </div>
-    </ng-container>
+    <div *ngIf="downloadFilesList.length > 0; else noFiles">
+      <ng-container *featureFlag="'S41_opennes_score_in_tooltip.fe'; else oldDownloadLinkView">
+        <!-- download file -->
+        <div *ngFor="let dataFiles of downloadFilesList">
+          <app-download-link
+            [customCssClass]="'underline ml-3 ml-lg-0'"
+            [fileSize]="dataFiles.file_size"
+            [fileUrl]="dataFiles.download_url"
+            [format]="dataFiles.format"
+            [title]="item.attributes.title"
+            (click)="onDownload(item.attributes.title, dataFiles.download_url)"
+          >
+          </app-download-link>
+        </div>
+      </ng-container>
+    </div>
+
+    <ng-template #noFiles>
+      <a class="underline ml-3 ml-lg-0" target="_blank" href="{{ item.attributes.link }}">
+        źródło <span aria-hidden="true">>></span>
+        <span class="sr-only">
+          {{ item?.attributes?.title }}
+          {{ 'SkipTo.NewWindow' | translate }}
+        </span>
+      </a>
+    </ng-template>
 
     <ng-template #oldDownloadLinkView>
       <!-- download file -->

@@ -12,8 +12,8 @@ import { ListViewSelectedFilterService } from '@app/services/list-view-selected-
 import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
 import { IInstitution } from '@app/services/models/institution';
 import {
-    IListViewInstitutionItemCategoryFiltersModel,
-    IListViewInstitutionItemFiltersModel
+  IListViewInstitutionItemCategoryFiltersModel,
+  IListViewInstitutionItemFiltersModel,
 } from '@app/services/models/page-filters/institution-item-filters';
 import { SearchService } from '@app/services/search.service';
 import { SeoService } from '@app/services/seo.service';
@@ -25,162 +25,177 @@ import { TemplateHelper } from '@app/shared/helpers';
  * Institution Item Component
  */
 @Component({
-    selector: 'app-institution-item',
-    templateUrl: './institution-item.component.html',
-    animations: [
-        toggle,
-        toggleVertically
-    ]
+  selector: 'app-institution-item',
+  templateUrl: './institution-item.component.html',
+  animations: [toggle, toggleVertically],
 })
 export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit {
+  /**
+   * API model
+   */
+  apiModel = ApiModel;
 
-    /**
-     * API model
-     */
-    apiModel = ApiModel;
+  /**
+   * All date filter fields in institution item page
+   */
+  readonly DateFields = [AggregationFilterNames.DATE_FROM, AggregationFilterNames.DATE_TO];
 
-    /**
-     * All date filter fields in institution item page
-     */
-    readonly DateFields = [AggregationFilterNames.DATE_FROM, AggregationFilterNames.DATE_TO];
+  /**
+   * List of filter facets
+   * @type {string[]}
+   */
+  readonly Facets;
 
-    /**
-     * List of filter facets
-     * @type {string[]}
-     */
-    readonly Facets;
+  /**
+   * Link to API
+   */
+  selfApi: string;
 
-    /**
-     * Link to API
-     */
-    selfApi: string;
+  /**
+   * Institution  of institution item component
+   */
+  institution: IInstitution;
 
-    /**
-     * Institution  of institution item component
-     */
-    institution: IInstitution;
+  /**
+   * @ignore
+   */
+  constructor(
+    protected filterService: ListViewFiltersService,
+    protected activatedRoute: ActivatedRoute,
+    private router: Router,
+    public userService: UserService,
+    private institutionsService: InstitutionsService,
+    private seoService: SeoService,
+    protected selectedFiltersService: ListViewSelectedFilterService,
+    private listViewDetailsService: ListViewDetailsService,
+    private searchService: SearchService,
+    protected featureFlagService: FeatureFlagService,
+  ) {
+    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
+    this.Facets = [
+      AggregationOptionType.CATEGORIES,
+      AggregationOptionType.INSTITUTION,
+      AggregationOptionType.FORMAT,
+      AggregationOptionType.OPENNESS_SCORE,
+      AggregationOptionType.VISUALIZATION_TYPE,
+      AggregationOptionType.TYPES,
+      AggregationOptionType.LICENSES,
+    ];
 
-    /**
-     * @ignore
-     */
-    constructor(protected filterService: ListViewFiltersService,
-                protected activatedRoute: ActivatedRoute,
-                private router: Router,
-                public userService: UserService,
-                private institutionsService: InstitutionsService,
-                private seoService: SeoService,
-                protected selectedFiltersService: ListViewSelectedFilterService,
-                private listViewDetailsService: ListViewDetailsService,
-                private searchService: SearchService,
-                protected featureFlagService: FeatureFlagService) {
-        super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
-        this.Facets = [
-            AggregationOptionType.CATEGORIES,
-            AggregationOptionType.INSTITUTION,
-            AggregationOptionType.FORMAT,
-            AggregationOptionType.OPENNESS_SCORE,
-            AggregationOptionType.VISUALIZATION_TYPE,
-            AggregationOptionType.TYPES,
-            AggregationOptionType.LICENSES
-        ];
-
-        if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
-            this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
-        }
+    if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
+      this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
     }
 
-    /**
-     * Sets META tags (title, description).
-     * Initializes institution detail.
-     * Initializes default filters.
-     * Initializes and updates list of items (related datasets) on query params change.
-     */
-    ngOnInit() {
-        this.institution = this.activatedRoute.snapshot.data.post;
-        this.institution.count = this.institution.relationships ? this.institution.relationships.datasets.meta.count : 0;
-        this.seoService.setPageTitle(this.institution.attributes.title);
-        this.seoService.setDescriptionFromText(this.institution.attributes.description);
+    if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
+      this.Facets = [...this.Facets, AggregationOptionType.HIGH_VALUE_DATA];
+    }
+    if (this.featureFlagService.validateFlagSync('S43_dynamic_data_filter.fe')) {
+      this.Facets = [...this.Facets, AggregationOptionType.DYNAMIC_DATA];
+    }
+  }
 
-        const newModel = this.getFiltersModel();
-        this.selectedFilters = { ...newModel };
-        this.backupSelectedFilters = { ...newModel };
+  /**
+   * Sets META tags (title, description).
+   * Initializes institution detail.
+   * Initializes default filters.
+   * Initializes and updates list of items (related datasets) on query params change.
+   */
+  ngOnInit() {
+    this.institution = this.activatedRoute.snapshot.data.post;
+    this.institution.count = this.institution.relationships ? this.institution.relationships.datasets.meta.count : 0;
+    this.seoService.setPageTitle(this.institution.attributes.title);
+    this.seoService.setDescriptionFromText(this.institution.attributes.description);
 
+    const newModel = this.getFiltersModel();
+    this.selectedFilters = { ...newModel };
+    this.backupSelectedFilters = { ...newModel };
 
-        const customParams = [
-            { key: 'institution[id][terms]', value: +this.institution.id },
-            { key: 'model[terms]', value: 'dataset,resource' }];
+    const customParams = [
+      { key: 'institution[id][terms]', value: +this.institution.id },
+      { key: 'model[terms]', value: 'dataset,resource' },
+    ];
 
-        this.activatedRoute.queryParams.subscribe((qParams: Params) => {
-            let sort = '';
+    this.activatedRoute.queryParams.subscribe((qParams: Params) => {
+      let sort = '';
 
-            if (!this.allBasicParamsIn(qParams)) {
-                this.resetSelectedFilters();
+      if (!this.allBasicParamsIn(qParams)) {
+        this.resetSelectedFilters();
 
-                sort = qParams['q'] ? '' : '-date';
-            }
+        sort = qParams['q'] ? '' : '-date';
+      }
 
-            this.params = { ...qParams, ...this.filterService.updateBasicParams(qParams, this.basicParams, sort) };
+      this.params = { ...qParams, ...this.filterService.updateBasicParams(qParams, this.basicParams, sort) };
 
-            if (!qParams['model[terms]']) {
-                this.params['model[terms]'] = 'dataset,resource';
-            }
+      if (!qParams['model[terms]']) {
+        this.params['model[terms]'] = 'dataset,resource';
+      }
 
-            this.params['institution[id][terms]'] = +this.institution.id;
+      this.params['institution[id][terms]'] = +this.institution.id;
 
-            if (this.filters) {
-                this.setSelectedFilters(qParams);
-            }
+      if (this.filters) {
+        this.setSelectedFilters(qParams);
+      }
 
-            this.searchService.getFilters(ApiConfig.search, this.Facets, customParams)
-                .subscribe((allFilters: IListViewFilterAggregationsOptions) => {
-                    this.filters = allFilters;
-                    this.setSelectedFilters(this.params);
-                });
-
-            this.getData();
+      this.searchService
+        .getFilters(ApiConfig.search, this.Facets, customParams)
+        .subscribe((allFilters: IListViewFilterAggregationsOptions) => {
+          this.filters = allFilters;
+          this.setSelectedFilters(this.params);
         });
-    }
 
-    /**
-     * Gets list of related datasets
-     */
-    protected getData() {
-        this.searchService.getData(TemplateHelper.parseUrl(ApiConfig.search, { id: this.institution.id }), this.params)
-            .subscribe(data => {
-                this.counters = data.aggregations.counters;
-                this.items = this.listViewDetailsService.extendViewDetails(data.results);
-                this.count = data.count;
-                this.selfApi = data.links.self;
-            });
-    }
+      this.getData();
+    });
+  }
 
-    /**
-     * returns new empty data model for filters
-     * @returns {IListViewInstitutionItemFiltersModel}
-     */
-    protected getFiltersModel(): IListViewInstitutionItemFiltersModel | IListViewInstitutionItemCategoryFiltersModel  {
-        // @ts-ignore
-        return {
-            [AggregationFilterNames.CATEGORIES]: {}, [AggregationFilterNames.FORMAT]: {}, [AggregationFilterNames.OPENNESS_SCORE]: {},
-            [AggregationFilterNames.VISUALIZATION_TYPE]: {}, [AggregationFilterNames.TYPES]: {},
-            [AggregationFilterNames.LICENSES]: {}, [AggregationFilterNames.UPDATE_FREQUENCY]: {},
-            [AggregationFilterNames.DATE_FROM]: null, [AggregationFilterNames.DATE_TO]: null
-        };
-    }
+  /**
+   * Gets list of related datasets
+   */
+  protected getData() {
+    this.searchService.getData(TemplateHelper.parseUrl(ApiConfig.search, { id: this.institution.id }), this.params).subscribe(data => {
+      this.counters = data.aggregations.counters;
+      this.items = this.listViewDetailsService.extendViewDetails(data.results);
+      this.count = data.count;
+      this.selfApi = data.links.self;
+    });
+  }
 
-    /**
-     * returns count of selected filters
-     * @return {number}
-     */
-    protected getSelectedFiltersCount(): number {
-        return this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.CATEGORIES]) +
-            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.FORMAT]) +
-            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.OPENNESS_SCORE]) +
-            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.VISUALIZATION_TYPE]) +
-            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.TYPES]) +
-            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
-            this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
-            (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] ||
-            this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0);
-    }
+  /**
+   * returns new empty data model for filters
+   * @returns {IListViewInstitutionItemFiltersModel}
+   */
+  protected getFiltersModel(): IListViewInstitutionItemFiltersModel | IListViewInstitutionItemCategoryFiltersModel {
+    // @ts-ignore
+    return {
+      [AggregationFilterNames.CATEGORIES]: {},
+      [AggregationFilterNames.FORMAT]: {},
+      [AggregationFilterNames.OPENNESS_SCORE]: {},
+      [AggregationFilterNames.VISUALIZATION_TYPE]: {},
+      [AggregationFilterNames.TYPES]: {},
+      [AggregationFilterNames.LICENSES]: {},
+      [AggregationFilterNames.UPDATE_FREQUENCY]: {},
+      [AggregationFilterNames.HIGH_VALUE_DATA]: {},
+      [AggregationFilterNames.DYNAMIC_DATA]: {},
+      [AggregationFilterNames.DATE_FROM]: null,
+      [AggregationFilterNames.DATE_TO]: null,
+    };
+  }
+
+  /**
+   * returns count of selected filters
+   * @return {number}
+   */
+  protected getSelectedFiltersCount(): number {
+    return (
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.CATEGORIES]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.FORMAT]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.OPENNESS_SCORE]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.VISUALIZATION_TYPE]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.TYPES]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
+      (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
+    );
+  }
 }

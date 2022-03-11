@@ -82,21 +82,7 @@ export function flagsFactory(featureFlagService: FeatureFlagService) {
     // Add .withServerTransition() to support Universal rendering.
     // The application ID can be any identifier which is unique on the page.
     BrowserModule.withServerTransition({ appId: 'otwarte-dane-ssr' }),
-    PrebootModule.withConfig({
-      appRoot: 'app-root',
-      disableOverlay: false,
-      eventSelectors: [
-        {
-          selector: 'button',
-          events: ['click'],
-          preventDefault: true,
-          freeze: false,
-          action: function () {
-            alert('przepraszamy, strona potrzebuje jeszcze chwili');
-          },
-        },
-      ],
-    }),
+    PrebootModule.withConfig({ appRoot: 'app-root' }),
     TransferHttpCacheModule,
     AppRoutingModule,
     AppBootstrapModule,

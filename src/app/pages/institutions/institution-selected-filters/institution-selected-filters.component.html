@@ -1,22 +1,18 @@
 <div class="results-filters" *ngIf="selectedFiltersCount > 0">
+  <p class="mb-2 font-weight-bold">{{ 'Filters.ActiveFilters' | translate }}:</p>
 
-    <p class="mb-2 font-weight-bold">{{ 'Filters.ActiveFilters' | translate }}:</p>
+  <!-- Remove all selected filters -->
+  <button type="button" class="btn btn-sm btn-danger" (click)="clearFilters()" @toggle>
+    {{ 'Filters.RemoveSelected' | translate }}
+    ({{ selectedFiltersCount }})
+    <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
+  </button>
 
-    <!-- Remove all selected filters -->
-    <button type="button" class="btn btn-sm btn-danger"
-            (click)="clearFilters()"
-            @toggle>
-
-        {{ 'Filters.RemoveSelected' | translate }}
-        ({{ selectedFiltersCount }})
-        <span class="sr-only">
-            ({{ 'Search.AutoContentReload' | translate }})
-        </span>
-    </button>
-
-    <!-- Institution type -->
-    <app-selected-filters [items]="selectedIds[AggregationFilterNames.INSTITUTION_TYPE]" @toggle
-                          (removeSelectedFilter)="onClearFilter(AggregationFilterNames.INSTITUTION_TYPE, $event)">
-    </app-selected-filters>
-
+  <!-- Institution type -->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.INSTITUTION_TYPE]"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.INSTITUTION_TYPE, $event)"
+  >
+  </app-selected-filters>
 </div>

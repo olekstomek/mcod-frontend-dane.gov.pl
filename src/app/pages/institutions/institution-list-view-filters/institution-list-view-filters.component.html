@@ -15,13 +15,13 @@
     [selectedIds]="selectedData[FiltersNames.INSTITUTION_TYPE]"
     [enableApply]="availabilityFilterMap[FiltersNames.INSTITUTION_TYPE]"
     [showSearchInput]="false"
-    [showDivider]="false"
     [displayShowMore]="false"
+    [showDivider]="false"
     [maxLength]="maxLength"
-    [ariaLabel]="'category-filter-label'"
+    [ariaLabel]="'institution-type-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.INSTITUTION_TYPE, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="filterName"
+    [filterName]="'institution-type'"
   >
   </app-expandable-multiselect>
 </section>

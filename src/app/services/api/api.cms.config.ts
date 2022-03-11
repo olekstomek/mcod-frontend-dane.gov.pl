@@ -21,5 +21,6 @@ export enum CmsHardcodedPages {
     FORUM_REGULATIONS = '/page/forum-regulations',
     NEWSLETTER_DATA_PROCESSING_INFO = '/page/newsletter-data-processing-info',
     APPLICATION_DATA_PROCESSING_INFO = '/page/application-data-processing-info',
-    APPLICATION_DATA_PROCESSING_CONSENT = '/page/application-data-processing-consent'
+    APPLICATION_DATA_PROCESSING_CONSENT = '/page/application-data-processing-consent',
+    NEWS = '/pages/news'
 }

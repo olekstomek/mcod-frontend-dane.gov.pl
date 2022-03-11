@@ -66,6 +66,28 @@
   >
   </app-selected-filters>
 
+  <!-- High value data -->
+  <app-selected-filters
+    *featureFlag="'S39_high_value_data_filter.fe'"
+    [items]="selectedIds[AggregationFilterNames.HIGH_VALUE_DATA]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.HighValueData'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA, $event)"
+  >
+  </app-selected-filters>
+
+  <!-- Dynamic data -->
+  <app-selected-filters
+    *featureFlag="'S43_dynamic_data_filter.fe'"
+    [items]="selectedIds[AggregationFilterNames.DYNAMIC_DATA]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.DynamicData'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.DYNAMIC_DATA, $event)"
+  >
+  </app-selected-filters>
+
   <!-- Date range -->
   <app-selected-filters
     [items]="{

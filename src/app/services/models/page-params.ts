@@ -34,6 +34,12 @@ export interface ICategoryPageParams extends BasicPageParams {
   'category[id]'?: number;
 }
 
+export interface INewsPageParams extends BasicPageParams {
+    children_per_page?: number;
+    children_page?: number;
+    children_extra_fields?: string;
+}
+
 export interface IHasImageThumbParams extends BasicPageParams {
   has_image_thumb?: boolean;
 }

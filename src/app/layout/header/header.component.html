@@ -21,40 +21,40 @@
   </div>
 
   <!-- GOV.PL BAR -->
-    <div class="govpl">
-      <a class="govpl__logo" href="https://www.gov.pl/" aria-label="Strona główna gov.pl" target="_blank">
-        gov.pl
-        <span class="sr-only">
-          {{ 'SkipTo.NewWindow' | translate }}
-        </span>
-      </a>
-
-      <span class="govpl__text">Serwis Rzeczypospolitej Polskiej</span>
-
-      <a
-        class="btn btn-primary govpl__panel-login"
-        target="_blank"
-        href="https://www.gov.pl/web/gov/klauzula-przetwarzania-danych-osobowych-udostepnionych-droga-elektroniczna"
-      >
-        <span class="sr-only">Logowanie do panelu</span>
-        <!-- icon -->
-        <svg class="icon icon-gov-user" aria-hidden="true" role="img">
-          <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-gov-user"></use>
-        </svg>
-        Mój Gov
-        <span class="sr-only">
-          {{ 'SkipTo.NewWindow' | translate }}
-        </span>
-      </a>
-
-      <span class="govpl__eu-logo-wrapper">
-        <img
-          class="govpl__eu-logo"
-          src="https://www.gov.pl/img/icons/eu/eu-center-pl.svg"
-          alt="Unia Europejska Logotyp Na granatowym tle 12 żółtych gwiazdek tworzących okrąg pod nim napis 'Unia Europejska'"
-        />
+  <div class="govpl">
+    <a class="govpl__logo" href="https://www.gov.pl/" aria-label="Strona główna gov.pl" target="_blank">
+      gov.pl
+      <span class="sr-only">
+        {{ 'SkipTo.NewWindow' | translate }}
       </span>
-    </div>
+    </a>
+
+    <span class="govpl__text">Serwis Rzeczypospolitej Polskiej</span>
+
+    <a
+      class="btn btn-primary govpl__panel-login"
+      target="_blank"
+      href="https://www.gov.pl/web/gov/klauzula-przetwarzania-danych-osobowych-udostepnionych-droga-elektroniczna"
+    >
+      <span class="sr-only">Logowanie do panelu</span>
+      <!-- icon -->
+      <svg class="icon icon-gov-user" aria-hidden="true" role="img">
+        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-gov-user"></use>
+      </svg>
+      Mój Gov
+      <span class="sr-only">
+        {{ 'SkipTo.NewWindow' | translate }}
+      </span>
+    </a>
+
+    <span class="govpl__eu-logo-wrapper">
+      <img
+        class="govpl__eu-logo"
+        src="https://www.gov.pl/img/icons/eu/eu-center-pl.svg"
+        alt="Unia Europejska Logotyp Na granatowym tle 12 żółtych gwiazdek tworzących okrąg pod nim napis 'Unia Europejska'"
+      />
+    </span>
+  </div>
 
   <!-- CMS - Coronavirus  -->
   <cms-block2 [oneWidget]="singleCmsWidget" [isFullWidth]="true" *ngIf="singleCmsWidget"></cms-block2>

@@ -14,7 +14,7 @@ export class MultiLanguageMiddleware implements NestMiddleware {
      * @param next
      */
     use(req: Request, res: Response, next: Function) {
-        if (req.baseUrl.includes('api/mock') || req.baseUrl.includes('assets/') || req.baseUrl.includes('api/license')) {
+        if (req.baseUrl.includes('api/mock') || req.baseUrl.includes('assets/')) {
             next();
             return;
         }

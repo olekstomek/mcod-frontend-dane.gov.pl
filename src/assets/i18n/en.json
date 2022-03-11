@@ -428,12 +428,7 @@
     "Intro": "This data resource can be used under following restrictions:",
     "NoneDataset": "This dataset can be used without any restrictions.",
     "IntroDataset": "This dataset can be used under following restrictions:",
-    "Source": "The recipient should inform about the date, time of completion and obtaining information from the obliged entity",
-    "Original": "The recipient should include a copy of the information in the originally obtained form by providing the processed information",
-    "Modification": "The recipient should inform about the processing of the information when it modifies it",
-    "Responsibilities": "The scope of the publisher's responsibility for the information provided:",
-    "DbOrCopyrighted": "The conditions of re-use of information meeting the characteristics of a work within the meaning of the act on copyright and related rights or constituting a database within the meaning of the Act on the protection of databases (art. 13 (3) of the Act on the re-use of public sector information):",
-    "ConditionPersonalData": "The conditions of re-use of information containing personal data (Article 14 (1) (4) of the Act on the re-use of public sector information):"
+    "Original": "The recipient should include a copy of the information in the originally obtained form by providing the processed information"
   },
   "Datasets": {
     "Self": "Datasets",
@@ -835,6 +830,7 @@
   "Tour": {
     "Button": {
       "IconLabel": "Student Cup",
+      "NewIconLabel": "Icon - see portal functions",
       "TooltipTitle": "Portal tour",
       "TooltipText": "Browse the most important features of the portal."
     },

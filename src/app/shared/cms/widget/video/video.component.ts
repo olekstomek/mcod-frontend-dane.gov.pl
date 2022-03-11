@@ -94,6 +94,14 @@ export class VideoComponent extends WidgetAbstractComponent implements OnInit {
   ngOnInit() {
     if (this.video.settings && this.video.settings.video_url) {
       this.videoYoutubeUrl = this.createEmbedUrl(this.video.settings.video_url);
+      if (this.featureFlagService.validateFlagSync('S44_uploaded_video_from_cms.fe')) {
+        if (this.video.settings['uploaded_video']) {
+          this.isPlayerSupported = true;
+          this.videoUrl = this.video.settings['uploaded_video'].download_url;
+          this.poster = this.video.settings['uploaded_video'].thumbnail_url;
+          this.videoClass = 'video-center';
+        }
+      }
       this.videoStyles = this.cmsService.addStyle(this.video, 'hyperEditor');
       return;
     }

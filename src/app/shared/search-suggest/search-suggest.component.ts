@@ -358,6 +358,10 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         areaTranslationKey = `${StringHelper.capitalizeFirstLetter(StringHelper.toCamelCase(updatedModel))}.Self`;
         url = this.parseKnowledgeBaseUrl(item.attributes.html_url);
         break;
+      case ApiModel.NEWS:
+        url = `/article/${slug}`;
+        areaTranslationKey = 'Articles.News';
+        break;
       case ApiModel.RESOURCE:
         const relatedType: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'data', 'type']);
         const relatedTypeApiUrl: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'links', 'related']);
@@ -383,7 +387,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     } else {
       return {
         title: title,
-        url: model === ApiModel.KNOWLEDGE_BASE ? url : (url += `/${id},${slug}`),
+        url: model === ApiModel.KNOWLEDGE_BASE || model === ApiModel.NEWS ? url : (url += `/${id},${slug}`),
         areaTranslationKey: areaTranslationKey,
       };
     }

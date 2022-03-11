@@ -108,10 +108,12 @@ export class SearchResultsComponent implements OnInit {
   setCounterAndResults(resp: ISearchResponse) {
     this.counters = resp.meta.aggregations.counters;
     this.totalCount = resp.meta.count;
-    if (this.featureFlagsService.validateFlagSync('S39_innovation_view.fe')) {
-      this.results = this.listViewDetailsService.extendViewDetails(resp.data).filter(data => data.attributes.model !== 'application');
+    if (this.featureFlagsService.validateFlagSync('S46_articles_form_cms.fe')) {
+      this.results = this.listViewDetailsService
+        .extendViewDetails(resp.data)
+        .filter(data => data.attributes.model !== 'application' && data.attributes.model !== 'article');
     } else {
-      this.results = this.listViewDetailsService.extendViewDetails(resp.data).filter(data => data.attributes.model !== 'showcase');
+      this.results = this.listViewDetailsService.extendViewDetails(resp.data).filter(data => data.attributes.model !== 'news');
     }
   }
 

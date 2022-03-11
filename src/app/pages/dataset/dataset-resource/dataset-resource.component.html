@@ -142,23 +142,34 @@
 
             <!-- download file -->
             <ng-container *ngIf="resource?.attributes?.media_type === 'file'">
-              <span class="font-weight-bold" style="min-width: 85px"> {{ 'Action.Download' | translate }}: </span>
+              <div class="d-flex" *ngIf="downloadFilesList.length > 0; else noFiles">
+                <span class="font-weight-bold" style="min-width: 85px"> {{ 'Action.Download' | translate }}: </span>
+                <ng-container *featureFlag="'S41_opennes_score_in_tooltip.fe'; else oldDownloadLinkView">
+                  <!-- download file -->
+                  <div *ngFor="let dataFiles of downloadFilesList">
+                    <app-download-link
+                      [fileSize]="dataFiles.file_size"
+                      [fileUrl]="dataFiles.download_url"
+                      [format]="dataFiles.format"
+                      [title]="resource.attributes.title"
+                      [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                      [opennessScore]="dataFiles.openness_score"
+                      (click)="downloadResource(resource.attributes.title, dataFiles.download_url)"
+                    >
+                    </app-download-link>
+                  </div>
+                </ng-container>
+              </div>
 
-              <ng-container *featureFlag="'S41_opennes_score_in_tooltip.fe'; else oldDownloadLinkView">
-                <!-- download file -->
-                <div *ngFor="let dataFiles of downloadFilesList">
-                  <app-download-link
-                    [fileSize]="dataFiles.file_size"
-                    [fileUrl]="dataFiles.download_url"
-                    [format]="dataFiles.format"
-                    [title]="resource.attributes.title"
-                    [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
-                    [opennessScore]="dataFiles.openness_score"
-                    (click)="downloadResource(resource.attributes.title, dataFiles.download_url)"
-                  >
-                  </app-download-link>
-                </div>
-              </ng-container>
+              <ng-template #noFiles>
+                <a class="btn btn-primary btn-sm pr-1" target="_blank" href="{{ resource?.attributes?.link }}">
+                  {{ 'Action.GoToSource' | translate | uppercase }}
+
+                  <span class="sr-only">
+                    {{ 'SkipTo.NewWindow' | translate }}
+                  </span>
+                </a>
+              </ng-template>
 
               <ng-template #oldDownloadLinkView>
                 <!-- download file -->

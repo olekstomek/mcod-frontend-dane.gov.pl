@@ -11,7 +11,7 @@ const fs = require('fs');
 
 async function bootstrap() {
   let httpsOptions;
-  if (environment.name === 'int') {
+  if (environment.name === 'dev') {
     httpsOptions = {
       key: fs.readFileSync(__dirname + '/security/privkey.pem'),
       cert: fs.readFileSync(__dirname + '/security/pubkey.pem'),
@@ -35,7 +35,7 @@ async function bootstrap() {
       }),
     );
     app.use('/api/*', (req: Request, res, next) => {
-      if (req.baseUrl.includes('mock') || req.baseUrl.includes('api/license')) {
+      if (req.baseUrl.includes('mock')) {
         next();
         return;
       }

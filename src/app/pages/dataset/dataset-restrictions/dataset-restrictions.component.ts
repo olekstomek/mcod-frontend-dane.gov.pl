@@ -79,6 +79,7 @@ export class DatasetRestrictionsComponent implements OnInit {
       this.dataset.attributes.license_condition_modification ||
       this.dataset.attributes.license_condition_responsibilities ||
       this.dataset.attributes.license_condition_db_or_copyrighted ||
+      this.dataset.attributes.license_condition_cc40_responsibilities ||
       this.dataset.attributes.license_condition_personal_data;
   }
 }

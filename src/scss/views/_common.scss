@@ -196,6 +196,17 @@ mark {
     overflow-y: hidden;    
 }
 
+.sticky-header-table {
+    overflow: auto;
+    max-height: 700px;
+
+    table th {
+        position: sticky;
+        top: 0;
+        z-index:1;
+    }
+}
+
 
 // temp
 .forum {

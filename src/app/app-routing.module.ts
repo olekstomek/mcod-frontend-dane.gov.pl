@@ -65,6 +65,7 @@ const routes: Routes = [
         data: { breadcrumbs: { translationKey: 'Institutions.Self' } },
         loadChildren: () => import('./pages/institutions/institutions.module').then(m => m.InstitutionsModule),
       },
+      // remove with S46_articles_form_cms.fe
       {
         path: '!article',
         data: { breadcrumbs: { translationKey: 'Articles.News' } },
@@ -101,6 +102,17 @@ const routes: Routes = [
       },
       {
         path: '!page',
+        component: PreviewCmsComponent,
+        children: [
+          {
+            path: '**',
+            component: PreviewCmsComponent,
+            data: { skipRouteLocalization: true },
+          },
+        ],
+      },
+      {
+        path: '!news',
         component: PreviewCmsComponent,
         children: [
           {

@@ -13,7 +13,7 @@
         <input
           id="regions-search-input"
           type="text"
-          class="form-control form-control-sm search-suggest__input"
+          class="form-control form-control-sm search-suggest__region-input"
           autocomplete="off"
           placeholder="{{ placeholderTranslationKey | translate }}..."
           [minlength]="minChars"
@@ -43,7 +43,7 @@
         >
           <!-- suggestion list item -->
           <li
-            class="search-suggest__listbox-item"
+            class="search-suggest__listbox-region-item"
             role="option"
             id="search-suggest-listbox-item-{{ i }}"
             [attr.aria-selected]="i === activeSuggestionIndex"
@@ -59,6 +59,16 @@
                 {{ 'GoTo' | translate }}
               </span>
               {{ option.title }}
+            </span>
+
+            <!-- area -->
+            <span>
+              <span class="sr-only">
+                {{ 'Attribute.Category' | translate }}
+              </span>
+              <small>
+                {{ option.hierarchy_label }}
+              </small>
             </span>
           </li>
         </ul>

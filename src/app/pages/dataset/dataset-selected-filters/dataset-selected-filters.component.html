@@ -88,23 +88,32 @@
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.HIGH_VALUE_DATA]"
     [isCustomFilterName]="true"
-    [customFiltersName] = "'Attribute.HighValueData'"
+    [customFiltersName]="'Attribute.HighValueData'"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA, $event)"
-    *featureFlag="'S39_high_value_data_filter.fe'"
   >
   </app-selected-filters>
 
-    <!-- Dynamic data -->
-    <app-selected-filters
-        [items]="selectedIds[AggregationFilterNames.DYNAMIC_DATA]"
-        [isCustomFilterName]="true"
-        [customFiltersName] = "'Attribute.DynamicData'"
-        @toggle
-        (removeSelectedFilter)="onClearFilter(AggregationFilterNames.DYNAMIC_DATA, $event)"
-        *featureFlag="'S43_dynamic_data_filter.fe'"
-    >
-    </app-selected-filters>
+  <!-- Dynamic data -->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.DYNAMIC_DATA]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.DynamicData'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.DYNAMIC_DATA, $event)"
+  >
+  </app-selected-filters>
+
+  <!-- Research data -->
+  <app-selected-filters
+    *featureFlag="'S47_research_data_filter.fe'"
+    [items]="selectedIds[AggregationFilterNames.RESEARCH_DATA]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.ResearchData'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.RESEARCH_DATA, $event)"
+  >
+  </app-selected-filters>
 
   <!-- Date range -->
   <app-selected-filters
@@ -124,7 +133,6 @@
     [items]="selectedIds[AggregationFilterNames.SHOWCASE_CATEGORY]"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.SHOWCASE_CATEGORY, $event)"
-    *featureFlag="'S39_innovation_view.fe'"
   >
   </app-selected-filters>
 
@@ -133,7 +141,6 @@
     [items]="selectedIds[AggregationFilterNames.SHOWCASE_TYPE]"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.SHOWCASE_TYPE, $event)"
-    *featureFlag="'S39_innovation_view.fe'"
   >
   </app-selected-filters>
 
@@ -142,7 +149,6 @@
     [items]="selectedIds[AggregationFilterNames.SHOWCASE_PLATFORMS]"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.SHOWCASE_PLATFORMS, $event)"
-    *featureFlag="'S39_innovation_view.fe'"
   >
   </app-selected-filters>
 </div>

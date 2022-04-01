@@ -68,7 +68,6 @@
 
   <!-- High value data -->
   <app-selected-filters
-    *featureFlag="'S39_high_value_data_filter.fe'"
     [items]="selectedIds[AggregationFilterNames.HIGH_VALUE_DATA]"
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.HighValueData'"
@@ -79,12 +78,22 @@
 
   <!-- Dynamic data -->
   <app-selected-filters
-    *featureFlag="'S43_dynamic_data_filter.fe'"
     [items]="selectedIds[AggregationFilterNames.DYNAMIC_DATA]"
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.DynamicData'"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.DYNAMIC_DATA, $event)"
+  >
+  </app-selected-filters>
+
+  <!-- Research data -->
+  <app-selected-filters
+    *featureFlag="'S47_research_data_filter.fe'"
+    [items]="selectedIds[AggregationFilterNames.RESEARCH_DATA]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.ResearchData'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.RESEARCH_DATA, $event)"
   >
   </app-selected-filters>
 

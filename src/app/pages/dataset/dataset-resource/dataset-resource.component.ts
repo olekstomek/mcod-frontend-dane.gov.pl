@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IDatasetFile } from '@app/services/models/dataset-resource';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { zip } from 'rxjs';
@@ -121,7 +120,6 @@ export class DatasetResourceComponent implements OnInit {
     private schemaDataService: SchemaDataService,
     private modalService: BsModalService,
     @Inject(DOCUMENT) private readonly document: Document,
-    private featureFlagService: FeatureFlagService,
   ) {}
 
   /**
@@ -132,17 +130,12 @@ export class DatasetResourceComponent implements OnInit {
   ngOnInit() {
     this.resource = this.activatedRoute.snapshot.data.post;
     this.relatedDataset = this.activatedRoute.parent.snapshot.data.post.data;
-
     this.frameUrl = this.document.location.protocol + '//' + this.document.location.host + '/embed/resource/' + this.resource['id'];
     this.selfApi = this.resource.links.self;
-    if (this.featureFlagService.validateFlagSync('S41_opennes_score_in_tooltip.fe')) {
-      this.downloadFilesList = this.resource.attributes?.files;
-    }
-
+    this.downloadFilesList = this.resource.attributes?.files;
     this.hasGeoData = this.resource.relationships.hasOwnProperty('geo_data');
     this.hasChart = this.resource.relationships.hasOwnProperty('chart');
     this.hasTabularData = this.hasGeoData || this.resource.relationships.hasOwnProperty('tabular_data');
-
     this.seoService.setPageTitle(this.resource.attributes.title);
 
     zip(

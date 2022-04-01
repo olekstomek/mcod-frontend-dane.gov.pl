@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs';
@@ -173,7 +172,6 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     private schemaService: SchemaService,
     private schemaDataService: SchemaDataService,
     private modalService: BsModalService,
-    private featureflagService: FeatureFlagService,
     private listViewDetailsService: ListViewDetailsService,
   ) {}
 
@@ -191,10 +189,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
 
     this.dataset = dataset;
     this.selfApi = this.dataset.links.self;
-
-    if (this.featureflagService.validateFlagSync('S43_button_download_all_datasets.fe')) {
-      this.isExistsZipFileForDownload = this.dataset.attributes.archived_resources_files_url ? true : false;
-    }
+    this.isExistsZipFileForDownload = this.dataset.attributes.archived_resources_files_url ? true : false;
 
     if (this.dataset.attributes.source && this.dataset.attributes.source.type === 'ckan') {
       this.basicParams.sort = '-created';
@@ -241,10 +236,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
         this.isSortValid = !!this.sortOptions.find(option => option.value === this.params.sort);
       });
 
-    if (
-      this.dataset.relationships.showcases.meta.count > 0 &&
-      this.featureflagService.validateFlagSync('S43_related_showcases_in_dataset_item.fe')
-    ) {
+    if (this.dataset.relationships.showcases.meta.count > 0) {
       this.showcasesSubscription = this.activatedRoute.queryParamMap
         .pipe(
           switchMap(qParamMap => {

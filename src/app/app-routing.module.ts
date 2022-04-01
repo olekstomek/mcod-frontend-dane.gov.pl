@@ -49,12 +49,6 @@ const routes: Routes = [
         data: { breadcrumbs: { translationKey: 'Menu.Datasets' } },
         loadChildren: () => import('./pages/dataset/dataset.module').then(m => m.DatasetModule),
       },
-      // remove with S40_innovation_routing.fe
-      {
-        path: '!application',
-        data: { breadcrumbs: { translationKey: 'Applications.Self' } },
-        loadChildren: () => import('./pages/applications/applications.module').then(m => m.ApplicationsModule),
-      },
       {
         path: '!showcase',
         data: { breadcrumbs: { translationKey: 'Breadcrumbs.ShowcasesComponent' } },

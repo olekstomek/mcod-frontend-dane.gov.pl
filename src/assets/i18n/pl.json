@@ -97,11 +97,9 @@
   "ApplicationForm": {
     "Self": "PoCoTo",
     "Title": "Zaproponuj",
-    "Name": "Nazwa aplikacji",
-    "NewName": "Nazwa",
+    "Name": "Nazwa",
     "ApplicantEmail": "E-mail zgłaszającego",
-    "Author": "Autor aplikacji",
-    "NewAuthor": "Autor",
+    "Author": "Autor",
     "Logo": "Logo",
     "LogoHint": "(logo, które będzie wyświetlane podczas przeglądania)",
     "Graphics": "Grafika ilustracyjna",
@@ -112,10 +110,8 @@
     "ExternalDatasetsHint": "(wprowadź nazwę zbioru lub podaj link do zbioru)",
     "ComaSeparated": "Oddzielone przecinkami",
     "RelatedDatasetsLimitAlert": "Została osiągnięta maksymalna liczba {param} zbiorów danych dla propozycji aplikacji",
-    "Website": "Adres strony z informacją o aplikacji",
-    "NewWebsite": "Adres strony z informacją",
-    "SuggestionSentSuccess": "Dziękujemy za zgłoszenie propozycji aplikacji.",
-    "SuggestionShowcasesSentSuccess": "Dziękujemy za zgłoszenie propozycji ponownego wykorzystania danych",
+    "Website": "Adres strony z informacją",
+    "SuggestionSentSuccess": "Dziękujemy za zgłoszenie propozycji ponownego wykorzystania danych",
     "EnterName": "Wprowadź nazwę",
     "Link": "Link",
     "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji",
@@ -135,18 +131,12 @@
     "EnterAuthor": "Wprowadź autora"
   },
   "Applications": {
-    "Self": "Aplikacje",
-    "Single": "Aplikacja",
-    "Genitive": "Aplikacji",
+    "Self": "Ponowne wykorzystanie danych",
     "Description": "Opis",
-    "SearchFor": "Wyszukaj aplikację",
-    "SeeAll": "Zobacz wszystkie aplikacje",
-    "CreateOwn": "Twórz własne aplikacje",
-    "SeeAlreadyBuilt": "Zobacz gotowe aplikacje",
     "Link": "Link do aplikacji",
-    "Logo": "Logo aplikacji",
-    "Suggest": "Zaproponuj aplikację",
-    "NewSuggest": "Zaproponuj",
+    "LogoApp": "Logo aplikacji",
+    "Logo": "Logo",
+    "Suggest": "Zaproponuj",
     "SuggestFooterName": "Zaproponuj ponowne wykorzystanie",
     "Description1Aof3": "Jeśli stworzyłeś lub znasz aplikację, stronę internetową lub inny produkt wykorzystujący dane m.in. z portalu",
     "Description1Bof3": "i chcesz udostępnić informacje o nich w portalu – kliknij przycisk",
@@ -154,17 +144,11 @@
     "Description2of3": "Nie promujemy konkretnych rozwiązań, ale upowszechniamy informacje o projektach wykorzystujących dane.",
     "Description3of3": "Jesteśmy zainteresowani kolejnymi przykładami",
     "Description4": "Jesteśmy zainteresowani kolejnymi przykładami wykorzystania danych",
-    "NoLogo": "Brak logo"
-  },
-  "Innovations": {
-    "Self": "Ponowne wykorzystanie danych",
+    "NoLogo": "Brak logo",
     "SearchFor": "Wyszukaj",
     "ShowDetails": "Pokaż szczegóły",
     "HideDetails": "Ukryj szczegóły",
-    "Description": "Opis",
-    "Logo": "Logo",
     "SeeAll": "Zobacz wszystkie przykłady",
-    "Link": "Link do aplikacji",
     "LinkNoApp": "Link"
   },
   "Articles": {
@@ -241,8 +225,9 @@
     "IosStore": "aplikacji iOS",
     "LinuxStore": "aplikacji Linux",
     "WindowsStore": "aplikacji Windows",
-    "Region": "Wybierz lokalizacje",
-    "DynamicData": "Dane dynamiczne"
+    "Region": "Lokalizacja",
+    "DynamicData": "Dane dynamiczne",
+    "ResearchData": "Dane badawcze"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",
@@ -258,9 +243,6 @@
     "InstitutionModule": "Dostawcy",
     "InstitutionComponent": "",
     "InstitutionItemComponent": "",
-    "ApplicationModule": "Aplikacje",
-    "ApplicationComponent": "",
-    "ApplicationItemComponent": "",
     "SuggestApplicationComponent": "Zaproponuj",
     "ArticleModule": "Aktualności",
     "LoginComponent": "Logowanie",
@@ -614,7 +596,6 @@
     "Main": "Menu główne",
     "Home": "Strona główna",
     "Datasets": "Dane",
-    "Applications": "Aplikacje",
     "Institutions": "Dostawcy",
     "Articles": "Baza wiedzy",
     "About": "O serwisie",
@@ -856,10 +837,6 @@
           "text": "Dane publikowane na portalu dostarczane są przez dostawców. Po wybraniu konkretnego dostawcy zostanie wyświetlona podstrona zawierająca informacje o dostawcy oraz udostępnione przez niego zbiory danych."
         },
         "Applications": {
-          "title": "Aplikacje",
-          "text": "W tej sekcji można się zapoznać z innowacyjnymi rozwiązaniami informatycznymi wykorzystującymi dane publiczne zarówno zgromadzone na portalu jak też pochodzące z innych źródeł, na przykład w postaci aplikacji na urządzenia mobilne."
-        },
-        "Innovations": {
           "title": "PoCoTo - Ponowne wykorzystanie danych",
           "text": "W tej sekcji można zapoznać się z przykładami ponownego wykorzystywania danych, w szczególności z rozwiązaniami informatycznymi (np. aplikacjami, serwisami www), które wykorzystują dane zgromadzone w portalu Dane.gov.pl oraz w innych źródłach."
         }
@@ -924,6 +901,10 @@
         "DynamicData": {
           "title": "Dane dynamiczne",
           "text": "Dane podlegające częstym aktualizacjom, w szczególności ze względu na ich zmienność lub szybką dezaktualizację."
+        },
+        "ResearchData": {
+          "title": "Filtry - Dane badawcze",
+          "text": "Informacje sektora publicznego utrwalone w postaci elektronicznej, inne niż publikacje naukowe, które zostały wytworzone lub zgromadzone w ramach działalności naukowej w rozumieniu art. 4 ustawy z dnia 20 lipca 2018 r. – Prawo o szkolnictwie wyższym i nauce (Dz. U. z 2021 r. poz. 478) i są wykorzystywane jako dowody w procesie badawczym lub służą weryfikacji poprawności ustaleń i wyników badań"
         }
       },
       "Institutions": {
@@ -991,6 +972,10 @@
           "DynamicData": {
             "title": "Filtry - Dane dynamiczne",
             "text": "Dane podlegające częstym aktualizacjom, w szczególności ze względu na ich zmienność lub szybką dezaktualizację."
+          },
+          "ResearchData": {
+            "title": "Filtry - Dane badawcze",
+            "text": "Informacje sektora publicznego utrwalone w postaci elektronicznej, inne niż publikacje naukowe, które zostały wytworzone lub zgromadzone w ramach działalności naukowej w rozumieniu art. 4 ustawy z dnia 20 lipca 2018 r. – Prawo o szkolnictwie wyższym i nauce (Dz. U. z 2021 r. poz. 478) i są wykorzystywane jako dowody w procesie badawczym lub służą weryfikacji poprawności ustaleń i wyników badań"
           }
         }
       },
@@ -1002,26 +987,12 @@
         "Suggest": {
           "title": "Zaproponuj innowację",
           "text": "Każdy autor aplikacji, która bazuje na otwartych danych, może ją zgłosić do administratora portalu dane.gov.pl w celu udostepnienia jej na portalu."
-        },
-        "NewSuggest": {
-          "title": "Zaproponuj",
-          "text": "Każdy autor aplikacji, która bazuje na otwartych danych, może ją zgłosić do administratora portalu dane.gov.pl w celu udostępnienia jej na portalu."
         }
       },
       "Article": {
         "Search": {
           "title": "Wyszukiwarka",
           "text": "Wpisane słowo lub fraza są wyszukiwane w tytułach i opisach artykułów."
-        }
-      },
-      "ApplicationDetails": {
-        "Link": {
-          "title": "Link do aplikacji",
-          "text": "Możesz zobaczyć i sprawdzić jak działa aplikacja. W niektórych wypadkach zawiera też informacje techniczne przygotowane przez autora oraz umożliwia pobranie aplikacji ze sklepu."
-        },
-        "RelatedDatasets": {
-          "title": "Powiązane dane",
-          "text": "Lista otwartych danych, które są wykorzystywane w aplikacji."
         }
       },
       "InnovationDetails": {

@@ -22,18 +22,22 @@
       </li>
 
       <!--dynamic data-->
-      <div *featureFlag="'S43_dynamic_data_filter.fe'">
-        <li *ngIf="resource?.attributes?.has_dynamic_data">
-          <strong> {{ 'Attribute.DynamicData' | translate }}: </strong>
-          <img src="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
-        </li>
-      </div>
+      <li *ngIf="resource?.attributes?.has_dynamic_data">
+        <strong> {{ 'Attribute.DynamicData' | translate }}: </strong>
+        <img src="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      </li>
 
       <!--high value data-->
-      <div *featureFlag="'S39_high_value_data_filter.fe'">
-        <li *ngIf="resource?.attributes?.has_high_value_data">
-          <strong> {{ 'Attribute.HighValueData' | translate }}: </strong>
-          <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      <li *ngIf="resource?.attributes?.has_high_value_data">
+        <strong> {{ 'Attribute.HighValueData' | translate }}: </strong>
+        <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      </li>
+
+      <!--research data-->
+      <div *featureFlag="'S47_research_data_filter.fe'">
+        <li *ngIf="resource?.attributes?.has_research_data">
+          <strong> {{ 'Attribute.ResearchData' | translate }}: </strong>
+          <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
         </li>
       </div>
 
@@ -144,21 +148,19 @@
             <ng-container *ngIf="resource?.attributes?.media_type === 'file'">
               <div class="d-flex" *ngIf="downloadFilesList.length > 0; else noFiles">
                 <span class="font-weight-bold" style="min-width: 85px"> {{ 'Action.Download' | translate }}: </span>
-                <ng-container *featureFlag="'S41_opennes_score_in_tooltip.fe'; else oldDownloadLinkView">
-                  <!-- download file -->
-                  <div *ngFor="let dataFiles of downloadFilesList">
-                    <app-download-link
-                      [fileSize]="dataFiles.file_size"
-                      [fileUrl]="dataFiles.download_url"
-                      [format]="dataFiles.format"
-                      [title]="resource.attributes.title"
-                      [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
-                      [opennessScore]="dataFiles.openness_score"
-                      (click)="downloadResource(resource.attributes.title, dataFiles.download_url)"
-                    >
-                    </app-download-link>
-                  </div>
-                </ng-container>
+                <!-- download file -->
+                <div *ngFor="let dataFiles of downloadFilesList">
+                  <app-download-link
+                    [fileSize]="dataFiles.file_size"
+                    [fileUrl]="dataFiles.download_url"
+                    [format]="dataFiles.format"
+                    [title]="resource.attributes.title"
+                    [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                    [opennessScore]="dataFiles.openness_score"
+                    (click)="downloadResource(resource.attributes.title, dataFiles.download_url)"
+                  >
+                  </app-download-link>
+                </div>
               </div>
 
               <ng-template #noFiles>
@@ -169,41 +171,6 @@
                     {{ 'SkipTo.NewWindow' | translate }}
                   </span>
                 </a>
-              </ng-template>
-
-              <ng-template #oldDownloadLinkView>
-                <!-- download file -->
-                <app-download-link
-                  [fileSize]="resource.attributes.file_size"
-                  [fileUrl]="resource.attributes.download_url"
-                  [format]="resource.attributes.format"
-                  [title]="resource.attributes.title"
-                  [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
-                  (click)="downloadResource(resource.attributes.title, resource.attributes.download_url)"
-                >
-                </app-download-link>
-
-                <!-- download csv file -->
-                <app-download-link
-                  [fileSize]="resource.attributes.csv_file_size"
-                  [fileUrl]="resource.attributes.csv_download_url"
-                  [format]="'csv'"
-                  [title]="resource.attributes.title"
-                  [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
-                  (click)="downloadResource(resource.attributes.title, resource.attributes.csv_download_url)"
-                >
-                </app-download-link>
-
-                <!-- download jsonld file -->
-                <app-download-link
-                  [fileSize]="resource.attributes.jsonld_file_size"
-                  [fileUrl]="resource.attributes.jsonld_file_url"
-                  [format]="'json_ld'"
-                  [title]="resource.attributes.title"
-                  [customCssClass]="'btn btn-primary btn-sm mb-1'"
-                  (click)="downloadResource(resource.attributes.title, resource.attributes.jsonld_download_url)"
-                >
-                </app-download-link>
               </ng-template>
             </ng-container>
           </div>

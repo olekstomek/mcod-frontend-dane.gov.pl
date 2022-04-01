@@ -87,12 +87,10 @@
           </ng-container>
 
           <!-- dynamic data -->
-          <div *featureFlag="'S43_dynamic_data_filter.fe'">
-            <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_dynamic_data">
-              <span class="vertical-list__item-label"> {{ 'Attribute.DynamicData' | translate }}: </span>
-              <img src="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
-            </li>
-          </div>
+          <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_dynamic_data">
+            <span class="vertical-list__item-label"> {{ 'Attribute.DynamicData' | translate }}: </span>
+            <img src="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+          </li>
 
           <!-- update frequency -->
           <li class="vertical-list__item" *ngIf="dataset?.attributes?.update_frequency">
@@ -101,10 +99,16 @@
           </li>
 
           <!-- high value data -->
-          <div *featureFlag="'S39_high_value_data_filter.fe'">
-            <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_high_value_data">
-              <span class="vertical-list__item-label"> {{ 'Attribute.HighValueData' | translate }}: </span>
-              <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+          <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_high_value_data">
+            <span class="vertical-list__item-label"> {{ 'Attribute.HighValueData' | translate }}: </span>
+            <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+          </li>
+
+          <div *featureFlag="'S47_research_data_filter.fe'">
+            <!-- research data -->
+            <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_research_data">
+              <span class="vertical-list__item-label"> {{ 'Attribute.ResearchData' | translate }}: </span>
+              <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
             </li>
           </div>
 
@@ -250,17 +254,15 @@
           <div role="tabpanel" aria-labelledby="tab1" *ngIf="activeTabIndex === 1">
             <div class="results-section">
               <!-- download all button -->
-              <div *featureFlag="'S43_button_download_all_datasets.fe'">
-                <a
-                  *ngIf="isExistsZipFileForDownload"
-                  appTooltip="{{ 'Tour.Tooltip.DatasetDetails.DownloadAll.text' | translate }}"
-                  type="button"
-                  class="btn btn-primary"
-                  [href]="dataset.attributes.archived_resources_files_url"
-                >
-                  {{ 'Action.DownloadAll' | translate }} >>
-                </a>
-              </div>
+              <a
+                *ngIf="isExistsZipFileForDownload"
+                appTooltip="{{ 'Tour.Tooltip.DatasetDetails.DownloadAll.text' | translate }}"
+                type="button"
+                class="btn btn-primary"
+                [href]="dataset.attributes.archived_resources_files_url"
+              >
+                {{ 'Action.DownloadAll' | translate }} >>
+              </a>
 
               <!-- sort order -->
               <div class="d-flex justify-content-end align-items-baseline pb-2" *ngIf="resources && resources.length">
@@ -345,65 +347,63 @@
         </div>
 
         <!-- RELATED SHOWCASES -->
-        <div *featureFlag="'S43_related_showcases_in_dataset_item.fe'">
-          <section class="results-section vertical-spacing" *ngIf="items && items.length">
-            <div class="container">
-              <header class="results-header">
-                <div
-                  class="heading heading--sm heading--separator"
-                  appInfoTooltip="{{ 'Tour.Tooltip.Dataset.RelatedShowcases.text' | translate }}"
+        <section class="results-section vertical-spacing" *ngIf="items && items.length">
+          <div class="container">
+            <header class="results-header">
+              <div
+                class="heading heading--sm heading--separator"
+                appInfoTooltip="{{ 'Tour.Tooltip.Dataset.RelatedShowcases.text' | translate }}"
+              >
+                {{ 'Datasets.RelatedShowcases' | translate }}
+                <small>({{ showcasesCount || 0 }})</small>
+              </div>
+              <!-- sort order -->
+              <div class="d-md-inline-flex align-items-center pt-2 pb-2 pb-md-0">
+                <span class="dropdown-label pr-2" id="sortby-showcases-label">
+                  {{ 'Sort.By' | translate }}:
+                  <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
+                </span>
+
+                <select
+                  class="form-control sort-order"
+                  (change)="updateParams({ sort: $event.target.value }, 'showcases')"
+                  aria-labelledby="sortby-showcases-label"
                 >
-                  {{ 'Datasets.RelatedShowcases' | translate }}
-                  <small>({{ showcasesCount || 0 }})</small>
-                </div>
-                <!-- sort order -->
-                <div class="d-md-inline-flex align-items-center pt-2 pb-2 pb-md-0">
-                  <span class="dropdown-label pr-2" id="sortby-showcases-label">
-                    {{ 'Sort.By' | translate }}:
-                    <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
-                  </span>
+                  <option [ngValue]="null" *ngIf="!isSortValid">
+                    {{ 'Action.Choose' | translate }}
+                  </option>
+                  <option *ngFor="let item of sortOptions" [value]="item.value" [selected]="params?.sort === item.value">
+                    {{ item.labelTranslationKey | translate }}
+                  </option>
+                </select>
+              </div>
+            </header>
 
-                  <select
-                    class="form-control sort-order"
-                    (change)="updateParams({ sort: $event.target.value }, 'showcases')"
-                    aria-labelledby="sortby-showcases-label"
-                  >
-                    <option [ngValue]="null" *ngIf="!isSortValid">
-                      {{ 'Action.Choose' | translate }}
-                    </option>
-                    <option *ngFor="let item of sortOptions" [value]="item.value" [selected]="params?.sort === item.value">
-                      {{ item.labelTranslationKey | translate }}
-                    </option>
-                  </select>
-                </div>
-              </header>
+            <!-- RESULT LIST -->
+            <app-dataset-item-results [items]="items"></app-dataset-item-results>
 
-              <!-- RESULT LIST -->
-              <app-dataset-item-results [items]="items"></app-dataset-item-results>
+            <!-- RESULTS FOOTER -->
+            <footer class="results-footer" *ngIf="items && items.length">
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- results per page -->
+                <app-items-per-page
+                  [selected]="paramsShowcases?.per_page"
+                  (selectedChange)="updateParams({ per_page: $event }, 'showcases')"
+                >
+                </app-items-per-page>
 
-              <!-- RESULTS FOOTER -->
-              <footer class="results-footer" *ngIf="items && items.length">
-                <div class="d-flex justify-content-between align-items-center">
-                  <!-- results per page -->
-                  <app-items-per-page
-                    [selected]="paramsShowcases?.per_page"
-                    (selectedChange)="updateParams({ per_page: $event }, 'showcases')"
-                  >
-                  </app-items-per-page>
-
-                  <!-- pagination -->
-                  <app-pagination
-                    [itemsPerPage]="paramsShowcases.per_page"
-                    [totalItems]="showcasesCount"
-                    [(page)]="paramsShowcases.page"
-                    (pageChange)="updateParams({ page: $event }, 'showcases')"
-                  >
-                  </app-pagination>
-                </div>
-              </footer>
-            </div>
-          </section>
-        </div>
+                <!-- pagination -->
+                <app-pagination
+                  [itemsPerPage]="paramsShowcases.per_page"
+                  [totalItems]="showcasesCount"
+                  [(page)]="paramsShowcases.page"
+                  (pageChange)="updateParams({ page: $event }, 'showcases')"
+                >
+                </app-pagination>
+              </div>
+            </footer>
+          </div>
+        </section>
       </div>
     </div>
   </div>

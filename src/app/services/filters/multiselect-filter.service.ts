@@ -14,17 +14,22 @@ export class MultiselectFilterService {
   changeMultiselect(selectedIds, selectedOption) {
     const filterGroup = Object.assign({}, selectedIds);
 
-    if (filterGroup[selectedOption.id] || filterGroup[selectedOption.region_id]) {
+    if (filterGroup[selectedOption.id]) {
       delete filterGroup[selectedOption.id];
     } else {
-      if (selectedOption.id) {
-        filterGroup[selectedOption.id] = selectedOption;
-      } else {
-        filterGroup[selectedOption.region_id] = selectedOption;
-      }
+      filterGroup[selectedOption.id] = selectedOption;
     }
 
     return filterGroup;
+  }
+
+  changeSingleselect(selectedOption) {
+    const singlefilter = {};
+    if (selectedOption) {
+      singlefilter[selectedOption.region_id] = selectedOption;
+    }
+
+    return singlefilter;
   }
 
   /**

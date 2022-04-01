@@ -123,16 +123,16 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       AggregationOptionType.VISUALIZATION_TYPE,
       AggregationOptionType.TYPES,
       AggregationOptionType.LICENSES,
+      AggregationOptionType.HIGH_VALUE_DATA,
+      AggregationOptionType.DYNAMIC_DATA,
     ];
 
     if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
       this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
     }
-    if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.HIGH_VALUE_DATA];
-    }
-    if (this.featureFlagService.validateFlagSync('S43_dynamic_data_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.DYNAMIC_DATA];
+
+    if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
+      this.Facets = [...this.Facets, AggregationOptionType.RESEARCH_DATA];
     }
   }
 
@@ -179,7 +179,10 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
         sort = qParams['q'] ? 'relevance' : '-date';
       }
 
-      this.params = { ...qParams, ...this.filterService.updateBasicParams(qParams, this.basicParams, sort) };
+      this.params = {
+        ...qParams,
+        ...this.filterService.updateBasicParams(qParams, this.basicParams, sort),
+      };
 
       if (!qParams['model[terms]']) {
         this.params['model[terms]'] = 'dataset,resource';
@@ -193,6 +196,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
         .getFilters(ApiConfig.search, this.Facets, customParams)
         .subscribe((allFilters: IDatasetListViewFilterAggregationsOptions | IListViewFilterAggregationsOptions) => {
           this.filters = allFilters;
+          this.setSelectedFilters(this.params);
           this.getData();
         });
     });
@@ -273,6 +277,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.DATE_TO]: null,
       [AggregationFilterNames.REGIONS]: {},
       [AggregationFilterNames.DYNAMIC_DATA]: {},
+      [AggregationFilterNames.RESEARCH_DATA]: {}
     };
   }
 
@@ -299,6 +304,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
   }

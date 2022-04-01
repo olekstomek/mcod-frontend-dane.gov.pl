@@ -613,7 +613,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     }
 
     const listboxOption = this.listBoxOptions[this.activeSuggestionIndex];
-    this._searchText = listboxOption.title;
+    this._searchText = listboxOption.hierarchy_label;
     this.regionListboxOption.emit(listboxOption);
     this.listBoxOptions = [];
   }

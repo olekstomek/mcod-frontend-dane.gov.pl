@@ -31,9 +31,6 @@ export class ListViewDetailsService {
         case ApiModel.DATASET:
           this.extendDataset(item);
           break;
-        case ApiModel.APPLICATION:
-          this.extendApplication(item);
-          break;
         case ApiModel.INSTITUTION:
           this.extendProvider(item);
           break;
@@ -82,20 +79,6 @@ export class ListViewDetailsService {
     item.url = `../../${this.routerEndpoints.DATASETS}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'Datasets.Single';
     item.detailsData = [{ titleTranslationKey: 'Attribute.UpdateDate', data: item.attributes.verified, isDate: true }];
-  }
-
-  /**
-   * Sets url, titleTranslationKey, detailsData and optional author properties for application item
-   * @param {ISearchResult} item
-   */
-  private extendApplication(item: ISearchResult) {
-    item.url = `../../${this.routerEndpoints.APPLICATIONS}/${item.id},${item.attributes.slug}`;
-    item.titleTranslationKey = 'Applications.Single';
-    item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
-
-    if (item.attributes.author) {
-      item.detailsData.push({ titleTranslationKey: 'Attribute.Author', data: item.attributes.author });
-    }
   }
 
   /**

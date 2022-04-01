@@ -4,7 +4,7 @@ import {
   IAggregationProperties,
   IAggregationPropertiesForRegions,
   MultiselectOption,
-  MultiselectOptionForRegions,
+  SingleselectOptionForRegions,
 } from '@app/services/models/filters';
 
 /**
@@ -35,7 +35,7 @@ export class ExpandableMultiselectComponent {
   /**
    * selected Options
    */
-  selectedData: MultiselectOption | MultiselectOptionForRegions;
+  selectedData: MultiselectOption | SingleselectOptionForRegions;
 
   /**
    * is filter body visible
@@ -60,7 +60,7 @@ export class ExpandableMultiselectComponent {
    * when selected Ids (keys) of options change then selectedData is being updated and count of it
    * @param {MultiselectOption} data
    */
-  @Input() set selectedIds(data: MultiselectOption | MultiselectOptionForRegions) {
+  @Input() set selectedIds(data: MultiselectOption | SingleselectOptionForRegions) {
     this.selectedData = data;
     this.selectedCount = data && Object.keys(data).length;
   }
@@ -147,11 +147,14 @@ export class ExpandableMultiselectComponent {
    */
   @Output() applyFilter = new EventEmitter<void>();
 
+  /**
+   * event emitter for show map
+   */
   @Output() showMap = new EventEmitter<boolean>();
 
   /**
    * sends new selected option
-   * @param {IAggregationProperties} option
+   * @param {IAggregationProperties | IAggregationPropertiesForRegions} option
    */
   selectItem(option: IAggregationProperties | IAggregationPropertiesForRegions) {
     this.selectedChange.emit(option);
@@ -183,6 +186,9 @@ export class ExpandableMultiselectComponent {
     this.applyFilter.emit();
   }
 
+  /**
+   * sends show map events
+   */
   ShowMap() {
     this.showMap.emit(true);
   }

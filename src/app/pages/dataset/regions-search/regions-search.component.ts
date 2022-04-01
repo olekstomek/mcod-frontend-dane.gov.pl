@@ -68,6 +68,8 @@ export class RegionsSearchComponent extends ListViewFilterPageAbstractComponent 
       this.selectedChange.next(listboxOption);
     } else {
       this.noResults = true;
+      this.selectedChange.next(null);
+      this.enableApply.emit(false);
     }
   }
 

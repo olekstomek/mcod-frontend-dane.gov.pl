@@ -120,7 +120,6 @@
 
   <!--High value data-->
   <app-expandable-multiselect
-    *featureFlag="'S39_high_value_data_filter.fe'"
     id="dataset-high-value-data-filter"
     [titleTranslationKey]="'Attribute.HighValueData'"
     [showSearchInput]="false"
@@ -139,7 +138,6 @@
 
   <!--dynamic data-->
   <app-expandable-multiselect
-    *featureFlag="'S43_dynamic_data_filter.fe'"
     id="dataset-dynamic-data-filter"
     [titleTranslationKey]="'Attribute.DynamicData'"
     [titleTooltipTranslationKey]="'Attribute.DynamicData'"
@@ -154,6 +152,26 @@
     (applyFilter)="applyFilter()"
     [filterName]="'dynamic'"
     [inputIndex]="2"
+  >
+  </app-expandable-multiselect>
+
+  <!--research data-->
+  <app-expandable-multiselect
+    *featureFlag="'S47_research_data_filter.fe'"
+    id="dataset-research-data-filter"
+    [titleTranslationKey]="'Attribute.ResearchData'"
+    [titleTooltipTranslationKey]="'Attribute.ResearchData'"
+    [showSearchInput]="false"
+    [singleSelectOption]="true"
+    [options]="filtersOptions && filtersOptions[OptionsNames.RESEARCH_DATA]"
+    [selectedIds]="selectedData[FiltersNames.RESEARCH_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.RESEARCH_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'research-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.RESEARCH_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'research'"
+    [inputIndex]="4"
   >
   </app-expandable-multiselect>
 

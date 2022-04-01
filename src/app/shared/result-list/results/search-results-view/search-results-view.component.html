@@ -5,15 +5,11 @@
 
   <ng-template let-item>
     <app-details-result-item
-      *featureFlag="'S39_innovation_view.fe'; else oldViewSearchItemResults"
       [detailsData]="item.detailsData"
       [isSearchShowcaseView]="item.attributes.model === 'showcase' ? true : false"
       [showcaseCategoryName]="item.attributes?.showcase_category_name"
       [showcaseCategoryKey]="item.attributes?.showcase_category"
       [titleTranslationKey]="item.titleTranslationKey"
     ></app-details-result-item>
-    <ng-template #oldViewSearchItemResults>
-      <app-details-result-item [detailsData]="item.detailsData" [titleTranslationKey]="item.titleTranslationKey"></app-details-result-item>
-    </ng-template>
   </ng-template>
 </app-result-list>

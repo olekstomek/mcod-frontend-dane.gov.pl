@@ -60,7 +60,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
     minZoom: 3,
   };
   leafletOptions = {
-    layers: [this.leafletService.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', this.mapOptions)],
+    layers: [this.leafletService.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', this.mapOptions)],
     worldCopyJump: true,
   };
 
@@ -122,6 +122,11 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
   mapEvent: Subscription;
 
   /**
+   * marker Event
+   */
+  markerEvent: Subscription;
+
+  /**
    * Rxjs Wrapper for Map Event
    */
   rxjsWrapperForMapEvent = {
@@ -164,13 +169,12 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const southWest = this.item.regions[Object.keys(this.item.regions)[0]].bbox[0];
-    const northEast = this.item.regions[Object.keys(this.item.regions)[0]].bbox[1];
-    this.mapBounds = this.leafletService.latLngBounds([southWest[1], southWest[0]], [northEast[1], northEast[0]]);
+    this.setMapBounds();
   }
 
   ngOnDestroy(): void {
     this.mapEvent.unsubscribe();
+    this.markerEvent.unsubscribe();
   }
 
   /**
@@ -181,12 +185,16 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map.fitBounds(this.mapBounds);
     this.rectangle = this.leafletService.rectangle(this.mapBounds, this.rectangleStyle).addTo(this.map);
     this.actualZoom = this.map.getZoom();
-    this.leafletService.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', this.mapOptions).addTo(this.map);
+    this.leafletService.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', this.mapOptions).addTo(this.map);
     this.centerPoint = this.map.getCenter();
     this.marker = this.leafletService.marker(this.centerPoint, this.markerProperties).addTo(this.map);
     this.map.addLayer(this.clustersLayer);
     this.prepareDataForMap(this.aggregations);
     this.leafletService.eventedInclude(this.rxjsWrapperForMapEvent);
+    this.setEvents();
+  }
+
+  setEvents() {
     this.mapEvent = this.map['observable']('moveend')
       .pipe(
         debounceTime(500),
@@ -202,6 +210,11 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setMapData(response);
         this.centerPoint = this.map.getCenter();
       });
+
+    this.markerEvent = this.marker['observable']('click').subscribe(() => {
+      this.setMapBounds();
+      this.map.fitBounds(this.mapBounds);
+    });
   }
 
   /**
@@ -209,6 +222,12 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   onCloseMap(): void {
     this.hideMap.emit(true);
+  }
+
+  setMapBounds() {
+    const southWest = this.item.regions[Object.keys(this.item.regions)[0]].bbox[0];
+    const northEast = this.item.regions[Object.keys(this.item.regions)[0]].bbox[1];
+    this.mapBounds = this.leafletService.latLngBounds([southWest[1], southWest[0]], [northEast[1], northEast[0]]);
   }
 
   /**

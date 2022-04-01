@@ -1,7 +1,6 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 
 import { TooltipData, TOOLTIP_DATA } from '@app/shared/tooltip/TooltipData';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Tooltip with title component
@@ -42,7 +41,7 @@ export class TooltipWithTitleComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(@Optional() @Inject(TOOLTIP_DATA) public componentData: TooltipData, private featureFlagService: FeatureFlagService) {}
+  constructor(@Optional() @Inject(TOOLTIP_DATA) public componentData: TooltipData) {}
 
   /**
    * Setups component data
@@ -50,11 +49,8 @@ export class TooltipWithTitleComponent implements OnInit {
   ngOnInit() {
     this.title = this.title || this.componentData?.title;
     this.text = this.text || this.componentData?.text;
-
-    if (this.featureFlagService.validateFlagSync('S41_opennes_score_in_tooltip.fe')) {
-      if (this.componentData?.levelDataOpenness) {
-        this.addStarRatingDataOpenness();
-      }
+    if (this.componentData?.levelDataOpenness) {
+      this.addStarRatingDataOpenness();
     }
   }
 

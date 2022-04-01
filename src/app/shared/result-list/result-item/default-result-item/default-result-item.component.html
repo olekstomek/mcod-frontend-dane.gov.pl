@@ -1,5 +1,5 @@
 <ng-container *ngIf="item">
-  <h2 class="heading heading--primary-link heading--sm highlight" *featureFlag="'S39_high_value_data_filter.fe'; else WithoutHighValueData">
+  <h2 class="heading heading--primary-link heading--sm highlight">
     <a
       [routerLink]="[detailsUrl]"
       [queryParams]="queryParams ? queryParams : ''"
@@ -19,57 +19,28 @@
       alt="ikona"
       tabindex="0"
     />
-    <div *featureFlag="'S43_dynamic_data_filter.fe'" style="display: inline">
+    <img
+      *ngIf="item.attributes.has_dynamic_data"
+      class="ml-2"
+      src="assets/icomoon/SVG/ic-dane-dynamiczne.svg"
+      appTooltip="{{ 'Tour.Tooltip.DatasetItem.DynamicData.text' | translate }}"
+      title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
+      alt="ikona"
+      tabindex="0"
+    />
+    <span *featureFlag="'S47_research_data_filter.fe'">
+      <!-- research data icon-->
       <img
-        *ngIf="item.attributes.has_dynamic_data"
+        *ngIf="item.attributes.has_research_data"
         class="ml-2"
-        src="assets/icomoon/SVG/ic-dane-dynamiczne.svg"
-        appTooltip="{{ 'Tour.Tooltip.DatasetItem.DynamicData.text' | translate }}"
-        title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
+        src="assets/icomoon/SVG/ic-research-data.svg"
+        appTooltip="{{ 'Tour.Tooltip.DatasetItem.ResearchData.text' | translate }}"
+        title="{{ 'Tour.Tooltip.DatasetItem.ResearchData.title' | translate }}"
         alt="ikona"
         tabindex="0"
       />
-    </div>
+    </span>
   </h2>
-
-  <ng-template #WithoutHighValueData>
-    <h2 class="heading heading--primary-link heading--sm highlight" *featureFlag="'S43_dynamic_data_filter.fe'; else WithoutDynamicData">
-      <a
-        [routerLink]="[detailsUrl]"
-        [queryParams]="queryParams ? queryParams : ''"
-        [innerHTML]="
-          item.attributes.abbreviation
-            ? (item.attributes.title + ' (' + item.attributes.abbreviation + ')' | stripHtmlTagsExceptHighlight | sanitizeHtml)
-            : (item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml)
-        "
-      >
-      </a>
-      <img
-        *ngIf="item.attributes.has_dynamic_data"
-        class="ml-2"
-        src="assets/icomoon/SVG/ic-dane-dynamiczne.svg"
-        appTooltip="{{ 'Tour.Tooltip.DatasetItem.DynamicData.text' | translate }}"
-        title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
-        alt="ikona"
-        tabindex="0"
-      />
-    </h2>
-  </ng-template>
-
-  <ng-template #WithoutDynamicData>
-    <h2 class="heading heading--primary-link heading--sm highlight">
-      <a
-        [routerLink]="[detailsUrl]"
-        [queryParams]="queryParams ? queryParams : ''"
-        [innerHTML]="
-          item.attributes.abbreviation
-            ? (item.attributes.title + ' (' + item.attributes.abbreviation + ')' | stripHtmlTagsExceptHighlight | sanitizeHtml)
-            : (item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml)
-        "
-      >
-      </a>
-    </h2>
-  </ng-template>
 
   <!-- notes -->
   <app-notes *ngIf="showNotes" [notes]="item.attributes.notes"></app-notes>

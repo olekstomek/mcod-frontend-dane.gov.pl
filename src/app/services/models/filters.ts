@@ -33,6 +33,7 @@ export enum AggregationOptionType {
   SHOWCASE_CATEGORY = 'by_showcase_category',
   SHOWCASE_PLATFORMS = 'by_showcase_platforms',
   DYNAMIC_DATA = 'by_has_dynamic_data',
+  RESEARCH_DATA = 'by_has_research_data',
 }
 
 export enum AggregationFilterNames {
@@ -53,6 +54,7 @@ export enum AggregationFilterNames {
   SHOWCASE_PLATFORMS = 'showcase_platforms',
   REGIONS = 'regions',
   DYNAMIC_DATA = 'has_dynamic_data',
+  RESEARCH_DATA = 'has_research_data',
 }
 
 export interface IListViewFilterAggregationsOptions {
@@ -69,6 +71,7 @@ export interface IListViewFilterAggregationsOptions {
   [AggregationOptionType.SHOWCASE_CATEGORY]?: IAggregationProperties[];
   [AggregationOptionType.SHOWCASE_PLATFORMS]?: IAggregationProperties[];
   [AggregationOptionType.DYNAMIC_DATA]?: IAggregationProperties[];
+  [AggregationOptionType.RESEARCH_DATA]?: IAggregationProperties[];
 }
 
 export interface IDatasetListViewFilterAggregationsOptions {
@@ -82,13 +85,14 @@ export interface IDatasetListViewFilterAggregationsOptions {
   [AggregationOptionType.TYPES]?: IAggregationProperties[];
   [AggregationOptionType.HIGH_VALUE_DATA]?: IAggregationProperties[];
   [AggregationOptionType.DYNAMIC_DATA]?: IAggregationProperties[];
+  [AggregationOptionType.RESEARCH_DATA]?: IAggregationProperties[];
 }
 
 export interface MultiselectOption {
   [key: string]: IAggregationProperties;
 }
 
-export interface MultiselectOptionForRegions {
+export interface SingleselectOptionForRegions {
   [key: string]: IAggregationPropertiesForRegions;
 }
 

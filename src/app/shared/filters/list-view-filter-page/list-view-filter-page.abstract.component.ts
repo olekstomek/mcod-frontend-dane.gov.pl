@@ -2,7 +2,7 @@ import {
   SelectedFilter,
   IListViewFilterAggregationsOptions,
   MultiselectOption,
-  MultiselectOptionForRegions,
+  SingleselectOptionForRegions,
 } from '@app/services/models/filters';
 import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
@@ -110,18 +110,18 @@ export abstract class ListViewFilterPageAbstractComponent {
    * @param { SelectedFilter} filter
    */
   clearSelectedFilter(filter: SelectedFilter) {
-    if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
-      if (filter.names === 'has_high_value_data') {
-        document.getElementById('chk-0').removeAttribute('disabled');
-        document.getElementById('chk-1').removeAttribute('disabled');
-      }
-    }
-
-    if (this.featureFlagService.validateFlagSync('S43_dynamic_data_filter.fe')) {
-      if (filter.names === 'has_dynamic_data') {
-        document.getElementById('chk-2').removeAttribute('disabled');
-        document.getElementById('chk-3').removeAttribute('disabled');
-      }
+    switch (filter.names) {
+      case 'has_high_value_data':
+        this.disabledCheckbox(0);
+        break;
+      case 'has_dynamic_data':
+        this.disabledCheckbox(2);
+        break;
+      case 'has_research_data':
+        if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
+          this.disabledCheckbox(4);
+        }
+        break;
     }
 
     if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
@@ -136,6 +136,11 @@ export abstract class ListViewFilterPageAbstractComponent {
       this.backupSelectedFilters,
     );
     this.filterService.updateParams(updatedQueryParams, null, this.basicParams, this.params);
+  }
+
+  disabledCheckbox(index: number): void {
+    document.getElementById(`chk-${index}`).removeAttribute('disabled');
+    document.getElementById(`chk-${index + 1}`).removeAttribute('disabled');
   }
 
   /**
@@ -194,12 +199,13 @@ export abstract class ListViewFilterPageAbstractComponent {
   protected resetSelectedFilters() {
     this.backupSelectedFilters = this.getFiltersModel();
     this.selectedFiltersCount = 0;
-    if (this.featureFlagService.validateFlagSync('S39_high_value_data_filter.fe')) {
-      this.resetHighValueDataFilterCheckboxes();
+    this.resetHighValueDataFilterCheckboxes();
+    this.resetDynamicDataFilterCheckboxes();
+
+    if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
+      this.resetResearchDataFilterCheckboxes();
     }
-    if (this.featureFlagService.validateFlagSync('S43_dynamic_data_filter.fe')) {
-      this.resetDynamicDataFilterCheckboxes();
-    }
+
     if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
       const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
       if (regionsSearchInput) {
@@ -233,6 +239,17 @@ export abstract class ListViewFilterPageAbstractComponent {
     }
   }
 
+  protected resetResearchDataFilterCheckboxes() {
+    const hasResearchDataInputNo = document.getElementById('chk-4');
+    const hasResearchDataInputYes = document.getElementById('chk-5');
+    if (hasResearchDataInputNo?.hasAttribute('disabled')) {
+      hasResearchDataInputNo.removeAttribute('disabled');
+    }
+    if (hasResearchDataInputYes?.hasAttribute('disabled')) {
+      hasResearchDataInputYes.removeAttribute('disabled');
+    }
+  }
+
   /**
    * Checks whether default page params already exist
    * @param {Params} params
@@ -246,7 +263,7 @@ export abstract class ListViewFilterPageAbstractComponent {
    * gets one particular selected filter count
    * @param {MultiselectOption} filters
    */
-  protected getSelectedFilterCount(filters: MultiselectOption | MultiselectOptionForRegions) {
+  protected getSelectedFilterCount(filters: MultiselectOption | SingleselectOptionForRegions) {
     return filters ? Object.keys(filters).length : 0;
   }
 

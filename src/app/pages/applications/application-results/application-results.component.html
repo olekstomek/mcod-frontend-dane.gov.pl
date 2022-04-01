@@ -5,17 +5,10 @@
 
   <ng-template let-item>
     <app-details-result-item
-      *featureFlag="'S39_innovation_view.fe'; else oldViewItemResults"
       [detailsData]="[{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes?.created, isDate: true }]"
       [isShowcaseView]="true"
       [showcaseCategoryName]="item.attributes?.showcase_category_name"
       [showcaseCategoryKey]="item.attributes?.showcase_category"
     ></app-details-result-item>
-
-    <ng-template #oldViewItemResults>
-      <app-details-result-item
-        [detailsData]="[{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes?.created, isDate: true }]"
-      ></app-details-result-item>
-    </ng-template>
   </ng-template>
 </app-result-list>

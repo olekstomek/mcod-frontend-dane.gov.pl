@@ -97,11 +97,9 @@
   "ApplicationForm": {
     "Self": "Innovation",
     "Title": "Suggest",
-    "Name": "Application name",
-    "NewName": "Name",
+    "Name": "Name",
     "ApplicantEmail": "Applicant e-mail",
-    "Author": "Application author",
-    "NewAuthor": "Author",
+    "Author": "Author",
     "Logo": "Logo",
     "LogoHint": "(logo displayed when browsing)",
     "Graphics": "Illustrative graphics",
@@ -112,10 +110,8 @@
     "ExternalDatasetsHint": "(enter the dataset name or provide the link to the dataset)",
     "ComaSeparated": "Coma separated",
     "RelatedDatasetsLimitAlert": "You've reached maximum number of {param} related datasets per the application suggestion",
-    "Website": "Website URL with information about the application",
-    "NewWebsite": "Website URL with information",
-    "SuggestionSentSuccess": "Thank you for submitting the application suggestion",
-    "SuggestionShowcasesSentSuccess": "Thank you for submitting a proposal for data reuse",
+    "Website": "Website URL with information",
+    "SuggestionSentSuccess": "Thank you for submitting a proposal for data reuse",
     "EnterName": "Enter name",
     "Link": "Link",
     "DataProcessing": "I hereby confirm that I have taken note of the following information",
@@ -135,18 +131,12 @@
     "EnterAuthor": "Enter author"
   },
   "Applications": {
-    "Self": "Applications",
-    "Single": "Application",
-    "Genitive": "Application",
+    "Self": "Data reuse",
     "Description": "Description",
-    "SearchFor": "Search for application",
-    "SeeAll": "See all applications",
-    "CreateOwn": "Create your own app",
-    "SeeAlreadyBuilt": "See already built applications",
     "Link": "Link to the application",
     "Logo": "Application logo",
-    "Suggest": "Suggest an application",
-    "NewSuggest": "Suggest",
+    "Logo": "Logo",
+    "Suggest": "Suggest",
     "SuggestFooterName": "Suggest reuse",
     "Description1Aof3": "If you have created or you know an application, website or other product that uses data, among others from the",
     "Description1Bof3": "portal and you want to share information about them on the portal - click the",
@@ -154,17 +144,11 @@
     "Description2of3": "Below we present examples of public data utilization in applications, products and services. We do not promote a specific solution, we only disseminate information about selected projects using data.",
     "Description3of3": "We are interested in further examples",
     "Description4": "We are interested in further examples of data use",
-    "NoLogo": "No logo"
-  },
-  "Innovations": {
-    "Self": "Data reuse",
+    "NoLogo": "No logo",
     "SearchFor": "Search",
     "ShowDetails": "Show details",
     "HideDetails": "Hide details",
-    "Description": "Description",
-    "Logo": "Logo",
     "SeeAll": "See all examples",
-    "Link": "Link to the application",
     "LinkNoApp": "Link"
   },
   "Articles": {
@@ -241,8 +225,9 @@
     "IosStore": "iOS application",
     "LinuxStore": "Linux application",
     "WindowsStore": "Windows application",
-    "Region": "Chose location",
-    "DynamicData": "Dynamic data"
+    "Region": "Location",
+    "DynamicData": "Dynamic data",
+    "ResearchData": "Research data"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -258,9 +243,6 @@
     "InstitutionModule": "Publishers",
     "InstitutionComponent": "",
     "InstitutionItemComponent": "",
-    "ApplicationModule": "Applications",
-    "ApplicationComponent": "",
-    "ApplicationItemComponent": "",
     "SuggestApplicationComponent": "Suggest",
     "ArticleModule": "News",
     "LoginComponent": "Login",
@@ -614,7 +596,6 @@
     "Main": "Main menu",
     "Home": "Homepage",
     "Datasets": "Data",
-    "Applications": "Applications",
     "Institutions": "Publishers",
     "Articles": "Knowledge base",
     "About": "About",
@@ -856,10 +837,6 @@
           "text": "The data published on the portal are submitted by providers. Selecting a specific provider brings up a subpage containing information about the provider and the data set it provided."
         },
         "Applications": {
-          "title": "Applications",
-          "text": "This section includes innovative information technology solutions using public data gathered both on the portal and originating rom other sources i.e., in the form of an application for mobile devices."
-        },
-        "Innovations": {
           "title": "PoCoTo - Data reuse",
           "text": "In this section you can see examples of data reuse, in particular IT solutions (e.g. applications, websites) that use data collected on the Dane.gov.pl portal and other sources."
         }
@@ -924,6 +901,10 @@
         "DynamicData": {
           "title": "Dynamic data",
           "text": "Data that is subject to frequent updates due to its variability or rapid outdated."
+        },
+        "ResearchData": {
+          "title": "Filters - research data",
+          "text": "Public sector information recorded in electronic form, other than scientific publications, which have been produced or collected as part of scientific activity within the meaning of Article 4 of the Act of 20 July 2018 – Law on Higher Education and Science (Journal of Laws of 2021, item 478) and are used as evidence in the research process or serve to verify the correctness of findings and research results"
         }
       },
       "Institutions": {
@@ -991,6 +972,10 @@
           "DynamicData": {
             "title": "Filters - dynamic data",
             "text": "Data that is subject to frequent updates due to its variability or rapid outdated."
+          },
+          "ResearchData": {
+            "title": "Filters - research data",
+            "text": "Public sector information recorded in electronic form, other than scientific publications, which have been produced or collected as part of scientific activity within the meaning of Article 4 of the Act of 20 July 2018 – Law on Higher Education and Science (Journal of Laws of 2021, item 478) and are used as evidence in the research process or serve to verify the correctness of findings and research results"
           }
         }
       },
@@ -1002,26 +987,12 @@
         "Suggest": {
           "title": "Suggest an innovation",
           "text": "Each author of an application based on open data can submit it to the dane.gov.pl portal administration to have it shared on the portal."
-        },
-        "NewSuggest": {
-          "title": "Suggest",
-          "text": "Any author of an app that relies on open data can report it to the portal administrator dane.gov.pl for sharing on the portal"
         }
       },
       "Article": {
         "Search": {
           "title": "Searchbar",
           "text": "The word or a phrase entered in the “Search Article” field are searched in the titles and descriptions."
-        }
-      },
-      "ApplicationDetails": {
-        "Link": {
-          "title": "Link to the application",
-          "text": "You can check how the application works. Is some cases it also contains the technical information prepared by the author and allows to download the application from the store."
-        },
-        "RelatedDatasets": {
-          "title": "Related datasets",
-          "text": "A list of open data which are used in the application."
         }
       },
       "InnovationDetails": {

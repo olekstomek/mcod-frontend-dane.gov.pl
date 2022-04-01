@@ -1,34 +1,18 @@
 <section class="home-section home-section--apps vertical-spacing" id="applications">
   <div class="home-apps">
     <h2
-      *featureFlag="'S39_innovation_view.fe'; else oldHeaderView"
       class="heading heading--md heading--centered heading--separator"
-      appInfoTooltip="{{ 'Tour.Tooltip.HomePage.Innovations.text' | translate }}"
-      tooltipTitle="{{ 'Tour.Tooltip.HomePage.Innovations.title' | translate }}"
+      appInfoTooltip="{{ 'Tour.Tooltip.HomePage.Applications.text' | translate }}"
+      tooltipTitle="{{ 'Tour.Tooltip.HomePage.Applications.title' | translate }}"
     >
-      {{ 'Menu.Showcases' | translate }} - {{ 'Innovations.Self' | translate }}
+      {{ 'Menu.Showcases' | translate }} - {{ 'Applications.Self' | translate }}
     </h2>
-
-    <ng-template #oldHeaderView>
-      <h2
-        class="heading heading--md heading--centered"
-        appInfoTooltip="{{ 'Tour.Tooltip.HomePage.Applications.text' | translate }}"
-        tooltipTitle="{{ 'Tour.Tooltip.HomePage.Applications.title' | translate }}"
-      >
-        {{ 'Applications.Self' | translate }}
-      </h2>
-    </ng-template>
-
-    <p class="home-apps__description heading--separator heading--centered" *featureFlag="!'S39_innovation_view.fe'">
-      {{ 'Home.Apps.Description' | translate }}
-    </p>
 
     <div class="container" *ngIf="applications">
       <!-- applications grid -->
       <ul class="category-list row m-0 p-0">
         <li class="category-list__item col-12 col-sm-6 col-md-6 col-xl-3" *ngFor="let application of applications">
           <a
-            *featureFlag="'S39_innovation_view.fe'; else oldLinkView"
             class="category-list__item-wrapper"
             [routerLink]="['/!showcase' | localize, application?.id + ',' + application.attributes.slug]"
           >
@@ -41,7 +25,7 @@
                   alt="{{
                     application.attributes.image_alt
                       ? application.attributes.image_alt
-                      : ('Innovations.Logo' | translate) + ' ' + application.attributes.title
+                      : ('Applications.Logo' | translate) + ' ' + application.attributes.title
                   }}"
                 />
               </div>
@@ -50,37 +34,10 @@
               </span>
             </div>
           </a>
-          <ng-template #oldLinkView>
-            <a
-              class="category-list__item-wrapper"
-              [routerLink]="['/!application' | localize, application?.id + ',' + application.attributes.slug]"
-            >
-              <div class="category-list__item-content">
-                <div class="category-list__image-wrapper">
-                  <img
-                    class="category-list__item-image"
-                    src="{{ application.attributes.image_thumb_url }}"
-                    *ngIf="application.attributes.image_thumb_url"
-                    alt="{{
-                      application.attributes.image_alt
-                        ? application.attributes.image_alt
-                        : ('Applications.Logo' | translate) + ' ' + application.attributes.title
-                    }}"
-                  />
-                </div>
-                <span class="category-list__item-heading category-list__item-heading--dark">
-                  {{ application.attributes.title }}
-                </span>
-              </div>
-            </a>
-          </ng-template>
         </li>
       </ul>
       <!-- view all (anchor) -->
-      <home-section-footer *featureFlag="'S39_innovation_view.fe'; else oldFooterView" [routerURL]="'/!showcase'" [text]="'Innovations.SeeAll'"></home-section-footer>
-        <ng-template #oldFooterView>
-            <home-section-footer [routerURL]="'/!application'" [text]="'Applications.SeeAll'"></home-section-footer>
-        </ng-template>
+      <home-section-footer [routerURL]="'/!showcase'" [text]="'Applications.SeeAll'"></home-section-footer>
     </div>
   </div>
 </section>

@@ -11,7 +11,6 @@ import {
   IAggregationProperties,
   IAggregationPropertiesForRegions,
   MultiselectOption,
-    MultiselectOptionForRegions
 } from '@app/services/models/filters';
 import moment from 'moment';
 
@@ -70,8 +69,12 @@ export class ListViewManageFiltersService {
    * @param {IAggregationProperties} selectedOption
    * @returns {MultiselectOption}
    */
-  changeMultiselectFilter(selectedIds: MultiselectOption | MultiselectOptionForRegions, selectedOption: IAggregationProperties | IAggregationPropertiesForRegions) {
+  changeMultiselectFilter(selectedIds: MultiselectOption, selectedOption: IAggregationProperties) {
     return this.multiselectFilterService.changeMultiselect(selectedIds, selectedOption);
+  }
+
+  changeSingleselectFilter(selectedOption: IAggregationPropertiesForRegions) {
+    return this.multiselectFilterService.changeSingleselect(selectedOption);
   }
 
   /**
@@ -80,7 +83,7 @@ export class ListViewManageFiltersService {
    * @param {MultiselectOption} initialData
    * @returns {boolean}
    */
-  checkIfMultiselectChanged(changedData: MultiselectOption | MultiselectOptionForRegions, initialData: MultiselectOption | MultiselectOptionForRegions): boolean {
+  checkIfMultiselectChanged(changedData: MultiselectOption, initialData: MultiselectOption): boolean {
     return this.multiselectFilterService.getAvailability(changedData, initialData);
   }
 

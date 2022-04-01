@@ -3,4 +3,15 @@
     padding-left: 0;
     list-style: none;
   }
+  .page-footer {
+    &__list-item {
+      color: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        color: #7bf;
+      }
+    }
+  }
 }

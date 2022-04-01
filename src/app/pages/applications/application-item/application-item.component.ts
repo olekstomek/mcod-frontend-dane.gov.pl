@@ -1,7 +1,6 @@
 import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { toggleVertically } from '@app/animations/toggle-vertically';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -100,7 +99,6 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
     private applicationsService: ApplicationsService,
     private seoService: SeoService,
     private listViewDetailsService: ListViewDetailsService,
-    private featureFlagService: FeatureFlagService,
   ) {}
 
   /**
@@ -126,11 +124,7 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
             sort: qParamMap.get('sort') || this.basicParams['sort'],
           };
 
-          if (this.featureFlagService.validateFlagSync('S40_innovation_routing.fe')) {
-            return this.applicationsService.getDatasets(this.application.id, this.params, 'showcases');
-          } else {
-            return this.applicationsService.getDatasets(this.application.id, this.params, 'application');
-          }
+          return this.applicationsService.getDatasets(this.application.id, this.params);
         }),
       )
       .subscribe(data => {

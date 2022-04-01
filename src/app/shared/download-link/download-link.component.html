@@ -1,67 +1,35 @@
-<ng-container *featureFlag="'S41_opennes_score_in_tooltip.fe'; else oldLinkView">
-  <a
-    *ngIf="fileUrl"
-    [ngClass]="customCssClass"
-    [routerLink]="['.']"
-    queryParamsHandling="preserve"
-    [title]="opennessScore ? 'Pobierz plik ' + (format ? (format | uppercase) : ('Action.Download' | translate)) : ''"
-    [appTooltip]="opennessScore ? 'Poziom otwartości pliku: ' : ''"
-    [levelDataOpennessTooltip]="opennessScore ? +opennessScore : null"
-  >
-    <!-- title (filename) -->
-    <span class="sr-only">{{ title }}</span>
+<a
+  *ngIf="fileUrl"
+  [ngClass]="customCssClass"
+  [routerLink]="['.']"
+  queryParamsHandling="preserve"
+  [title]="opennessScore ? 'Pobierz plik ' + (format ? (format | uppercase) : ('Action.Download' | translate)) : ''"
+  [appTooltip]="opennessScore ? 'Poziom otwartości pliku: ' : ''"
+  [levelDataOpennessTooltip]="opennessScore ? +opennessScore : null"
+>
+  <!-- title (filename) -->
+  <span class="sr-only">{{ title }}</span>
 
-    <!-- download prefix text -->
-    <span *ngIf="showDownloadText">{{ 'Action.Download' | translate }}{{ ' ' }}</span>
+  <!-- download prefix text -->
+  <span *ngIf="showDownloadText">{{ 'Action.Download' | translate }}{{ ' ' }}</span>
 
-    <!-- format -->
-    <ng-container *ngIf="format">
-      {{ format ? (format | uppercase) : ('Action.Download' | translate) }}
+  <!-- format -->
+  <ng-container *ngIf="format">
+    {{ format ? (format | uppercase) : ('Action.Download' | translate) }}
+  </ng-container>
+
+  <!-- file size -->
+  <ng-container *ngIf="fileSize !== null">
+    (<app-file-size [fileSize]="fileSize"></app-file-size>)
+
+    <!-- link -->
+    <span aria-hidden="true" *ngIf="!showDownloadText">>></span>
+
+    <!-- btn -->
+    <ng-container *ngIf="showDownloadText">
+      <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
+        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+      </svg>
     </ng-container>
-
-    <!-- file size -->
-    <ng-container *ngIf="fileSize !== null">
-      (<app-file-size [fileSize]="fileSize"></app-file-size>)
-
-      <!-- link -->
-      <span aria-hidden="true" *ngIf="!showDownloadText">>></span>
-
-      <!-- btn -->
-      <ng-container *ngIf="showDownloadText">
-        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-          <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-        </svg>
-      </ng-container>
-    </ng-container>
-  </a>
-</ng-container>
-
-<ng-template #oldLinkView>
-  <a *ngIf="fileUrl" [ngClass]="customCssClass" [routerLink]="['.']" queryParamsHandling="preserve">
-    <!-- title (filename) -->
-    <span class="sr-only">{{ title }}</span>
-
-    <!-- download prefix text -->
-    <span *ngIf="showDownloadText">{{ 'Action.Download' | translate }}{{ ' ' }}</span>
-
-    <!-- format -->
-    <ng-container *ngIf="format">
-      {{ format ? (format | uppercase) : ('Action.Download' | translate) }}
-    </ng-container>
-
-    <!-- file size -->
-    <ng-container *ngIf="fileSize !== null">
-      (<app-file-size [fileSize]="fileSize"></app-file-size>)
-
-      <!-- link -->
-      <span aria-hidden="true" *ngIf="!showDownloadText">>></span>
-
-      <!-- btn -->
-      <ng-container *ngIf="showDownloadText">
-        <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-          <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
-        </svg>
-      </ng-container>
-    </ng-container>
-  </a>
-</ng-template>
+  </ng-container>
+</a>

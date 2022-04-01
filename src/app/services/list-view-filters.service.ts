@@ -36,6 +36,7 @@ export class ListViewFiltersService {
         break;
       case AggregationFilterNames.HIGH_VALUE_DATA:
       case AggregationFilterNames.DYNAMIC_DATA:
+      case AggregationFilterNames.RESEARCH_DATA:
         filterNameWithSuffix = name + '[term]';
         break;
       default:

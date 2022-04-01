@@ -75,58 +75,8 @@ export class ApplicationComponent extends ListViewFilterPageAbstractComponent im
     protected featureFlagService: FeatureFlagService,
   ) {
     super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
-    if (this.featureFlagService.validateFlagSync('S39_innovation_view.fe')) {
-      this.Facets = [
-        AggregationOptionType.SHOWCASE_CATEGORY,
-        AggregationOptionType.SHOWCASE_TYPE,
-        AggregationOptionType.SHOWCASE_PLATFORMS,
-      ];
-    }
-  }
 
-  /**
-   * Updates query params on every user interaction
-   * @param params
-   * @param {QueryParamsHandling | null} method
-   */
-  // remove with S39_innovation_view.fe
-  updatingParams(params: any, method: QueryParamsHandling | null = 'merge') {
-    // empty search
-    if (!('sort' in params) && params['sort'] && 'q' in params && !(<string>params['q']).trim().length) {
-      return;
-    } else if ('sort' in params && !params['sort']) {
-      // default sort
-      params['sort'] = this.basicParams['sort'];
-    }
-
-    const updatedBasicParams = {
-      page: +this.params['page'] || this.basicParams['page'],
-      per_page: +this.params['per_page'] || this.basicParams['per_page'],
-      q: this.params['q'] || '',
-      sort: this.params['sort'] || '',
-    };
-
-    if (!('page' in params)) {
-      params['page'] = 1;
-    }
-
-    this.router.navigate([], {
-      queryParams: {
-        ...updatedBasicParams,
-        ...params,
-      },
-      queryParamsHandling: method,
-    });
-  }
-
-  /**
-   * Checks whether default page params already exist
-   * @param {Params} params
-   * @returns {boolean}
-   */
-  // remove with S39_innovation_view.fe
-  private allBasicParams(params: Params) {
-    return this.filterService.allBasicParamsIn(params, this.basicParams);
+    this.Facets = [AggregationOptionType.SHOWCASE_CATEGORY, AggregationOptionType.SHOWCASE_TYPE, AggregationOptionType.SHOWCASE_PLATFORMS];
   }
 
   /**
@@ -134,57 +84,37 @@ export class ApplicationComponent extends ListViewFilterPageAbstractComponent im
    * Initializes and updates list of items (applications) on query params change.
    */
   ngOnInit() {
-    if (this.featureFlagService.validateFlagSync('S39_innovation_view.fe')) {
-      this.seoService.setPageTitleByTranslationKey(['Menu.Showcases']);
-    } else {
-      this.seoService.setPageTitleByTranslationKey(['Menu.Applications']);
-    }
+    this.seoService.setPageTitleByTranslationKey(['Menu.Showcases']);
 
-    if (this.featureFlagService.validateFlagSync('S39_innovation_view.fe')) {
-      const newModel = this.getFiltersModel();
-      this.selectedFilters = { ...newModel };
-      this.backupSelectedFilters = { ...newModel };
-    }
+    const newModel = this.getFiltersModel();
+    this.selectedFilters = { ...newModel };
+    this.backupSelectedFilters = { ...newModel };
 
     this.activatedRoute.queryParams.subscribe((qParams: Params) => {
       let sort = '';
 
-      if (this.featureFlagService.validateFlagSync('S39_innovation_view.fe')) {
-        if (!this.allBasicParamsIn(qParams)) {
-          sort = qParams['q'] ? 'relevance' : this.basicParams['sort'];
-        }
-      } else {
-        if (!this.allBasicParams(qParams)) {
-          sort = qParams['q'] ? 'relevance' : this.basicParams['sort'];
-        }
+      if (!this.allBasicParamsIn(qParams)) {
+        sort = qParams['q'] ? 'relevance' : this.basicParams['sort'];
       }
 
       this.params = { ...qParams, ...this.filterService.updateBasicParams(qParams, this.basicParams, sort) };
 
       if (!qParams['model[terms]']) {
-        if (this.featureFlagService.validateFlagSync('S40_innovation_details.fe')) {
-          this.params['model[terms]'] = ApiModel.SHOWCASE;
-        } else {
-          this.params['model[terms]'] = ApiModel.APPLICATION;
-        }
+        this.params['model[terms]'] = ApiModel.SHOWCASE;
       }
 
-      if (this.featureFlagService.validateFlagSync('S39_innovation_view.fe')) {
-        const customParams = [{ key: 'model[terms]', value: ApiModel.SHOWCASE }];
-        if (this.filters) {
-          this.setSelectedFilters(qParams);
-        }
-
-        this.searchService
-          .getFilters(ApiConfig.search, this.Facets, customParams)
-          .subscribe((allFilters: IListViewFilterAggregationsOptions) => {
-            this.filters = allFilters;
-            this.setSelectedFilters(this.params);
-            this.getData();
-          });
-      } else {
-        this.getData();
+      const customParams = [{ key: 'model[terms]', value: ApiModel.SHOWCASE }];
+      if (this.filters) {
+        this.setSelectedFilters(qParams);
       }
+
+      this.searchService
+        .getFilters(ApiConfig.search, this.Facets, customParams)
+        .subscribe((allFilters: IListViewFilterAggregationsOptions) => {
+          this.filters = allFilters;
+          this.setSelectedFilters(this.params);
+          this.getData();
+        });
     });
   }
 

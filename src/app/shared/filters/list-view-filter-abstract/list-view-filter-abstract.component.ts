@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
-    FilterModel,
-    DaterangeFilterUpdated,
-    DaterangeFilterModel,
-    FiltersToSend,
-    AvailabilityFilterMap,
-    DaterangeFilterAvailability,
-    AggregationFilterNames,
-    AggregationOptionType,
-    IListViewFilterAggregationsOptions,
-    IAggregationProperties,
-    IAggregationPropertiesForRegions,
+  FilterModel,
+  DaterangeFilterUpdated,
+  DaterangeFilterModel,
+  FiltersToSend,
+  AvailabilityFilterMap,
+  DaterangeFilterAvailability,
+  AggregationFilterNames,
+  AggregationOptionType,
+  IListViewFilterAggregationsOptions,
+  IAggregationProperties,
+  IAggregationPropertiesForRegions,
 } from '@app/services/models/filters';
 import { ListViewManageFiltersService } from '@app/services/filters/list-view-manage-filters.service';
 
@@ -76,11 +76,19 @@ export class ListViewFilterAbstractComponent {
    * @param {IAggregationProperties} selectedOption
    */
   onSelectedChange(name: string, selectedOption: IAggregationProperties | IAggregationPropertiesForRegions) {
-    this.selectedData[name] = this.manageFiltersService.changeMultiselectFilter(this.selectedData[name], selectedOption) as any;
-    const shouldEnable: boolean = this.manageFiltersService.checkIfMultiselectChanged(
-      this.selectedData[name],
-      this.originalSelectedData[name],
-    );
+    let shouldEnable: boolean;
+    if (name === 'regions') {
+      this.selectedData[name] = this.manageFiltersService.changeSingleselectFilter(
+        selectedOption as IAggregationPropertiesForRegions,
+      ) as any;
+      shouldEnable = true;
+    } else {
+      this.selectedData[name] = this.manageFiltersService.changeMultiselectFilter(
+        this.selectedData[name],
+        selectedOption as IAggregationProperties,
+      ) as any;
+      shouldEnable = this.manageFiltersService.checkIfMultiselectChanged(this.selectedData[name], this.originalSelectedData[name]);
+    }
 
     this.availabilityFilterMap = { ...this.availabilityFilterMap, ...{ [name]: shouldEnable } };
   }

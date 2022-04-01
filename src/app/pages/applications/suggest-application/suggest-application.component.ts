@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { requireOneUrlValidator } from '@app/pages/applications/suggest-application/requireOneUrlValidator';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { zip } from 'rxjs';
 
 import { SeoService } from '@app/services/seo.service';
@@ -133,7 +132,6 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     private applicationsService: ApplicationsService,
     private notificationsService: NotificationsService,
     private cmsService: CmsService,
-    private featureFlagService: FeatureFlagService,
   ) {}
 
   /**
@@ -141,7 +139,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * Initializes form with predefined validators
    */
   ngOnInit() {
-    this.seoService.setPageTitleByTranslationKey(['Applications.NewSuggest']);
+    this.seoService.setPageTitleByTranslationKey(['Applications.Suggest']);
     this.initApplicationForm();
     this.getCmsInfoAndConsent();
   }
@@ -169,45 +167,38 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       is_personal_data_processing_accepted: new FormControl(false, Validators.requiredTrue),
       is_terms_of_service_accepted: new FormControl(false, Validators.requiredTrue),
       captcha: new FormControl(null, Validators.required),
+      category: new FormControl(null, Validators.required),
+      is_mobile_app: new FormControl(false),
+      myMobileUrlGroup: new FormGroup(
+        {
+          mobile_apple_url: new FormControl(null, [Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')]),
+          mobile_google_url: new FormControl(null, [
+            Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+          ]),
+        },
+        requireOneUrlValidator(),
+      ),
+      is_desktop_app: new FormControl(false),
+      myDesktopUrlGroup: new FormGroup(
+        {
+          desktop_linux_url: new FormControl(null, [
+            Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+          ]),
+          desktop_macos_url: new FormControl(null, [
+            Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+          ]),
+          desktop_windows_url: new FormControl(null, [
+            Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+          ]),
+        },
+        requireOneUrlValidator(),
+      ),
+      license_type: new FormControl('free', Validators.required),
     });
 
-    if (this.featureFlagService.validateFlagSync('S39_innovation_form.fe')) {
-      this.applicationForm = new FormGroup({
-        ...this.applicationForm.controls,
-        category: new FormControl(null, Validators.required),
-        is_mobile_app: new FormControl(false),
-        myMobileUrlGroup: new FormGroup(
-          {
-            mobile_apple_url: new FormControl(null, [
-              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
-            ]),
-            mobile_google_url: new FormControl(null, [
-              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
-            ]),
-          },
-          requireOneUrlValidator(),
-        ),
-        is_desktop_app: new FormControl(false),
-        myDesktopUrlGroup: new FormGroup(
-          {
-            desktop_linux_url: new FormControl(null, [
-              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
-            ]),
-            desktop_macos_url: new FormControl(null, [
-              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
-            ]),
-            desktop_windows_url: new FormControl(null, [
-              Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
-            ]),
-          },
-          requireOneUrlValidator(),
-        ),
-        license_type: new FormControl('free', Validators.required),
-      });
-      this.applicationForm.get('myMobileUrlGroup').disable();
-      this.applicationForm.get('myDesktopUrlGroup').disable();
-      this.ValueChangesUrlsGroup();
-    }
+    this.applicationForm.get('myMobileUrlGroup').disable();
+    this.applicationForm.get('myDesktopUrlGroup').disable();
+    this.ValueChangesUrlsGroup();
   }
 
   /**
@@ -303,46 +294,36 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       });
     }
 
-    if (this.featureFlagService.validateFlagSync('S39_innovation_form.fe')) {
-      // url groups - flat request
-
-      if (formValue['myDesktopUrlGroup']) {
-        formValue['desktop_linux_url'] = formValue['myDesktopUrlGroup'].desktop_linux_url
-          ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_linux_url)
-          : '';
-        formValue['desktop_macos_url'] = formValue['myDesktopUrlGroup'].desktop_macos_url
-          ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_macos_url)
-          : '';
-        formValue['desktop_windows_url'] = formValue['myDesktopUrlGroup'].desktop_windows_url
-          ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_windows_url)
-          : '';
-        delete formValue['myDesktopUrlGroup'];
-      }
-
-      if (formValue['myMobileUrlGroup']) {
-        formValue['mobile_apple_url'] = formValue['myMobileUrlGroup'].mobile_apple_url
-          ? this.addHttpIfMissing(formValue['myMobileUrlGroup'].mobile_apple_url)
-          : '';
-        formValue['mobile_google_url'] = formValue['myMobileUrlGroup'].mobile_google_url
-          ? this.addHttpIfMissing(formValue['myMobileUrlGroup'].mobile_google_url)
-          : '';
-        delete formValue['myMobileUrlGroup'];
-      }
-
-      this.applicationsService.suggest(formValue, 'showcases').subscribe(
-        () => (this.isSuggestionSent = true),
-        error => {
-          this.notificationsService.addError(error);
-        },
-      );
-    } else {
-      this.applicationsService.suggest(formValue, 'application').subscribe(
-        () => (this.isSuggestionSent = true),
-        error => {
-          this.notificationsService.addError(error);
-        },
-      );
+    // url groups - flat request
+    if (formValue['myDesktopUrlGroup']) {
+      formValue['desktop_linux_url'] = formValue['myDesktopUrlGroup'].desktop_linux_url
+        ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_linux_url)
+        : '';
+      formValue['desktop_macos_url'] = formValue['myDesktopUrlGroup'].desktop_macos_url
+        ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_macos_url)
+        : '';
+      formValue['desktop_windows_url'] = formValue['myDesktopUrlGroup'].desktop_windows_url
+        ? this.addHttpIfMissing(formValue['myDesktopUrlGroup'].desktop_windows_url)
+        : '';
+      delete formValue['myDesktopUrlGroup'];
     }
+
+    if (formValue['myMobileUrlGroup']) {
+      formValue['mobile_apple_url'] = formValue['myMobileUrlGroup'].mobile_apple_url
+        ? this.addHttpIfMissing(formValue['myMobileUrlGroup'].mobile_apple_url)
+        : '';
+      formValue['mobile_google_url'] = formValue['myMobileUrlGroup'].mobile_google_url
+        ? this.addHttpIfMissing(formValue['myMobileUrlGroup'].mobile_google_url)
+        : '';
+      delete formValue['myMobileUrlGroup'];
+    }
+
+    this.applicationsService.suggest(formValue).subscribe(
+      () => (this.isSuggestionSent = true),
+      error => {
+        this.notificationsService.addError(error);
+      },
+    );
   }
 
   addHttpIfMissing(url: string): string {

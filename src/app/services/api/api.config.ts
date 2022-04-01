@@ -17,9 +17,6 @@ export enum ApiConfig {
   userScheduleInstitution = '/auth/user_schedule_items/institutions/:id',
   userScheduleItemComments = '/auth/user_schedule_items/:id/comments',
   userScheduleItemCommentUpdate = '/auth/user_schedule_items/comments/:id/edit',
-  applications = '/applications', // remove with S40_innovation_routing.fe
-  applicationsDatasets = '/applications/:id/datasets',
-  suggestApplication = '/applications/suggest',
   showcases = '/showcases',
   showcasesDatasets = '/showcases/:id/datasets',
   suggestShowcases = '/showcases/suggest',

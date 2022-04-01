@@ -106,18 +106,7 @@
               app-footer-nav-link-internal
               [link]="'/!showcase'"
               [labelTranslationKey]="'Menu.Showcases'"
-              *featureFlag="'S40_innovation_routing.fe'; else oldAppView1"
             ></li>
-            <ng-template #oldAppView1>
-              <!-- Applications -->
-              <li
-                class="page-footer__list-item"
-                role="presentation"
-                app-footer-nav-link-internal
-                [link]="'/!application'"
-                [labelTranslationKey]="'Menu.Applications'"
-              ></li>
-            </ng-template>
 
             <!-- News -->
             <li
@@ -228,19 +217,7 @@
               app-footer-nav-link-internal
               [link]="'/!showcase/!suggest'"
               [labelTranslationKey]="'Applications.SuggestFooterName'"
-              *featureFlag="'S40_innovation_routing.fe'; else oldAppView2"
             ></li>
-
-            <ng-template #oldAppView2>
-              <!-- Suggest Application -->
-              <li
-                class="page-footer__list-item"
-                role="presentation"
-                app-footer-nav-link-internal
-                [link]="'/!application/!suggest'"
-                [labelTranslationKey]="'Applications.Suggest'"
-              ></li>
-            </ng-template>
 
             <!-- Survey -->
             <li

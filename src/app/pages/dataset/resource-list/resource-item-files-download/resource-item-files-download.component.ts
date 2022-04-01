@@ -1,7 +1,6 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { IDatasetFile } from '@app/services/models/dataset-resource';
 import { IDownloadFile } from '@app/services/models/download-item';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 @Component({
   selector: 'app-resource-item-files-download',
@@ -30,12 +29,10 @@ export class ResourceItemFilesDownloadComponent implements OnInit {
    */
   downloadFilesList: IDatasetFile[];
 
-  constructor(private featureFlagService: FeatureFlagService) {}
+  constructor() {}
 
   ngOnInit() {
-    if (this.featureFlagService.validateFlagSync('S41_opennes_score_in_tooltip.fe')) {
-      this.downloadFilesList = this.item.attributes?.files;
-    }
+    this.downloadFilesList = this.item.attributes?.files;
   }
 
   /**

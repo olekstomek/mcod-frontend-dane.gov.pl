@@ -13,6 +13,10 @@
         {{ categoryName }}
       </p>
 
+      <button class="btn btn-link btn-sm pl-0 font-weight-bold" (click)="toggleDetails = !toggleDetails">
+        {{ toggleDetails ? ('Applications.HideDetails' | translate) : ('Applications.ShowDetails' | translate) }}
+      </button>
+
       <!-- Show/Hide details -->
       <div *ngIf="toggleDetails" @toggleVertically>
         <!-- created -->
@@ -42,10 +46,6 @@
           {{ application?.attributes.license_type_name }}
         </p>
       </div>
-
-      <button class="btn btn-link btn-sm pl-0 font-weight-bold" (click)="toggleDetails = !toggleDetails">
-        {{ toggleDetails ? ('Applications.HideDetails' | translate) : ('Applications.ShowDetails' | translate) }}
-      </button>
 
       <hr />
 

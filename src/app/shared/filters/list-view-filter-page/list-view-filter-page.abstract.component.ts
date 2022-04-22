@@ -98,6 +98,11 @@ export abstract class ListViewFilterPageAbstractComponent {
    */
   readonly DateFields = [];
 
+  /**
+   * initial value for region input (after refresh if exists)
+   */
+  initialRegionValue: string;
+
   constructor(
     protected filterService: ListViewFiltersService,
     protected activatedRoute: ActivatedRoute,
@@ -127,6 +132,7 @@ export abstract class ListViewFilterPageAbstractComponent {
     if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
       if (filter.names === 'regions') {
         (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+        this.initialRegionValue = '';
       }
     }
 
@@ -191,6 +197,11 @@ export abstract class ListViewFilterPageAbstractComponent {
     this.backupSelectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFiltersCount = this.getSelectedFiltersCount();
+    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
+      if (this.selectedFilters.regions) {
+        this.initialRegionValue = this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].title;
+      }
+    }
   }
 
   /**
@@ -210,6 +221,7 @@ export abstract class ListViewFilterPageAbstractComponent {
       const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
       if (regionsSearchInput) {
         (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+        this.initialRegionValue = '';
       }
     }
   }

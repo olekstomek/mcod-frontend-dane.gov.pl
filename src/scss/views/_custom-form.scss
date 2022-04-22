@@ -58,11 +58,11 @@
 
   .form-group-invalid {
     label {
-      color: theme-color('danger');
+      color: #a91e2c;
     }
     .ng-invalid.ng-touched,
     .input-invalid-empty-text {
-      border-color: theme-color('danger');
+      border-color: #a91e2c;
     }
   }
 }

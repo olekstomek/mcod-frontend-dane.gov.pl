@@ -93,8 +93,29 @@
 .external-logos {
   &--cms-block {
     display: flex;
-    justify-content: space-between;
-    width: 30%;
+    justify-content: center;
+    width: 100%;
+
+    @include media-breakpoint-between(sm, md) {
+      justify-content: space-between;
+    }
+    @include media-breakpoint-only(xs) {
+      justify-content: space-between;
+    }
+
+    .cmsImage {
+      &--logo {
+        margin: 0 2rem;
+          @include media-breakpoint-only(xs) {
+              width: 100px;
+              margin: 0;
+          }
+        @include media-breakpoint-between(sm, md) {
+          width: auto;
+        }
+
+      }
+    }
   }
 }
 

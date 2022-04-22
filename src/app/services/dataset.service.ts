@@ -343,11 +343,13 @@ export class DatasetService extends RestService {
   /**
    * Get list of dataset for boundary box
    * @param {string} mapBoundsString
+   * @param {string} sortOption
    * @returns {Observable<any>}
    */
-  getDataFromBBox(mapBoundsString: string): Observable<any> {
+  getDataFromBBox(mapBoundsString: string, sortOption: string): Observable<any> {
     const param: any = {
       'regions[bbox][geo_shape]': mapBoundsString,
+      'sort': sortOption ? sortOption : '-date',
     };
 
     return this.get(ApiConfig.search, param);

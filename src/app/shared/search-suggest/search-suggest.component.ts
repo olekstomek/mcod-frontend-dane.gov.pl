@@ -104,9 +104,14 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
   }
 
   @Input('searchQuery') set searchText(value: string) {
-    this._searchText = decodeURIComponent(value.trim()); //value.trim();
+    this._searchText = decodeURIComponent(value.trim());
     this.searchTextChanged.next(this.searchText);
   }
+
+  /**
+   * initial value for region input (after refresh if exists)
+   */
+  @Input() initialValue;
 
   /**
    * Determines api models of data to search within
@@ -142,6 +147,21 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
   @Input() searchQueryRulesTooltipText: string;
 
   /**
+   * Active advanced setting
+   */
+  @Input('advancedSetting') activeSetting = SearchAdvancedSettings.ANY;
+
+  /**
+   * Sparql button visibility flag
+   */
+  @Input() isSparqlSearchButtonVisible: boolean;
+
+  /**
+   * API validation button visibility flag
+   */
+  @Input() isApiValidationButtonVisible: boolean;
+
+  /**
    * Emits new value on search
    */
   @Output() searchTrigger = new EventEmitter<{ [key: string]: string }>();
@@ -155,6 +175,10 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * Emits click event to move into search results for screen reader
    */
   @Output() moveToSearchResultTrigger = new EventEmitter();
+
+  @Input() isGeodataSearch = false;
+
+  @Output() regionListboxOption = new EventEmitter<SearchSuggestRegionListboxOption>();
 
   /**
    * Reference to the search query input
@@ -210,25 +234,6 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * validation API url
    */
   apiValidationUrl: string;
-
-  /**
-   * Active advanced setting
-   */
-  @Input('advancedSetting') activeSetting = SearchAdvancedSettings.ANY;
-
-  /**
-   * Sparql button visibility flag
-   */
-  @Input() isSparqlSearchButtonVisible: boolean;
-
-  /**
-   * API validation button visibility flag
-   */
-  @Input() isApiValidationButtonVisible: boolean;
-
-  @Input() isGeodataSearch = false;
-
-  @Output() regionListboxOption = new EventEmitter<SearchSuggestRegionListboxOption>();
 
   /**
    * @ignore

@@ -34,6 +34,11 @@ export class RegionsSearchComponent extends ListViewFilterPageAbstractComponent 
    */
   @Input() placeholderTranslationKey = 'Action.EnterRegion';
 
+  /**
+   * initial value for region input (after refresh if exists)
+   */
+  @Input() initialValue: string;
+
   @Output() enableApply = new EventEmitter<boolean>();
 
   @Output() selectedChange = new EventEmitter<IAggregationPropertiesForRegions>();

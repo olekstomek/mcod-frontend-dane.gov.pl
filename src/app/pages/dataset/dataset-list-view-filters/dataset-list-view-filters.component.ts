@@ -12,15 +12,12 @@ import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-f
 })
 export class DatasetListViewFiltersComponent extends ListViewFilterAbstractComponent {
   @Input() showHideMapButton = false;
+  @Input() initialValue: string;
   @Output() showMapEmit = new EventEmitter<boolean>();
   /**
    * invokes applyFilter from extended component with dataset filter names
    */
   applyFilter() {
     super.applyFilter(DatasetListViewFilterNames);
-  }
-
-  showMap(event) {
-    this.showMapEmit.emit(event);
   }
 }

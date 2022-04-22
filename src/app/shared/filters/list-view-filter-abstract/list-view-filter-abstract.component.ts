@@ -89,7 +89,6 @@ export class ListViewFilterAbstractComponent {
       ) as any;
       shouldEnable = this.manageFiltersService.checkIfMultiselectChanged(this.selectedData[name], this.originalSelectedData[name]);
     }
-
     this.availabilityFilterMap = { ...this.availabilityFilterMap, ...{ [name]: shouldEnable } };
   }
 

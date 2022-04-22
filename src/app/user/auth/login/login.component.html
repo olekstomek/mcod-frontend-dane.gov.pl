@@ -13,7 +13,9 @@
 
           <!-- EMAIL -->
           <div class="form-group" [ngClass]="{ 'form-group-invalid': !email.valid && email.touched }">
-            <label for="email">E-mail</label>
+            <label for="email">
+              E-mail <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
+            </label>
             <input
               type="email"
               class="form-control"
@@ -45,6 +47,7 @@
           <div class="form-group" [ngClass]="{ 'form-group-invalid': !password.valid && password.touched }">
             <label for="password">
               {{ 'User.Password' | translate }}
+              <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
             </label>
             <input
               type="password"

@@ -4,6 +4,34 @@
   width: 100%;
   z-index: 0;
 
+  .map-icons-container {
+    display: flex;
+    justify-content: space-between;
+    div {
+      display: flex;
+      align-items: end;
+    }
+    div:first-child img {
+      margin-right: 5px;
+    }
+    div:last-child img {
+      margin: 0 5px 0 40px;
+    }
+  }
+
+  .leaflet-popup-content-wrapper {
+    background-color: #0f2648;
+    color: #ffffff;
+    font-weight: 100;
+    border-radius: unset;
+  }
+  .leaflet-popup-content {
+    margin: 10px;
+  }
+  .leaflet-popup-tip-container {
+    display: none;
+  }
+
   .clusterText {
     background: transparent;
     color: white;

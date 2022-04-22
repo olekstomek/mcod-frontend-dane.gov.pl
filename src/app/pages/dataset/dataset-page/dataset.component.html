@@ -104,7 +104,8 @@
         [originalSelectedData]="backupSelectedFilters"
         [data]="selectedFilters"
         (applyFilters)="updateParams($event, null, true)"
-        [showHideMapButton]="selectedFiltersCount > 0 ? true: false"
+        [showHideMapButton]="selectedFiltersCount > 0 ? true : false"
+        [initialValue]="initialRegionValue"
         (showMapEmit)="showMap = $event"
       >
       </app-dataset-list-view-filters>
@@ -124,7 +125,23 @@
 
           <!-- Map for regions -->
           <div *featureFlag="'S43_geodata_map.fe'">
-            <app-regions-map *ngIf="showMap" [item]="selectedFilters" [aggregations]="mapAggregations" (hideMap)="showMap = !$event" (datasetFromMap)="getDataFromMap($event)"></app-regions-map>
+            <app-regions-map
+              *ngIf="showMap"
+              [item]="selectedFilters"
+              [aggregations]="mapAggregations"
+              [sortOption]="sortOption"
+              [refresh]="refreshMap"
+              (hideMap)="showMap = !$event"
+              (datasetFromMap)="getDataFromMap($event)"
+            ></app-regions-map>
+
+            <!-- show/hide map button -->
+            <button *ngIf="!showMap" type="button" class="btn btn-outline-primary" (click)="onShowMap()">
+              <svg class="icon icon-filter-map" aria-hidden="true">
+                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-filter-map"></use>
+              </svg>
+              {{ 'Map.MapView' | translate }}
+            </button>
           </div>
 
           <!-- counters and sort -->
@@ -135,6 +152,7 @@
             [selected]="params?.sort"
             [selectedModel]="params['model[terms]'] ? params['model[terms]'] : apiModel.DATASET + ',' + apiModel.RESOURCE"
             (update)="updateParams($event)"
+            (sortOption)="sortOption = $event"
             [counters]="[
               { label: 'Attribute.AllData' | translate, count: count, value: apiModel.DATASET + ',' + apiModel.RESOURCE, url: null },
               { label: 'Datasets.Self' | translate, count: counters?.datasets, value: apiModel.DATASET, url: null },

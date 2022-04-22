@@ -19,14 +19,10 @@
             <div class="category-list__item-content">
               <div class="category-list__image-wrapper">
                 <img
+                  *ngIf="application.attributes.image_thumb_url"
                   class="category-list__item-image"
                   src="{{ application.attributes.image_thumb_url }}"
-                  *ngIf="application.attributes.image_thumb_url"
-                  alt="{{
-                    application.attributes.image_alt
-                      ? application.attributes.image_alt
-                      : ('Applications.Logo' | translate) + ' ' + application.attributes.title
-                  }}"
+                  alt="{{ 'Applications.Logo' | translate }}"
                 />
               </div>
               <span class="category-list__item-heading category-list__item-heading--dark">

@@ -21,7 +21,7 @@
           ngModel
           name="q"
           #q="ngModel"
-          [(ngModel)]="searchText"
+          [(ngModel)]="initialValue ? initialValue : searchText"
           (keydown)="onKeydown($event)"
           (focusin)="onFocusIn()"
           aria-autocomplete="list"

@@ -24,28 +24,28 @@ export class TooltipDirective implements OnInit {
       originY: 'bottom',
       overlayX: 'center',
       overlayY: 'top',
-      offsetY: 6,
+      offsetY: -1,
     },
     top: {
       originX: 'center',
       originY: 'top',
       overlayX: 'center',
       overlayY: 'bottom',
-      offsetY: -6,
+      offsetY: 2,
     },
     left: {
       originX: 'start',
       originY: 'center',
       overlayX: 'end',
       overlayY: 'center',
-      offsetX: -6,
+      offsetX: 2,
     },
     right: {
       originX: 'end',
       originY: 'center',
       overlayX: 'start',
       overlayY: 'center',
-      offsetX: 6,
+      offsetX: -6,
     },
   };
 
@@ -91,6 +91,7 @@ export class TooltipDirective implements OnInit {
    * @type {OverlayRef}
    */
   private overlayRef: OverlayRef;
+  private isIn = false;
 
   constructor(
     private readonly overlay: Overlay,
@@ -112,10 +113,14 @@ export class TooltipDirective implements OnInit {
   /**
    * Hides tooltip on host mouse leave event
    */
-
   @HostListener('mouseleave')
   @HostListener('blur')
   onMouseLeave() {
+    if (!this.isIn) {
+      this.hide();
+    }
+  }
+  @HostListener('document:keydown.escape') onKeydownHandler() {
     this.hide();
   }
 
@@ -154,6 +159,13 @@ export class TooltipDirective implements OnInit {
 
     this.overlayRef.attach(userProfilePortal);
     this.renderer.setAttribute(this.elementRef.nativeElement, 'aria-describedby', 'app-tooltip');
+    this.overlayRef.hostElement.addEventListener('mouseenter', e => {
+      this.isIn = true;
+    });
+    this.overlayRef.hostElement.addEventListener('mouseleave', e => {
+      this.isIn = false;
+      this.hide();
+    });
   }
 
   /**

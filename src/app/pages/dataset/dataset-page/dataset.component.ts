@@ -27,6 +27,7 @@ import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
 import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-suggest';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * Dataset Component
@@ -93,10 +94,17 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    */
   showMap = false;
 
+  sortOption: string;
+
   /**
    * map aggregation array
    */
   mapAggregations: IAggregationArray;
+
+  /**
+   * refresh map after user chose a new location
+   */
+  refreshMap = new BehaviorSubject<any>(null);
 
   constructor(
     protected filterService: ListViewFiltersService,
@@ -168,7 +176,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     this.backupSelectedFilters = { ...newModel };
     this.isUserLoggedIn = this.userService.isLoggedIn();
 
-    const customParams = [{ key: 'model[terms]', value: 'dataset,resource' }];
+    let customParams = [{ key: 'model[terms]', value: 'dataset,resource' }];
 
     this.activatedRoute.queryParams.subscribe((qParams: Params) => {
       let sort = '';
@@ -190,6 +198,10 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
 
       if (this.filters) {
         this.setSelectedFilters(qParams);
+      }
+
+      if (qParams['regions[id][terms]'] && !customParams.find(elem => elem.key === 'filtered_facet[by_regions]')) {
+          customParams = [...customParams, { key: 'filtered_facet[by_regions]', value: qParams['regions[id][terms]'] }];
       }
 
       this.searchService
@@ -239,6 +251,9 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
 
       if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
         this.mapAggregations = response.aggregations;
+        if (this.showMap) {
+          this.refreshMap.next(true);
+        }
       }
     });
   }
@@ -277,7 +292,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.DATE_TO]: null,
       [AggregationFilterNames.REGIONS]: {},
       [AggregationFilterNames.DYNAMIC_DATA]: {},
-      [AggregationFilterNames.RESEARCH_DATA]: {}
+      [AggregationFilterNames.RESEARCH_DATA]: {},
     };
   }
 
@@ -335,5 +350,31 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
 
       return dataset;
     });
+  }
+  /**
+   * show map event
+   */
+  onShowMap() {
+    if (!this.mapAggregations.by_tiles) {
+      this.params = {
+        ...this.params,
+        'regions[id][terms]': '85633723',
+      };
+
+      this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+        this.mapAggregations = resp.aggregations;
+        this.selectedFilters[AggregationFilterNames.REGIONS] = {
+          '85633723': {
+            bbox: [
+              [14.122885, 54.836417],
+              [24.145783, 49.002047],
+            ],
+          },
+        };
+        this.showMap = true;
+      });
+    } else {
+      this.showMap = true;
+    }
   }
 }

@@ -227,7 +227,9 @@
     "WindowsStore": "Windows application",
     "Region": "Location",
     "DynamicData": "Dynamic data",
-    "ResearchData": "Research data"
+    "ResearchData": "Research data",
+    "Supplements": "Supporting documents",
+    "Description": "Description"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -587,9 +589,10 @@
     "Range": "Search radius",
     "Show": "Show location on map",
     "UserLocation": "provide your location",
-    "MapView": "Map View - See the map",
+    "MapView": "Open map",
     "ChangeRegion": "Change location",
-    "CloseMap": "Close map"
+    "CloseMap": "Close map",
+    "RefreshMap": "Refresh map"
   },
   "Menu": {
     "Self": "Menu",
@@ -891,6 +894,10 @@
         },
         "DownloadAll": {
           "text": "Selection of function enables download a compressed file  contains all the data (resource files) associated the dataset."
+        },
+        "Region": {
+          "title": "Location",
+          "text": "A summary of locations for a dataset that includes the name of a town or municipality or county or province."
         }
       },
       "DatasetItem": {
@@ -903,8 +910,16 @@
           "text": "Data that is subject to frequent updates due to its variability or rapid outdated."
         },
         "ResearchData": {
-          "title": "Filters - research data",
+          "title": "Research data",
           "text": "Public sector information recorded in electronic form, other than scientific publications, which have been produced or collected as part of scientific activity within the meaning of Article 4 of the Act of 20 July 2018 – Law on Higher Education and Science (Journal of Laws of 2021, item 478) and are used as evidence in the research process or serve to verify the correctness of findings and research results"
+        },
+        "Supplements": {
+          "title": "Supporting documents",
+          "text": "Additional data-related materials (e.g. manuals, API documentation)"
+        },
+        "Region": {
+          "title": "Location",
+          "text": "A summary of locations for a data that includes the name of a town or municipality or county or province."
         }
       },
       "Institutions": {
@@ -976,6 +991,10 @@
           "ResearchData": {
             "title": "Filters - research data",
             "text": "Public sector information recorded in electronic form, other than scientific publications, which have been produced or collected as part of scientific activity within the meaning of Article 4 of the Act of 20 July 2018 – Law on Higher Education and Science (Journal of Laws of 2021, item 478) and are used as evidence in the research process or serve to verify the correctness of findings and research results"
+          },
+          "Region": {
+            "title": "Location",
+            "text": "You can choose only one location that will affect the precise indication of the area when searching. Enter the name of the town or municipality or county or province. Confirm your choice with the \"Apply\" button."
           }
         }
       },

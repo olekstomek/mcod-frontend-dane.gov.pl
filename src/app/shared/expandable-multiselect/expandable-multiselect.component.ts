@@ -138,6 +138,11 @@ export class ExpandableMultiselectComponent {
   @Input() inputIndex: number;
 
   /**
+   * initial value for region input (after refresh if exists)
+   */
+  @Input() initialValue: string;
+
+  /**
    * event emitter for changing of selected filters
    */
   @Output() selectedChange = new EventEmitter<IAggregationProperties | IAggregationPropertiesForRegions>();
@@ -146,11 +151,6 @@ export class ExpandableMultiselectComponent {
    * event emitter for applying changes
    */
   @Output() applyFilter = new EventEmitter<void>();
-
-  /**
-   * event emitter for show map
-   */
-  @Output() showMap = new EventEmitter<boolean>();
 
   /**
    * sends new selected option
@@ -184,13 +184,6 @@ export class ExpandableMultiselectComponent {
    */
   triggerApply() {
     this.applyFilter.emit();
-  }
-
-  /**
-   * sends show map events
-   */
-  ShowMap() {
-    this.showMap.emit(true);
   }
 
   /**

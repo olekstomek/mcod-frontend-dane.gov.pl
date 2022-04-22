@@ -31,15 +31,7 @@
   >
     <div class="dropdown">
       <!-- search with suggestion -->
-      <app-regions-search (selectedChange)="selectItem($event)" (enableApply)="enableApply = $event"></app-regions-search>
-
-      <!-- show/hide map button -->
-      <button *ngIf="showHideMapButton" type="button" class="btn btn-outline-primary mt-2 w-100" (click)="ShowMap()">
-        <svg class="icon icon-filter-map" aria-hidden="true">
-          <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-filter-map"></use>
-        </svg>
-        {{ 'Map.MapView' | translate }}
-      </button>
+      <app-regions-search (selectedChange)="selectItem($event)" (enableApply)="enableApply = $event" [initialValue]="initialValue"></app-regions-search>
 
       <!-- additional actions - apply -->
       <app-list-view-filters-action-buttons

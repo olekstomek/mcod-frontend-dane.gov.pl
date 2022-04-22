@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Optional,
@@ -19,13 +20,13 @@ import { DatasetService } from '@app/services/dataset.service';
 import { LeafletService } from '@app/services/leflet.service';
 import { IAggregation, IAggregationArray } from '@app/services/models/map';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, first, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-regions-map',
   templateUrl: './regions-map.component.html',
 })
-export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   /**
    * API model
    */
@@ -137,6 +138,8 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   };
 
+  refreshMapButton = false;
+
   /**
    * dataset
    */
@@ -146,6 +149,16 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
    * aggregation array
    */
   @Input() aggregations: IAggregationArray;
+
+  /**
+   * sort option to search request
+   */
+  @Input() sortOption: string;
+
+  /**
+   * refresh map after user chose a new location
+   */
+  @Input() refresh: any;
 
   /**
    * emit to hide map button click
@@ -177,40 +190,54 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.markerEvent.unsubscribe();
   }
 
+  ngOnChanges(): void {
+    this.refresh.pipe(first()).subscribe(resp => {
+      if (resp) {
+        this.setMapBounds();
+        this.clustersLayer.clearLayers();
+        this.aggregationClustersLayer.clearLayers();
+        this.setBBoxAndMarker();
+        this.prepareDataForMap(this.aggregations);
+        this.setMarkerEvent();
+      }
+    });
+  }
+
   /**
-   * Add new map, set boundaries based on dataset, add center mark
+   * Add new map, set boundaries based on dataset
    */
   ngAfterViewInit(): void {
     this.map = this.leafletService.createMap(this.mapRef, this.leafletOptions);
-    this.map.fitBounds(this.mapBounds);
-    this.rectangle = this.leafletService.rectangle(this.mapBounds, this.rectangleStyle).addTo(this.map);
+    this.setBBoxAndMarker();
+    this.map.addLayer(this.clustersLayer);
     this.actualZoom = this.map.getZoom();
     this.leafletService.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', this.mapOptions).addTo(this.map);
-    this.centerPoint = this.map.getCenter();
-    this.marker = this.leafletService.marker(this.centerPoint, this.markerProperties).addTo(this.map);
-    this.map.addLayer(this.clustersLayer);
     this.prepareDataForMap(this.aggregations);
     this.leafletService.eventedInclude(this.rxjsWrapperForMapEvent);
-    this.setEvents();
+    this.setMapEvent();
+    this.setMarkerEvent();
   }
 
-  setEvents() {
-    this.mapEvent = this.map['observable']('moveend')
-      .pipe(
-        debounceTime(500),
-        switchMap(() => {
-          this.actualZoom = this.map.getZoom();
-          this.mapBounds = this.map.getBounds();
-          this.mapBoundsString = this.setMapBoundsString();
+  /**
+   * set to map bbox, marker and add to layer group
+   */
+  setBBoxAndMarker(): void {
+    this.map.fitBounds(this.mapBounds);
+    this.rectangle = this.leafletService.rectangle(this.mapBounds, this.rectangleStyle).addTo(this.map);
+    this.centerPoint = this.map.getCenter();
+    this.marker = this.leafletService.marker(this.centerPoint, this.markerProperties).addTo(this.map);
+    this.clustersLayer.addLayer(this.rectangle).addLayer(this.marker);
+  }
 
-          return this.datasetService.getDataFromBBox(this.mapBoundsString);
-        }),
-      )
-      .subscribe(response => {
-        this.setMapData(response);
-        this.centerPoint = this.map.getCenter();
-      });
+  setMapEvent(): void {
+    this.mapEvent = this.map['observable']('moveend').subscribe(() => {
+      if (!this.refreshMapButton) {
+        this.refreshMapButton = true;
+      }
+    });
+  }
 
+  setMarkerEvent(): void {
     this.markerEvent = this.marker['observable']('click').subscribe(() => {
       this.setMapBounds();
       this.map.fitBounds(this.mapBounds);
@@ -224,7 +251,20 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.hideMap.emit(true);
   }
 
-  setMapBounds() {
+  /**
+   * button click to get data and refresh map
+   */
+  onRefreshMap(): void {
+    this.actualZoom = this.map.getZoom();
+    this.mapBounds = this.map.getBounds();
+    this.mapBoundsString = this.setMapBoundsString();
+    this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption).subscribe(resp => {
+      this.setMapData(resp);
+      this.centerPoint = this.map.getCenter();
+    });
+  }
+
+  setMapBounds(): void {
     const southWest = this.item.regions[Object.keys(this.item.regions)[0]].bbox[0];
     const northEast = this.item.regions[Object.keys(this.item.regions)[0]].bbox[1];
     this.mapBounds = this.leafletService.latLngBounds([southWest[1], southWest[0]], [northEast[1], northEast[0]]);
@@ -265,12 +305,22 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy {
       [aggregation.centroid[1], aggregation.centroid[0]],
       this.circleAggregationStyle,
     );
+    const template = `<div class="map-icons-container">\
+          <div><img src="assets/icomoon/SVG/zbior-danych.svg" /> ${aggregation.datasets_count} zbiory danych</div>\
+          <div><img src="assets/icomoon/SVG/dane.svg" /> ${aggregation.resources_count} dane</div></div>`;
     aggregationCircle.bindTooltip(`${aggregation.doc_count}`, {
       permanent: true,
       direction: 'center',
       opacity: 1,
       zoomAnimation: true,
       className: 'clusterText',
+    });
+    aggregationCircle.bindPopup(template, { closeButton: false, minWidth: 200, closeOnClick: false });
+    aggregationCircle.addEventListener('mouseover', function () {
+      aggregationCircle.openPopup();
+    });
+    aggregationCircle.addEventListener('mouseout', function () {
+      aggregationCircle.closePopup();
     });
     this.aggregationClustersLayer.addLayer(aggregationCircle);
     this.aggregationClustersLayer.addTo(this.map);

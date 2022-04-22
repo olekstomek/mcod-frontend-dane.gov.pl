@@ -80,7 +80,7 @@
 
               <!-- title - required error -->
               <small
-                class="form-text text-danger"
+                class="form-text text-err"
                 id="title_required_error"
                 *ngIf="applicationForm.controls.title.invalid && applicationForm.controls.title.touched"
                 @toggleVertically
@@ -118,7 +118,7 @@
               <ng-container *ngIf="applicationForm.controls.url.invalid && applicationForm.controls.url.touched">
                 <!-- required error -->
                 <small
-                  class="form-text text-danger"
+                  class="form-text text-err"
                   role="alert"
                   id="url_required_error"
                   *ngIf="applicationForm.get('url').errors['required']"
@@ -129,7 +129,7 @@
 
                 <!-- invalid url error -->
                 <small
-                  class="form-text text-danger"
+                  class="form-text text-err"
                   role="alert"
                   id="url_invalid_error"
                   *ngIf="applicationForm.get('url').errors['pattern']"
@@ -142,7 +142,7 @@
 
             <!-- application type -->
             <div *ngIf="selected === 'app' && selected !== 'other'" class="form-group">
-              <label for="title">
+              <label tabindex="0">
                 {{ 'ApplicationForm.ApplicationType' | translate }}
               </label>
               <ul class="dropdown__list-custom">
@@ -208,7 +208,7 @@
 
                       <!-- invalid pattern url error -->
                       <small
-                        class="form-text text-danger form-text-inline form-text-inline-1"
+                        class="form-text text-err form-text-inline form-text-inline-1"
                         role="alert"
                         id="mobile_apple_url_invalid_error"
                         *ngIf="
@@ -256,7 +256,7 @@
 
                       <!-- invalid pattern url error -->
                       <small
-                        class="form-text text-danger form-text-inline form-text-inline-2"
+                        class="form-text text-err form-text-inline form-text-inline-2"
                         role="alert"
                         id="mobile_google_url_invalid_error"
                         *ngIf="
@@ -271,7 +271,7 @@
 
                     <!-- at least one url must be fill error -->
                     <small
-                      class="form-text text-danger"
+                      class="form-text text-err"
                       id="is_mobile_app_required_error"
                       *ngIf="
                         applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull &&
@@ -345,7 +345,7 @@
 
                       <!-- invalid pattern url error -->
                       <small
-                        class="form-text text-danger form-text-inline form-text-inline-3"
+                        class="form-text text-err form-text-inline form-text-inline-3"
                         role="alert"
                         id="desktop_windows_url_invalid_error"
                         *ngIf="
@@ -392,7 +392,7 @@
 
                       <!-- invalid pattern url error -->
                       <small
-                        class="form-text text-danger form-text-inline form-text-inline-4"
+                        class="form-text text-err form-text-inline form-text-inline-4"
                         role="alert"
                         id="desktop_linux_url_invalid_error"
                         *ngIf="
@@ -439,7 +439,7 @@
 
                       <!-- invalid pattern url error -->
                       <small
-                        class="form-text text-danger form-text-inline form-text-inline-5"
+                        class="form-text text-err form-text-inline form-text-inline-5"
                         role="alert"
                         id="desktop_macos_url_invalid_error"
                         *ngIf="
@@ -454,7 +454,7 @@
 
                     <!-- at least one url must be fill error -->
                     <small
-                      class="form-text text-danger"
+                      class="form-text text-err"
                       id="is_desktop_app_required_error"
                       *ngIf="
                         applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull &&
@@ -477,7 +477,7 @@
                 'form-group-invalid': applicationForm.controls.license_type.invalid && applicationForm.controls.license_type.touched
               }"
             >
-              <label for="title">
+              <label tabindex="0">
                 {{ 'ApplicationForm.LicenceType' | translate }}
                 <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
               </label>
@@ -529,7 +529,7 @@
               <ng-container *ngIf="applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched">
                 <!-- required error -->
                 <small
-                  class="form-text text-danger"
+                  class="form-text text-err"
                   role="alert"
                   id="notes_required_error"
                   *ngIf="applicationForm.get('notes').errors['required']"
@@ -540,7 +540,7 @@
 
                 <!-- max length error -->
                 <small
-                  class="form-text text-danger"
+                  class="form-text text-err"
                   role="alert"
                   id="notes_maxlength_error"
                   *ngIf="applicationForm.get('notes').errors['maxlength']"
@@ -598,7 +598,7 @@
 
               <!-- author - required error -->
               <small
-                class="form-text text-danger"
+                class="form-text text-err"
                 id="author_required_error"
                 *ngIf="applicationForm.controls.author.invalid && applicationForm.controls.author.touched"
                 @toggleVertically
@@ -676,7 +676,7 @@
                 <!-- invalid error -->
                 <ng-container *ngIf="applicationForm.get('datasets')?.controls[i].controls.dataset.invalid">
                   <small
-                    class="form-text text-danger w-100"
+                    class="form-text text-err w-100"
                     role="alert"
                     id="dataset_invalid_error"
                     *ngIf="applicationForm.get('datasets')?.controls[i].controls.dataset?.errors['invalid']"
@@ -768,7 +768,7 @@
               <!-- invalid url -->
               <p class="clearfix m-0">
                 <small
-                  class="form-text text-danger pb-2"
+                  class="form-text text-err pb-2"
                   id="external_datasets_url_error"
                   *ngIf="applicationForm.controls.external_datasets.invalid && applicationForm.controls.external_datasets.touched"
                   @toggleVertically
@@ -838,7 +838,7 @@
 
               <!-- Email - required error -->
               <small
-                class="form-text text-danger"
+                class="form-text text-err"
                 id="applicant_email_error"
                 *ngIf="applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched"
                 @toggleVertically
@@ -892,7 +892,7 @@
 
               <!-- is_personal_data_processing_accepted - required error -->
               <small
-                class="form-text text-danger"
+                class="form-text text-err"
                 id="is_personal_data_processing_accepted_error"
                 *ngIf="
                   applicationForm.controls.is_personal_data_processing_accepted.invalid &&
@@ -942,7 +942,7 @@
 
               <!-- is_terms_of_service_accepted - required error -->
               <small
-                class="form-text text-danger"
+                class="form-text text-err"
                 id="is_terms_of_service_accepted_error"
                 *ngIf="
                   applicationForm.controls.is_terms_of_service_accepted.invalid &&

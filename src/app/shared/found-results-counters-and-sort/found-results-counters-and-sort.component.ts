@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { Params } from '@angular/router';
 import { PageParams } from '@app/services/models/page-params';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 interface IComponentOptions {
-    label: string;
-    count: string;
-    value?: string;
-    url?: string;
-    param?: Params;
+  label: string;
+  count: string;
+  value?: string;
+  url?: string;
+  param?: Params;
 }
 
 /**
@@ -25,79 +26,87 @@ interface IComponentOptions {
  * </app-found-results-counters-and-sort>
  */
 @Component({
-    selector: 'app-found-results-counters-and-sort',
-    templateUrl: './found-results-counters-and-sort.component.html'
+  selector: 'app-found-results-counters-and-sort',
+  templateUrl: './found-results-counters-and-sort.component.html',
 })
 export class FoundResultsCountersAndSortComponent implements OnChanges {
+  /**
+   * Selected item on sort dropdown
+   */
+  @Input() selected: string;
 
-    /**
-     * Selected item on sort dropdown
-     */
-    @Input() selected: string;
+  /**
+   * selected model
+   */
 
-    /**
-     * selected model
-     */
+  @Input() selectedModel: string;
 
-    @Input() selectedModel: string;
+  /**
+   * Sort options
+   */
+  @Input() sortOptions: IComponentOptions[];
 
-    /**
-     * Sort options
-     */
-    @Input() sortOptions: IComponentOptions[];
+  /**
+   * Counters to display
+   */
+  @Input() counters: IComponentOptions[];
 
-    /**
-     * Counters to display
-     */
-    @Input() counters: IComponentOptions[];
+  /**
+   * Tooltip text
+   * @type {string}
+   */
+  @Input() tooltipText: string;
 
-    /**
-     * Tooltip text
-     * @type {string}
-     */
-    @Input() tooltipText: string;
+  /**
+   * Tooltip title
+   * @type {string}
+   */
+  @Input() tooltipTitle: string;
 
-    /**
-     * Tooltip title
-     * @type {string}
-     */
-    @Input()
-    tooltipTitle: string;
+  /**
+   * Update param event emitter
+   */
+  @Output() update: EventEmitter<PageParams> = new EventEmitter();
 
-    /**
-     * Update param event emitter
-     */
-    @Output() update: EventEmitter<PageParams> = new EventEmitter;
+  /**
+   * Sort option param event emitter
+   */
+  @Output() sortOption: EventEmitter<string> = new EventEmitter();
 
-    /**
-     * Determines whether sort value is valid
-     */
-    isSortValid: boolean;
+  /**
+   * Determines whether sort value is valid
+   */
+  isSortValid: boolean;
 
-    /**
-     * Emits new params
-     * @param {Params} params
-     * @param {boolean} isFoundParam
-     */
-    updateParams(params: PageParams, isFoundParam = false) {
-        const isSameFoundParamSelected = isFoundParam && params['model[terms]'] === this.selectedModel;
-        if (!isSameFoundParamSelected) {
-            this.update.emit(params);
-        }
+  constructor(protected featureFlagService: FeatureFlagService) {}
+
+  /**
+   * Emits new params
+   * @param {Params} params
+   * @param {boolean} isFoundParam
+   */
+  updateParams(params: PageParams, isFoundParam = false) {
+    const isSameFoundParamSelected = isFoundParam && params['model[terms]'] === this.selectedModel;
+    if (!isSameFoundParamSelected) {
+      this.update.emit(params);
+      if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
+        this.sortOption.emit(params.sort);
+      }
+    }
+  }
+
+  /**
+   * Determines whether provided sort value exists on the list of sort options.
+   * Filters out counters with '0' value
+   * @param {SimpleChanges} changes
+   */
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selected) {
+      this.isSortValid = !!this.sortOptions.find(option => option.value === changes.selected.currentValue);
     }
 
-    /**
-     * Determines whether provided sort value exists on the list of sort options.
-     * Filters out counters with '0' value
-     * @param {SimpleChanges} changes
-     */
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.selected) {
-            this.isSortValid = !!this.sortOptions.find(option => option.value === changes.selected.currentValue);
-        }
-
-        if (changes.counters && changes.counters.currentValue instanceof Array) {
-            this.counters = changes.counters.currentValue.filter((counter: IComponentOptions) => !!counter['count']) as IComponentOptions[];
-        }
+    if (changes.counters && changes.counters.currentValue instanceof Array) {
+      this.counters = changes.counters.currentValue.filter((counter: IComponentOptions) => !!counter['count']) as IComponentOptions[];
     }
+  }
 }

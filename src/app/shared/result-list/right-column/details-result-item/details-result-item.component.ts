@@ -14,6 +14,9 @@ export class DetailsResultItemComponent implements OnInit {
    * icon name based on category
    */
   categoryIcon: string;
+
+  iconName: string;
+
   /**
    * array with data which will be displayed
    */
@@ -49,6 +52,11 @@ export class DetailsResultItemComponent implements OnInit {
    */
   @Input() isSearchShowcaseView = false;
 
+  /**
+   * check if is dataset view
+   */
+  @Input() isDatasetView = false;
+
   ngOnInit() {
     switch (this.showcaseCategoryKey) {
       case 'app':
@@ -59,6 +67,15 @@ export class DetailsResultItemComponent implements OnInit {
         break;
       case 'other':
         this.categoryIcon = 'ic-inne';
+        break;
+    }
+
+    switch (this.titleTranslationKey) {
+      case 'Datasets.Single':
+        this.iconName = 'dataset';
+        break;
+      case 'Resources.Single':
+        this.iconName = 'resource';
         break;
     }
   }

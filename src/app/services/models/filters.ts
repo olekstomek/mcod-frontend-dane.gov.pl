@@ -9,8 +9,9 @@ export interface IAggregationPropertiesForRegions {
   bbox?: [];
   hierarchy_label?: string;
   region_id: number;
-  title: string;
+  title?: string;
   areaTranslationKey?: string;
+  doc_count?: number;
 }
 
 export enum AggregationOptionType {
@@ -34,6 +35,7 @@ export enum AggregationOptionType {
   SHOWCASE_PLATFORMS = 'by_showcase_platforms',
   DYNAMIC_DATA = 'by_has_dynamic_data',
   RESEARCH_DATA = 'by_has_research_data',
+  REGIONS = 'by_regions',
 }
 
 export enum AggregationFilterNames {
@@ -72,6 +74,7 @@ export interface IListViewFilterAggregationsOptions {
   [AggregationOptionType.SHOWCASE_PLATFORMS]?: IAggregationProperties[];
   [AggregationOptionType.DYNAMIC_DATA]?: IAggregationProperties[];
   [AggregationOptionType.RESEARCH_DATA]?: IAggregationProperties[];
+  [AggregationOptionType.REGIONS]?: IAggregationPropertiesForRegions[];
 }
 
 export interface IDatasetListViewFilterAggregationsOptions {

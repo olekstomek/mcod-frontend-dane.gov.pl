@@ -9,7 +9,9 @@
   }
 }
 
-.custom-form label, .item-view__header {
+.custom-form label,
+.item-view__header,
+.data-item-view__header {
   .info-tooltip {
     width: 20px;
     height: 20px;

@@ -7,26 +7,6 @@
     {{ 'Filters.Self' | translate }}
   </h2>
 
-  <!-- Region -->
-  <app-expandable-multiselect
-    *featureFlag="'S42_geodata_search.fe'"
-    id="dataset-location-filter"
-    [isGeodataSearch]="true"
-    [titleTranslationKey]="'Attribute.Region'"
-    [titleTooltipTranslationKey]="'Attribute.CategoryTooltip'"
-    [selectedIds]="selectedData[FiltersNames.REGIONS]"
-    [displayShowMore]="false"
-    [placeholderTranslationKey]="'Action.EnterRegion'"
-    [maxLength]="maxLength"
-    [ariaLabel]="'region-filter-label'"
-    [enableApply]="availabilityFilterMap[FiltersNames.REGIONS]"
-    [showHideMapButton]="showHideMapButton && selectedData[FiltersNames.REGIONS]"
-    (applyFilter)="applyFilter()"
-    (selectedChange)="onSelectedChange(FiltersNames.REGIONS, $event)"
-    (showMap)="showMap($event)"
-  >
-  </app-expandable-multiselect>
-
   <!-- Categories -->
   <app-expandable-multiselect
     id="dataset-category-filter"
@@ -56,6 +36,27 @@
     (selectedChange)="onSelectedChange(FiltersNames.INSTITUTION, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'institution'"
+  >
+  </app-expandable-multiselect>
+
+  <!-- Region -->
+  <app-expandable-multiselect
+    *featureFlag="'S42_geodata_search.fe'"
+    id="dataset-location-filter"
+    [isGeodataSearch]="true"
+    [titleTranslationKey]="'Attribute.Region'"
+    [titleTooltipTranslationKey]="'Attribute.CategoryTooltip'"
+    [selectedIds]="selectedData[FiltersNames.REGIONS]"
+    [displayShowMore]="false"
+    [placeholderTranslationKey]="'Action.EnterRegion'"
+    [maxLength]="maxLength"
+    [ariaLabel]="'region-filter-label'"
+    [enableApply]="availabilityFilterMap[FiltersNames.REGIONS]"
+    [showHideMapButton]="showHideMapButton && selectedData[FiltersNames.REGIONS]"
+    (applyFilter)="applyFilter()"
+    (selectedChange)="onSelectedChange(FiltersNames.REGIONS, $event)"
+    (showMap)="showMap($event)"
+    [initialValue]="initialValue"
   >
   </app-expandable-multiselect>
 

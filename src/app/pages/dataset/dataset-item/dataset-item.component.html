@@ -1,5 +1,5 @@
 <!-- DETAILS: HEADER -->
-<header class="item-view__header vertical-spacing" *ngIf="dataset?.attributes">
+<header class="data-item-view__header vertical-spacing" *ngIf="dataset?.attributes">
   <div class="container">
     <h1 class="heading" *ngIf="dataset.attributes.title">
       {{ dataset.attributes.title }}
@@ -15,8 +15,9 @@
     >
     </app-dataset-metadata>
 
-    <!-- keywords -->
-    <collapsible-text *ngIf="dataset.attributes.notes" [tags]="keywords" [text]="dataset.attributes.notes"> </collapsible-text>
+    <!-- keywords and notes -->
+    <collapsible-text *ngIf="dataset.attributes.notes" [tags]="keywords" [text]="dataset.attributes.notes" [isCollapsedDown]="true">
+    </collapsible-text>
 
     <!-- logo -->
     <div class="pt-2" *ngIf="dataset.attributes.image_url">
@@ -26,6 +27,34 @@
         src="{{ dataset.attributes.image_url }}"
         alt="{{ dataset.attributes.image_alt || 'Logo - ' + dataset.attributes.title }}"
       />
+    </div>
+
+    <!-- regions -->
+    <div *featureFlag="'S42_geodata_search.fe'">
+      <div *ngIf="regionsList.length > 0">
+        <hr />
+        <strong
+          appInfoTooltip="{{ 'Tour.Tooltip.DatasetDetails.Region.text' | translate }}"
+          tooltipTitle="{{ 'Tour.Tooltip.DatasetDetails.Region.title' | translate }}"
+          >{{ 'Attribute.Region' | translate }}:
+        </strong>
+        <button
+          class="btn btn-link py-0"
+          [attr.aria-controls]="isExpanded ? 'regions-container' : null"
+          [attr.aria-pressed]="isExpanded"
+          (click)="isExpanded = !isExpanded"
+        >
+          {{ (isExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
+        </button>
+        <div *ngIf="isExpanded" @toggleVertically class="pt-3" id="regions-container">
+          <ul class="list-unstyled">
+            <li *ngFor="let region of regionsList; let last = last" class="d-inline-flex mr-5">
+              <span>{{ region.hierarchy_label }}</span>
+              <span *ngIf="!last" class="ml-5">|</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </header>

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 import { IRawText } from '@app/services/models/cms/widgets/raw-text';
 import { IRawTextObject } from '@app/services/models/cms/controls/raw-text/raw-text-object';
@@ -16,7 +16,7 @@ import { FeatureFlagService } from '@app/services/feature-flag.service';
   selector: 'cms-raw-text',
   templateUrl: './raw-text.component.html',
 })
-export class RawTextComponent extends WidgetAbstractComponent implements OnInit {
+export class RawTextComponent extends WidgetAbstractComponent implements OnInit, AfterViewInit {
   /**
    * Text to display
    */
@@ -99,13 +99,15 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit 
         this.classes = this.rawText.general.classes;
         this.IsListFooterNav(this.rawText.general.classes);
       }
+    }
+  }
 
-      if (
-        document.querySelector('a.page-footer__list-item.btn-write-us') &&
-        document.querySelector('a.page-footer__list-item.btn-link-rodo')
-      ) {
-        this.cmsService.footerNavIsExist(true);
-      }
+  ngAfterViewInit() {
+    if (
+      document.querySelector('a.page-footer__list-item.btn-write-us') &&
+      document.querySelector('a.page-footer__list-item.btn-link-rodo')
+    ) {
+      this.cmsService.footerNavIsExist(true);
     }
   }
 

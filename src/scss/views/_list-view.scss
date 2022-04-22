@@ -80,6 +80,20 @@
       margin-bottom: 0.5rem;
     }
 
+    &__custom-heading {
+      display: flex;
+      align-items: flex-start;
+      font-size: 1.05rem;
+
+      p {
+        margin: 0 0 0 5px;
+      }
+
+      img {
+        width: 23px;
+      }
+    }
+
     &__list {
       font-size: 0.875rem;
     }

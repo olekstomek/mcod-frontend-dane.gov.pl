@@ -3,6 +3,8 @@ import { LatLngExpression } from 'leaflet';
 export interface IAggregation {
   tile_name: string;
   doc_count: number;
+  resources_count: number;
+  datasets_count: number;
   centroid: number[];
   shapes: IGeoShape[];
 }

@@ -1,6 +1,13 @@
 <div class="result-item-attributes">
-  <div *ngIf="titleTranslationKey" class="result-item-attributes__heading">
-    {{ titleTranslationKey | translate }}
+  <div
+    *ngIf="titleTranslationKey"
+    class="result-item-attributes__heading"
+    [ngClass]="isDatasetView ? 'result-item-attributes__custom-heading' : ''"
+  >
+    <ng-container *featureFlag="'S43_geodata_map.fe'">
+      <img *ngIf="isDatasetView" [src]="'assets/icomoon/SVG/' + iconName + '.svg'" alt="" />
+    </ng-container>
+    <p>{{ titleTranslationKey | translate }}</p>
   </div>
 
   <div class="result-item-attributes__list">

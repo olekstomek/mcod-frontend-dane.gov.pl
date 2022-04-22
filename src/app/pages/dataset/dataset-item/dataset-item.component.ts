@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs';
@@ -160,6 +161,13 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
    */
   items: any[] = [];
 
+  regionsList: [];
+
+  /**
+   * Current state - is not expanded
+   */
+  isExpanded = false;
+
   /**
    * @ignore
    */
@@ -173,6 +181,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     private schemaDataService: SchemaDataService,
     private modalService: BsModalService,
     private listViewDetailsService: ListViewDetailsService,
+    private featureflagService: FeatureFlagService,
   ) {}
 
   /**
@@ -190,6 +199,10 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     this.dataset = dataset;
     this.selfApi = this.dataset.links.self;
     this.isExistsZipFileForDownload = this.dataset.attributes.archived_resources_files_url ? true : false;
+
+    if (this.featureflagService.validateFlagSync('S43_geodata_map.fe')) {
+      this.regionsList = this.dataset.attributes.regions.filter(region => region.is_additional === false);
+    }
 
     if (this.dataset.attributes.source && this.dataset.attributes.source.type === 'ckan') {
       this.basicParams.sort = '-created';

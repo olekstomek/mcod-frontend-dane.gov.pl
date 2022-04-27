@@ -1,9 +1,8 @@
 <app-result-list [items]="items">
   <ng-template let-item>
-    <!-- after remove S46_articles_form_cms.fe change detailsUrl to item.attributes.slug -->
     <app-default-result-item
       [item]="item"
-      [detailsUrl]="item.attributes.html_url && item.attributes.url_path ? item.attributes.slug : item.id + ',' + item.attributes.slug"
+      [detailsUrl]="item.attributes.slug"
     ></app-default-result-item>
   </ng-template>
 

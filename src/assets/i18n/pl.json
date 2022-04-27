@@ -225,7 +225,7 @@
     "IosStore": "aplikacji iOS",
     "LinuxStore": "aplikacji Linux",
     "WindowsStore": "aplikacji Windows",
-    "Region": "Lokalizacja",
+    "Region": "Lokalizacja danych",
     "DynamicData": "Dane dynamiczne",
     "ResearchData": "Dane badawcze",
     "Supplements": "Dokumenty uzupełniające",
@@ -894,10 +894,6 @@
         },
         "DownloadAll": {
           "text": "Wybór funkcji umożliwia pobranie skompresowanego pliku zawierającego wszystkie dane (pliki zasobów) powiązanych ze zbiorem danych."
-        },
-        "Region": {
-          "title": "Lokalizacja",
-          "text": "Zestawienie lokalizacji dla zbioru danych uwzględniające nazwę miejscowości lub gminy lub powiatu lub województwa."
         }
       },
       "DatasetItem": {
@@ -916,10 +912,6 @@
         "Supplements": {
           "title": "Dokumenty uzupełniające",
           "text": "Materiały dodatkowe związane z danymi (np. instrukcje, dokumentacja API)"
-        },
-        "Region": {
-          "title": "Lokalizacja",
-          "text": "Zestawienie lokalizacji dla danych uwzględniające nazwę miejscowości lub gminy lub powiatu lub województwa."
         }
       },
       "Institutions": {
@@ -993,8 +985,8 @@
             "text": "Informacje sektora publicznego utrwalone w postaci elektronicznej, inne niż publikacje naukowe, które zostały wytworzone lub zgromadzone w ramach działalności naukowej w rozumieniu art. 4 ustawy z dnia 20 lipca 2018 r. – Prawo o szkolnictwie wyższym i nauce (Dz. U. z 2021 r. poz. 478) i są wykorzystywane jako dowody w procesie badawczym lub służą weryfikacji poprawności ustaleń i wyników badań"
           },
           "Region": {
-            "title": "Lokalizacja",
-            "text": "Możesz wybrać tylko jedną lokalizację, która wpłynie na precyzyjne wskazanie obszaru przy wyszukiwaniu. Wpisz nazwę miejscowości lub gminę lub powiatu lub województwa. Swój wybór potwierdź przyciskiem \"Zastosuj\"."
+            "title": "Lokalizacja danych",
+            "text": "Zasięg terytorialny danych"
           }
         }
       },

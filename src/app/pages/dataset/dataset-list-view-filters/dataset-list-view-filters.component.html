@@ -55,7 +55,6 @@
     [showHideMapButton]="showHideMapButton && selectedData[FiltersNames.REGIONS]"
     (applyFilter)="applyFilter()"
     (selectedChange)="onSelectedChange(FiltersNames.REGIONS, $event)"
-    (showMap)="showMap($event)"
     [initialValue]="initialValue"
   >
   </app-expandable-multiselect>

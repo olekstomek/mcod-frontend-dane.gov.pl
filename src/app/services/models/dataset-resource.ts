@@ -4,3 +4,10 @@ export interface IDatasetFile {
   format?: string;
   openness_score?: number;
 }
+
+export interface IDatasetRegionsList {
+    hierarchy_label: string;
+    is_additional: boolean;
+    name: string;
+    region_id: string;
+}

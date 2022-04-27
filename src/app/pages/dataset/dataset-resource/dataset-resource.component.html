@@ -109,11 +109,11 @@
 
     <!-- regions -->
     <div *featureFlag="'S42_geodata_search.fe'">
-      <div *ngIf="regionsList.length > 0">
+      <div *ngIf="regionsList.length > 0 && isNotRegionPoland">
         <hr />
         <strong
-          appInfoTooltip="{{ 'Tour.Tooltip.DatasetItem.Region.text' | translate }}"
-          tooltipTitle="{{ 'Tour.Tooltip.DatasetItem.Region.title' | translate }}"
+          appInfoTooltip="{{ 'Tour.Tooltip.Filters.Attribute.Region.text' | translate }}"
+          tooltipTitle="{{ 'Tour.Tooltip.Filters.Attribute.Region.title' | translate }}"
           >{{ 'Attribute.Region' | translate }}:
         </strong>
         <button

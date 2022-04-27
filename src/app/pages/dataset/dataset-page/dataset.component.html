@@ -131,7 +131,9 @@
               [aggregations]="mapAggregations"
               [sortOption]="sortOption"
               [refresh]="refreshMap"
+              [isDefaultLocation]="isDefaultLocation"
               (hideMap)="showMap = !$event"
+              (removeFilters)="resetSelectedFilters()"
               (datasetFromMap)="getDataFromMap($event)"
             ></app-regions-map>
 
@@ -189,7 +191,7 @@
                 [totalItems]="count"
                 [(page)]="params.page"
                 (numPages)="numPages = $event"
-                (pageChange)="updateParams({ page: $event })"
+                (pageChange)="updateParams({ page: $event, isMapOpen: showMap })"
               >
               </app-pagination>
 

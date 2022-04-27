@@ -3,7 +3,7 @@ import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { IDatasetFile } from '@app/services/models/dataset-resource';
+import { IDatasetFile, IDatasetRegionsList } from '@app/services/models/dataset-resource';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { zip } from 'rxjs';
 
@@ -120,7 +120,15 @@ export class DatasetResourceComponent implements OnInit {
    */
   isRegionsExpanded = false;
 
-  regionsList: [];
+  /**
+   * Dataset regions list
+   */
+  regionsList: IDatasetRegionsList[];
+
+  /**
+   * Show container if exist regions without Poland
+   */
+  isNotRegionPoland: boolean;
 
   /**
    * @ignore
@@ -154,6 +162,7 @@ export class DatasetResourceComponent implements OnInit {
 
     if (this.featureflagService.validateFlagSync('S43_geodata_map.fe')) {
       this.regionsList = this.resource.attributes.regions.filter(region => region.is_additional === false);
+      this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
     }
 
     zip(

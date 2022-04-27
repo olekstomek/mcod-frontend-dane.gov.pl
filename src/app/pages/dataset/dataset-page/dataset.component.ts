@@ -92,7 +92,12 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   /**
    * show map button
    */
-  showMap = false;
+  showMap: boolean;
+
+  /**
+   * set default location to Poland when open map without choice location in filter
+   */
+  isDefaultLocation: boolean;
 
   sortOption: string;
 
@@ -200,8 +205,12 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
         this.setSelectedFilters(qParams);
       }
 
-      if (qParams['regions[id][terms]'] && !customParams.find(elem => elem.key === 'filtered_facet[by_regions]')) {
-          customParams = [...customParams, { key: 'filtered_facet[by_regions]', value: qParams['regions[id][terms]'] }];
+      if (
+        qParams['regions[id][terms]'] &&
+        !customParams.find(elem => elem.key === 'filtered_facet[by_regions]') &&
+        !this.selectedFilters[AggregationFilterNames.REGIONS][Object.keys(this.selectedFilters[AggregationFilterNames.REGIONS])[0]]
+      ) {
+        customParams = [...customParams, { key: 'filtered_facet[by_regions]', value: qParams['regions[id][terms]'] }];
       }
 
       this.searchService
@@ -217,14 +226,14 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   /**
    * Move to search results list for screen reader
    */
-  moveToSearchResult() {
+  moveToSearchResult(): void {
     document.getElementById('search-counters-label').focus();
   }
 
   /**
    * Back to search input for screen reader
    */
-  backToSearchControl() {
+  backToSearchControl(): void {
     const elem = <HTMLElement>document.getElementsByClassName('search-suggest__input')[0];
     elem.focus();
   }
@@ -232,7 +241,13 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   /**
    * Gets list of datasets
    */
-  protected getData() {
+  protected getData(): void {
+    if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
+      if (this.params['isMapOpen'] === 'true') {
+        this.preparedParamsForDefaultLocation();
+      }
+    }
+
     this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
       let results = response.results ? response.results : [];
       this.counters = response.aggregations.counters;
@@ -254,6 +269,13 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
         if (this.showMap) {
           this.refreshMap.next(true);
         }
+        if (this.params['isMapOpen'] === 'true') {
+          if (!this.params['regions[id][terms]']) {
+            this.setParamsForMap(true);
+          } else {
+            this.setParamsForMap(false);
+          }
+        }
       }
     });
   }
@@ -261,7 +283,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   /**
    * Gets list of datasets from boundary box
    */
-  getDataFromMap(event) {
+  getDataFromMap(event): void {
     if (event.data) {
       this.items = this.listViewDetailsService.extendViewDetails(event.data);
       this.counters = event.meta.aggregations.counters;
@@ -269,6 +291,35 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.cdrf.detectChanges();
     } else {
       this.items = null;
+    }
+  }
+
+  /**
+   * show map event
+   */
+  onShowMap(): void {
+    if (this.featureFlagService.validateFlagSync('S49_geodata_map_aggregation.fe')) {
+      if (!this.mapAggregations.map_by_regions) {
+        this.preparedParamsForDefaultLocation();
+
+        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+          this.mapAggregations = resp.aggregations;
+          this.setParamsForMap(true);
+        });
+      } else {
+        this.setParamsForMap(false);
+      }
+    } else {
+      if (!this.mapAggregations.by_tiles) {
+        this.preparedParamsForDefaultLocation();
+
+        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+          this.mapAggregations = resp.aggregations;
+          this.setParamsForMap(true);
+        });
+      } else {
+        this.setParamsForMap(false);
+      }
     }
   }
 
@@ -351,30 +402,33 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       return dataset;
     });
   }
+
   /**
-   * show map event
+   * prepared params for Poland location if location filter is unset
    */
-  onShowMap() {
-    if (!this.mapAggregations.by_tiles) {
+  private preparedParamsForDefaultLocation(): void {
+    if (!this.params['regions[id][terms]']) {
       this.params = {
         ...this.params,
         'regions[id][terms]': '85633723',
       };
-
-      this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-        this.mapAggregations = resp.aggregations;
-        this.selectedFilters[AggregationFilterNames.REGIONS] = {
-          '85633723': {
-            bbox: [
-              [14.122885, 54.836417],
-              [24.145783, 49.002047],
-            ],
-          },
-        };
-        this.showMap = true;
-      });
-    } else {
-      this.showMap = true;
+      this.selectedFilters[AggregationFilterNames.REGIONS] = {
+        '85633723': {
+          bbox: [
+            [14.122885, 54.836417],
+            [24.145783, 49.002047],
+          ],
+        },
+      };
     }
+  }
+
+  /**
+   * set parameters for map
+   * @param {boolean} isDefaultLocation
+   */
+  private setParamsForMap(isDefaultLocation: boolean): void {
+    this.showMap = true;
+    this.isDefaultLocation = isDefaultLocation;
   }
 }

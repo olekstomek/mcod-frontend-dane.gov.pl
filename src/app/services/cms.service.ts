@@ -95,6 +95,7 @@ export class CmsService {
               attributes: {
                 author: child.author,
                 created: child.meta.first_published_at,
+                modify: child.meta.last_published_at,
                 title: child.title,
                 notes: child.body,
                 keywords: child.tags,
@@ -122,6 +123,7 @@ export class CmsService {
           attributes: {
             author: resp['author'],
             created: resp['meta'].first_published_at,
+            modify: resp['meta'].last_published_at,
             title: resp['title'],
             notes: resp['body'],
             keywords: resp['tags'],

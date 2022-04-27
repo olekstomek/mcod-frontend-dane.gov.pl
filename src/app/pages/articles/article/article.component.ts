@@ -93,20 +93,17 @@ export class ArticleComponent implements OnInit {
       };
 
       if (this.featureflagService.validateFlagSync('S46_articles_form_cms.fe')) {
-        if (qParams['q']) {
-          if (!qParams['model[terms]']) {
-            this.params['model[terms]'] = ApiModel.NEWS;
-          }
-        } else {
-          this.params = {
-            ...this.params,
-            ...{
-              children_per_page: +qParams['per_page'] || this.basicParams['per_page'],
-              children_page: +qParams['page'] || this.basicParams['page'],
-              children_extra_fields: 'body,author,tags',
-            },
-          };
+        if (!qParams['model[terms]']) {
+          this.params['model[terms]'] = ApiModel.NEWS;
         }
+        this.params = {
+          ...this.params,
+          ...{
+            children_per_page: +qParams['per_page'] || this.basicParams['per_page'],
+            children_page: +qParams['page'] || this.basicParams['page'],
+            children_extra_fields: 'body,author,tags',
+          },
+        };
       } else {
         this.params = {
           ...this.params,
@@ -189,23 +186,9 @@ export class ArticleComponent implements OnInit {
    * Gets list of articles
    */
   private getData() {
-    if (this.featureflagService.validateFlagSync('S46_articles_form_cms.fe')) {
-      if (this.params.q) {
-        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-          this.items = resp.results;
-          this.count = resp.count;
-        });
-      } else {
-        this.cmsService.getAllNewsWidgets(this.params).subscribe(resp => {
-          this.items = resp.data;
-          this.count = resp.children_count;
-        });
-      }
-    } else {
-      this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
-        this.items = response.results;
-        this.count = response.count;
-      });
-    }
+    this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+      this.items = resp.results;
+      this.count = resp.count;
+    });
   }
 }

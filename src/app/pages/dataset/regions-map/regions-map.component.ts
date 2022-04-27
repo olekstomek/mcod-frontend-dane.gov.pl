@@ -13,6 +13,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { LatLngBounds, Map, Marker, Rectangle } from 'leaflet';
 
 import { ApiModel } from '@app/services/api/api-model';
@@ -161,6 +162,11 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
   @Input() refresh: any;
 
   /**
+   * set default location to Poland when open map without choice location in filter
+   */
+  @Input() isDefaultLocation: boolean;
+
+  /**
    * emit to hide map button click
    */
   @Output() hideMap = new EventEmitter<boolean>();
@@ -171,12 +177,18 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
   @Output() datasetFromMap = new EventEmitter<any>();
 
   /**
+   * emit remove active filters when click refresh map button
+   */
+  @Output() removeFilters = new EventEmitter<boolean>();
+
+  /**
    * Map container reference
    */
   @ViewChild('mapRef') mapRef: ElementRef;
 
   constructor(
     private datasetService: DatasetService,
+    private featureFlagService: FeatureFlagService,
     @Optional() private leafletService: LeafletService,
     @Inject(DOCUMENT) private document: Document,
   ) {}
@@ -230,11 +242,29 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
   }
 
   setMapEvent(): void {
-    this.mapEvent = this.map['observable']('moveend').subscribe(() => {
-      if (!this.refreshMapButton) {
-        this.refreshMapButton = true;
-      }
-    });
+    if (this.isDefaultLocation) {
+      this.mapEvent = this.map['observable']('moveend')
+        .pipe(
+          debounceTime(500),
+          switchMap(() => {
+            this.actualZoom = this.map.getZoom();
+            this.mapBounds = this.map.getBounds();
+            this.mapBoundsString = this.setMapBoundsString();
+
+            return this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption);
+          }),
+        )
+        .subscribe(response => {
+          this.setMapData(response);
+          this.centerPoint = this.map.getCenter();
+        });
+    } else {
+      this.mapEvent = this.map['observable']('moveend').subscribe(() => {
+        if (!this.refreshMapButton) {
+          this.refreshMapButton = true;
+        }
+      });
+    }
   }
 
   setMarkerEvent(): void {
@@ -261,6 +291,12 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption).subscribe(resp => {
       this.setMapData(resp);
       this.centerPoint = this.map.getCenter();
+      this.refreshMapButton = false;
+      this.isDefaultLocation = true;
+      this.clustersLayer.clearLayers();
+      this.mapEvent.unsubscribe();
+      this.setMapEvent();
+      this.removeFilters.emit(true);
     });
   }
 
@@ -291,7 +327,12 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
   }
 
   private prepareDataForMap(aggregations: IAggregationArray): void {
-    this.aggregationsGrid = aggregations.by_tiles;
+    if (this.featureFlagService.validateFlagSync('S49_geodata_map_aggregation.fe')) {
+      this.aggregationsGrid = aggregations.map_by_regions;
+    } else {
+      this.aggregationsGrid = aggregations.by_tiles;
+    }
+
     if (this.aggregationsGrid) {
       this.aggregationsGrid.map(aggregation => {
         this.displayAggregationCircles(aggregation);
@@ -305,7 +346,11 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
       [aggregation.centroid[1], aggregation.centroid[0]],
       this.circleAggregationStyle,
     );
-    const template = `<div class="map-icons-container">\
+    const firstName = aggregation.region_name.indexOf(',');
+    const restName = aggregation.region_name.indexOf(',') + 1;
+    const template = `<div>${firstName !== -1 ? aggregation.region_name.slice(0, firstName) : aggregation.region_name},</div>
+          <div class="map-region-name">${aggregation.region_name.slice(restName)}</div>
+          <div class="map-icons-container">\
           <div><img src="assets/icomoon/SVG/zbior-danych.svg" /> ${aggregation.datasets_count} zbiory danych</div>\
           <div><img src="assets/icomoon/SVG/dane.svg" /> ${aggregation.resources_count} dane</div></div>`;
     aggregationCircle.bindTooltip(`${aggregation.doc_count}`, {

@@ -198,7 +198,7 @@ export abstract class ListViewFilterPageAbstractComponent {
     this.selectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFiltersCount = this.getSelectedFiltersCount();
     if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      if (this.selectedFilters.regions) {
+      if (this.selectedFilters.regions && !this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].hierarchy_label) {
         this.initialRegionValue = this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].title;
       }
     }

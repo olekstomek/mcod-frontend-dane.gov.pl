@@ -41,7 +41,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.featureflagService.validateFlagSync('S46_articles_form_cms.fe')) {
       this.articlesSubstription = this.cmsService
-        .getAllNewsWidgets({ children_page: 1, children_per_page: 3, sort: '-created', children_extra_fields: 'body,author,tags' })
+        .getAllNewsWidgets({ children_page: 1, children_per_page: 3, children_sort: '-first_published_at', children_extra_fields: 'body,author,tags' })
         .subscribe(news => (this.items = news.data));
     } else {
       this.articlesSubstription = this.articlesService

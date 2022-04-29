@@ -35,9 +35,10 @@ export interface ICategoryPageParams extends BasicPageParams {
 }
 
 export interface INewsPageParams extends BasicPageParams {
-    children_per_page?: number;
-    children_page?: number;
-    children_extra_fields?: string;
+  children_per_page?: number;
+  children_page?: number;
+  children_extra_fields?: string;
+  children_sort?: string;
 }
 
 export interface IHasImageThumbParams extends BasicPageParams {

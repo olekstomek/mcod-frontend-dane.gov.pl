@@ -77,6 +77,16 @@
       {{ 'DatasetRestrictions.LicenseType' | translate }}: <span class="font-weight-bold">{{ dataset.attributes.license_name }}</span>
     </p>
 
+    <ng-container *featureFlag="'S50_cc_by_40_conditions.fe'">
+      <ul class="font-weight-bold" *ngIf="dataset.attributes?.current_condition_descriptions.license_condition_custom_description">
+        <li>{{ dataset.attributes?.current_condition_descriptions.license_condition_custom_description }}</li>
+      </ul>
+      <div
+        *ngIf="dataset.attributes?.license_condition_custom_description"
+        [innerHTML]="dataset.attributes?.license_condition_custom_description | sanitizeHtml"
+      ></div>
+    </ng-container>
+
     <p>
       {{ 'DatasetRestrictions.LinkToLicense' | translate }}:
       <a href="{{ license.link }}">{{ license.link }}</a>

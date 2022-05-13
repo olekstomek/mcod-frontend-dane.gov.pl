@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
+import { IDatasetRegionsList } from '@app/services/models/dataset-resource';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -161,12 +162,22 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
    */
   items: any[] = [];
 
-  regionsList: [];
+  regionsList: IDatasetRegionsList[];
 
   /**
    * Current state - is not expanded
    */
   isExpanded = false;
+
+  /**
+   * Current supplement state - is not expanded
+   */
+  isSupplementExpanded = false;
+
+  /**
+   * Show container if exist regions without Poland
+   */
+  isNotRegionPoland: boolean;
 
   /**
    * @ignore
@@ -202,6 +213,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
 
     if (this.featureflagService.validateFlagSync('S43_geodata_map.fe')) {
       this.regionsList = this.dataset.attributes.regions.filter(region => region.is_additional === false);
+      this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
     }
 
     if (this.dataset.attributes.source && this.dataset.attributes.source.type === 'ckan') {

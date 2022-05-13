@@ -114,7 +114,7 @@ export abstract class ListViewFilterPageAbstractComponent {
    * Clears selected filter and updates query
    * @param { SelectedFilter} filter
    */
-  clearSelectedFilter(filter: SelectedFilter) {
+  clearSelectedFilter(filter: SelectedFilter, isMapOpen?: boolean) {
     switch (filter.names) {
       case 'has_high_value_data':
         this.disabledCheckbox(0);
@@ -128,19 +128,19 @@ export abstract class ListViewFilterPageAbstractComponent {
         }
         break;
     }
-
-    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      if (filter.names === 'regions') {
-        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
-        this.initialRegionValue = '';
-      }
-    }
-
-    const updatedQueryParams: PageParams = this.selectedFiltersService.removeSelectedFilter(
+    let updatedQueryParams: PageParams = this.selectedFiltersService.removeSelectedFilter(
       filter,
       this.activatedRoute.snapshot.queryParams,
       this.backupSelectedFilters,
     );
+    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
+      if (filter.names === 'regions') {
+        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+        this.initialRegionValue = '';
+        updatedQueryParams = { ...updatedQueryParams, isMapOpen: isMapOpen };
+      }
+    }
+
     this.filterService.updateParams(updatedQueryParams, null, this.basicParams, this.params);
   }
 

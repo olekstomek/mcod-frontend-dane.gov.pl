@@ -119,7 +119,7 @@
             [selectedIds]="backupSelectedFilters"
             [selectedFiltersCount]="selectedFiltersCount"
             (clearAllFilters)="clearSelectedFilters()"
-            (clearSingleFilter)="clearSelectedFilter($event)"
+            (clearSingleFilter)="clearSelectedFilter($event, showMap)"
           >
           </app-dataset-selected-filters>
 
@@ -130,10 +130,11 @@
               [item]="selectedFilters"
               [aggregations]="mapAggregations"
               [sortOption]="sortOption"
+              [paramQ]="params.q"
               [refresh]="refreshMap"
               [isDefaultLocation]="isDefaultLocation"
-              (hideMap)="showMap = !$event"
-              (removeFilters)="resetSelectedFilters()"
+              (hideMap)="onHideMap($event)"
+              (removeFilters)="clearSelectedFilter({names: 'regions', key: '',  isDate: false}, showMap)"
               (datasetFromMap)="getDataFromMap($event)"
             ></app-regions-map>
 
@@ -183,7 +184,7 @@
           <footer class="results-footer" *ngIf="count">
             <div class="d-flex justify-content-between align-items-center">
               <!-- results per page -->
-              <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+              <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event, isMapOpen: showMap })"> </app-items-per-page>
 
               <!-- pagination -->
               <app-pagination

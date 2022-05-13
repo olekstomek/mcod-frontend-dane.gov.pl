@@ -894,6 +894,10 @@
         },
         "DownloadAll": {
           "text": "Selection of function enables download a compressed file  contains all the data (resource files) associated the dataset."
+        },
+        "Supplements": {
+          "title": "Supporting documents",
+          "text": "Additional materials related to the collection (e.g. manuals, API documentation)"
         }
       },
       "DatasetItem": {

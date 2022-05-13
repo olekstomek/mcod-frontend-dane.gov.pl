@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
+import { AggregationFilterNames } from '@app/services/models/filters';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalStorageService } from 'ngx-localstorage';
@@ -346,11 +347,39 @@ export class DatasetService extends RestService {
    * @param {string} sortOption
    * @returns {Observable<any>}
    */
-  getDataFromBBox(mapBoundsString: string, sortOption: string): Observable<any> {
-    const param: any = {
+  getDataFromBBox(mapBoundsString: string, sortOption: string, paramQ: string, filters?): Observable<any> {
+    let filterNameWithSuffix: string;
+    let id: number;
+    let param: any = {
       'regions[bbox][geo_shape]': mapBoundsString,
-      'sort': sortOption ? sortOption : '-date',
+      sort: sortOption ? sortOption : '-date',
+      q: paramQ ? paramQ : '',
     };
+
+    if (filters) {
+      let name: string;
+      filters.forEach(filter => {
+        name = filter[0];
+        id = filter[1][Object.keys(filter[1])[0]].id;
+
+        switch (name) {
+          case AggregationFilterNames.CATEGORIES:
+          case AggregationFilterNames.INSTITUTION:
+          case AggregationFilterNames.REGIONS:
+            filterNameWithSuffix = name + '[id][terms]';
+            break;
+          case AggregationFilterNames.HIGH_VALUE_DATA:
+          case AggregationFilterNames.DYNAMIC_DATA:
+          case AggregationFilterNames.RESEARCH_DATA:
+            filterNameWithSuffix = name + '[term]';
+            break;
+          default:
+            filterNameWithSuffix = name + '[terms]';
+            break;
+        }
+        param[filterNameWithSuffix] = id;
+      });
+    }
 
     return this.get(ApiConfig.search, param);
   }

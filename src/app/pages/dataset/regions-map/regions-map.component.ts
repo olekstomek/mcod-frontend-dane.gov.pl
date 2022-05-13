@@ -85,17 +85,6 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
   };
 
   /**
-   * Marker properties
-   */
-  markerProperties = {
-    icon: this.leafletService.icon({
-      iconUrl: 'assets/icomoon/SVG/pin-pop.svg',
-      className: 'smallPin',
-    }),
-    keyboard: false,
-  };
-
-  /**
    * Emergency Poland bounds in case of api failures
    */
   polandBounds = {
@@ -141,6 +130,8 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
 
   refreshMapButton = false;
 
+  changeBbox: boolean;
+
   /**
    * dataset
    */
@@ -155,6 +146,11 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
    * sort option to search request
    */
   @Input() sortOption: string;
+
+  /**
+   * param q from input to search request
+   */
+  @Input() paramQ: string;
 
   /**
    * refresh map after user chose a new location
@@ -199,18 +195,22 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
 
   ngOnDestroy(): void {
     this.mapEvent.unsubscribe();
-    this.markerEvent.unsubscribe();
   }
 
   ngOnChanges(): void {
-    this.refresh.pipe(first()).subscribe(resp => {
-      if (resp) {
-        this.setMapBounds();
+    this.refresh.pipe(debounceTime(500), first()).subscribe(resp => {
+      if (resp.ref) {
+        this.changeBbox = resp.changeBbox;
+        if (this.mapEvent) {
+          this.mapEvent.unsubscribe();
+        }
         this.clustersLayer.clearLayers();
         this.aggregationClustersLayer.clearLayers();
-        this.setBBoxAndMarker();
+        this.setMapBounds();
         this.prepareDataForMap(this.aggregations);
-        this.setMarkerEvent();
+        this.setMapEvent();
+        this.map.fitBounds(this.mapBounds);
+        this.setBBoxAndMarker();
       }
     });
   }
@@ -220,6 +220,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
    */
   ngAfterViewInit(): void {
     this.map = this.leafletService.createMap(this.mapRef, this.leafletOptions);
+    this.map.fitBounds(this.mapBounds);
     this.setBBoxAndMarker();
     this.map.addLayer(this.clustersLayer);
     this.actualZoom = this.map.getZoom();
@@ -227,18 +228,15 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     this.prepareDataForMap(this.aggregations);
     this.leafletService.eventedInclude(this.rxjsWrapperForMapEvent);
     this.setMapEvent();
-    this.setMarkerEvent();
   }
 
   /**
    * set to map bbox, marker and add to layer group
    */
   setBBoxAndMarker(): void {
-    this.map.fitBounds(this.mapBounds);
     this.rectangle = this.leafletService.rectangle(this.mapBounds, this.rectangleStyle).addTo(this.map);
     this.centerPoint = this.map.getCenter();
-    this.marker = this.leafletService.marker(this.centerPoint, this.markerProperties).addTo(this.map);
-    this.clustersLayer.addLayer(this.rectangle).addLayer(this.marker);
+    this.clustersLayer.addLayer(this.rectangle);
   }
 
   setMapEvent(): void {
@@ -247,15 +245,20 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
         .pipe(
           debounceTime(500),
           switchMap(() => {
+            this.changeBBoxIfNeeded();
             this.actualZoom = this.map.getZoom();
-            this.mapBounds = this.map.getBounds();
-            this.mapBoundsString = this.setMapBoundsString();
+            const convert = Object.entries(this.item);
+            const filters = convert.filter(([key, value]) => key !== 'regions' && value);
 
-            return this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption);
+            if (filters.length > 0) {
+              return this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ, filters);
+            } else {
+              return this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ);
+            }
           }),
         )
         .subscribe(response => {
-          this.setMapData(response);
+          this.setMapData(response, false);
           this.centerPoint = this.map.getCenter();
         });
     } else {
@@ -265,13 +268,6 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
         }
       });
     }
-  }
-
-  setMarkerEvent(): void {
-    this.markerEvent = this.marker['observable']('click').subscribe(() => {
-      this.setMapBounds();
-      this.map.fitBounds(this.mapBounds);
-    });
   }
 
   /**
@@ -288,16 +284,29 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     this.actualZoom = this.map.getZoom();
     this.mapBounds = this.map.getBounds();
     this.mapBoundsString = this.setMapBoundsString();
-    this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption).subscribe(resp => {
-      this.setMapData(resp);
-      this.centerPoint = this.map.getCenter();
-      this.refreshMapButton = false;
-      this.isDefaultLocation = true;
-      this.clustersLayer.clearLayers();
-      this.mapEvent.unsubscribe();
-      this.setMapEvent();
-      this.removeFilters.emit(true);
-    });
+    const convert = Object.entries(this.item);
+    const filters = convert.filter(([key, value]) => key !== 'regions' && value);
+    if (filters.length > 0) {
+      this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ, filters).subscribe(resp => {
+        this.setMapData(resp, false);
+        this.setDataFromBBox();
+      });
+    } else {
+      this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ).subscribe(resp => {
+        this.setMapData(resp, true);
+        this.setDataFromBBox();
+      });
+    }
+  }
+
+  setDataFromBBox(): void {
+    this.centerPoint = this.map.getCenter();
+    this.refreshMapButton = false;
+    this.isDefaultLocation = true;
+    this.clustersLayer.clearLayers();
+    this.mapEvent.unsubscribe();
+    this.setMapEvent();
+    this.removeFilters.emit(true);
   }
 
   setMapBounds(): void {
@@ -306,18 +315,36 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     this.mapBounds = this.leafletService.latLngBounds([southWest[1], southWest[0]], [northEast[1], northEast[0]]);
   }
 
+  changeBBoxIfNeeded() {
+    if (this.changeBbox) {
+      this.mapBoundsString = '9.360087936473064,55.825973254619015,30.431865280223064,47.69497434186282,6';
+      this.changeBbox = false;
+    } else {
+      this.mapBounds = this.map.getBounds();
+      this.mapBoundsString = this.setMapBoundsString();
+    }
+  }
+
   /**
    * create string on boundary box to send to BE
    */
   private setMapBoundsString(): string {
-    const density = this.zoomToDensity();
-    return `${this.mapBounds.getNorthWest().wrap().lng},${this.mapBounds.getNorthWest().wrap().lat},${
-      this.mapBounds.getSouthEast().wrap().lng
-    },${this.mapBounds.getSouthEast().wrap().lat},${density}`;
+    if (this.featureFlagService.validateFlagSync('S50_geodata_map_zoom_in_geoshape.fe')) {
+      return `${this.mapBounds.getNorthWest().wrap().lng},${this.mapBounds.getNorthWest().wrap().lat},${
+        this.mapBounds.getSouthEast().wrap().lng
+      },${this.mapBounds.getSouthEast().wrap().lat},${this.actualZoom}`;
+    } else {
+      const density = this.zoomToDensity();
+      return `${this.mapBounds.getNorthWest().wrap().lng},${this.mapBounds.getNorthWest().wrap().lat},${
+        this.mapBounds.getSouthEast().wrap().lng
+      },${this.mapBounds.getSouthEast().wrap().lat},${density}`;
+    }
   }
 
-  private setMapData(response: any): void {
-    this.datasetFromMap.emit(response);
+  private setMapData(response: any, resetWithFilters: boolean): void {
+    resetWithFilters
+      ? this.datasetFromMap.emit({ resp: response, mapBounds: this.mapBoundsString })
+      : this.datasetFromMap.emit({ resp: response, mapBounds: this.setMapBoundsString() });
     if (response.data && !this.aggregationsGrid) {
       this.prepareDataForMap(response.meta.aggregations);
     } else {
@@ -412,6 +439,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     allObjects.filter(element => !element.classList.contains('distanceCircle')).map(element => element.parentNode.removeChild(element));*/
   }
 
+  // remove with S50_geodata_map_zoom_in_geoshape.fe
   private zoomToDensity(): number {
     let density;
     switch (this.actualZoom) {

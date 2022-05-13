@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SelectedFilter, AggregationFilterNames } from '@app/services/models/filters';
-import {IListViewApplicationsFiltersModel} from '@app/services/models/page-filters/applications-filters';
+import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
 
@@ -9,44 +9,44 @@ import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filt
  */
 @Component({ template: '' })
 export class ListViewSelectedFiltersAbstractComponent {
-    /**
-     * All filters names
-     */
-    readonly AggregationFilterNames = AggregationFilterNames;
-    /**
-     * number of selected filters
-     */
-    @Input() selectedFiltersCount: number;
+  /**
+   * All filters names
+   */
+  readonly AggregationFilterNames = AggregationFilterNames;
+  /**
+   * number of selected filters
+   */
+  @Input() selectedFiltersCount: number;
 
-    /**
-     * map of selected filters
-     */
-    @Input() selectedIds: IListViewDatasetFiltersModel | IListViewInstitutionFiltersModel | IListViewApplicationsFiltersModel | {};
+  /**
+   * map of selected filters
+   */
+  @Input() selectedIds: IListViewDatasetFiltersModel | IListViewInstitutionFiltersModel | IListViewApplicationsFiltersModel | {};
 
-    /**
-     * clear all filters event
-     */
-    @Output() clearAllFilters = new EventEmitter<void>();
+  /**
+   * clear all filters event
+   */
+  @Output() clearAllFilters = new EventEmitter<void>();
 
-    /**
-     * clear only one filter event
-     */
-    @Output() clearSingleFilter = new EventEmitter<SelectedFilter>();
+  /**
+   * clear only one filter event
+   */
+  @Output() clearSingleFilter = new EventEmitter<SelectedFilter>();
 
-    /**
-     * clear all filters
-     */
-    clearFilters() {
-        this.clearAllFilters.emit();
-    }
+  /**
+   * clear all filters
+   */
+  clearFilters() {
+    this.clearAllFilters.emit();
+  }
 
-    /**
-     * clear one filter
-     * @param {string | string []} names
-     * @param {string} key
-     * @param {boolean} isDate
-     */
-    onClearFilter(names: string | string [], key: string, isDate = false) {
-        this.clearSingleFilter.emit({ names: names, key: key, isDate: isDate });
-    }
+  /**
+   * clear one filter
+   * @param {string | string []} names
+   * @param {string} key
+   * @param {boolean} isDate
+   */
+  onClearFilter(names: string | string[], key: string, isDate = false) {
+    this.clearSingleFilter.emit({ names: names, key: key, isDate: isDate });
+  }
 }

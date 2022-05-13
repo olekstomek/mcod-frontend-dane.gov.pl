@@ -31,7 +31,7 @@
 
     <!-- regions -->
     <div *featureFlag="'S42_geodata_search.fe'">
-      <div *ngIf="regionsList.length > 0">
+      <div *ngIf="regionsList.length > 0 && isNotRegionPoland">
         <hr />
         <strong
           appInfoTooltip="{{ 'Tour.Tooltip.Filters.Attribute.Region.text' | translate }}"
@@ -48,9 +48,36 @@
         </button>
         <div *ngIf="isExpanded" @toggleVertically class="pt-3" id="regions-container">
           <ul class="list-unstyled">
-            <li *ngFor="let region of regionsList; let last = last" class="d-inline-flex mr-5">
+            <li *ngFor="let region of regionsList" class="region-list-item d-inline-flex">
               <span>{{ region.hierarchy_label }}</span>
-              <span *ngIf="!last" class="ml-5">|</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!--Supporting documents-->
+    <div *featureFlag="'S48_supplements.fe'">
+      <div *ngIf="dataset.attributes.supplements.length > 0">
+        <hr />
+        <strong
+          appInfoTooltip="{{ 'Tour.Tooltip.DatasetDetails.Supplements.text' | translate }}"
+          tooltipTitle="{{ 'Tour.Tooltip.DatasetDetails.Supplements.title' | translate }}"
+          >{{ 'Attribute.Supplements' | translate }}:
+        </strong>
+        <button
+          class="btn btn-link py-0"
+          [attr.aria-controls]="isSupplementExpanded ? 'supplements-container' : null"
+          [attr.aria-pressed]="isSupplementExpanded"
+          (click)="isSupplementExpanded = !isSupplementExpanded"
+        >
+          {{ (isSupplementExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
+        </button>
+        <div *ngIf="isSupplementExpanded" @toggleVertically class="pt-3" id="supplements-container">
+          <ul class="list-unstyled">
+            <li *ngFor="let supplement of dataset.attributes.supplements" class="d-inline-flex mr-5">
+              <span class="sr-only">{{ 'Action.Download' | translate }}</span>
+              <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
             </li>
           </ul>
         </div>

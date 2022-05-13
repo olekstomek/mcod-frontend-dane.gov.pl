@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -107,9 +107,16 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   mapAggregations: IAggregationArray;
 
   /**
+   * map params regions
+   */
+  mapMetaParamsRegions: {};
+
+  /**
    * refresh map after user chose a new location
    */
-  refreshMap = new BehaviorSubject<any>(null);
+  refreshMap = new BehaviorSubject<{ ref: boolean; changeBbox: boolean }>({ ref: false, changeBbox: false });
+
+  mapBounds: string;
 
   constructor(
     protected filterService: ListViewFiltersService,
@@ -125,7 +132,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
     protected featureFlagService: FeatureFlagService,
-    private cdrf: ChangeDetectorRef,
+    private ngZone: NgZone,
   ) {
     super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
     this.Facets = [
@@ -249,32 +256,19 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     }
 
     this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
-      let results = response.results ? response.results : [];
-      this.counters = response.aggregations.counters;
-      if (this.filters) {
-        results = this.addInsitutions(results);
-      }
-
-      this.items = this.listViewDetailsService.extendViewDetails(results);
-      this.count = response.count;
-      this.selfApi = response.links.self;
-
-      this.isQueryFormVisible = this.count && ((this.params && this.params.q && this.params.q.length) || this.selectedFiltersCount);
-      this.isQueryFormSubmitted = false;
-      this.isQueryFormError = false;
-      this.isQuerySubscribed = !!response.subscription_url;
-
+      this.setData(response);
       if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
         this.mapAggregations = response.aggregations;
-        if (this.showMap) {
-          this.refreshMap.next(true);
+        this.mapMetaParamsRegions = response.params.regions;
+        this.resetMapMetaParamsRegionsIfNeeded();
+        if (this.showMap && this.params['isMapOpen'] !== 'true') {
+          this.mapMetaParamsRegions ? (this.isDefaultLocation = false) : (this.isDefaultLocation = true);
+          this.refreshMap.next({ ref: true, changeBbox: false });
         }
         if (this.params['isMapOpen'] === 'true') {
-          if (!this.params['regions[id][terms]']) {
-            this.setParamsForMap(true);
-          } else {
-            this.setParamsForMap(false);
-          }
+          this.params['regions[id][terms]'] !== '85633723' && !this.params['regions[bbox][geo_shape]']
+            ? this.setParamsForMap(false)
+            : this.setParamsForMap(true);
         }
       }
     });
@@ -284,11 +278,14 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * Gets list of datasets from boundary box
    */
   getDataFromMap(event): void {
-    if (event.data) {
-      this.items = this.listViewDetailsService.extendViewDetails(event.data);
-      this.counters = event.meta.aggregations.counters;
-      this.count = event.meta.count;
-      this.cdrf.detectChanges();
+    if (event.resp.data) {
+      const response = event.resp;
+      this.mapBounds = event.mapBounds;
+      this.ngZone.run(() => {
+        this.items = this.listViewDetailsService.extendViewDetails(response.data);
+        this.counters = response.meta.aggregations.counters;
+        this.count = response.meta.count;
+      });
     } else {
       this.items = null;
     }
@@ -300,27 +297,63 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   onShowMap(): void {
     if (this.featureFlagService.validateFlagSync('S49_geodata_map_aggregation.fe')) {
       if (!this.mapAggregations.map_by_regions) {
-        this.preparedParamsForDefaultLocation();
+        if (this.mapMetaParamsRegions) {
+          this.setParamsForMap(false);
+        } else {
+          this.preparedParamsForDefaultLocation();
 
-        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-          this.mapAggregations = resp.aggregations;
-          this.setParamsForMap(true);
-        });
+          this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+            this.mapAggregations = resp.aggregations;
+            this.setParamsForMap(true);
+          });
+        }
       } else {
-        this.setParamsForMap(false);
+        this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
       }
     } else {
       if (!this.mapAggregations.by_tiles) {
-        this.preparedParamsForDefaultLocation();
+        if (this.mapMetaParamsRegions) {
+          this.setParamsForMap(false);
+        } else {
+          this.preparedParamsForDefaultLocation();
 
-        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-          this.mapAggregations = resp.aggregations;
-          this.setParamsForMap(true);
-        });
+          this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+            this.mapAggregations = resp.aggregations;
+            this.setParamsForMap(true);
+          });
+        }
       } else {
-        this.setParamsForMap(false);
+        this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
       }
     }
+  }
+
+  onHideMap(event): void {
+    this.showMap = !event;
+    if (this.params['regions[bbox][geo_shape]']) {
+      this.params['regions[bbox][geo_shape]'] = '9.360087936473064,55.825973254619015,30.431865280223064,47.69497434186282,6';
+      this.updateSelectedFiltersForMap(14.122885, 54.836417, 24.145783, 49.002047);
+      this.mapBounds = undefined;
+      this.refreshMap.next({ ref: true, changeBbox: true });
+    }
+    this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
+      this.setData(response);
+    });
+  }
+
+  private setData(response): void {
+    let results = response.results ? response.results : [];
+    this.counters = response.aggregations.counters;
+    if (this.filters) {
+      results = this.addInsitutions(results);
+    }
+    this.items = this.listViewDetailsService.extendViewDetails(results);
+    this.count = response.count;
+    this.selfApi = response.links.self;
+    this.isQueryFormVisible = this.count && ((this.params && this.params.q && this.params.q.length) || this.selectedFiltersCount);
+    this.isQueryFormSubmitted = false;
+    this.isQueryFormError = false;
+    this.isQuerySubscribed = !!response.subscription_url;
   }
 
   /**
@@ -408,18 +441,17 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    */
   private preparedParamsForDefaultLocation(): void {
     if (!this.params['regions[id][terms]']) {
+      const northWestLng = this.mapBounds ? this.mapBounds.split(',')[0] : 14.122885;
+      const northWestLat = this.mapBounds ? this.mapBounds.split(',')[1] : 54.836417;
+      const southEastLng = this.mapBounds ? this.mapBounds.split(',')[2] : 24.145783;
+      const southEastLat = this.mapBounds ? this.mapBounds.split(',')[3] : 49.002047;
       this.params = {
         ...this.params,
-        'regions[id][terms]': '85633723',
+        'regions[bbox][geo_shape]': this.mapBounds
+          ? this.mapBounds
+          : '9.360087936473064,55.825973254619015,30.431865280223064,47.69497434186282,6',
       };
-      this.selectedFilters[AggregationFilterNames.REGIONS] = {
-        '85633723': {
-          bbox: [
-            [14.122885, 54.836417],
-            [24.145783, 49.002047],
-          ],
-        },
-      };
+      this.updateSelectedFiltersForMap(northWestLng, northWestLat, southEastLng, southEastLat);
     }
   }
 
@@ -430,5 +462,30 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   private setParamsForMap(isDefaultLocation: boolean): void {
     this.showMap = true;
     this.isDefaultLocation = isDefaultLocation;
+  }
+
+  private updateSelectedFiltersForMap(northWestLng, northWestLat, southEastLng, southEastLat): void {
+    this.selectedFilters[AggregationFilterNames.REGIONS] = {
+      '85633723': {
+        bbox: [
+          [northWestLng, northWestLat],
+          [southEastLng, southEastLat],
+        ],
+        title: 'Polska',
+        id: '85633723',
+      },
+    };
+  }
+
+  private resetMapMetaParamsRegionsIfNeeded(): void {
+    if (this.mapMetaParamsRegions) {
+      if (this.mapMetaParamsRegions['bbox']) {
+        this.mapMetaParamsRegions = undefined;
+      } else {
+        if (this.mapMetaParamsRegions['id']['terms'] === '85633723') {
+          this.mapMetaParamsRegions = undefined;
+        }
+      }
+    }
   }
 }

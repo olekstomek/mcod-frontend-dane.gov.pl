@@ -894,6 +894,10 @@
         },
         "DownloadAll": {
           "text": "Wybór funkcji umożliwia pobranie skompresowanego pliku zawierającego wszystkie dane (pliki zasobów) powiązanych ze zbiorem danych."
+        },
+        "Supplements": {
+          "title": "Dokumenty uzupełniające",
+          "text": "Materiały dodatkowe związane ze zbiorem (np. instrukcje, dokumentacja API)"
         }
       },
       "DatasetItem": {

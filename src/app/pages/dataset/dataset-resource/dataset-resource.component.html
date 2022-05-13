@@ -6,7 +6,8 @@
     </h1>
 
     <!-- description -->
-    <collapsible-text *ngIf="resource?.attributes?.description" [text]="resource.attributes.description" [isCollapsedDown]="true"> </collapsible-text>
+    <collapsible-text *ngIf="resource?.attributes?.description" [text]="resource.attributes.description" [isCollapsedDown]="true">
+    </collapsible-text>
 
     <!-- OPENNESS SCORE and DATEs -->
     <ul class="list-unstyled">
@@ -126,9 +127,8 @@
         </button>
         <div *ngIf="isRegionsExpanded" @toggleVertically class="pt-3" id="regions-container">
           <ul class="list-unstyled">
-            <li *ngFor="let region of regionsList; let last = last" class="d-inline-flex mr-5">
+            <li *ngFor="let region of regionsList; let last = last" class="region-list-item d-inline-flex">
               <span>{{ region.hierarchy_label }}</span>
-              <span *ngIf="!last" class="ml-5">|</span>
             </li>
           </ul>
         </div>
@@ -156,7 +156,7 @@
           <ul class="list-unstyled">
             <li *ngFor="let supplement of resource.attributes.supplements" class="d-inline-flex mr-5">
               <span class="sr-only">{{ 'Action.Download' | translate }}</span>
-              <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) >></a>
+              <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
             </li>
           </ul>
         </div>

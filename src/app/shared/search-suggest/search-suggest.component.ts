@@ -276,21 +276,14 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         }),
       )
       .subscribe(response => {
-        if (this.featureFlagsService.validateFlagSync('S42_geodata_search.fe')) {
-          if (!response || response.data.length === 0) {
-            if (this.apiModels[0] === 'region') {
-              this.regionListboxOption.emit(null);
-              return;
-            } else {
-              return;
-            }
-          }
-        } else {
-          if (!response || !response['data']) {
+        if (!response || response.data.length === 0) {
+          if (this.apiModels[0] === 'region') {
+            this.regionListboxOption.emit(null);
+            return;
+          } else {
             return;
           }
         }
-
         this.toggleDropdown(this.prepareListboxOptions(response.data));
       });
 

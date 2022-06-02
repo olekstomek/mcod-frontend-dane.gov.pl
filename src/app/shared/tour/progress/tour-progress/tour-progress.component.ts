@@ -4,35 +4,33 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angu
  * Tour progress component
  */
 @Component({
-    selector: 'app-tour-progress',
-    templateUrl: './tour-progress.component.html',
+  selector: 'app-tour-progress',
+  templateUrl: './tour-progress.component.html',
 })
 export class TourProgressComponent {
+  /**
+   * @ignore
+   */
+  constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private readonly changeDetectorRef: ChangeDetectorRef) {
-    }
+  /**
+   * Steps
+   * @type {Array<boolean>}
+   */
+  @Input()
+  steps: Array<boolean>;
 
-    /**
-     * Steps
-     * @type {Array<boolean>}
-     */
-    @Input()
-    steps: Array<boolean>;
+  /**
+   * Change step
+   * @type {EventEmitter<number>}
+   */
+  @Output()
+  changeStep: EventEmitter<number> = new EventEmitter<number>();
 
-    /**
-     * Change step
-     * @type {EventEmitter<number>}
-     */
-    @Output()
-    changeStep: EventEmitter<number> = new EventEmitter<number>();
-
-    /**
-     * Refreshes view
-     */
-    refresh() {
-      this.changeDetectorRef.detectChanges();
-    }
+  /**
+   * Refreshes view
+   */
+  refresh() {
+    this.changeDetectorRef.detectChanges();
+  }
 }

@@ -1,15 +1,13 @@
 import { ActivatedRoute, Params, Router, QueryParamsHandling } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { CmsService } from '@app/services/cms.service';
 
 import { SeoService } from '@app/services/seo.service';
 import { APP_CONFIG } from '@app/app.config';
-import { ICategoryPageParams, INewsPageParams } from '@app/services/models/page-params';
+import { INewsPageParams } from '@app/services/models/page-params';
 import { SearchService } from '@app/services/search.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Article Component
@@ -42,19 +40,16 @@ export class ArticleComponent implements OnInit {
   /**
    * Page setting based on basic params and user interactions
    */
-  // after remove S46_articles_form_cms.fe change params
-  params: ICategoryPageParams | INewsPageParams;
+  params: INewsPageParams;
 
   /**
    * Basic params of article component
    */
-  // after remove S46_articles_form_cms.fe change basic params
-  basicParams: ICategoryPageParams | INewsPageParams = {
+  basicParams: INewsPageParams = {
     sort: '-date',
     page: 1,
     q: '',
     per_page: 5,
-    'category[id]': 1,
   };
 
   /**
@@ -71,8 +66,6 @@ export class ArticleComponent implements OnInit {
     private router: Router,
     private searchService: SearchService,
     private filterService: ListViewFiltersService,
-    private cmsService: CmsService,
-    private featureflagService: FeatureFlagService,
   ) {}
 
   /**
@@ -92,28 +85,17 @@ export class ArticleComponent implements OnInit {
         ...this.filterService.updateBasicParams(qParams, this.basicParams, sort),
       };
 
-      if (this.featureflagService.validateFlagSync('S46_articles_form_cms.fe')) {
-        if (!qParams['model[terms]']) {
-          this.params['model[terms]'] = ApiModel.NEWS;
-        }
-        this.params = {
-          ...this.params,
-          ...{
-            children_per_page: +qParams['per_page'] || this.basicParams['per_page'],
-            children_page: +qParams['page'] || this.basicParams['page'],
-            children_extra_fields: 'body,author,tags',
-          },
-        };
-      } else {
-        this.params = {
-          ...this.params,
-          ...{ 'category[id]': this.basicParams['category[id]'] },
-        };
-
-        if (!qParams['model[terms]']) {
-          this.params['model[terms]'] = ApiModel.ARTICLE;
-        }
+      if (!qParams['model[terms]']) {
+        this.params['model[terms]'] = ApiModel.NEWS;
       }
+      this.params = {
+        ...this.params,
+        ...{
+          children_per_page: +qParams['per_page'] || this.basicParams['per_page'],
+          children_page: +qParams['page'] || this.basicParams['page'],
+          children_extra_fields: 'body,author,tags',
+        },
+      };
 
       this.getData();
     });
@@ -135,31 +117,22 @@ export class ArticleComponent implements OnInit {
 
     let updatedBasicParams;
 
-    if (this.featureflagService.validateFlagSync('S46_articles_form_cms.fe')) {
-      if (search) {
-        updatedBasicParams = {
-          page: +this.params['page'] || this.basicParams['page'],
-          per_page: +this.params['per_page'] || this.basicParams['per_page'],
-          q: this.params['q'] || '',
-          sort: this.params['sort'] || '',
-        };
-      } else {
-        updatedBasicParams = {
-          children_page: +this.params['page'] || this.basicParams['page'],
-          children_per_page: +this.params['per_page'] || this.basicParams['per_page'],
-          q: this.params['q'] || '',
-          sort: this.params['sort'] || '',
-        };
-      }
-    } else {
+    if (search) {
       updatedBasicParams = {
         page: +this.params['page'] || this.basicParams['page'],
         per_page: +this.params['per_page'] || this.basicParams['per_page'],
         q: this.params['q'] || '',
         sort: this.params['sort'] || '',
-        'category[id]': this.basicParams['category[id]'],
+      };
+    } else {
+      updatedBasicParams = {
+        children_page: +this.params['page'] || this.basicParams['page'],
+        children_per_page: +this.params['per_page'] || this.basicParams['per_page'],
+        q: this.params['q'] || '',
+        sort: this.params['sort'] || '',
       };
     }
+
     if (!('page' in params)) {
       params['page'] = 1;
     }

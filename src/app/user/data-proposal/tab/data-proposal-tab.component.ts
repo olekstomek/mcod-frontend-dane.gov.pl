@@ -7,37 +7,33 @@ import { Subscription } from 'rxjs';
  * Data Proposal Tab Component
  */
 @Component({
-    selector: 'app-data-proposal-tab',
-    templateUrl: './data-proposal-tab.component.html',
+  selector: 'app-data-proposal-tab',
+  templateUrl: './data-proposal-tab.component.html',
 })
 export class DataProposalTabComponent implements OnDestroy {
+  /**
+   * Type of data proposal
+   */
+  @Input()
+  type: string;
 
-    /**
-     * Type of data proposal
-     */
-    @Input()
-    type: string;
+  /**
+   * Determines if current route has child
+   */
+  hasChildRoute: boolean;
 
-    /**
-     * Determines if current route has child
-     */
-    hasChildRoute: boolean;
+  private routerEvents$: Subscription;
 
-    private routerEvents$: Subscription;
+  constructor(public readonly activeRoute: ActivatedRoute, private readonly router: Router) {
+    this.routerEvents$ = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+      this.hasChildRoute = this.activeRoute.children.length > 0;
+    });
+  }
 
-    constructor(public readonly activeRoute: ActivatedRoute,
-                private readonly router: Router) {
-        this.routerEvents$ = this.router.events
-            .pipe(filter(event => event instanceof NavigationEnd))
-            .subscribe(() => {
-                this.hasChildRoute = this.activeRoute.children.length > 0;
-            });
-    }
-
-    /**
-     * Clean subscriptions
-     */
-    ngOnDestroy() {
-        this.routerEvents$.unsubscribe();
-    }
+  /**
+   * Clean subscriptions
+   */
+  ngOnDestroy() {
+    this.routerEvents$.unsubscribe();
+  }
 }

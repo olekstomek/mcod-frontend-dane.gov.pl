@@ -11,40 +11,35 @@ import { SeoService } from '@app/services/seo.service';
  * Academy Courses Component
  */
 @Component({
-    selector: 'app-academy-courses',
-    templateUrl: './academy-courses.component.html',
-    providers: [{provide: API_URL, useValue: ApiConfig.aodCourses}]
+  selector: 'app-academy-courses',
+  templateUrl: './academy-courses.component.html',
+  providers: [{ provide: API_URL, useValue: ApiConfig.aodCourses }],
 })
 export class AcademyCoursesComponent implements OnInit {
+  courseComponent: any = AcademyCoursesListContainerComponent;
+  config: UserDashboardListViewConfig;
 
-    courseComponent: any = AcademyCoursesListContainerComponent;
-    config: UserDashboardListViewConfig;
-    
-    /**
-     * @ignore
-     */
-    constructor(private seoService: SeoService) {}
+  /**
+   * @ignore
+   */
+  constructor(private seoService: SeoService) {}
 
-    ngOnInit(): void {
-        this.seoService.setPageTitle(['Kursy', 'Akademia Otwartych Danych', 'Mój Pulpit']);
+  ngOnInit(): void {
+    this.seoService.setPageTitle(['Kursy', 'Akademia Otwartych Danych', 'Mój Pulpit']);
 
-        this.setupListConfig();
-    }
+    this.setupListConfig();
+  }
 
-    private setupListConfig() {
-        this.config = new UserDashboardListViewConfig
-            .builder()
-            .default()
-            .withSort('start')
-            .withFoundedItemsCountHeader('Kursy')
-            .withFilterConfig({
-                filterType: AodCourseType, 
-                selectedFilters: [
-                    AodCourseType.PLANNED.toString(),
-                    AodCourseType.CURRENT.toString(),
-                    AodCourseType.FINISHED.toString()
-                ], 
-                title: 'Status kursów'})
-            .build();
-    }
+  private setupListConfig() {
+    this.config = new UserDashboardListViewConfig.builder()
+      .default()
+      .withSort('start')
+      .withFoundedItemsCountHeader('Kursy')
+      .withFilterConfig({
+        filterType: AodCourseType,
+        selectedFilters: [AodCourseType.PLANNED.toString(), AodCourseType.CURRENT.toString(), AodCourseType.FINISHED.toString()],
+        title: 'Status kursów',
+      })
+      .build();
+  }
 }

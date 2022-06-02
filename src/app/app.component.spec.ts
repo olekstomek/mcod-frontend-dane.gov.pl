@@ -9,7 +9,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from '@app/layout/footer/footer.component';
 import { HeaderComponent } from '@app/layout/header/header.component';
-import { AboutComponent } from '@app/pages/about/about.component';
 import { SitemapComponent } from '@app/pages/sitemap/sitemap.component';
 import { PageNotFoundComponent } from '@app/page-not-found/page-not-found.component';
 import { APP_BASE_HREF } from '@angular/common';
@@ -34,66 +33,65 @@ import { FooterNavLinkInternalComponent } from '@app/layout/footer/footer-nav-li
 import { FooterNavListComponent } from '@app/layout/footer/footer-nav-list/footer-nav-list.component';
 
 describe('AppComponent', () => {
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                { provide: APP_BASE_HREF, useValue: '/api' },
-                { provide: LocalStorageService, useValue: LocalStorageService },
-                { provide: HttpClient, useValue: HttpClient },
-                { provide: BsLocaleService, useValue: BsLocaleService },
-                { provide: LanguageBootstrapService, useValue: LanguageBootstrapService }],
-            imports: [
-                HomeModule,
-                SharedModule,
-                NgProgressModule,
-                FormsModule,
-                ReactiveFormsModule,
-                // Add .withServerTransition() to support Universal rendering.
-                // The application ID can be any identifier which is unique on the page.
-                BrowserModule.withServerTransition({ appId: 'otwarte-dane-ssr' }),
-                AppRoutingModule,
-                TranslateModule.forRoot({}),
-                LocalizeRouterModule.forRoot([])
-            ],
-            declarations: [
-                AppComponent,
-                HeaderComponent,
-                ActivityNotificationsComponent,
-                FooterComponent,
-                FooterNavLinkExternalComponent,
-                FooterNavLinkInternalComponent,
-                FooterNavListComponent,
-                PreviewCmsComponent,
-                RegulationsComponent,
-                AboutComponent,
-                SitemapComponent,
-                MainLayoutComponent,
-                EmbedLayoutComponent,
-                EmbeddedComponent,
-                PageNotFoundComponent,
-                NewsletterComponent,
-                ActiveNewsletterComponent,
-                UnsubcribeNewsletterComponent,
-                SearchResultsComponent,
-                SurveyComponent
-            ]
-        }).compileComponents();
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: APP_BASE_HREF, useValue: '/api' },
+        { provide: LocalStorageService, useValue: LocalStorageService },
+        { provide: HttpClient, useValue: HttpClient },
+        { provide: BsLocaleService, useValue: BsLocaleService },
+        { provide: LanguageBootstrapService, useValue: LanguageBootstrapService },
+      ],
+      imports: [
+        HomeModule,
+        SharedModule,
+        NgProgressModule,
+        FormsModule,
+        ReactiveFormsModule,
+        // Add .withServerTransition() to support Universal rendering.
+        // The application ID can be any identifier which is unique on the page.
+        BrowserModule.withServerTransition({ appId: 'otwarte-dane-ssr' }),
+        AppRoutingModule,
+        TranslateModule.forRoot({}),
+        LocalizeRouterModule.forRoot([]),
+      ],
+      declarations: [
+        AppComponent,
+        HeaderComponent,
+        ActivityNotificationsComponent,
+        FooterComponent,
+        FooterNavLinkExternalComponent,
+        FooterNavLinkInternalComponent,
+        FooterNavListComponent,
+        PreviewCmsComponent,
+        RegulationsComponent,
+        SitemapComponent,
+        MainLayoutComponent,
+        EmbedLayoutComponent,
+        EmbeddedComponent,
+        PageNotFoundComponent,
+        NewsletterComponent,
+        ActiveNewsletterComponent,
+        UnsubcribeNewsletterComponent,
+        SearchResultsComponent,
+        SurveyComponent,
+      ],
+    }).compileComponents();
+  }));
 
-    }));
+  it('should create the app', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  }));
 
-    it('should create the app', async(() => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.debugElement.componentInstance;
-        expect(app).toBeTruthy();
-    }));
+  it('should render main tag with router-outlet', async(() => {
+    inject([LocalStorageService], (localstorage: LocalStorageService) => {
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement as HTMLElement;
 
-    it('should render main tag with router-outlet', async(() => {
-        inject([LocalStorageService], (localstorage: LocalStorageService) => {
-            const fixture = TestBed.createComponent(AppComponent);
-            fixture.detectChanges();
-            const compiled = fixture.debugElement.nativeElement as HTMLElement;
-
-            expect(compiled.querySelector('router-outlet').innerHTML).toBeDefined();
-        });
-    }));
+      expect(compiled.querySelector('router-outlet').innerHTML).toBeDefined();
+    });
+  }));
 });

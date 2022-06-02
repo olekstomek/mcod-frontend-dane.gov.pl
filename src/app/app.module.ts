@@ -40,7 +40,6 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { ActivityNotificationsComponent } from './layout/header/activity-notifications/activity-notifications.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AboutComponent } from './pages/about/about.component';
 import { DeclarationComponent } from './pages/declaration/declaration.component';
 import { KnowledgeBaseModule } from './pages/knowledge-base/knowledge-base.module';
 import { PreviewCmsComponent } from './pages/preview-cms/preview-cms.component';
@@ -60,7 +59,6 @@ export function flagsFactory(featureFlagService: FeatureFlagService) {
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    AboutComponent,
     MainLayoutComponent,
     EmbedLayoutComponent,
     PageNotFoundComponent,

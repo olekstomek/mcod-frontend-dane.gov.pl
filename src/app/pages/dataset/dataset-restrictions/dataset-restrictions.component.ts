@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { LicensesService } from '@app/services/licenses.service';
 import { LicenseWithRules, ZeroLicense } from '@app/services/models/license';
 

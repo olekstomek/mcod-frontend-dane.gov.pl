@@ -20,7 +20,7 @@ export interface IAggregationFiltersParams {
 }
 
 export interface IModelTermsParams extends BasicPageParams {
-  'model[terms]'?: string; // 'dataset' | 'resource' | 'dataset,resource' | 'article' | 'institution' | 'application'
+  'model[terms]'?: string; // 'dataset' | 'resource' | 'dataset,resource' | 'news' | 'institution' | 'showcases'
 }
 
 export interface ITagsPageParams {
@@ -29,13 +29,8 @@ export interface ITagsPageParams {
 
 export type PageParams = BasicPageParams & IAggregationFiltersParams & IModelTermsParams & ITagsPageParams;
 
-export interface ICategoryPageParams extends BasicPageParams {
-  category?: number;
-  'category[id]'?: number;
-}
-
 export interface INewsPageParams extends BasicPageParams {
-  children_per_page?: number;
+  children_per_page?: string | number;
   children_page?: number;
   children_extra_fields?: string;
   children_sort?: string;

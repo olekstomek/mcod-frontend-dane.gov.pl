@@ -1,4 +1,4 @@
 export interface FeedbackCounters {
-    plus: number;
-    minus: number;
+  plus: number;
+  minus: number;
 }

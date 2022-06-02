@@ -109,57 +109,53 @@
     </div>
 
     <!-- regions -->
-    <div *featureFlag="'S42_geodata_search.fe'">
-      <div *ngIf="regionsList.length > 0 && isNotRegionPoland">
-        <hr />
-        <strong
-          appInfoTooltip="{{ 'Tour.Tooltip.Filters.Attribute.Region.text' | translate }}"
-          tooltipTitle="{{ 'Tour.Tooltip.Filters.Attribute.Region.title' | translate }}"
-          >{{ 'Attribute.Region' | translate }}:
-        </strong>
-        <button
-          class="btn btn-link py-0"
-          [attr.aria-controls]="isRegionsExpanded ? 'regions-container' : null"
-          [attr.aria-pressed]="isRegionsExpanded"
-          (click)="isRegionsExpanded = !isRegionsExpanded"
-        >
-          {{ (isRegionsExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
-        </button>
-        <div *ngIf="isRegionsExpanded" @toggleVertically class="pt-3" id="regions-container">
-          <ul class="list-unstyled">
-            <li *ngFor="let region of regionsList; let last = last" class="region-list-item d-inline-flex">
-              <span>{{ region.hierarchy_label }}</span>
-            </li>
-          </ul>
-        </div>
+    <div *ngIf="regionsList.length > 0 && isNotRegionPoland">
+      <hr />
+      <strong
+        appInfoTooltip="{{ 'Tour.Tooltip.Filters.Attribute.Region.text' | translate }}"
+        tooltipTitle="{{ 'Tour.Tooltip.Filters.Attribute.Region.title' | translate }}"
+        >{{ 'Attribute.Region' | translate }}:
+      </strong>
+      <button
+        class="btn btn-link py-0"
+        [attr.aria-controls]="isRegionsExpanded ? 'regions-container' : null"
+        [attr.aria-pressed]="isRegionsExpanded"
+        (click)="isRegionsExpanded = !isRegionsExpanded"
+      >
+        {{ (isRegionsExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
+      </button>
+      <div *ngIf="isRegionsExpanded" @toggleVertically class="pt-3" id="regions-container">
+        <ul class="list-unstyled">
+          <li *ngFor="let region of regionsList; let last = last" class="region-list-item d-inline-flex">
+            <span>{{ region.hierarchy_label }}</span>
+          </li>
+        </ul>
       </div>
     </div>
 
     <!--Supporting documents-->
-    <div *featureFlag="'S48_supplements.fe'">
-      <div *ngIf="resource.attributes.supplements.length > 0">
-        <hr />
-        <strong
-          appInfoTooltip="{{ 'Tour.Tooltip.DatasetItem.Supplements.text' | translate }}"
-          tooltipTitle="{{ 'Tour.Tooltip.DatasetItem.Supplements.title' | translate }}"
-          >{{ 'Attribute.Supplements' | translate }}:
-        </strong>
-        <button
-          class="btn btn-link py-0"
-          [attr.aria-controls]="isSupplementExpanded ? 'supplements-container' : null"
-          [attr.aria-pressed]="isSupplementExpanded"
-          (click)="isSupplementExpanded = !isSupplementExpanded"
-        >
-          {{ (isSupplementExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
-        </button>
-        <div *ngIf="isSupplementExpanded" @toggleVertically class="pt-3" id="supplements-container">
-          <ul class="list-unstyled">
-            <li *ngFor="let supplement of resource.attributes.supplements" class="d-inline-flex mr-5">
-              <span class="sr-only">{{ 'Action.Download' | translate }}</span>
-              <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
-            </li>
-          </ul>
-        </div>
+    <div *ngIf="resource.attributes.supplements.length > 0">
+      <hr />
+      <strong
+        appInfoTooltip="{{ 'Tour.Tooltip.DatasetItem.Supplements.text' | translate }}"
+        tooltipTitle="{{ 'Tour.Tooltip.DatasetItem.Supplements.title' | translate }}"
+        >{{ 'Attribute.Supplements' | translate }}:
+      </strong>
+      <button
+        class="btn btn-link py-0"
+        [attr.aria-controls]="isSupplementExpanded ? 'supplements-container' : null"
+        [attr.aria-pressed]="isSupplementExpanded"
+        (click)="isSupplementExpanded = !isSupplementExpanded"
+      >
+        {{ (isSupplementExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
+      </button>
+      <div *ngIf="isSupplementExpanded" @toggleVertically class="pt-3" id="supplements-container">
+        <ul class="list-unstyled">
+          <li *ngFor="let supplement of resource.attributes.supplements" class="d-inline-flex mr-5">
+            <span class="sr-only">{{ 'Action.Download' | translate }}</span>
+            <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
+          </li>
+        </ul>
       </div>
     </div>
     <hr />

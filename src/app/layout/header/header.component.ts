@@ -6,7 +6,7 @@ import { UserStateService } from '@app/services/user-state.service';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { toggleVertically } from '@app/animations';
@@ -16,7 +16,6 @@ import { LoginService } from '@app/services/login-service';
 import { User } from '@app/services/models';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { UserService } from '@app/services/user.service';
-import { APP_CONFIG } from '@app/app.config';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { CmsService } from '@app/services/cms.service';
 import { IHome } from '@app/services/models/cms/pages/home';
@@ -59,11 +58,6 @@ export class HeaderComponent implements OnInit {
    * User Observable
    */
   user$: Observable<User> = this.userStateService.getCurrentUser();
-
-  /**
-   * App config
-   */
-  appConfig = APP_CONFIG;
 
   /**
    * Single cms widget

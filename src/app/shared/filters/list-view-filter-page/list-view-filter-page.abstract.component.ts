@@ -133,12 +133,11 @@ export abstract class ListViewFilterPageAbstractComponent {
       this.activatedRoute.snapshot.queryParams,
       this.backupSelectedFilters,
     );
-    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      if (filter.names === 'regions') {
-        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
-        this.initialRegionValue = '';
-        updatedQueryParams = { ...updatedQueryParams, isMapOpen: isMapOpen };
-      }
+
+    if (filter.names === 'regions') {
+      (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      this.initialRegionValue = '';
+      updatedQueryParams = { ...updatedQueryParams, isMapOpen: isMapOpen };
     }
 
     this.filterService.updateParams(updatedQueryParams, null, this.basicParams, this.params);
@@ -197,10 +196,8 @@ export abstract class ListViewFilterPageAbstractComponent {
     this.backupSelectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFiltersCount = this.getSelectedFiltersCount();
-    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      if (this.selectedFilters.regions && !this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].hierarchy_label) {
-        this.initialRegionValue = this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].title;
-      }
+    if (this.selectedFilters.regions && !this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].hierarchy_label) {
+      this.initialRegionValue = this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].title;
     }
   }
 
@@ -217,12 +214,10 @@ export abstract class ListViewFilterPageAbstractComponent {
       this.resetResearchDataFilterCheckboxes();
     }
 
-    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
-      if (regionsSearchInput) {
-        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
-        this.initialRegionValue = '';
-      }
+    const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
+    if (regionsSearchInput) {
+      (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      this.initialRegionValue = '';
     }
   }
 

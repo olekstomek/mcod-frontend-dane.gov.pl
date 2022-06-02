@@ -70,9 +70,9 @@ build-dev:
     - docker push $REGISTRY_PATH/frontend-ssr:dev
   only:
     - develop
-  # artifacts:
-  #   paths:
-  #     - "dist/"
+  artifacts:
+    paths:
+      - "dist/"
   except:
     - schedules
 

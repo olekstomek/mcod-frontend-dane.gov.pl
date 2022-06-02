@@ -10,7 +10,6 @@ import { ISearchCounters, ISearchResponse } from '@app/services/models/search';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ApiModel } from '@app/services/api/api-model';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 @Component({
   selector: 'app-search-results',
@@ -65,7 +64,6 @@ export class SearchResultsComponent implements OnInit {
     private notificationsService: NotificationsService,
     private listViewDetailsService: ListViewDetailsService,
     private localizeRouterService: LocalizeRouterService,
-    private featureFlagsService: FeatureFlagService,
   ) {}
 
   /**
@@ -108,13 +106,9 @@ export class SearchResultsComponent implements OnInit {
   setCounterAndResults(resp: ISearchResponse) {
     this.counters = resp.meta.aggregations.counters;
     this.totalCount = resp.meta.count;
-    if (this.featureFlagsService.validateFlagSync('S46_articles_form_cms.fe')) {
-      this.results = this.listViewDetailsService
-        .extendViewDetails(resp.data)
-        .filter(data => data.attributes.model !== 'application' && data.attributes.model !== 'article');
-    } else {
-      this.results = this.listViewDetailsService.extendViewDetails(resp.data).filter(data => data.attributes.model !== 'news');
-    }
+    this.results = this.listViewDetailsService
+      .extendViewDetails(resp.data)
+      .filter(data => data.attributes.model !== 'application' && data.attributes.model !== 'article');
   }
 
   /**

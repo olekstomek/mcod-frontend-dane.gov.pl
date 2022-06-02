@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CmsService } from '@app/services/cms.service';
@@ -84,7 +83,7 @@ export class VideoComponent extends WidgetAbstractComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(cmsService: CmsService, sanitizer: DomSanitizer, private featureFlagService: FeatureFlagService) {
+  constructor(cmsService: CmsService, sanitizer: DomSanitizer) {
     super(cmsService, sanitizer);
   }
 
@@ -94,25 +93,21 @@ export class VideoComponent extends WidgetAbstractComponent implements OnInit {
   ngOnInit() {
     if (this.video.settings && this.video.settings.video_url) {
       this.videoYoutubeUrl = this.createEmbedUrl(this.video.settings.video_url);
-      if (this.featureFlagService.validateFlagSync('S44_uploaded_video_from_cms.fe')) {
-        if (this.video.settings['uploaded_video']) {
-          this.isPlayerSupported = true;
-          this.videoUrl = this.video.settings['uploaded_video'].download_url;
-          this.poster = this.video.settings['uploaded_video'].thumbnail_url;
-          this.videoClass = 'video-center';
-        }
+      if (this.video.settings['uploaded_video']) {
+        this.isPlayerSupported = true;
+        this.videoUrl = this.video.settings['uploaded_video'].download_url;
+        this.poster = this.video.settings['uploaded_video'].thumbnail_url;
+        this.videoClass = 'video-center';
       }
       this.videoStyles = this.cmsService.addStyle(this.video, 'hyperEditor');
       return;
     }
 
-    if (this.featureFlagService.validateFlagSync('S44_uploaded_video_from_cms.fe')) {
-      if ((this.video as IVideo).value) {
-        this.videoUrl = (this.video as IVideo).value.uploaded_video.download_url;
-        this.poster = (this.video as IVideo).value.uploaded_video.thumbnail_url;
-        this.videoClass = 'video-center';
-        return;
-      }
+    if ((this.video as IVideo).value) {
+      this.videoUrl = (this.video as IVideo).value.uploaded_video.download_url;
+      this.poster = (this.video as IVideo).value.uploaded_video.thumbnail_url;
+      this.videoClass = 'video-center';
+      return;
     }
 
     const videoFromCmsTextEditor = this.video as IVideo;

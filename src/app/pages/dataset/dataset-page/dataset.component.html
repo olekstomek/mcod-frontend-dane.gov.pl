@@ -124,28 +124,26 @@
           </app-dataset-selected-filters>
 
           <!-- Map for regions -->
-          <div *featureFlag="'S43_geodata_map.fe'">
-            <app-regions-map
-              *ngIf="showMap"
-              [item]="selectedFilters"
-              [aggregations]="mapAggregations"
-              [sortOption]="sortOption"
-              [paramQ]="params.q"
-              [refresh]="refreshMap"
-              [isDefaultLocation]="isDefaultLocation"
-              (hideMap)="onHideMap($event)"
-              (removeFilters)="clearSelectedFilter({names: 'regions', key: '',  isDate: false}, showMap)"
-              (datasetFromMap)="getDataFromMap($event)"
-            ></app-regions-map>
+          <app-regions-map
+            *ngIf="showMap"
+            [item]="selectedFilters"
+            [aggregations]="mapAggregations"
+            [sortOption]="sortOption"
+            [paramQ]="params.q"
+            [refresh]="refreshMap"
+            [isDefaultLocation]="isDefaultLocation"
+            (hideMap)="onHideMap($event)"
+            (removeFilters)="clearSelectedFilter({ names: 'regions', key: '', isDate: false }, showMap)"
+            (datasetFromMap)="getDataFromMap($event)"
+          ></app-regions-map>
 
-            <!-- show/hide map button -->
-            <button *ngIf="!showMap" type="button" class="btn btn-outline-primary" (click)="onShowMap()">
-              <svg class="icon icon-filter-map" aria-hidden="true">
-                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-filter-map"></use>
-              </svg>
-              {{ 'Map.MapView' | translate }}
-            </button>
-          </div>
+          <!-- show/hide map button -->
+          <button *ngIf="!showMap" type="button" class="btn btn-outline-primary" (click)="onShowMap()">
+            <svg class="icon icon-filter-map" aria-hidden="true">
+              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-filter-map"></use>
+            </svg>
+            {{ 'Map.MapView' | translate }}
+          </button>
 
           <!-- counters and sort -->
           <app-found-results-counters-and-sort
@@ -184,7 +182,8 @@
           <footer class="results-footer" *ngIf="count">
             <div class="d-flex justify-content-between align-items-center">
               <!-- results per page -->
-              <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event, isMapOpen: showMap })"> </app-items-per-page>
+              <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event, isMapOpen: showMap })">
+              </app-items-per-page>
 
               <!-- pagination -->
               <app-pagination

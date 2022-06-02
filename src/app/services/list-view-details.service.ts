@@ -37,9 +37,6 @@ export class ListViewDetailsService {
         case ApiModel.KNOWLEDGE_BASE:
           this.extendKnowledgeBase(item);
           break;
-        case ApiModel.ARTICLE:
-          this.extendArticles(item);
-          break;
         case ApiModel.SHOWCASE:
           this.extendShowcase(item);
           break;
@@ -107,16 +104,6 @@ export class ListViewDetailsService {
    */
   private extendNews(item: ISearchResult) {
     item.url = `../../${this.routerEndpoints.ARTICLES}/${item.attributes.slug}`;
-    item.titleTranslationKey = 'KnowledgeBase.News';
-    item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
-  }
-
-  /**
-   * Sets url, titleTranslationKey and detailsData properties for article item
-   * @param {ISearchResult} item
-   */
-  private extendArticles(item: ISearchResult) {
-    item.url = `../../${this.routerEndpoints.ARTICLES}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'KnowledgeBase.News';
     item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
   }

@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IDatasetFile, IDatasetRegionsList } from '@app/services/models/dataset-resource';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { zip } from 'rxjs';
@@ -140,7 +139,6 @@ export class DatasetResourceComponent implements OnInit {
     private schemaService: SchemaService,
     private schemaDataService: SchemaDataService,
     private modalService: BsModalService,
-    private featureflagService: FeatureFlagService,
     @Inject(DOCUMENT) private readonly document: Document,
   ) {}
 
@@ -159,11 +157,8 @@ export class DatasetResourceComponent implements OnInit {
     this.hasChart = this.resource.relationships.hasOwnProperty('chart');
     this.hasTabularData = this.hasGeoData || this.resource.relationships.hasOwnProperty('tabular_data');
     this.seoService.setPageTitle(this.resource.attributes.title);
-
-    if (this.featureflagService.validateFlagSync('S43_geodata_map.fe')) {
-      this.regionsList = this.resource.attributes.regions.filter(region => region.is_additional === false);
-      this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
-    }
+    this.regionsList = this.resource.attributes.regions.filter(region => region.is_additional === false);
+    this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
 
     zip(
       this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id),

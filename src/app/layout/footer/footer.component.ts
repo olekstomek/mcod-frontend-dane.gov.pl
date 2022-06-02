@@ -1,8 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CmsService } from '@app/services/cms.service';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IHome } from '@app/services/models/cms/pages/home';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { environment } from '@env/environment';
@@ -29,11 +28,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * Acquinted With RODO status
    */
   isAcquintedWithRodo: boolean;
-
-  /**
-   * Rodo modal trigger (button) reference
-   */
-  @ViewChild('rodoModalTrigger', { static: false }) rodoModalTrigger: ElementRef;
 
   /**
    * RODO modal reference
@@ -74,11 +68,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   rdfDocumentationURL: string;
 
   /**
-   * Determines whether rodo modal is opened from footer
-   */
-  isRodoModalOpenedByClick = false;
-
-  /**
    * Widget subject for logos section and navigation section
    */
   cmsFooterLogoSection = new BehaviorSubject<IWidget[]>(null);
@@ -90,9 +79,8 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private modalService: BsModalService,
     private localStorage: LocalStorageService,
-    public cmsService: CmsService,
     private route: ActivatedRoute,
-    private featureFlagService: FeatureFlagService,
+    public cmsService: CmsService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
   ) {}
@@ -102,24 +90,21 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   ngOnInit(): void {
     this.getRDFDocumentationURL();
+    this.assignCmsSection();
+    this.cmsService.elementFooterNavIsExist.pipe(take(1)).subscribe(v => {
+      const writeUsLinkElem = this.document.querySelector('a.page-footer__list-item.btn-write-us');
+      const rodoLinkElem = this.document.querySelector('a.page-footer__list-item.btn-link-rodo');
 
-    if (this.featureFlagService.validateFlagSync('S44_footer_cms.fe')) {
-      this.assignCmsSection();
-      this.cmsService.elementFooterNavIsExist.pipe(take(1)).subscribe(v => {
-        const writeUsLinkElem = this.document.querySelector('a.page-footer__list-item.btn-write-us');
-        const rodoLinkElem = this.document.querySelector('a.page-footer__list-item.btn-link-rodo');
-
-        writeUsLinkElem.addEventListener('click', e => {
-          e.preventDefault();
-          this.writeUsModalRef = this.modalService.show(this.writeUsModalTemplate);
-        });
-
-        rodoLinkElem.addEventListener('click', e => {
-          e.preventDefault();
-          this.onRodoModalOpen();
-        });
+      writeUsLinkElem.addEventListener('click', e => {
+        e.preventDefault();
+        this.writeUsModalRef = this.modalService.show(this.writeUsModalTemplate);
       });
-    }
+
+      rodoLinkElem.addEventListener('click', e => {
+        e.preventDefault();
+        this.rodoModalOpen();
+      });
+    });
   }
 
   /**
@@ -145,24 +130,10 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * Opens RODO modal
-   */
-  onRodoModalOpen() {
-    this.rodoModalOpen();
-    this.isRodoModalOpenedByClick = true;
-  }
-
-  /**
    * Closes RODO modal
    */
   rodoModalClose() {
     this.rodoModalRef.hide();
-
-    if (!this.featureFlagService.validateFlagSync('S44_footer_cms.fe')) {
-      if (this.isRodoModalOpenedByClick) {
-        (<HTMLButtonElement>this.rodoModalTrigger.nativeElement).focus();
-      }
-    }
   }
 
   /**

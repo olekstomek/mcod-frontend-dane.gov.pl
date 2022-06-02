@@ -1,8 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { IHome } from '@app/services/models/cms/pages/home';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { CmsService } from '@app/services/cms.service';
@@ -66,7 +64,6 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     public cmsService: CmsService,
     public route: ActivatedRoute,
     public router: Router,
-    private featureFlagService: FeatureFlagService,
     @Inject(DOCUMENT) private document: Document,
   ) {
     /**
@@ -127,31 +124,14 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     if (this.isDetailView) {
       return;
     }
-    if (this.featureFlagService.validateFlagSync('S44_footer_cms.fe')) {
-      if (this.widgetFooterSubject) {
-        this.widgetFooterSubject.subscribe(response => {
-          this.body = response;
-          if (this.body) {
-            this.findElementsWithLinks(this.body);
-            this.addClassnameProperty(this.body);
-          }
-        });
-      } else {
-        this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev).subscribe(
-          (page: IPageCms) => {
-            this.body = Array.isArray(page.body) ? page.body : page.body.blocks;
-
-            if (this.body) {
-              this.findElementsWithLinks(this.body);
-              this.addClassnameProperty(this.body);
-            }
-          },
-          err => {
-            this.cmsService.displayCmsErrorMessage(this.requestedUrl, err.message);
-            this.router.navigate(['/']);
-          },
-        );
-      }
+    if (this.widgetFooterSubject) {
+      this.widgetFooterSubject.subscribe(response => {
+        this.body = response;
+        if (this.body) {
+          this.findElementsWithLinks(this.body);
+          this.addClassnameProperty(this.body);
+        }
+      });
     } else {
       this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev).subscribe(
         (page: IPageCms) => {

@@ -10,19 +10,11 @@
     <!-- NEWS LIST -->
     <ul class="row home-news">
       <li class="col-lg-4 home-news__item" *ngFor="let item of items">
-        <h3 *featureFlag="'S46_articles_form_cms.fe'; else oldArticlesHeader" class="home-news__item-heading heading heading--sm">
+        <h3 class="home-news__item-heading heading heading--sm">
           <a [routerLink]="['/!article' | localize, item.attributes.slug]">
             {{ item.attributes.title }}
           </a>
         </h3>
-
-        <ng-template #oldArticlesHeader>
-          <h3 class="home-news__item-heading heading heading--sm">
-            <a [routerLink]="['/!article' | localize, item.id + ',' + item.attributes.slug]">
-              {{ item.attributes.title }}
-            </a>
-          </h3>
-        </ng-template>
 
         <!-- created -->
         <p class="home-news__item-date">
@@ -35,11 +27,7 @@
         </p>
 
         <!-- read more -->
-        <a
-          *featureFlag="'S46_articles_form_cms.fe'; else oldArticles"
-          class="home-news__item-read-more with-chevron"
-          [routerLink]="['/!article' | localize, item.attributes.slug]"
-        >
+        <a class="home-news__item-read-more with-chevron" [routerLink]="['/!article' | localize, item.attributes.slug]">
           {{ 'Home.News.ReadMore' | translate }}
           <span class="sr-only">
             {{ 'Connector.About' | translate }}
@@ -48,30 +36,10 @@
           <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
             <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use></svg
         ></a>
-
-        <ng-template #oldArticles>
-          <a class="home-news__item-read-more with-chevron" [routerLink]="['/!article' | localize, item.id + ',' + item.attributes.slug]">
-            {{ 'Home.News.ReadMore' | translate }}
-            <span class="sr-only">
-              {{ 'Connector.About' | translate }}
-              {{ item.attributes.title }}
-            </span>
-            <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use></svg
-          ></a>
-        </ng-template>
       </li>
     </ul>
 
     <!-- view all (anchor) -->
-    <home-section-footer
-      *featureFlag="'S46_articles_form_cms.fe'; else oldArticlesFooter"
-      [routerURL]="'/!article'"
-      [text]="'Home.News.All'"
-    ></home-section-footer>
-
-    <ng-template #oldArticlesFooter>
-      <home-section-footer [routerURL]="'/!article'" [text]="'Home.News.All'"></home-section-footer>
-    </ng-template>
+    <home-section-footer [routerURL]="'/!article'" [text]="'Home.News.All'"></home-section-footer>
   </div>
 </section>

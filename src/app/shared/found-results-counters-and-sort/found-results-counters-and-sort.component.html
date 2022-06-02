@@ -20,55 +20,34 @@
           <a *ngIf="counter.url" [routerLink]="counter.url" [queryParams]="counter.param">{{ counter.label }} ({{ counter.count }})</a>
 
           <!-- inner route -->
-          <ng-container *featureFlag="'S43_geodata_map.fe'; else oldButton">
-            <button
-              type="button"
-              class="btn btn-link p-0"
-              *ngIf="!counter.url && selectedModel !== counter.value"
-              (click)="updateParams({ 'model[terms]': counter.value }, true)"
-            >
-              <img
-                *ngIf="counter.value !== 'dataset,resource'"
-                [src]="'assets/icomoon/SVG/' + counter.value + '.svg'"
-                alt=""
-                style="vertical-align: top"
-              />
-              {{ counter.label }} ({{ counter.count }})
-              <span class="sr-only">
-                {{ 'Search.AutoContentReload' | translate }}
-              </span>
-            </button>
-          </ng-container>
-
-          <ng-template #oldButton>
-            <button
-              type="button"
-              class="btn btn-link p-0"
-              *ngIf="!counter.url && selectedModel !== counter.value"
-              (click)="updateParams({ 'model[terms]': counter.value }, true)"
-            >
-              {{ counter.label }} ({{ counter.count }})
-              <span class="sr-only">
-                {{ 'Search.AutoContentReload' | translate }}
-              </span>
-            </button>
-          </ng-template>
+          <button
+            type="button"
+            class="btn btn-link p-0"
+            *ngIf="!counter.url && selectedModel !== counter.value"
+            (click)="updateParams({ 'model[terms]': counter.value }, true)"
+          >
+            <img
+              *ngIf="counter.value !== 'dataset,resource'"
+              [src]="'assets/icomoon/SVG/' + counter.value + '.svg'"
+              alt=""
+              style="vertical-align: top"
+            />
+            {{ counter.label }} ({{ counter.count }})
+            <span class="sr-only">
+              {{ 'Search.AutoContentReload' | translate }}
+            </span>
+          </button>
 
           <!-- selected counter -->
-          <ng-container *featureFlag="'S43_geodata_map.fe'; else oldSpan">
-            <span class="" *ngIf="!counter.url && selectedModel === counter.value">
-              <img
-                *ngIf="counter.value !== 'dataset,resource'"
-                [src]="'assets/icomoon/SVG/' + counter.value + 'Black.svg'"
-                alt=""
-                style="vertical-align: top"
-              />
-              {{ counter.label }} ({{ counter.count }})</span
-            >
-          </ng-container>
-          <ng-template #oldSpan>
-            <span class="" *ngIf="!counter.url && selectedModel === counter.value"> {{ counter.label }} ({{ counter.count }})</span>
-          </ng-template>
+          <span class="" *ngIf="!counter.url && selectedModel === counter.value">
+            <img
+              *ngIf="counter.value !== 'dataset,resource'"
+              [src]="'assets/icomoon/SVG/' + counter.value + 'Black.svg'"
+              alt=""
+              style="vertical-align: top"
+            />
+            {{ counter.label }} ({{ counter.count }})</span
+          >
 
           <!-- comma separator -->
           <ng-container *ngIf="!isLastCounter">,</ng-container>

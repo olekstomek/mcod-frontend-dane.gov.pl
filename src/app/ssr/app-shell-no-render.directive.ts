@@ -6,27 +6,22 @@ import { Directive, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewContainerRef }
  * Skips rendering element if platform is server
  */
 @Directive({
-    selector: '[appShellNoRender]'
+  selector: '[appShellNoRender]',
 })
 export class AppShellNoRenderDirective implements OnInit {
-    /**
-     * @ignore
-     */
-    constructor(
-        private viewContainer: ViewContainerRef,
-        private templateRef: TemplateRef<any>,
-        @Inject(PLATFORM_ID) private platformId
-    ) {
-    }
+  /**
+   * @ignore
+   */
+  constructor(private viewContainer: ViewContainerRef, private templateRef: TemplateRef<any>, @Inject(PLATFORM_ID) private platformId) {}
 
-    /**
-     * Clears view container if platform is server
-     */
-    ngOnInit() {
-        if (isPlatformServer(this.platformId)) {
-            this.viewContainer.clear();
-        } else {
-            this.viewContainer.createEmbeddedView(this.templateRef);
-        }
+  /**
+   * Clears view container if platform is server
+   */
+  ngOnInit() {
+    if (isPlatformServer(this.platformId)) {
+      this.viewContainer.clear();
+    } else {
+      this.viewContainer.createEmbeddedView(this.templateRef);
     }
+  }
 }

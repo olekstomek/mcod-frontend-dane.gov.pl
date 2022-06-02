@@ -6,14 +6,12 @@ import { RestService } from '@app/services/rest.service';
  */
 @Injectable()
 export class AbstractService extends RestService {
-
-    /**
-     * Request with GET Method to a given url
-     * @param {string} url
-     * @returns {Observable<any>}
-     */
-    public getRequest(url: string) {
-        return this.get(url);
-    }
-
+  /**
+   * Request with GET Method to a given url
+   * @param {string} url
+   * @returns {Observable<any>}
+   */
+  public getRequest(url: string) {
+    return this.get(url);
+  }
 }

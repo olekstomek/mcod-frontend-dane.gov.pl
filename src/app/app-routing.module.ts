@@ -21,7 +21,6 @@ import {
   ManualParserLoader,
 } from '@gilsdav/ngx-translate-router';
 import { TranslateService } from '@ngx-translate/core';
-import { AboutComponent } from './pages/about/about.component';
 import { DeclarationComponent } from './pages/declaration/declaration.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SitemapComponent } from './pages/sitemap/sitemap.component';
@@ -41,7 +40,6 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: '!resource/!:id', redirectTo: '/embed/resource/:id', pathMatch: 'full' },
-      { path: '!about', component: AboutComponent },
       { path: '!sitemap', component: SitemapComponent },
 
       {
@@ -59,7 +57,6 @@ const routes: Routes = [
         data: { breadcrumbs: { translationKey: 'Institutions.Self' } },
         loadChildren: () => import('./pages/institutions/institutions.module').then(m => m.InstitutionsModule),
       },
-      // remove with S46_articles_form_cms.fe
       {
         path: '!article',
         data: { breadcrumbs: { translationKey: 'Articles.News' } },

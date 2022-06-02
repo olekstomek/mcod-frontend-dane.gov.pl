@@ -1,78 +1,76 @@
 <div class="position-relative search-suggest-wrapper">
-  <div *featureFlag="'S42_geodata_search.fe'; else generalSearch">
-    <div class="d-flex search-suggest-tooltip-wrapper align-items-center" *ngIf="isGeodataSearch; else generalSearch">
-      <div
-        class="search-suggest__combobox flex-grow-1"
-        role="combobox"
-        aria-haspopup="listbox"
-        [attr.aria-owns]="isListBoxExpanded ? 'search-suggest-listbox' : null"
-        [attr.aria-expanded]="isListBoxExpanded"
-        [attr.aria-label]="placeholderTranslationKey | translate"
+  <div class="d-flex search-suggest-tooltip-wrapper align-items-center" *ngIf="isGeodataSearch; else generalSearch">
+    <div
+      class="search-suggest__combobox flex-grow-1"
+      role="combobox"
+      aria-haspopup="listbox"
+      [attr.aria-owns]="isListBoxExpanded ? 'search-suggest-listbox' : null"
+      [attr.aria-expanded]="isListBoxExpanded"
+      [attr.aria-label]="placeholderTranslationKey | translate"
+    >
+      <!-- search input -->
+      <input
+        id="regions-search-input"
+        type="text"
+        class="form-control form-control-sm search-suggest__region-input"
+        autocomplete="off"
+        placeholder="{{ placeholderTranslationKey | translate }}..."
+        [minlength]="minChars"
+        [maxlength]="maxChars"
+        ngModel
+        name="q"
+        #q="ngModel"
+        [(ngModel)]="initialValue ? initialValue : searchText"
+        (keydown)="onKeydown($event)"
+        (focusin)="onFocusIn()"
+        aria-autocomplete="list"
+        [attr.aria-controls]="isListBoxExpanded ? 'search-suggest-listbox' : null"
+        [attr.aria-activedescendant]="
+          activeSuggestionIndex !== notSelectedSuggestionIndex ? 'search-suggest-listbox-item-' + activeSuggestionIndex : null
+        "
+        [attr.aria-invalid]="!q.valid && q.touched"
+      />
+
+      <!-- suggestion list -->
+      <ul
+        class="search-suggest__listbox"
+        id="search-suggest-listbox"
+        role="listbox"
+        tabindex="-1"
+        [hidden]="!isListBoxExpanded || !listBoxOptions.length"
+        *ngIf="apiModels?.length"
       >
-        <!-- search input -->
-        <input
-          id="regions-search-input"
-          type="text"
-          class="form-control form-control-sm search-suggest__region-input"
-          autocomplete="off"
-          placeholder="{{ placeholderTranslationKey | translate }}..."
-          [minlength]="minChars"
-          [maxlength]="maxChars"
-          ngModel
-          name="q"
-          #q="ngModel"
-          [(ngModel)]="initialValue ? initialValue : searchText"
-          (keydown)="onKeydown($event)"
-          (focusin)="onFocusIn()"
-          aria-autocomplete="list"
-          [attr.aria-controls]="isListBoxExpanded ? 'search-suggest-listbox' : null"
-          [attr.aria-activedescendant]="
-            activeSuggestionIndex !== notSelectedSuggestionIndex ? 'search-suggest-listbox-item-' + activeSuggestionIndex : null
-          "
-          [attr.aria-invalid]="!q.valid && q.touched"
-        />
-
-        <!-- suggestion list -->
-        <ul
-          class="search-suggest__listbox"
-          id="search-suggest-listbox"
-          role="listbox"
-          tabindex="-1"
-          [hidden]="!isListBoxExpanded || !listBoxOptions.length"
-          *ngIf="apiModels?.length"
+        <!-- suggestion list item -->
+        <li
+          class="search-suggest__listbox-region-item"
+          role="option"
+          id="search-suggest-listbox-item-{{ i }}"
+          [attr.aria-selected]="i === activeSuggestionIndex"
+          [ngClass]="{ active: i === activeSuggestionIndex }"
+          (mouseenter)="activeSuggestionIndex = i"
+          (mouseleave)="activeSuggestionIndex = notSelectedSuggestionIndex"
+          (click)="onSuggestionSearchClick()"
+          *ngFor="let option of listBoxOptions; let i = index"
         >
-          <!-- suggestion list item -->
-          <li
-            class="search-suggest__listbox-region-item"
-            role="option"
-            id="search-suggest-listbox-item-{{ i }}"
-            [attr.aria-selected]="i === activeSuggestionIndex"
-            [ngClass]="{ active: i === activeSuggestionIndex }"
-            (mouseenter)="activeSuggestionIndex = i"
-            (mouseleave)="activeSuggestionIndex = notSelectedSuggestionIndex"
-            (click)="onSuggestionSearchClick()"
-            *ngFor="let option of listBoxOptions; let i = index"
-          >
-            <!-- title -->
-            <span class="search-suggest__listbox-title">
-              <span class="sr-only">
-                {{ 'GoTo' | translate }}
-              </span>
-              {{ option.title }}
+          <!-- title -->
+          <span class="search-suggest__listbox-title">
+            <span class="sr-only">
+              {{ 'GoTo' | translate }}
             </span>
+            {{ option.title }}
+          </span>
 
-            <!-- area -->
-            <span>
-              <span class="sr-only">
-                {{ 'Attribute.Category' | translate }}
-              </span>
-              <small>
-                {{ option.hierarchy_label }}
-              </small>
+          <!-- area -->
+          <span>
+            <span class="sr-only">
+              {{ 'Attribute.Category' | translate }}
             </span>
-          </li>
-        </ul>
-      </div>
+            <small>
+              {{ option.hierarchy_label }}
+            </small>
+          </span>
+        </li>
+      </ul>
     </div>
   </div>
 

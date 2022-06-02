@@ -249,27 +249,23 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * Gets list of datasets
    */
   protected getData(): void {
-    if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
-      if (this.params['isMapOpen'] === 'true') {
-        this.preparedParamsForDefaultLocation();
-      }
+    if (this.params['isMapOpen'] === 'true') {
+      this.preparedParamsForDefaultLocation();
     }
 
     this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
       this.setData(response);
-      if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
-        this.mapAggregations = response.aggregations;
-        this.mapMetaParamsRegions = response.params.regions;
-        this.resetMapMetaParamsRegionsIfNeeded();
-        if (this.showMap && this.params['isMapOpen'] !== 'true') {
-          this.mapMetaParamsRegions ? (this.isDefaultLocation = false) : (this.isDefaultLocation = true);
-          this.refreshMap.next({ ref: true, changeBbox: false });
-        }
-        if (this.params['isMapOpen'] === 'true') {
-          this.params['regions[id][terms]'] !== '85633723' && !this.params['regions[bbox][geo_shape]']
-            ? this.setParamsForMap(false)
-            : this.setParamsForMap(true);
-        }
+      this.mapAggregations = response.aggregations;
+      this.mapMetaParamsRegions = response.params.regions;
+      this.resetMapMetaParamsRegionsIfNeeded();
+      if (this.showMap && this.params['isMapOpen'] !== 'true') {
+        this.mapMetaParamsRegions ? (this.isDefaultLocation = false) : (this.isDefaultLocation = true);
+        this.refreshMap.next({ ref: true, changeBbox: false });
+      }
+      if (this.params['isMapOpen'] === 'true') {
+        this.params['regions[id][terms]'] !== '85633723' && !this.params['regions[bbox][geo_shape]']
+          ? this.setParamsForMap(false)
+          : this.setParamsForMap(true);
       }
     });
   }
@@ -295,36 +291,19 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * show map event
    */
   onShowMap(): void {
-    if (this.featureFlagService.validateFlagSync('S49_geodata_map_aggregation.fe')) {
-      if (!this.mapAggregations.map_by_regions) {
-        if (this.mapMetaParamsRegions) {
-          this.setParamsForMap(false);
-        } else {
-          this.preparedParamsForDefaultLocation();
-
-          this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-            this.mapAggregations = resp.aggregations;
-            this.setParamsForMap(true);
-          });
-        }
+    if (!this.mapAggregations.map_by_regions) {
+      if (this.mapMetaParamsRegions) {
+        this.setParamsForMap(false);
       } else {
-        this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
+        this.preparedParamsForDefaultLocation();
+
+        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+          this.mapAggregations = resp.aggregations;
+          this.setParamsForMap(true);
+        });
       }
     } else {
-      if (!this.mapAggregations.by_tiles) {
-        if (this.mapMetaParamsRegions) {
-          this.setParamsForMap(false);
-        } else {
-          this.preparedParamsForDefaultLocation();
-
-          this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-            this.mapAggregations = resp.aggregations;
-            this.setParamsForMap(true);
-          });
-        }
-      } else {
-        this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
-      }
+      this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
     }
   }
 
@@ -385,10 +364,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * @return {number}
    */
   protected getSelectedFiltersCount(): number {
-    if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
-      if (this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) === 0) {
-        this.showMap = false;
-      }
+    if (this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) === 0) {
+      this.showMap = false;
     }
 
     return (

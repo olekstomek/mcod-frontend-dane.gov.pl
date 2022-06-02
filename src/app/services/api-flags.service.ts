@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import {catchError, finalize, map} from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { APP_CONFIG } from '@app/app.config';
@@ -10,54 +10,48 @@ import { DOCUMENT } from '@angular/common';
  * Api Flag Service
  */
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
-export class ApiFlagsService  {
+export class ApiFlagsService {
+  /**
+   * @ignore
+   */
+  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: any) {}
 
-    /**
-     * @ignore
-     */
-    constructor (
-        private http: HttpClient,
-        @Inject(DOCUMENT) private document: any,
-    ) {}
+  /**
+   * Returns Feature Flags
+   * @returns {Observable<any[] | any>}
+   */
+  getFeatureFlags(): Observable<any[] | any> {
+    return this.http.get(APP_CONFIG.urls.flags.features).pipe(
+      map((val: any) => val.features),
+      catchError(err => {
+        console.warn('Could not load feature flags: ', err);
+        return of([]);
+      }),
+    );
+  }
 
-    /**
-     * Returns Feature Flags
-     * @returns {Observable<any[] | any>}
-     */
-    getFeatureFlags(): Observable<any[] | any> {
-        return this.http.get(APP_CONFIG.urls.flags.features)
-            .pipe(
-                map((val: any) => val.features),
-                catchError((err) => {
-                    console.warn('Could not load feature flags: ', err);
-                    return of([]);
-                })
-            );
-    }
+  /**
+   * Registers flags client
+   * @param subject
+   * @returns {Observable<any[] | Object>}
+   */
+  registerClient(subject): Observable<any[] | Object> {
+    const payload = {
+      appName: APP_CONFIG.name,
+      instanceId: this.document.location.hostname,
+      strategies: ['default', 'environmentName', 'applicationHostname'],
+      started: new Date(),
+      interval: 0,
+    };
 
-    /**
-     * Registers flags client
-     * @param subject
-     * @returns {Observable<any[] | Object>}
-     */
-    registerClient(subject): Observable<any[] | Object> {
-        const payload = {
-            appName: APP_CONFIG.name,
-            instanceId: this.document.location.hostname,
-            strategies: ['default', 'environmentName', 'applicationHostname'],
-            started: new Date(),
-            interval: 0
-        };
-
-        return this.http.post(APP_CONFIG.urls.flags.register, payload)
-            .pipe(
-            catchError((err) => {
-                console.warn('Could not register Unleash client: ', err);
-                return of([]);
-            }),
-            finalize(() => this.getFeatureFlags().subscribe(subject) )
-        );
-    }
+    return this.http.post(APP_CONFIG.urls.flags.register, payload).pipe(
+      catchError(err => {
+        console.warn('Could not register Unleash client: ', err);
+        return of([]);
+      }),
+      finalize(() => this.getFeatureFlags().subscribe(subject)),
+    );
+  }
 }

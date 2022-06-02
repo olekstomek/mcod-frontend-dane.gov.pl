@@ -1,29 +1,31 @@
 <div class="page-footer__heading">
-    <div class="page-footer__heading-title" *ngIf="titleTranslationKey" id="{{ titleId }}">
-        {{ titleTranslationKey | translate }}
-    </div>
+  <div class="page-footer__heading-title" *ngIf="titleTranslationKey" id="{{ titleId }}">
+    {{ titleTranslationKey | translate }}
+  </div>
 
-    <!-- toggle navigation list on mobile -->
-    <button type="button" class="page-footer__heading-toggle"
-        *ngIf="titleTranslationKey"
-        [attr.aria-controls]="listId"
-        [attr.aria-pressed]="isVisible"
-        (click)="isVisible = !isVisible">
+  <!-- toggle navigation list on mobile -->
+  <button
+    type="button"
+    class="page-footer__heading-toggle"
+    *ngIf="titleTranslationKey"
+    [attr.aria-controls]="listId"
+    [attr.aria-pressed]="isVisible"
+    (click)="isVisible = !isVisible"
+  >
+    <span class="sr-only">
+      {{ (isVisible ? 'Action.Hide' : 'Action.Show') | translate }}
+      {{ titleTranslationKey | translate }}
+    </span>
 
-        <span class="sr-only">
-            {{ (isVisible ? 'Action.Hide' :  'Action.Show') | translate }} 
-            {{ titleTranslationKey | translate }}
-        </span>
-
-        <span aria-hidden="true">
-            {{ (isVisible ? '-' : '+' ) }}
-        </span>
-    </button>
+    <span aria-hidden="true">
+      {{ isVisible ? '-' : '+' }}
+    </span>
+  </button>
 </div>
 
 <!-- navigation section -->
-<nav class="page-footer__nav" id="{{ listId }}" [ngClass]="{'visibility-animated': isVisible}">
-    <ul class="page-footer__list" role="menu" [attr.aria-labelledby]="titleTranslationKey ? titleId : null">
-        <ng-content></ng-content>
-    </ul>
+<nav class="page-footer__nav" id="{{ listId }}" [ngClass]="{ 'visibility-animated': isVisible }">
+  <ul class="page-footer__list" role="menu" [attr.aria-labelledby]="titleTranslationKey ? titleId : null">
+    <ng-content></ng-content>
+  </ul>
 </nav>

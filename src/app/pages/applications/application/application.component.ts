@@ -1,4 +1,4 @@
-import { ActivatedRoute, Params, Router, QueryParamsHandling } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { ApplicationsService } from '@app/services/applications.service';

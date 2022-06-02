@@ -1,7 +1,6 @@
 import { LatLngExpression } from 'leaflet';
 
 export interface IAggregation {
-  tile_name?: string; // remove with S49_geodata_map_aggregation.fe
   region_name?: string;
   doc_count: number;
   resources_count: number;
@@ -62,7 +61,6 @@ export interface INominatimFeatures {
 }
 
 export interface IAggregationArray {
-  by_tiles?: IAggregation[]; // remove with S49_geodata_map_aggregation.fe
   map_by_regions?: IAggregation[];
   counters: {};
 }

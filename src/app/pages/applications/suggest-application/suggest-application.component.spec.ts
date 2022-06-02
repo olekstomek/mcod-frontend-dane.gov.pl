@@ -90,6 +90,10 @@ describe('SuggestApplicationComponent', () => {
     let equationSum: number;
 
     beforeEach(() => {
+      let select = fixture.debugElement.query(By.css('.form-control')).nativeElement;
+      select.value = select.options[1].value;
+      select.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
       let captchaDe = fixture.debugElement.query(By.css('.captcha'));
       let equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
       let equationArr = equation.replace(/ /g, '').replace('=', '').split('+');

@@ -12,82 +12,83 @@ import { ApiModel } from '@app/services/api/api-model';
  * <app-subscribe-button [item]="item"></app-subscribe-button>
  */
 @Component({
-    selector: 'app-subscribe-button',
-    templateUrl: './subscribe-button.component.html'
+  selector: 'app-subscribe-button',
+  templateUrl: './subscribe-button.component.html',
 })
 export class SubscribeButtonComponent implements OnInit {
+  /**
+   * Observed object type
+   */
+  @Input() type: ApiModel = ApiModel.DATASET;
 
-    /**
-     * Observed object type
-     */
-    @Input() type: ApiModel = ApiModel.DATASET;
+  /**
+   * Object (application, article, dataset) to be observed
+   */
+  @Input() item: any;
 
-    /**
-     * Object (application, article, dataset) to be observed
-     */
-    @Input() item: any;
+  /**
+   * bootstrap class for styling
+   */
+  @Input() bootstrapClass = 'btn-primary';
 
-    /**
-     * bootstrap class for styling
-     */
-    @Input() bootstrapClass = 'btn-primary';
+  /**
+   * Tooltip title
+   * @type {string}
+   */
+  @Input() tooltipTitle: string;
 
-    /**
-     * Tooltip title
-     * @type {string}
-     */
-    @Input() tooltipTitle: string;
+  /**
+   * Tooltip text
+   * @type {string}
+   */
+  @Input() tooltipText: string;
 
-    /**
-     * Tooltip text
-     * @type {string}
-     */
-    @Input() tooltipText: string;
+  /**
+   * Subscription id of the subscribed object
+   * @type {number}
+   */
+  subscriptionId: number;
 
-    /**
-     * Subscription id of the subscribed object
-     * @type {number}
-     */
-    subscriptionId: number;
+  /**
+   * @ignore
+   */
+  constructor(
+    public userService: UserService,
+    private observeService: ObserveService,
+    private notificationsService: NotificationsFrontService,
+  ) {}
 
-    /**
-     * @ignore
-     */
-    constructor(public userService: UserService,
-                private observeService: ObserveService,
-                private notificationsService: NotificationsFrontService) {
+  /**
+   * Checks weather object is already subscribed and stores is subscription data
+   */
+  ngOnInit() {
+    if (this.item.relationships && this.item.relationships.subscription) {
+      const relatedUrl = this.item.relationships.subscription.links.related;
+      const lastSlashIndex = relatedUrl.lastIndexOf('/');
+      this.subscriptionId = relatedUrl.slice(lastSlashIndex + 1, relatedUrl.length);
     }
+  }
 
-    /**
-     * Checks weather object is already subscribed and stores is subscription data
-     */
-    ngOnInit() {
-        if (this.item.relationships && this.item.relationships.subscription) {
-            const relatedUrl = this.item.relationships.subscription.links.related;
-            const lastSlashIndex = relatedUrl.lastIndexOf('/');
-            this.subscriptionId = relatedUrl.slice(lastSlashIndex + 1, relatedUrl.length);
-        }
-    }
+  /**
+   * Sets subscription on related object (item)
+   */
+  addSubscription() {
+    this.observeService.addSubscription(this.type, this.item.id).subscribe(
+      subscribedObject => {
+        this.subscriptionId = subscribedObject.data.id;
+      },
+      () => {
+        this.notificationsService.addAlertWithTranslation('info', 'User.LogInToFollow');
+      },
+    );
+  }
 
-    /**
-     * Sets subscription on related object (item)
-     */
-    addSubscription() {
-        this.observeService.addSubscription(this.type, this.item.id)
-            .subscribe(subscribedObject => {
-                this.subscriptionId = subscribedObject.data.id;
-            }, () => {
-                this.notificationsService.addAlertWithTranslation('info', 'User.LogInToFollow');
-            });
-    }
-
-    /**
-     * Removes subscription from related object (item)
-     */
-    removeSubscription() {
-        this.observeService.removeSubscription(this.subscriptionId)
-            .subscribe(() => {
-                this.subscriptionId = null;
-            });
-    }
+  /**
+   * Removes subscription from related object (item)
+   */
+  removeSubscription() {
+    this.observeService.removeSubscription(this.subscriptionId).subscribe(() => {
+      this.subscriptionId = null;
+    });
+  }
 }

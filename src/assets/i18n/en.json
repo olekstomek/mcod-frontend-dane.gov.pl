@@ -229,7 +229,8 @@
     "DynamicData": "Dynamic data",
     "ResearchData": "Research data",
     "Supplements": "Supporting documents",
-    "Description": "Description"
+    "Description": "Description",
+    "PromotedData": "Promoted data"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",

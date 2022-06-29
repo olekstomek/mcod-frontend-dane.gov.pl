@@ -20,7 +20,7 @@ describe('ObserveService', () => {
   });
 
   it('should call addSubscription function', () => {
-    expect(service.addSubscription('test', '2')).toBeTruthy();
+    expect(service.addSubscription('test', '2', 'test', 2)).toBeTruthy();
   });
 
   it('should call removeSubscription function', () => {
@@ -46,7 +46,7 @@ describe('ObserveService', () => {
   });
 
   it('addSubscription - Observable should return value', async () => {
-    service.addSubscription('test', '1').subscribe(value => {
+    service.addSubscription('test', '1', 'test', 2).subscribe(value => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

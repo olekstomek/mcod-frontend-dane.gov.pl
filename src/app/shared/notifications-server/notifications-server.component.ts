@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {NotificationsService} from '@app/services/notifications.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { NotificationsService } from '@app/services/notifications.service';
 
 /**
  * Notifications components displays global notifications from Notification Service
@@ -9,39 +9,36 @@ import {NotificationsService} from '@app/services/notifications.service';
  */
 
 @Component({
-    selector: 'app-notifications',
-    templateUrl: './notifications-server.component.html'
+  selector: 'app-notifications',
+  templateUrl: './notifications-server.component.html',
 })
 export class NotificationsServerComponent implements OnInit, OnDestroy {
+  /**
+   * Local alerts variable
+   */
+  alerts: any[];
+  /**
+   * Notification Service subscription
+   */
+  notificationsSubscription: Subscription;
 
-    /**
-     * Local alerts variable
-     */
-    alerts: any[];
-    /**
-     * Notification Service subscription
-     */
-    notificationsSubscription: Subscription;
+  /**
+   * @ignore
+   */
+  constructor(private notificationsService: NotificationsService) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private notificationsService: NotificationsService) {
-    }
+  /**
+   * Subscribe to notification service
+   */
+  ngOnInit() {
+    this.notificationsSubscription = this.notificationsService.getAlerts().subscribe(alerts => (this.alerts = alerts));
+  }
 
-    /**
-     * Subscribe to notification service
-     */
-    ngOnInit() {
-        this.notificationsSubscription = this.notificationsService.getAlerts().subscribe(alerts => this.alerts = alerts);
-    }
-
-    /**
-     * Clear alerts and unsubscribe from service (lack of .complete method means hanging Observable subscription.
-     */
-    ngOnDestroy() {
-        this.notificationsService.clearAlerts();
-        this.notificationsSubscription && this.notificationsSubscription.unsubscribe();
-    }
-
+  /**
+   * Clear alerts and unsubscribe from service (lack of .complete method means hanging Observable subscription.
+   */
+  ngOnDestroy() {
+    this.notificationsService.clearAlerts();
+    this.notificationsSubscription && this.notificationsSubscription.unsubscribe();
+  }
 }

@@ -115,19 +115,22 @@ export abstract class ListViewFilterPageAbstractComponent {
    * @param { SelectedFilter} filter
    */
   clearSelectedFilter(filter: SelectedFilter, isMapOpen?: boolean) {
-    switch (filter.names) {
-      case 'has_high_value_data':
-        this.disabledCheckbox(0);
-        break;
-      case 'has_dynamic_data':
-        this.disabledCheckbox(2);
-        break;
-      case 'has_research_data':
-        if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
-          this.disabledCheckbox(4);
-        }
-        break;
+    if (!this.featureFlagService.validateFlagSync('S52_remove_no_from_filters.fe')) {
+      switch (filter.names) {
+        case 'has_high_value_data':
+          this.disabledCheckbox(0);
+          break;
+        case 'has_dynamic_data':
+          this.disabledCheckbox(2);
+          break;
+        case 'has_research_data':
+          if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
+            this.disabledCheckbox(4);
+          }
+          break;
+      }
     }
+
     let updatedQueryParams: PageParams = this.selectedFiltersService.removeSelectedFilter(
       filter,
       this.activatedRoute.snapshot.queryParams,
@@ -207,11 +210,14 @@ export abstract class ListViewFilterPageAbstractComponent {
   protected resetSelectedFilters() {
     this.backupSelectedFilters = this.getFiltersModel();
     this.selectedFiltersCount = 0;
-    this.resetHighValueDataFilterCheckboxes();
-    this.resetDynamicDataFilterCheckboxes();
 
-    if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
-      this.resetResearchDataFilterCheckboxes();
+    if (!this.featureFlagService.validateFlagSync('S52_remove_no_from_filters.fe')) {
+      this.resetHighValueDataFilterCheckboxes();
+      this.resetDynamicDataFilterCheckboxes();
+
+      if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
+        this.resetResearchDataFilterCheckboxes();
+      }
     }
 
     const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');

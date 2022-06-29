@@ -31,7 +31,11 @@
   >
     <div class="dropdown">
       <!-- search with suggestion -->
-      <app-regions-search (selectedChange)="selectItem($event)" (enableApply)="enableApply = $event" [initialValue]="initialValue"></app-regions-search>
+      <app-regions-search
+        (selectedChange)="selectItem($event)"
+        (enableApply)="enableApply = $event"
+        [initialValue]="initialValue"
+      ></app-regions-search>
 
       <!-- additional actions - apply -->
       <app-list-view-filters-action-buttons

@@ -9,82 +9,83 @@ import { PostMessageIframeService } from '@app/services/post-message-iframe.serv
 import { SeoService } from '@app/services/seo.service';
 
 @Component({
-    selector: 'app-stats-page',
-    templateUrl: './dashboard-stats.component.html',
+  selector: 'app-stats-page',
+  templateUrl: './dashboard-stats.component.html',
 })
 
 /**
  * Dashboard Stats component
  */
 export class DashboardStatsComponent implements OnInit, AfterViewInit, OnDestroy {
+  /**
+   * iFrame element ref
+   * @type {ElementRef<HTMLIFrameElement>}
+   */
+  @ViewChild('statsIframeRef')
+  iframe: ElementRef<HTMLIFrameElement>;
 
-    /**
-     * iFrame element ref
-     * @type {ElementRef<HTMLIFrameElement>}
-     */
-    @ViewChild('statsIframeRef')
-    iframe: ElementRef<HTMLIFrameElement>;
+  /**
+   * Frame content height
+   * @type {string}
+   */
+  frameContentHeight: string = '0';
 
-    /**
-     * Frame content height
-     * @type {string}
-     */
-    frameContentHeight: string = '0';
+  /**
+   * Stats URL
+   * @type {string}
+   */
+  statsURL: SafeUrl;
+  /**
+   * Iframe index in iframe service
+   * @type {number}
+   */
+  private iframeIndex: number;
 
-    /**
-     * Stats URL
-     * @type {string}
-     */
-    statsURL: SafeUrl;
-    /**
-     * Iframe index in iframe service
-     * @type {number}
-     */
-    private iframeIndex: number;
+  /**
+   * @ignore
+   */
+  constructor(
+    private seoService: SeoService,
+    private readonly iframeService: AvailableIFrameService,
+    private readonly postMessageService: PostMessageIframeService,
+    private readonly sanitizer: DomSanitizer,
+  ) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private seoService: SeoService,
-                private readonly iframeService: AvailableIFrameService,
-                private readonly postMessageService: PostMessageIframeService,
-                private readonly sanitizer: DomSanitizer) {
+  /**
+   * Setups stats URL
+   */
+  ngOnInit() {
+    this.seoService.setPageTitleByTranslationKey(['MyDashboard.Stats']);
+
+    if (environment.production) {
+      this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(APP_CONFIG.urls.stats);
+    } else {
+      this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://dev.dane.gov.pl${APP_CONFIG.urls.stats}`);
     }
+  }
 
-    /**
-     * Setups stats URL
-     */
-    ngOnInit() {
-        this.seoService.setPageTitleByTranslationKey(['MyDashboard.Stats']);
+  /**
+   * Add visible iframe to service
+   * Subscribe for frame height
+   */
+  ngAfterViewInit(): void {
+    this.iframeIndex = this.iframeService.append(this.iframe);
+    this.postMessageService
+      .getMessages()
+      .pipe(
+        filter(data => data.height),
+        debounceTime(100),
+        distinctUntilChanged((prev, curr) => prev.height === curr.height),
+      )
+      .subscribe(dimensions => {
+        this.frameContentHeight = dimensions.height + 'px';
+      });
+  }
 
-        if (environment.production) {
-            this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(APP_CONFIG.urls.stats);
-        } else {
-            this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://dev.dane.gov.pl${APP_CONFIG.urls.stats}`);
-        }
-    }
-
-    /**
-     * Add visible iframe to service
-     * Subscribe for frame height
-     */
-    ngAfterViewInit(): void {
-        this.iframeIndex = this.iframeService.append(this.iframe);
-        this.postMessageService.getMessages()
-            .pipe(
-                filter(data => data.height),
-                debounceTime(100),
-                distinctUntilChanged((prev, curr) => prev.height === curr.height))
-            .subscribe(dimensions => {
-                this.frameContentHeight = dimensions.height + 'px';
-            });
-    }
-
-    /**
-     * Cleanups visible iframe
-     */
-    ngOnDestroy() {
-        this.iframeService.remove(this.iframeIndex);
-    }
-
+  /**
+   * Cleanups visible iframe
+   */
+  ngOnDestroy() {
+    this.iframeService.remove(this.iframeIndex);
+  }
 }

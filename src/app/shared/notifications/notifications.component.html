@@ -1,8 +1,6 @@
-
 <!-- more than 1 alert -->
 <ul class="list-group mb-2" *ngIf="alerts">
-    <li class="list-group-item list-group-item-{{alert.type}}"
-        *ngFor="let alert of alerts">
-        {{ alert.msg }}
-    </li>
+  <li class="list-group-item list-group-item-{{ alert.type }}" *ngFor="let alert of alerts">
+    {{ alert.msg }}
+  </li>
 </ul>

@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { toggleVertically } from '@app/animations/toggle-vertically';
 
 /**
@@ -12,7 +12,7 @@ import { toggleVertically } from '@app/animations/toggle-vertically';
   templateUrl: './cms-block2.component.html',
   animations: [toggleVertically],
 })
-export class CmsBlock2Component implements OnInit {
+export class CmsBlock2Component implements OnInit, OnDestroy {
   /**
    * Widget subject
    */
@@ -56,16 +56,22 @@ export class CmsBlock2Component implements OnInit {
    */
   contentHasLoaded = false;
 
+  widgetsSubjectSubscription: Subscription;
+
   /**
    * Subscribe to widgetSubject
    */
   ngOnInit() {
     if (this.widgetsSubject) {
-      this.widgetsSubject.subscribe(response => {
+      this.widgetsSubjectSubscription = this.widgetsSubject.subscribe(response => {
         this.widgets = response;
       });
     } else {
       this.widgets.push(this.oneWidget);
     }
+  }
+
+  ngOnDestroy() {
+    this.widgetsSubjectSubscription?.unsubscribe();
   }
 }

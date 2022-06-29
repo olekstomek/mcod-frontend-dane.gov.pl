@@ -1,4 +1,9 @@
 <ng-container *ngIf="item">
+  <ng-container *featureFlag="'S52_promoted_data.fe'">
+    <div *ngIf="item.attributes.is_promoted" class="result-item-promoted__left--promoted-tex-pill">
+      <span class="bg-custom">{{ 'Attribute.PromotedData' | translate }}</span>
+    </div>
+  </ng-container>
   <h2 class="heading heading--primary-link heading--sm highlight">
     <a
       [routerLink]="[detailsUrl]"

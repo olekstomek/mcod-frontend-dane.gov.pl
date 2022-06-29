@@ -10,92 +10,71 @@ import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { FeatureFlagDirective } from '@app/shared/feature-flags/feature-flag.directive';
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
 
-
 class MockkFeatureFlagService {
+  featureFlags = new BehaviorSubject([]);
 
-    featureFlags = new BehaviorSubject([]);
+  isFlagEnabled = true;
 
-    isFlagEnabled = true;
+  validateFlag(...args): boolean {
+    return this.isFlagEnabled;
+  }
 
-    validateFlag(...args): boolean {
-        return this.isFlagEnabled;
-    }
-
-    setFlag(isEnabled: boolean) {
-        this.isFlagEnabled = isEnabled;
-    }
-
+  setFlag(isEnabled: boolean) {
+    this.isFlagEnabled = isEnabled;
+  }
 }
 
 @Component({
-    template: `
-        <h2 appTooltip="Text" [title]="'Title'">About</h2>
-    `
+  template: ` <h2 appTooltip="Text" [title]="'Title'">About</h2> `,
 })
-export class MockComponent {
-
-}
-
+export class MockComponent {}
 
 describe('Tooltip directive', () => {
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [
-                MockComponent,
-                BsTooltip,
-                TooltipDirective,
-                FeatureFlagDirective
-            ],
-            providers: [
-                {provide: FeatureFlagService, useClass: MockkFeatureFlagService},
-                Overlay
-            ]
-        }).compileComponents();
-    });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      declarations: [MockComponent, BsTooltip, TooltipDirective, FeatureFlagDirective],
+      providers: [{ provide: FeatureFlagService, useClass: MockkFeatureFlagService }, Overlay],
+    }).compileComponents();
+  });
 
-    it('should create component', () => {
-        const fixture = TestBed.createComponent(MockComponent);
-        const infoTooltipComponent = fixture.componentInstance;
-        expect(infoTooltipComponent).toBeTruthy();
-    });
+  it('should create component', () => {
+    const fixture = TestBed.createComponent(MockComponent);
+    const infoTooltipComponent = fixture.componentInstance;
+    expect(infoTooltipComponent).toBeTruthy();
+  });
 
+  it('should render component with directive', () => {
+    const fixture = TestBed.createComponent(MockComponent);
 
-    it('should render component with directive', () => {
-        const fixture = TestBed.createComponent(MockComponent);
+    fixture.detectChanges();
 
-        fixture.detectChanges();
+    const tooltips = fixture.debugElement.queryAll(By.directive(TooltipDirective));
 
-        const tooltips = fixture.debugElement.queryAll(By.directive(TooltipDirective));
+    expect(tooltips.length).toBe(1);
+  });
 
-        expect(tooltips.length).toBe(1);
+  it('should render tooltip with proper text', () => {
+    const fixture = TestBed.createComponent(MockComponent);
 
-    });
+    fixture.detectChanges();
 
-    it('should render tooltip with proper text', () => {
-        const fixture = TestBed.createComponent(MockComponent);
+    const tooltip = fixture.debugElement.query(By.directive(TooltipDirective));
 
-        fixture.detectChanges();
+    const directiveInstance = tooltip.injector.get(TooltipDirective);
 
-        const tooltip = fixture.debugElement.query(By.directive(TooltipDirective));
+    expect(directiveInstance.text).toBe('Text');
+  });
 
-        const directiveInstance = tooltip.injector.get(TooltipDirective);
+  it('should render tooltip with proper title', () => {
+    const fixture = TestBed.createComponent(MockComponent);
 
-        expect(directiveInstance.text).toBe('Text');
+    fixture.detectChanges();
 
-    });
+    const tooltip = fixture.debugElement.query(By.directive(TooltipDirective));
 
-    it('should render tooltip with proper title', () => {
-        const fixture = TestBed.createComponent(MockComponent);
+    const directiveInstance = tooltip.injector.get(TooltipDirective);
 
-        fixture.detectChanges();
-
-        const tooltip = fixture.debugElement.query(By.directive(TooltipDirective));
-
-        const directiveInstance = tooltip.injector.get(TooltipDirective);
-
-        expect(directiveInstance.title).toBe('Title');
-
-    });
-
+    expect(directiveInstance.title).toBe('Title');
+  });
 });

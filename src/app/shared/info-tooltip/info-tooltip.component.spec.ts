@@ -7,56 +7,45 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TooltipDirective } from 'ngx-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 
-
 class MockkFeatureFlagService {
+  featureFlags = new BehaviorSubject([]);
 
-    featureFlags = new BehaviorSubject([]);
+  isFlagEnabled = true;
 
-    isFlagEnabled = true;
+  validateFlag(...args): boolean {
+    return this.isFlagEnabled;
+  }
 
-    validateFlag(...args): boolean {
-        return this.isFlagEnabled;
-    }
-
-    setFlag(isEnabled: boolean) {
-        this.isFlagEnabled = isEnabled;
-    }
-
+  setFlag(isEnabled: boolean) {
+    this.isFlagEnabled = isEnabled;
+  }
 }
 
-
 describe('Info tooltip Component', () => {
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [
-                InfoTooltipComponent,
-                TooltipDirective,
-                FeatureFlagDirective
-            ],
-            providers: [{provide: FeatureFlagService, useClass: MockkFeatureFlagService}]
-        }).compileComponents();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      declarations: [InfoTooltipComponent, TooltipDirective, FeatureFlagDirective],
+      providers: [{ provide: FeatureFlagService, useClass: MockkFeatureFlagService }],
+    }).compileComponents();
+  });
+
+  it('should create component', () => {
+    const fixture = TestBed.createComponent(InfoTooltipComponent);
+    const infoTooltipComponent = fixture.componentInstance;
+    expect(infoTooltipComponent).toBeTruthy();
+  });
+
+  it('should render proper tooltip', () => {
+    const fixture = TestBed.createComponent(InfoTooltipComponent);
+    const infoTooltipComponent = fixture.componentInstance;
+    infoTooltipComponent.text = 'Asdf';
+
+    fixture.detectChanges();
+
+    return fixture.whenStable().then(() => {
+      const text = fixture.debugElement.query(By.css('.info-tooltip')).properties.appTooltip;
+      expect(text).toBe('Asdf');
     });
-
-    it('should create component', () => {
-        const fixture = TestBed.createComponent(InfoTooltipComponent);
-        const infoTooltipComponent = fixture.componentInstance;
-        expect(infoTooltipComponent).toBeTruthy();
-    });
-
-
-    it('should render proper tooltip', () => {
-        const fixture = TestBed.createComponent(InfoTooltipComponent);
-        const infoTooltipComponent = fixture.componentInstance;
-        infoTooltipComponent.text = 'Asdf';
-
-        fixture.detectChanges();
-
-        return fixture.whenStable().then(() => {
-            const text = fixture.debugElement.query(By.css('.info-tooltip')).properties.appTooltip;
-            expect(text).toBe('Asdf');
-        });
-
-    });
-
+  });
 });

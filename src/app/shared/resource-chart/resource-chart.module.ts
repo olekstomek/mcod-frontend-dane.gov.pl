@@ -17,41 +17,39 @@ import { ResourceChartComponent } from '@app/shared/resource-chart/resource-char
 import { ResourceChartSelectorComponent } from './resource-chart-selector/resource-chart-selector.component';
 import { ResourceChartNameFormComponent } from './resource-chart-name-form/resource-chart-name-form.component';
 
-
 @NgModule({
-    declarations: [
-        ResourceChartBarComponent,
-        ResourceChartLineComponent,
-        ResourceChartComponent,
-        ResourceChartFormComponent,
-        ResourceChartCircleComponent,
-        ResourceChartScatterComponent,
-        ResourceChartSelectorComponent,
-        ResourceChartNameFormComponent,
-    ],
-    exports: [
-        ResourceChartBarComponent,
-        ResourceChartLineComponent,
-        ResourceChartComponent,
-        ResourceChartFormComponent,
-        ResourceChartCircleComponent,
-        ResourceChartScatterComponent,
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ChartsModule,
-        SharedModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        RouterModule,
-        LocalizeRouterModule
-    ]
+  declarations: [
+    ResourceChartBarComponent,
+    ResourceChartLineComponent,
+    ResourceChartComponent,
+    ResourceChartFormComponent,
+    ResourceChartCircleComponent,
+    ResourceChartScatterComponent,
+    ResourceChartSelectorComponent,
+    ResourceChartNameFormComponent,
+  ],
+  exports: [
+    ResourceChartBarComponent,
+    ResourceChartLineComponent,
+    ResourceChartComponent,
+    ResourceChartFormComponent,
+    ResourceChartCircleComponent,
+    ResourceChartScatterComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ChartsModule,
+    SharedModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    RouterModule,
+    LocalizeRouterModule,
+  ],
 })
-export class ResourceChartModule {
-}
+export class ResourceChartModule {}

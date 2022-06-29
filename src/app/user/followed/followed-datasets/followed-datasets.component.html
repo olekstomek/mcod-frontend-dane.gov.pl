@@ -17,8 +17,13 @@
 
     <!-- RESULT LIST -->
     <app-result-list [items]="items">
-      <!-- LEFT -->
+      <!-- LEFT -->1
       <ng-template let-item>
+        <ng-container *featureFlag="'S52_promoted_data.fe'">
+          <div *ngIf="item.attributes.is_promoted" class="result-item-promoted__left--promoted-tex-pill">
+            <span class="bg-custom">{{ 'Attribute.PromotedData' | translate }}</span>
+          </div>
+        </ng-container>
         <!-- title -->
         <h3 class="heading heading--sm heading--primary-link">
           <a class="heading__link" [routerLink]="['/' | localize, subscriptionType, item.id]">

@@ -44,13 +44,19 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
   pageCmsCss: string;
 
   /**
-   * router events subscription for checking if page is in preview
-   */
-  routerEventsSubscription: Subscription;
-  /**
    * Array of widgets to display
    */
   body: IWidget[];
+
+  /**
+   * Array of subscriptions
+   */
+  sub: Subscription = new Subscription();
+
+  /**
+   * Check if app was refresh, and we need data form CMS
+   */
+  isFirstEnter = true;
 
   /**
    * Widget subject for footer and header
@@ -69,11 +75,16 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     /**
      * sets isDetailView value
      */
-    this.routerEventsSubscription = router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.isDetailView = event.url && event.url.split('/').length > 4;
-      }
-    });
+    this.sub.add(
+      router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          this.isDetailView = event.url && event.url.split('/').length > 4;
+          if (!this.isDetailView && !this.isFirstEnter) {
+            this.setContentCmsPage();
+          }
+        }
+      }),
+    );
   }
 
   /**
@@ -99,7 +110,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routerEventsSubscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 
   setContentCmsPage() {
@@ -121,18 +132,21 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
    * Gets page data from API if necessary
    */
   private getPageData(): void {
-    if (this.isDetailView) {
+    if (this.isDetailView && !this.widgetFooterSubject && !this.isFirstEnter) {
       return;
     }
     if (this.widgetFooterSubject) {
-      this.widgetFooterSubject.subscribe(response => {
-        this.body = response;
-        if (this.body) {
-          this.findElementsWithLinks(this.body);
-          this.addClassnameProperty(this.body);
-        }
-      });
+      this.sub.add(
+        this.widgetFooterSubject.subscribe(response => {
+          this.body = response;
+          if (this.body) {
+            this.findElementsWithLinks(this.body);
+            this.addClassnameProperty(this.body);
+          }
+        }),
+      );
     } else {
+      this.isFirstEnter = false;
       this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev).subscribe(
         (page: IPageCms) => {
           this.body = Array.isArray(page.body) ? page.body : page.body.blocks;

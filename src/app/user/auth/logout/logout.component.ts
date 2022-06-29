@@ -5,25 +5,21 @@ import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { UserService } from '@app/services/user.service';
 
 @Component({
-	selector: 'app-logout',
-	templateUrl: './logout.component.html'
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
 })
 export class LogoutComponent implements OnInit {
-    
-	/**
-     * @ignore
-     */
-    constructor(private userService: UserService,
-				private localizeRouterService: LocalizeRouterService,
-				private router: Router) {
-	}
+  /**
+   * @ignore
+   */
+  constructor(private userService: UserService, private localizeRouterService: LocalizeRouterService, private router: Router) {}
 
-	/**
-	 * Logs out user and redirects to login page
-	 */
-	ngOnInit(): void {
-		this.userService.logout().subscribe(() => {
-			this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as []);
-		});
-	}
+  /**
+   * Logs out user and redirects to login page
+   */
+  ngOnInit(): void {
+    this.userService.logout().subscribe(() => {
+      this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as []);
+    });
+  }
 }

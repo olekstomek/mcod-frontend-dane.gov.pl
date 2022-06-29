@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Notifications components displays global notifications from Notification Service
@@ -6,16 +6,14 @@ import {Component, Input} from '@angular/core';
  * <app-notifications></app-notifications>
  */
 @Component({
-    selector: '[app-notifications]',
-    templateUrl: './notifications.component.html'
+  selector: '[app-notifications]',
+  templateUrl: './notifications.component.html',
 })
 export class NotificationsComponent {
+  @Input() alerts: any[];
 
-    @Input() alerts: any[];
-
-    /**
-     * @ignore
-     */
-    constructor() {
-    }
+  /**
+   * @ignore
+   */
+  constructor() {}
 }

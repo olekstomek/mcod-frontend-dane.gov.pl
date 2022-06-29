@@ -22,12 +22,6 @@ export class ExpandableMultiselectListComponent implements OnChanges {
   expandedClass = '';
 
   /**
-   * for single select option to disabled checkbox
-   */
-  isDisabledYesOption = false;
-  isDisabledNoOption = false;
-
-  /**
    * filter options
    */
   @Input() options: IAggregationProperties[];
@@ -83,6 +77,7 @@ export class ExpandableMultiselectListComponent implements OnChanges {
    */
   @ViewChild('checkboxYes')
   checkboxYes: ElementRef<any>;
+
   /**
    * sends new option selected
    * @param {IAggregationProperties} option

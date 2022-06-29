@@ -87,7 +87,6 @@ export class FollowedDatasetsComponent implements OnInit {
    */
   private getSubscriptions() {
     this.observeService.getSubscriptions(this.subscriptionType, this.params).subscribe(subscriptions => {
-      console.log('getSubscriptions', subscriptions);
       if (!subscriptions || !subscriptions['included'] || !subscriptions['data']) {
         if (this.items?.length > 0) {
           this.items = [];

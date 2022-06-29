@@ -229,7 +229,8 @@
     "DynamicData": "Dane dynamiczne",
     "ResearchData": "Dane badawcze",
     "Supplements": "Dokumenty uzupełniające",
-    "Description": "Opis"
+    "Description": "Opis",
+    "PromotedData": "Dane promowane"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",

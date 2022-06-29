@@ -7,39 +7,36 @@ import { Component, Input, OnInit } from '@angular/core';
  * // Outputs: ★ ★ ★ ☆ ☆
  */
 @Component({
-    selector: 'app-star-rating',
-    templateUrl: './star-rating.component.html'
+  selector: 'app-star-rating',
+  templateUrl: './star-rating.component.html',
 })
 export class StarRatingComponent implements OnInit {
+  /**
+   * Current rating of an item
+   */
+  @Input() rating: number;
 
-    /**
-     * Current rating of an item
-     */
-    @Input() rating: number;
+  /**
+   * **Optional**. Maximum possible rating (default: 5)
+   */
+  @Input() max: number = 5;
 
-    /**
-     * **Optional**. Maximum possible rating (default: 5)
-     */
-    @Input() max: number = 5;
+  /**
+   * @ignore
+   */
+  ratesArr: number[] = [];
 
-    /**
-     * @ignore
-     */
-    ratesArr: number[] = [];
+  /**
+   * @ignore
+   */
+  constructor() {}
 
-    /**
-     * @ignore
-     */
-    constructor() {
+  /**
+   * @ignore
+   */
+  ngOnInit() {
+    for (let i = 0; i < this.max; i++) {
+      this.ratesArr.push(i + 1);
     }
-
-    /**
-     * @ignore
-     */
-    ngOnInit() {
-        for (let i = 0; i < this.max; i++) {
-            this.ratesArr.push(i + 1);
-        }
-    }
-
+  }
 }

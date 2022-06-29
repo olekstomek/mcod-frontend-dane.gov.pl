@@ -1,18 +1,20 @@
 <div class="d-flex justify-content-start align-items-center">
-    <span class="dropdown-label pr-2 d-none d-md-inline" id="items-per-page-label-{{uniqueId}}">
-        {{ 'Pagination.ItemsPerPage' | translate }}:
-    </span>
+  <span class="dropdown-label pr-2 d-none d-md-inline" id="items-per-page-label-{{ uniqueId }}">
+    {{ 'Pagination.ItemsPerPage' | translate }}:
+  </span>
 
-    <select class="form-control p-1" 
-        (change)="onChange($event.target.value)" 
-        attr.aria-labelledby="items-per-page-label-{{uniqueId}}" 
-        style="width: 50px">
-        <option [ngValue]="null" *ngIf="!isNumberValid">
-            {{ selected }}
-        </option>
+  <select
+    class="form-control p-1"
+    (change)="onChange($event.target.value)"
+    attr.aria-labelledby="items-per-page-label-{{ uniqueId }}"
+    style="width: 50px"
+  >
+    <option [ngValue]="null" *ngIf="!isNumberValid">
+      {{ selected }}
+    </option>
 
-        <option *ngFor="let item of options" [value]="item" [selected]="selected === item">
-            {{ item }}
-        </option>
-    </select>
+    <option *ngFor="let item of options" [value]="item" [selected]="selected === item">
+      {{ item }}
+    </option>
+  </select>
 </div>

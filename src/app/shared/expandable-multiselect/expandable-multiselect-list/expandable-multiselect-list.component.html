@@ -1,7 +1,7 @@
 <ul
   class="dropdown__list dropdown__list-expandable dropdown__list-{{ filterName }}"
   [ngClass]="expandedClass"
-  *ngIf="singleSelectOption; else MultiselectOption"
+  *ngIf="singleSelectOption; else multiselectOption"
 >
   <li class="dropdown-item" *ngIf="!!options">
     <input
@@ -56,7 +56,7 @@
   <li *ngIf="options && !options.length">{{ 'Filters.NoResults' | translate }}</li>
 </ul>
 
-<ng-template #MultiselectOption>
+<ng-template #multiselectOption>
   <ul class="dropdown__list dropdown__list-expandable dropdown__list-{{ filterName }}" [ngClass]="expandedClass">
     <li class="dropdown-item" *ngFor="let item of options; let itemIndex = index">
       <input

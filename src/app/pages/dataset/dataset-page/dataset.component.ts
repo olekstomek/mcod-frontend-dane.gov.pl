@@ -161,18 +161,33 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       return;
     }
 
-    this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput).subscribe(
-      () => {
-        this.isQueryFormSubmitted = true;
-        this.isQueryFormError = false;
-        this.notificationsService.clearAlerts();
-      },
-      (errorResponse: HttpCustomErrorResponse) => {
-        this.isQueryFormSubmitted = false;
-        this.notificationsService.clearAlerts();
-        this.isQueryFormError = this.datasetService.isQueryError(errorResponse);
-      },
-    );
+    if (this.featureFlagService.validateFlagSync('S52_objects_count_for_search_res.fe')) {
+      this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput, this.count).subscribe(
+        () => {
+          this.isQueryFormSubmitted = true;
+          this.isQueryFormError = false;
+          this.notificationsService.clearAlerts();
+        },
+        (errorResponse: HttpCustomErrorResponse) => {
+          this.isQueryFormSubmitted = false;
+          this.notificationsService.clearAlerts();
+          this.isQueryFormError = this.datasetService.isQueryError(errorResponse);
+        },
+      );
+    } else {
+      this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput).subscribe(
+        () => {
+          this.isQueryFormSubmitted = true;
+          this.isQueryFormError = false;
+          this.notificationsService.clearAlerts();
+        },
+        (errorResponse: HttpCustomErrorResponse) => {
+          this.isQueryFormSubmitted = false;
+          this.notificationsService.clearAlerts();
+          this.isQueryFormError = this.datasetService.isQueryError(errorResponse);
+        },
+      );
+    }
   }
 
   /**

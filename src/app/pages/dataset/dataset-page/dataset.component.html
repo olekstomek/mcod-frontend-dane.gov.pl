@@ -155,7 +155,7 @@
             (update)="updateParams($event)"
             (sortOption)="sortOption = $event"
             [counters]="[
-              { label: 'Attribute.AllData' | translate, count: count, value: apiModel.DATASET + ',' + apiModel.RESOURCE, url: null },
+              { label: 'Attribute.AllData' | translate, count: counters?.datasets + counters?.resources, value: apiModel.DATASET + ',' + apiModel.RESOURCE, url: null },
               { label: 'Datasets.Self' | translate, count: counters?.datasets, value: apiModel.DATASET, url: null },
               { label: 'Resources.Self' | translate, count: counters?.resources, value: apiModel.RESOURCE, url: null }
             ]"

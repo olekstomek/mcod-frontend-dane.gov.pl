@@ -9,6 +9,7 @@ import { ListViewDetailsService } from '@app/services/list-view-details.service'
 import { SeoService } from '@app/services/seo.service';
 import { ArrayHelper } from '@app/shared/helpers';
 import { StringHelper } from '@app/shared/helpers/string.helper';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Application Item Component
@@ -90,6 +91,8 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
   categoryNameForTooltipPlural: string;
   categoryNameForTooltipPluralDataset: string;
 
+  externalDatasets = [];
+
   /**
    * @ignore
    */
@@ -99,6 +102,7 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
     private applicationsService: ApplicationsService,
     private seoService: SeoService,
     private listViewDetailsService: ListViewDetailsService,
+    private featureFlagService: FeatureFlagService,
   ) {}
 
   /**
@@ -113,6 +117,10 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
 
     this.seoService.setPageTitle(this.application.attributes.title);
     this.seoService.setDescriptionFromText(StringHelper.stripHtmlTags(this.application.attributes.notes));
+
+    if (this.featureFlagService.validateFlagSync('S53_external_datasets.fe')) {
+      this.externalDatasets = this.application.attributes.external_datasets;
+    }
 
     this.applicationsSubscription = this.activatedRoute.queryParamMap
       .pipe(

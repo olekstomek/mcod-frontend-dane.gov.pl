@@ -230,7 +230,8 @@
     "ResearchData": "Dane badawcze",
     "Supplements": "Dokumenty uzupełniające",
     "Description": "Opis",
-    "PromotedData": "Dane promowane"
+    "PromotedData": "Dane promowane",
+    "ExternalDatasets": "Dane zewnętrzne"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",
@@ -560,7 +561,8 @@
     "TypeLocal": "Administracja samorządowa",
     "TypeState": "Administracja rządowa",
     "TypeOther": "Inne",
-    "TypePrivate": "Podmioty prywatne"
+    "TypePrivate": "Podmioty prywatne",
+    "ExternalDatasets": "Dane pochodzące spoza portalu"
   },
   "KnowledgeBase": {
     "Self": "Baza wiedzy",

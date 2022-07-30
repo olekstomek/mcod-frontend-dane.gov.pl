@@ -108,7 +108,7 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
     if (!this.resourceId) {
       this.resourceId = ActivatedRouteHelper.getParamFromCurrentOrParentRoute(this.activatedRoute, 'resourceId');
     }
-    this.tableTitle = this.activatedRoute.snapshot.data.post.attributes.title;
+    this.tableTitle = this.activatedRoute.snapshot.data.post?.attributes.title;
 
     this.params = { ...this.basicParams };
 

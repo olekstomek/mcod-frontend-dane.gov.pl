@@ -11,14 +11,16 @@
 
 <div *ngIf="isExpanded" @toggleVertically [@.disabled]="!isCollapsible" class="pt-3" id="restriction-container">
   <!-- no restrictions -->
-  <ng-container *ngIf="!hasRestrictions">
-    <ng-container *ngIf="isForDataset">
-      {{ 'DatasetRestrictions.NoneDataset' | translate }}
-    </ng-container>
-    <ng-container *ngIf="!isForDataset">
-      {{ 'DatasetRestrictions.None' | translate }}
-    </ng-container>
-  </ng-container>
+ <ng-container *featureFlag="'S53_remove_text_from_dataset_restrictions.fe'">
+     <ng-container *ngIf="!hasRestrictions">
+         <ng-container *ngIf="isForDataset">
+             {{ 'DatasetRestrictions.NoneDataset' | translate }}
+         </ng-container>
+         <ng-container *ngIf="!isForDataset">
+             {{ 'DatasetRestrictions.None' | translate }}
+         </ng-container>
+     </ng-container>
+ </ng-container>
 
   <!-- restrictions -->
   <ng-container *ngIf="hasRestrictions">

@@ -256,6 +256,34 @@
           </app-pagination>
         </div>
       </footer>
+
+      <!-- EXTERNAL DATASETS LIST-->
+      <div *featureFlag="'S53_external_datasets.fe'">
+        <section *ngIf="externalDatasets.length > 0">
+          <div class="mb-2">
+            <strong>{{ 'Institutions.ExternalDatasets' | translate }}</strong>
+          </div>
+          <div *ngFor="let external of externalDatasets">
+            <div class="result-item">
+              <div class="result-item__left col-lg-8 col-xl-9 col-xxl-10">
+                <h2 class="heading heading--primary-link heading--sm highlight">
+                  <a target="_blank" href="{{ external.url }}"
+                    >{{ external.title }}
+                    <span class="sr-only">
+                      {{ 'SkipTo.NewWindow' | translate }}
+                    </span></a
+                  >
+                </h2>
+              </div>
+              <div class="result-item__right col-lg-4 col-xl-3 col-xxl-2">
+                <div class="result-item-promoted__left--promoted-tex-pill">
+                  <span class="bg-custom">{{ 'Attribute.ExternalDatasets' | translate }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </section>
 </article>

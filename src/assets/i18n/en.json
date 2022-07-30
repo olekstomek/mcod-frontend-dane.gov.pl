@@ -230,7 +230,8 @@
     "ResearchData": "Research data",
     "Supplements": "Supporting documents",
     "Description": "Description",
-    "PromotedData": "Promoted data"
+    "PromotedData": "Promoted data",
+    "ExternalDatasets": "external data"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -560,7 +561,8 @@
     "TypeLocal": "Local government",
     "TypeState": "Public government",
     "TypeOther": "Other",
-    "TypePrivate": "Private entities"
+    "TypePrivate": "Private entities",
+    "ExternalDatasets": "Data from outside the portal"
   },
   "KnowledgeBase": {
     "Self": "Knowledge base",

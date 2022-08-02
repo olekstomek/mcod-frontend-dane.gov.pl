@@ -2,10 +2,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 //  runtime information about the current platform and the appId by injection.
-import { APP_ID, APP_INITIALIZER, Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import { APP_ID, APP_INITIALIZER, ErrorHandler, Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, Title, TransferState } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { EmbedLayoutComponent } from '@app/layout/embed-layout/embed-layout.component';
 import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
 import { HomeModule } from '@app/pages/home/home.module';
@@ -47,12 +48,22 @@ import { RegulationsComponent } from './pages/regulations/regulations.component'
 import { SearchResultsComponent } from './pages/search-results/search-results.component';
 import { SitemapComponent } from './pages/sitemap/sitemap.component';
 import { SurveyComponent } from './pages/survey/survey.component';
+import * as Sentry from '@sentry/angular';
+import { environment } from '@env/environment';
+import { NgxMatomoRouterModule } from '@ngx-matomo/router';
+import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
 
 import { AuthGuard } from './user/auth/auth.guard';
 
 export function flagsFactory(featureFlagService: FeatureFlagService) {
   return () => featureFlagService.initialize();
 }
+
+Sentry.init({
+  dsn: 'https://23ce4d6805ae4ba0ae5954f33aaf9246@apm.dane.gov.pl//12',
+  environment: environment.name,
+  tracesSampleRate: 1.0,
+});
 
 @NgModule({
   declarations: [
@@ -100,6 +111,12 @@ export function flagsFactory(featureFlagService: FeatureFlagService) {
     NgxLocalStorageModule.forRoot({ prefix: 'mcod' }),
     BrowserAnimationsModule,
     KnowledgeBaseModule,
+    NgxMatomoTrackerModule.forRoot({
+      siteId: '1', // your Matomo's site ID (find it in your Matomo's settings)
+      trackerUrl: 'https://172.24.53.108/', // your matomo server root url
+      disabled: !environment.production,
+    }),
+    NgxMatomoRouterModule,
   ],
   providers: [
     Title,
@@ -114,11 +131,21 @@ export function flagsFactory(featureFlagService: FeatureFlagService) {
       deps: [FeatureFlagService],
       multi: true,
     },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: false,
+      }),
+    },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, @Inject(APP_ID) private appId: string) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, @Inject(APP_ID) private appId: string, trace: Sentry.TraceService) {
     const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
     //console.log(`Running ${platform} with appId=${appId}`);
   }

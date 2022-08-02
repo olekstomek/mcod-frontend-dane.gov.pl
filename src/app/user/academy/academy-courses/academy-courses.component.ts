@@ -34,11 +34,11 @@ export class AcademyCoursesComponent implements OnInit {
     this.config = new UserDashboardListViewConfig.builder()
       .default()
       .withSort('start')
-      .withFoundedItemsCountHeader('Kursy')
+      .withFoundedItemsCountHeader('Aod.Courses')
       .withFilterConfig({
         filterType: AodCourseType,
         selectedFilters: [AodCourseType.PLANNED.toString(), AodCourseType.CURRENT.toString(), AodCourseType.FINISHED.toString()],
-        title: 'Status kursów',
+        title: 'Aod.CoursesStatus',
       })
       .build();
   }

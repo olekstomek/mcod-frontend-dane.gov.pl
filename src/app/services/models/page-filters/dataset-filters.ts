@@ -14,6 +14,7 @@ export interface IListViewDatasetFiltersModel {
   [AggregationFilterNames.REGIONS]: SingleselectOptionForRegions;
   [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
   [AggregationFilterNames.RESEARCH_DATA]: MultiselectOption;
+  [AggregationFilterNames.LANGUAGE]: MultiselectOption;
 }
 
 export interface IListViewDatasetCategoryFiltersModel {
@@ -31,6 +32,7 @@ export interface IListViewDatasetCategoryFiltersModel {
   [AggregationFilterNames.REGIONS]: SingleselectOptionForRegions;
   [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
   [AggregationFilterNames.RESEARCH_DATA]: MultiselectOption;
+  [AggregationFilterNames.LANGUAGE]: MultiselectOption;
 }
 
 export const DatasetListViewFilterNames = [
@@ -48,4 +50,5 @@ export const DatasetListViewFilterNames = [
   AggregationFilterNames.REGIONS,
   AggregationFilterNames.DYNAMIC_DATA,
   AggregationFilterNames.RESEARCH_DATA,
+  AggregationFilterNames.LANGUAGE,
 ];

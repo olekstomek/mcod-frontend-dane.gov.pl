@@ -2,7 +2,7 @@
 
 <!-- state / filter -->
 <div *ngIf="config.filterConfig">
-  <span class="font-weight-bold"> {{ config.filterConfig.title }}: </span>
+  <span class="font-weight-bold"> {{ config.filterConfig.title | translate }}: </span>
   <ul class="list-inline">
     <li class="list-inline-item pr-4" *ngFor="let type of filterType.getTypes()">
       <label for="{{ type.value }}">
@@ -15,7 +15,7 @@
         />
 
         <span class="dashboard-filtered-list-point dashboard-filtered-list-point--{{ type.value }} clickable">
-          {{ type.description }}
+          {{ type.description | translate }}
         </span>
       </label>
     </li>
@@ -23,8 +23,8 @@
 </div>
 
 <p *ngIf="config.foundedItemsCountHeaderTitle" class="font-weight-bold">
-  Znaleziono:
-  {{ config.foundedItemsCountHeaderTitle }}
+  {{ 'Lod.Found' | translate }}:
+  {{ config.foundedItemsCountHeaderTitle | translate }}
   ({{ count }})
 </p>
 

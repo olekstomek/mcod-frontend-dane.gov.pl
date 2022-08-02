@@ -5,7 +5,7 @@
   >
     <!-- state -->
     <div class="dashboard-filtered-list-item__state">
-      {{ course.attributes.state_name }}
+      {{ 'Aod.' + (course.attributes.state | titlecase) | translate }}
     </div>
 
     <!-- title -->
@@ -15,27 +15,27 @@
 
     <!-- participants number -->
     <p>
-      <span class="font-weight-bold"> Liczba uczestników: </span>
+      <span class="font-weight-bold"> {{ 'Aod.NumberParticipants' | translate }}: </span>
       {{ course.attributes.participants_number }}
     </p>
 
     <!-- venue -->
     <p>
-      <span class="font-weight-bold"> Miejsce kursu: </span>
+      <span class="font-weight-bold"> {{ 'Aod.CourseLocation' | translate }}: </span>
       {{ course.attributes.venue }}
     </p>
 
     <!-- notes -->
     <div [ngClass]="{ 'mb-3': schedulesByType }">
-      <span class="font-weight-bold d-block"> Opis: </span>
+      <span class="font-weight-bold d-block"> {{ 'Aod.Description' | translate }}: </span>
       <collapsible-text *ngIf="course.attributes.notes" [text]="course.attributes.notes"> </collapsible-text>
     </div>
 
-    <p *ngIf="schedulesByType">Harmonogram kursu</p>
+    <p *ngIf="schedulesByType">{{ 'Aod.CourseSchedule' | translate }}</p>
 
     <!-- types / modules -->
     <div class="mb-3" *ngIf="schedulesByType">
-      <span class="font-weight-bold pr-3">Rodzaj modułu:</span>
+      <span class="font-weight-bold pr-3">{{ 'Aod.ModuleType' | translate }}:</span>
 
       <ul class="list-inline d-inline">
         <li class="list-inline-item pr-3" *ngFor="let scheduleType of schedulesByType | keyvalueOrder">
@@ -56,7 +56,7 @@
     <ul class="list-unstyled">
       <!-- start date-->
       <li class="">
-        <span class=""> Data rozpoczęcia </span>
+        <span class=""> {{ 'Aod.StartDate' | translate }} </span>
         <span class="d-block font-weight-bold">
           {{ course.attributes.start }}
         </span>
@@ -64,7 +64,7 @@
 
       <!-- end date-->
       <li class="pt-4">
-        <span class=""> Data zakończenia </span>
+        <span class=""> {{ 'Aod.EndDate' | translate }} </span>
         <span class="d-block font-weight-bold">
           {{ course.attributes.end }}
         </span>
@@ -73,14 +73,16 @@
       <!-- download 1 -->
       <li class="pt-4" *ngIf="course.attributes.file_url">
         <a class="btn btn-primary btn-sm btn--multiline" target="_blank" [href]="course.attributes.file_url">
-          <span> Pobierz harmonogram ({{ course.attributes.file_type }}) <span aria-hidden="true">>></span> </span>
+          <span> {{ 'Aod.DownloadSchedule' | translate }} ({{ course.attributes.file_type }}) <span aria-hidden="true">>></span> </span>
         </a>
       </li>
 
       <!-- download 2 -->
       <li class="pt-4" *ngIf="course.attributes.materials_file_url">
         <a class="btn btn-primary btn-sm btn--multiline" target="_blank" [href]="course.attributes.materials_file_url">
-          <span> Pobierz materiały edukacyjne ({{ course.attributes.materials_file_type }}) <span aria-hidden="true">>></span> </span>
+          <span>
+            {{ 'Aod.DownloadMaterials' | translate }} ({{ course.attributes.materials_file_type }}) <span aria-hidden="true">>></span>
+          </span>
         </a>
       </li>
     </ul>

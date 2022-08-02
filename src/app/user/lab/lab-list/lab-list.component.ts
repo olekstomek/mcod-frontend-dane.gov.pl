@@ -9,27 +9,26 @@ import { ApiConfig } from '@app/services/api';
  * Lab List Component
  */
 @Component({
-    selector: 'app-lab-list',
-    templateUrl: './lab-list.component.html',
-    providers: [{provide: API_URL, useValue: ApiConfig.lab}]
+  selector: 'app-lab-list',
+  templateUrl: './lab-list.component.html',
+  providers: [{ provide: API_URL, useValue: ApiConfig.lab }],
 })
 export class LabListComponent implements OnInit {
-    /**
-     * Type of laboratory items
-     */
-    @Input()
-    type: string;
+  /**
+   * Type of laboratory items
+   */
+  @Input()
+  type: string;
 
-    config: UserDashboardListViewConfig;
-    listContainer: Type<LabListContainerComponent> = LabListContainerComponent;
+  config: UserDashboardListViewConfig;
+  listContainer: Type<LabListContainerComponent> = LabListContainerComponent;
 
-    ngOnInit(): void {
-        this.config = new UserDashboardListViewConfig
-            .builder()
-            .default()
-            .withSort('-execution_date')
-            .withFoundedItemsCountHeader(this.type === 'research' ? 'Badania' : 'Analizy')
-            .withAdditionalPageParams({event_type: this.type})
-            .build();
-    }
+  ngOnInit(): void {
+    this.config = new UserDashboardListViewConfig.builder()
+      .default()
+      .withSort('-execution_date')
+      .withFoundedItemsCountHeader(this.type === 'research' ? 'Lod.Research' : 'Lod.Analyses')
+      .withAdditionalPageParams({ event_type: this.type })
+      .build();
+  }
 }

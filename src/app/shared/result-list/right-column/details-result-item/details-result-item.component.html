@@ -22,6 +22,7 @@
           <strong>{{ showcaseCategoryName }}</strong>
         </p>
       </div>
+
       <!-- title -->
       <strong>{{ details.titleTranslationKey | translate }}: </strong>
 
@@ -37,6 +38,14 @@
           {{ details.data }}
         </ng-container>
       </span>
+
+      <!-- language for resources only -->
+      <ng-container *featureFlag="'S54_resource_language.fe'">
+        <div class="mt-2" *ngIf="iconName === 'resource'">
+          <strong>{{ 'Attribute.Language' | translate }}: </strong>
+          <span>{{ 'TypesFilters.' + details.language | translate }}</span>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

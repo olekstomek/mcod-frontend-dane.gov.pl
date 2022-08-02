@@ -154,6 +154,10 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
       this.Facets = [...this.Facets, AggregationOptionType.RESEARCH_DATA];
     }
+
+    if (this.featureFlagService.validateFlagSync('S54_resource_language.fe')) {
+      this.Facets = [...this.Facets, AggregationOptionType.LANGUAGE];
+    }
   }
 
   addSubscriptionToQuery(queryForm: NgForm) {
@@ -371,6 +375,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.REGIONS]: {},
       [AggregationFilterNames.DYNAMIC_DATA]: {},
       [AggregationFilterNames.RESEARCH_DATA]: {},
+      [AggregationFilterNames.LANGUAGE]: {},
     };
   }
 
@@ -396,6 +401,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LANGUAGE]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
   }

@@ -31,4 +31,23 @@ describe('DatasetMetadataComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should sets metadata urls when datasetId is exists', () => {
+    component.selfLink = 'https://dev.dane.gov.pl/pl';
+    component.datasetId = '1';
+    fixture.detectChanges();
+    component.setMetadataUrls();
+    expect(component.selfApiRdf).toBe('1.rdf');
+    expect(component.selfApiCsv).toBe('1/resources/metadata.csv');
+    expect(component.selfApiXml).toBe('1/resources/metadata.xml');
+  });
+
+  it('should sets metadata urls when datasetId is not exists', () => {
+    component.selfLink = 'https://dev.dane.gov.pl/pl/1.4';
+    fixture.detectChanges();
+    component.setMetadataUrls();
+    expect(component.selfApiRdf).toBe('https://dev.dane.gov.pl/pl/1.4/catalog.rdf');
+    expect(component.selfApiCsv).toBe('https://dev.dane.gov.pl/pl/1.4/datasets/resources/metadata.csv');
+    expect(component.selfApiXml).toBe('https://dev.dane.gov.pl/pl/1.4/datasets/resources/metadata.xml');
+  });
 });

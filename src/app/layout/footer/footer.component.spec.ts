@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { EventEmitter, TemplateRef, ViewChild } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsService } from '@app/services/cms.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { of } from 'rxjs/internal/observable/of';
 import { FooterComponent } from './footer.component';
@@ -16,9 +16,7 @@ describe('FooterComponent', () => {
   const BsModalServiceMock = {
     onHidden: new EventEmitter(),
     hide: () => {},
-  };
-  const mockModalRef = {
-    hide: () => jest.fn(),
+    open: () => {},
   };
 
   beforeEach(() => {
@@ -36,14 +34,7 @@ describe('FooterComponent', () => {
 
   it('should create', async () => {
     spyOn(BsModalServiceMock, 'onHidden').and.returnValue(of({}));
+    spyOn(service, 'elementFooterNavIsExist').and.returnValue(true);
     expect(component).toBeDefined();
   });
-
-  /*it('rodoModalClose', () => {
-    spyOn(mockModalRef, 'hide');
-
-    component.rodoModalClose();
-
-    expect(mockModalRef.hide).toHaveBeenCalled();
-  });*/
 });

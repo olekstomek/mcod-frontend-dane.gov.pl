@@ -316,4 +316,10 @@ describe('SchedulePlanningService', () => {
       expect(value).toBeGreaterThan(0);
     });
   });
+
+  it('should getSchedules function return value', () => {
+    service.getSchedules().subscribe(value => {
+      expect(value).toBeGreaterThan(0);
+    });
+  });
 });

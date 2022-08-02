@@ -47,11 +47,13 @@ export interface ISearchResultAttributes {
     update_frequency: string;
     url: string;
   };
+  language?: string;
 }
 
 export interface ISearchResultRelationships {
   institution: ISearchResultRelationshipsData;
   dataset: ISearchResultRelationshipsData;
+  related_resource?: ISearchResultRelationshipsData;
 }
 
 export interface ISearchCounters {

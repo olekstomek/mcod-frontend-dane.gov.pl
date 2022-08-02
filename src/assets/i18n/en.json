@@ -212,7 +212,7 @@
     "HarvesterUpdateFrequency": "Import frequency",
     "Period": "Period",
     "Metadata": "Metadata",
-    "HighValueData": "Dane o wysokiej wartości",
+    "HighValueData": "High value data",
     "ApplicationTypes": "Application types",
     "PlatformTypes": "Platform types",
     "ShowcasesCategory": "Category",
@@ -231,7 +231,8 @@
     "Supplements": "Supporting documents",
     "Description": "Description",
     "PromotedData": "Promoted data",
-    "ExternalDatasets": "external data"
+    "ExternalDatasets": "External data",
+    "Language": "Data language"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -629,7 +630,103 @@
     "Clock": "Clock",
     "Stats": "Stats",
     "AllStats": "all stats",
-    "Chart": "chart"
+    "Chart": "chart",
+    "LodMenu": "OD Laboratory",
+    "Aod": "Open Data Academy",
+    "AodMenu": "OD Academy",
+    "NewDataProposal": "New data proposal",
+    "ProxiesMeetings": "Proxies meetings",
+    "HodMenu": "Open Data Schedule",
+    "Hod": "Schedule for opening data",
+    "Forum": "Forum",
+    "SeeCourses": "See courses",
+    "Planned": "Planned",
+    "InProgress": "W trakcie",
+    "Realized": "Realized",
+    "GoToForum": "Go to forum",
+    "GoToForumText": "Entering the forum means accepting the",
+    "GoToForumRegulations": "regulations",
+    "SeeData": "See data",
+    "Active": "Active",
+    "Inactive": "Inactive",
+    "ViewDetails": "View details",
+    "Completed": "Completed",
+    "Started": "Started",
+    "Ready": "Ready",
+    "Recommendations": "Recommendations",
+    "Notification": "Notification",
+    "StatusOfWorks": "Status of works",
+    "Response": "Response:",
+    "Views": "Views:",
+    "Activity": "Activity:",
+    "Category": "Category:"
+  },
+  "Lod": {
+    "Information": "Information",
+    "Analyses": "Analyses",
+    "Research": "Research",
+    "Found": "Found",
+    "ExecutionDate": "Execution date",
+    "DownloadReport": "Download the report",
+    "GoToReport": "Go to report",
+    "Description": "description"
+  },
+  "Aod": {
+    "Information": "Information",
+    "Courses": "Courses",
+    "RegistrationForCourse": "Registration for the course",
+    "CoursesStatus": "Courses status",
+    "Planned": "Planned",
+    "Current": "Current",
+    "Finished": "Finished",
+    "StartDate": "Start date",
+    "EndDate": "End date",
+    "DownloadSchedule": "Download schedule",
+    "DownloadMaterials": "Download educational materials",
+    "NumberParticipants": "Number of participants",
+    "CourseLocation": "Course location",
+    "Description": "Description",
+    "CourseSchedule": "Course schedule",
+    "ModuleType": "Module type"
+  },
+  "Ndp": {
+    "Self": "New data proposal",
+    "Active": "Active",
+    "Inactive": "Inactive",
+    "AddDate": "Added date"
+  },
+  "ProxiesMeetings": {
+    "StatusMeetings": "Status meetings",
+    "Planned": "Planned",
+    "Finished": "Finished",
+    "StartDate": "Start date",
+    "DurationHours": "Duration hours",
+    "MeetingLocation": "Meeting location",
+    "Agenda": "Agenda",
+    "DownloadMaterials": "Download materials"
+  },
+  "Hod": {
+    "Planning": "Planning",
+    "Realization": "Realization",
+    "Archives": "Archives",
+    "Period": "Period",
+    "EndDate": "End date",
+    "NewEndDate": "New end date",
+    "ScheduleLink": "Link to schedule",
+    "AllProxiesList": "List of all proxies",
+    "InvalidPageAddress": "Invalid page address",
+    "SavedChanges": "Changes have been saved",
+    "BackToForm": "Back to form",
+    "PlanningEndDate": "Planning end date",
+    "NewPlanningEndDate": "New planning end date",
+    "ScheduleAssigned": "Schedule assigned to",
+    "LockSchedule": "Lock schedule",
+    "Notifications": "notifications",
+    "NotificationContent": "Content of the notification",
+    "MaxCharacters": "Maximum {param} characters",
+    "SendTo": "Send to",
+    "SendNotification": "Send notification",
+    "MaxLengthError": "The maximum field length has been exceeded by"
   },
   "Schedule": {
     "Edit": "Edit",
@@ -692,7 +789,8 @@
     "NoChartView": "The resource has no chart view",
     "VarChartRowsLimited": "The chart displays { param } from { param1 }.",
     "MapDescription": "Map showing data from the resource",
-    "SpecialSigns": "Special signs"
+    "SpecialSigns": "Special signs",
+    "RelatedResources": "Related resources"
   },
   "ResourceFilter": {
     "Column": "Column",
@@ -767,7 +865,9 @@
   "TypesFilters": {
     "Api": "Api",
     "File": "File",
-    "Website": "Website"
+    "Website": "Website",
+    "en": "english",
+    "pl": "polish"
   },
   "Rodo": {
     "Title": "Privacy policy and GDPR"
@@ -780,7 +880,8 @@
     "Exact": "Exactly these words",
     "Synonym": "Synonyms of these words",
     "AutoContentReload": "Automatic content reload",
-    "Advanced": "Advanced search"
+    "Advanced": "Advanced search",
+    "SparqlSearch": "SPARQL search"
   },
   "ShowcasesCategory": {
     "app": "Application",

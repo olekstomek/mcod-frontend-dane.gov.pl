@@ -272,6 +272,24 @@
     </app-expandable-multiselect>
   </ng-template>
 
+  <!-- Language -->
+  <app-expandable-multiselect
+    *featureFlag="'S54_resource_language.fe'"
+    id="dataset-language-filter"
+    [titleTranslationKey]="'Attribute.Language'"
+    [titleTooltipTranslationKey]="'Attribute.Language'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.LANGUAGE]"
+    [selectedIds]="selectedData[FiltersNames.LANGUAGE]"
+    [enableApply]="availabilityFilterMap[FiltersNames.LANGUAGE]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'language-filter-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.LANGUAGE, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'language'"
+  >
+  </app-expandable-multiselect>
+
   <!-- Upload date range -->
   <app-date-range-picker
     id="dataset-daterange"

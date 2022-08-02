@@ -91,7 +91,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.getRDFDocumentationURL();
     this.assignCmsSection();
-    this.cmsService.elementFooterNavIsExist.pipe(take(1)).subscribe(v => {
+    this.cmsService.elementFooterNavIsExist.pipe(take(1)).subscribe(() => {
       const writeUsLinkElem = this.document.querySelector('a.page-footer__list-item.btn-write-us');
       const rodoLinkElem = this.document.querySelector('a.page-footer__list-item.btn-link-rodo');
 

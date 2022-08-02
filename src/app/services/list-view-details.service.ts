@@ -64,6 +64,7 @@ export class ListViewDetailsService {
         dateFormat: isHarvested ? 'D MMMM YYYY, HH:mm' : 'D MMMM YYYY',
         data: isHarvested ? item.attributes.created : item.attributes.data_date,
         isDate: true,
+        language: item.attributes.language,
       },
     ];
   }

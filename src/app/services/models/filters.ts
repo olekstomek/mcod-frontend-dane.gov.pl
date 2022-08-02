@@ -36,6 +36,7 @@ export enum AggregationOptionType {
   DYNAMIC_DATA = 'by_has_dynamic_data',
   RESEARCH_DATA = 'by_has_research_data',
   REGIONS = 'by_regions',
+  LANGUAGE = 'by_language',
 }
 
 export enum AggregationFilterNames {
@@ -57,6 +58,7 @@ export enum AggregationFilterNames {
   REGIONS = 'regions',
   DYNAMIC_DATA = 'has_dynamic_data',
   RESEARCH_DATA = 'has_research_data',
+  LANGUAGE = 'language',
 }
 
 export interface IListViewFilterAggregationsOptions {

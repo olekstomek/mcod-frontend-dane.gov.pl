@@ -1,10 +1,13 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IDatasetFile, IDatasetRegionsList } from '@app/services/models/dataset-resource';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { ISearchResult } from '@app/services/models/search';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { zip } from 'rxjs';
+import { Subscription, zip } from 'rxjs';
 
 import { toggleVertically } from '@app/animations/index';
 import { ApiModel } from '@app/services/api/api-model';
@@ -23,7 +26,7 @@ import { ActivatedRouteHelper } from '@app/shared/helpers/activated-route.helper
   templateUrl: './dataset-resource.component.html',
   animations: [toggleVertically],
 })
-export class DatasetResourceComponent implements OnInit {
+export class DatasetResourceComponent implements OnInit, OnDestroy {
   /**
    * API model
    */
@@ -130,6 +133,21 @@ export class DatasetResourceComponent implements OnInit {
   isNotRegionPoland: boolean;
 
   /**
+   * list of related resources
+   */
+  relatedResources: any[];
+
+  /**
+   * Resources subscription of resource item component
+   */
+  resourcesSubscription: Subscription;
+
+  /**
+   * Router endpoints
+   */
+  readonly routerEndpoints = RouterEndpoints;
+
+  /**
    * @ignore
    */
   constructor(
@@ -139,6 +157,7 @@ export class DatasetResourceComponent implements OnInit {
     private schemaService: SchemaService,
     private schemaDataService: SchemaDataService,
     private modalService: BsModalService,
+    private featureFlagService: FeatureFlagService,
     @Inject(DOCUMENT) private readonly document: Document,
   ) {}
 
@@ -148,29 +167,69 @@ export class DatasetResourceComponent implements OnInit {
    * Checks availability of related data (tabs).
    */
   ngOnInit() {
-    this.resource = this.activatedRoute.snapshot.data.post;
-    this.relatedDataset = this.activatedRoute.parent.snapshot.data.post.data;
-    this.frameUrl = this.document.location.protocol + '//' + this.document.location.host + '/embed/resource/' + this.resource['id'];
-    this.selfApi = this.resource.links.self;
-    this.downloadFilesList = this.resource.attributes?.files;
-    this.hasGeoData = this.resource.relationships.hasOwnProperty('geo_data');
-    this.hasChart = this.resource.relationships.hasOwnProperty('chart');
-    this.hasTabularData = this.hasGeoData || this.resource.relationships.hasOwnProperty('tabular_data');
-    this.seoService.setPageTitle(this.resource.attributes.title);
-    this.regionsList = this.resource.attributes.regions.filter(region => region.is_additional === false);
-    this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
+    this.resourcesSubscription = this.activatedRoute.url.subscribe(res => {
+      this.relatedResources = [];
+      this.resource = this.activatedRoute.snapshot.data.post;
+      this.relatedDataset = this.activatedRoute.parent.snapshot.data.post.data;
+      this.frameUrl = this.document.location.protocol + '//' + this.document.location.host + '/embed/resource/' + this.resource['id'];
+      this.selfApi = this.resource.links.self;
+      this.downloadFilesList = this.resource.attributes?.files;
+      this.hasGeoData = this.resource.relationships.hasOwnProperty('geo_data');
+      this.hasChart = this.resource.relationships.hasOwnProperty('chart');
+      this.hasTabularData = this.hasGeoData || this.resource.relationships.hasOwnProperty('tabular_data');
+      this.seoService.setPageTitle(this.resource.attributes.title);
+      this.regionsList = this.resource.attributes.regions.filter(region => region.is_additional === false);
+      this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
 
-    zip(
-      this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id),
-      this.datasetService.getResourceChartById(this.resource.id),
-    ).subscribe(([structuredData, chartResponse]) => {
-      this.schemaService.addStructuredData(structuredData);
-      const isEditorPreview = ActivatedRouteHelper.getRouteData(this.activatedRoute, 'editorPreview');
+      zip(
+        this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id),
+        this.datasetService.getResourceChartById(this.resource.id),
+      ).subscribe(([structuredData, chartResponse]) => {
+        this.schemaService.addStructuredData(structuredData);
+        const isEditorPreview = ActivatedRouteHelper.getRouteData(this.activatedRoute, 'editorPreview');
 
-      if (this.resource.attributes.hasOwnProperty('is_chart_creation_blocked')) {
-        this.isChartTabHidden = this.resource.attributes['is_chart_creation_blocked'] && !chartResponse.data.length && !isEditorPreview;
+        if (this.resource.attributes.hasOwnProperty('is_chart_creation_blocked')) {
+          this.isChartTabHidden = this.resource.attributes['is_chart_creation_blocked'] && !chartResponse.data.length && !isEditorPreview;
+        }
+      });
+
+      if (this.featureFlagService.validateFlagSync('S54_resource_language.fe')) {
+        if (this.resource.relationships.related_resource) {
+          const slug = this.resource.relationships.related_resource.links.related.split(',')[1];
+          this.datasetService.getResourceById(this.resource.relationships.related_resource.data.id).subscribe(response => {
+            this.relatedResources = this.extendViewDetails([response], slug, response.attributes.description);
+          });
+        }
       }
     });
+  }
+
+  /**
+   * Extends related resource object with translations and details to display on list
+   * @param {ISearchResult[]} relatedResource
+   * @param {string} slug
+   * @param {string} description
+   * @return {ISearchResult[]}
+   */
+  extendViewDetails(relatedResource: ISearchResult[], slug: string, description: string): ISearchResult[] {
+    relatedResource.map(item => {
+      item.url = `../../${this.routerEndpoints.RESOURCES}/${item.id},${slug}`;
+      item.titleTranslationKey = 'Resources.Single';
+      item.attributes.notes = description;
+      item.attributes.slug = slug;
+      const isHarvested = item.attributes.source && item.attributes.source.type === 'ckan';
+      item.detailsData = [
+        {
+          titleTranslationKey: isHarvested ? 'Attribute.AvailabilityDate' : 'Attribute.DataDate',
+          dateFormat: isHarvested ? 'D MMMM YYYY, HH:mm' : 'D MMMM YYYY',
+          data: isHarvested ? item.attributes.created : item.attributes.data_date,
+          isDate: true,
+          language: item.attributes.language,
+        },
+      ];
+    });
+
+    return relatedResource;
   }
 
   /**
@@ -225,5 +284,12 @@ export class DatasetResourceComponent implements OnInit {
     this.feedbackModalRef.hide();
     this.feedbackModalRef = null;
     this.feedbackSent = false;
+  }
+
+  /**
+   * Unsubscribes from existing subscriptions
+   */
+  ngOnDestroy() {
+    this.resourcesSubscription.unsubscribe();
   }
 }

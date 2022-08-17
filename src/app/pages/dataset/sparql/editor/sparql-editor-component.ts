@@ -76,11 +76,7 @@ export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlV
   /**
    * @ignore
    */
-  constructor(
-    private readonly sparqlService: SparqlService,
-    private readonly ngZone: NgZone,
-    private featureFlagService: FeatureFlagService,
-  ) {}
+  constructor(private readonly sparqlService: SparqlService, private readonly ngZone: NgZone) {}
 
   /**
    * Cleanups editor instance

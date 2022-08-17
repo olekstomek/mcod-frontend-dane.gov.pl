@@ -227,23 +227,21 @@
         >
       </div>
       <!-- API validation button -->
-      <div *featureFlag="'S41_api_validation_button.fe'">
-        <div *ngIf="isApiValidationButtonVisible" class="mt-3">
-          <hr />
-          <a
-            class="btn btn-outline-primary"
-            [href]="apiValidationUrl"
-            target="_blank"
-            appTooltip="{{ 'Tour.Tooltip.ApiValidation.text' | translate }}"
-            title="{{ 'Tour.Tooltip.ApiValidation.title' | translate }}"
-          >
-            <span>{{ 'Tour.Tooltip.ApiValidation.title' | translate }} >></span>
-            <span class="sr-only">
-              {{ 'SkipTo.NewWindow' | translate }}
-            </span>
-          </a>
-          <hr />
-        </div>
+      <div *ngIf="isApiValidationButtonVisible" class="mt-3">
+        <hr />
+        <a
+          class="btn btn-outline-primary"
+          [href]="apiValidationUrl"
+          target="_blank"
+          appTooltip="{{ 'Tour.Tooltip.ApiValidation.text' | translate }}"
+          title="{{ 'Tour.Tooltip.ApiValidation.title' | translate }}"
+        >
+          <span>{{ 'Tour.Tooltip.ApiValidation.title' | translate }} >></span>
+          <span class="sr-only">
+            {{ 'SkipTo.NewWindow' | translate }}
+          </span>
+        </a>
+        <hr />
       </div>
     </form>
   </ng-template>

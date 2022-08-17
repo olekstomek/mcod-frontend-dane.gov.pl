@@ -572,7 +572,8 @@
     "MultimediaTraining": "Multimedia training",
     "OtherMaterials": "Other materials",
     "Faq": "Frequently asked questions",
-    "ListHeader": "Topic list"
+    "ListHeader": "Topic list",
+    "BackToList": "Powrót do listy"
   },
   "Language": {
     "Self": "Language",
@@ -659,7 +660,8 @@
     "Response": "Response:",
     "Views": "Views:",
     "Activity": "Activity:",
-    "Category": "Category:"
+    "Category": "Category:",
+    "NoDataToDisplay": "There are currently no items available to display."
   },
   "Lod": {
     "Information": "Information",
@@ -1210,7 +1212,7 @@
     "PasswordChange": "Password change",
     "PasswordChanged": "Your password has benn successfully changed",
     "Congratulations": "Congratulations!",
-    "ActivationEmailSent": "Activation link has been sent to your email address. Please check also your Junk/Spam folder.",
+    "ActivationEmailSent": "Activation link has been sent to your email address. Please check also your Junk/Spam folder. The activation link is valid for 72 hours",
     "SearchHistory": "Search history",
     "Followed": "Followed",
     "FollowedList": "Followed objects list",

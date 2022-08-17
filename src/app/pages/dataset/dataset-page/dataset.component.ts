@@ -145,15 +145,9 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       AggregationOptionType.LICENSES,
       AggregationOptionType.HIGH_VALUE_DATA,
       AggregationOptionType.DYNAMIC_DATA,
+      AggregationOptionType.UPDATE_FREQUENCY,
+      AggregationOptionType.RESEARCH_DATA,
     ];
-
-    if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
-    }
-
-    if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.RESEARCH_DATA];
-    }
 
     if (this.featureFlagService.validateFlagSync('S54_resource_language.fe')) {
       this.Facets = [...this.Facets, AggregationOptionType.LANGUAGE];

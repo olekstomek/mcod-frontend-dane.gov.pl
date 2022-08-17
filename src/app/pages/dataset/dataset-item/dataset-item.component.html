@@ -156,13 +156,11 @@
             <img src="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
           </li>
 
-          <div *featureFlag="'S47_research_data_filter.fe'">
-            <!-- research data -->
-            <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_research_data">
-              <span class="vertical-list__item-label"> {{ 'Attribute.ResearchData' | translate }}: </span>
-              <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
-            </li>
-          </div>
+          <!-- research data -->
+          <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_research_data">
+            <span class="vertical-list__item-label"> {{ 'Attribute.ResearchData' | translate }}: </span>
+            <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+          </li>
 
           <!-- available (created) -->
           <li class="vertical-list__item" *ngIf="dataset?.attributes?.created">

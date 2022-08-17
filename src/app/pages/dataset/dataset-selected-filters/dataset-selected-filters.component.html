@@ -71,7 +71,6 @@
     [items]="selectedIds[AggregationFilterNames.UPDATE_FREQUENCY]"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.UPDATE_FREQUENCY, $event)"
-    *featureFlag="'S29_update_frequency_filter.fe'"
   >
   </app-selected-filters>
 
@@ -105,7 +104,6 @@
 
   <!-- Research data -->
   <app-selected-filters
-    *featureFlag="'S47_research_data_filter.fe'"
     [items]="selectedIds[AggregationFilterNames.RESEARCH_DATA]"
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.ResearchData'"

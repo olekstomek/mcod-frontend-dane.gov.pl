@@ -128,7 +128,6 @@
 
   <!-- Update frequency -->
   <app-expandable-multiselect
-    *featureFlag="'S29_update_frequency_filter.fe'"
     id="dataset-update-frequency-filter"
     [titleTranslationKey]="'Attribute.UpdateFrequency'"
     [titleTooltipTranslationKey]="'Attribute.UpdateFrequency'"
@@ -160,117 +159,55 @@
   >
   </app-expandable-multiselect>
 
-  <ng-container *featureFlag="'S52_remove_no_from_filters.fe'; else prevSingleSelection">
-    <!--High value data-->
-    <app-expandable-multiselect
-      id="dataset-high-value-data-filter"
-      [titleTranslationKey]="'Attribute.HighValueData'"
-      [showSearchInput]="false"
-      [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA]"
-      [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA]"
-      [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA]"
-      [maxLength]="maxLength"
-      [ariaLabel]="'high-value-data-label'"
-      (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
-      (applyFilter)="applyFilter()"
-      [filterName]="'high'"
-    >
-    </app-expandable-multiselect>
+  <!--High value data-->
+  <app-expandable-multiselect
+    id="dataset-high-value-data-filter"
+    [titleTranslationKey]="'Attribute.HighValueData'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA]"
+    [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'high-value-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'high'"
+  >
+  </app-expandable-multiselect>
 
-    <!--dynamic data-->
-    <app-expandable-multiselect
-      id="dataset-dynamic-data-filter"
-      [titleTranslationKey]="'Attribute.DynamicData'"
-      [titleTooltipTranslationKey]="'Attribute.DynamicData'"
-      [showSearchInput]="false"
-      [options]="filtersOptions && filtersOptions[OptionsNames.DYNAMIC_DATA]"
-      [selectedIds]="selectedData[FiltersNames.DYNAMIC_DATA]"
-      [enableApply]="availabilityFilterMap[FiltersNames.DYNAMIC_DATA]"
-      [maxLength]="maxLength"
-      [ariaLabel]="'dynamic-data-label'"
-      (selectedChange)="onSelectedChange(FiltersNames.DYNAMIC_DATA, $event)"
-      (applyFilter)="applyFilter()"
-      [filterName]="'dynamic'"
-    >
-    </app-expandable-multiselect>
+  <!--dynamic data-->
+  <app-expandable-multiselect
+    id="dataset-dynamic-data-filter"
+    [titleTranslationKey]="'Attribute.DynamicData'"
+    [titleTooltipTranslationKey]="'Attribute.DynamicData'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.DYNAMIC_DATA]"
+    [selectedIds]="selectedData[FiltersNames.DYNAMIC_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.DYNAMIC_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'dynamic-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.DYNAMIC_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'dynamic'"
+  >
+  </app-expandable-multiselect>
 
-    <!--research data-->
-    <app-expandable-multiselect
-      *featureFlag="'S47_research_data_filter.fe'"
-      id="dataset-research-data-filter"
-      [titleTranslationKey]="'Attribute.ResearchData'"
-      [titleTooltipTranslationKey]="'Attribute.ResearchData'"
-      [showSearchInput]="false"
-      [options]="filtersOptions && filtersOptions[OptionsNames.RESEARCH_DATA]"
-      [selectedIds]="selectedData[FiltersNames.RESEARCH_DATA]"
-      [enableApply]="availabilityFilterMap[FiltersNames.RESEARCH_DATA]"
-      [maxLength]="maxLength"
-      [ariaLabel]="'research-data-label'"
-      (selectedChange)="onSelectedChange(FiltersNames.RESEARCH_DATA, $event)"
-      (applyFilter)="applyFilter()"
-      [filterName]="'research'"
-    >
-    </app-expandable-multiselect>
-  </ng-container>
-
-  <ng-template #prevSingleSelection>
-    <!--High value data-->
-    <app-expandable-multiselect
-      id="dataset-high-value-data-filter"
-      [titleTranslationKey]="'Attribute.HighValueData'"
-      [showSearchInput]="false"
-      [singleSelectOption]="true"
-      [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA]"
-      [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA]"
-      [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA]"
-      [maxLength]="maxLength"
-      [ariaLabel]="'high-value-data-label'"
-      (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
-      (applyFilter)="applyFilter()"
-      [filterName]="'high'"
-      [inputIndex]="0"
-    >
-    </app-expandable-multiselect>
-
-    <!--dynamic data-->
-    <app-expandable-multiselect
-      id="dataset-dynamic-data-filter"
-      [titleTranslationKey]="'Attribute.DynamicData'"
-      [titleTooltipTranslationKey]="'Attribute.DynamicData'"
-      [showSearchInput]="false"
-      [singleSelectOption]="true"
-      [options]="filtersOptions && filtersOptions[OptionsNames.DYNAMIC_DATA]"
-      [selectedIds]="selectedData[FiltersNames.DYNAMIC_DATA]"
-      [enableApply]="availabilityFilterMap[FiltersNames.DYNAMIC_DATA]"
-      [maxLength]="maxLength"
-      [ariaLabel]="'dynamic-data-label'"
-      (selectedChange)="onSelectedChange(FiltersNames.DYNAMIC_DATA, $event)"
-      (applyFilter)="applyFilter()"
-      [filterName]="'dynamic'"
-      [inputIndex]="2"
-    >
-    </app-expandable-multiselect>
-
-    <!--research data-->
-    <app-expandable-multiselect
-      *featureFlag="'S47_research_data_filter.fe'"
-      id="dataset-research-data-filter"
-      [titleTranslationKey]="'Attribute.ResearchData'"
-      [titleTooltipTranslationKey]="'Attribute.ResearchData'"
-      [showSearchInput]="false"
-      [singleSelectOption]="true"
-      [options]="filtersOptions && filtersOptions[OptionsNames.RESEARCH_DATA]"
-      [selectedIds]="selectedData[FiltersNames.RESEARCH_DATA]"
-      [enableApply]="availabilityFilterMap[FiltersNames.RESEARCH_DATA]"
-      [maxLength]="maxLength"
-      [ariaLabel]="'research-data-label'"
-      (selectedChange)="onSelectedChange(FiltersNames.RESEARCH_DATA, $event)"
-      (applyFilter)="applyFilter()"
-      [filterName]="'research'"
-      [inputIndex]="4"
-    >
-    </app-expandable-multiselect>
-  </ng-template>
+  <!--research data-->
+  <app-expandable-multiselect
+    id="dataset-research-data-filter"
+    [titleTranslationKey]="'Attribute.ResearchData'"
+    [titleTooltipTranslationKey]="'Attribute.ResearchData'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.RESEARCH_DATA]"
+    [selectedIds]="selectedData[FiltersNames.RESEARCH_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.RESEARCH_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'research-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.RESEARCH_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'research'"
+  >
+  </app-expandable-multiselect>
 
   <!-- Language -->
   <app-expandable-multiselect

@@ -18,5 +18,5 @@
   </a>
 
   <!-- image -->
-  <img *ngIf="!banner.value.action_url" [src]="urlImage" [alt]="banner.value.alt" [ngClass]="cssClass" [ngStyle]="styles ? styles : ''" />
+  <img *ngIf="!banner.value.action_url" [src]="urlImage" [alt]="isFooterLogos ? banner.value.title : banner.value.alt" [ngClass]="cssClass" [ngStyle]="styles ? styles : ''" />
 </div>

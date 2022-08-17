@@ -572,7 +572,8 @@
     "MultimediaTraining": "Szkolenia multimedialne",
     "OtherMaterials": "Pozostałe materiały",
     "Faq": "Często zadawane pytania",
-    "ListHeader": "Lista tematów"
+    "ListHeader": "Lista tematów",
+    "BackToList": "Powrót do listy"
   },
   "Language": {
     "Self": "Język",
@@ -659,7 +660,8 @@
     "Response": "Odpowiedzi:",
     "Views": "Odsłon:",
     "Activity": "Aktywność:",
-    "Category": "Kategoria:"
+    "Category": "Kategoria:",
+    "NoDataToDisplay": "Aktualnie nie ma żadnych dostępnych elementów do wyświetlenia."
   },
   "Lod": {
     "Information": "Informacje",
@@ -1214,7 +1216,7 @@
     "PasswordChange": "Zmiana hasła",
     "PasswordChanged": "Twoje hasło zostało pomyślnie zmienione",
     "Congratulations": "Gratulacje!",
-    "ActivationEmailSent": "Na Twój adres email został wysłany link aktywacyjny. Proszę sprawdzić również folder SPAM.",
+    "ActivationEmailSent": "Na Twój adres email został wysłany link aktywacyjny. Proszę sprawdzić również folder SPAM. Link aktywacyjny ważny jest przez 72 godziny.",
     "SearchHistory": "Historia wyszukiwania",
     "Followed": "Obserwowane",
     "FollowedList": "Lista obserwowanych obiektów",

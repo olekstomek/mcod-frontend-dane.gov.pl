@@ -83,7 +83,7 @@ describe('Sparql Component', () => {
     const fixture = TestBed.createComponent(SparqlComponent);
     fixture.detectChanges();
     const title: HTMLElement = fixture.debugElement.query(By.css('.heading')).nativeElement;
-    expect(title.textContent).toBe(' Wyszukiwanie przy pomocy zapytań SPARQL ');
+    expect(title.textContent).toBe('Wyszukiwanie przy pomocy zapytań SPARQL');
   });
 
   it('should render hidden prefixes by default', () => {

@@ -1,5 +1,4 @@
 <ng-container *ngIf="items">
-  <div *featureFlag="'S52_promoted_data.fe'; else noPromotedData">
     <div *ngFor="let item of items; let index = index; trackBy: trackByFn">
       <div [ngClass]="item.attributes.is_promoted ? 'result-item-promoted' : 'result-item'">
         <!-- LEFT -->
@@ -13,19 +12,4 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <ng-template #noPromotedData>
-    <div class="result-item" *ngFor="let item of items; let index = index; trackBy: trackByFn">
-      <!-- LEFT -->
-      <div class="result-item__left col-lg-8 col-xl-9 col-xxl-10">
-        <ng-template [ngTemplateOutlet]="leftTemplate" [ngTemplateOutletContext]="{ $implicit: item }"> </ng-template>
-      </div>
-
-      <!-- RIGHT -->
-      <div *ngIf="rightTemplate" class="result-item__right col-lg-4 col-xl-3 col-xxl-2">
-        <ng-template [ngTemplateOutlet]="rightTemplate" [ngTemplateOutletContext]="{ $implicit: item, index: index }"> </ng-template>
-      </div>
-    </div>
-  </ng-template>
 </ng-container>

@@ -1,6 +1,13 @@
 <!-- more than 1 alert -->
-<ul class="list-group mb-2" *ngIf="alerts">
-  <li class="list-group-item list-group-item-{{ alert.type }}" *ngFor="let alert of alerts">
-    {{ alert.msg }}
-  </li>
-</ul>
+<ng-container *featureFlag="'S55_change_notification_form_be.fe'; else oldNotificationTemplate">
+  <ul class="list-group mb-2" *ngIf="alerts">
+    <li class="list-group-item list-group-item-{{ alert.type }} text-left" *ngFor="let alert of alerts" [innerHTML]="alert.msg | sanitizeHtml"></li>
+  </ul>
+</ng-container>
+<ng-template #oldNotificationTemplate>
+  <ul class="list-group mb-2" *ngIf="alerts">
+    <li class="list-group-item list-group-item-{{ alert.type }}" *ngFor="let alert of alerts">
+      {{ alert.msg }}
+    </li>
+  </ul>
+</ng-template>

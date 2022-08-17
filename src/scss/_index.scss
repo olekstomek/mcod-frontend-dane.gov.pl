@@ -93,6 +93,10 @@
 @import 'a11y/skip-menu';
 @import 'a11y/high-contrast/index';
 
+// ace overwrite
+@import 'ace-overwrite/ace-chrome';
+@import 'ace-overwrite/ace-tm';
+
 /***************************/
 // Bootstrap's breakpoint mixins
 /***************************/

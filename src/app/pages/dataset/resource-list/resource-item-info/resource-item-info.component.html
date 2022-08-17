@@ -27,18 +27,16 @@
       alt="ikona"
       tabindex="0"
     />
-    <span *featureFlag="'S47_research_data_filter.fe'">
-      <!-- research data icon-->
-      <img
-        *ngIf="item.attributes.has_research_data"
-        class="ml-2"
-        src="assets/icomoon/SVG/ic-research-data.svg"
-        appTooltip="{{ 'Tour.Tooltip.DatasetItem.ResearchData.text' | translate }}"
-        title="{{ 'Tour.Tooltip.DatasetItem.ResearchData.title' | translate }}"
-        alt="ikona"
-        tabindex="0"
-      />
-    </span>
+    <!-- research data icon-->
+    <img
+      *ngIf="item.attributes.has_research_data"
+      class="ml-2"
+      src="assets/icomoon/SVG/ic-research-data.svg"
+      appTooltip="{{ 'Tour.Tooltip.DatasetItem.ResearchData.text' | translate }}"
+      title="{{ 'Tour.Tooltip.DatasetItem.ResearchData.title' | translate }}"
+      alt="ikona"
+      tabindex="0"
+    />
   </h2>
 
   <!-- availability (created) date-->

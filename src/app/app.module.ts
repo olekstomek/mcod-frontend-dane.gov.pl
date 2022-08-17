@@ -2,11 +2,12 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 //  runtime information about the current platform and the appId by injection.
-import { APP_ID, APP_INITIALIZER, ErrorHandler, Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import { APP_ID, APP_INITIALIZER, Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, Title, TransferState } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+import { APP_CONFIG } from '@app/app.config';
 import { EmbedLayoutComponent } from '@app/layout/embed-layout/embed-layout.component';
 import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
 import { HomeModule } from '@app/pages/home/home.module';
@@ -51,14 +52,13 @@ import { SurveyComponent } from './pages/survey/survey.component';
 import * as Sentry from '@sentry/angular';
 import { environment } from '@env/environment';
 import { NgxMatomoRouterModule } from '@ngx-matomo/router';
-import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
+import { MATOMO_CONFIGURATION, NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
 
 import { AuthGuard } from './user/auth/auth.guard';
 
 export function flagsFactory(featureFlagService: FeatureFlagService) {
   return () => featureFlagService.initialize();
 }
-
 Sentry.init({
   dsn: 'https://23ce4d6805ae4ba0ae5954f33aaf9246@apm.dane.gov.pl//12',
   environment: environment.name,
@@ -111,11 +111,7 @@ Sentry.init({
     NgxLocalStorageModule.forRoot({ prefix: 'mcod' }),
     BrowserAnimationsModule,
     KnowledgeBaseModule,
-    NgxMatomoTrackerModule.forRoot({
-      siteId: '1', // your Matomo's site ID (find it in your Matomo's settings)
-      trackerUrl: 'https://172.24.53.108/', // your matomo server root url
-      disabled: !environment.production,
-    }),
+    NgxMatomoTrackerModule,
     NgxMatomoRouterModule,
   ],
   providers: [
@@ -136,10 +132,9 @@ Sentry.init({
       deps: [Router],
     },
     {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: false,
-      }),
+      provide: MATOMO_CONFIGURATION,
+      useFactory: matomoConfigFactory,
+      deps: [PLATFORM_ID],
     },
   ],
   bootstrap: [AppComponent],
@@ -153,4 +148,12 @@ export class AppModule {
 
 export function HttpLoaderFactory(http: HttpClient, transferState: TransferState) {
   return new TranslateBrowserLoaderService(http, transferState);
+}
+
+export function matomoConfigFactory(platformId: Object) {
+  return {
+    disabled: !isPlatformBrowser(platformId) && environment.production,
+    siteId: APP_CONFIG.matomoSiteId,
+    trackerUrl: APP_CONFIG.matomoTrackerUrl,
+  };
 }

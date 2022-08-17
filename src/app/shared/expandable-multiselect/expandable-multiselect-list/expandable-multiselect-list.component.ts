@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ElementRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 import { IAggregationProperties, MultiselectOption } from '@app/services/models/filters';
 import { StringHelper } from '@app/shared/helpers/string.helper';
@@ -52,31 +52,9 @@ export class ExpandableMultiselectListComponent implements OnChanges {
   @Input() filterName: string;
 
   /**
-   * single select option for filter
-   */
-  @Input() singleSelectOption = false;
-
-  /**
-   * index for inputs single select option for filter
-   */
-  @Input() inputIndex: number;
-
-  /**
    * emits new option selection change
    */
   @Output() selectedChange = new EventEmitter<IAggregationProperties>();
-
-  /**
-   * element of checkbox for disabled
-   */
-  @ViewChild('checkboxNo')
-  checkboxNo: ElementRef<any>;
-
-  /**
-   * element of checkbox for disabled
-   */
-  @ViewChild('checkboxYes')
-  checkboxYes: ElementRef<any>;
 
   /**
    * sends new option selected
@@ -91,19 +69,5 @@ export class ExpandableMultiselectListComponent implements OnChanges {
    */
   ngOnChanges() {
     this.expandedClass = this.isExpanded || !this.showSearchInput ? 'dropdown__list-expandable--expanded' : '';
-  }
-
-  /**
-   * change event on checkbox element for change disabled
-   */
-  onChangeDisabled(event, elemName: string) {
-    switch (elemName) {
-      case 'checkboxNo':
-        this.checkboxYes.nativeElement.disabled = event.target.checked;
-        break;
-      case 'checkboxYes':
-        this.checkboxNo.nativeElement.disabled = event.target.checked;
-        break;
-    }
   }
 }

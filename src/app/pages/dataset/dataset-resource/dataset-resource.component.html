@@ -35,12 +35,10 @@
       </li>
 
       <!--research data-->
-      <div *featureFlag="'S47_research_data_filter.fe'">
-        <li *ngIf="resource?.attributes?.has_research_data">
-          <strong> {{ 'Attribute.ResearchData' | translate }}: </strong>
-          <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
-        </li>
-      </div>
+      <li *ngIf="resource?.attributes?.has_research_data">
+        <strong> {{ 'Attribute.ResearchData' | translate }}: </strong>
+        <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      </li>
 
       <!-- dates info -->
       <li>

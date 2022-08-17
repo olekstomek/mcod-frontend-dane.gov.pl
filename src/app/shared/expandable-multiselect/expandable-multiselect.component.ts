@@ -121,21 +121,11 @@ export class ExpandableMultiselectComponent {
   @Input() filterName: string;
 
   /**
-   * single select option for filter
-   */
-  @Input() singleSelectOption = false;
-
-  /**
    * don't show multiselect-list if is geodata search filter
    */
   @Input() isGeodataSearch = false;
 
   @Input() showHideMapButton = false;
-
-  /**
-   * index for inputs single select option for filter
-   */
-  @Input() inputIndex: number;
 
   /**
    * initial value for region input (after refresh if exists)

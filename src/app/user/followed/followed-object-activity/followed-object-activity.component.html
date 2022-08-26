@@ -1,64 +1,66 @@
 <div class="mt-4" role="tabpanel" aria-labelledby="tabFollowedActivity">
-    <ul class="activity" >
-        <li class="activity__item" *ngFor="let item of activities; let i = index;">
+  <ul class="activity">
+    <li class="activity__item" *ngFor="let item of activities; let i = index">
+      <!-- action -->
+      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && regexp.test(item.attributes.notification_type)">
+        {{ 'ActivityNotification.application.' + item.attributes.notification_type | translate }}
+      </ng-container>
+      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && !regexp.test(item.attributes.notification_type)">
+        {{ 'ActivityNotification.' + item.attributes.notification_type | translate }}
+      </ng-container>
+      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && regexp.test(item.attributes.notification_type)">
+        <ng-container *featureFlag="'S56_new_notification_dashboard.fe'; else oldNotificationActionTemplate">
+          {{ 'ActivityNotification.datasetRelated.' + item.attributes.notification_type | translate }}
+        </ng-container>
+        <ng-template #oldNotificationActionTemplate>
+          {{ 'ActivityNotification.dataset.' + item.attributes.notification_type | translate }}
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && !regexp.test(item.attributes.notification_type)">
+        {{ 'ActivityNotification.' + item.attributes.notification_type | translate }}
+      </ng-container>
+      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.ARTICLE">
+        {{ 'ActivityNotification.' + item.attributes.notification_type | translate }}
+      </ng-container>
+      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.QUERY">
+        {{ 'ActivityNotification.query.' + item.attributes.notification_type | translate }}
 
-            <!-- action -->
-            <ng-container *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && regexp.test(item.attributes.notification_type)">
-                {{  ('ActivityNotification.application.' + item.attributes.notification_type) | translate }}
-            </ng-container>
-            <ng-container *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && !regexp.test(item.attributes.notification_type)">
-                {{  ('ActivityNotification.' + item.attributes.notification_type) | translate }}
-            </ng-container>
-            <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && regexp.test(item.attributes.notification_type)">
-                {{  ('ActivityNotification.dataset.' + item.attributes.notification_type) | translate }}
-            </ng-container>
-            <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && !regexp.test(item.attributes.notification_type)">
-                {{  ('ActivityNotification.' + item.attributes.notification_type) | translate }}
-            </ng-container>
-            <ng-container *ngIf="subscriptions[i].data?.type === apiModel.ARTICLE">
-                {{  ('ActivityNotification.' + item.attributes.notification_type) | translate }}
-            </ng-container>
-            <ng-container *ngIf="subscriptions[i].data?.type === apiModel.QUERY">
-                {{  ('ActivityNotification.query.' + item.attributes.notification_type) | translate }}
+        <!-- link to subscribed object -->
+        <a [routerLink]="['/!dataset' | localize]" [queryParams]="subscriptions[i]['queryParams']">
+          {{ subscriptions[i].title }}
+        </a>
+      </ng-container>
 
-                <!-- link to subscribed object -->
-                <a [routerLink]="['/!dataset' | localize]" [queryParams]="subscriptions[i]['queryParams']">
-                    {{ subscriptions[i].title }}
-                </a>
-            </ng-container>
+      <!-- link to subscribed object -->
+      <a
+        [routerLink]="['/' | localize, subscriptions[i].data.type, subscriptions[i].data.id]"
+        *ngIf="subscriptions[i].links.related && subscriptions[i].data.type !== apiModel.QUERY"
+      >
+        {{ subscriptions[i].title }}
+      </a>
 
-            <!-- link to subscribed object -->
-            <a [routerLink]="['/' | localize, subscriptions[i].data.type, subscriptions[i].data.id]"
-                *ngIf="subscriptions[i].links.related && subscriptions[i].data.type !== apiModel.QUERY">
-                {{ subscriptions[i].title }}
-            </a>
-
-            <!-- date -->
-            <span class="activity__date" [title]="item.attributes.created | translateDateFormat">
-                {{ item.attributes.created | timespan:lang }}
-            </span>
-        </li>
-    </ul>
+      <!-- date -->
+      <span class="activity__date" [title]="item.attributes.created | translateDateFormat">
+        {{ item.attributes.created | timespan: lang }}
+      </span>
+    </li>
+  </ul>
 </div>
-
 
 <!-- RESULTS FOOTER -->
 <footer class="pt-4" *ngIf="activities && activities.length">
-    <div class="d-flex justify-content-between align-items-center">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- results per page -->
+    <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
 
-        <!-- results per page -->
-        <app-items-per-page 
-            [selected]="params?.per_page" 
-            (selectedChange)="updateParams({per_page: $event})">
-        </app-items-per-page>
-
-        <!-- pagination -->
-        <app-pagination
-            [itemsPerPage]="params.per_page"
-            [totalItems]="count"
-            [page]="params.page"
-            (numPages)="numPages = $event"
-            (pageChange)="updateParams({page: $event})">
-        </app-pagination>
-    </div>
+    <!-- pagination -->
+    <app-pagination
+      [itemsPerPage]="params.per_page"
+      [totalItems]="count"
+      [page]="params.page"
+      (numPages)="numPages = $event"
+      (pageChange)="updateParams({ page: $event })"
+    >
+    </app-pagination>
+  </div>
 </footer>

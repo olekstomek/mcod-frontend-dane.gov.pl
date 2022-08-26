@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, forwardRef, NgZone, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-
 import { SparqlService } from '@app/pages/dataset/sparql/sparql.service';
 import { Ace } from 'ace-builds';
 import ace, { EditSession } from 'ace-builds/src-noconflict/ace';
@@ -10,7 +9,6 @@ import 'ace-builds/src-noconflict/theme-chrome';
 import { fromEvent, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Parser } from 'sparqljs';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Sparql Editor Component

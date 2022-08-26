@@ -39,4 +39,10 @@ describe('ApplicationsService', () => {
       expect(value).toBeTruthy();
     });
   });
+
+  it('should get related datasets for a given application item', async () => {
+    service.getDatasets('1').subscribe(value => {
+      expect(value).toBeTruthy();
+    });
+  });
 });

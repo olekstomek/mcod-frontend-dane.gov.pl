@@ -33,4 +33,8 @@ describe('TourButtonComponent', () => {
     expect(component.isTooltipVisible).toEqual(true);
     expect(component.isButtonActive).toEqual(true);
   });
+
+  it('should shows tour', () => {
+    component.showTour();
+  });
 });

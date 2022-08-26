@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ApiResponse } from '@app/services/api';
+import { LatLngExpression } from 'leaflet';
 
 import { DatasetService } from './dataset.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
@@ -130,12 +131,16 @@ describe('DatasetService', () => {
     service.getResourcesList('1').subscribe(value => {
       expect(value).toEqual(new ApiResponse(value));
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('getResourceById - Observable should return value', async () => {
     service.getResourceById('1').subscribe(value => {
       expect(value.length).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('getResourceData - Observable should return value', async () => {
@@ -172,6 +177,8 @@ describe('DatasetService', () => {
     service.getSubmissions(params).subscribe(value => {
       expect(value).toEqual(new ApiResponse(value));
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('getSubmission - Observable should return value', async () => {
@@ -192,10 +199,13 @@ describe('DatasetService', () => {
     });
   });
 
-  it('getGeoData - Observable should return value', async () => {
-    service.getGeoData('1').subscribe(value => {
+  it('should get geo data of resource with given id and filters', async () => {
+    const filters = { noData: 'test', boundaryBox: '', shapesCount: '', distance: '', coordinates: { lat: 1, lng: 2 }, q: '' };
+    service.getGeoData('1', filters).subscribe(value => {
       expect(value.length).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('getResourceChartById - Observable should return value', async () => {
@@ -226,6 +236,8 @@ describe('DatasetService', () => {
     service.saveResourceChart('1', chartBlueprint).subscribe(value => {
       expect(value.length).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'POST' });
+    req.flush('Post');
   });
 
   it('deleteResourceChart - Observable should return value', async () => {
@@ -238,11 +250,36 @@ describe('DatasetService', () => {
     service.getShowcasesList('1').subscribe(value => {
       expect(value).toEqual(new ApiResponse(value));
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('getDataFromBBox - Observable should return value', async () => {
     service.getDataFromBBox('1', 'date', '').subscribe(value => {
       expect(value.length).toBeGreaterThan(0);
     });
+  });
+
+  it('should get list of dataset for boundary box with filters', async () => {
+    const filters = [
+      ['categories', { 142: { doc_count: 1, id: '142', title: 'Edukacja, kultura i sport' } }],
+      ['has_high_value_data', { true: { doc_count: 9, id: 'true', title: 'Tak' } }],
+      ['types', { api: { id: 'api', doc_count: 61, title: 'Api' } }],
+    ];
+    service.getDataFromBBox('1', 'date', '', filters).subscribe(value => {
+      expect(value.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('should get list of dataset items from given filters in `params` variable', () => {
+    const params = {
+      sort: 'data',
+      per_page: 5,
+      q: '',
+      page: 1,
+    };
+    service.getAll(params).subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 });

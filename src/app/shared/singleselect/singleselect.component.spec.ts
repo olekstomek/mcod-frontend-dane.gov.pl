@@ -32,6 +32,11 @@ describe('SingleselectComponent', () => {
     expect(component.currentIndex).toEqual(component.selectedIndex);
   });
 
+  it('should on Input changes set displayed label based on whether item is selected or not - options is not set', () => {
+    component.ngOnChanges({ selected: new SimpleChange(null, 'test', true) });
+    expect(component.options).toEqual(undefined);
+  });
+
   it('should click outside event handler', () => {
     const event = { target: { value: 'hello' } } as any;
     component.clickOutside(event);
@@ -46,6 +51,14 @@ describe('SingleselectComponent', () => {
     expect(component.selectedChange.emit).toHaveBeenCalled();
   });
 
+  it('should not click/select item event handler', () => {
+    spyOn(component.selectedChange, 'emit');
+    component.selected = 'opcja1';
+    component.selectItem('opcja1');
+    expect(component.selected).toEqual('opcja1');
+    expect(component.selectedChange.emit).not.toHaveBeenCalled();
+  });
+
   it('should toggles dropdown', () => {
     component.toggleDropdown();
     expect(component.isExpanded).toBeTruthy();
@@ -58,14 +71,14 @@ describe('SingleselectComponent', () => {
     expect(component.currentIndex).toEqual(0);
   });
 
-  it('should sets next index on the list as active when notSelectedIndex = 0', () => {
+  it('should sets previous index on the list as active when notSelectedIndex = 0', () => {
     component.notSelectedIndex = 2;
     component.currentIndex = 0;
     component.setPreviousActiveSuggestionIndex();
     expect(component.currentIndex).toEqual(2);
   });
 
-  it('should sets next index on the list as active when currentIndex = 3', () => {
+  it('should sets previous index on the list as active when currentIndex = 3', () => {
     component.notSelectedIndex = 2;
     component.currentIndex = 3;
     component.setPreviousActiveSuggestionIndex();

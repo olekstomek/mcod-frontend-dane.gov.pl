@@ -205,4 +205,8 @@ describe('CmsService', () => {
   it('getCredentials should return value', () => {
     expect(service.getCredentials()).toEqual({ withCredentials: true });
   });
+
+  it('should gets hostname', () => {
+    service.getHostName();
+  });
 });

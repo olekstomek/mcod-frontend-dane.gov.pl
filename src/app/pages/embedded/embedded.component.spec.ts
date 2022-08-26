@@ -7,6 +7,7 @@ import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { of } from 'rxjs/internal/observable/of';
 import { EmbeddedComponent } from './embedded.component';
 
 class SeoServiceStub {
@@ -46,6 +47,17 @@ describe('EmbeddedComponent', () => {
   });
 
   it('should get params from route', async () => {
+    spyOn(service, 'getResourceById').and.returnValue(
+      of({ attributes: { title: 'test' }, relationships: { geo_data: false, chart: false } }),
+    );
+    component.ngOnInit();
+    expect(component.resourceId).toEqual('1');
+    expect(component.hasGeoData).toBeFalsy();
+    expect(component.hasChart).toBeFalsy();
+  });
+
+  it('should get params from route without relationships', async () => {
+    spyOn(service, 'getResourceById').and.returnValue(of({ attributes: { title: 'test' } }));
     component.ngOnInit();
     expect(component.resourceId).toEqual('1');
   });

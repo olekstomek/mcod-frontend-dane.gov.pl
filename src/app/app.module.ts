@@ -1,5 +1,5 @@
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 //  runtime information about the current platform and the appId by injection.
 import { APP_ID, APP_INITIALIZER, Inject, NgModule, PLATFORM_ID } from '@angular/core';
@@ -151,9 +151,28 @@ export function HttpLoaderFactory(http: HttpClient, transferState: TransferState
 }
 
 export function matomoConfigFactory(platformId: Object) {
+  let matomoSiteId: string;
+  if (isPlatformBrowser(platformId)) {
+    switch (document.location.hostname) {
+      case 'dane.gov.pl':
+        matomoSiteId = '5';
+        break;
+      case 'localhost':
+      case 'dev.dane.gov.pl':
+        matomoSiteId = '2';
+        break;
+      case 'int.dane.gov.pl':
+        matomoSiteId = '3';
+        break;
+      case 'szkolenia.dane.gov.pl':
+        matomoSiteId = '4';
+        break;
+    }
+  }
+
   return {
-    disabled: !isPlatformBrowser(platformId) && environment.production,
-    siteId: APP_CONFIG.matomoSiteId,
+    disabled: !isPlatformBrowser(platformId),
+    siteId: matomoSiteId,
     trackerUrl: APP_CONFIG.matomoTrackerUrl,
   };
 }

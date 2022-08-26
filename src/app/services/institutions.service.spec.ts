@@ -27,5 +27,7 @@ describe('InstitutionsService', () => {
     service.getOne('44').subscribe(value => {
       expect(value.length).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 });

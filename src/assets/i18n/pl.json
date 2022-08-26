@@ -89,6 +89,12 @@
       "related_object_removed": "Usunięto zasób powiązany z",
       "related_object_trashed": "Usunięto zasób powiązany z"
     },
+    "datasetRelated": {
+      "related_object_publicated": "Dodano nowe dane do",
+      "related_object_updated": "Zaktualizowano dane w",
+      "related_object_restored": "Przywrócono dane w",
+      "related_object_removed": "Usunięto dane z"
+    },
     "query": {
       "result_count_incresed": "Liczba wyników w odpowiedzi zwiększyła się dla",
       "result_count_decresed": "Liczba wyników w odpowiedzi zmniejszyła się dla"
@@ -1220,7 +1226,9 @@
     "SearchHistory": "Historia wyszukiwania",
     "Followed": "Obserwowane",
     "FollowedList": "Lista obserwowanych obiektów",
+    "FollowedDataset": "Obserwowane zbiory",
     "FollowedActivity": "Aktywność obserwowanych obiektów",
+    "FollowedDatasetActivity": "Aktywność obserwowanych zbiorów",
     "AccountActivated": "Twoje konto zostało aktywowane. Możesz się teraz zalogować.",
     "Unregistered": "Nie masz jeszcze konta?",
     "LogInToFollow": "Jeśli chcesz obserwować zbiory zaloguj się lub zarejestruj. Obserwowanie zbiorów jest dostępne dla użytkowników posiadających konto na portalu."

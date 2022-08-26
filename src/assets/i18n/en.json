@@ -89,6 +89,12 @@
       "related_object_removed": "Removed resource associated with",
       "related_object_trashed": "Removed resource associated with"
     },
+    "datasetRelated": {
+      "related_object_publicated": "Added new data to",
+      "related_object_updated": "Updated data in",
+      "related_object_restored": "Restored data in",
+      "related_object_removed": "Removed data from"
+    },
     "query": {
       "result_count_incresed": "Response count has increased for",
       "result_count_decresed": "Response count has decreased for"
@@ -1216,7 +1222,9 @@
     "SearchHistory": "Search history",
     "Followed": "Followed",
     "FollowedList": "Followed objects list",
+    "FollowedDataset": "Followed dataset",
     "FollowedActivity": "Followed objects activity",
+    "FollowedDatasetActivity": "Activity of the fallowed dataset",
     "AccountActivated": "Your account has been activated. You can now log in.",
     "Unregistered": "Don`t have an account?",
     "LogInToFollow": "If you want to follow datasets log in or register. Following datasets is available to users who have an account on the portal."

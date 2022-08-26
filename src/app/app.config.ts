@@ -21,6 +21,5 @@ export const APP_CONFIG = {
     stats: '/pn-apps/stats/',
   },
   contactEmail: 'kontakt@dane.gov.pl',
-  matomoSiteId: '1',
-  matomoTrackerUrl: 'https://172.24.53.108/',
+  matomoTrackerUrl: 'https://stats.dane.gov.pl',
 };

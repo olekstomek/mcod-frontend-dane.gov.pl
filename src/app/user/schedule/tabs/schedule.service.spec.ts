@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ApiConfig } from '@app/services/api';
 
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
+import { ScheduleTableDataSource } from '@app/user/schedule/table/domain/ScheduleTableDataSource';
 import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
 
 const userSchedulesMock = {
@@ -285,6 +286,7 @@ describe('ApplicationsService', () => {
 
   it('should call addUserScheduleItemByAdmin function', () => {
     const planningFormBlueprint = {
+      user_schedule_id: '1',
       institution: '',
       dataset_title: '',
       format: '',
@@ -293,10 +295,10 @@ describe('ApplicationsService', () => {
       is_schedule_blocked: false,
       is_user_schedule_blocked: false,
     };
-    const spyFunction = spyOn(service, 'addUserScheduleItemByAdmin');
+    let user_schedule_id;
     service.addUserScheduleItemByAdmin(planningFormBlueprint);
-
-    expect(spyFunction).toBeCalled();
+    user_schedule_id = planningFormBlueprint.user_schedule_id;
+    expect(user_schedule_id).toBe(planningFormBlueprint.user_schedule_id);
   });
 
   it('should delete user_schedule_id from planningFormBlueprint in addUserScheduleItemByAdmin function', () => {

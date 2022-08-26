@@ -1,3 +1,4 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
@@ -5,11 +6,13 @@ import { SchedulePlanningService } from './schedule-planning.service';
 
 describe('SchedulePlanningService', () => {
   let service: SchedulePlanningService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule(ServiceTestbed.module(SchedulePlanningService));
 
     service = TestBed.inject(SchedulePlanningService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -179,16 +182,23 @@ describe('SchedulePlanningService', () => {
     expect(spyFunction).toBeCalled();
   });
 
+  it('should call saveComment function with comment ID', () => {
+    const spyFunction = jest.spyOn(service, 'saveComment');
+    service.saveComment('1', 'text', '1');
+
+    expect(spyFunction).toBeCalled();
+  });
+
   it('should getSchedulesItemForCurrentSchedule function return value', () => {
-    service.getSchedulesItemForCurrentSchedule().subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getSchedulesItemForCurrentSchedule().subscribe();
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should getRepresentativesSchedules function return value', () => {
-    service.getRepresentativesSchedules().subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getRepresentativesSchedules().subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should updateScheduleStatus function return value', () => {
@@ -216,9 +226,9 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should getUserScheduleItem function return value', () => {
-    service.getUserScheduleItem(2).subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getUserScheduleItem(2).subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should updateUserScheduleItem function return value', () => {
@@ -270,33 +280,34 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should getUserInstitutions function return value', () => {
-    service.getUserInstitutions('2').subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getUserInstitutions('2').subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should getUserEmailAndInstitutions function return value', () => {
-    service.getUserEmailAndInstitutions('2', 'test@test.pl').subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    const dataTest = { email: 'test@test.pl', institutions: {} };
+    service.getUserEmailAndInstitutions('2', 'test@test.pl').subscribe(value => {});
+    const req = httpMock.expectOne(() => true);
+    req.flush(dataTest);
   });
 
   it('should getUserInstitutionsForScheduleItem function return value', () => {
-    service.getUserInstitutionsForScheduleItem('2').subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getUserInstitutionsForScheduleItem('2').subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should getUserInstitutionsForScheduleItemId function return value', () => {
-    service.getUserInstitutionsForScheduleItemId('2').subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getUserInstitutionsForScheduleItemId('2').subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should openNewSchedule function return value', () => {
-    service.openNewSchedule().subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.openNewSchedule().subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'POST' });
+    req.flush('Post');
   });
 
   it('should isTableShouldBeReloaded function return value', () => {
@@ -306,20 +317,20 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should getScheduleItemComments function return value', () => {
-    service.getScheduleItemComments('2').subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getScheduleItemComments('2').subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should saveComment function return value', () => {
-    service.saveComment('2', 'text').subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.saveComment('2', 'text').subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'POST' });
+    req.flush('Post');
   });
 
   it('should getSchedules function return value', () => {
-    service.getSchedules().subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-    });
+    service.getSchedules().subscribe(value => {});
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 });

@@ -1,23 +1,20 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NewsletterService } from '@app/services/newsletter.service';
+import { NewsComponent } from '@app/pages/home/news/news.component';
+import { CmsService } from '@app/services/cms.service';
 import { NotificationsService } from '@app/services/notifications.service';
-import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { of } from 'rxjs/internal/observable/of';
 
-describe('UnsubcribeNewsletterComponent', () => {
-  let component: UnsubcribeNewsletterComponent;
-  let fixture: ComponentFixture<UnsubcribeNewsletterComponent>;
-  let service: NewsletterService;
+describe('NewsComponent', () => {
+  let component: NewsComponent;
+  let fixture: ComponentFixture<NewsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UnsubcribeNewsletterComponent],
+      declarations: [NewsComponent],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
@@ -25,13 +22,12 @@ describe('UnsubcribeNewsletterComponent', () => {
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
       ],
-      providers: [NewsletterService, NotificationsService, { provide: PLATFORM_ID, useValue: 'browser' }],
+      providers: [CmsService, NotificationsService],
     });
   });
 
   beforeEach(() => {
-    service = TestBed.inject(NewsletterService);
-    fixture = TestBed.createComponent(UnsubcribeNewsletterComponent);
+    fixture = TestBed.createComponent(NewsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -41,8 +37,7 @@ describe('UnsubcribeNewsletterComponent', () => {
   });
 
   it('should unsubscribe when component is destroyed', async () => {
-    component['subscription'] = of().subscribe();
-    const unsubscriptionSpy = jest.spyOn(component['subscription'], 'unsubscribe');
+    const unsubscriptionSpy = jest.spyOn(component.articlesSubstription, 'unsubscribe');
     component.ngOnDestroy();
     expect(unsubscriptionSpy).toHaveBeenCalled();
   });

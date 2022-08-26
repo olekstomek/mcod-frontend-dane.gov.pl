@@ -34,7 +34,7 @@ describe('FooterComponent', () => {
 
   it('should create', async () => {
     spyOn(BsModalServiceMock, 'onHidden').and.returnValue(of({}));
-    spyOn(service, 'elementFooterNavIsExist').and.returnValue(true);
+    spyOn(service, 'elementFooterNavIsExist').and.returnValue(of({ isElementFooterNavExist: true }));
     expect(component).toBeDefined();
   });
 });

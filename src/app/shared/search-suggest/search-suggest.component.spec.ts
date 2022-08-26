@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -89,5 +90,136 @@ describe('SearchSuggestComponent', () => {
     const item = [{ attributes: { title: 'test', model: ApiModel.NEWS, slug: 'news' }, id: '2' }];
     const returnValue = component.prepareListboxOptions(item);
     expect(returnValue).toStrictEqual([{ title: 'test', url: '/article/news', areaTranslationKey: 'Articles.News' }]);
+  });
+
+  it('should enables keyboard navigation. Performs actions on keyboard events - key ArrowDown', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    const spyFunction = spyOn(component, 'setNextActiveSuggestionIndex');
+    document.dispatchEvent(event);
+    component.onKeydown(event);
+    expect(spyFunction).toHaveBeenCalled();
+  });
+
+  it('should enables keyboard navigation. Performs actions on keyboard events - key ArrowUp', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const spyFunction = spyOn(component, 'setPreviousActiveSuggestionIndex');
+    document.dispatchEvent(event);
+    component.onKeydown(event);
+    expect(spyFunction).toHaveBeenCalled();
+  });
+
+  it('should enables keyboard navigation. Performs actions on keyboard events - key Enter', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    const spyFunction = spyOn(component, 'onActiveSuggestionClick');
+    document.dispatchEvent(event);
+    component.onKeydown(event);
+    expect(spyFunction).toHaveBeenCalled();
+  });
+
+  it('should enables keyboard navigation. Performs actions on keyboard events - key Tab', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Tab' });
+    document.dispatchEvent(event);
+    component.onKeydown(event);
+    expect(component.isListBoxExpanded).toBeTruthy();
+  });
+
+  it('should enables keyboard navigation. Performs actions on keyboard events - key Space', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Space', shiftKey: true });
+    const spyFunction = spyOn(event, 'preventDefault');
+    document.dispatchEvent(event);
+    component.onKeydown(event);
+    expect(spyFunction).toHaveBeenCalled();
+    expect(component.isListBoxExpanded).toBeTruthy();
+  });
+
+  it('should enables keyboard navigation. Performs actions on keyboard events - key Escape', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Escape' });
+    document.dispatchEvent(event);
+    component.onKeydown(event);
+    expect(component.isListBoxExpanded).toBeFalsy();
+  });
+
+  it('should conditionally show suggestion list when input has focus', () => {
+    component.onFocusIn();
+    expect(component.isSearchQueryInvalid).toBeFalsy();
+  });
+
+  it('should sets next index on the list as active when activeSuggestionIndex === notSelectedSuggestionIndex', () => {
+    component.setNextActiveSuggestionIndex();
+    expect(component.activeSuggestionIndex).toEqual(0);
+  });
+
+  it('should sets next index on the list as active when activeSuggestionIndex === listBoxOptions.length - 1', () => {
+    component.activeSuggestionIndex = 0;
+    component.listBoxOptions = ['list1'];
+    component.setNextActiveSuggestionIndex();
+    expect(component.activeSuggestionIndex).toEqual(component.notSelectedSuggestionIndex);
+  });
+
+  it('should sets next index on the list as active when activeSuggestionIndex !== notSelectedSuggestionIndex', () => {
+    component.notSelectedSuggestionIndex = 1;
+    component.activeSuggestionIndex = 2;
+    component.setNextActiveSuggestionIndex();
+    expect(component.activeSuggestionIndex).toEqual(3);
+  });
+
+  it('should sets previous index on the list as active when activeSuggestionIndex === notSelectedSuggestionIndex', () => {
+    component.setPreviousActiveSuggestionIndex();
+    expect(component.activeSuggestionIndex).toEqual(-1);
+  });
+
+  it('should sets previous index on the list as active when activeSuggestionIndex = 0', () => {
+    component.activeSuggestionIndex = 0;
+    component.setPreviousActiveSuggestionIndex();
+    expect(component.activeSuggestionIndex).toEqual(component.notSelectedSuggestionIndex);
+  });
+
+  it('should sets previous index on the list as active when activeSuggestionIndex !== notSelectedSuggestionIndex', () => {
+    component.activeSuggestionIndex = 2;
+    component.setPreviousActiveSuggestionIndex();
+    expect(component.activeSuggestionIndex).toEqual(1);
+  });
+
+  it('should navigates to a details of the active item on the suggestion list', () => {
+    component.onActiveSuggestionClick();
+    expect(component.activeSuggestionIndex).toEqual(component.notSelectedSuggestionIndex);
+  });
+
+  it('should emit event click to move into search results for screen reader', () => {
+    spyOn(component.moveToSearchResultTrigger, 'emit');
+    component.emitMoveToSearchResult();
+    expect(component.moveToSearchResultTrigger.emit).toHaveBeenCalled();
+  });
+
+  it('should chose and emit of the active item on the suggestion region list', () => {
+    component.onSuggestionSearchClick();
+    expect(component.activeSuggestionIndex).toEqual(component.notSelectedSuggestionIndex);
+  });
+
+  it('should chose and emit of the active item on the suggestion region list when activeSuggestionIndex != notSelectedSuggestionIndex', () => {
+    spyOn(component.regionListboxOption, 'emit');
+    component.listBoxOptions = ['option1', 'option2'];
+    component.activeSuggestionIndex = 1;
+    component.onSuggestionSearchClick();
+    expect(component.regionListboxOption.emit).toHaveBeenCalled();
+    expect(component.listBoxOptions).toEqual([]);
+  });
+
+  it('should clears query input and sets focus on it.', () => {
+    component.queryInputRef = new ElementRef({ focus() {} });
+    const spyFunction = spyOn(component.queryInputRef.nativeElement, 'focus');
+    component.onClear();
+    expect(component.searchText).toEqual('');
+    expect(spyFunction).toHaveBeenCalled();
+  });
+
+  it('should clears query input and sets focus on it with user trigger', () => {
+    component.queryInputRef = new ElementRef({ focus() {} });
+    component.useTriggers = true;
+    const spyFunction = spyOn(component.queryInputRef.nativeElement, 'focus');
+    spyOn(component.clearTrigger, 'emit');
+    component.onClear();
+    expect(component.searchText).toEqual('');
+    expect(spyFunction).toHaveBeenCalled();
   });
 });

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
-
 import { IPageCms } from '@app/services/models/cms/page-cms';
 import { SeoService } from '@app/services/seo.service';
 
@@ -26,7 +24,7 @@ export class KnowledgeBaseItemDetailsComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private seoService: SeoService, private route: ActivatedRoute, private featureFlagService: FeatureFlagService) {}
+  constructor(private seoService: SeoService, private route: ActivatedRoute) {}
 
   /**
    * Sets page data from resolved request
@@ -34,9 +32,6 @@ export class KnowledgeBaseItemDetailsComponent implements OnInit {
   ngOnInit() {
     this.pageData = this.route.snapshot.data.post;
     this.seoService.setPageTitle(this.pageData.title);
-
-    if (this.featureFlagService.validateFlagSync('S55_back_link_knowledgebase.fe')) {
-      this.parentUrlPath = '/pl/knowledgebase/' + this.pageData.meta.parent.meta.slug;
-    }
+    this.parentUrlPath = '/pl/knowledgebase/' + this.pageData.meta.parent.meta.slug;
   }
 }

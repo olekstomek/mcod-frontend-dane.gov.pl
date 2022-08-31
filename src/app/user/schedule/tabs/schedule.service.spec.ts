@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { ApiConfig } from '@app/services/api';
 
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { ScheduleTableDataSource } from '@app/user/schedule/table/domain/ScheduleTableDataSource';
 import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
 
 const userSchedulesMock = {

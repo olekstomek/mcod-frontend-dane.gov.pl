@@ -75,4 +75,11 @@ describe('HeaderComponent', () => {
 
     expect(language).toEqual('EN');
   });
+
+  it('should set language for the entire app to PL', async () => {
+    const language = 'pl';
+    component.useLanguage(language);
+
+    expect(language).toEqual('pl');
+  });
 });

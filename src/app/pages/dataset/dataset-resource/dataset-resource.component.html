@@ -68,12 +68,10 @@
         {{ 'TypesFilters.' + (resource.attributes.media_type | titlecase) | translate | lowercase }}
       </li>
 
-      <ng-container *featureFlag="'S54_resource_language.fe'">
-        <li *ngIf="resource?.attributes?.language">
-          <strong> {{ 'Attribute.Language' | translate }}: </strong>
-          {{ 'TypesFilters.' + resource.attributes.language | translate | lowercase }}
-        </li>
-      </ng-container>
+      <li *ngIf="resource?.attributes?.language">
+        <strong> {{ 'Attribute.Language' | translate }}: </strong>
+        {{ 'TypesFilters.' + resource.attributes.language | translate | lowercase }}
+      </li>
 
       <!-- special_signs -->
       <li *ngIf="resource?.attributes?.special_signs?.length">
@@ -356,7 +354,7 @@
   </div>
 
   <!-- Related resources -->
-  <div class="container mt-3" *featureFlag="'S54_resource_language.fe'">
+  <div class="container mt-3">
     <header class="results-header" *ngIf="relatedResources.length > 0">
       <div class="heading heading--sm heading--separator">
         {{ 'Resources.RelatedResources' | translate }}

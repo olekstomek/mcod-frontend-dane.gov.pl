@@ -4,7 +4,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { toggle, toggleVertically } from '@app/animations';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { InstitutionsService } from '@app/services/institutions.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
@@ -69,9 +68,8 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     protected selectedFiltersService: ListViewSelectedFilterService,
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
-    protected featureFlagService: FeatureFlagService,
   ) {
-    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
+    super(filterService, activatedRoute, selectedFiltersService);
     this.Facets = [
       AggregationOptionType.CATEGORIES,
       AggregationOptionType.INSTITUTION,

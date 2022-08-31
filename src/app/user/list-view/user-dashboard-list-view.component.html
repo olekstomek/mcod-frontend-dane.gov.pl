@@ -31,14 +31,12 @@
 <!-- ITEMS -->
 <ng-container #listContainer></ng-container>
 
-<ng-container *featureFlag="'S55_no_data_alert.fe'">
-  <!-- NO ITEMS -->
-  <div class="container pb-3" *ngIf="items?.length === 0">
-    <p class="alert alert-info">
-      {{ 'MyDashboard.NoDataToDisplay' | translate }}
-    </p>
-  </div>
-</ng-container>
+<!-- NO ITEMS -->
+<div class="container pb-3" *ngIf="items?.length === 0">
+  <p class="alert alert-info">
+    {{ 'MyDashboard.NoDataToDisplay' | translate }}
+  </p>
+</div>
 
 <!-- PAGING -->
 <footer class="pt-5" *ngIf="config.isPagingVisible && items?.length">

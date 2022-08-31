@@ -9,12 +9,7 @@
         {{ 'ActivityNotification.' + item.attributes.notification_type | translate }}
       </ng-container>
       <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && regexp.test(item.attributes.notification_type)">
-        <ng-container *featureFlag="'S56_new_notification_dashboard.fe'; else oldNotificationActionTemplate">
-          {{ 'ActivityNotification.datasetRelated.' + item.attributes.notification_type | translate }}
-        </ng-container>
-        <ng-template #oldNotificationActionTemplate>
-          {{ 'ActivityNotification.dataset.' + item.attributes.notification_type | translate }}
-        </ng-template>
+        {{ 'ActivityNotification.datasetRelated.' + item.attributes.notification_type | translate }}
       </ng-container>
       <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && !regexp.test(item.attributes.notification_type)">
         {{ 'ActivityNotification.' + item.attributes.notification_type | translate }}

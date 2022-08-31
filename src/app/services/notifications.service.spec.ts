@@ -63,4 +63,10 @@ describe('NotificationsService', () => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
+
+  it('should call shortcut for new success message', () => {
+    const spyFunction = spyOn(service, 'addAlert');
+    service.addSuccess('test');
+    expect(spyFunction).toBeCalled();
+  });
 });

@@ -150,12 +150,10 @@
   </app-selected-filters>
 
   <!-- Language -->
-  <ng-container *featureFlag="'S54_resource_language.fe'">
-    <app-selected-filters
-      [items]="selectedIds[AggregationFilterNames.LANGUAGE]"
-      @toggle
-      (removeSelectedFilter)="onClearFilter(AggregationFilterNames.LANGUAGE, $event)"
-    >
-    </app-selected-filters>
-  </ng-container>
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.LANGUAGE]"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.LANGUAGE, $event)"
+  >
+  </app-selected-filters>
 </div>

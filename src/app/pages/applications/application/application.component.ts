@@ -12,7 +12,6 @@ import { ApiConfig } from '@app/services/api';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { BasicPageParams } from '@app/services/models/page-params';
 import { ApiModel } from '@app/services/api/api-model';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
 
 /**
@@ -72,9 +71,8 @@ export class ApplicationComponent extends ListViewFilterPageAbstractComponent im
     private router: Router,
     private applicationsService: ApplicationsService,
     private searchService: SearchService,
-    protected featureFlagService: FeatureFlagService,
   ) {
-    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
+    super(filterService, activatedRoute, selectedFiltersService);
 
     this.Facets = [AggregationOptionType.SHOWCASE_CATEGORY, AggregationOptionType.SHOWCASE_TYPE, AggregationOptionType.SHOWCASE_PLATFORMS];
   }

@@ -192,14 +192,11 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
           this.isChartTabHidden = this.resource.attributes['is_chart_creation_blocked'] && !chartResponse.data.length && !isEditorPreview;
         }
       });
-
-      if (this.featureFlagService.validateFlagSync('S54_resource_language.fe')) {
-        if (this.resource.relationships.related_resource) {
-          const slug = this.resource.relationships.related_resource.links.related.split(',')[1];
-          this.datasetService.getResourceById(this.resource.relationships.related_resource.data.id).subscribe(response => {
-            this.relatedResources = this.extendViewDetails([response], slug, response.attributes.description);
-          });
-        }
+      if (this.resource.relationships.related_resource) {
+        const slug = this.resource.relationships.related_resource.links.related.split(',')[1];
+        this.datasetService.getResourceById(this.resource.relationships.related_resource.data.id).subscribe(response => {
+          this.relatedResources = this.extendViewDetails([response], slug, response.attributes.description);
+        });
       }
     });
   }

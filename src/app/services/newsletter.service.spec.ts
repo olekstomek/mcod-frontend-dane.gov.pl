@@ -1,5 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-
 import { NewsletterService } from './newsletter.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { HttpTestingController } from '@angular/common/http/testing';
@@ -67,5 +67,19 @@ describe('NewsletterService', () => {
     service.confirmNewsletterSubscription('token').subscribe(value => {
       expect(value.length).toBeGreaterThan(0);
     });
+  });
+
+  it('should get error message', () => {
+    const customError = new HttpErrorResponse({
+      error: {
+        jsonapi: {
+          version: '',
+        },
+        errors: [{ id: '2', status: 'status', code: 'code', title: 'title', detail: 'tu jest treść testowa' }],
+      },
+      statusText: 'Bad request',
+      status: 400,
+    });
+    expect(service.getNewsletterError(customError)).toEqual('tu jest treść testowa');
   });
 });

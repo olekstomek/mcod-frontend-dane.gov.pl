@@ -6,7 +6,6 @@ import { toggleVertically } from '@app/animations';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
@@ -131,10 +130,9 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     protected selectedFiltersService: ListViewSelectedFilterService,
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
-    protected featureFlagService: FeatureFlagService,
     private ngZone: NgZone,
   ) {
-    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
+    super(filterService, activatedRoute, selectedFiltersService);
     this.Facets = [
       AggregationOptionType.CATEGORIES,
       AggregationOptionType.INSTITUTION,
@@ -147,11 +145,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       AggregationOptionType.DYNAMIC_DATA,
       AggregationOptionType.UPDATE_FREQUENCY,
       AggregationOptionType.RESEARCH_DATA,
+      AggregationOptionType.LANGUAGE,
     ];
-
-    if (this.featureFlagService.validateFlagSync('S54_resource_language.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.LANGUAGE];
-    }
   }
 
   addSubscriptionToQuery(queryForm: NgForm) {
@@ -159,33 +154,18 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       return;
     }
 
-    if (this.featureFlagService.validateFlagSync('S52_objects_count_for_search_res.fe')) {
-      this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput, this.count).subscribe(
-        () => {
-          this.isQueryFormSubmitted = true;
-          this.isQueryFormError = false;
-          this.notificationsService.clearAlerts();
-        },
-        (errorResponse: HttpCustomErrorResponse) => {
-          this.isQueryFormSubmitted = false;
-          this.notificationsService.clearAlerts();
-          this.isQueryFormError = this.datasetService.isQueryError(errorResponse);
-        },
-      );
-    } else {
-      this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput).subscribe(
-        () => {
-          this.isQueryFormSubmitted = true;
-          this.isQueryFormError = false;
-          this.notificationsService.clearAlerts();
-        },
-        (errorResponse: HttpCustomErrorResponse) => {
-          this.isQueryFormSubmitted = false;
-          this.notificationsService.clearAlerts();
-          this.isQueryFormError = this.datasetService.isQueryError(errorResponse);
-        },
-      );
-    }
+    this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput, this.count).subscribe(
+      () => {
+        this.isQueryFormSubmitted = true;
+        this.isQueryFormError = false;
+        this.notificationsService.clearAlerts();
+      },
+      (errorResponse: HttpCustomErrorResponse) => {
+        this.isQueryFormSubmitted = false;
+        this.notificationsService.clearAlerts();
+        this.isQueryFormError = this.datasetService.isQueryError(errorResponse);
+      },
+    );
   }
 
   /**

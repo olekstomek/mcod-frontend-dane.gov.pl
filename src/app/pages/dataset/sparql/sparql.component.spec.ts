@@ -11,6 +11,7 @@ import { NotificationsService } from '@app/services/notifications.service';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -64,7 +65,14 @@ describe('Sparql Component', () => {
         ReactiveFormsModule,
         FormsModule,
       ],
-      declarations: [SparqlComponent, SparqlEditorComponent, NotificationsComponent, NotificationsServerComponent, PaginationComponent],
+      declarations: [
+        SparqlComponent,
+        SparqlEditorComponent,
+        NotificationsComponent,
+        NotificationsServerComponent,
+        PaginationComponent,
+        SanitizeHtmlPipe,
+      ],
       providers: [{ provide: FeatureFlagService, useClass: MockkFeatureFlagService }, SparqlService, NotificationsService],
     }).compileComponents();
 

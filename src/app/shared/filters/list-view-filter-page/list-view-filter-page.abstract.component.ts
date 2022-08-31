@@ -17,7 +17,6 @@ import {
   IListViewInstitutionItemFiltersModel,
 } from '@app/services/models/page-filters/institution-item-filters';
 import { ISearchCounters } from '@app/services/models/search';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Abstract class for page which uses List View filters
@@ -107,7 +106,6 @@ export abstract class ListViewFilterPageAbstractComponent {
     protected filterService: ListViewFiltersService,
     protected activatedRoute: ActivatedRoute,
     protected selectedFiltersService: ListViewSelectedFilterService,
-    protected featureFlagService: FeatureFlagService,
   ) {}
 
   /**

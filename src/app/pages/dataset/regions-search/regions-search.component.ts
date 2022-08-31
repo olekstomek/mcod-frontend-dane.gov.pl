@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ApiModel } from '@app/services/api/api-model';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
 import { IAggregationPropertiesForRegions } from '@app/services/models/filters';
@@ -47,9 +46,8 @@ export class RegionsSearchComponent extends ListViewFilterPageAbstractComponent 
     protected filterService: ListViewFiltersService,
     protected activatedRoute: ActivatedRoute,
     protected selectedFiltersService: ListViewSelectedFilterService,
-    protected featureFlagService: FeatureFlagService,
   ) {
-    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
+    super(filterService, activatedRoute, selectedFiltersService);
   }
 
   ngOnInit(): void {

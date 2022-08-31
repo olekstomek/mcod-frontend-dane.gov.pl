@@ -74,6 +74,59 @@ describe('CmsService', () => {
     expect(service.addStyle(widget)).toBeTruthy();
   });
 
+  it('should not add css style', () => {
+    const widget = {
+      general: {
+        backgroundColor: undefined,
+        classes: '',
+        foregroundColor: undefined,
+        margin: undefined,
+        padding: undefined,
+        style: '',
+        textAlignment: '',
+      },
+      type: WidgetType.BANNER,
+      id: '1',
+      children: null,
+      settings: null,
+      classname: 'test',
+    };
+    delete widget.general;
+    expect(service.addStyle(widget)).toBeFalsy();
+  });
+
+  it('should set 0 to margin/padding string', () => {
+    const widget = {
+      general: {
+        backgroundColor: undefined,
+        classes: '',
+        foregroundColor: undefined,
+        margin: {
+          unit: 'px',
+          left: null,
+          top: null,
+          right: null,
+          bottom: null,
+        },
+        padding: {
+          unit: 'px',
+          left: null,
+          top: null,
+          right: null,
+          bottom: null,
+        },
+        style: '',
+        textAlignment: '',
+      },
+      type: WidgetType.BANNER,
+      id: '1',
+      children: null,
+      settings: null,
+      classname: 'test',
+    };
+    expect(service.addStyle(widget)).toBeTruthy();
+  });
+
   it('should call getLandingPage function', () => {
     expect(service.getLandingPage('https://test.pl')).toBeTruthy();
   });

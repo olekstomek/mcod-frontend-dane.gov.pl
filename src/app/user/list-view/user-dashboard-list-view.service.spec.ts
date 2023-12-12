@@ -1,3 +1,4 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
@@ -5,11 +6,13 @@ import { UserDashboardListViewService } from './user-dashboard-list-view.service
 
 describe('UserDashboardListViewService', () => {
   let service: UserDashboardListViewService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule(ServiceTestbed.module(UserDashboardListViewService));
 
     service = TestBed.inject(UserDashboardListViewService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -40,11 +43,15 @@ describe('UserDashboardListViewService', () => {
     service.getAll(params).subscribe(value => {
       expect(value).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should getOne function return value', () => {
     service.getOne('1').subscribe(value => {
       expect(value).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 });

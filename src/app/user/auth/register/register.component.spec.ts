@@ -87,10 +87,25 @@ describe('RegisterComponent', () => {
   });
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    let spy = spyOn(service, 'registerUser').and.callFake(() => EMPTY);
+    const spy = spyOn(service, 'registerUser').and.callFake(() => EMPTY);
     component.onSubmit();
     expect(spy).not.toHaveBeenCalled();
     expect(component.isRegistered).toBeFalsy();
+  });
+
+  it('should submit when the form is valid', () => {
+    const spy = spyOn(service, 'registerUser').and.returnValue(of(true));
+    component.registrationForm.setValue({
+      email: 'user@example.com',
+      password1: 'Example.1',
+      password2: 'Example.5',
+      rodoConsent: true,
+      regulationsConsent: true,
+    });
+    component.onSubmit();
+    expect(component.registrationForm.valid).toBeTruthy();
+    expect(spy).toHaveBeenCalled();
+    expect(component.isRegistered).toBeTruthy();
   });
 
   it.skip('should fill required fields and the form should be valid', () => {

@@ -1,5 +1,5 @@
 import { HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { ApiConfig } from '@app/services/api';
 
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
@@ -163,10 +163,12 @@ describe('ApplicationsService', () => {
     expect(httpMock.expectOne(`/api${ApiConfig.userSchedules}/${1}?include=schedule,user_schedule_item`)).toBeTruthy();
   });
 
-  it("should fetch schedules item for current schedule from schedules endpoint when user isn't admin", () => {
-    service.getSchedulesItemForCurrentSchedule(1, false, 1).subscribe(() => {});
+  it("should fetch schedules item for current schedule from schedules endpoint when user isn't admin", async(() => {
+    service.getSchedulesItemForCurrentSchedule(1, false, 1).subscribe(data => {
+      expect(data).toBeTruthy();
+    });
     expect(httpMock.expectOne(`/api${ApiConfig.schedules}/${1}/user_schedule_items?include=schedule,user_schedule`)).toBeTruthy();
-  });
+  }));
 
   it('should map response to UserSchedule', done => {
     service.getSchedulesItemForCurrentSchedule(1, true, 1).subscribe(data => {

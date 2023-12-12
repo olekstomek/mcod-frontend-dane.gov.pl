@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
+import { of } from 'rxjs/internal/observable/of';
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -49,6 +50,9 @@ describe('NewsletterComponent', () => {
   });
 
   it('should create a form with 3 controls and all should be required', () => {
+    spyOn(service, 'getNewsletterRegulations').and.returnValue(
+      of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
+    );
     component.ngOnInit();
     expect(component.newsletterForm.get('email').setValue('')).toBeFalsy();
     expect(component.newsletterForm.get('personal_data_processing').setValue('')).toBeFalsy();
@@ -66,6 +70,9 @@ describe('NewsletterComponent', () => {
   });
 
   it('should fill required fields and the form should be valid', () => {
+    spyOn(service, 'addNewsletterSubscription').and.returnValue(
+      of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
+    );
     component.newsletterForm.setValue({
       email: 'user@example.com',
       personal_data_processing: true,
@@ -74,6 +81,7 @@ describe('NewsletterComponent', () => {
     component.newsletterForm.updateValueAndValidity();
     fixture.detectChanges();
     component.onSubmit();
+    expect(component.successMessage).toEqual('treść testowa');
     expect(component.newsletterForm.valid).toBeTruthy();
   });
 });

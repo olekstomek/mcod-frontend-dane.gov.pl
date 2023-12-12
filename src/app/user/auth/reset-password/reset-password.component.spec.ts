@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,6 +15,7 @@ import { NotificationsFrontComponent } from '@app/shared/notifications-front/not
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
 import { ResetPasswordComponent } from '@app/user/auth/reset-password/reset-password.component';
+import { of } from 'rxjs/internal/observable/of';
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -69,10 +70,32 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    let spy = spyOn(service, 'resetPass').and.callFake(() => EMPTY);
+    const spy = spyOn(service, 'resetPass').and.callFake(() => EMPTY);
     component.onSubmitNewPassword();
     expect(spy).not.toHaveBeenCalled();
     expect(component.passwordChanged).toBeFalsy();
+  });
+
+  it('should NOT submit (not call the service) when the form is invalid', () => {
+    const spy = spyOn(service, 'resetPass').and.returnValue(of({}));
+    component.resetPasswordForm.setValue({
+      new_password1: 'Example.1',
+      new_password2: 'Example.2',
+    });
+    component.onSubmitNewPassword();
+    expect(component.resetPasswordForm.valid).toBeTruthy();
+    expect(spy).toHaveBeenCalled();
+    expect(component.passwordChanged).toBeTruthy();
+  });
+
+  it('should stores token of token form submit', () => {
+    const testForm = <NgForm>{
+      value: {
+        code: '45tghj',
+      },
+    };
+    component.onSubmitTokenForm(testForm);
+    expect(component.token).toEqual('45tghj');
   });
 
   it.skip('should fill required fields and the form should be valid', () => {

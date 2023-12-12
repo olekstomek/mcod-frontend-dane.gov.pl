@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewsletterService } from '@app/services/newsletter.service';
 import { NotificationsService } from '@app/services/notifications.service';
@@ -24,7 +26,15 @@ describe('ActiveNewsletterComponent', () => {
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
       ],
-      providers: [NewsletterService, NotificationsService],
+      providers: [
+        NewsletterService,
+        NotificationsService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { paramMap: convertToParamMap({ token: '1dfg6458dgd3' }) } },
+        },
+      ],
     });
   });
 
@@ -37,6 +47,14 @@ describe('ActiveNewsletterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should add success message', () => {
+    spyOn(service, 'confirmNewsletterSubscription').and.returnValue(
+      of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
+    );
+    component.ngOnInit();
+    expect(component.successMessage).toEqual('treść testowa');
   });
 
   it('should unsubscribe when component is destroyed', async () => {

@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EMPTY, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
@@ -148,10 +149,12 @@ describe('LoginComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should log in user (call the service) on submit', () => {
+  it('should log in user (call the service) on submit', inject([Router], async (router: Router) => {
+    component.redirectUrl = 'user/dashboard';
     fixture.detectChanges();
 
-    let spy = spyOn(service, 'login').and.callFake(() => of(true));
+    const spy = spyOn(service, 'login').and.callFake(() => of(true));
+    const routerNavigationSpy = spyOn(router, 'navigateByUrl').and.stub();
     let emailInput: HTMLInputElement = fixture.nativeElement.querySelector('#email');
     let passwordInput: HTMLInputElement = fixture.nativeElement.querySelector('#password');
     let rememberCheck: HTMLInputElement = fixture.nativeElement.querySelector('#rememberCheck');
@@ -169,5 +172,14 @@ describe('LoginComponent', () => {
     submitBtn = fixture.nativeElement.querySelector('.btn');
     submitBtn.click();
     expect(spy).toHaveBeenCalledWith(credentials.email, credentials.password, false);
+    expect(routerNavigationSpy).toHaveBeenCalled();
+  }));
+
+  it('should NOT submit (not call the service) when the form is invalid', () => {
+    const testForm = <NgForm>{ invalid: true };
+
+    const spy = spyOn(service, 'login').and.callFake(() => of(false));
+    component.onSubmit(testForm);
+    expect(spy).not.toHaveBeenCalled();
   });
 });

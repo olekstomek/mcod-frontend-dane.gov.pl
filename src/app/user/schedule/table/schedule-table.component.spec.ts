@@ -2,6 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ScheduleTableViewDetailsAction } from '@app/user/schedule/table/domain/actions/ScheduleTableViewDetailsAction';
+import { ButtonConfig } from '@app/user/schedule/table/domain/button-config';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
@@ -54,7 +56,15 @@ describe('Schedule Table Component', () => {
   it('should skip init only when config is not empty', () => {
     const fixture = TestBed.createComponent(ScheduleTableComponent);
     const scheduleTableComponent = fixture.componentInstance;
-    scheduleTableComponent.config = new ScheduleTableConfig.builder().default().build();
+    scheduleTableComponent.config = new ScheduleTableConfig.builder()
+      .default()
+      .withLeftButton(new ButtonConfig('Przywróć do realizacji', undefined, () => {}))
+      .withActions([new ScheduleTableViewDetailsAction('/representative')])
+      .withFullExport(true)
+      .withPartialExport(true)
+      .withExportSource('user_schedules')
+      .withSettingsForm(false)
+      .build();
 
     fixture.detectChanges();
 

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoginService } from '@app/services/login-service';
@@ -14,6 +14,7 @@ class LocalStorageServiceStub {}
 describe('DiscourseService', () => {
   let service: DiscourseService;
   let userService: UserService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +32,7 @@ describe('DiscourseService', () => {
 
     service = TestBed.inject(DiscourseService);
     userService = TestBed.inject(UserService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -48,12 +50,16 @@ describe('DiscourseService', () => {
     service.getBadges().subscribe(value => {
       expect(value).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should gets notifications', () => {
     service.getNotifications().subscribe(value => {
       expect(value).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should gets notifications with badges', () => {
@@ -66,12 +72,22 @@ describe('DiscourseService', () => {
     service.getLatestTopics().subscribe(value => {
       expect(value).toBeGreaterThan(0);
     });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should gets latest topics with categories', () => {
     service.getLatestTopicsWithCategories().subscribe(value => {
       expect(value).toBeGreaterThan(0);
     });
+  });
+
+  it('should gets categories', () => {
+    service.getCategories().subscribe(value => {
+      expect(value).toBeGreaterThan(0);
+    });
+    const req = httpMock.expectOne({ method: 'GET' });
+    req.flush('Get');
   });
 
   it('should marks notifications as read', () => {

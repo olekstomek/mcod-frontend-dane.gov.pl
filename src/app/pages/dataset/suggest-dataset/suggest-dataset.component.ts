@@ -43,11 +43,19 @@ export class SuggestDatasetComponent implements OnInit {
       title: new FormControl(null, Validators.required),
       notes: new FormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
       organization_name: new FormControl(null),
-      data_link: new FormControl(null, Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')),
+      data_link: new FormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
       potential_possibilities: new FormControl(null),
       captcha: new FormControl(null, Validators.required),
     });
   }
+
+  addHttpIfMissing(data_link: string): string {
+    if (data_link && (data_link.split('http://').length > 1 || data_link.split('https://').length > 1)) {
+    return data_link;
+  } else {
+    return 'http://' + data_link;
+  }
+}
 
   /**
    * Determines whether dataset form is submitted
@@ -57,6 +65,7 @@ export class SuggestDatasetComponent implements OnInit {
 
     this.notificationsService.clearAlerts();
     let formValue = { ...this.datasetForm.value };
+    formValue['data_link'] = this.addHttpIfMissing(formValue['data_link']);
 
     // remove empty properties
     for (let key in formValue) {

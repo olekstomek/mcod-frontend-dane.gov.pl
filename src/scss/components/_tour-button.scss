@@ -5,7 +5,7 @@
   width: 75px;
   height: 75px;
   z-index: 100001;
-
+ 
   .tour-button {
     display: flex;
     align-items: center;
@@ -30,4 +30,15 @@
       height: 42px;
     }
   }
+}
+@media only screen and (hover: none) and (pointer: coarse){
+    
+  .tour-button-wrapper {
+    position: fixed;
+    right: 32px;
+    bottom: 65px;
+    width: 75px;
+    height: 75px;
+    z-index: 100001;
+  } 
 }

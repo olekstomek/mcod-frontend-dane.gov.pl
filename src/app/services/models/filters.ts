@@ -37,6 +37,7 @@ export enum AggregationOptionType {
   RESEARCH_DATA = 'by_has_research_data',
   REGIONS = 'by_regions',
   LANGUAGE = 'by_language',
+  PROTECTED_DATA = 'by_contains_protected_data'
 }
 
 export enum AggregationFilterNames {
@@ -59,6 +60,7 @@ export enum AggregationFilterNames {
   DYNAMIC_DATA = 'has_dynamic_data',
   RESEARCH_DATA = 'has_research_data',
   LANGUAGE = 'language',
+  PROTECTED_DATA = 'contains_protected_data'
 }
 
 export interface IListViewFilterAggregationsOptions {
@@ -77,6 +79,7 @@ export interface IListViewFilterAggregationsOptions {
   [AggregationOptionType.DYNAMIC_DATA]?: IAggregationProperties[];
   [AggregationOptionType.RESEARCH_DATA]?: IAggregationProperties[];
   [AggregationOptionType.REGIONS]?: IAggregationPropertiesForRegions[];
+  [AggregationOptionType.PROTECTED_DATA]?: IAggregationProperties[];
 }
 
 export interface IDatasetListViewFilterAggregationsOptions {
@@ -91,6 +94,7 @@ export interface IDatasetListViewFilterAggregationsOptions {
   [AggregationOptionType.HIGH_VALUE_DATA]?: IAggregationProperties[];
   [AggregationOptionType.DYNAMIC_DATA]?: IAggregationProperties[];
   [AggregationOptionType.RESEARCH_DATA]?: IAggregationProperties[];
+  [AggregationOptionType.PROTECTED_DATA]?: IAggregationProperties[];
 }
 
 export interface MultiselectOption {

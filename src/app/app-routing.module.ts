@@ -2,17 +2,6 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { APP_CONFIG } from '@app/app.config';
-import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
-import { PageNotFoundComponent } from '@app/page-not-found/page-not-found.component';
-import { PreviewCmsComponent } from '@app/pages/preview-cms/preview-cms.component';
-import { RegulationsComponent } from '@app/pages/regulations/regulations.component';
-import { SearchResultsComponent } from '@app/pages/search-results/search-results.component';
-import { SurveyComponent } from '@app/pages/survey/survey.component';
-import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
-import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newsletter/active-newsletter.component';
-import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
-import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 import {
   CacheMechanism,
   LocalizeParser,
@@ -24,6 +13,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeclarationComponent } from './pages/declaration/declaration.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SitemapComponent } from './pages/sitemap/sitemap.component';
+
+import { APP_CONFIG } from '@app/app.config';
+import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
+import { PageNotFoundComponent } from '@app/page-not-found/page-not-found.component';
+import { PreviewCmsComponent } from '@app/pages/preview-cms/preview-cms.component';
+import { RegulationsComponent } from '@app/pages/regulations/regulations.component';
+import { SearchResultsComponent } from '@app/pages/search-results/search-results.component';
+import { SurveyComponent } from '@app/pages/survey/survey.component';
+import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
+import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newsletter/active-newsletter.component';
+import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
+import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 
 export function localizeLoaderFactory(translate: TranslateService, location: Location, settings: LocalizeRouterSettings, http: HttpClient) {
   return new ManualParserLoader(translate, location, settings, APP_CONFIG.availableLanguages, 'ROUTES.', '!');
@@ -66,6 +67,11 @@ const routes: Routes = [
         path: '!knowledgebase',
         data: { breadcrumbs: { translationKey: 'KnowledgeBase.Self' } },
         loadChildren: () => import('./pages/knowledge-base/knowledge-base.module').then(m => m.KnowledgeBaseModule),
+      },
+      {
+        path: '!dga',
+        data: { breadcrumbs: {translationKey: 'DgaInformationPoint.Self' }},
+        loadChildren: () => import('./pages/dga-information-point/dga-information-point.module').then(m => m.DgaInformationPointModule)
       },
       {
         path: '!user',

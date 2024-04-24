@@ -112,6 +112,16 @@
   >
   </app-selected-filters>
 
+  <!-- Protected Data-->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.PROTECTED_DATA]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.ProtectedData'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.PROTECTED_DATA, $event)"
+  >
+  </app-selected-filters>
+
   <!-- Date range -->
   <app-selected-filters
     [items]="{

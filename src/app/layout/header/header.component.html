@@ -365,6 +365,20 @@
                 {{ 'Menu.KnowledgeBase' | translate }}
               </a>
             </li>
+
+          <!-- dga information point -->
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link"
+              role="menuitem"
+              [routerLink]="['/!' + routerEndpoints.DGA] | localize"
+              routerLinkActive="active"
+              #menuLinkDGAInformationPoint="routerLinkActive"
+              [attr.aria-current]="menuLinkDGAInformationPoint.isActive ? true : null"
+            >
+              {{ 'Menu.DGAInformationPoint' | translate }}
+            </a>
+          </li>
           </ul>
         </nav>
       </div>

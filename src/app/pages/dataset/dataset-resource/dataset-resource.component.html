@@ -40,6 +40,12 @@
         <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
       </li>
 
+      <!--protected dga data-->
+      <li *ngIf="resource?.attributes?.contains_protected_data">
+        <strong> {{ 'Attribute.ContainsProtectedData' | translate }}: </strong>
+        <img src="assets/icomoon/SVG/key.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      </li>
+
       <!-- dates info -->
       <li>
         <strong> {{ 'Attribute.AvailabilityDate' | translate }}: </strong>

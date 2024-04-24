@@ -140,7 +140,7 @@
     "Self": "Data reuse",
     "Description": "Description",
     "Link": "Link to the application",
-    "Logo": "Application logo",
+    "LogoApp": "Application logo",
     "Logo": "Logo",
     "Suggest": "Suggest",
     "SuggestFooterName": "Suggest reuse",
@@ -238,7 +238,9 @@
     "Description": "Description",
     "PromotedData": "Promoted data",
     "ExternalDatasets": "External data",
-    "Language": "Data language"
+    "Language": "Data language",
+    "ProtectedData": "List of protected data",
+    "ContainsProtectedData": "Contains asset list of protected data"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -446,6 +448,15 @@
     "BackToSearchInputText": "To return to the search box at the top of the page, click enter.",
     "RelatedShowcases": "Related reuse examples"
   },
+  "DgaInformationPoint": {
+    "Self": "DGA Single Information Point",
+    "BackToList": "Back to list",
+    "Tabs": {
+      "Information": "Information",
+      "ListOfProtectedData": "Asset list of protected data",
+      "AccessApplication": "Request for re-use of protected data"
+    }
+  },
   "Embed": {
     "Self": "Embed on Your website",
     "Description": "You can copy the code of the data visualizer to your CMS platform or blog if it supports pasting HTML code.",
@@ -621,7 +632,8 @@
     "Faq": "FAQ",
     "Declaration": "Declaration of accessibility",
     "Regulations": "Regulations",
-    "Showcases": "PoCoTo"
+    "Showcases": "PoCoTo",
+    "DGAInformationPoint": "DGA Information Point"
   },
   "MyDashboard": {
     "Self": "My dashboard",
@@ -1027,6 +1039,10 @@
         "Supplements": {
           "title": "Supporting documents",
           "text": "Additional data-related materials (e.g. manuals, API documentation)"
+        },
+        "ProtectedData": {
+          "title": "Asset list of protected data",
+          "text": "This is data belonging to public institutions. It is not publicly available for reasons of commercial or statistical confidentiality, protection of intellectual property rights or personal data protection. However, you can request access to them. "
         }
       },
       "Institutions": {
@@ -1102,6 +1118,10 @@
           "Region": {
             "title": "Data location",
             "text": "Territorial scope of data"
+          },
+          "ProtectedData": {
+            "title": "Filters - asset list of protected data",
+            "text": "This is data belonging to public institutions. It is not publicly available for reasons of commercial or statistical confidentiality, protection of intellectual property rights or personal data protection. However, you can request access to them. "
           }
         }
       },

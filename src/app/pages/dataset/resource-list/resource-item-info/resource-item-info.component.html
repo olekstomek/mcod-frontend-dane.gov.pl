@@ -14,7 +14,7 @@
       src="assets/icomoon/SVG/high-value-data.svg"
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueData.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.HighValueData.title' | translate }}"
-      alt="ikona"
+      alt="ikona_dane_wysokiej_wartosci"
       tabindex="0"
     />
     <!-- dynamic data icon-->
@@ -24,7 +24,7 @@
       src="assets/icomoon/SVG/ic-dane-dynamiczne.svg"
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.DynamicData.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
-      alt="ikona"
+      alt="ikona_dane_dynamiczne"
       tabindex="0"
     />
     <!-- research data icon-->
@@ -34,7 +34,16 @@
       src="assets/icomoon/SVG/ic-research-data.svg"
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.ResearchData.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.ResearchData.title' | translate }}"
-      alt="ikona"
+      alt="ikona_dane_badawcze"
+      tabindex="0"
+    />
+    <img
+      *ngIf="item.attributes.contains_protected_data"
+      class="ml-2"
+      src="assets/icomoon/SVG/key.svg"
+      appTooltip="{{ 'Tour.Tooltip.DatasetItem.ProtectedData.text' | translate }}"
+      title="{{ 'Tour.Tooltip.DatasetItem.ProtectedData.title' | translate }}"
+      alt="ikona_dane_chronione"
       tabindex="0"
     />
   </h2>

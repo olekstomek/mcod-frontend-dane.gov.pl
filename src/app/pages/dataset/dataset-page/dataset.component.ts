@@ -1,6 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 import { toggleVertically } from '@app/animations';
 import { ApiConfig } from '@app/services/api';
@@ -26,7 +27,6 @@ import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
 import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-suggest';
-import { BehaviorSubject } from 'rxjs';
 
 /**
  * Dataset Component
@@ -146,6 +146,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       AggregationOptionType.UPDATE_FREQUENCY,
       AggregationOptionType.RESEARCH_DATA,
       AggregationOptionType.LANGUAGE,
+      AggregationOptionType.PROTECTED_DATA
     ];
   }
 
@@ -350,6 +351,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.DYNAMIC_DATA]: {},
       [AggregationFilterNames.RESEARCH_DATA]: {},
       [AggregationFilterNames.LANGUAGE]: {},
+      [AggregationFilterNames.PROTECTED_DATA]: {}
     };
   }
 
@@ -376,6 +378,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LANGUAGE]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.PROTECTED_DATA]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
   }

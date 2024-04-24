@@ -238,7 +238,9 @@
     "Description": "Opis",
     "PromotedData": "Dane promowane",
     "ExternalDatasets": "Dane zewnętrzne",
-    "Language": "Język danych"
+    "Language": "Język danych",
+    "ProtectedData": "Wykaz chronionych danych",
+    "ContainsProtectedData": "Zawiera wykaz danych chronionych"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",
@@ -446,6 +448,15 @@
     "BackToSearchInputText": "Aby powrócić do pola wyszukiwarki na początku strony kliknij enter.",
     "RelatedShowcases": "Powiązane przykłady ponownego wykorzystania"
   },
+  "DgaInformationPoint": {
+    "Self": "Punkt informacyjny DGA",
+    "BackToList": "Powrót do listy",
+    "Tabs": {
+      "Information": "Informacje",
+      "ListOfProtectedData": "Wykaz danych chronionych",
+      "AccessApplication": "Wniosek o dostęp do chronionych danych"
+    }
+  },
   "Embed": {
     "Self": "Umieść na swojej stronie",
     "Description": "Możesz skopiować kod wizualizatora danych do swojej platformy CMS lub bloga, jeżeli obsługuje on wklejanie kodu HTML.",
@@ -621,7 +632,8 @@
     "Faq": "Często zadawane pytania",
     "Declaration": "Deklaracja dostępności",
     "Regulations": "Regulamin",
-    "Showcases": "PoCoTo"
+    "Showcases": "PoCoTo",
+    "DGAInformationPoint": "Punkt informacyjny DGA"
   },
   "MyDashboard": {
     "Self": "Mój pulpit",
@@ -1024,6 +1036,10 @@
           "title": "Dane badawcze",
           "text": "Informacje sektora publicznego utrwalone w postaci elektronicznej, inne niż publikacje naukowe, które zostały wytworzone lub zgromadzone w ramach działalności naukowej w rozumieniu art. 4 ustawy z dnia 20 lipca 2018 r. – Prawo o szkolnictwie wyższym i nauce (Dz. U. z 2021 r. poz. 478) i są wykorzystywane jako dowody w procesie badawczym lub służą weryfikacji poprawności ustaleń i wyników badań"
         },
+        "ProtectedData": {
+          "title": "Wykaz chronionych danych",
+          "text": "To dane należące do instytucji publicznych. Nie są powszechnie dostępne ze względu na tajemnicę handlową, poufność informacji statystycznych, ochronę praw własności intelektualnej lub ochronę danych osobowych. Możesz jednak zawnioskować o ich udostępnienie."
+        },
         "Supplements": {
           "title": "Dokumenty uzupełniające",
           "text": "Materiały dodatkowe związane z danymi (np. instrukcje, dokumentacja API)"
@@ -1098,6 +1114,10 @@
           "ResearchData": {
             "title": "Filtry - Dane badawcze",
             "text": "Informacje sektora publicznego utrwalone w postaci elektronicznej, inne niż publikacje naukowe, które zostały wytworzone lub zgromadzone w ramach działalności naukowej w rozumieniu art. 4 ustawy z dnia 20 lipca 2018 r. – Prawo o szkolnictwie wyższym i nauce (Dz. U. z 2021 r. poz. 478) i są wykorzystywane jako dowody w procesie badawczym lub służą weryfikacji poprawności ustaleń i wyników badań"
+          },
+          "ProtectedData": {
+            "title": "Filtry - Wykaz chronionych danych",
+            "text": "To dane należące do instytucji publicznych. Nie są powszechnie dostępne ze względu na tajemnicę handlową, poufność informacji statystycznych, ochronę praw własności intelektualnej lub ochronę danych osobowych. Możesz jednak zawnioskować o ich udostępnienie."
           },
           "Region": {
             "title": "Lokalizacja danych",

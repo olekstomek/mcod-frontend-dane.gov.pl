@@ -10,6 +10,7 @@
 @import 'base/typography';
 @import 'base/functions';
 @import 'base/link';
+@import 'base/utils';
 
 // GLOBAL overwrites
 @import 'bootstrap-overwrite/brand';
@@ -84,6 +85,7 @@
 // PAGES
 @import 'pages/auth';
 @import 'pages/about';
+@import 'pages/dga-information-point';
 @import 'pages/home';
 @import 'pages/map';
 @import 'pages/search';

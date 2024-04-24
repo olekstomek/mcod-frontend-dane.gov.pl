@@ -154,7 +154,9 @@ export class TourItemTreeNode {
    * @returns {any}
    */
   private appendChildTilLastChild(element: TourItemTreeNode, selectorsToClick: Array<TourItem>): any {
-    selectorsToClick.push(element.data);
+    if (this.document.querySelector(element.data.css_selector) !== null) {
+      selectorsToClick.push(element.data);
+    }
     if (element.hasChildren()) {
       let result = null;
       for (let i = 0; result == null && i < element.children.length; i++) {

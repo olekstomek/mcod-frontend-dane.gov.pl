@@ -118,6 +118,24 @@
                             <span class="sr-only">{{ "SkipTo.NewWindow" | translate }}</span>
                         </a>
                     </p>
+                    <p class="item-view__attribute item-view__attribute--tight item-view__attribute--icon-related institution-delivery-address"
+                       *ngIf="institution?.attributes.electronic_delivery_address"
+                    >
+                      <span>{{ 'Institutions.EdorAddress' | translate }}: </span>
+                      <span class="institution-delivery-address__adr">{{institution?.attributes.electronic_delivery_address}}</span>
+                      <button
+                        class="btn copy-button"
+                        [cdkCopyToClipboard]="institution?.attributes.electronic_delivery_address"
+                        [tooltip]="'Institutions.CopyEdorAddress' | translate"
+                        triggers="mouseenter:click mouseenter:mouseleave"
+                        placement="bottom"
+                        (click)="clickOnClipboard()"
+                      ><img src="assets/icomoon/SVG/copy.svg"/>
+                      </button>
+                      <span *ngIf="clipboardClicked" class="institution-clipboard-text">
+                        <img src="assets/icomoon/SVG/ok.svg"/> {{ 'Action.Copied' | translate }}: <strong>{{institution?.attributes.electronic_delivery_address}}</strong>
+                      </span>
+                    </p>
                 </div>
             </div>
         </div>

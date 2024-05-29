@@ -167,6 +167,23 @@
   >
   </app-expandable-multiselect>
 
+  <!--  protected data-->
+  <app-expandable-multiselect
+    id="dataset-protected-data-dga-filter"
+    [titleTranslationKey]="'Attribute.ProtectedData'"
+    [titleTooltipTranslationKey]="'Attribute.ProtectedData'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.PROTECTED_DATA]"
+    [selectedIds]="selectedData[FiltersNames.PROTECTED_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.PROTECTED_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'protected-dga-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.PROTECTED_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'protected'"
+  >
+  </app-expandable-multiselect>
+
   <!-- Date range -->
   <app-date-range-picker
     id="institution-item-dataset-daterange"

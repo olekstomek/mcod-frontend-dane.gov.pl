@@ -36,6 +36,7 @@ export interface IInstitution {
         sources?: IInstitutionSource [];
         source?: IInstitutionSource;
         abbreviation?: string;
+        electronic_delivery_address: string;
     };
     count: number;
     id: string;

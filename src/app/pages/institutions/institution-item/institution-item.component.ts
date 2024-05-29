@@ -56,6 +56,11 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
   institution: IInstitution;
 
   /**
+   * Boolean for tooltip at copy button
+   */
+  clipboardClicked = false;
+
+  /**
    * @ignore
    */
   constructor(
@@ -82,6 +87,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       AggregationOptionType.DYNAMIC_DATA,
       AggregationOptionType.UPDATE_FREQUENCY,
       AggregationOptionType.RESEARCH_DATA,
+      AggregationOptionType.PROTECTED_DATA
     ];
   }
 
@@ -169,6 +175,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       [AggregationFilterNames.DATE_FROM]: null,
       [AggregationFilterNames.DATE_TO]: null,
       [AggregationFilterNames.RESEARCH_DATA]: {},
+      [AggregationFilterNames.PROTECTED_DATA]: {}
     };
   }
 
@@ -188,7 +195,15 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.PROTECTED_DATA]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
+  }
+
+  clickOnClipboard() {
+    this.clipboardClicked = true;
+    setTimeout(() => {
+      this.clipboardClicked = false;
+      }, 4000);
   }
 }

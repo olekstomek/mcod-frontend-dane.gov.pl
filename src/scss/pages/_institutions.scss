@@ -1,0 +1,23 @@
+.institution-delivery-address {
+  position: relative;
+  .copy-button {
+    padding: 0 2px;
+    position: absolute;
+    bottom: 1px;
+  }
+  &__adr {
+    white-space: nowrap;
+  }
+}
+
+.institution-clipboard-text {
+  border: 1px solid #517f2c;
+  position: absolute;
+  top: 50px;
+  left: 60px;
+  width: max-content;
+  height: 55px;
+  align-content: center;
+  background-color: white;
+  padding: 10px 10px;
+}

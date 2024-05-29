@@ -67,7 +67,8 @@
     "Collapse": "Collapse",
     "ChooseCategory": "Select category",
     "EnterRegion": "Enter locations",
-    "DownloadAll": "Download all"
+    "DownloadAll": "Download all",
+    "Copied": "Copied"
   },
   "ActivityNotification": {
     "object_restored": "Restored",
@@ -580,7 +581,9 @@
     "TypeState": "Public government",
     "TypeOther": "Other",
     "TypePrivate": "Private entities",
-    "ExternalDatasets": "Data from outside the portal"
+    "ExternalDatasets": "Data from outside the portal",
+    "EdorAddress": "Address for electronic delivery",
+    "CopyEdorAddress": "Copy the address for electronic delivery"
   },
   "KnowledgeBase": {
     "Self": "Knowledge base",

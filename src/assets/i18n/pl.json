@@ -67,7 +67,8 @@
     "Collapse": "Zwiń",
     "ChooseCategory": "Wybierz kategorię",
     "EnterRegion": "Podaj lokalizacje",
-    "DownloadAll": "Pobierz cały zbiór"
+    "DownloadAll": "Pobierz cały zbiór",
+    "Copied": "Skopiowano"
   },
   "ActivityNotification": {
     "object_restored": "Przywrócono",
@@ -240,7 +241,7 @@
     "ExternalDatasets": "Dane zewnętrzne",
     "Language": "Język danych",
     "ProtectedData": "Wykaz chronionych danych",
-    "ContainsProtectedData": "Zawiera wykaz danych chronionych"
+    "ContainsProtectedData": "Zawiera wykaz chronionych danych"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",
@@ -453,7 +454,7 @@
     "BackToList": "Powrót do listy",
     "Tabs": {
       "Information": "Informacje",
-      "ListOfProtectedData": "Wykaz danych chronionych",
+      "ListOfProtectedData": "Wykaz chronionych danych",
       "AccessApplication": "Wniosek o dostęp do chronionych danych"
     }
   },
@@ -580,7 +581,9 @@
     "TypeState": "Administracja rządowa",
     "TypeOther": "Inne",
     "TypePrivate": "Podmioty prywatne",
-    "ExternalDatasets": "Dane pochodzące spoza portalu"
+    "ExternalDatasets": "Dane pochodzące spoza portalu",
+    "EdorAddress": "Adres do doręczeń elektronicznych",
+    "CopyEdorAddress": "Skopiuj adres do doręczeń elektronicznych"
   },
   "KnowledgeBase": {
     "Self": "Baza wiedzy",

@@ -1,14 +1,14 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, withLatestFrom, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { distinctUntilChanged, switchMap, withLatestFrom } from 'rxjs/operators';
+import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
+import { ResourceHelper } from '../helpers/resource.helper';
+import { DefaultListViewParams } from '../resource-table/DefaultListViewParams';
+import { ResourceTableColumn } from '../resource-table/ResourceTableColumn';
 
 import { toggleVertically } from '@app/animations';
 import { DatasetService } from '@app/services/dataset.service';
-import { DefaultListViewParams } from '../resource-table/DefaultListViewParams';
-import { ResourceTableColumn } from '../resource-table/ResourceTableColumn';
-import { ResourceHelper } from '../helpers/resource.helper';
-import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
 
 /**
  * Resource Table No Filters Component
@@ -108,7 +108,9 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
     if (!this.resourceId) {
       this.resourceId = ActivatedRouteHelper.getParamFromCurrentOrParentRoute(this.activatedRoute, 'resourceId');
     }
-    this.tableTitle = this.activatedRoute.snapshot.data.post?.attributes.title;
+    if (!this.tableTitle) {
+      this.tableTitle = this.activatedRoute.snapshot.data.post?.attributes.title;
+    }
 
     this.params = { ...this.basicParams };
 
@@ -200,12 +202,17 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
    * @param {KeyboardEvent} event
    */
   onKeyDown(event: KeyboardEvent) {
-    event.key === 'ArrowUp' && this.hoveredRowIndex - 1 > -1 && (this.hoveredRowIndex -= 1);
-    event.key === 'ArrowDown' && this.hoveredRowIndex + 1 < this.params.per_page && (this.hoveredRowIndex += 1);
-    event.key === 'ArrowRight' && this.focusedCell + 1 < this.columns.length && (this.focusedCell += 1);
-    event.key === 'ArrowLeft' && this.focusedCell - 1 > -1 && (this.focusedCell -= 1);
-
-    this.hoveredRowIndex > -1 && this.focusedCell > -1 && this.setFocus();
+    if (event.key === 'ArrowUp') {
+      return this.hoveredRowIndex - 1 > -1 && (this.hoveredRowIndex -= 1);
+    } else if (event.key === 'ArrowDown') {
+       return this.hoveredRowIndex + 1 < this.params.per_page && (this.hoveredRowIndex += 1);
+    } else if (event.key === 'ArrowRight') {
+      return this.focusedCell + 1 < this.columns.length && (this.focusedCell += 1);
+    } else if (event.key === 'ArrowLeft') {
+      return this.focusedCell - 1 > -1 && (this.focusedCell -= 1);
+    } else {
+      return this.hoveredRowIndex > -1 && this.focusedCell > -1 && this.setFocus();
+    }
   }
 
   /**

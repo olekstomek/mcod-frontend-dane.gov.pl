@@ -1,8 +1,7 @@
 <a
   *ngIf="fileUrl"
   [ngClass]="customCssClass"
-  [routerLink]="['.']"
-  queryParamsHandling="preserve"
+  [routerLink]=""
   [title]="opennessScore ? 'Pobierz plik ' + (format ? (format | uppercase) : ('Action.Download' | translate)) : ''"
   [appTooltip]="opennessScore ? 'Poziom otwartości pliku: ' : ''"
   [levelDataOpennessTooltip]="opennessScore ? +opennessScore : null"
@@ -28,7 +27,7 @@
     <!-- btn -->
     <ng-container *ngIf="showDownloadText">
       <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+        <use href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
       </svg>
     </ng-container>
   </ng-container>

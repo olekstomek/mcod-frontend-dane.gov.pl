@@ -93,7 +93,7 @@
 
 
                 <!-- WEBSITE, MAIL, EPUAP -->
-                <div class="col-md-6 col-lg-4"
+                <div class="col-md-6 col-lg-4 institution-contact-info-container"
                      *ngIf="institution?.attributes.website || institution?.attributes.email || institution?.attributes.epuap">
                     <svg aria-hidden="true" class="icon icon-paper-plane">
                         <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-paper-plane"></use>
@@ -124,16 +124,29 @@
                       <span>{{ 'Institutions.EdorAddress' | translate }}: </span>
                       <span class="institution-delivery-address__adr">{{institution?.attributes.electronic_delivery_address}}</span>
                       <button
-                        class="btn copy-button"
+                        class="btn copy-button institution-clipboard-button"
                         [cdkCopyToClipboard]="institution?.attributes.electronic_delivery_address"
                         [tooltip]="'Institutions.CopyEdorAddress' | translate"
                         triggers="mouseenter:click mouseenter:mouseleave"
                         placement="bottom"
                         (click)="clickOnClipboard()"
-                      ><img src="assets/icomoon/SVG/copy.svg"/>
+                      >
+                        <svg aria-hidden="true" class="icon icon-copy">
+                          <use href="/assets/icomoon/SVG/copy.svg#icon-copy"></use>
+                        </svg>
                       </button>
-                      <span *ngIf="clipboardClicked" class="institution-clipboard-text">
-                        <img src="assets/icomoon/SVG/ok.svg"/> {{ 'Action.Copied' | translate }}: <strong>{{institution?.attributes.electronic_delivery_address}}</strong>
+                      <span *ngIf="clipboardClicked" [ngClass]="[highContrastMode, 'institution-clipboard-text']">
+                        <div class="institution-clipboard-copied-icon">
+                          <svg
+                            aria-hidden="true"
+                            [ngClass]="[highContrastMode, 'icon', 'icon-confirm', 'institution-clipboard-confirm-icon'] "
+                          >
+                            <use href="assets/icomoon/SVG/ok.svg#ok"></use>
+                          </svg>
+                        </div>
+                        <div class="institution-clipboard-copied-text">
+                          {{ 'Action.Copied' | translate }}: <strong>{{institution?.attributes.electronic_delivery_address}}</strong>
+                        </div>
                       </span>
                     </p>
                 </div>

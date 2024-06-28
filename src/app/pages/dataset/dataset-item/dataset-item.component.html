@@ -180,7 +180,7 @@
           <li class="vertical-list__item" *ngIf="dataset?.attributes?.verified">
             <span class="vertical-list__item-label"> {{ 'Attribute.UpdateDate' | translate }}: </span>
             <span class="text-data">
-              {{ dataset.attributes?.verified | translateDateFormat | async }}
+              {{ dataset.attributes?.modified | translateDateFormat | async }}
             </span>
           </li>
 

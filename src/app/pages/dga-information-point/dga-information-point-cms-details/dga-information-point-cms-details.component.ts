@@ -14,7 +14,12 @@ export class DgaInformationPointCmsDetailsComponent implements OnInit {
   pageData: IPageCms;
   parentUrlPath: string;
 
-  constructor(private seoService: SeoService, private route: ActivatedRoute, private translate: TranslateService) { }
+  constructor(
+    private seoService: SeoService,
+    private route: ActivatedRoute,
+    private translateService: TranslateService,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.pageData = this.route.snapshot.data.post;

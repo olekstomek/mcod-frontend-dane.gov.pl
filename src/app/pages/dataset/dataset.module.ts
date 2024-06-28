@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegionsMapComponent } from '@app/pages/dataset/regions-map/regions-map.component';
-import { DatasetItemResultsComponent } from '@app/pages/dataset/dataset-item-results/dataset-item-results.component';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { AccordionModule, TabsModule } from 'ngx-bootstrap';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
@@ -22,8 +20,10 @@ import { SubmissionListComponent } from './submission-list/submission-list.compo
 import { SuggestDatasetComponent } from './suggest-dataset/suggest-dataset.component';
 
 import { AppBootstrapModule } from '@app/app-bootstrap/app-bootstrap.module';
+import { DatasetItemResultsComponent } from '@app/pages/dataset/dataset-item-results/dataset-item-results.component';
 import { DatasetListViewFiltersComponent } from '@app/pages/dataset/dataset-list-view-filters/dataset-list-view-filters.component';
 import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
+import { RegionsMapComponent } from '@app/pages/dataset/regions-map/regions-map.component';
 import { DatasetService } from '@app/services/dataset.service';
 import { BreadcrumbsDatasetResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dataset.resolver';
 import { BreadcrumbsResourceResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-resource.resolver';
@@ -84,5 +84,8 @@ import { SharedModule } from '@app/shared/shared.module';
     RegionsMapComponent,
     DatasetItemResultsComponent,
   ],
+  exports: [
+    DatasetRestrictionsComponent
+  ]
 })
 export class DatasetModule {}

@@ -1,8 +1,6 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { UserStateService } from '@app/services/user-state.service';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -10,15 +8,17 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { toggleVertically } from '@app/animations';
+import { CmsService } from '@app/services/cms.service';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { HighContrastService } from '@app/services/high-contrast.service';
 import { LanguageBootstrapService } from '@app/services/language-bootstrap.service';
 import { LoginService } from '@app/services/login-service';
 import { User } from '@app/services/models';
-import { RouterEndpoints } from '@app/services/models/routerEndpoints';
-import { UserService } from '@app/services/user.service';
-import { IWidget } from '@app/services/models/cms/widgets/widget';
-import { CmsService } from '@app/services/cms.service';
 import { IHome } from '@app/services/models/cms/pages/home';
+import { IWidget } from '@app/services/models/cms/widgets/widget';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { UserStateService } from '@app/services/user-state.service';
+import { UserService } from '@app/services/user.service';
 
 /**
  * Header Component
@@ -47,12 +47,12 @@ export class HeaderComponent implements OnInit {
   /**
    * Menu Collapsed Flag
    */
-  isMenuCollapsed: boolean = true;
+  isMenuCollapsed = true;
 
   /**
    * Logged In flag
    */
-  loggedIn: boolean = false;
+  loggedIn = false;
 
   /**
    * User Observable
@@ -138,9 +138,13 @@ export class HeaderComponent implements OnInit {
     this.currentLang = language;
     this.translate.use(language);
     this.cookieService.set('currentLang', language, undefined, '/');
-    isPlatformBrowser(this.platformId) && (window.location.href = '/' + language);
+    if (isPlatformBrowser(this.platformId))  {
+      (window.location.href = '/' + language);
+    }
     this.languageBootstrapService.setBootstrapLanguage(language);
-    isPlatformBrowser(this.platformId) && this.renderer.setAttribute(document.documentElement, 'lang', language);
+    if (isPlatformBrowser(this.platformId)) {
+      this.renderer.setAttribute(document.documentElement, 'lang', language);
+    }
   }
 
   /**
@@ -149,7 +153,9 @@ export class HeaderComponent implements OnInit {
    */
   useFontSize(value) {
     // setStyle doesn't work on IE
-    isPlatformBrowser(this.platformId) && this.renderer.setAttribute(document.documentElement, 'style', `font-size: ${value}%`);
+    if (isPlatformBrowser(this.platformId)) {
+      this.renderer.setAttribute(document.documentElement, 'class', `font-size-${value}`);
+    }
   }
 
   /**
@@ -180,6 +186,8 @@ export class HeaderComponent implements OnInit {
    */
   skipTo(elementId: string, event: Event) {
     event.preventDefault();
-    isPlatformBrowser(this.platformId) && document.getElementById(elementId).focus();
+    if (isPlatformBrowser(this.platformId)) {
+      document.getElementById(elementId).focus();
+    }
   }
 }

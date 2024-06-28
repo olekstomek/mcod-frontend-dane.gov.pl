@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { toggle, toggleVertically } from '@app/animations';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
+import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
 import { InstitutionsService } from '@app/services/institutions.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
@@ -28,7 +31,7 @@ import { TemplateHelper } from '@app/shared/helpers';
   templateUrl: './institution-item.component.html',
   animations: [toggle, toggleVertically],
 })
-export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit {
+export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit, OnDestroy {
   /**
    * API model
    */
@@ -60,6 +63,9 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
    */
   clipboardClicked = false;
 
+  highContrastMode: HighContrastModeEnum;
+  destroy$: Subject<boolean> = new Subject();
+
   /**
    * @ignore
    */
@@ -73,6 +79,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     protected selectedFiltersService: ListViewSelectedFilterService,
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
+    private highContrastService: HighContrastService
   ) {
     super(filterService, activatedRoute, selectedFiltersService);
     this.Facets = [
@@ -102,6 +109,11 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     this.institution.count = this.institution.relationships ? this.institution.relationships.datasets.meta.count : 0;
     this.seoService.setPageTitle(this.institution.attributes.title);
     this.seoService.setDescriptionFromText(this.institution.attributes.description);
+    this.highContrastService.getCurrentContrastMode()
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(mode => this.highContrastMode = mode);
 
     const newModel = this.getFiltersModel();
     this.selectedFilters = { ...newModel };
@@ -205,5 +217,10 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     setTimeout(() => {
       this.clipboardClicked = false;
       }, 4000);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

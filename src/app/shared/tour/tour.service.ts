@@ -12,17 +12,17 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { ShepherdService } from '@janekkruczkowski/angular-shepherd';
+import { LocalStorageService } from 'ngx-localstorage';
+import pathToRegexp from 'path-to-regexp';
+import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
+import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { TourProgressComponent } from '@app/shared/tour/progress/tour-progress/tour-progress.component';
 import { ShepardStep, Tour, TourItem, TourProgress } from '@app/shared/tour/Tour';
 import { TourDataService } from '@app/shared/tour/tour-data.service';
 import { TourItemTreeNode } from '@app/shared/tour/TourItemTreeNode';
-import { ShepherdService } from '@janekkruczkowski/angular-shepherd';
-import { LocalStorageService } from 'ngx-localstorage';
-import pathToRegexp from 'path-to-regexp';
-import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
-import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 /**
  * Tour service
@@ -467,22 +467,27 @@ export class TourService implements OnDestroy {
    * Checks if required elements are present on screen
    * @returns {Observable<boolean>}
    */
-  private isRequiredElementsOnScreen(): Observable<boolean> {
+  private isRequiredElementsOnScreen(event: NavigationEnd): Observable<boolean> {
+    const currentRoute = TourService.removeLanguagePrefixFromRoute(event.url.split('?')[0]);
+    const tourExists = this.tourDataService.getTourForRoute(currentRoute);
     return this.tourSavedProgress$.pipe(
       switchMap(currentTour => {
-        return this.tourDataService.getTourById(currentTour.tourId);
+        return zip(this.tourDataService.getTourById(currentTour.tourId), tourExists);
       }),
-      map(tour => {
+      map(([tour, isTour]) => {
         const requiredElements = [];
         tour.items.forEach(step => {
           if (!step.is_optional) {
             requiredElements.push({ selector: step.css_selector });
           }
         });
-        return requiredElements;
+        return [requiredElements, isTour];
       }),
-      map(requiredElements => {
-        this.shepherdService.requiredElements = requiredElements;
+      map(([requiredElements, isTour]) => {
+        if (!isTour) {
+          return false;
+        }
+        this.shepherdService.requiredElements = requiredElements as any[];
         if (!this.shepherdService.requiredElementsPresent()) {
           throw new Error('Tour required elements not found - ' + JSON.stringify(requiredElements));
         }
@@ -501,7 +506,9 @@ export class TourService implements OnDestroy {
         filter(event => event instanceof NavigationEnd),
         tap(() => {
           this.isButtonShouldBeVisibleForCurrentRoute$.next(false);
-          isAppStable$ && isAppStable$.unsubscribe();
+          if (isAppStable$) {
+            isAppStable$.unsubscribe();
+          }
         }),
         takeUntil(this.destroy$),
       )
@@ -512,7 +519,7 @@ export class TourService implements OnDestroy {
             filter(res => res),
             take(1),
             switchMap(() => {
-              return zip(this.isButtonShouldBeVisibleForCurrentRoute(event), this.isRequiredElementsOnScreen()).pipe(
+              return zip(this.isButtonShouldBeVisibleForCurrentRoute(event), this.isRequiredElementsOnScreen(event)).pipe(
                 takeUntil(this.destroy$),
               );
             }),
@@ -546,7 +553,9 @@ export class TourService implements OnDestroy {
           return true;
         }
 
-        !!pausedTour && this.tourSavedProgress$.next(pausedTour);
+        if (!!pausedTour) {
+          this.tourSavedProgress$.next(pausedTour);
+        }
 
         return pausedTour && pausedTour.tourId === tour.id && pausedTour.currentStepRoute === currentRoute;
       }),

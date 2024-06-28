@@ -6,6 +6,12 @@ import {
   DgaInformationPointCmsDetailsComponent
 } from '@app/pages/dga-information-point/dga-information-point-cms-details/dga-information-point-cms-details.component';
 import {
+  DgaInformationPointTablePageComponent
+} from '@app/pages/dga-information-point/dga-information-point-table-page/dga-information-point-table-page.component';
+import {
+  DgaInformationPointTableComponent
+} from '@app/pages/dga-information-point/dga-information-point-table/dga-information-point-table.component';
+import {
   DgaInformationPointTabsComponent
 } from '@app/pages/dga-information-point/dga-information-point-tabs/dga-information-point-tabs.component';
 import { DgaInformationPointComponent } from '@app/pages/dga-information-point/dga-information-point/dga-information-point.component';
@@ -15,6 +21,9 @@ import {
 import {
   BreadcrumbsDgaInformationPointTabDataResolverService
 } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dga-information-point-tab-data-resolver.service';
+import {
+  BreadcrumbsDgaInformationPointTableDataResolverService
+} from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dga-information-point-table-data-resolver.service';
 
 const routes: Routes = [
   {
@@ -30,10 +39,23 @@ const routes: Routes = [
             component: DgaInformationPointCmsDetailsComponent,
             data: { breadcrumbs: {dataKey: 'post.title'}},
             resolve: { post: BreadcrumbsDgaInformationPointDataResolverService }
-          }
+          },
         ],
         resolve: { post: BreadcrumbsDgaInformationPointTabDataResolverService }
-      }
+      },
+      {
+        path: '!list-protected-data',
+        component: DgaInformationPointTablePageComponent,
+        children: [
+          { path: '', redirectTo: '!table', pathMatch: 'full' },
+          {
+            path: '!table',
+            component: DgaInformationPointTableComponent,
+          }
+        ],
+        data: { breadcrumbs: {dataKey: 'post.cms.title'}},
+        resolve: { post: BreadcrumbsDgaInformationPointTableDataResolverService },
+      },
     ]
   }
 ];

@@ -26,6 +26,8 @@ import { TemplateHelper } from '@app/shared/helpers';
  */
 @Injectable()
 export class DatasetService extends RestService {
+
+  apiModel = ApiModel;
   /**
    * Determines whether a new resource filter was generated
    */
@@ -144,6 +146,15 @@ export class DatasetService extends RestService {
   sendDatasetFeedback(id: string, feedback: string) {
     const url = TemplateHelper.parseUrl(ApiConfig.datasetFeedback, { id: id });
     return this.post(url, feedback);
+  }
+
+  getDatasetsStats(datasetId: string, datasetSlug: string) {
+    const url = ApiConfig.datasets + '/' + `${datasetId},${datasetSlug}`;
+    const params = {
+      include: this.apiModel.INSTITUTION
+    };
+
+    return this.get(url, params);
   }
 
   /**

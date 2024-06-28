@@ -1,8 +1,16 @@
 import { Injectable, Renderer2 } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { APP_CONFIG } from '@app/app.config';
 import { AvailableIFrameService } from '@app/services/available-i-frame.service';
 import { PostMessageIframeService } from '@app/services/post-message-iframe.service';
+
+export enum HighContrastModeEnum {
+  NORMAL= 'normal',
+  BLACK_WHITE = 'black-white',
+  BLACK_YELLOW = 'black-yellow',
+  YELLOW_BLACK = 'yellow-black'
+}
 
 @Injectable({
     providedIn: 'root'
@@ -17,9 +25,15 @@ export class HighContrastService {
     }
 
     private renderer: Renderer2;
+    private highContrastMode$: BehaviorSubject<HighContrastModeEnum> =
+      new BehaviorSubject<HighContrastModeEnum>(HighContrastModeEnum.NORMAL);
 
     init(renderer: Renderer2) {
         this.renderer = renderer;
+    }
+
+    getCurrentContrastMode(): Observable<HighContrastModeEnum> {
+      return this.highContrastMode$.asObservable();
     }
 
     /**
@@ -27,6 +41,20 @@ export class HighContrastService {
      * @param value
      */
     public useHighContrast(value: string): void {
+        switch (value) {
+          case HighContrastModeEnum.BLACK_WHITE:
+            this.highContrastMode$.next(HighContrastModeEnum.BLACK_WHITE);
+            break;
+          case HighContrastModeEnum.BLACK_YELLOW:
+            this.highContrastMode$.next(HighContrastModeEnum.BLACK_YELLOW);
+            break;
+          case HighContrastModeEnum.YELLOW_BLACK:
+            this.highContrastMode$.next(HighContrastModeEnum.YELLOW_BLACK);
+            break;
+          default:
+            this.highContrastMode$.next(HighContrastModeEnum.NORMAL);
+            break;
+        }
         this.addClass(document['body'], value);
         this.useHightContrastInCmsElements(value);
         this.useHighContrastInIframeElements(value);
@@ -38,6 +66,7 @@ export class HighContrastService {
      *
      */
     public disableHighContrast(): void {
+        this.highContrastMode$.next(HighContrastModeEnum.NORMAL);
         this.removeCssClassFromAllSelectors('black-white');
         this.removeCssClassFromAllSelectors('black-yellow');
         this.removeCssClassFromAllSelectors('yellow-black');

@@ -5,3 +5,13 @@
 .dga-tiles {
   cursor: pointer;
 }
+
+.dga-collapse-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s;
+  &.animate {
+    max-height: 1000px;
+    transition: max-height 1s;
+  }
+}

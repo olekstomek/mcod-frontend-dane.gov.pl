@@ -67,4 +67,5 @@ export enum ApiConfig {
   sparql = '/sparql',
   rdfDoc = '/doc?urls.primaryName=DANE.GOV.PL%20RDF%20API',
   licenses = '/licenses/',
+  dga_aggregated = '/dga-aggregated',
 }

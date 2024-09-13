@@ -41,7 +41,6 @@
 
   <!-- Region -->
   <app-expandable-multiselect
-    *featureFlag="'S42_geodata_search.fe'"
     id="dataset-location-filter"
     [isGeodataSearch]="true"
     [titleTranslationKey]="'Attribute.Region'"
@@ -129,7 +128,6 @@
 
   <!-- Update frequency -->
   <app-expandable-multiselect
-    *featureFlag="'S29_update_frequency_filter.fe'"
     id="dataset-update-frequency-filter"
     [titleTranslationKey]="'Attribute.UpdateFrequency'"
     [titleTooltipTranslationKey]="'Attribute.UpdateFrequency'"
@@ -166,7 +164,6 @@
     id="dataset-high-value-data-filter"
     [titleTranslationKey]="'Attribute.HighValueData'"
     [showSearchInput]="false"
-    [singleSelectOption]="true"
     [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA]"
     [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA]"
     [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA]"
@@ -175,7 +172,6 @@
     (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'high'"
-    [inputIndex]="0"
   >
   </app-expandable-multiselect>
 
@@ -185,7 +181,6 @@
     [titleTranslationKey]="'Attribute.DynamicData'"
     [titleTooltipTranslationKey]="'Attribute.DynamicData'"
     [showSearchInput]="false"
-    [singleSelectOption]="true"
     [options]="filtersOptions && filtersOptions[OptionsNames.DYNAMIC_DATA]"
     [selectedIds]="selectedData[FiltersNames.DYNAMIC_DATA]"
     [enableApply]="availabilityFilterMap[FiltersNames.DYNAMIC_DATA]"
@@ -194,18 +189,15 @@
     (selectedChange)="onSelectedChange(FiltersNames.DYNAMIC_DATA, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'dynamic'"
-    [inputIndex]="2"
   >
   </app-expandable-multiselect>
 
   <!--research data-->
   <app-expandable-multiselect
-    *featureFlag="'S47_research_data_filter.fe'"
     id="dataset-research-data-filter"
     [titleTranslationKey]="'Attribute.ResearchData'"
     [titleTooltipTranslationKey]="'Attribute.ResearchData'"
     [showSearchInput]="false"
-    [singleSelectOption]="true"
     [options]="filtersOptions && filtersOptions[OptionsNames.RESEARCH_DATA]"
     [selectedIds]="selectedData[FiltersNames.RESEARCH_DATA]"
     [enableApply]="availabilityFilterMap[FiltersNames.RESEARCH_DATA]"
@@ -214,7 +206,40 @@
     (selectedChange)="onSelectedChange(FiltersNames.RESEARCH_DATA, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'research'"
-    [inputIndex]="4"
+  >
+  </app-expandable-multiselect>
+
+  <!--protected dga data-->
+  <app-expandable-multiselect
+    id="dataset-protected-data-dga-filter"
+    [titleTranslationKey]="'Attribute.ProtectedData'"
+    [titleTooltipTranslationKey]="'Attribute.ProtectedData'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.PROTECTED_DATA]"
+    [selectedIds]="selectedData[FiltersNames.PROTECTED_DATA]"
+    [enableApply]="availabilityFilterMap[FiltersNames.PROTECTED_DATA]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'protected-dga-data-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.PROTECTED_DATA, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'protected'"
+  >
+  </app-expandable-multiselect>
+
+  <!-- Language -->
+  <app-expandable-multiselect
+    id="dataset-language-filter"
+    [titleTranslationKey]="'Attribute.Language'"
+    [titleTooltipTranslationKey]="'Attribute.Language'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.LANGUAGE]"
+    [selectedIds]="selectedData[FiltersNames.LANGUAGE]"
+    [enableApply]="availabilityFilterMap[FiltersNames.LANGUAGE]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'language-filter-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.LANGUAGE, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'language'"
   >
   </app-expandable-multiselect>
 

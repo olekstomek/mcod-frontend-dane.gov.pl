@@ -10,6 +10,7 @@
 @import 'base/typography';
 @import 'base/functions';
 @import 'base/link';
+@import 'base/utils';
 
 // GLOBAL overwrites
 @import 'bootstrap-overwrite/brand';
@@ -60,6 +61,8 @@
 @import 'components/tour';
 @import 'components/tour-picker';
 @import 'components/text-widget';
+@import 'components/login';
+@import 'components/confirm-dialog';
 
 // VIEWS
 @import 'views/common';
@@ -84,7 +87,9 @@
 // PAGES
 @import 'pages/auth';
 @import 'pages/about';
+@import 'pages/dga-information-point';
 @import 'pages/home';
+@import 'pages/institutions';
 @import 'pages/map';
 @import 'pages/search';
 @import 'pages/stats';
@@ -92,6 +97,10 @@
 // accessibility
 @import 'a11y/skip-menu';
 @import 'a11y/high-contrast/index';
+
+// ace overwrite
+@import 'ace-overwrite/ace-chrome';
+@import 'ace-overwrite/ace-tm';
 
 /***************************/
 // Bootstrap's breakpoint mixins

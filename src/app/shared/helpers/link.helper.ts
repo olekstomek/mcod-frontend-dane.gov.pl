@@ -74,9 +74,6 @@ export class LinkHelper {
   static downloadResource(file: IDownloadFile) {
     // Fire away download right after click, regardless of api response,
     // to not get cought in browser's pop up guard
-    if (document.location.hostname.replace('www.', '') === APP_CONFIG.domain) {
-      (window as any).ga('send', 'event', 'zasob', 'pobieranie', file.title + ' - ' + file.url);
-    }
     this.downloadFile(file.url);
   }
 }

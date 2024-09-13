@@ -14,7 +14,6 @@
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.REGIONS, $event)"
     [isRegionsData]="true"
-    *featureFlag="'S42_geodata_search.fe'"
   >
   </app-selected-filters>
 
@@ -72,7 +71,6 @@
     [items]="selectedIds[AggregationFilterNames.UPDATE_FREQUENCY]"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.UPDATE_FREQUENCY, $event)"
-    *featureFlag="'S29_update_frequency_filter.fe'"
   >
   </app-selected-filters>
 
@@ -106,12 +104,21 @@
 
   <!-- Research data -->
   <app-selected-filters
-    *featureFlag="'S47_research_data_filter.fe'"
     [items]="selectedIds[AggregationFilterNames.RESEARCH_DATA]"
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.ResearchData'"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.RESEARCH_DATA, $event)"
+  >
+  </app-selected-filters>
+
+  <!-- Protected Data-->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.PROTECTED_DATA]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.ProtectedData'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.PROTECTED_DATA, $event)"
   >
   </app-selected-filters>
 
@@ -149,6 +156,14 @@
     [items]="selectedIds[AggregationFilterNames.SHOWCASE_PLATFORMS]"
     @toggle
     (removeSelectedFilter)="onClearFilter(AggregationFilterNames.SHOWCASE_PLATFORMS, $event)"
+  >
+  </app-selected-filters>
+
+  <!-- Language -->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.LANGUAGE]"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.LANGUAGE, $event)"
   >
   </app-selected-filters>
 </div>

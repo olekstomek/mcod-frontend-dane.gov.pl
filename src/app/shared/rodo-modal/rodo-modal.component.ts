@@ -5,30 +5,26 @@ import { CmsHardcodedPages } from '@app/services/api/api.cms.config';
 import { IPageCms } from '@app/services/models/cms/page-cms';
 
 @Component({
-    selector: 'app-rodo-modal',
-    templateUrl: './rodo-modal.component.html',
+  selector: 'app-rodo-modal',
+  templateUrl: './rodo-modal.component.html',
 })
 export class RodoModalComponent implements OnInit {
+  @Output() isModalClosed = new EventEmitter<null>();
 
-    @Output() isModalClosed = new EventEmitter<null>();
+  pageTitle: string;
+  page: Subscription;
+  pageWidget = new BehaviorSubject(null);
 
-    pageTitle: string;
-    page: Subscription;
-    pageWidget = new BehaviorSubject(null);
+  constructor(private cmsService: CmsService) {}
 
-    constructor(private cmsService: CmsService) {
-    }
+  ngOnInit() {
+    this.page = this.cmsService.getSimplePage(CmsHardcodedPages.GDPR).subscribe((pageList: IPageCms) => {
+      this.pageTitle = pageList.title;
+      this.pageWidget.next([pageList]);
+    });
+  }
 
-    ngOnInit() {
-        this.page = this.cmsService.getSimplePage(CmsHardcodedPages.GDPR).subscribe(
-            (pageList: IPageCms) => {
-                this.pageTitle = pageList.title;
-                this.pageWidget.next([pageList]);
-            }
-        );
-    }
-
-    closeModal() {
-        this.isModalClosed.emit();
-    }
+  closeModal() {
+    this.isModalClosed.emit();
+  }
 }

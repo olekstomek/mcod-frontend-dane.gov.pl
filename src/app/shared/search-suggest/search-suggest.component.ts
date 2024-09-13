@@ -20,7 +20,6 @@ import { toggleVertically } from '@app/animations';
 
 import { APP_CONFIG } from '@app/app.config';
 import { ApiModel } from '@app/services/api/api-model';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { SearchSuggestionsService } from '@app/services/search-suggestions.service';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
@@ -246,7 +245,6 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     private searchSuggestionsService: SearchSuggestionsService,
     private localize: LocalizeRouterService,
     private translateService: TranslateService,
-    private featureFlagsService: FeatureFlagService,
     @Inject(DOCUMENT) private document: any,
   ) {}
 
@@ -276,36 +274,27 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         }),
       )
       .subscribe(response => {
-        if (this.featureFlagsService.validateFlagSync('S42_geodata_search.fe')) {
-          if (!response || response.data.length === 0) {
-            if (this.apiModels[0] === 'region') {
-              this.regionListboxOption.emit(null);
-              return;
-            } else {
-              return;
-            }
-          }
-        } else {
-          if (!response || !response['data']) {
+        if (!response || response.data.length === 0) {
+          if (this.apiModels[0] === 'region') {
+            this.regionListboxOption.emit(null);
+            return;
+          } else {
             return;
           }
         }
-
         this.toggleDropdown(this.prepareListboxOptions(response.data));
       });
 
     this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
 
-    if (this.featureFlagsService.validateFlagSync('S41_api_validation_button.fe')) {
-      const hostname = this.document.location.hostname.replace('www.', '');
-      switch (hostname) {
-        case 'localhost':
-          this.apiValidationUrl = `https://dev.dane.gov.pl/tools/api-validator`;
-          break;
-        default:
-          this.apiValidationUrl = `https://${this.document.location.hostname.replace('www.', '')}/tools/api-validator`;
-          break;
-      }
+    const hostname = this.document.location.hostname.replace('www.', '');
+    switch (hostname) {
+      case 'localhost':
+        this.apiValidationUrl = `https://dev.dane.gov.pl/tools/api-validator`;
+        break;
+      default:
+        this.apiValidationUrl = `https://${this.document.location.hostname.replace('www.', '')}/tools/api-validator`;
+        break;
     }
   }
 

@@ -39,7 +39,7 @@
       <span class="sr-only">Logowanie do panelu</span>
       <!-- icon -->
       <svg class="icon icon-gov-user" aria-hidden="true" role="img">
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-gov-user"></use>
+        <use href="/assets/icomoon/sprite/sprite.svg#icon-gov-user"></use>
       </svg>
       Mój Gov
       <span class="sr-only">
@@ -221,12 +221,58 @@
               {{ 'MyDashboard.Self' | translate }}
             </a>
 
+            <!-- user list-->
+            <ng-container *ngIf="user$ | async; let user">
+              <div [ngClass]="[highContrastMode, 'user-related__email-container']" appClickOutside (clickOutside)="clickedOutside()" (click)="checkIfLinkedAccounts(user?.attributes.connected_gov_users)" >
+                <div class="user-related__email" (click)="toggleList()">
+                  <ng-container *ngIf="checkIfLinkedAccounts(user?.attributes.connected_gov_users) else emailWithoutLink">
+                    <a [routerLink]="">{{ user?.attributes.email }}</a>
+                    <ng-container *ngIf="isListOpen else listClosed">
+                      <svg class="icon user-related__email-toggle">
+                        <use href="/assets/icomoon/SVG/up.svg#up"></use>
+                      </svg>
+                    </ng-container>
+                    <ng-template #listClosed>
+                      <svg class="icon user-related__email-toggle">
+                        <use href="/assets/icomoon/SVG/down.svg#down"></use>
+                      </svg>
+                    </ng-template>
+                  </ng-container>
+                  <ng-template #emailWithoutLink>
+                    <div>{{ user?.attributes.email }}</div>
+                  </ng-template>
+                </div>
+                <div [ngClass]="[highContrastMode, 'user-related__email-list']" *ngIf="isListOpen">
+                  <div [ngClass]="[highContrastMode, 'user-related__email-list-switch']">
+                    Przełącz konto
+                  </div>
+                  <div [ngClass]="[highContrastMode, 'user-related__email-list-user']">
+                    <a [routerLink]="">
+                      {{ user?.attributes.email }}
+                    </a>
+                    <svg class="icon user-related__email-icon-check">
+                      <use href="/assets/icomoon/SVG/check.svg#check"></use>
+                    </svg>
+                  </div>
+                  <ng-container *ngFor="let userEmail of user?.attributes.connected_gov_users">
+                    <div [ngClass]="[highContrastMode, 'user-related__email-list-user']">
+                      <a [routerLink]="" (click)="switchAccount(userEmail)">
+                        {{ userEmail }}
+                      </a>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
+
             <!-- logout -->
             <a class="user-related__auth-link" [routerLink]="['.']" (click)="logout()"
               >{{ 'Action.Logout' | translate }}
 
               <span class="user-related__email" *ngIf="user$ | async; let user">
-                {{ user?.attributes.email }}
+                <ng-container *ngIf="user?.attributes.connected_gov_users === []">
+                  {{ user?.attributes.email }}
+                </ng-container>
               </span>
             </a>
           </div>
@@ -244,7 +290,6 @@
           <svg
             class="brand-img brand-img--dark"
             role="img"
-            version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 150 50"
             preserveAspectRatio="xMinYMid meet"
@@ -352,12 +397,12 @@
               </a>
             </li>
 
-            <!-- knowledge base (multimedia training) -->
+            <!-- knowledge base (useful materials) -->
             <li class="nav-item" role="presentation">
               <a
                 class="nav-link"
                 role="menuitem"
-                [routerLink]="['/!' + routerEndpoints.KNOWLEDGE_BASE + '/!' + routerEndpoints.MULTIMEDIA_TRAINING] | localize"
+                [routerLink]="['/!' + routerEndpoints.KNOWLEDGE_BASE + '/!' + routerEndpoints.USEFUL_MATERIALS] | localize"
                 routerLinkActive="active"
                 #menuLinkKnowledgeBase="routerLinkActive"
                 [attr.aria-current]="menuLinkKnowledgeBase.isActive ? true : null"
@@ -365,6 +410,20 @@
                 {{ 'Menu.KnowledgeBase' | translate }}
               </a>
             </li>
+
+          <!-- dga information point -->
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link"
+              role="menuitem"
+              [routerLink]="['/!' + routerEndpoints.DGA] | localize"
+              routerLinkActive="active"
+              #menuLinkDGAInformationPoint="routerLinkActive"
+              [attr.aria-current]="menuLinkDGAInformationPoint.isActive ? true : null"
+            >
+              {{ 'Menu.DGAInformationPoint' | translate }}
+            </a>
+          </li>
           </ul>
         </nav>
       </div>

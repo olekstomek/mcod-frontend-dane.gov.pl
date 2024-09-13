@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { Params } from '@angular/router';
 import { PageParams } from '@app/services/models/page-params';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 interface IComponentOptions {
   label: string;
@@ -78,7 +77,7 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
    */
   isSortValid: boolean;
 
-  constructor(protected featureFlagService: FeatureFlagService) {}
+  constructor() {}
 
   /**
    * Emits new params
@@ -89,9 +88,7 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
     const isSameFoundParamSelected = isFoundParam && params['model[terms]'] === this.selectedModel;
     if (!isSameFoundParamSelected) {
       this.update.emit(params);
-      if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
-        this.sortOption.emit(params.sort);
-      }
+      this.sortOption.emit(params.sort);
     }
   }
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 
 import { SeoService } from '@app/services/seo.service';
 import { ApiConfig } from '@app/services/api';
@@ -11,7 +10,6 @@ import { IHome } from '@app/services/models/cms/pages/home';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { ApplicationsService } from '@app/services/applications.service';
 import { IHasImageThumbParams } from '@app/services/models/page-params';
-import { APP_CONFIG } from '@app/app.config';
 import { ApiModel } from '@app/services/api/api-model';
 
 /**
@@ -27,11 +25,6 @@ export class HomeComponent implements OnInit {
    * API model
    */
   apiModel = ApiModel;
-
-  /**
-   * App config
-   */
-  appConfig = APP_CONFIG;
 
   /**
    * Stats subscription of stats component
@@ -57,7 +50,6 @@ export class HomeComponent implements OnInit {
     private api: AbstractService,
     public cmsService: CmsService,
     private applicationsService: ApplicationsService,
-    public translateService: TranslateService,
   ) {}
 
   /**

@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
-import { UserService } from "@app/services/user.service";
+import { UserService } from '@app/services/user.service';
 
 /**
  * Visual Password Validator Component
@@ -13,36 +13,35 @@ import { UserService } from "@app/services/user.service";
     </app-visual-password-validator>
  */
 @Component({
-    selector: "app-visual-password-validator",
-    templateUrl: "./visual-password-validator.component.html"
+  selector: 'app-visual-password-validator',
+  templateUrl: './visual-password-validator.component.html',
 })
 export class VisualPasswordValidatorComponent implements OnInit {
+  /**
+   * @ignore
+   */
+  constructor(private userService: UserService) {}
 
-    /**
-     * @ignore 
-     */
-    constructor(private userService: UserService) {}
+  /**
+   * FormControl assosiacted with passwords field
+   */
+  @Input() control: FormControl;
 
-    /**
-     * FormControl assosiacted with passwords field
-     */
-    @Input() control: FormControl;
+  /**
+   * Password min length
+   */
+  passwordMinLength: number;
 
-    /**
-     * Password min length
-     */
-    passwordMinLength: number;
+  /**
+   * Custom Validators - string helper name, error name returned by specified validator
+   */
+  customValidators: string[][];
 
-    /**
-     * Custom Validators - string helper name, error name returned by specified validator
-     */
-    customValidators: string[][];
-
-    /**
-     * Initializes validation indicators
-     */
-    ngOnInit() {
-        this.passwordMinLength = this.userService.passwordMinLength;
-        this.customValidators = this.userService.passwordCustomValidators;
-    }
+  /**
+   * Initializes validation indicators
+   */
+  ngOnInit() {
+    this.passwordMinLength = this.userService.passwordMinLength;
+    this.customValidators = this.userService.passwordCustomValidators;
+  }
 }

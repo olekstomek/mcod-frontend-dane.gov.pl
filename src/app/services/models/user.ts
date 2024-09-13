@@ -7,6 +7,8 @@ export interface User {
         created: string;
         state: string; // 'active' | 'deleted' | 'draft' | 'pending' | 'blocked';
         subscriptions_report_opt_in: boolean;
+        is_gov_linked?: boolean;
+        connected_gov_users?: string[];
     };
     institutions?: {id: string, title: string}[];
     agent_institutions?: {id: string, title: string}[];

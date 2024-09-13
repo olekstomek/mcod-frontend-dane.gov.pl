@@ -11,12 +11,11 @@ import { ScheduleNotificationMessage } from '@app/user/schedule/services/schedul
  * Schedule Notifications Service
  */
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScheduleNotificationsService extends RestService {
-
-    sendNotification(notification: ScheduleNotificationMessage) {
-        const payload = `{
+  sendNotification(notification: ScheduleNotificationMessage) {
+    const payload = `{
             "data": {
                 "type": "notification",
                 "attributes": {
@@ -25,17 +24,17 @@ export class ScheduleNotificationsService extends RestService {
                 }
             }
         }`;
-        
-        return this.post(ApiConfig.userScheduleNotifications, JSON.parse(payload));
-    }
 
-    /**
-     * Removes notification by id
-     * @param {string} id 
-     * @returns {Observable}
-     */
-    removeById(id: number): Observable<any> {
-        const payload = `{
+    return this.post(ApiConfig.userScheduleNotifications, JSON.parse(payload));
+  }
+
+  /**
+   * Removes notification by id
+   * @param {string} id
+   * @returns {Observable}
+   */
+  removeById(id: number): Observable<any> {
+    const payload = `{
             "data": {
                 "type": "notification",
                 "attributes": {
@@ -44,18 +43,17 @@ export class ScheduleNotificationsService extends RestService {
             }
         }`;
 
-        return this.patch(TemplateHelper.parseUrl(ApiConfig.userScheduleNotification, {id: id}), JSON.parse(payload));
-    }
+    return this.patch(TemplateHelper.parseUrl(ApiConfig.userScheduleNotification, { id: id }), JSON.parse(payload));
+  }
 
-    /**
-     * Recipient option list
-     * @returns {ScheduleNotificationRecipient[]}
-     */
-    getRecipientTypes(): ScheduleNotificationRecipientType[] {
-        return [
-            {name: 'wszystkich', value: 'all'},
-            {name: 'spóźnionych', value: 'late'}
-        ]
-    }
+  /**
+   * Recipient option list
+   * @returns {ScheduleNotificationRecipient[]}
+   */
+  getRecipientTypes(): ScheduleNotificationRecipientType[] {
+    return [
+      { name: 'wszystkich', value: 'all' },
+      { name: 'spóźnionych', value: 'late' },
+    ];
+  }
 }
-

@@ -1,15 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '@env/environment';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import { UserService } from '@app/services/user.service';
-import { IErrorBackend } from '@app/services/models/error-backend';
-import { SeoService } from '@app/services/seo.service';
-import { NotificationsService } from '@app/services/notifications.service';
 import { toggleVertically } from '@app/animations';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
+import { IErrorBackend } from '@app/services/models/error-backend';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SeoService } from '@app/services/seo.service';
+import { UserService } from '@app/services/user.service';
 
 /**
  * Login Component
@@ -36,6 +40,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   redirectUrl: string;
 
   /**
+   * Toggle for login view
+   */
+  isEmailLoginChoose = false;
+  highContrastMode: HighContrastModeEnum;
+  destroy$: Subject<void> = new Subject<void>();
+
+  /**
    * @ignore
    */
   constructor(
@@ -46,6 +57,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private notificationsService: NotificationsService,
     private localizeRouterService: LocalizeRouterService,
     public featureFlagsService: FeatureFlagService,
+    private highContrastService: HighContrastService,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   /**
@@ -57,6 +70,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.seoService.setPageTitleByTranslationKey(['Action.Login']);
     this.redirectUrl = this.activeRoute.snapshot.queryParamMap.get('redirect');
     this.userService.getCsrfToken().subscribe();
+    this.highContrastService.getCurrentContrastMode()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(mode => this.highContrastMode = mode);
   }
 
   /**
@@ -80,10 +96,31 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
+  chooseEmailLogin() {
+    this.isEmailLoginChoose = true;
+  }
+
+  returnToLoginMethod() {
+    this.isEmailLoginChoose = false;
+  }
+
+  loginViaWk() {
+    if (environment.production) {
+      const currentUrl = this.document.location.hostname.replace('www.', '');
+      window.location.href = `https://admin.${currentUrl}/logingovpl`;
+    } else {
+      window.location.href = `https://admin.mcod.local/logingovpl`;
+    }
+  }
+
   /**
    * Unsubscribes from existing subscriptions
    */
   ngOnDestroy() {
-    this.userSubscription && this.userSubscription.unsubscribe();
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

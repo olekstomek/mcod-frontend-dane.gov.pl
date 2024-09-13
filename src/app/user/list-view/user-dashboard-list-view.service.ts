@@ -20,48 +20,46 @@ import { LoginService } from '@app/services/login-service';
  */
 @Injectable()
 export class UserDashboardListViewService extends RestService {
+  constructor(
+    http: HttpClient,
+    translate: TranslateService,
+    router: Router,
+    notificationService: NotificationsService,
+    storageService: LocalStorageService,
+    cookieService: CookieService,
+    loginService: LoginService,
+    @Inject(DOCUMENT) document: any,
+    @Inject(PLATFORM_ID) platformId: string,
+    @Optional() @Inject(API_URL) private readonly apiURL: string,
+  ) {
+    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+  }
 
+  /**
+   * Get Items list from given filters in `params` variable
+   * @param {ICategoryPageParams} params
+   * @returns {Observable<ApiResponse>}
+   */
+  getAll(params: BasicPageParams): Observable<ApiResponse> {
+    const httpParams = new HttpParams({ fromObject: params });
 
-    constructor(http: HttpClient,
-                translate: TranslateService,
-                router: Router, notificationService: NotificationsService,
-                storageService: LocalStorageService,
-                cookieService: CookieService,
-                loginService: LoginService,
-                @Inject(DOCUMENT) document: any,
-                @Inject(PLATFORM_ID)platformId: string,
-                @Optional() @Inject(API_URL) private readonly apiURL: string) {
-        super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
-    }
+    return this.get(this.apiURL, httpParams).pipe(
+      map(response => {
+        return new ApiResponse(response);
+      }),
+    );
+  }
 
-    /**
-     * Get Items list from given filters in `params` variable
-     * @param {ICategoryPageParams} params
-     * @returns {Observable<ApiResponse>}
-     */
-    getAll(params: BasicPageParams): Observable<ApiResponse> {
-
-        const httpParams = new HttpParams({fromObject: params});
-
-        return this.get(this.apiURL, httpParams)
-            .pipe(
-                map(response => {
-                    return new ApiResponse(response);
-                })
-            );
-    }
-
-    /**
-     * Get one item item with given id
-     * @param {string} id
-     * @returns {any}
-     */
-    getOne(id: string) {
-        return this.get(this.apiURL + '/' + id)
-            .pipe(
-                map(response => response['data']),
-                publishReplay(1),
-                refCount()
-            );
-    }
+  /**
+   * Get one item item with given id
+   * @param {string} id
+   * @returns {any}
+   */
+  getOne(id: string) {
+    return this.get(this.apiURL + '/' + id).pipe(
+      map(response => response['data']),
+      publishReplay(1),
+      refCount(),
+    );
+  }
 }

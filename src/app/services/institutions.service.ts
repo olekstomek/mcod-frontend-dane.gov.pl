@@ -19,34 +19,33 @@ import { LoginService } from '@app/services/login-service';
  */
 @Injectable()
 export class InstitutionsService extends RestService {
+  /**
+   * @ignore
+   */
+  constructor(
+    protected http: HttpClient,
+    public translate: TranslateService,
+    public router: Router,
+    public notificationService: NotificationsService,
+    public storageService: LocalStorageService,
+    public cookieService: CookieService,
+    public loginService: LoginService,
+    @Inject(DOCUMENT) public document: any,
+    @Inject(PLATFORM_ID) public platformId: string,
+  ) {
+    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+  }
 
-    /**
-     * @ignore
-     */
-    constructor(protected http: HttpClient,
-                public translate: TranslateService,
-                public router: Router,
-                public notificationService: NotificationsService,
-                public storageService: LocalStorageService,
-                public cookieService: CookieService,
-                public loginService: LoginService,
-                @Inject(DOCUMENT) public document: any,
-                @Inject(PLATFORM_ID) public platformId: string) {
-        super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
-    }
-
-
-    /**
-     * Get one institution item from a given id
-     * @param {string} id
-     * @returns {Observable<any>}
-     */
-    getOne(id: string): Observable<any> {
-        return this.get(ApiConfig.institutions + '/' + id)
-            .pipe(
-                map(response => response['data']),
-                publishReplay(1),
-                refCount()
-            );
-    }
+  /**
+   * Get one institution item from a given id
+   * @param {string} id
+   * @returns {Observable<any>}
+   */
+  getOne(id: string): Observable<any> {
+    return this.get(ApiConfig.institutions + '/' + id).pipe(
+      map(response => response['data']),
+      publishReplay(1),
+      refCount(),
+    );
+  }
 }

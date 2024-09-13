@@ -7,20 +7,16 @@ import { Response } from 'express';
  */
 @Injectable()
 export class ResponseService {
+  /**
+   * @ignore
+   */
+  constructor(@Inject(RESPONSE) private readonly response: Response) {}
 
-
-    /**
-     * @ignore
-     */
-    constructor(@Inject(RESPONSE) private readonly response: Response) {
-    }
-
-    /**
-     * Sets response status code
-     * @param code
-     */
-    setStatusCode(code: number): void {
-        this.response.status(code);
-    }
+  /**
+   * Sets response status code
+   * @param code
+   */
+  setStatusCode(code: number): void {
+    this.response.status(code);
+  }
 }
-

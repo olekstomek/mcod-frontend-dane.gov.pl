@@ -1,12 +1,12 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 import { toggleVertically } from '@app/animations';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
@@ -27,7 +27,6 @@ import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
 import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-suggest';
-import { BehaviorSubject } from 'rxjs';
 
 /**
  * Dataset Component
@@ -131,10 +130,9 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     protected selectedFiltersService: ListViewSelectedFilterService,
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
-    protected featureFlagService: FeatureFlagService,
     private ngZone: NgZone,
   ) {
-    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
+    super(filterService, activatedRoute, selectedFiltersService);
     this.Facets = [
       AggregationOptionType.CATEGORIES,
       AggregationOptionType.INSTITUTION,
@@ -145,15 +143,11 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       AggregationOptionType.LICENSES,
       AggregationOptionType.HIGH_VALUE_DATA,
       AggregationOptionType.DYNAMIC_DATA,
+      AggregationOptionType.UPDATE_FREQUENCY,
+      AggregationOptionType.RESEARCH_DATA,
+      AggregationOptionType.LANGUAGE,
+      AggregationOptionType.PROTECTED_DATA
     ];
-
-    if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
-    }
-
-    if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.RESEARCH_DATA];
-    }
   }
 
   addSubscriptionToQuery(queryForm: NgForm) {
@@ -161,7 +155,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       return;
     }
 
-    this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput).subscribe(
+    this.observeService.addSubscription('query', this.selfApi, queryForm.value.queryInput, this.count).subscribe(
       () => {
         this.isQueryFormSubmitted = true;
         this.isQueryFormError = false;
@@ -249,27 +243,23 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * Gets list of datasets
    */
   protected getData(): void {
-    if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
-      if (this.params['isMapOpen'] === 'true') {
-        this.preparedParamsForDefaultLocation();
-      }
+    if (this.params['isMapOpen'] === 'true') {
+      this.preparedParamsForDefaultLocation();
     }
 
     this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
       this.setData(response);
-      if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
-        this.mapAggregations = response.aggregations;
-        this.mapMetaParamsRegions = response.params.regions;
-        this.resetMapMetaParamsRegionsIfNeeded();
-        if (this.showMap && this.params['isMapOpen'] !== 'true') {
-          this.mapMetaParamsRegions ? (this.isDefaultLocation = false) : (this.isDefaultLocation = true);
-          this.refreshMap.next({ ref: true, changeBbox: false });
-        }
-        if (this.params['isMapOpen'] === 'true') {
-          this.params['regions[id][terms]'] !== '85633723' && !this.params['regions[bbox][geo_shape]']
-            ? this.setParamsForMap(false)
-            : this.setParamsForMap(true);
-        }
+      this.mapAggregations = response.aggregations;
+      this.mapMetaParamsRegions = response.params.regions;
+      this.resetMapMetaParamsRegionsIfNeeded();
+      if (this.showMap && this.params['isMapOpen'] !== 'true') {
+        this.mapMetaParamsRegions ? (this.isDefaultLocation = false) : (this.isDefaultLocation = true);
+        this.refreshMap.next({ ref: true, changeBbox: false });
+      }
+      if (this.params['isMapOpen'] === 'true') {
+        this.params['regions[id][terms]'] !== '85633723' && !this.params['regions[bbox][geo_shape]']
+          ? this.setParamsForMap(false)
+          : this.setParamsForMap(true);
       }
     });
   }
@@ -295,36 +285,19 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * show map event
    */
   onShowMap(): void {
-    if (this.featureFlagService.validateFlagSync('S49_geodata_map_aggregation.fe')) {
-      if (!this.mapAggregations.map_by_regions) {
-        if (this.mapMetaParamsRegions) {
-          this.setParamsForMap(false);
-        } else {
-          this.preparedParamsForDefaultLocation();
-
-          this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-            this.mapAggregations = resp.aggregations;
-            this.setParamsForMap(true);
-          });
-        }
+    if (!this.mapAggregations.map_by_regions) {
+      if (this.mapMetaParamsRegions) {
+        this.setParamsForMap(false);
       } else {
-        this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
+        this.preparedParamsForDefaultLocation();
+
+        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+          this.mapAggregations = resp.aggregations;
+          this.setParamsForMap(true);
+        });
       }
     } else {
-      if (!this.mapAggregations.by_tiles) {
-        if (this.mapMetaParamsRegions) {
-          this.setParamsForMap(false);
-        } else {
-          this.preparedParamsForDefaultLocation();
-
-          this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
-            this.mapAggregations = resp.aggregations;
-            this.setParamsForMap(true);
-          });
-        }
-      } else {
-        this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
-      }
+      this.mapMetaParamsRegions ? this.setParamsForMap(false) : this.setParamsForMap(true);
     }
   }
 
@@ -377,6 +350,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.REGIONS]: {},
       [AggregationFilterNames.DYNAMIC_DATA]: {},
       [AggregationFilterNames.RESEARCH_DATA]: {},
+      [AggregationFilterNames.LANGUAGE]: {},
+      [AggregationFilterNames.PROTECTED_DATA]: {}
     };
   }
 
@@ -385,10 +360,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * @return {number}
    */
   protected getSelectedFiltersCount(): number {
-    if (this.featureFlagService.validateFlagSync('S43_geodata_map.fe')) {
-      if (this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) === 0) {
-        this.showMap = false;
-      }
+    if (this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) === 0) {
+      this.showMap = false;
     }
 
     return (
@@ -404,6 +377,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LANGUAGE]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.PROTECTED_DATA]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
   }

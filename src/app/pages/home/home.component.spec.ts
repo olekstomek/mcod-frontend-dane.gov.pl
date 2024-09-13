@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormsModule } from '@angular/forms';
-import { LocalizeRouterModule, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 
@@ -21,46 +21,43 @@ import { ApplicationsComponent } from '@app/pages/home/applications/applications
 import { FooterComponent } from '@app/shared/footer/footer.component';
 
 describe('HomeComponent', () => {
-    let component: HomeComponent;
-    let fixture: ComponentFixture<HomeComponent>;
+  let component: HomeComponent;
+  let fixture: ComponentFixture<HomeComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                HttpClientTestingModule,
-                SharedModule,
-                FormsModule,
-                ServicesModule,
-                TranslateModule.forRoot({}),
-                NgxLocalStorageModule.forRoot({prefix: 'mcod'}),
-                LocalizeRouterModule.forRoot([])
-            ],
-            declarations: [
-                HomeComponent,
-                SearchComponent,
-                CategoriesComponent,
-                StatsComponent,
-                InstitutionsComponent,
-                NewsComponent,
-                ServiceAlertComponent,
-                ApplicationsComponent,
-                FooterComponent
-            ],
-            providers: [
-                CookieService
-            ]
-        })
-            .compileComponents();
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        SharedModule,
+        FormsModule,
+        ServicesModule,
+        TranslateModule.forRoot({}),
+        NgxLocalStorageModule.forRoot({ prefix: 'mcod' }),
+        LocalizeRouterModule.forRoot([]),
+      ],
+      declarations: [
+        HomeComponent,
+        SearchComponent,
+        CategoriesComponent,
+        StatsComponent,
+        InstitutionsComponent,
+        NewsComponent,
+        ServiceAlertComponent,
+        ApplicationsComponent,
+        FooterComponent,
+      ],
+      providers: [CookieService],
+    }).compileComponents();
+  }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(HomeComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HomeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

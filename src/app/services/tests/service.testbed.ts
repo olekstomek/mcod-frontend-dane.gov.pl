@@ -8,18 +8,10 @@ import { NotificationsService } from '@app/services/notifications.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 export class ServiceTestbed {
-    static module(forService): TestModuleMetadata {
-        return {
-            imports: [HttpClientTestingModule,
-                RouterTestingModule,
-                NgxLocalStorageModule.forRoot({prefix: 'mcod'}),
-                TranslateModule.forRoot()],
-            providers: [
-                forService,
-                HttpClientModule,
-                NotificationsService,
-                CookieService
-            ]
-        };
-    }
+  static module(forService): TestModuleMetadata {
+    return {
+      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot({ prefix: 'mcod' }), TranslateModule.forRoot()],
+      providers: [forService, HttpClientModule, NotificationsService, CookieService],
+    };
+  }
 }

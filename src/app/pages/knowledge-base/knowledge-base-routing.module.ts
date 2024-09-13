@@ -18,95 +18,93 @@ import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.componen
 const routerEndpoints = RouterEndpoints;
 
 const routes: Routes = [
-    {
-        path: '', component: KnowledgeBaseComponent, children: [
+  {
+    path: '',
+    component: KnowledgeBaseComponent,
+    children: [
+      // general article preview
+      {
+        path: `!${routerEndpoints.PREVIEW}/!:id`,
+        component: KnowledgeBaseItemPreviewComponent,
+        data: {
+          breadcrumbs: { dataKey: 'post.attributes.title' },
+        },
+        resolve: {
+          post: BreadcrumbsArticleResolver,
+        },
+      },
 
-            // general article preview
-            {
-                path: `!${routerEndpoints.PREVIEW}/!:id`, component: KnowledgeBaseItemPreviewComponent,
-                data: {
-                    breadcrumbs: {dataKey: 'post.attributes.title'}
-                },
-                resolve: {
-                    post: BreadcrumbsArticleResolver
-                }
+      // tabs
+      {
+        path: '',
+        component: KnowledgeBaseTabsComponent,
+        children: [
+          { path: '', redirectTo: '!' + routerEndpoints.USEFUL_MATERIALS, pathMatch: 'full' },
+          {
+            path: '!' + routerEndpoints.MULTIMEDIA_TRAINING,
+            component: CmsLandingPageComponent,
+            resolve: {
+              children: BreadcrumbsKnowledgeBaseTabDataResolverService,
             },
-
-            // tabs
-            {
-                path: '',
-                component: KnowledgeBaseTabsComponent,
-                children: [
-                    { path: '', redirectTo: '!' + routerEndpoints.MULTIMEDIA_TRAINING, pathMatch: 'full' },
-                    {
-                        path: '!' + routerEndpoints.MULTIMEDIA_TRAINING,
-                        component: CmsLandingPageComponent,
-                        resolve: {
-                            children: BreadcrumbsKnowledgeBaseTabDataResolverService
-                        },
-                        data: {
-                            slug: routerEndpoints.MULTIMEDIA_TRAINING,
-                            showFooter: true,
-                            breadcrumbs: {dataKey: 'children.0.title'},
-                        }
-                    },
-                    {
-                        path: '!' + routerEndpoints.USEFUL_MATERIALS,
-                        component: CmsLandingPageComponent,
-                        resolve: {
-                            children: BreadcrumbsKnowledgeBaseTabDataResolverService
-                        },
-                        data: {
-                            cssContainerClass: 'cms-tiles',
-                            slug: routerEndpoints.USEFUL_MATERIALS,
-                            showFooter: true,
-                            breadcrumbs: {dataKey: 'children.1.title'},
-                        },
-                        children: [
-                            {
-                                path: `!:id`,
-                                component: KnowledgeBaseItemDetailsComponent,
-                                data: {details: true, breadcrumbs: {dataKey: 'post.title'}},
-                                resolve: {post: BreadcrumbsKnowledgeBaseDataResolver}
-                            },
-                        ]
-                    },
-                    {
-                        path: '!' + routerEndpoints.EVENTS,
-                        component: CmsLandingPageComponent,
-                        resolve: {
-                            children: BreadcrumbsKnowledgeBaseTabDataResolverService
-                        },
-                        data: {
-                            cssContainerClass: 'cms-tiles',
-                            slug: routerEndpoints.EVENTS,
-                            showFooter: true,
-                            breadcrumbs: {dataKey: 'children.2.title'},
-                        },
-                        children: [
-                            {
-                                path: `!:id`,
-                                component: KnowledgeBaseItemDetailsComponent,
-                                data: {details: true, breadcrumbs: {dataKey: 'post.title'}},
-                                resolve: {post: BreadcrumbsKnowledgeBaseDataResolver}
-                            },
-                        ]
-                    }
-                ],
-                resolve: {
-                    post: BreadcrumbsKnowledgeBaseDataResolver
-                }
-            }
-        ]
-    },
+            data: {
+              slug: routerEndpoints.MULTIMEDIA_TRAINING,
+              showFooter: true,
+              breadcrumbs: { dataKey: 'children.0.title' },
+            },
+          },
+          {
+            path: '!' + routerEndpoints.USEFUL_MATERIALS,
+            component: CmsLandingPageComponent,
+            resolve: {
+              children: BreadcrumbsKnowledgeBaseTabDataResolverService,
+            },
+            data: {
+              cssContainerClass: 'cms-tiles',
+              slug: routerEndpoints.USEFUL_MATERIALS,
+              showFooter: true,
+              breadcrumbs: { dataKey: 'children.1.title' },
+            },
+            children: [
+              {
+                path: `!:id`,
+                component: KnowledgeBaseItemDetailsComponent,
+                data: { details: true, breadcrumbs: { dataKey: 'post.title' } },
+                resolve: { post: BreadcrumbsKnowledgeBaseDataResolver },
+              },
+            ],
+          },
+          {
+            path: '!' + routerEndpoints.EVENTS,
+            component: CmsLandingPageComponent,
+            resolve: {
+              children: BreadcrumbsKnowledgeBaseTabDataResolverService,
+            },
+            data: {
+              cssContainerClass: 'cms-tiles',
+              slug: routerEndpoints.EVENTS,
+              showFooter: true,
+              breadcrumbs: { dataKey: 'children.2.title' },
+            },
+            children: [
+              {
+                path: `!:id`,
+                component: KnowledgeBaseItemDetailsComponent,
+                data: { details: true, breadcrumbs: { dataKey: 'post.title' } },
+                resolve: { post: BreadcrumbsKnowledgeBaseDataResolver },
+              },
+            ],
+          },
+        ],
+        resolve: {
+          post: BreadcrumbsKnowledgeBaseDataResolver,
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forChild(routes),
-        LocalizeRouterModule.forChild(routes),
-    ],
-    exports: [RouterModule, LocalizeRouterModule]
+  imports: [RouterModule.forChild(routes), LocalizeRouterModule.forChild(routes)],
+  exports: [RouterModule, LocalizeRouterModule],
 })
-export class KnowledgeBaseRoutingModule {
-}
+export class KnowledgeBaseRoutingModule {}

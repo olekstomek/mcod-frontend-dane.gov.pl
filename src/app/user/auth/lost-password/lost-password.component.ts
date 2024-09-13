@@ -11,67 +11,60 @@ import { toggleVertically } from '../../../animations/index';
  * Lost Password Component
  */
 @Component({
-    selector: 'app-lost-password',
-    templateUrl: './lost-password.component.html',
-    animations: [
-        toggleVertically
-    ]
+  selector: 'app-lost-password',
+  templateUrl: './lost-password.component.html',
+  animations: [toggleVertically],
 })
 export class LostPasswordComponent implements OnInit, OnDestroy {
-    /**
-     * Forgotten password subscription of lost password component
-     */
-    forgottenPasswordSubscription: Subscription;
+  /**
+   * Forgotten password subscription of lost password component
+   */
+  forgottenPasswordSubscription: Subscription;
 
-    /**
-     * Form submission availability indicator
-     */
-    isSubmitDisabled = false;
+  /**
+   * Form submission availability indicator
+   */
+  isSubmitDisabled = false;
 
-    /**
-     * Determines whether lost password message Was sent
-     */
-    mailSent = false;
+  /**
+   * Determines whether lost password message Was sent
+   */
+  mailSent = false;
 
-    /**
-     * @ignore
-     */
-    constructor(private notificationsService: NotificationsService,
-                private userService: UserService,
-                private seoService: SeoService
-    ) {
+  /**
+   * @ignore
+   */
+  constructor(private notificationsService: NotificationsService, private userService: UserService, private seoService: SeoService) {}
+
+  /**
+   * Sets META tags (title).
+   */
+  ngOnInit() {
+    this.seoService.setPageTitleByTranslationKey(['User.NewPasswordCreation']);
+  }
+
+  /**
+   * Sends mail regarding lost password on form submit
+   * @param {NgForm} form
+   */
+  onSubmit(form: NgForm) {
+    this.notificationsService.clearAlerts();
+    this.isSubmitDisabled = true;
+
+    this.forgottenPasswordSubscription = this.userService.forgotPass(form.value).subscribe(() => {
+      this.isSubmitDisabled = false;
+      this.mailSent = true;
+    });
+  }
+
+  /**
+   * Unsubscribes from existing subscriptions
+   */
+  ngOnDestroy() {
+    this.notificationsService.clearAlerts();
+
+    if (this.forgottenPasswordSubscription) {
+      this.forgottenPasswordSubscription.unsubscribe();
     }
-
-    /**
-     * Sets META tags (title).
-     */
-    ngOnInit() {
-        this.seoService.setPageTitleByTranslationKey(['User.NewPasswordCreation']);
-    }
-
-    /**
-     * Sends mail regarding lost password on form submit
-     * @param {NgForm} form
-     */
-    onSubmit(form: NgForm) {
-        this.notificationsService.clearAlerts();
-        this.isSubmitDisabled = true;
-
-        this.forgottenPasswordSubscription = this.userService.forgotPass(form.value)
-            .subscribe(() => {
-                this.isSubmitDisabled = false;
-                this.mailSent = true;
-            });
-    }
-
-    /**
-     * Unsubscribes from existing subscriptions
-     */
-    ngOnDestroy() {
-        this.notificationsService.clearAlerts();
-
-        if (this.forgottenPasswordSubscription) {
-            this.forgottenPasswordSubscription.unsubscribe();
-        }
-    }
+  }
 }

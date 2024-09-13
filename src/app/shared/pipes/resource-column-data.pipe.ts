@@ -6,10 +6,9 @@ import { ResourceHelper } from '@app/shared/helpers/resource.helper';
  * Resource Column Data Pipe
  */
 @Pipe({
-  name: 'resourceColumnData'
+  name: 'resourceColumnData',
 })
 export class ResourceColumnDataPipe implements PipeTransform {
-
   /**
    * Transforms input
    * @param value
@@ -19,5 +18,4 @@ export class ResourceColumnDataPipe implements PipeTransform {
   transform(value: unknown, key?: 'val' | 'repr'): string {
     return ResourceHelper.getResourceColumnData(value, key);
   }
-
 }

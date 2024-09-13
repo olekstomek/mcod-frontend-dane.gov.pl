@@ -31,7 +31,8 @@
   }
 
   // RESULT LIST ITEM
-  .result-item {
+  .result-item,
+  .result-item-promoted {
     color: $color-grey-dark;
     margin-bottom: 10px;
     background-color: $color-white;
@@ -39,7 +40,6 @@
     display: flex;
     flex-wrap: wrap;
     min-height: 80px;
-    border: solid 1px $color-grey-light-6;
 
     &__left {
       .visualization-types {
@@ -53,6 +53,9 @@
 
     &__right {
       border-left: 1px solid $color-grey-light-6;
+    }
+    &__promoted {
+      border: solid 2px $color-blue-dark;
     }
 
     // MOBILE VIEW
@@ -70,6 +73,25 @@
         padding-left: 15px;
       }
     }
+  }
+
+  .result-item-promoted {
+    border: solid 3px $color-blue-light;
+
+    &__left {
+      &--promoted-tex-pill {
+        margin: 5px 0 20px;
+        & > span {
+          border: solid 1px $color-grey-light-8;
+          border-radius: 20px;
+          padding: 5px 15px;
+        }
+      }
+    }
+  }
+
+  .result-item {
+    border: solid 1px $color-grey-light-6;
   }
 
   // RESULT LIST ITEM ATTRIBUTES (right side)

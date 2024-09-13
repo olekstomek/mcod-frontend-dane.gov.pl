@@ -48,11 +48,7 @@ npm run build:prod
 
 Local frontend application does not serve API. Instead, frontend uses proxy to redirect request to running API instance. 
 Proxy settings are stored in `proxy.conf.json` file. This file is used when frontend is run on localhost with `npm run start`. 
-Change the `target` path if you want services to refer to different API address. 
-
-You can copy, rename and change `proxy.conf.json` file contents according to your needs. 
-More extended documentation on how to use it, can be found on 
-[Angular Cli Github](https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/proxy.md)
+Change the `target` path if you want services to refer to different API address. You can copy, rename and change `proxy.conf.json` file contents according to your needs.
 
 Usage:
 ```shell
@@ -66,39 +62,43 @@ Proxy options:
 - `logLevel` - verbosity of proxy server in your command line tool
 - `changeOrigin` - important setting for cross origin calls, needs to stay `true` unless frontend and backend are served on the same domain
 
-### Generating new application version
+for example if your API stands on ```localhost:8000```, you need change `target` for `/api` in `proxy.conf.json` file, for your cms you need 
+do the same; change `target` for `/cms` (in this example is `localhost:8001`).
 
-This node scripts automatically creates new app version, and if `git-tag-version` is set to `true`
-in `.npmrc` file, creates git tag with that version, and pushes it to remote branch. 
-
+Example `proxy.conf.json` file:
 ```shell
-npm version {major|minor|patch}
-```
-
-How to remove git tag locally and remotely:
-```
-git push --delete origin tagname
-git tag --delete tagname
-```
-
-How to add new tag manually:
-```
-git tag tagname -m "message"
-git push origin tagname
-```
-
-where `tagname` is your version i.e.: v.1.1.5
-
-### Saving git login credentials for https
-Using GIT over HTTPS instead of SSH can be cumbersome. That's why newer versions of GIT 
-introduced *Credential Helper*. With it you have to provide your Git Credentials only once.
-
-More information can be found on 
-[official GIT documentation](https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage)
-
-```
-git config credential.helper store 
-git pull
+{
+    "/api": {
+        "target": "http://localhost:8000",
+        "secure": false,
+        "pathRewrite": {
+            "^/api": ""
+        },
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/media": {
+        "target": "http://localhost:8000",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/flags": {
+        "target": "https://dane.gov.pl/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/cms": {
+        "target": "https://localhost:8001",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/cms": ""
+        }
+    }
+}
 ```
 
 ### Creating environment file

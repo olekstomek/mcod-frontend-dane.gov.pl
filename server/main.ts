@@ -6,16 +6,14 @@ import { Request } from 'express';
 import Helmet from 'helmet';
 import { ApplicationModule } from './app.module';
 import * as fs from 'fs';
-import * as path from 'path';
 
 const cookieParser = require('cookie-parser');
 const requestProxy = require('express-request-proxy');
 
-
 async function bootstrap() {
   let httpsOptions = null;
-  const dev_env = environment.name === 'int' ? true:false
-  Logger.log('Environment: ' + environment.name)
+  const dev_env = environment.name === 'int' ? true : false;
+  Logger.log('Environment: ' + environment.name);
   if (dev_env) {
     const keyPath = process.env.SSL_KEY_PATH || '/ssl/privkey.pem';
     const certPath = process.env.SSL_CERT_PATH || '/ssl/pubkey.pem';
@@ -60,9 +58,9 @@ async function bootstrap() {
 
   app.enableCors({
     methods: 'GET',
-    maxAge: 3600
+    maxAge: 3600,
   });
-  Logger.log('Starting APP')
+  Logger.log('Starting APP');
   await app.listen(process.env.PORT || 4000);
 }
 

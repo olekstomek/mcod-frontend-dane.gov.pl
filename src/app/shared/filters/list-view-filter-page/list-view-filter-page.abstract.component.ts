@@ -17,7 +17,6 @@ import {
   IListViewInstitutionItemFiltersModel,
 } from '@app/services/models/page-filters/institution-item-filters';
 import { ISearchCounters } from '@app/services/models/search';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 
 /**
  * Abstract class for page which uses List View filters
@@ -107,7 +106,6 @@ export abstract class ListViewFilterPageAbstractComponent {
     protected filterService: ListViewFiltersService,
     protected activatedRoute: ActivatedRoute,
     protected selectedFiltersService: ListViewSelectedFilterService,
-    protected featureFlagService: FeatureFlagService,
   ) {}
 
   /**
@@ -115,38 +113,19 @@ export abstract class ListViewFilterPageAbstractComponent {
    * @param { SelectedFilter} filter
    */
   clearSelectedFilter(filter: SelectedFilter, isMapOpen?: boolean) {
-    switch (filter.names) {
-      case 'has_high_value_data':
-        this.disabledCheckbox(0);
-        break;
-      case 'has_dynamic_data':
-        this.disabledCheckbox(2);
-        break;
-      case 'has_research_data':
-        if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
-          this.disabledCheckbox(4);
-        }
-        break;
-    }
     let updatedQueryParams: PageParams = this.selectedFiltersService.removeSelectedFilter(
       filter,
       this.activatedRoute.snapshot.queryParams,
       this.backupSelectedFilters,
     );
-    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      if (filter.names === 'regions') {
-        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
-        this.initialRegionValue = '';
-        updatedQueryParams = { ...updatedQueryParams, isMapOpen: isMapOpen };
-      }
+
+    if (filter.names === 'regions') {
+      (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      this.initialRegionValue = '';
+      updatedQueryParams = { ...updatedQueryParams, isMapOpen: isMapOpen };
     }
 
     this.filterService.updateParams(updatedQueryParams, null, this.basicParams, this.params);
-  }
-
-  disabledCheckbox(index: number): void {
-    document.getElementById(`chk-${index}`).removeAttribute('disabled');
-    document.getElementById(`chk-${index + 1}`).removeAttribute('disabled');
   }
 
   /**
@@ -197,10 +176,8 @@ export abstract class ListViewFilterPageAbstractComponent {
     this.backupSelectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFiltersCount = this.getSelectedFiltersCount();
-    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      if (this.selectedFilters.regions && !this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].hierarchy_label) {
-        this.initialRegionValue = this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].title;
-      }
+    if (this.selectedFilters.regions && !this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].hierarchy_label) {
+      this.initialRegionValue = this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].title;
     }
   }
 
@@ -210,55 +187,10 @@ export abstract class ListViewFilterPageAbstractComponent {
   protected resetSelectedFilters() {
     this.backupSelectedFilters = this.getFiltersModel();
     this.selectedFiltersCount = 0;
-    this.resetHighValueDataFilterCheckboxes();
-    this.resetDynamicDataFilterCheckboxes();
-
-    if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
-      this.resetResearchDataFilterCheckboxes();
-    }
-
-    if (this.featureFlagService.validateFlagSync('S42_geodata_search.fe')) {
-      const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
-      if (regionsSearchInput) {
-        (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
-        this.initialRegionValue = '';
-      }
-    }
-  }
-
-  /**
-   * Resets high value data disabled checkbox for filters
-   */
-  protected resetHighValueDataFilterCheckboxes() {
-    const hasHighValueDataInputNo = document.getElementById('chk-0');
-    const hasHighValueDataInputYes = document.getElementById('chk-1');
-    if (hasHighValueDataInputNo?.hasAttribute('disabled')) {
-      hasHighValueDataInputNo.removeAttribute('disabled');
-    }
-    if (hasHighValueDataInputYes?.hasAttribute('disabled')) {
-      hasHighValueDataInputYes.removeAttribute('disabled');
-    }
-  }
-
-  protected resetDynamicDataFilterCheckboxes() {
-    const hasDynamicDataInputNo = document.getElementById('chk-2');
-    const hasDynamicDataInputYes = document.getElementById('chk-3');
-    if (hasDynamicDataInputNo?.hasAttribute('disabled')) {
-      hasDynamicDataInputNo.removeAttribute('disabled');
-    }
-    if (hasDynamicDataInputYes?.hasAttribute('disabled')) {
-      hasDynamicDataInputYes.removeAttribute('disabled');
-    }
-  }
-
-  protected resetResearchDataFilterCheckboxes() {
-    const hasResearchDataInputNo = document.getElementById('chk-4');
-    const hasResearchDataInputYes = document.getElementById('chk-5');
-    if (hasResearchDataInputNo?.hasAttribute('disabled')) {
-      hasResearchDataInputNo.removeAttribute('disabled');
-    }
-    if (hasResearchDataInputYes?.hasAttribute('disabled')) {
-      hasResearchDataInputYes.removeAttribute('disabled');
+    const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
+    if (regionsSearchInput) {
+      (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      this.initialRegionValue = '';
     }
   }
 

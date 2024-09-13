@@ -7,12 +7,10 @@ import { Pipe, PipeTransform } from '@angular/core';
  * [innerHTML]="item.attributes.source_title | innerHtmlAppend: ' >>'
  */
 @Pipe({
-    name: 'innerHtmlAppend'
+  name: 'innerHtmlAppend',
 })
 export class InnerHtmlAppendPipe implements PipeTransform {
-
-    transform(value: string, appendText: string): string {
-        return value + appendText;
-    }
-
+  transform(value: string, appendText: string): string {
+    return value + appendText;
+  }
 }

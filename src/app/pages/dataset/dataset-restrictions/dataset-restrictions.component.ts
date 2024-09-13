@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { LicensesService } from '@app/services/licenses.service';
 import { LicenseWithRules, ZeroLicense } from '@app/services/models/license';
 
@@ -74,12 +73,12 @@ export class DatasetRestrictionsComponent implements OnInit {
     }
 
     this.hasRestrictions =
-      this.dataset.attributes.license_condition_source ||
-      this.dataset.attributes.license_condition_original ||
-      this.dataset.attributes.license_condition_modification ||
-      this.dataset.attributes.license_condition_responsibilities ||
-      this.dataset.attributes.license_condition_db_or_copyrighted ||
-      this.dataset.attributes.license_condition_cc40_responsibilities ||
-      this.dataset.attributes.license_condition_personal_data;
+      this.dataset.attributes?.license_condition_source ||
+      this.dataset.attributes?.license_condition_original ||
+      this.dataset.attributes?.license_condition_modification ||
+      this.dataset.attributes?.license_condition_responsibilities ||
+      this.dataset.attributes?.license_condition_db_or_copyrighted ||
+      this.dataset.attributes?.license_condition_cc40_responsibilities ||
+      this.dataset.attributes?.license_condition_personal_data;
   }
 }

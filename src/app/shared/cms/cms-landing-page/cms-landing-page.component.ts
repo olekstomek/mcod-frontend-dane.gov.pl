@@ -1,8 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { IHome } from '@app/services/models/cms/pages/home';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { CmsService } from '@app/services/cms.service';
@@ -46,13 +44,19 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
   pageCmsCss: string;
 
   /**
-   * router events subscription for checking if page is in preview
-   */
-  routerEventsSubscription: Subscription;
-  /**
    * Array of widgets to display
    */
   body: IWidget[];
+
+  /**
+   * Array of subscriptions
+   */
+  sub: Subscription = new Subscription();
+
+  /**
+   * Check if app was refresh, and we need data form CMS
+   */
+  isFirstEnter = true;
 
   /**
    * Widget subject for footer and header
@@ -66,17 +70,21 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     public cmsService: CmsService,
     public route: ActivatedRoute,
     public router: Router,
-    private featureFlagService: FeatureFlagService,
     @Inject(DOCUMENT) private document: Document,
   ) {
     /**
      * sets isDetailView value
      */
-    this.routerEventsSubscription = router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.isDetailView = event.url && event.url.split('/').length > 4;
-      }
-    });
+    this.sub.add(
+      router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          this.isDetailView = event.url && event.url.split('/').length > 4;
+          if (!this.isDetailView && !this.isFirstEnter) {
+            this.setContentCmsPage();
+          }
+        }
+      }),
+    );
   }
 
   /**
@@ -102,7 +110,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routerEventsSubscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 
   setContentCmsPage() {
@@ -124,35 +132,21 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
    * Gets page data from API if necessary
    */
   private getPageData(): void {
-    if (this.isDetailView) {
+    if (this.isDetailView && !this.widgetFooterSubject && !this.isFirstEnter) {
       return;
     }
-    if (this.featureFlagService.validateFlagSync('S44_footer_cms.fe')) {
-      if (this.widgetFooterSubject) {
+    if (this.widgetFooterSubject) {
+      this.sub.add(
         this.widgetFooterSubject.subscribe(response => {
           this.body = response;
           if (this.body) {
             this.findElementsWithLinks(this.body);
             this.addClassnameProperty(this.body);
           }
-        });
-      } else {
-        this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev).subscribe(
-          (page: IPageCms) => {
-            this.body = Array.isArray(page.body) ? page.body : page.body.blocks;
-
-            if (this.body) {
-              this.findElementsWithLinks(this.body);
-              this.addClassnameProperty(this.body);
-            }
-          },
-          err => {
-            this.cmsService.displayCmsErrorMessage(this.requestedUrl, err.message);
-            this.router.navigate(['/']);
-          },
-        );
-      }
+        }),
+      );
     } else {
+      this.isFirstEnter = false;
       this.cmsService.getLandingPage(this.requestedUrl, this.queryParams.lang, this.queryParams.rev).subscribe(
         (page: IPageCms) => {
           this.body = Array.isArray(page.body) ? page.body : page.body.blocks;

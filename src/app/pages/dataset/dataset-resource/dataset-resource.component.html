@@ -35,12 +35,16 @@
       </li>
 
       <!--research data-->
-      <div *featureFlag="'S47_research_data_filter.fe'">
-        <li *ngIf="resource?.attributes?.has_research_data">
-          <strong> {{ 'Attribute.ResearchData' | translate }}: </strong>
-          <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
-        </li>
-      </div>
+      <li *ngIf="resource?.attributes?.has_research_data">
+        <strong> {{ 'Attribute.ResearchData' | translate }}: </strong>
+        <img src="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      </li>
+
+      <!--protected dga data-->
+      <li *ngIf="resource?.attributes?.contains_protected_data">
+        <strong> {{ 'Attribute.ContainsProtectedData' | translate }}: </strong>
+        <img src="assets/icomoon/SVG/key.svg" alt="" class="mr-1" />{{ 'Yes' | translate }}
+      </li>
 
       <!-- dates info -->
       <li>
@@ -68,6 +72,11 @@
       <li *ngIf="resource?.attributes?.media_type">
         <strong> {{ 'Attribute.ResourceType' | translate }}: </strong>
         {{ 'TypesFilters.' + (resource.attributes.media_type | titlecase) | translate | lowercase }}
+      </li>
+
+      <li *ngIf="resource?.attributes?.language">
+        <strong> {{ 'Attribute.Language' | translate }}: </strong>
+        {{ 'TypesFilters.' + resource.attributes.language | translate | lowercase }}
       </li>
 
       <!-- special_signs -->
@@ -109,57 +118,53 @@
     </div>
 
     <!-- regions -->
-    <div *featureFlag="'S42_geodata_search.fe'">
-      <div *ngIf="regionsList.length > 0 && isNotRegionPoland">
-        <hr />
-        <strong
-          appInfoTooltip="{{ 'Tour.Tooltip.Filters.Attribute.Region.text' | translate }}"
-          tooltipTitle="{{ 'Tour.Tooltip.Filters.Attribute.Region.title' | translate }}"
-          >{{ 'Attribute.Region' | translate }}:
-        </strong>
-        <button
-          class="btn btn-link py-0"
-          [attr.aria-controls]="isRegionsExpanded ? 'regions-container' : null"
-          [attr.aria-pressed]="isRegionsExpanded"
-          (click)="isRegionsExpanded = !isRegionsExpanded"
-        >
-          {{ (isRegionsExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
-        </button>
-        <div *ngIf="isRegionsExpanded" @toggleVertically class="pt-3" id="regions-container">
-          <ul class="list-unstyled">
-            <li *ngFor="let region of regionsList; let last = last" class="region-list-item d-inline-flex">
-              <span>{{ region.hierarchy_label }}</span>
-            </li>
-          </ul>
-        </div>
+    <div *ngIf="regionsList.length > 0 && isNotRegionPoland">
+      <hr />
+      <strong
+        appInfoTooltip="{{ 'Tour.Tooltip.Filters.Attribute.Region.text' | translate }}"
+        tooltipTitle="{{ 'Tour.Tooltip.Filters.Attribute.Region.title' | translate }}"
+        >{{ 'Attribute.Region' | translate }}:
+      </strong>
+      <button
+        class="btn btn-link py-0"
+        [attr.aria-controls]="isRegionsExpanded ? 'regions-container' : null"
+        [attr.aria-pressed]="isRegionsExpanded"
+        (click)="isRegionsExpanded = !isRegionsExpanded"
+      >
+        {{ (isRegionsExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
+      </button>
+      <div *ngIf="isRegionsExpanded" @toggleVertically class="pt-3" id="regions-container">
+        <ul class="list-unstyled">
+          <li *ngFor="let region of regionsList; let last = last" class="region-list-item d-inline-flex">
+            <span>{{ region.hierarchy_label }}</span>
+          </li>
+        </ul>
       </div>
     </div>
 
     <!--Supporting documents-->
-    <div *featureFlag="'S48_supplements.fe'">
-      <div *ngIf="resource.attributes.supplements.length > 0">
-        <hr />
-        <strong
-          appInfoTooltip="{{ 'Tour.Tooltip.DatasetItem.Supplements.text' | translate }}"
-          tooltipTitle="{{ 'Tour.Tooltip.DatasetItem.Supplements.title' | translate }}"
-          >{{ 'Attribute.Supplements' | translate }}:
-        </strong>
-        <button
-          class="btn btn-link py-0"
-          [attr.aria-controls]="isSupplementExpanded ? 'supplements-container' : null"
-          [attr.aria-pressed]="isSupplementExpanded"
-          (click)="isSupplementExpanded = !isSupplementExpanded"
-        >
-          {{ (isSupplementExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
-        </button>
-        <div *ngIf="isSupplementExpanded" @toggleVertically class="pt-3" id="supplements-container">
-          <ul class="list-unstyled">
-            <li *ngFor="let supplement of resource.attributes.supplements" class="d-inline-flex mr-5">
-              <span class="sr-only">{{ 'Action.Download' | translate }}</span>
-              <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
-            </li>
-          </ul>
-        </div>
+    <div *ngIf="resource.attributes.supplements.length > 0">
+      <hr />
+      <strong
+        appInfoTooltip="{{ 'Tour.Tooltip.DatasetItem.Supplements.text' | translate }}"
+        tooltipTitle="{{ 'Tour.Tooltip.DatasetItem.Supplements.title' | translate }}"
+        >{{ 'Attribute.Supplements' | translate }}:
+      </strong>
+      <button
+        class="btn btn-link py-0"
+        [attr.aria-controls]="isSupplementExpanded ? 'supplements-container' : null"
+        [attr.aria-pressed]="isSupplementExpanded"
+        (click)="isSupplementExpanded = !isSupplementExpanded"
+      >
+        {{ (isSupplementExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
+      </button>
+      <div *ngIf="isSupplementExpanded" @toggleVertically class="pt-3" id="supplements-container">
+        <ul class="list-unstyled">
+          <li *ngFor="let supplement of resource.attributes.supplements" class="d-inline-flex mr-5">
+            <span class="sr-only">{{ 'Action.Download' | translate }}</span>
+            <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
+          </li>
+        </ul>
       </div>
     </div>
     <hr />
@@ -242,7 +247,7 @@
                 {{ 'SkipTo.NewWindow' | translate }}
               </span>
               <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-                <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+                <use href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
               </svg>
             </a>
           </div>
@@ -257,7 +262,7 @@
               {{ resource.attributes.title }}
             </span>
             <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+              <use href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
             </svg>
           </button>
 
@@ -351,6 +356,18 @@
   <div class="container">
     <div class="mt-3">
       <app-api-source-link [apiUrl]="selfApi"></app-api-source-link>
+    </div>
+  </div>
+
+  <!-- Related resources -->
+  <div class="container mt-3">
+    <header class="results-header" *ngIf="relatedResources.length > 0">
+      <div class="heading heading--sm heading--separator">
+        {{ 'Resources.RelatedResources' | translate }}
+      </div>
+    </header>
+    <div class="results-section">
+      <app-dataset-results [items]="relatedResources"></app-dataset-results>
     </div>
   </div>
 </section>

@@ -1,14 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-    selector: "app-schedule-notifications-switch",
-    templateUrl: "./schedule-notifications-switch.component.html"
+  selector: 'app-schedule-notifications-switch',
+  templateUrl: './schedule-notifications-switch.component.html',
 })
-export class ScheduleNotificationsSwitch implements OnInit {
+// tslint:disable-next-line:component-class-suffix
+export class ScheduleNotificationsSwitch {
+  isSettingsActive = true;
 
-    isSettingsActive = true;
-
-    constructor() {}
-
-    ngOnInit(): void {}
+  constructor() {}
 }

@@ -4,9 +4,7 @@
     class="result-item-attributes__heading"
     [ngClass]="isDatasetView ? 'result-item-attributes__custom-heading' : ''"
   >
-    <ng-container *featureFlag="'S43_geodata_map.fe'">
-      <img *ngIf="isDatasetView" [src]="'assets/icomoon/SVG/' + iconName + '.svg'" alt="" />
-    </ng-container>
+    <img *ngIf="isDatasetView" [src]="'assets/icomoon/SVG/' + iconName + '.svg'" alt="" />
     <p>{{ titleTranslationKey | translate }}</p>
   </div>
 
@@ -24,6 +22,7 @@
           <strong>{{ showcaseCategoryName }}</strong>
         </p>
       </div>
+
       <!-- title -->
       <strong>{{ details.titleTranslationKey | translate }}: </strong>
 
@@ -39,6 +38,12 @@
           {{ details.data }}
         </ng-container>
       </span>
+
+      <!-- language for resources only -->
+      <div class="mt-2" *ngIf="iconName === 'resource'">
+        <strong>{{ 'Attribute.Language' | translate }}: </strong>
+        <span>{{ 'TypesFilters.' + details.language | translate }}</span>
+      </div>
     </div>
   </div>
 </div>

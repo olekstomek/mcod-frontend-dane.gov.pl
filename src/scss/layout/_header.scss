@@ -211,7 +211,9 @@
                 .nav {
                     &-item {
                         padding-left: 24px;
-    
+                        @include media-breakpoint-down(lg) {
+                            padding-left: 15px;
+                        }
                         &:first-child {
                             padding-left: 0;
                         }
@@ -226,7 +228,10 @@
                         margin-top: 3px;
                         border-bottom: 4px solid $color-white;
                         font-size: 1.125rem;
-    
+                        @include media-breakpoint-down(lg) {
+                            font-size: 1rem;
+
+                        }
                         &:hover {
                             border-bottom-color: theme-color('primary'); 
                         }

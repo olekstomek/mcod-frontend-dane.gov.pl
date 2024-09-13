@@ -8,22 +8,20 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
  *  [innerHTML]="item.description | sanitizeHtml"
  */
 @Pipe({
-    name: 'sanitizeHtml'
+  name: 'sanitizeHtml',
 })
 export class SanitizeHtmlPipe implements PipeTransform {
+  /**
+   * @ignore
+   */
+  constructor(private sanitizer: DomSanitizer) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private sanitizer: DomSanitizer) {
-    }
-
-    /**
-     * Transforms input
-     * @param {string} value 
-     * @returns {SafeHtml} 
-     */
-    transform(value: string): SafeHtml {
-        return this.sanitizer.bypassSecurityTrustHtml(value);
-    }
+  /**
+   * Transforms input
+   * @param {string} value
+   * @returns {SafeHtml}
+   */
+  transform(value: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(value);
+  }
 }

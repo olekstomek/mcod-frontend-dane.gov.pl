@@ -1,25 +1,25 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
-import { UserStateService } from '@app/services/user-state.service';
+import { environment } from '@env/environment';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { toggleVertically } from '@app/animations';
-import { HighContrastService } from '@app/services/high-contrast.service';
+import { CmsService } from '@app/services/cms.service';
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
 import { LanguageBootstrapService } from '@app/services/language-bootstrap.service';
 import { LoginService } from '@app/services/login-service';
 import { User } from '@app/services/models';
-import { RouterEndpoints } from '@app/services/models/routerEndpoints';
-import { UserService } from '@app/services/user.service';
-import { APP_CONFIG } from '@app/app.config';
-import { IWidget } from '@app/services/models/cms/widgets/widget';
-import { CmsService } from '@app/services/cms.service';
 import { IHome } from '@app/services/models/cms/pages/home';
+import { IWidget } from '@app/services/models/cms/widgets/widget';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { UserStateService } from '@app/services/user-state.service';
+import { UserService } from '@app/services/user.service';
 
 /**
  * Header Component
@@ -29,7 +29,7 @@ import { IHome } from '@app/services/models/cms/pages/home';
   templateUrl: './header.component.html',
   animations: [toggleVertically],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   /**
    * Router endpoints
    */
@@ -48,12 +48,12 @@ export class HeaderComponent implements OnInit {
   /**
    * Menu Collapsed Flag
    */
-  isMenuCollapsed: boolean = true;
+  isMenuCollapsed = true;
 
   /**
    * Logged In flag
    */
-  loggedIn: boolean = false;
+  loggedIn = false;
 
   /**
    * User Observable
@@ -61,14 +61,12 @@ export class HeaderComponent implements OnInit {
   user$: Observable<User> = this.userStateService.getCurrentUser();
 
   /**
-   * App config
-   */
-  appConfig = APP_CONFIG;
-
-  /**
    * Single cms widget
    */
   singleCmsWidget: IWidget;
+  isListOpen = false;
+  highContrastMode: HighContrastModeEnum;
+  destroy$: Subject<boolean> = new Subject();
 
   /**
    * @ignore
@@ -87,7 +85,7 @@ export class HeaderComponent implements OnInit {
     private loginService: LoginService,
     private featureFlagService: FeatureFlagService,
     @Inject(PLATFORM_ID) private platformId: string,
-    @Inject(DOCUMENT) private document: string,
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   /**
@@ -103,6 +101,12 @@ export class HeaderComponent implements OnInit {
       this.loggedIn = isLoggedIn;
     });
     this.highContrastService.init(this.renderer);
+    this.highContrastService.getCurrentContrastMode()
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe((mode) => this.highContrastMode = mode);
+
 
     // auto close menu in mobile mode
     this.router.events
@@ -144,9 +148,13 @@ export class HeaderComponent implements OnInit {
     this.currentLang = language;
     this.translate.use(language);
     this.cookieService.set('currentLang', language, undefined, '/');
-    isPlatformBrowser(this.platformId) && (window.location.href = '/' + language);
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.href = '/' + language;
+    }
     this.languageBootstrapService.setBootstrapLanguage(language);
-    isPlatformBrowser(this.platformId) && this.renderer.setAttribute(document.documentElement, 'lang', language);
+    if (isPlatformBrowser(this.platformId)) {
+      this.renderer.setAttribute(document.documentElement, 'lang', language);
+    }
   }
 
   /**
@@ -155,7 +163,9 @@ export class HeaderComponent implements OnInit {
    */
   useFontSize(value) {
     // setStyle doesn't work on IE
-    isPlatformBrowser(this.platformId) && this.renderer.setAttribute(document.documentElement, 'style', `font-size: ${value}%`);
+    if (isPlatformBrowser(this.platformId)) {
+      this.renderer.setAttribute(document.documentElement, 'class', `font-size-${value}`);
+    }
   }
 
   /**
@@ -186,6 +196,36 @@ export class HeaderComponent implements OnInit {
    */
   skipTo(elementId: string, event: Event) {
     event.preventDefault();
-    isPlatformBrowser(this.platformId) && document.getElementById(elementId).focus();
+    if (isPlatformBrowser(this.platformId)) {
+      document.getElementById(elementId).focus();
+    }
+  }
+
+  checkIfLinkedAccounts(accountsTable: string[]): boolean {
+    return accountsTable.length !== 0;
+  }
+
+  toggleList(): void {
+    setTimeout(() => {
+      this.isListOpen = !this.isListOpen;
+    }, 50);
+  }
+
+  clickedOutside(): void {
+    this.isListOpen = false;
+  }
+
+  switchAccount(newEmail: string): void {
+    if (environment.production) {
+      const currentUrl = this.document.location.hostname.replace('www.', '');
+      window.location.href = `https://admin.${currentUrl}/logingovpl/switch?email=${newEmail}`;
+    } else {
+      window.location.href = `https://admin.mcod.local/logingovpl/switch?email=${newEmail}`;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

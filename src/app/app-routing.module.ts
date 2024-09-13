@@ -2,6 +2,18 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  CacheMechanism,
+  LocalizeParser,
+  LocalizeRouterModule,
+  LocalizeRouterSettings,
+  ManualParserLoader,
+} from '@gilsdav/ngx-translate-router';
+import { TranslateService } from '@ngx-translate/core';
+import { DeclarationComponent } from './pages/declaration/declaration.component';
+import { HomeComponent } from './pages/home/home.component';
+import { SitemapComponent } from './pages/sitemap/sitemap.component';
+
 import { APP_CONFIG } from '@app/app.config';
 import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
 import { PageNotFoundComponent } from '@app/page-not-found/page-not-found.component';
@@ -13,18 +25,6 @@ import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-la
 import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newsletter/active-newsletter.component';
 import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
 import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
-import {
-  CacheMechanism,
-  LocalizeParser,
-  LocalizeRouterModule,
-  LocalizeRouterSettings,
-  ManualParserLoader,
-} from '@gilsdav/ngx-translate-router';
-import { TranslateService } from '@ngx-translate/core';
-import { AboutComponent } from './pages/about/about.component';
-import { DeclarationComponent } from './pages/declaration/declaration.component';
-import { HomeComponent } from './pages/home/home.component';
-import { SitemapComponent } from './pages/sitemap/sitemap.component';
 
 export function localizeLoaderFactory(translate: TranslateService, location: Location, settings: LocalizeRouterSettings, http: HttpClient) {
   return new ManualParserLoader(translate, location, settings, APP_CONFIG.availableLanguages, 'ROUTES.', '!');
@@ -41,7 +41,6 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: '!resource/!:id', redirectTo: '/embed/resource/:id', pathMatch: 'full' },
-      { path: '!about', component: AboutComponent },
       { path: '!sitemap', component: SitemapComponent },
 
       {
@@ -59,7 +58,6 @@ const routes: Routes = [
         data: { breadcrumbs: { translationKey: 'Institutions.Self' } },
         loadChildren: () => import('./pages/institutions/institutions.module').then(m => m.InstitutionsModule),
       },
-      // remove with S46_articles_form_cms.fe
       {
         path: '!article',
         data: { breadcrumbs: { translationKey: 'Articles.News' } },
@@ -69,6 +67,11 @@ const routes: Routes = [
         path: '!knowledgebase',
         data: { breadcrumbs: { translationKey: 'KnowledgeBase.Self' } },
         loadChildren: () => import('./pages/knowledge-base/knowledge-base.module').then(m => m.KnowledgeBaseModule),
+      },
+      {
+        path: '!dga',
+        data: { breadcrumbs: {translationKey: 'DgaInformationPoint.Self' }},
+        loadChildren: () => import('./pages/dga-information-point/dga-information-point.module').then(m => m.DgaInformationPointModule)
       },
       {
         path: '!user',

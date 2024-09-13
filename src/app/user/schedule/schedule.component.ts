@@ -6,12 +6,12 @@ import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRo
  * Schedule Component
  */
 @Component({
-    selector: 'app-schedule',
-    templateUrl: './schedule.component.html',
+  selector: 'app-schedule',
+  templateUrl: './schedule.component.html',
 })
 export class ScheduleComponent {
-    /**
-     * @ignore
-     */
-    PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
+  /**
+   * @ignore
+   */
+  PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
 }

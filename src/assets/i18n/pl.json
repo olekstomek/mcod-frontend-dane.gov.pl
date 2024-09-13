@@ -67,7 +67,8 @@
     "Collapse": "Zwiń",
     "ChooseCategory": "Wybierz kategorię",
     "EnterRegion": "Podaj lokalizacje",
-    "DownloadAll": "Pobierz cały zbiór"
+    "DownloadAll": "Pobierz cały zbiór",
+    "Copied": "Skopiowano"
   },
   "ActivityNotification": {
     "object_restored": "Przywrócono",
@@ -88,6 +89,12 @@
       "related_object_restored": "Przywrócono zasób powiązany z",
       "related_object_removed": "Usunięto zasób powiązany z",
       "related_object_trashed": "Usunięto zasób powiązany z"
+    },
+    "datasetRelated": {
+      "related_object_publicated": "Dodano nowe dane do",
+      "related_object_updated": "Zaktualizowano dane w",
+      "related_object_restored": "Przywrócono dane w",
+      "related_object_removed": "Usunięto dane z"
     },
     "query": {
       "result_count_incresed": "Liczba wyników w odpowiedzi zwiększyła się dla",
@@ -138,9 +145,9 @@
     "Logo": "Logo",
     "Suggest": "Zaproponuj",
     "SuggestFooterName": "Zaproponuj ponowne wykorzystanie",
-    "Description1Aof3": "Jeśli stworzyłeś lub znasz aplikację, stronę internetową lub inny produkt wykorzystujący dane m.in. z portalu",
+    "Description1Aof3": "Jeśli stworzyłeś lub znasz aplikację, stronę internetową lub inny produkt wykorzystujący w szczególności otwarte dane pochodzące np. z portalu",
     "Description1Bof3": "i chcesz udostępnić informacje o nich w portalu – kliknij przycisk",
-    "Description1Cof3": "i wypełnij formularz. Zamieścimy Twoją propozycję na stronie",
+    "Description1Cof3": "i wypełnij formularz.",
     "Description2of3": "Nie promujemy konkretnych rozwiązań, ale upowszechniamy informacje o projektach wykorzystujących dane.",
     "Description3of3": "Jesteśmy zainteresowani kolejnymi przykładami",
     "Description4": "Jesteśmy zainteresowani kolejnymi przykładami wykorzystania danych",
@@ -229,7 +236,12 @@
     "DynamicData": "Dane dynamiczne",
     "ResearchData": "Dane badawcze",
     "Supplements": "Dokumenty uzupełniające",
-    "Description": "Opis"
+    "Description": "Opis",
+    "PromotedData": "Dane promowane",
+    "ExternalDatasets": "Dane zewnętrzne",
+    "Language": "Język danych",
+    "ProtectedData": "Wykaz chronionych danych",
+    "ContainsProtectedData": "Zawiera wykaz chronionych danych"
   },
   "Breadcrumbs": {
     "YouAreHere": "Jesteś w sekcji",
@@ -262,7 +274,6 @@
     "DataProposalComponent": "Propozycje nowych danych",
     "MeetingsComponent": "Spotkania pełnomocników",
     "ForumRegulationsComponent": "Regulamin forum",
-    "AboutComponent": "O serwisie",
     "SitemapComponent": "Mapa strony",
     "PageNotFoundComponent": "Nie ma takiej strony",
     "SearchComponent": "Wyniki wyszukiwania",
@@ -438,6 +449,15 @@
     "BackToSearchInputText": "Aby powrócić do pola wyszukiwarki na początku strony kliknij enter.",
     "RelatedShowcases": "Powiązane przykłady ponownego wykorzystania"
   },
+  "DgaInformationPoint": {
+    "Self": "Punkt informacyjny DGA",
+    "BackToList": "Powrót do listy",
+    "Tabs": {
+      "Information": "Informacje",
+      "ListOfProtectedData": "Wykaz chronionych danych",
+      "AccessApplication": "Wniosek o dostęp do chronionych danych"
+    }
+  },
   "Embed": {
     "Self": "Umieść na swojej stronie",
     "Description": "Możesz skopiować kod wizualizatora danych do swojej platformy CMS lub bloga, jeżeli obsługuje on wklejanie kodu HTML.",
@@ -450,7 +470,9 @@
     "Self": "Błąd",
     "Single": "Wystąpił błąd",
     "PageNotFound": "Nie znaleziono strony",
-    "404": "Link do strony może być uszkodzony lub strona mogła zostać usunięta"
+    "404": "Link do strony może być uszkodzony lub strona mogła zostać usunięta",
+    "Redirect": "Trwa przekierowanie",
+    "PleaseWait": "Proszę czekać..."
   },
   "File": {
     "Self": "Plik",
@@ -560,7 +582,10 @@
     "TypeLocal": "Administracja samorządowa",
     "TypeState": "Administracja rządowa",
     "TypeOther": "Inne",
-    "TypePrivate": "Podmioty prywatne"
+    "TypePrivate": "Podmioty prywatne",
+    "ExternalDatasets": "Dane pochodzące spoza portalu",
+    "EdorAddress": "Adres do doręczeń elektronicznych",
+    "CopyEdorAddress": "Skopiuj adres do doręczeń elektronicznych"
   },
   "KnowledgeBase": {
     "Self": "Baza wiedzy",
@@ -569,7 +594,8 @@
     "MultimediaTraining": "Szkolenia multimedialne",
     "OtherMaterials": "Pozostałe materiały",
     "Faq": "Często zadawane pytania",
-    "ListHeader": "Lista tematów"
+    "ListHeader": "Lista tematów",
+    "BackToList": "Powrót do listy"
   },
   "Language": {
     "Self": "Język",
@@ -611,7 +637,8 @@
     "Faq": "Często zadawane pytania",
     "Declaration": "Deklaracja dostępności",
     "Regulations": "Regulamin",
-    "Showcases": "PoCoTo"
+    "Showcases": "PoCoTo",
+    "DGAInformationPoint": "Punkt informacyjny DGA"
   },
   "MyDashboard": {
     "Self": "Mój pulpit",
@@ -627,7 +654,124 @@
     "Clock": "Zegar",
     "Stats": "Statystyki",
     "AllStats": "wszystkie statystyki",
-    "Chart": "wykres"
+    "Chart": "wykres",
+    "LodMenu": "Laboratorium OD",
+    "Aod": "Akademia Otwartych Danych",
+    "AodMenu": "Akademia OD",
+    "NewDataProposal": "Propozycja nowych danych",
+    "ProxiesMeetings": "Spotkania pełnomocników",
+    "HodMenu": "Harmonogram OD",
+    "Hod": "Harmonogram otwierania danych",
+    "Forum": "Forum",
+    "SeeCourses": "Zobacz kursy",
+    "Planned": "Planowane",
+    "InProgress": "W trakcie",
+    "Realized": "Zrealizowane",
+    "GoToForum": "Przejdź na forum",
+    "GoToForumText": "Przejście na forum oznacza akceptację",
+    "GoToForumRegulations": "regulaminu",
+    "SeeData": "Zobacz dane",
+    "Active": "Aktywne",
+    "Inactive": "Nieaktywne",
+    "ViewDetails": "Zobacz szczegóły",
+    "Completed": "Zakończone",
+    "Started": "Rozpoczęte",
+    "Ready": "Gotowe",
+    "Recommendations": "Rekomendacje",
+    "Notification": "Zgłoszenia",
+    "StatusOfWorks": "Status prac",
+    "Response": "Odpowiedzi:",
+    "Views": "Odsłon:",
+    "Activity": "Aktywność:",
+    "Category": "Kategoria:",
+    "NoDataToDisplay": "Aktualnie nie ma żadnych dostępnych elementów do wyświetlenia.",
+    "AddLoginViaWK": "Logowanie przez login.gov.pl jest nieaktywne.\n\nChcesz skorzystać z dodatkowych sposobów logowania, takich jak profil zaufany, aplikacja mObywatel, e-dowód?",
+    "AddLoginViaWKButton": "Dodaj logowanie przez login.gov.pl",
+    "LoginAdded": "Logowanie przez login.gov.pl jest aktywne.\n\nPo wybraniu poniższej opcji utracisz możliwość logowania takimi sposobami jak profil zaufany, aplikacja mObywatel, e-dowód. Logowanie przez formularz będzie dostępne.",
+    "RemoveLoginViaWK": "Usuń logowanie przez login.gov.pl",
+    "Announcements": {
+      "LinkErrorLine1": "Nie udało się dodać logowania przez login.gov.pl",
+      "LinkErrorLine2": "Wystąpił błąd. Spróbuj ponownie później",
+      "LinkSuccess": "Logowanie przez login.gov.pl zostało dodane.",
+      "UnlinkSuccess": "Logowanie przez login.gov.pl zostało usunięte.",
+      "UnlinkError": "Logowanie przez login.gov.pl nie zostało usunięte.",
+      "SwitchError": "Wystąpił błąd i nie udało się przełączyć konta. Spróbuj ponownie później.",
+      "LoginErrorHeader":  "Nie możesz się zalogować przez login.gov.pl ",
+      "LoginErrorLine1": "Jeśli <b>masz konto</b> w portalu dane.gov.pl, zaloguj się e-mailem i hasłem. Następnie dodaj logowanie przez login.gov.pl w zakładce <b>Mój pulpit</b>.",
+      "LoginErrorLine2": "Jeśli <b>nie masz konta</b> w dane.gov.pl, zarejestruj się. "
+    },
+    "Dialog": {
+      "Title": "Czy potwierdzasz usunięcie logowania \nprzez login.gov.pl?",
+      "Confirm": "Tak, usuń",
+      "Cancel": "Nie, wróć"
+    }
+  },
+  "Lod": {
+    "Information": "Informacje",
+    "Analyses": "Analizy",
+    "Research": "Badania",
+    "Found": "Znaleziono",
+    "ExecutionDate": "Data wykonania",
+    "DownloadReport": "Pobierz raport",
+    "GoToReport": "Przejdź do raportu",
+    "Description": "Opis"
+  },
+  "Aod": {
+    "Information": "Informacje",
+    "Courses": "Kursy",
+    "RegistrationForCourse": "Zapisy na kurs",
+    "CoursesStatus": "Status kursów",
+    "Planned": "Planowane",
+    "Current": "W trakcie",
+    "Finished": "Zakończone",
+    "StartDate": "Data rozpoczęcia",
+    "EndDate": "Data zakończenia",
+    "DownloadSchedule": "Pobierz harmonogram",
+    "DownloadMaterials": "Pobierz materiały edukacyjne",
+    "NumberParticipants": "Liczba uczestników",
+    "CourseLocation": "Miejsce kursu",
+    "Description": "Opis",
+    "CourseSchedule": "Harmonogram kursu",
+    "ModuleType": "Rodzaj modułu"
+  },
+  "Ndp": {
+    "Self": "Propozycje nowych danych",
+    "Active": "Aktywne",
+    "Inactive": "Nieaktywne",
+    "AddDate": "Data dodania"
+  },
+  "ProxiesMeetings": {
+    "StatusMeetings": "Status spotkań",
+    "Planned": "Planowane",
+    "Finished": "Zakończone",
+    "StartDate": "Data rozpoczęcia",
+    "DurationHours": "Godziny trwania",
+    "MeetingLocation": "Miejsce spotkania",
+    "Agenda": "Agenda",
+    "DownloadMaterials": "Materiały do pobrania"
+  },
+  "Hod": {
+    "Planning": "Planowanie",
+    "Realization": "Ralizacja",
+    "Archives": "Archiwum",
+    "Period": "Okres",
+    "EndDate": "Data zakończenia",
+    "NewEndDate": "Nowa data zakończenia",
+    "ScheduleLink": "Link do harmonogramu",
+    "AllProxiesList": "Lista wszystkich pełnomocników",
+    "InvalidPageAddress": "Niepoprawny adres strony",
+    "SavedChanges": "Zmiany zostały zapisane",
+    "BackToForm": "Powrót do formularza",
+    "PlanningEndDate": "Data zakończenia planowania",
+    "NewPlanningEndDate": "Nowa data zakończenia planowania",
+    "ScheduleAssigned": "Harmonogram przypisany do",
+    "LockSchedule": "Zablokuj harmonogram",
+    "Notifications": "powiadomienia",
+    "NotificationContent": "Treść powiadomienia",
+    "MaxCharacters": "maksymalanie {param} znaków",
+    "SendTo": "Wyślij do",
+    "SendNotification": "Wyślij powiadomienie",
+    "MaxLengthError": "Maksymalna długość pola została przekroczona o"
   },
   "Schedule": {
     "Edit": "Edytuj",
@@ -690,7 +834,8 @@
     "NoChartView": "Ten zasób nie posiada widoku wykresu",
     "VarChartRowsLimited": "Wykres wyświetla { param } wierszy z { param1 }.",
     "MapDescription": "Mapa z prezentacją danych zasobu",
-    "SpecialSigns": "Znaki umowne"
+    "SpecialSigns": "Znaki umowne",
+    "RelatedResources": "Powiązane dane"
   },
   "ResourceFilter": {
     "Column": "Kolumna",
@@ -765,7 +910,9 @@
   "TypesFilters": {
     "Api": "Api",
     "File": "Plik",
-    "Website": "Strona internetowa"
+    "Website": "Strona internetowa",
+    "en": "angielski",
+    "pl": "polski"
   },
   "Rodo": {
     "Title": "Polityka prywatności i RODO"
@@ -778,7 +925,8 @@
     "Exact": "Dokładnie te słowa",
     "Synonym": "Uwzględniając synonimy tych słów",
     "AutoContentReload": "Automatyczne przeładowanie treści",
-    "Advanced": "Wyszukiwanie zaawansowane"
+    "Advanced": "Wyszukiwanie zaawansowane",
+    "SparqlSearch": "Wyszukiwanie SPARQL"
   },
   "ShowcasesCategory": {
     "app": "Aplikacja",
@@ -913,6 +1061,10 @@
           "title": "Dane badawcze",
           "text": "Informacje sektora publicznego utrwalone w postaci elektronicznej, inne niż publikacje naukowe, które zostały wytworzone lub zgromadzone w ramach działalności naukowej w rozumieniu art. 4 ustawy z dnia 20 lipca 2018 r. – Prawo o szkolnictwie wyższym i nauce (Dz. U. z 2021 r. poz. 478) i są wykorzystywane jako dowody w procesie badawczym lub służą weryfikacji poprawności ustaleń i wyników badań"
         },
+        "ProtectedData": {
+          "title": "Wykaz chronionych danych",
+          "text": "To dane należące do instytucji publicznych. Nie są powszechnie dostępne ze względu na tajemnicę handlową, poufność informacji statystycznych, ochronę praw własności intelektualnej lub ochronę danych osobowych. Możesz jednak zawnioskować o ich udostępnienie."
+        },
         "Supplements": {
           "title": "Dokumenty uzupełniające",
           "text": "Materiały dodatkowe związane z danymi (np. instrukcje, dokumentacja API)"
@@ -988,9 +1140,17 @@
             "title": "Filtry - Dane badawcze",
             "text": "Informacje sektora publicznego utrwalone w postaci elektronicznej, inne niż publikacje naukowe, które zostały wytworzone lub zgromadzone w ramach działalności naukowej w rozumieniu art. 4 ustawy z dnia 20 lipca 2018 r. – Prawo o szkolnictwie wyższym i nauce (Dz. U. z 2021 r. poz. 478) i są wykorzystywane jako dowody w procesie badawczym lub służą weryfikacji poprawności ustaleń i wyników badań"
           },
+          "ProtectedData": {
+            "title": "Filtry - Wykaz chronionych danych",
+            "text": "To dane należące do instytucji publicznych. Nie są powszechnie dostępne ze względu na tajemnicę handlową, poufność informacji statystycznych, ochronę praw własności intelektualnej lub ochronę danych osobowych. Możesz jednak zawnioskować o ich udostępnienie."
+          },
           "Region": {
             "title": "Lokalizacja danych",
             "text": "Zasięg terytorialny danych"
+          },
+          "Language": {
+            "title": "Filtry - Język danych",
+            "text": ""
           }
         }
       },
@@ -1107,11 +1267,13 @@
     "PasswordChange": "Zmiana hasła",
     "PasswordChanged": "Twoje hasło zostało pomyślnie zmienione",
     "Congratulations": "Gratulacje!",
-    "ActivationEmailSent": "Na Twój adres email został wysłany link aktywacyjny. Proszę sprawdzić również folder SPAM.",
+    "ActivationEmailSent": "Na Twój adres email został wysłany link aktywacyjny. Proszę sprawdzić również folder SPAM. Link aktywacyjny ważny jest przez 72 godziny.",
     "SearchHistory": "Historia wyszukiwania",
     "Followed": "Obserwowane",
     "FollowedList": "Lista obserwowanych obiektów",
+    "FollowedDataset": "Obserwowane zbiory",
     "FollowedActivity": "Aktywność obserwowanych obiektów",
+    "FollowedDatasetActivity": "Aktywność obserwowanych zbiorów",
     "AccountActivated": "Twoje konto zostało aktywowane. Możesz się teraz zalogować.",
     "Unregistered": "Nie masz jeszcze konta?",
     "LogInToFollow": "Jeśli chcesz obserwować zbiory zaloguj się lub zarejestruj. Obserwowanie zbiorów jest dostępne dla użytkowników posiadających konto na portalu."
@@ -1158,5 +1320,26 @@
     "EmailLabel": "Zostaw email, jeżeli mamy odpisać",
     "ThankYou": "Dziękujmy za Twoją opinię!",
     "Suggestions": "Napisz do nas na adres e-mail:"
+  },
+  "Login": {
+    "ChooseMethod": "Wybierz sposób logowania",
+    "Choose": "Wybierz",
+    "LoginGovPl": {
+      "Header": "Zaloguj się przez login.gov.pl",
+      "Desc": "Logowanie do wielu serwisów administracji publicznej w Polsce przy użyciu profilu zaufanego lub e-dowodu."
+    },
+    "Email": {
+      "Header": "Zaloguj się e-mailem i hasłem",
+      "Desc": "Jeśli chcesz się zalogować przez formularz w portalu dane.gov.pl."
+    },
+    "NoAccount": "Nie masz jeszcze konta?",
+    "Register": "Zarejestruj się",
+    "BackToLogin": "Powrót do wyboru logowania"
+  },
+  "Guide": {
+    "ButtonCancel": "Przerwij",
+    "ButtonNext": "Dalej",
+    "ButtonClose": "Zakończ",
+    "ButtonBack": "Cofnij"
   }
 }

@@ -10,16 +10,6 @@
 </button>
 
 <div *ngIf="isExpanded" @toggleVertically [@.disabled]="!isCollapsible" class="pt-3" id="restriction-container">
-  <!-- no restrictions -->
-  <ng-container *ngIf="!hasRestrictions">
-    <ng-container *ngIf="isForDataset">
-      {{ 'DatasetRestrictions.NoneDataset' | translate }}
-    </ng-container>
-    <ng-container *ngIf="!isForDataset">
-      {{ 'DatasetRestrictions.None' | translate }}
-    </ng-container>
-  </ng-container>
-
   <!-- restrictions -->
   <ng-container *ngIf="hasRestrictions">
     <!-- harvested source -->
@@ -77,15 +67,13 @@
       {{ 'DatasetRestrictions.LicenseType' | translate }}: <span class="font-weight-bold">{{ dataset.attributes.license_name }}</span>
     </p>
 
-    <ng-container *featureFlag="'S50_cc_by_40_conditions.fe'">
-      <ul class="font-weight-bold" *ngIf="dataset.attributes?.current_condition_descriptions.license_condition_custom_description">
-        <li>{{ dataset.attributes?.current_condition_descriptions.license_condition_custom_description }}</li>
-      </ul>
-      <div
-        *ngIf="dataset.attributes?.license_condition_custom_description"
-        [innerHTML]="dataset.attributes?.license_condition_custom_description | sanitizeHtml"
-      ></div>
-    </ng-container>
+    <ul class="font-weight-bold" *ngIf="dataset.attributes?.current_condition_descriptions.license_condition_custom_description">
+      <li>{{ dataset.attributes?.current_condition_descriptions.license_condition_custom_description }}</li>
+    </ul>
+    <div
+      *ngIf="dataset.attributes?.license_condition_custom_description"
+      [innerHTML]="dataset.attributes?.license_condition_custom_description | sanitizeHtml"
+    ></div>
 
     <p>
       {{ 'DatasetRestrictions.LinkToLicense' | translate }}:

@@ -13,6 +13,7 @@ export interface IListViewInstitutionItemFiltersModel {
   [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
   [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
   [AggregationFilterNames.RESEARCH_DATA]: MultiselectOption;
+  [AggregationFilterNames.PROTECTED_DATA]: MultiselectOption;
 }
 export interface IListViewInstitutionItemCategoryFiltersModel {
   [AggregationFilterNames.CATEGORIES]: MultiselectOption;
@@ -27,10 +28,10 @@ export interface IListViewInstitutionItemCategoryFiltersModel {
   [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
   [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
   [AggregationFilterNames.RESEARCH_DATA]: MultiselectOption;
+  [AggregationFilterNames.PROTECTED_DATA]: MultiselectOption;
 }
 
 export const InstitutionItemListViewFilterNames = [
-  AggregationFilterNames.CATEGORIES,
   AggregationFilterNames.CATEGORIES,
   AggregationFilterNames.FORMAT,
   AggregationFilterNames.OPENNESS_SCORE,
@@ -43,4 +44,5 @@ export const InstitutionItemListViewFilterNames = [
   AggregationFilterNames.HIGH_VALUE_DATA,
   AggregationFilterNames.DYNAMIC_DATA,
   AggregationFilterNames.RESEARCH_DATA,
+  AggregationFilterNames.PROTECTED_DATA
 ];

@@ -31,28 +31,28 @@
             <a [routerLink]="['/', '!user', '!dashboard', '!lab'] | localize">
               <svg class="icon icon-lab-od" aria-hidden="true">
                 <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-lab-od"></use></svg
-              >Laboratorium OD
+              >{{ 'MyDashboard.LodMenu' | translate }}
             </a>
           </li>
           <li *hasPermission="PermissionPerRoles.BROWSE_AOD" class="vertical-menu__item" routerLinkActive="active">
             <a [routerLink]="['/', '!user', '!dashboard', '!academy'] | localize">
               <svg class="icon icon-academy-od" aria-hidden="true">
                 <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-academy-od"></use></svg
-              >Akademia OD
+              >{{ 'MyDashboard.AodMenu' | translate }}
             </a>
           </li>
           <li *hasPermission="PermissionPerRoles.BROWSE_NEW_DATA_PROPOSAL" class="vertical-menu__item" routerLinkActive="active">
             <a [routerLink]="['/', '!user', '!dashboard', '!data-proposal'] | localize">
               <svg class="icon icon-new-data-proposal" aria-hidden="true">
                 <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-new-data-proposal"></use></svg
-              >Propozycje nowych danych
+              >{{ 'MyDashboard.NewDataProposal' | translate }}
             </a>
           </li>
           <li *hasPermission="PermissionPerRoles.BROWSE_MEETINGS" class="vertical-menu__item" routerLinkActive="active">
             <a [routerLink]="['/', '!user', '!dashboard', '!meetings'] | localize">
               <svg class="icon icon-meetings" aria-hidden="true">
                 <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-meetings"></use></svg
-              >Spotkania pełnomocników
+              >{{ 'MyDashboard.ProxiesMeetings' | translate }}
             </a>
           </li>
 
@@ -61,7 +61,7 @@
             <a [routerLink]="['/', '!user', '!dashboard', '!schedule'] | localize">
               <svg class="icon icon-meetings" aria-hidden="true">
                 <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-schedule"></use></svg
-              >Harmonogram OD
+              >{{ 'MyDashboard.HodMenu' | translate }}
             </a>
           </li>
 
@@ -70,7 +70,7 @@
             <a href="{{ forumUrl }}/session/sso" target="_blank">
               <svg class="icon icon-forum" aria-hidden="true">
                 <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-forum"></use></svg
-              >Forum
+              >{{ 'MyDashboard.Forum' | translate }}
               <span class="sr-only">
                 {{ 'SkipTo.NewWindow' | translate }}
               </span>

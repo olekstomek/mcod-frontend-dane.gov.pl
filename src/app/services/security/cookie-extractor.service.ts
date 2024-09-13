@@ -14,46 +14,43 @@ import { APP_CONFIG } from '@app/app.config';
 
 @Injectable()
 export class CookieExtractor implements HttpXsrfTokenExtractor {
-    /**
-     * Last cookie value
-     * @type {string}
-     */
-    private lastCookieString: string = '';
+  /**
+   * Last cookie value
+   * @type {string}
+   */
+  private lastCookieString: string = '';
 
-    /**
-     * Last parsed token
-     * @type {string | null}
-     */
-    private lastToken: string | null = null;
+  /**
+   * Last parsed token
+   * @type {string | null}
+   */
+  private lastToken: string | null = null;
 
-    /**
-     * Cookie parse count
-     * @type {number}
-     */
-    private parseCount: number = 0;
+  /**
+   * Cookie parse count
+   * @type {number}
+   */
+  private parseCount: number = 0;
 
-    /**
-     * @ignore
-     */
-    constructor(
-        @Inject(DOCUMENT) private doc: Document,
-        @Inject(PLATFORM_ID) private platform: string) {
+  /**
+   * @ignore
+   */
+  constructor(@Inject(DOCUMENT) private doc: Document, @Inject(PLATFORM_ID) private platform: string) {}
+
+  /**
+   * Gets token CSRF token from cookie
+   * @returns {string | null}
+   */
+  getToken(): string | null {
+    if (isPlatformServer(this.platform)) {
+      return null;
     }
-
-    /**
-     * Gets token CSRF token from cookie
-     * @returns {string | null}
-     */
-    getToken(): string | null {
-        if (isPlatformServer(this.platform)) {
-            return null;
-        }
-        const cookieString = this.doc.cookie || '';
-        if (cookieString !== this.lastCookieString) {
-            this.parseCount++;
-            this.lastToken = ɵparseCookieValue(cookieString, APP_CONFIG.csrfCookieName);
-            this.lastCookieString = cookieString;
-        }
-        return this.lastToken;
+    const cookieString = this.doc.cookie || '';
+    if (cookieString !== this.lastCookieString) {
+      this.parseCount++;
+      this.lastToken = ɵparseCookieValue(cookieString, APP_CONFIG.csrfCookieName);
+      this.lastCookieString = cookieString;
     }
+    return this.lastToken;
+  }
 }

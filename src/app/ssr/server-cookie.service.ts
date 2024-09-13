@@ -34,93 +34,101 @@ import { CookieService } from 'ngx-cookie-service';
  */
 @Injectable()
 export class ServerCookieService extends CookieService {
+  /**
+   * Cookies
+   * @type {string}
+   */
+  private readonly cookies: string;
 
-    /**
-     * Cookies
-     * @type {string}
-     */
-    private readonly cookies: string;
+  /**
+   * @ignore
+   */
+  constructor(
+    @Inject(DOCUMENT) document: Document,
+    @Inject(PLATFORM_ID) platformId: InjectionToken<object>,
+    @Inject(REQUEST) private readonly request: Request,
+    @Inject(RESPONSE) private readonly response: Response,
+  ) {
+    super(document, platformId);
+    this.cookies = this.request.headers.cookies as string;
+  }
 
-    /**
-     * @ignore
-     */
-    constructor(@Inject(DOCUMENT) document: Document,
-                @Inject(PLATFORM_ID) platformId: InjectionToken<object>,
-                @Inject(REQUEST) private readonly request: Request,
-                @Inject(RESPONSE) private readonly response: Response) {
-        super(document, platformId);
-        this.cookies = this.request.headers.cookies as string;
+  /**
+   * Returns cookie RegExp
+   * @param name Cookie name
+   * @returns property RegExp
+   */
+  private static getCookieRegExp(name: string): RegExp {
+    const escapedName: string = name.replace(/([\[\]\{\}\(\)\|\=\;\+\?\,\.\*\^\$])/gi, '\\$1');
+
+    return new RegExp('(?:^' + escapedName + '|;\\s*' + escapedName + ')=(.*?)(?:;|$)', 'g');
+  }
+
+  /**
+   * Decodes string to URI Component
+   * @param encodedURIComponent
+   * @returns {string}
+   */
+  private static safeDecodeURIComponent(encodedURIComponent: string): string {
+    try {
+      return decodeURIComponent(encodedURIComponent);
+    } catch {
+      // probably it is not uri encoded. return as is
+      return encodedURIComponent;
     }
+  }
 
-    /**
-     * Returns cookie RegExp
-     * @param name Cookie name
-     * @returns property RegExp
-     */
-    private static getCookieRegExp(name: string): RegExp {
-        const escapedName: string = name.replace(/([\[\]\{\}\(\)\|\=\;\+\?\,\.\*\^\$])/gi, '\\$1');
+  /**
+   * Checks if cookie exists
+   * @param name Cookie name
+   * @returns boolean - whether cookie with specified name exists
+   */
+  check(name: string): boolean {
+    name = encodeURIComponent(name);
 
-        return new RegExp('(?:^' + escapedName + '|;\\s*' + escapedName + ')=(.*?)(?:;|$)', 'g');
+    const regExp: RegExp = ServerCookieService.getCookieRegExp(name);
+    const exists: boolean = regExp.test(this.cookies);
+
+    return exists;
+  }
+
+  /**
+   * Returns cookie value if exist
+   * @param name Cookie name
+   * @returns property value
+   */
+  get(name: string): string {
+    if (this.check(name)) {
+      name = encodeURIComponent(name);
+
+      const regExp: RegExp = ServerCookieService.getCookieRegExp(name);
+      const result: RegExpExecArray = regExp.exec(this.cookies);
+
+      return ServerCookieService.safeDecodeURIComponent(result[1]);
+    } else {
+      return '';
     }
+  }
 
-    /**
-     * Decodes string to URI Component
-     * @param encodedURIComponent
-     * @returns {string}
-     */
-    private static safeDecodeURIComponent(encodedURIComponent: string): string {
-        try {
-            return decodeURIComponent(encodedURIComponent);
-        } catch {
-            // probably it is not uri encoded. return as is
-            return encodedURIComponent;
-        }
-    }
-
-    /**
-     * Checks if cookie exists
-     * @param name Cookie name
-     * @returns boolean - whether cookie with specified name exists
-     */
-    check(name: string): boolean {
-
-        name = encodeURIComponent(name);
-
-        const regExp: RegExp = ServerCookieService.getCookieRegExp(name);
-        const exists: boolean = regExp.test(this.cookies);
-
-        return exists;
-    }
-
-    /**
-     * Returns cookie value if exist
-     * @param name Cookie name
-     * @returns property value
-     */
-    get(name: string): string {
-        if (this.check(name)) {
-            name = encodeURIComponent(name);
-
-            const regExp: RegExp = ServerCookieService.getCookieRegExp(name);
-            const result: RegExpExecArray = regExp.exec(this.cookies);
-
-            return ServerCookieService.safeDecodeURIComponent(result[1]);
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * Sets cookie
-     * @param name
-     * @param value
-     * @param expires
-     * @param path
-     * @param domain
-     * @param secure
-     * @param sameSite
-     */
-    set(name: string, value: string, expires?: number | Date, path?: string, domain?: string, secure?: boolean, sameSite?: 'Lax' | 'None' | 'Strict') {
-        this.response.cookie(name, value, {domain, path, secure});
-    }
+  /**
+   * Sets cookie
+   * @param name
+   * @param value
+   * @param expires
+   * @param path
+   * @param domain
+   * @param secure
+   * @param sameSite
+   */
+  set(
+    name: string,
+    value: string,
+    expires?: number | Date,
+    path?: string,
+    domain?: string,
+    secure?: boolean,
+    sameSite?: 'Lax' | 'None' | 'Strict',
+  ) {
+    this.response.cookie(name, value, { domain, path, secure });
+  }
 }

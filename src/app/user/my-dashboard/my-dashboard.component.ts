@@ -1,18 +1,20 @@
-import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { UserStateService } from '@app/services/user-state.service';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env/environment';
-
-import { Observable, zip } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, Subject, zip } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@app/app.config';
-import { UserService } from '@app/services/user.service';
-
+import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
 import { User } from '@app/services/models';
 import { UserDashboardData } from '@app/services/models/user-dashboard-data';
-import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { SeoService } from '@app/services/seo.service';
+import { UserStateService } from '@app/services/user-state.service';
+import { UserService } from '@app/services/user.service';
+import { ConfirmDialogService } from '@app/shared/confirm-dialog/confirm-dialog.service';
+import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { DiscourseService } from '@app/user/forum/discourse.service';
 import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
 
@@ -23,14 +25,15 @@ import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
 /**
  * Dashboard component
  */
-export class MyDashboardComponent implements OnInit {
+export class MyDashboardComponent implements OnInit, OnDestroy {
+
     /**
      * Admin panel url
      */
     adminPanelUrl: string;
 
     /**
-     * Discourse forum url 
+     * Discourse forum url
      */
     forumUrl: string;
 
@@ -58,14 +61,17 @@ export class MyDashboardComponent implements OnInit {
      * Forum username
      */
     forumUsername: string;
+    highContrastMode: HighContrastModeEnum;
+    destroy$: Subject<boolean> = new Subject();
 
-    /**
-     * @ignore
-     */
     constructor(private seoService: SeoService,
                 private userService: UserService,
                 private userStateService: UserStateService,
                 private discourseService: DiscourseService,
+                private dialog: ConfirmDialogService,
+                private route: ActivatedRoute,
+                private translateService: TranslateService,
+                private highContrastService: HighContrastService,
                 @Inject(DOCUMENT) private document: Document) {
     }
 
@@ -76,11 +82,14 @@ export class MyDashboardComponent implements OnInit {
      * Setups forum notifications and latest topics
      */
     ngOnInit() {
-        this.seoService.setPageTitleByTranslationKey(['MyDashboard.Self']);
-        this.setAdminPanelUrl();
-        this.setupDashboardData();
-        this.setupForumData();
-        this.isAdmin = this.userService.isAdmin();
+      this.seoService.setPageTitleByTranslationKey(['MyDashboard.Self']);
+      this.setAdminPanelUrl();
+      this.setupDashboardData();
+      this.setupForumData();
+      this.isAdmin = this.userService.isAdmin();
+      this.highContrastService.getCurrentContrastMode()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(mode => this.highContrastMode = mode);
     }
 
     /**
@@ -109,10 +118,50 @@ export class MyDashboardComponent implements OnInit {
         if (!this.userService.getTokenData().user.discourse_user_name) {
             return;
         }
-        
+
         this.forumUsername = this.userService.getTokenData().user.discourse_user_name;
         this.discourseService.getLatestTopicsWithCategories().subscribe(latestTopics => {
             this.forumLatestTopicsWithCategories = latestTopics;
         });
+    }
+
+    linkAccountToWK() {
+      if (environment.production) {
+        const currentUrl = this.document.location.hostname.replace('www.', '');
+        window.location.href = `https://admin.${currentUrl}/logingovpl`;
+      } else {
+        window.location.href = `https://admin.mcod.local/logingovpl`;
+      }
+    }
+
+    unlinkAccountFromWK() {
+      if (environment.production) {
+        const currentUrl = this.document.location.hostname.replace('www.', '');
+        window.location.href = `https://admin.${currentUrl}/logingovpl/unlink`;
+      } else {
+        window.location.href = `https://admin.mcod.local/logingovpl/unlink`;
+      }
+    }
+
+    openDialog() {
+      const options = {
+        title: this.translateService.instant('MyDashboard.Dialog.Title'),
+        message: '',
+        confirmText: this.translateService.instant('MyDashboard.Dialog.Confirm'),
+        cancelText: this.translateService.instant('MyDashboard.Dialog.Cancel'),
+      };
+
+      this.dialog.open(options);
+
+      this.dialog.confirmed().subscribe(confirmed => {
+        if (confirmed) {
+          this.unlinkAccountFromWK();
+        }
+      });
+    }
+
+    ngOnDestroy() {
+      this.destroy$.next(true);
+      this.destroy$.complete();
     }
 }

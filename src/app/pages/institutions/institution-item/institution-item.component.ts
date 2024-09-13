@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { toggle, toggleVertically } from '@app/animations';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
 import { InstitutionsService } from '@app/services/institutions.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
@@ -29,7 +31,7 @@ import { TemplateHelper } from '@app/shared/helpers';
   templateUrl: './institution-item.component.html',
   animations: [toggle, toggleVertically],
 })
-export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit {
+export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit, OnDestroy {
   /**
    * API model
    */
@@ -57,6 +59,14 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
   institution: IInstitution;
 
   /**
+   * Boolean for tooltip at copy button
+   */
+  clipboardClicked = false;
+
+  highContrastMode: HighContrastModeEnum;
+  destroy$: Subject<boolean> = new Subject();
+
+  /**
    * @ignore
    */
   constructor(
@@ -69,9 +79,9 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     protected selectedFiltersService: ListViewSelectedFilterService,
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
-    protected featureFlagService: FeatureFlagService,
+    private highContrastService: HighContrastService
   ) {
-    super(filterService, activatedRoute, selectedFiltersService, featureFlagService);
+    super(filterService, activatedRoute, selectedFiltersService);
     this.Facets = [
       AggregationOptionType.CATEGORIES,
       AggregationOptionType.INSTITUTION,
@@ -82,15 +92,10 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       AggregationOptionType.LICENSES,
       AggregationOptionType.HIGH_VALUE_DATA,
       AggregationOptionType.DYNAMIC_DATA,
+      AggregationOptionType.UPDATE_FREQUENCY,
+      AggregationOptionType.RESEARCH_DATA,
+      AggregationOptionType.PROTECTED_DATA
     ];
-
-    if (this.featureFlagService.validateFlagSync('S29_update_frequency_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.UPDATE_FREQUENCY];
-    }
-
-    if (this.featureFlagService.validateFlagSync('S47_research_data_filter.fe')) {
-      this.Facets = [...this.Facets, AggregationOptionType.RESEARCH_DATA];
-    }
   }
 
   /**
@@ -104,6 +109,11 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     this.institution.count = this.institution.relationships ? this.institution.relationships.datasets.meta.count : 0;
     this.seoService.setPageTitle(this.institution.attributes.title);
     this.seoService.setDescriptionFromText(this.institution.attributes.description);
+    this.highContrastService.getCurrentContrastMode()
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(mode => this.highContrastMode = mode);
 
     const newModel = this.getFiltersModel();
     this.selectedFilters = { ...newModel };
@@ -177,6 +187,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       [AggregationFilterNames.DATE_FROM]: null,
       [AggregationFilterNames.DATE_TO]: null,
       [AggregationFilterNames.RESEARCH_DATA]: {},
+      [AggregationFilterNames.PROTECTED_DATA]: {}
     };
   }
 
@@ -196,7 +207,20 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.PROTECTED_DATA]) +
       (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
     );
+  }
+
+  clickOnClipboard() {
+    this.clipboardClicked = true;
+    setTimeout(() => {
+      this.clipboardClicked = false;
+      }, 4000);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

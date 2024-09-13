@@ -67,7 +67,8 @@
     "Collapse": "Collapse",
     "ChooseCategory": "Select category",
     "EnterRegion": "Enter locations",
-    "DownloadAll": "Download all"
+    "DownloadAll": "Download all",
+    "Copied": "Copied"
   },
   "ActivityNotification": {
     "object_restored": "Restored",
@@ -88,6 +89,12 @@
       "related_object_restored": "Restored resource associated with",
       "related_object_removed": "Removed resource associated with",
       "related_object_trashed": "Removed resource associated with"
+    },
+    "datasetRelated": {
+      "related_object_publicated": "Added new data to",
+      "related_object_updated": "Updated data in",
+      "related_object_restored": "Restored data in",
+      "related_object_removed": "Removed data from"
     },
     "query": {
       "result_count_incresed": "Response count has increased for",
@@ -134,13 +141,13 @@
     "Self": "Data reuse",
     "Description": "Description",
     "Link": "Link to the application",
-    "Logo": "Application logo",
+    "LogoApp": "Application logo",
     "Logo": "Logo",
     "Suggest": "Suggest",
     "SuggestFooterName": "Suggest reuse",
-    "Description1Aof3": "If you have created or you know an application, website or other product that uses data, among others from the",
+    "Description1Aof3": "If you have created or know an application, website or other product that uses, in particular, open data from e.g. a portal",
     "Description1Bof3": "portal and you want to share information about them on the portal - click the",
-    "Description1Cof3": "button and fill in the form. We will post your proposal on the",
+    "Description1Cof3": "button and fill in the form.",
     "Description2of3": "Below we present examples of public data utilization in applications, products and services. We do not promote a specific solution, we only disseminate information about selected projects using data.",
     "Description3of3": "We are interested in further examples",
     "Description4": "We are interested in further examples of data use",
@@ -212,7 +219,7 @@
     "HarvesterUpdateFrequency": "Import frequency",
     "Period": "Period",
     "Metadata": "Metadata",
-    "HighValueData": "Dane o wysokiej wartości",
+    "HighValueData": "High value data",
     "ApplicationTypes": "Application types",
     "PlatformTypes": "Platform types",
     "ShowcasesCategory": "Category",
@@ -229,7 +236,12 @@
     "DynamicData": "Dynamic data",
     "ResearchData": "Research data",
     "Supplements": "Supporting documents",
-    "Description": "Description"
+    "Description": "Description",
+    "PromotedData": "Promoted data",
+    "ExternalDatasets": "External data",
+    "Language": "Data language",
+    "ProtectedData": "List of protected data",
+    "ContainsProtectedData": "Contains asset list of protected data"
   },
   "Breadcrumbs": {
     "YouAreHere": "You are here",
@@ -262,7 +274,6 @@
     "DataProposalComponent": "Propozycje nowych danych",
     "MeetingsComponent": "Spotkania pełnomocników",
     "ForumRegulationsComponent": "Forum regulations",
-    "AboutComponent": "About us",
     "SitemapComponent": "Sitemap",
     "PageNotFoundComponent": "Page not found",
     "SearchComponent": "Search results",
@@ -438,6 +449,15 @@
     "BackToSearchInputText": "To return to the search box at the top of the page, click enter.",
     "RelatedShowcases": "Related reuse examples"
   },
+  "DgaInformationPoint": {
+    "Self": "DGA Information Point",
+    "BackToList": "Back to list",
+    "Tabs": {
+      "Information": "Information",
+      "ListOfProtectedData": "Asset list of protected data",
+      "AccessApplication": "Request for re-use of protected data"
+    }
+  },
   "Embed": {
     "Self": "Embed on Your website",
     "Description": "You can copy the code of the data visualizer to your CMS platform or blog if it supports pasting HTML code.",
@@ -450,7 +470,9 @@
     "Self": "Errors",
     "Single": "Error",
     "PageNotFound": "Page not found",
-    "404": "The link may be broken or the page may have been removed"
+    "404": "The link may be broken or the page may have been removed",
+    "Redirect": "Redirect in progress",
+    "PleaseWait": "Please wait..."
   },
   "File": {
     "Self": "File",
@@ -560,7 +582,10 @@
     "TypeLocal": "Local government",
     "TypeState": "Public government",
     "TypeOther": "Other",
-    "TypePrivate": "Private entities"
+    "TypePrivate": "Private entities",
+    "ExternalDatasets": "Data from outside the portal",
+    "EdorAddress": "Address for electronic delivery",
+    "CopyEdorAddress": "Copy the address for electronic delivery"
   },
   "KnowledgeBase": {
     "Self": "Knowledge base",
@@ -569,7 +594,8 @@
     "MultimediaTraining": "Multimedia training",
     "OtherMaterials": "Other materials",
     "Faq": "Frequently asked questions",
-    "ListHeader": "Topic list"
+    "ListHeader": "Topic list",
+    "BackToList": "Powrót do listy"
   },
   "Language": {
     "Self": "Language",
@@ -611,7 +637,8 @@
     "Faq": "FAQ",
     "Declaration": "Declaration of accessibility",
     "Regulations": "Regulations",
-    "Showcases": "PoCoTo"
+    "Showcases": "PoCoTo",
+    "DGAInformationPoint": "DGA Information Point"
   },
   "MyDashboard": {
     "Self": "My dashboard",
@@ -627,7 +654,125 @@
     "Clock": "Clock",
     "Stats": "Stats",
     "AllStats": "all stats",
-    "Chart": "chart"
+    "Chart": "chart",
+    "LodMenu": "OD Laboratory",
+    "Aod": "Open Data Academy",
+    "AodMenu": "OD Academy",
+    "NewDataProposal": "New data proposal",
+    "ProxiesMeetings": "Proxies meetings",
+    "HodMenu": "Open Data Schedule",
+    "Hod": "Schedule for opening data",
+    "Forum": "Forum",
+    "SeeCourses": "See courses",
+    "Planned": "Planned",
+    "InProgress": "W trakcie",
+    "Realized": "Realized",
+    "GoToForum": "Go to forum",
+    "GoToForumText": "Entering the forum means accepting the",
+    "GoToForumRegulations": "regulations",
+    "SeeData": "See data",
+    "Active": "Active",
+    "Inactive": "Inactive",
+    "ViewDetails": "View details",
+    "Completed": "Completed",
+    "Started": "Started",
+    "Ready": "Ready",
+    "Recommendations": "Recommendations",
+    "Notification": "Notification",
+    "StatusOfWorks": "Status of works",
+    "Response": "Response:",
+    "Views": "Views:",
+    "Activity": "Activity:",
+    "Category": "Category:",
+    "NoDataToDisplay": "There are currently no items available to display.",
+    "AddLoginViaWK": "Login via login.gov.pl is inactive. \n\nDo you want to use additional login methods such as a trusted profile, mObywatel application, e-ID?",
+    "AddLoginViaWKButton": "Add login via login.gov.pl",
+    "LoginAdded": "Login via login.gov.pl is active. \n\nAfter selecting the option below, you will no longer be able to log in using methods such as a trusted profile, mObywatel application or e-ID. Login via the form will be available. ",
+    "RemoveLoginViaWK": "Delete login via login.gov.pl method",
+    "Announcements": {
+      "LinkErrorLine1": "Failed to add login via login.gov.pl.",
+      "LinkErrorLine2": "An error occurred. Please try again later.",
+      "LinkSuccess": "Login via login.gov.pl has been added.",
+      "LinkError": "Login via login.gov.pl has been added.",
+      "UnlinkSuccess": "Login via login.gov.pl has been removed.",
+      "UnlinkError": "Login via login.gov.pl has not been removed.",
+      "SwitchError": "An error occurred during switching account. Please try again later.",
+      "LoginErrorHeader":  "You cannot log in via login.gov.pl",
+      "LoginErrorLine1": "If <b>you have an account</b> on Dane.gov.pl portal, please log in with your e-mail and password. Then add login via login.gov.pl in <b>My desktop</b> tab. ",
+      "LoginErrorLine2": "If <b>you do not have an account</b> at Dane.gov.pl, please register. "
+    },
+    "Dialog": {
+      "Title": "Do you confirm deletion of login\nvia login.gov.pl method? ",
+      "Confirm": "Yes, delete",
+      "Cancel": "Return"
+    }
+  },
+  "Lod": {
+    "Information": "Information",
+    "Analyses": "Analyses",
+    "Research": "Research",
+    "Found": "Found",
+    "ExecutionDate": "Execution date",
+    "DownloadReport": "Download the report",
+    "GoToReport": "Go to report",
+    "Description": "description"
+  },
+  "Aod": {
+    "Information": "Information",
+    "Courses": "Courses",
+    "RegistrationForCourse": "Registration for the course",
+    "CoursesStatus": "Courses status",
+    "Planned": "Planned",
+    "Current": "Current",
+    "Finished": "Finished",
+    "StartDate": "Start date",
+    "EndDate": "End date",
+    "DownloadSchedule": "Download schedule",
+    "DownloadMaterials": "Download educational materials",
+    "NumberParticipants": "Number of participants",
+    "CourseLocation": "Course location",
+    "Description": "Description",
+    "CourseSchedule": "Course schedule",
+    "ModuleType": "Module type"
+  },
+  "Ndp": {
+    "Self": "New data proposal",
+    "Active": "Active",
+    "Inactive": "Inactive",
+    "AddDate": "Added date"
+  },
+  "ProxiesMeetings": {
+    "StatusMeetings": "Status meetings",
+    "Planned": "Planned",
+    "Finished": "Finished",
+    "StartDate": "Start date",
+    "DurationHours": "Duration hours",
+    "MeetingLocation": "Meeting location",
+    "Agenda": "Agenda",
+    "DownloadMaterials": "Download materials"
+  },
+  "Hod": {
+    "Planning": "Planning",
+    "Realization": "Realization",
+    "Archives": "Archives",
+    "Period": "Period",
+    "EndDate": "End date",
+    "NewEndDate": "New end date",
+    "ScheduleLink": "Link to schedule",
+    "AllProxiesList": "List of all proxies",
+    "InvalidPageAddress": "Invalid page address",
+    "SavedChanges": "Changes have been saved",
+    "BackToForm": "Back to form",
+    "PlanningEndDate": "Planning end date",
+    "NewPlanningEndDate": "New planning end date",
+    "ScheduleAssigned": "Schedule assigned to",
+    "LockSchedule": "Lock schedule",
+    "Notifications": "notifications",
+    "NotificationContent": "Content of the notification",
+    "MaxCharacters": "Maximum {param} characters",
+    "SendTo": "Send to",
+    "SendNotification": "Send notification",
+    "MaxLengthError": "The maximum field length has been exceeded by"
   },
   "Schedule": {
     "Edit": "Edit",
@@ -690,7 +835,8 @@
     "NoChartView": "The resource has no chart view",
     "VarChartRowsLimited": "The chart displays { param } from { param1 }.",
     "MapDescription": "Map showing data from the resource",
-    "SpecialSigns": "Special signs"
+    "SpecialSigns": "Special signs",
+    "RelatedResources": "Related resources"
   },
   "ResourceFilter": {
     "Column": "Column",
@@ -765,7 +911,9 @@
   "TypesFilters": {
     "Api": "Api",
     "File": "File",
-    "Website": "Website"
+    "Website": "Website",
+    "en": "english",
+    "pl": "polish"
   },
   "Rodo": {
     "Title": "Privacy policy and GDPR"
@@ -778,7 +926,8 @@
     "Exact": "Exactly these words",
     "Synonym": "Synonyms of these words",
     "AutoContentReload": "Automatic content reload",
-    "Advanced": "Advanced search"
+    "Advanced": "Advanced search",
+    "SparqlSearch": "SPARQL search"
   },
   "ShowcasesCategory": {
     "app": "Application",
@@ -916,6 +1065,10 @@
         "Supplements": {
           "title": "Supporting documents",
           "text": "Additional data-related materials (e.g. manuals, API documentation)"
+        },
+        "ProtectedData": {
+          "title": "Asset list of protected data",
+          "text": "This is data belonging to public institutions. It is not publicly available for reasons of commercial or statistical confidentiality, protection of intellectual property rights or personal data protection. However, you can request access to them. "
         }
       },
       "Institutions": {
@@ -991,6 +1144,10 @@
           "Region": {
             "title": "Data location",
             "text": "Territorial scope of data"
+          },
+          "ProtectedData": {
+            "title": "Filters - asset list of protected data",
+            "text": "This is data belonging to public institutions. It is not publicly available for reasons of commercial or statistical confidentiality, protection of intellectual property rights or personal data protection. However, you can request access to them. "
           }
         }
       },
@@ -1107,11 +1264,13 @@
     "PasswordChange": "Password change",
     "PasswordChanged": "Your password has benn successfully changed",
     "Congratulations": "Congratulations!",
-    "ActivationEmailSent": "Activation link has been sent to your email address. Please check also your Junk/Spam folder.",
+    "ActivationEmailSent": "Activation link has been sent to your email address. Please check also your Junk/Spam folder. The activation link is valid for 72 hours",
     "SearchHistory": "Search history",
     "Followed": "Followed",
     "FollowedList": "Followed objects list",
+    "FollowedDataset": "Followed dataset",
     "FollowedActivity": "Followed objects activity",
+    "FollowedDatasetActivity": "Activity of the fallowed dataset",
     "AccountActivated": "Your account has been activated. You can now log in.",
     "Unregistered": "Don`t have an account?",
     "LogInToFollow": "If you want to follow datasets log in or register. Following datasets is available to users who have an account on the portal."
@@ -1158,5 +1317,26 @@
     "EmailLabel": "Enter your e-mail (if you want to receive the response)",
     "ThankYou": "Thank you for your opinion!",
     "Suggestions": "Write to us at the e-mail address provided below:"
+  },
+  "Login": {
+    "ChooseMethod": "Select your login method",
+    "Choose": "Select",
+    "LoginGovPl": {
+      "Header": "Log in via login.gov.pl",
+      "Desc": "Log in to many public administration services in Poland using a trusted profile or e-ID. "
+    },
+    "Email": {
+      "Header": "Log in with your email and password",
+      "Desc": "Select if you want to log in via the form on Dane.gov.pl portal. "
+    },
+    "NoAccount": "Don`t have an account?",
+    "Register": "Register",
+    "BackToLogin": "Return to login selection"
+  },
+  "Guide": {
+    "ButtonCancel": "Cancel",
+    "ButtonNext": "Next",
+    "ButtonClose": "Close",
+    "ButtonBack": "Back"
   }
 }

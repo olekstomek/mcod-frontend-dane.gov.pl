@@ -1,24 +1,19 @@
-<div class="d-flex align-items-center h-100"
-     [appTooltip]="tooltipText"
-     [title]="tooltipTitle">
-    <!-- add subscription -->
-    <button class="btn btn-sm" [ngClass]="bootstrapClass" *ngIf="!subscriptionId" (click)="addSubscription()">
+<div class="d-flex align-items-center h-100" [appTooltip]="tooltipText" [title]="tooltipTitle">
+  <!-- add subscription -->
+  <button class="btn btn-sm" [ngClass]="bootstrapClass" *ngIf="!subscriptionId" (click)="addSubscription()">
+    {{ 'Action.Observe' | translate }}
 
-        {{ 'Action.Observe' | translate }}
+    <span class="sr-only">
+      {{ item?.attributes?.title }}
+    </span>
+  </button>
 
-        <span class="sr-only">
-            {{ item?.attributes?.title }}
-        </span>
-    </button>
+  <!-- remove subscription -->
+  <button class="btn btn-danger btn-sm" *ngIf="subscriptionId" (click)="removeSubscription()">
+    {{ 'Action.StopObserve' | translate }}
 
-    <!-- remove subscription -->
-    <button class="btn btn-danger btn-sm" *ngIf="subscriptionId" (click)="removeSubscription()">
-
-        {{ 'Action.StopObserve' | translate }}
-
-        <span class="sr-only">
-            {{ item?.attributes?.title }}
-        </span>
-    </button>
-
+    <span class="sr-only">
+      {{ item?.attributes?.title }}
+    </span>
+  </button>
 </div>

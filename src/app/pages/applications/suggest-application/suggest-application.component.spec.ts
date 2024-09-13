@@ -86,10 +86,63 @@ describe('SuggestApplicationComponent', () => {
     expect(component.isSuggestionSent).toBeFalsy();
   });
 
+  it('should appends new, empty dataset row (input + remove button)', () => {
+    component.onAppendDatasetRow();
+    expect(component.applicationForm.get('dataset')).toBeNull();
+  });
+
+  it('should appends new, empty external dataset row (input + input + remove button)', () => {
+    component.onAppendExternalDatasetRow();
+    expect(component.applicationForm.get('external_datasets')).not.toBeNull();
+  });
+
+  it('should removes selected dataset row', () => {
+    component.onRemoveDatasetRow(1);
+    expect(component.applicationForm.get('dataset')).toBeNull();
+  });
+
+  it('should removes selected external dataset row', () => {
+    component.onRemoveExternalDatasetRow(1);
+    expect(component.applicationForm.get('external_datasets')).not.toBeNull();
+  });
+
+  it('should sets image data on every temp image upload or remove', () => {
+    component.onFileChange('image', 'test');
+    expect(component.applicationForm.get('image')).not.toBeNull();
+  });
+
+  it('should show sections in view depends on category type: mobileType', () => {
+    component.selectedCategoryChange('mobileType');
+    expect(component.selectedMobileType).toBeTruthy();
+    expect(component.selectedDesktopType).toBeFalsy();
+  });
+
+  it('should show sections in view depends on category type: desktopType', () => {
+    component.selectedCategoryChange('desktopType');
+    expect(component.selectedDesktopType).toBeTruthy();
+    expect(component.selectedMobileType).toBeFalsy();
+  });
+
+  it('should check if item form autocompleted list is selected, if not set invalid error', () => {
+    const event = {
+      target: {
+        attributes: {
+          readonly: true,
+        },
+      },
+    };
+    component.onCheckIfItemIsSelected(event, 1);
+    expect(component.applicationForm.get('dataset')).toBeNull();
+  });
+
   describe('Submit form (save suggestion)', () => {
     let equationSum: number;
 
     beforeEach(() => {
+      let select = fixture.debugElement.query(By.css('.form-control')).nativeElement;
+      select.value = select.options[1].value;
+      select.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
       let captchaDe = fixture.debugElement.query(By.css('.captcha'));
       let equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
       let equationArr = equation.replace(/ /g, '').replace('=', '').split('+');

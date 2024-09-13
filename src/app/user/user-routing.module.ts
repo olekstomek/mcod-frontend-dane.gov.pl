@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LogingovplErrorPageComponent } from '@app/user/logingovpl/logingovpl-error-page/logingovpl-error-page.component';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
+import { SchedulePlanningFormComponent } from './schedule/forms/schedule-planning-form/schedule-planning-form.component';
 
-import { AuthGuard } from '@app/user/auth/auth.guard';
-import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { RoleGuard } from '@app/services/user-permissions/role.guard';
+import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { LostPasswordComponent } from '@app/user//auth/lost-password/lost-password.component';
 import { AcademyCoursesComponent } from '@app/user/academy/academy-courses/academy-courses.component';
-
-import { AcademyComponent } from '@app/user/academy/academy.component';
 import { AcademyInfoComponent } from '@app/user/academy/academy-info/academy-info.component';
+import { AcademyComponent } from '@app/user/academy/academy.component';
+import { AuthGuard } from '@app/user/auth/auth.guard';
 import { LoginComponent } from '@app/user/auth/login/login.component';
 import { LogoutComponent } from '@app/user/auth/logout/logout.component';
 import { RegisterComponent } from '@app/user/auth/register/register.component';
 import { ResetPasswordComponent } from '@app/user/auth/reset-password/reset-password.component';
 import { VerifyEmailComponent } from '@app/user/auth/verify-email/verify-email.component';
 import { ChangePasswordComponent } from '@app/user/change-password/change-password.component';
-
 import { DashboardComponent } from '@app/user/dashboard/dashboard.component';
 import { ActiveDataProposalComponent } from '@app/user/data-proposal/active/active-data-proposal.component';
 import { DataProposalComponent } from '@app/user/data-proposal/data-proposal.component';
@@ -25,8 +26,8 @@ import { FollowedDatasetsComponent } from '@app/user/followed/followed-datasets/
 import { FollowedObjectActivityComponent } from '@app/user/followed/followed-object-activity/followed-object-activity.component';
 import { FollowedObjectTabsComponent } from '@app/user/followed/followed-object-tabs/followed-object-tabs.component';
 import { FollowedQueryComponent } from '@app/user/followed/followed-query/followed-query.component';
-
 import { FollowedComponent } from '@app/user/followed/followed.component';
+import { ForumRegulationsComponent } from '@app/user/forum-regulations/forum-regulations.component';
 import { LabAnalysesComponent } from '@app/user/lab/lab-analyses/lab-analyses.component';
 import { LabInfoComponent } from '@app/user/lab/lab-info/lab-info.component';
 import { LabResearchesComponent } from '@app/user/lab/lab-researches/lab-researches.component';
@@ -40,12 +41,10 @@ import { ScheduleInProgressComponent } from '@app/user/schedule/tabs/in-progress
 import { SchedulePlanningComponent } from '@app/user/schedule/tabs/planning/schedule-planning.component';
 import { SearchHistoryComponent } from '@app/user/search-history/search-history.component';
 import { DashboardStatsComponent } from '@app/user/stats/dashboard-stats.component';
-import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
-import { SchedulePlanningFormComponent } from './schedule/forms/schedule-planning-form/schedule-planning-form.component';
-import { ForumRegulationsComponent } from '@app/user/forum-regulations/forum-regulations.component';
 
 const routes: Routes = [
     {path: '!login', component: LoginComponent},
+    {path: '!logingovpl-error', component: LogingovplErrorPageComponent},
     {path: '!logout', component: LogoutComponent, canActivate: [AuthGuard]},
     {path: '!lost-password', component: LostPasswordComponent},
     {path: '!reset-password/!:token', component: ResetPasswordComponent},
@@ -80,7 +79,7 @@ const routes: Routes = [
                                     {path: '', redirectTo: '!list', pathMatch: 'full'},
                                     {path: '!list', component: FollowedDatasetsComponent},
                                     {path: '!activity', component: FollowedObjectActivityComponent, data: {type: 'dataset'}}
-                                ], 
+                                ],
                                 data: {labelledBy: 'tabFollowedDatasets'}
                             },
                             {
@@ -88,7 +87,7 @@ const routes: Routes = [
                                     {path: '', redirectTo: '!list', pathMatch: 'full'},
                                     {path: '!list', component: FollowedQueryComponent},
                                     {path: '!activity', component: FollowedObjectActivityComponent, data: {type: 'query'}}
-                                ], 
+                                ],
                                 data: {labelledBy: 'tabFollowedQueries'}
                             },
                             {path: '**', redirectTo: 'dataset'}]

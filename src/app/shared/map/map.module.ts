@@ -9,29 +9,19 @@ import { MapComponent } from '@app/shared/map/map.component';
 import { SliderComponent } from '../slider/slider.component';
 import { FormsModule } from '@angular/forms';
 
-
 @NgModule({
-    declarations: [
-        MapComponent,
-        MapOptionsComponent,
-        SliderComponent
-    ],
-    exports: [
-        MapComponent,
-        MapOptionsComponent,
-        SliderComponent
-    ],
-    imports: [
-        FormsModule,
-        CommonModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        SharedModule,
-    ]
+  declarations: [MapComponent, MapOptionsComponent, SliderComponent],
+  exports: [MapComponent, MapOptionsComponent, SliderComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    SharedModule,
+  ],
 })
-export class MapModule {
-}
+export class MapModule {}

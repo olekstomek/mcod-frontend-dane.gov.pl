@@ -159,7 +159,10 @@
                             "browserTarget": "frontend:build:production"
                         },
                         "local": {
-                            "browserTarget": "frontend:build:local"
+                            "browserTarget": "frontend:build:local",
+                            "aot": false,
+                            "optimization": false,
+                            "sourceMap": false
                         }
                     }
                 },

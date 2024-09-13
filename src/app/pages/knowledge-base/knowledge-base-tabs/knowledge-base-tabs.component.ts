@@ -10,55 +10,56 @@ import { SeoService } from '@app/services/seo.service';
  * Knowledge Base Tabs Component - displays tabs
  */
 @Component({
-    selector: 'app-knowledge-base-tabs',
-    templateUrl: './knowledge-base-tabs.component.html'
+  selector: 'app-knowledge-base-tabs',
+  templateUrl: './knowledge-base-tabs.component.html',
 })
 export class KnowledgeBaseTabsComponent {
-    /**
-     * Router endpoints
-     */
-    readonly routerEndpoints = RouterEndpoints;
+  /**
+   * Router endpoints
+   */
+  readonly routerEndpoints = RouterEndpoints;
 
-    /**
-     * cms tabs
-     */
-    tabs: IMetadataPageChildrenCms[];
+  /**
+   * cms tabs
+   */
+  tabs: IMetadataPageChildrenCms[];
 
-    /**
-     * Sets tabs and navigate to proper tab when there is no preview
-     * Sets first tab as active, when no active tab (Breadcrumbs fix - dynamic tabs)
-     */
-    constructor(private seoService: SeoService,
-                public cmsService: CmsService,
-                private activatedRoute: ActivatedRoute,
-                private router: Router) {
+  /**
+   * Sets tabs and navigate to proper tab when there is no preview
+   * Sets first tab as active, when no active tab (Breadcrumbs fix - dynamic tabs)
+   */
+  constructor(
+    private seoService: SeoService,
+    public cmsService: CmsService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+  ) {
+    this.setActiveTab();
+  }
 
-        this.setActiveTab();
-    }
+  /**
+   * Sets active tab
+   */
+  setActiveTab() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (!event.url.includes(this.routerEndpoints.KNOWLEDGE_BASE)) {
+          return;
+        }
 
-    /**
-     * Sets active tab
-     */
-    setActiveTab() {
-        this.router.events.subscribe(event => {
-            if (event instanceof NavigationEnd) {
-                if (!event.url.includes(this.routerEndpoints.KNOWLEDGE_BASE)) {
-                    return;
-                }
+        this.tabs = this.activatedRoute.snapshot.data.post.meta.children;
+        let currentTab = this.tabs.find(tab => event.url.includes(tab.meta.slug));
 
-                this.tabs = this.activatedRoute.snapshot.data.post.meta.children;
-                let currentTab = this.tabs.find(tab => event.url.includes(tab.meta.slug));
+        if (!currentTab) {
+          currentTab = this.tabs[0];
+        }
 
-                if (!currentTab) {
-                    currentTab = this.tabs[0];
-                }
+        this.seoService.setPageTitle(currentTab.title);
 
-                this.seoService.setPageTitle(currentTab.title);
-
-                if (event.url.split('/').length < 3) {
-                    this.router.navigate([`${this.routerEndpoints.KNOWLEDGE_BASE}/${currentTab.meta.slug}`]);
-                }
-            }
-        });
-    }
+        if (event.url.split('/').length < 3) {
+          this.router.navigate([`${this.routerEndpoints.KNOWLEDGE_BASE}/${currentTab.meta.slug}`]);
+        }
+      }
+    });
+  }
 }

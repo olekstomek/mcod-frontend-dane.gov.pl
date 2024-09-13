@@ -89,14 +89,14 @@ export abstract class RestService {
   ) {
     this.jwtHelperService = new JwtHelperService();
     if (!environment.production) {
+      const currentUrl = this.document.location.hostname.replace('www.', '');
       this.base_url = this.API;
-      this.cookie_domain = 'localhost';
+      this.cookie_domain = currentUrl;
     } else {
       this.base_url = this.document.location.protocol + '//api.' + this.document.location.hostname.replace('www.', '');
       this.base_url += ApiConfig.apiVersion;
       this.cookie_domain = '.' + this.document.location.hostname.replace('www.', '');
     }
-    const hostname = this.document.location.hostname;
     const regex = /^(\w*)\.?dane\.gov\.pl$/gi;
     const prefixArr = regex.exec(this.document.location.hostname.replace('www.', ''));
     this.cookie_prefix = !prefixArr ? 'local_' : prefixArr[1] ? `${prefixArr[1]}_` : '';
@@ -343,8 +343,8 @@ export abstract class RestService {
     if (isdBackendErrorVisible && navigator.onLine) {
       const errors: IErrorBackend[] = this.getBackendErrors({ ...err, error: error });
       if (errors) {
-        errors.forEach((error: IErrorBackend) => {
-          this.notificationService.addError(error.detail || error.title);
+        errors.forEach((e: IErrorBackend) => {
+          this.notificationService.addError(e.detail || e.title);
         });
       } else {
         this.notificationService.addError('Unknown error');

@@ -15,13 +15,13 @@ describe('Articles Module', () => {
 
         it('should display page title', function () {
             page.getPageTitle().then(title => {
-                expect(title).toEqual('Artykuły - Otwarte Dane');
+                expect(title).toEqual('Aktualności - Otwarte Dane');
             });
         });
 
         it('should display correct header', () => {
             page.getParagraphText().then(text => {
-                expect(text).toContain('Artykuły');
+                expect(text).toContain('Aktualności');
             });
         });
 

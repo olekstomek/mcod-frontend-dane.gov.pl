@@ -90,6 +90,8 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
   categoryNameForTooltipPlural: string;
   categoryNameForTooltipPluralDataset: string;
 
+  externalDatasets = [];
+
   /**
    * @ignore
    */
@@ -113,6 +115,7 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
 
     this.seoService.setPageTitle(this.application.attributes.title);
     this.seoService.setDescriptionFromText(StringHelper.stripHtmlTags(this.application.attributes.notes));
+    this.externalDatasets = this.application.attributes.external_datasets;
 
     this.applicationsSubscription = this.activatedRoute.queryParamMap
       .pipe(

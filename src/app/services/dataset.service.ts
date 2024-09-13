@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { AggregationFilterNames } from '@app/services/models/filters';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalStorageService } from 'ngx-localstorage';
@@ -15,6 +14,7 @@ import { SearchHttpParamEncoder } from '@app/services/http/SearchHttpParamEncode
 import { LoginService } from '@app/services/login-service';
 import { HttpCustomErrorResponse } from '@app/services/models';
 import { IChartBlueprint } from '@app/services/models/chart';
+import { AggregationFilterNames } from '@app/services/models/filters';
 import { IMapFilterParams } from '@app/services/models/map';
 import { PageParams } from '@app/services/models/page-params';
 import { NotificationsService } from '@app/services/notifications.service';
@@ -26,6 +26,8 @@ import { TemplateHelper } from '@app/shared/helpers';
  */
 @Injectable()
 export class DatasetService extends RestService {
+
+  apiModel = ApiModel;
   /**
    * Determines whether a new resource filter was generated
    */
@@ -144,6 +146,15 @@ export class DatasetService extends RestService {
   sendDatasetFeedback(id: string, feedback: string) {
     const url = TemplateHelper.parseUrl(ApiConfig.datasetFeedback, { id: id });
     return this.post(url, feedback);
+  }
+
+  getDatasetsStats(datasetId: string, datasetSlug: string) {
+    const url = ApiConfig.datasets + '/' + `${datasetId},${datasetSlug}`;
+    const params = {
+      include: this.apiModel.INSTITUTION
+    };
+
+    return this.get(url, params);
   }
 
   /**
@@ -350,7 +361,7 @@ export class DatasetService extends RestService {
   getDataFromBBox(mapBoundsString: string, sortOption: string, paramQ: string, filters?): Observable<any> {
     let filterNameWithSuffix: string;
     let id: number;
-    let param: any = {
+    const param: any = {
       'regions[bbox][geo_shape]': mapBoundsString,
       sort: sortOption ? sortOption : '-date',
       q: paramQ ? paramQ : '',
@@ -371,6 +382,7 @@ export class DatasetService extends RestService {
           case AggregationFilterNames.HIGH_VALUE_DATA:
           case AggregationFilterNames.DYNAMIC_DATA:
           case AggregationFilterNames.RESEARCH_DATA:
+          case AggregationFilterNames.PROTECTED_DATA:
             filterNameWithSuffix = name + '[term]';
             break;
           default:

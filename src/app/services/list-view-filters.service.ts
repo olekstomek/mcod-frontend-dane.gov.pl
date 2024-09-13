@@ -37,6 +37,7 @@ export class ListViewFiltersService {
       case AggregationFilterNames.HIGH_VALUE_DATA:
       case AggregationFilterNames.DYNAMIC_DATA:
       case AggregationFilterNames.RESEARCH_DATA:
+      case AggregationFilterNames.PROTECTED_DATA:
         filterNameWithSuffix = name + '[term]';
         break;
       default:
@@ -64,14 +65,12 @@ export class ListViewFiltersService {
    * @return {Params}
    */
   updateBasicParams(newParams: Params, defaultParams: Params, sort = ''): Params {
-    const params = {
+    return {
       page: +newParams['page'] || defaultParams['page'],
       per_page: +newParams['per_page'] || defaultParams['per_page'],
       q: newParams['q'] || '',
       sort: newParams['sort'] || sort,
     };
-
-    return params;
   }
 
   /**

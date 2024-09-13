@@ -52,6 +52,7 @@ release-feat-to-int:
 test-dev:
   stage: test
   only:
+    - pre-develop
     - develop
   except:
     - tags
@@ -59,6 +60,22 @@ test-dev:
   script:
     - "npm run test"
   allow_failure: true
+
+build-pre-dev:
+  stage: build
+  script:
+    - "./node_modules/@angular/cli/bin/ng build -c int"
+    - - "./node_modules/@angular/cli/bin/ng run frontend:server:int"
+    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:pre-dev .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker push $REGISTRY_PATH/frontend-ssr:pre-dev
+  only:
+    - pre-develop
+  artifacts:
+    paths:
+      - "dist/"
+  except:
+    - schedules
 
 build-dev:
   stage: build
@@ -70,9 +87,9 @@ build-dev:
     - docker push $REGISTRY_PATH/frontend-ssr:dev
   only:
     - develop
-  # artifacts:
-  #   paths:
-  #     - "dist/"
+  artifacts:
+    paths:
+      - "dist/"
   except:
     - schedules
 
@@ -171,3 +188,4 @@ publish-code:
   only:
     - master
   when: manual
+

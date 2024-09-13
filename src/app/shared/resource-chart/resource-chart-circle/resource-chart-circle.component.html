@@ -1,10 +1,12 @@
-
 <div class="d-block">
-    <canvas baseChart [ngStyle]="{'min-height': chartData.length < 15 ? '450px' : chartData.length * 30 +'px'}"
-        [chartType]="chartType"
-        [data]="chartData"
-        [labels]="chartLabels"
-        [options]="chartOptions"
-        [colors]="chartColors"
-        aria-hidden="true"></canvas> 
+  <canvas
+    baseChart
+    [ngStyle]="{ 'min-height': chartData.length < 15 ? '450px' : chartData.length * 30 + 'px' }"
+    [chartType]="chartType"
+    [data]="chartData"
+    [labels]="chartLabels"
+    [options]="chartOptions"
+    [colors]="chartColors"
+    aria-hidden="true"
+  ></canvas>
 </div>

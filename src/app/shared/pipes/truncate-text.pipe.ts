@@ -9,39 +9,37 @@ import { Pipe, PipeTransform } from '@angular/core';
  *  {{ 'lorem ipsum dolor' | truncateText:10 }}
  */
 @Pipe({
-    name: 'truncateText'
+  name: 'truncateText',
 })
 export class TruncateTextPipe implements PipeTransform {
+  /**
+   * Transforms input value
+   * @param {string} value
+   * @param {number} limit
+   * @returns {string}
+   */
+  transform(value: string, limit: number): string {
+    if (limit >= value.length - 1) return value;
 
-    /**
-     * Transforms input value
-     * @param {string} value 
-     * @param {number} limit 
-     * @returns {string}  
-     */
-    transform(value: string, limit: number): string {
+    const isSpecialChar: RegExp = /[\?.,:;_\-]/;
+    const isSpace: RegExp = /\s/;
+    const position: number = limit - 1;
 
-        if (limit >= value.length - 1) return value;
+    if (isSpace.test(value.charAt(position))) {
+      if (isSpecialChar.test(value.charAt(position - 1))) {
+        return value.substring(0, position);
+      }
 
-        const isSpecialChar: RegExp = /[\?.,:;_\-]/;
-        const isSpace: RegExp = /\s/;
-        const position: number = limit - 1;
+      return `${value.substring(0, position)}...`;
+    } else {
+      const spaceIndex = value.indexOf(' ', position);
+      if (spaceIndex === -1) return value;
 
-        if (isSpace.test(value.charAt(position))) {
-            if (isSpecialChar.test(value.charAt(position - 1))) {
-                return value.substring(0, position);
-            }
-
-            return `${value.substring(0, position)}...`;
-        } else {
-            const spaceIndex = value.indexOf(' ', position);
-            if (spaceIndex === -1) return value;
-
-            if (isSpecialChar.test(value.charAt(spaceIndex - 1))) {
-                return value.substring(0, spaceIndex);
-            } else {
-                return `${value.substring(0, spaceIndex)}...`;
-            }
-        }
+      if (isSpecialChar.test(value.charAt(spaceIndex - 1))) {
+        return value.substring(0, spaceIndex);
+      } else {
+        return `${value.substring(0, spaceIndex)}...`;
+      }
     }
+  }
 }

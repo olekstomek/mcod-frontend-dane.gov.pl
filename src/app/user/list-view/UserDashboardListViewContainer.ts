@@ -1,3 +1,3 @@
 export interface UserDashboardListViewContainer {
-    items: any;
+  items: any;
 }

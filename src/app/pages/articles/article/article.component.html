@@ -6,7 +6,6 @@
     </h1>
 
     <app-search-suggest
-      *featureFlag="'S46_articles_form_cms.fe'; else oldArticles"
       tooltipText="{{ 'Tour.Tooltip.Article.Search.text' | translate }}"
       [placeholderTranslationKey]="'Articles.SearchFor'"
       [searchQuery]="params.q"
@@ -17,20 +16,6 @@
       (clearTrigger)="updateParams({ q: '', sort: '-date' }, true)"
     >
     </app-search-suggest>
-
-    <ng-template #oldArticles>
-      <app-search-suggest
-        tooltipText="{{ 'Tour.Tooltip.Article.Search.text' | translate }}"
-        [placeholderTranslationKey]="'Articles.SearchFor'"
-        [searchQuery]="params.q"
-        [apiModels]="[apiModel.ARTICLE]"
-        [maxResultsPerModel]="3"
-        [useTriggers]="true"
-        (searchTrigger)="updateParams({ q: $event.q, sort: 'relevance' }, true)"
-        (clearTrigger)="updateParams({ q: '', sort: '-date' }, true)"
-      >
-      </app-search-suggest>
-    </ng-template>
   </div>
 </header>
 

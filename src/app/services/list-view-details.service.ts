@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { ISearchResult, ISearchResultAttributes } from '@app/services/models/search';
-import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { ApiModel } from '@app/services/api/api-model';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { ISearchResult, ISearchResultAttributes } from '@app/services/models/search';
 
 /**
  * Service to build model of data details to display on list
@@ -76,7 +76,7 @@ export class ListViewDetailsService {
   private extendDataset(item: ISearchResult) {
     item.url = `../../${this.routerEndpoints.DATASETS}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'Datasets.Single';
-    item.detailsData = [{ titleTranslationKey: 'Attribute.UpdateDate', data: item.attributes.verified, isDate: true }];
+    item.detailsData = [{ titleTranslationKey: 'Attribute.UpdateDate', data: item.attributes.modified, isDate: true }];
   }
 
   /**

@@ -357,10 +357,6 @@
     "About": "about",
     "Or": "or"
   },
-  "CoronavirusAlert": {
-    "Alert": "Coronavirus: current information and recommendations",
-    "LinkText": "Learn more"
-  },
   "DatabaseOperations": {
     "INSERT": "Created",
     "UPDATE": "Updated",

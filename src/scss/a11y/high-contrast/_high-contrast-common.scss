@@ -13,7 +13,8 @@ section,
 header,
 footer,
 form,
-option {
+option,
+.external-logos{
     color: currentColor;
     background: $hcSecondary;
 }
@@ -158,3 +159,9 @@ svg.brand-img * {
 // cms
 
 @import "views/cms-tiles";
+
+@import "views/dga-tiles";
+
+@import "views/footer";
+
+@import "views/header";

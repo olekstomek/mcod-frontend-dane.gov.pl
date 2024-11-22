@@ -4,7 +4,7 @@ import * as ENV from "../../env.json";
 // Use this configuration, if you are operating on mcod.local domain.
 
 export const environment = {
-    production: true,
+    production: false,
     displayBuild: true,
     VERSION: config.version,
     HASH: ENV.COMMIT_HASH,

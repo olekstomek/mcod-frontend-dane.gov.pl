@@ -237,8 +237,8 @@
 
 // gov.pl related home components
 .bg-gov {
-  &--coronavirus {
-    background-color: $color-coronavirus;
+  &--special-alert {
+    background-color: $color-special-alert;
     color: $color-black;
   }
 

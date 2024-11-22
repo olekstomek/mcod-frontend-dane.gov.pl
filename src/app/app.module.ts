@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { APP_CONFIG } from '@app/app.config';
 import { EmbedLayoutComponent } from '@app/layout/embed-layout/embed-layout.component';
+import { FooterLogosFilterService } from '@app/layout/footer/footer-logos-filter.service';
 import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
 import { HomeModule } from '@app/pages/home/home.module';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
@@ -119,6 +120,7 @@ Sentry.init({
     AuthGuard,
     CookieService,
     LanguageBootstrapService,
+    FooterLogosFilterService,
     { provide: HTTP_INTERCEPTORS, useClass: UnregisteredInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: OfflineInterceptorService, multi: true },
     {

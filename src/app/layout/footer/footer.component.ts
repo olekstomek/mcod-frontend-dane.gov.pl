@@ -1,18 +1,20 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CmsService } from '@app/services/cms.service';
-import { IHome } from '@app/services/models/cms/pages/home';
-import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { environment } from '@env/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LocalStorageService } from 'ngx-localstorage';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@app/app.config';
+import { FooterLogosFilterService } from '@app/layout/footer/footer-logos-filter.service';
 import { ApiConfig } from '@app/services/api';
+import { CmsService } from '@app/services/cms.service';
+import { IHome } from '@app/services/models/cms/pages/home';
+import { IWidget } from '@app/services/models/cms/widgets/widget';
+import { IWidgetSvg } from '@app/services/models/cms/widgets/widget-svg';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-footer',
@@ -38,7 +40,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * write us modal reference
    */
-  @ViewChild('writeUsModalTemplate', { static: false }) writeUsModalTemplate: TemplateRef<any>;
+  @ViewChild('writeUsModalTemplate', {static: false}) writeUsModalTemplate: TemplateRef<any>;
   writeUsModalRef: BsModalRef;
 
   /**
@@ -60,18 +62,20 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * App config
    */
   appConfig = APP_CONFIG;
-
   /**
    * Rdf documentation link
    * @type {string}
    */
   rdfDocumentationURL: string;
-
   /**
    * Widget subject for logos section and navigation section
    */
   cmsFooterLogoSection = new BehaviorSubject<IWidget[]>(null);
   cmsFooterNavigationPage = new BehaviorSubject<IWidget[]>(null);
+  /**
+   * Data from api for home data
+   */
+  private homeData: IHome;
 
   /**
    * @ignore
@@ -83,7 +87,9 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     public cmsService: CmsService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-  ) {}
+    private footerLogosFilterService: FooterLogosFilterService
+  ) {
+  }
 
   /**
    * Setups rdf documentation link
@@ -154,7 +160,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * Opens RODO modal
    */
   private rodoModalOpen() {
-    this.rodoModalRef = this.modalService.show(this.rodoModalTemplate, { class: 'modal-lg' });
+    this.rodoModalRef = this.modalService.show(this.rodoModalTemplate, {class: 'modal-lg'});
   }
 
   /**
@@ -172,9 +178,21 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private assignCmsSection() {
     this.cmsService.getHomePageWidgets().subscribe((response: IHome) => {
-      const home = response;
-      this.cmsFooterLogoSection.next(<IWidget[]>home.footer_logos);
-      this.cmsFooterNavigationPage.next(<IWidget[]>home.footer_nav.blocks);
+      this.homeData = response;
+
+      this.cmsFooterNavigationPage.next(<IWidget[]>this.homeData.footer_nav.blocks);
+      this.setFooterLogos();
     });
+  }
+
+  /**
+   * Set footer images based on contrast
+   */
+  private setFooterLogos() {
+    this.footerLogosFilterService.filter(<IWidgetSvg[]>this.homeData.footer_logos)
+      .pipe(
+        tap(footerLogos => {
+          this.cmsFooterLogoSection.next(<IWidgetSvg[]>footerLogos);
+        })).subscribe();
   }
 }

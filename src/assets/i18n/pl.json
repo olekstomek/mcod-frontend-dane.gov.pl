@@ -357,10 +357,6 @@
     "About": "o",
     "Or": "lub"
   },
-  "CoronavirusAlert": {
-    "Alert": "Koronawirus: aktualne informacje i zalecenia",
-    "LinkText": "Dowiedz się więcej"
-  },
   "DatabaseOperations": {
     "INSERT": "Dodano",
     "UPDATE": "Zaktualizowano",

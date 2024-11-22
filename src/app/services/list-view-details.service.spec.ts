@@ -1,8 +1,9 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+
 import { ApiModel } from '@app/services/api/api-model';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { HttpTestingController } from '@angular/common/http/testing';
 
 const items = [
   {
@@ -104,7 +105,7 @@ describe('ListViewDetailsService', () => {
           title: 'test',
           verified: null,
         },
-        detailsData: [{ data: null, isDate: true, titleTranslationKey: 'Attribute.UpdateDate' }],
+        detailsData: [{ data: '', isDate: true, titleTranslationKey: 'Attribute.UpdateDate' }],
         id: '2',
         language: 'pl',
         relationships: {

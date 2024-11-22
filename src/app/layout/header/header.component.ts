@@ -27,7 +27,7 @@ import { UserService } from '@app/services/user.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  animations: [toggleVertically],
+  animations: [toggleVertically]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   /**

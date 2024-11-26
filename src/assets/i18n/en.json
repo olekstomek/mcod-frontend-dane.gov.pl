@@ -220,6 +220,7 @@
     "Period": "Period",
     "Metadata": "Metadata",
     "HighValueData": "High value data",
+    "HighValueDataFromEC": "High value data from EC",
     "ApplicationTypes": "Application types",
     "PlatformTypes": "Platform types",
     "ShowcasesCategory": "Category",
@@ -1050,6 +1051,10 @@
           "title": "High value data",
           "text": "It is public sector information whose re-use has significant benefits for society, the environment and the economy, in particular because of its suitability for services, job creation and other value-added applications."
         },
+        "HighValueDataFromEC": {
+          "title": "High value data from EC list ",
+          "text": "It is data from the list established by Commission Implementing Regulation (EU) 2023/138 of 21 December 2022 laying down a list of specific high-value datasets and the arrangements for their publication and re-use, which are subject to specific sharing rules: free of charge, in machine-readable format, via API and, if possible, for bulk download."
+        },
         "DynamicData": {
           "title": "Dynamic data",
           "text": "Data that is subject to frequent updates due to its variability or rapid outdated."
@@ -1126,8 +1131,12 @@
             "text": "Selecting a range of dates and clicking the “Apply” button restricts the search results to the datasets and data whose update dates are within the entered range."
           },
           "HighValueData": {
-            "title": "Filters - high calue data",
+            "title": "Filters - high value data",
             "text": "It is public sector information whose re-use has significant benefits for society, the environment and the economy, in particular because of its suitability for services, job creation and other value-added applications."
+          },
+          "HighValueDataFromEC": {
+            "title": "Filters - high value data from EC list ",
+            "text": "It is data from the list established by Commission Implementing Regulation (EU) 2023/138 of 21 December 2022 laying down a list of specific high-value datasets and the arrangements for their publication and re-use, which are subject to specific sharing rules: free of charge, in machine-readable format, via API and, if possible, for bulk download."
           },
           "DynamicData": {
             "title": "Filters - dynamic data",

@@ -220,6 +220,7 @@
     "Period": "Okres",
     "Metadata": "Metadane",
     "HighValueData": "Dane o wysokiej wartości",
+    "HighValueDataFromEC": "Dane o wysokiej wartości z wykazu KE",
     "ShowcasesCategory": "Kategoria",
     "ApplicationTypes": "Rodzaje aplikacji",
     "PlatformTypes": "Rodzaje platformy",
@@ -1049,6 +1050,10 @@
           "title": "Dane o wysokiej wartości",
           "text": "To informacje sektora publicznego, których ponowne wykorzystanie wiąże się z istotnymi korzyściami dla społeczeństwa, środowiska i gospodarki, w szczególności ze względu na ich przydatność do tworzenia usług, generowania miejsc pracy i innych zastosowań o wartości dodanej."
         },
+        "HighValueDataFromEC": {
+          "title": "Dane o wysokiej wartości z wykazu KE",
+          "text": "To dane z wykazu ustanowionego w rozporządzeniu Komisji Europejskiej 2023/138 z dnia 21 grudnia 2022 r. ustanawiające wykaz szczególnych zbiorów danych o wysokiej wartości oraz warunki ich publikacji i ponownego wykorzystywania, które podlegają szczególnym zasadom udostępniania: bezpłatnie, w formacie nadającym się do odczytu maszynowego, za pośrednictwem API oraz – jeżeli to możliwe – do zbiorczego pobrania."
+        },
         "DynamicData": {
           "title": "Dane dynamiczne",
           "text": "Dane podlegające częstym aktualizacjom, w szczególności ze względu na ich zmienność lub szybką dezaktualizację."
@@ -1127,6 +1132,10 @@
           "HighValueData": {
             "title": "Filtry - dane o wysokiej wartości",
             "text": "To informacje sektora publicznego, których ponowne wykorzystanie wiąże się z istotnymi korzyściami dla społeczeństwa, środowiska i gospodarki, w szczególności ze względu na ich przydatność do tworzenia usług, generowania miejsc pracy i innych zastosowań o wartości dodanej."
+          },
+          "HighValueDataFromEC": {
+            "title": "Filtry - dane o wysokiej wartości z wykazu KE",
+            "text": "To dane z wykazu ustanowionego w rozporządzeniu Komisji Europejskiej 2023/138 z dnia 21 grudnia 2022 r. ustanawiające wykaz szczególnych zbiorów danych o wysokiej wartości oraz warunki ich publikacji i ponownego wykorzystywania, które podlegają szczególnym zasadom udostępniania: bezpłatnie, w formacie nadającym się do odczytu maszynowego, za pośrednictwem API oraz – jeżeli to możliwe – do zbiorczego pobrania."
           },
           "DynamicData": {
             "title": "Filtry - Dane dynamiczne",

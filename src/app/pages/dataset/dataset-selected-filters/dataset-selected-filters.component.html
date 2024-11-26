@@ -92,6 +92,16 @@
   >
   </app-selected-filters>
 
+  <!-- High value data from EC -->
+  <app-selected-filters
+    [items]="selectedIds[AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]"
+    [isCustomFilterName]="true"
+    [customFiltersName]="'Attribute.HighValueDataFromEC'"
+    @toggle
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC, $event)"
+  >
+  </app-selected-filters>
+
   <!-- Dynamic data -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.DYNAMIC_DATA]"

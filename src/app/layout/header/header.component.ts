@@ -202,7 +202,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   checkIfLinkedAccounts(accountsTable: string[]): boolean {
-    return accountsTable.length !== 0;
+    return accountsTable?.length !== 0;
   }
 
   toggleList(): void {

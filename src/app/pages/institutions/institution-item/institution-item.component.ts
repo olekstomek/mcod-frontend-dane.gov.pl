@@ -91,6 +91,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       AggregationOptionType.TYPES,
       AggregationOptionType.LICENSES,
       AggregationOptionType.HIGH_VALUE_DATA,
+      AggregationOptionType.HIGH_VALUE_DATA_FROM_EC,
       AggregationOptionType.DYNAMIC_DATA,
       AggregationOptionType.UPDATE_FREQUENCY,
       AggregationOptionType.RESEARCH_DATA,
@@ -183,6 +184,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       [AggregationFilterNames.LICENSES]: {},
       [AggregationFilterNames.UPDATE_FREQUENCY]: {},
       [AggregationFilterNames.HIGH_VALUE_DATA]: {},
+      [AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]: {},
       [AggregationFilterNames.DYNAMIC_DATA]: {},
       [AggregationFilterNames.DATE_FROM]: null,
       [AggregationFilterNames.DATE_TO]: null,
@@ -205,6 +207,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.PROTECTED_DATA]) +

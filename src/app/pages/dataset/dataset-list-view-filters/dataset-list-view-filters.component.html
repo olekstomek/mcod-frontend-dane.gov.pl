@@ -175,6 +175,23 @@
   >
   </app-expandable-multiselect>
 
+  <!--high value data from EC-->
+  <app-expandable-multiselect
+    id="dataset-high-value-data-from-ec-filter"
+    [titleTranslationKey]="'Attribute.HighValueDataFromEC'"
+    [showSearchInput]="false"
+    [options]="filtersOptions && filtersOptions[OptionsNames.HIGH_VALUE_DATA_FROM_EC]"
+    [selectedIds]="selectedData[FiltersNames.HIGH_VALUE_DATA_FROM_EC]"
+    [enableApply]="availabilityFilterMap[FiltersNames.HIGH_VALUE_DATA_FROM_EC]"
+    [maxLength]="maxLength"
+    [ariaLabel]="'high-value-data-from-ec-label'"
+    (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA_FROM_EC, $event)"
+    (applyFilter)="applyFilter()"
+    [filterName]="'high'"
+  >
+  </app-expandable-multiselect>
+
+
   <!--dynamic data-->
   <app-expandable-multiselect
     id="dataset-dynamic-data-filter"

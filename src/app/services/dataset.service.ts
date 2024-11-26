@@ -380,6 +380,7 @@ export class DatasetService extends RestService {
             filterNameWithSuffix = name + '[id][terms]';
             break;
           case AggregationFilterNames.HIGH_VALUE_DATA:
+          case AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC:
           case AggregationFilterNames.DYNAMIC_DATA:
           case AggregationFilterNames.RESEARCH_DATA:
           case AggregationFilterNames.PROTECTED_DATA:

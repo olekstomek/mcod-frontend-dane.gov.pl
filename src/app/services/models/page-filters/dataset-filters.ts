@@ -11,6 +11,7 @@ export interface IListViewDatasetFiltersModel {
   [AggregationFilterNames.DATE_FROM]: Date;
   [AggregationFilterNames.DATE_TO]: Date;
   [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
+  [AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]: MultiselectOption;
   [AggregationFilterNames.REGIONS]: SingleselectOptionForRegions;
   [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
   [AggregationFilterNames.RESEARCH_DATA]: MultiselectOption;
@@ -28,6 +29,7 @@ export interface IListViewDatasetCategoryFiltersModel {
   [AggregationFilterNames.UPDATE_FREQUENCY]: MultiselectOption;
   [AggregationFilterNames.TYPES]: MultiselectOption;
   [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
+  [AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]: MultiselectOption;
   [AggregationFilterNames.DATE_FROM]: Date;
   [AggregationFilterNames.DATE_TO]: Date;
   [AggregationFilterNames.REGIONS]: SingleselectOptionForRegions;
@@ -47,6 +49,7 @@ export const DatasetListViewFilterNames = [
   AggregationFilterNames.UPDATE_FREQUENCY,
   AggregationFilterNames.TYPES,
   AggregationFilterNames.HIGH_VALUE_DATA,
+  AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC,
   AggregationFilterNames.DATE_FROM,
   AggregationFilterNames.DATE_TO,
   AggregationFilterNames.REGIONS,

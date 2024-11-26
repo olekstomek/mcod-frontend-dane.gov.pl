@@ -11,6 +11,7 @@ export interface IListViewInstitutionItemFiltersModel {
   [AggregationFilterNames.DATE_FROM]: Date;
   [AggregationFilterNames.DATE_TO]: Date;
   [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
+  [AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]: MultiselectOption;
   [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
   [AggregationFilterNames.RESEARCH_DATA]: MultiselectOption;
   [AggregationFilterNames.PROTECTED_DATA]: MultiselectOption;
@@ -26,6 +27,7 @@ export interface IListViewInstitutionItemCategoryFiltersModel {
   [AggregationFilterNames.DATE_FROM]: Date;
   [AggregationFilterNames.DATE_TO]: Date;
   [AggregationFilterNames.HIGH_VALUE_DATA]: MultiselectOption;
+  [AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]: MultiselectOption;
   [AggregationFilterNames.DYNAMIC_DATA]: MultiselectOption;
   [AggregationFilterNames.RESEARCH_DATA]: MultiselectOption;
   [AggregationFilterNames.PROTECTED_DATA]: MultiselectOption;
@@ -42,6 +44,7 @@ export const InstitutionItemListViewFilterNames = [
   AggregationFilterNames.DATE_FROM,
   AggregationFilterNames.DATE_TO,
   AggregationFilterNames.HIGH_VALUE_DATA,
+  AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC,
   AggregationFilterNames.DYNAMIC_DATA,
   AggregationFilterNames.RESEARCH_DATA,
   AggregationFilterNames.PROTECTED_DATA

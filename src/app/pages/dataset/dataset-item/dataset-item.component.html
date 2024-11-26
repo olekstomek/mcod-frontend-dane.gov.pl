@@ -156,6 +156,12 @@
             <img src="assets/icomoon/SVG/high-value-data.svg" alt="ikona_dane_wysokiej_wartosci" class="mr-1" />{{ 'Yes' | translate }}
           </li>
 
+          <!-- high value data from ec -->
+          <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_high_value_data_from_ec_list">
+            <span class="vertical-list__item-label"> {{ 'Attribute.HighValueDataFromEC' | translate }}: </span>
+            <img src="assets/icomoon/SVG/high-value-data-from-ec.svg" alt="ikona_dane_wysokiej_wartosci_ke" class="mr-1" />{{ 'Yes' | translate }}
+          </li>
+
           <!-- research data -->
           <li class="vertical-list__item" *ngIf="dataset?.attributes?.has_research_data">
             <span class="vertical-list__item-label"> {{ 'Attribute.ResearchData' | translate }}: </span>
@@ -212,7 +218,7 @@
           <!-- hide/show sidebar -->
           <button type="button" class="btn btn-outline-primary btn-sm d-none d-xl-inline" (click)="sidebarVisible = !sidebarVisible">
             <svg class="icon icon-magnifying-glass" *ngIf="sidebarVisible">
-              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-arrow-left2"></use>
+              <use href="/assets/icomoon/sprite/sprite.svg#icon-arrow-left2"></use>
             </svg>
 
             {{ (sidebarVisible ? 'Action.Hide' : 'Action.Show') | translate }}
@@ -222,7 +228,7 @@
             </span>
 
             <svg class="icon icon-magnifying-glass" *ngIf="!sidebarVisible">
-              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-arrow-right2"></use>
+              <use href="/assets/icomoon/sprite/sprite.svg#icon-arrow-right2"></use>
             </svg>
           </button>
 
@@ -240,7 +246,7 @@
               {{ dataset.attributes.title }}
             </span>
             <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+              <use href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
             </svg>
           </button>
         </div>

@@ -142,6 +142,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       AggregationOptionType.TYPES,
       AggregationOptionType.LICENSES,
       AggregationOptionType.HIGH_VALUE_DATA,
+      AggregationOptionType.HIGH_VALUE_DATA_FROM_EC,
       AggregationOptionType.DYNAMIC_DATA,
       AggregationOptionType.UPDATE_FREQUENCY,
       AggregationOptionType.RESEARCH_DATA,

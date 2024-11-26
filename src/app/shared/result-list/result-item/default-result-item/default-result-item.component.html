@@ -23,6 +23,15 @@
       tabindex="0"
     />
     <img
+      *ngIf="item.attributes.has_high_value_data_from_ec_list"
+      class="ml-2"
+      src="assets/icomoon/SVG/high-value-data-from-ec.svg"
+      appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.text' | translate }}"
+      title="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.title' | translate }}"
+      alt="duza_wartosc_dane_ke"
+      tabindex="0"
+    />
+    <img
       *ngIf="item.attributes.has_dynamic_data"
       class="ml-2"
       src="assets/icomoon/SVG/ic-dane-dynamiczne.svg"

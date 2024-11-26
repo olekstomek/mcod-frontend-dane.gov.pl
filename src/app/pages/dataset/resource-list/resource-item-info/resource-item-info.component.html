@@ -17,6 +17,16 @@
       alt="ikona_dane_wysokiej_wartosci"
       tabindex="0"
     />
+    <!-- high value data from EC icon -->
+    <img
+      *ngIf="item.attributes.has_high_value_data_from_ec_list"
+      class="ml-2"
+      src="assets/icomoon/SVG/high-value-data-from-ec.svg"
+      appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.text' | translate }}"
+      title="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.title' | translate }}"
+      alt="ikona_dane_wysokiej_wartosci_ke"
+      tabindex="0"
+    />
     <!-- dynamic data icon-->
     <img
       *ngIf="item.attributes.has_dynamic_data"
@@ -70,7 +80,7 @@
         [appTooltip]="'Resources.Single' | translate"
         [placement]="'bottom'"
       >
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-database"></use>
+        <use href="/assets/icomoon/sprite/sprite.svg#icon-database"></use>
       </svg>
 
       <!-- icon chart -->
@@ -80,7 +90,7 @@
         [appTooltip]="'Resources.ChartView' | translate"
         [placement]="'bottom'"
       >
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chart"></use>
+        <use href="/assets/icomoon/sprite/sprite.svg#icon-chart"></use>
       </svg>
 
       <!-- icon map -->
@@ -90,7 +100,7 @@
         [appTooltip]="'Resources.MapView' | translate"
         [placement]="'bottom'"
       >
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-map"></use>
+        <use href="/assets/icomoon/sprite/sprite.svg#icon-map"></use>
       </svg>
 
       <!-- icon table -->
@@ -100,7 +110,7 @@
         [appTooltip]="'Resources.TableView' | translate"
         [placement]="'bottom'"
       >
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-table"></use>
+        <use href="/assets/icomoon/sprite/sprite.svg#icon-table"></use>
       </svg>
     </span>
   </ng-container>

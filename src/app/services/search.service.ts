@@ -2,6 +2,12 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
+import { LocalStorageService } from 'ngx-localstorage';
+import { Observable } from 'rxjs';
+import { map, publishReplay, refCount } from 'rxjs/operators';
+
 import { ApiConfig, ApiResponse } from '@app/services/api';
 import { ApiParametersConfig } from '@app/services/api/api-parameters';
 import { SearchHttpParamEncoder } from '@app/services/http/SearchHttpParamEncoder';
@@ -10,13 +16,7 @@ import { LoginService } from '@app/services/login-service';
 import { IListViewFilterAggregationsOptions } from '@app/services/models/filters';
 import { PageParams } from '@app/services/models/page-params';
 import { NotificationsService } from '@app/services/notifications.service';
-
 import { RestService } from '@app/services/rest.service';
-import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'ngx-cookie-service';
-import { LocalStorageService } from 'ngx-localstorage';
-import { Observable } from 'rxjs';
-import { map, publishReplay, refCount } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',

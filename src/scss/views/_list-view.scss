@@ -100,6 +100,17 @@
       font-weight: bold;
       font-size: 1.25rem;
       margin-bottom: 0.5rem;
+      .result-item-icon {
+        height: 23px;
+        width: 23px;
+      }
+      .black-white, .black-yellow, .yellow-black {
+        fill: currentColor;
+      }
+      .normal {
+        fill: $color-blue-light
+      }
+
     }
 
     &__custom-heading {
@@ -234,5 +245,18 @@
         }
       }
     }
+  }
+}
+
+.result-list-svg {
+  fill: currentColor;
+  width: 20px;
+  height: 20px;
+  &__large {
+    width: 24px;
+    height: 24px;
+  }
+  &__dynamic-data {
+    stroke: currentColor;
   }
 }

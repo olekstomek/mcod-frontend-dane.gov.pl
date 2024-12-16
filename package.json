@@ -1,12 +1,13 @@
 {
   "name": "od2018",
-  "version": "2.36.0",
+  "version": "2.36.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --proxy-config proxy.conf.json",
     "start:dev": "ng serve --host 0.0.0.0 --proxy-config proxy.conf.json --disable-host-check",
     "start-local": "ng serve --host 0.0.0.0 --proxy-config proxy.local.conf.json -c local --disable-host-check",
+    "start-preprod": "ng serve --host 0.0.0.0 --proxy-config proxy.preprod.conf.json --disable-host-check",
     "build": "ng build -c int",
     "build:prod": "ng build -c production --buildOptimizer",
     "build:stats": "ng build --stats-json",

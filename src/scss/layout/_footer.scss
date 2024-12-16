@@ -85,6 +85,19 @@
         margin: 0 0.5rem;
       }
     }
+
+    &--cms-block__elements-1{
+      img{
+        width: auto;
+        height: auto;
+        transform: scale(1);
+        max-height: 250px;
+        max-width: 90vw;
+      }
+      > div{
+        margin: auto;
+      }
+    }
   }
 
   @include media-breakpoint-down(md) {

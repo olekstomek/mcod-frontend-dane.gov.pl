@@ -1,4 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+
+import {HighContrastModeEnum, HighContrastService} from '@app/services/high-contrast.service';
 import { ResultItemDetailsData } from '@app/services/models/result-item-details';
 
 /**
@@ -9,7 +13,7 @@ import { ResultItemDetailsData } from '@app/services/models/result-item-details'
   selector: 'app-details-result-item',
   templateUrl: './details-result-item.component.html',
 })
-export class DetailsResultItemComponent implements OnInit {
+export class DetailsResultItemComponent implements OnInit, OnDestroy {
   /**
    * icon name based on category
    */
@@ -57,7 +61,16 @@ export class DetailsResultItemComponent implements OnInit {
    */
   @Input() isDatasetView = false;
 
+  highContrastMode: HighContrastModeEnum;
+  destroy$: Subject<void> = new Subject<void>();
+
+  constructor(private highContrastService: HighContrastService) {
+  }
+
   ngOnInit() {
+    this.highContrastService.getCurrentContrastMode()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(mode => this.highContrastMode = mode);
     switch (this.showcaseCategoryKey) {
       case 'app':
         this.categoryIcon = 'ic-aplikacje';
@@ -78,5 +91,10 @@ export class DetailsResultItemComponent implements OnInit {
         this.iconName = 'resource';
         break;
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

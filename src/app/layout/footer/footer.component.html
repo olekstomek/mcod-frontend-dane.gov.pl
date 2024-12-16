@@ -5,7 +5,7 @@
   <!-- LOGOs -->
   <div class="external-logos">
     <cms-block2
-      class="pt-3 pb-3 external-logos--cms-block"
+      class="pt-3 pb-3 external-logos--cms-block external-logos--cms-block__elements-{{(cmsFooterLogoSection | async)?.length}}"
       [widgetsSubject]="cmsFooterLogoSection"
       [isFooterLogos]="true"
       [isFullWidth]="true"

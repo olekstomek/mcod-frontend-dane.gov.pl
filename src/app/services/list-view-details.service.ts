@@ -76,7 +76,7 @@ export class ListViewDetailsService {
   private extendDataset(item: ISearchResult) {
     item.url = `../../${this.routerEndpoints.DATASETS}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'Datasets.Single';
-    item.detailsData = [{ titleTranslationKey: 'Attribute.UpdateDate', data: item.attributes.modified, isDate: true }];
+    item.detailsData = [{ titleTranslationKey: 'Attribute.UpdateDate', data: item.attributes.verified, isDate: true }];
   }
 
   /**

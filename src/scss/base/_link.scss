@@ -1,9 +1,0 @@
-.link:not(.link--selected) {
-    color: $primary;
-
-    &:hover {
-        cursor: pointer;
-        color: $color-hover-2;
-        text-decoration: underline;
-    }
-}

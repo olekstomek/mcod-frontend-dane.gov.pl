@@ -1,1 +1,0 @@
-DROP MATERIALIZED VIEW IF EXISTS public.mv_resource_dataset_organization_new_counters_report_separate_files;

@@ -1,3 +1,0 @@
-
-def {{ col }} = doc['{{ colname }}'].value;
-{% block content %}{% endblock %}

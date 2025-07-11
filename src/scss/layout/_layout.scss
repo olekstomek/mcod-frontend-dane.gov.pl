@@ -1,0 +1,41 @@
+/********************
+    PAGE - GENERAL
+********************/
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 300px;
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: $color-white;
+  color: $color-text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @include media-breakpoint-up(lg) {
+    overflow-y: scroll;
+  }
+}
+
+.page {
+  background-color: $color-grey-light-1;
+}
+
+.text-wrap {
+  word-break: break-word;
+}
+
+.font-size-100 {
+  font-size: 100%;
+}
+.font-size-125 {
+  font-size: 125%
+}
+.font-size-150 {
+  font-size: 150%
+}
+.font-size-200 {
+  font-size: 200%
+}

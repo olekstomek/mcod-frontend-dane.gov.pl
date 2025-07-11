@@ -1,232 +1,191 @@
 stages:
-  - prepare
   - test
   - build
+  - preprod-release
   - release
+  - merge
+  - update
 
 variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip-${CI_COMMIT_REF_SLUG}"
-  PIP_DEFAULT_TIMEOUT: 1800
-  PYTHONDONTWRITEBYTECODE: 1
-  FF_NETWORK_PER_BUILD: 1
   REGISTRY_HOST: registry.dane.gov.pl
-  REGISTRY_PATH: registry.dane.gov.pl/mcod/backend
+  REGISTRY_PATH: registry.dane.gov.pl/mcod/frontend
+  COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
 
 cache:
+  key: "$CI_BUILD_REF_NAME"
+  untracked: true
   paths:
-    - .cache
+    - node_modules/
 
-prepare-images:
-  stage: prepare
+before_script:
+  - npm install --verbose
+  - npm run postinstall
+  - "/bin/bash create-env.sh"
+  - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+
+test-feat-branch:
+  stage: test
+  only:
+    - /^feat-.*$/
   script:
-    - docker build -f docker/elasticsearch/Dockerfile -t $REGISTRY_PATH/elasticsearch:6.8.23-mcod-1 .
-    - docker build -f docker/postgres/Dockerfile -t $REGISTRY_PATH/postgresql:13-mcod .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/elasticsearch:6.8.23-mcod-1
-    - docker push $REGISTRY_PATH/postgresql:13-mcod
+    - "npm run test"
+  allow_failure: false
+
+release-feat-to-int:
+  stage: release
+  script:
+    - "./node_modules/@angular/cli/bin/ng build -c production --buildOptimizer"
+    - "./node_modules/@angular/cli/bin/ng run frontend:server:production"
+    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:feat .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker tag $REGISTRY_PATH/frontend-ssr:feat $REGISTRY_PATH/frontend-ssr:int-latest
+    - docker push $REGISTRY_PATH/frontend-ssr:int-latest
+  when: manual
+  dependencies:
+    - test-feat-branch
+  # artifacts:
+  #   paths:
+  #     - "dist/"
+  only:
+    - /^feat-.*$/
+
+test-dev:
+  stage: test
+  only:
+    - pre-develop
+    - develop
   except:
     - tags
-    - master
     - schedules
-  tags:
-    - shell
-
-test:
-  stage: test
-  image: python:3.8.6
-  variables:
-    ENVIRONMENT: test
-    TEST_DEBUG: "yes"
-    ALLOWED_HOSTS: "*"
-    BASE_URL: http://test.mcod
-    API_URL: http://api.test.mcod
-    ADMIN_URL: http://admin.test.mcod
-    CMS_URL: http://cms.test.mcod
-    POSTGRES_PASSWORD: mcod
-    POSTGRES_USER: mcod
-    POSTGRES_DB: mcod
-    POSTGRES_PORT: 5432
-    POSTGRES_HOST_TYPE: docker
-    POSTGRES_HOST: postgres
-    REDIS_URL: redis://redis:6379
-    ELASTICSEARCH_HOSTS: elasticsearch:9200
-    RABBITMQ_HOST: rabbitmq:5672
-    PYTEST_ADDOPTS: "--reuse-db --ds=mcod.settings.test -n5"
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
-    EMAIL_HOST: example.com
-    EMAIL_PORT: 25
-    EMAIL_USE_TLS: 0
-    EMAIL_HOST_USER: test@example.com
-    EMAIL_HOST_PASSWORD: password
-    SPARQL_USER: admin
-    ADMIN_PASSWORD: Britenet.1
-    FUSEKI_DATASET_1: ds
-    FUSEKI_URL: http://fuseki:3030
-    ALLOWED_MINIMUM_FREE_GB: 1
-    DATASET_ARCHIVE_FILES_TASK_DELAY: 1
-  services:
-    - name: redis:6.2
-      alias: redis
-    - name: rabbitmq:3.9.13-management
-      alias: rabbitmq
-    - name: stain/jena-fuseki:3.14.0
-      alias: fuseki
-    - name: $REGISTRY_PATH/elasticsearch:6.8.23-mcod-1
-      alias: elasticsearch
-      command:
-        [
-          "bin/elasticsearch",
-          "-Expack.security.enabled=false",
-          "-Ediscovery.type=single-node",
-          "-Eindex.store.type=niofs",
-          "-Ebootstrap.memory_lock=true",
-        ]
-    - name: $REGISTRY_PATH/postgresql:13-mcod
-      alias: postgres
-  before_script:
-    - apt-get update && apt-get install -y software-properties-common &&
-        add-apt-repository "deb http://deb.debian.org/debian bullseye main contrib non-free"
-    - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793
-    - gpg --armor --export 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793 | apt-key add -
-    - apt-get update && apt-get install -y
-        gettext
-        libarchive13
-        libmagickcore-6.q16-3-extra
-        locales
-        unrar
-        libxmlsec1-dev
-    - echo "en_US UTF-8" > /etc/locale.gen
-    - echo "en_GB UTF-8" > /etc/locale.gen
-    - echo "pl_PL UTF-8" > /etc/locale.gen
-    - locale-gen
-    - export LANG=pl_PL.UTF-8
-    - export LANGUAGE=pl_PL:pl
-    - export LC_ALL=pl_PL.UTF-8
-    - find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf || true
-    - pip install --upgrade pip tox
   script:
-    - tox
+    - "npm run test"
+  allow_failure: true
+
+build-pre-dev:
+  stage: build
+  script:
+    - "./node_modules/@angular/cli/bin/ng build -c int"
+    - - "./node_modules/@angular/cli/bin/ng run frontend:server:int"
+    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:pre-dev .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker push $REGISTRY_PATH/frontend-ssr:pre-dev
+  only:
+    - pre-develop
   artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
+    paths:
+      - "dist/"
   except:
-    - tags
-    - master
-    - pre-devel
     - schedules
-  tags:
-    - docker
 
-lint:
-  stage: test
-  image: python:3.8.6
-  script:
-    - pip install pre-commit
-    - pre-commit run --all-files
-  except:
-    - tags
-    - master
-    - pre-devel
-    - schedules
-  tags:
-    - docker
-
-check-docker-build:
-  stage: test
-  except:
-    - pre-devel
-    - devel
-    - tags
-    - master
-    - schedules
-  script:
-    - docker build --add-host $CI_LOCAL_GITLAB_ADDRESS -f docker/app/Dockerfile -t backend:${CI_COMMIT_REF_SLUG} .
-    - docker rmi backend:${CI_COMMIT_REF_SLUG}
-  tags:
-    - shell
-
-build-pre-devel:
+build-dev:
   stage: build
-  only:
-    - pre-devel
   script:
-    - docker build --add-host $CI_LOCAL_GITLAB_ADDRESS -f docker/app/Dockerfile -t $REGISTRY_PATH/backend:pre-devel .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/backend:pre-devel
-  tags:
-    - shell
-
-build-devel:
-  stage: build
+    - "./node_modules/@angular/cli/bin/ng build -c int"
+    - - "./node_modules/@angular/cli/bin/ng run frontend:server:int"
+    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:dev .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker push $REGISTRY_PATH/frontend-ssr:dev
   only:
-    - devel
-  script:
-    - docker build --add-host $CI_LOCAL_GITLAB_ADDRESS -f docker/app/Dockerfile -t $REGISTRY_PATH/backend:devel .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/backend:devel
-  tags:
-    - shell
+    - develop
+  artifacts:
+    paths:
+      - "dist/"
+  except:
+    - schedules
 
 build-master:
   stage: build
+  script:
+    - "./node_modules/@angular/cli/bin/ng build -c production --buildOptimizer"
+    - "./node_modules/@angular/cli/bin/ng run frontend:server:production"
+    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:master .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker push $REGISTRY_PATH/frontend-ssr:master
   only:
     - master
+  # artifacts:
+  #   paths:
+  #     - "dist/"
+  except:
+    - schedules
+
+build-master-pwa:
+  stage: build
   script:
-    - docker build --add-host $CI_LOCAL_GITLAB_ADDRESS -f docker/app/Dockerfile -t $REGISTRY_PATH/backend:master .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/backend:master
-  tags:
-    - shell
+    - "./node_modules/@angular/cli/bin/ng build -c pwa"
+    - "./node_modules/@angular/cli/bin/ng run frontend:server:pwa"
+    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:pwa .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker push $REGISTRY_PATH/frontend-ssr:pwa
+  only:
+    - master
+  # artifacts:
+  #   paths:
+  #     - "dist/"
+  except:
+    - schedules
+
+release-preprod:
+  stage: preprod-release
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker tag $REGISTRY_PATH/frontend-ssr:master $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION
+    - docker tag $REGISTRY_PATH/frontend-ssr:master $REGISTRY_PATH/frontend-ssr:master-rc-latest
+    - docker push $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION
+    - docker push $REGISTRY_PATH/frontend-ssr:master-rc-latest
+  only:
+    - master
+  dependencies:
+    - build-master
+  except:
+    - schedules
 
 release-prod:
   stage: release
-  before_script:
-    - export API_VERSION=$(changelog current)
-    - cat CHANGELOG.md
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_HOST
-    - docker pull $REGISTRY_PATH/backend:master
-    - docker tag $REGISTRY_PATH/backend:master $REGISTRY_PATH/backend:master-$API_VERSION
-    - docker tag $REGISTRY_PATH/backend:master $REGISTRY_PATH/backend:master-prod-latest
-    - docker push $REGISTRY_PATH/backend:master-$API_VERSION
-    - docker push $REGISTRY_PATH/backend:master-prod-latest
-  except:
-    - pre-devel
-    - devel
-    - schedules
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+    - docker tag $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend-ssr:master-prod-$PACKAGE_VERSION
+    - docker tag $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend-ssr:master-prod-latest
+    - docker push $REGISTRY_PATH/frontend-ssr:master-prod-$PACKAGE_VERSION
+    - docker push $REGISTRY_PATH/frontend-ssr:master-prod-latest
   only:
     - master
-    - tags
   when: manual
-  tags:
-    - shell
+  dependencies:
+    - release-preprod
+  except:
+    - schedules
 
-merge-to-master:on-schedule:
-  stage: release
+merge_to_master:on-schedule:
+  before_script: []
   script:
-    - merge-backend
+    - merge-frontend
+  after_script: []
   only:
     - schedules
-  tags:
-    - schedules
+  except:
+    variables:
+      - $RENOVATE == "true"
+
+renovate_deps:on-schedule:
+  stage: update
+  before_script: []
+  script:
+    - docker run -e RENOVATE_TOKEN="$RENOVATE_KEY" -v $PWD/renovate-config.js:/usr/src/app/config.js renovate/renovate:slim
+  after_script: []
+  only:
+    variables:
+      - $RENOVATE == "true"
 
 publish-code:
   stage: release
-  before_script:
-    - export API_VERSION=$(changelog current)
   script:
-    - git archive --output /gluster/mcod/code/backend_$API_VERSION.zip -9 HEAD
+    - git archive --output /gluster/mcod/code/frontend_$PACKAGE_VERSION.zip -9 HEAD
     - cd /gluster/mcod/code
-    - ln -sf backend_$API_VERSION.zip backend_latest.zip
+    - ln -sf frontend_$PACKAGE_VERSION.zip frontend_latest.zip
   except:
-    - pre-devel
-    - devel
     - schedules
   only:
     - master
-    - tags
   when: manual
-  tags:
-    - shell
+

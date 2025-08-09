@@ -12,8 +12,8 @@
 
                     <!-- breadcrumb as link -->
                     <a *ngIf="!breadcrumb.lastChild && !(i+1 === breadcrumbs.length - 1 && breadcrumbs[i+1].label === '')"
-                        [routerLink]="breadcrumb.segments"
-                        title="{{ breadcrumb.label }}">{{ breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label }}</a>
+                        [routerLink]="breadcrumb.segments">
+                        {{ breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label }}</a>
 
                     <!-- breadcrumb as text (last breadcrumb) -->
                     <span *ngIf="breadcrumb.lastChild || (i+1 === breadcrumbs.length - 1 && breadcrumbs[i+1].label === '')">

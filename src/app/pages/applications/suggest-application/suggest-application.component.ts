@@ -1,15 +1,25 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { requireOneUrlValidator } from '@app/pages/applications/suggest-application/requireOneUrlValidator';
+import { LowerCasePipe, NgClass, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { zip } from 'rxjs';
+import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
-import { SeoService } from '@app/services/seo.service';
-import { ApplicationsService } from '@app/services/applications.service';
-import { NotificationsService } from '@app/services/notifications.service';
-import { toggleVertically } from '../../../animations/index';
+import { toggleVertically } from '@app/animations';
+import { requireOneUrlValidator } from '@app/pages/applications/suggest-application/requireOneUrlValidator';
 import { CmsHardcodedPages } from '@app/services/api/api.cms.config';
+import { ApplicationsService } from '@app/services/applications.service';
 import { CmsService } from '@app/services/cms.service';
 import { IPageCms } from '@app/services/models/cms/page-cms';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SeoService } from '@app/services/seo.service';
+import { DatasetAutocompleteDirective } from '@app/shared/directives/dataset-autocomplete.directive';
+import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
+import { TextToLinksPipe } from '@app/shared/pipes/text-to-links.pipe';
+import { getEventValue } from '@app/shared/util';
 
 interface IComponentOptions {
   label: string;
@@ -20,15 +30,43 @@ interface IComponentOptions {
  * Suggest Application Component
  */
 @Component({
-  selector: 'app-suggest-application',
-  templateUrl: './suggest-application.component.html',
-  animations: [toggleVertically],
+    selector: 'app-suggest-application',
+    templateUrl: './suggest-application.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+  imports: [
+    NgIf,
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    NotificationsServerComponent,
+    NgClass,
+    NgFor,
+    ImageUploadComponent,
+    DatasetAutocompleteDirective,
+    MathCaptchaComponent,
+    LowerCasePipe,
+    TranslatePipe,
+    SanitizeHtmlPipe,
+    TextToLinksPipe,
+    NgOptimizedImage,
+  ],
 })
 export class SuggestApplicationComponent implements OnInit, AfterViewInit {
+
+  /**
+   * @ignore
+   */
+  constructor(
+    private seoService: SeoService,
+    private applicationsService: ApplicationsService,
+    private notificationsService: NotificationsService,
+    private cmsService: CmsService,
+  ) {}
   /**
    * Application form of suggest application component
    */
-  applicationForm: FormGroup;
+  applicationForm: UntypedFormGroup;
 
   /**
    * Determines whether suggestion is sent
@@ -124,15 +162,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    */
   @ViewChildren('externalDatasetTitleInput') externalDatasetTitleInputs: QueryList<HTMLInputElement>;
 
-  /**
-   * @ignore
-   */
-  constructor(
-    private seoService: SeoService,
-    private applicationsService: ApplicationsService,
-    private notificationsService: NotificationsService,
-    private cmsService: CmsService,
-  ) {}
+  protected readonly getValue = getEventValue;
 
   /**
    * Sets META tags (title).
@@ -148,52 +178,52 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * Inits application form
    */
   initApplicationForm() {
-    this.applicationForm = new FormGroup({
-      title: new FormControl(null, Validators.required),
-      url: new FormControl(null, [
+    this.applicationForm = new UntypedFormGroup({
+      title: new UntypedFormControl(null, Validators.required),
+      url: new UntypedFormControl(null, [
         Validators.required,
         Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
       ]),
-      notes: new FormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
-      keywords: new FormControl(null),
-      author: new FormControl(null, Validators.required),
-      image: new FormControl(null),
-      ['image' + this.tempFieldSuffix]: new FormControl(null),
-      illustrative_graphics: new FormControl(null),
-      ['illustrative_graphics' + this.tempFieldSuffix]: new FormControl(null),
-      datasets: new FormArray([]),
-      external_datasets: new FormArray([]),
-      applicant_email: new FormControl(null, [Validators.required, Validators.email]),
-      is_personal_data_processing_accepted: new FormControl(false, Validators.requiredTrue),
-      is_terms_of_service_accepted: new FormControl(false, Validators.requiredTrue),
-      captcha: new FormControl(null, Validators.required),
-      category: new FormControl(null, Validators.required),
-      is_mobile_app: new FormControl(false),
-      myMobileUrlGroup: new FormGroup(
+      notes: new UntypedFormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
+      keywords: new UntypedFormControl(null),
+      author: new UntypedFormControl(null, Validators.required),
+      image: new UntypedFormControl(null),
+      ['image' + this.tempFieldSuffix]: new UntypedFormControl(null),
+      illustrative_graphics: new UntypedFormControl(null),
+      ['illustrative_graphics' + this.tempFieldSuffix]: new UntypedFormControl(null),
+      datasets: new UntypedFormArray([]),
+      external_datasets: new UntypedFormArray([]),
+      applicant_email: new UntypedFormControl(null, [Validators.required, Validators.email]),
+      is_personal_data_processing_accepted: new UntypedFormControl(false, Validators.requiredTrue),
+      is_terms_of_service_accepted: new UntypedFormControl(false, Validators.requiredTrue),
+      captcha: new UntypedFormControl(null, Validators.required),
+      category: new UntypedFormControl(null, Validators.required),
+      is_mobile_app: new UntypedFormControl(false),
+      myMobileUrlGroup: new UntypedFormGroup(
         {
-          mobile_apple_url: new FormControl(null, [Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')]),
-          mobile_google_url: new FormControl(null, [
+          mobile_apple_url: new UntypedFormControl(null, [Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')]),
+          mobile_google_url: new UntypedFormControl(null, [
             Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
           ]),
         },
         requireOneUrlValidator(),
       ),
-      is_desktop_app: new FormControl(false),
-      myDesktopUrlGroup: new FormGroup(
+      is_desktop_app: new UntypedFormControl(false),
+      myDesktopUrlGroup: new UntypedFormGroup(
         {
-          desktop_linux_url: new FormControl(null, [
+          desktop_linux_url: new UntypedFormControl(null, [
             Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
           ]),
-          desktop_macos_url: new FormControl(null, [
+          desktop_macos_url: new UntypedFormControl(null, [
             Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
           ]),
-          desktop_windows_url: new FormControl(null, [
+          desktop_windows_url: new UntypedFormControl(null, [
             Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
           ]),
         },
         requireOneUrlValidator(),
       ),
-      license_type: new FormControl('free', Validators.required),
+      license_type: new UntypedFormControl('free', Validators.required),
     });
 
     this.applicationForm.get('myMobileUrlGroup').disable();
@@ -244,11 +274,11 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     }
 
     this.notificationsService.clearAlerts();
-    let formValue = { ...this.applicationForm.value };
+    const formValue = { ...this.applicationForm.value };
     formValue['url'] = this.addHttpIfMissing(formValue['url']);
 
     // remove empty and temporary properties
-    for (let key in formValue) {
+    for (const key in formValue) {
       if (!formValue[key] || key === 'captcha' || key.indexOf(this.tempFieldSuffix) !== -1) {
         delete formValue[key];
       }
@@ -318,12 +348,10 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       delete formValue['myMobileUrlGroup'];
     }
 
-    this.applicationsService.suggest(formValue).subscribe(
-      () => (this.isSuggestionSent = true),
-      error => {
-        this.notificationsService.addError(error);
-      },
-    );
+    this.applicationsService.suggest(formValue).subscribe({
+      next: () => this.isSuggestionSent = true,
+      error: err => this.notificationsService.addError(err)
+    });
   }
 
   addHttpIfMissing(url: string): string {
@@ -338,10 +366,10 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * Appends new, empty dataset row (input + remove button)
    */
   onAppendDatasetRow() {
-    (<FormArray>this.applicationForm.get('datasets')).push(
-      new FormGroup({
-        dataset: new FormControl(null),
-        id: new FormControl(null),
+    (<UntypedFormArray>this.applicationForm.get('datasets')).push(
+      new UntypedFormGroup({
+        dataset: new UntypedFormControl(null),
+        id: new UntypedFormControl(null),
       }),
     );
   }
@@ -350,10 +378,10 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * Appends new, empty external dataset row (input + input + remove button)
    */
   onAppendExternalDatasetRow() {
-    (<FormArray>this.applicationForm.get('external_datasets')).push(
-      new FormGroup({
-        title: new FormControl(null),
-        url: new FormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
+    (<UntypedFormArray>this.applicationForm.get('external_datasets')).push(
+      new UntypedFormGroup({
+        title: new UntypedFormControl(null),
+        url: new UntypedFormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
       }),
     );
   }
@@ -363,7 +391,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * @param {number} index
    */
   onRemoveDatasetRow(index: number) {
-    (<FormArray>this.applicationForm.get('datasets')).removeAt(index);
+    (<UntypedFormArray>this.applicationForm.get('datasets')).removeAt(index);
   }
 
   /**
@@ -371,7 +399,15 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * @param {number} index
    */
   onRemoveExternalDatasetRow(index: number) {
-    (<FormArray>this.applicationForm.get('external_datasets')).removeAt(index);
+    (<UntypedFormArray>this.applicationForm.get('external_datasets')).removeAt(index);
+  }
+
+  onCheckPersonalDataProcessingAccepted(event: Event) {
+    this.applicationForm.patchValue({ is_personal_data_processing_accepted: (event.target as HTMLInputElement).checked});
+  }
+
+  onCheckIsTermsOfServiceAccepted(event: Event) {
+    this.applicationForm.patchValue({ is_terms_of_service_accepted: (event.target as HTMLInputElement).checked});
   }
 
   /**
@@ -380,7 +416,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * @param {number} index
    */
   onDatasetSelected(dataset, index: number) {
-    (<FormArray>this.applicationForm.get('datasets')).at(index).setValue({
+    (<UntypedFormArray>this.applicationForm.get('datasets')).at(index).setValue({
       dataset: dataset.attributes.title,
       id: dataset.id,
     });
@@ -393,7 +429,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    */
   onFileSelected(event) {
     // 'Cancel' clicked - no image chosen
-    if (!event.target.files.length) return;
+    if (!event.target.files.length) { return; }
 
     const fileToUpload: File = <File>event.target.files[0];
 
@@ -430,7 +466,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       }
 
       // no change
-      if (datasetCount === elements.length) return;
+      if (datasetCount === elements.length) { return; }
 
       datasetCount = elements.length;
       (<HTMLInputElement>elements.last.nativeElement).focus();
@@ -444,7 +480,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       }
 
       // no change
-      if (externalDatasetCount === elements.length) return;
+      if (externalDatasetCount === elements.length) { return; }
 
       externalDatasetCount = elements.length;
       (<HTMLInputElement>elements.last.nativeElement).focus();

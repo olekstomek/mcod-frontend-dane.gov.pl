@@ -1,9 +1,9 @@
 import { Component, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directive';
-import { AppShellRenderDirective } from '@app/ssr/app-shell-render.directive';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { AppShellRenderDirective } from '@app/ssr/app-shell-render.directive';
 
 @Component({
   template: `
@@ -18,8 +18,8 @@ describe('App shell render directive', () => {
   describe('platform browser', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        declarations: [MockComponent, AppShellRenderDirective],
+        imports: [TranslateModule.forRoot(), AppShellRenderDirective],
+        declarations: [MockComponent],
         providers: [{ provide: PLATFORM_ID, useValue: 'browser' }],
       }).compileComponents();
     });
@@ -44,8 +44,8 @@ describe('App shell render directive', () => {
   describe('platform server', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        declarations: [MockComponent, AppShellRenderDirective],
+        imports: [TranslateModule.forRoot(), AppShellRenderDirective],
+        declarations: [MockComponent],
         providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
       }).compileComponents();
     });

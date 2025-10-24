@@ -68,12 +68,12 @@
           <a class="with-chevron" href="{{ application.attributes.url }}" target="_blank" *ngIf="application?.attributes.url">
             {{ application.attributes.category === 'app' ? ('Applications.Link' | translate) : ('Applications.LinkNoApp' | translate) }}
 
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ application?.attributes.title }}
               {{ 'SkipTo.NewWindow' | translate }}
             </span>
             <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
+              <use href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
             </svg>
           </a>
         </p>
@@ -94,7 +94,7 @@
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.AppStore' | translate }}</span>
 
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ application?.attributes.title }}
               {{ 'SkipTo.NewWindow' | translate }}
             </span>
@@ -109,7 +109,7 @@
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.GooglePlay' | translate }}</span>
 
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ application?.attributes.title }}
               {{ 'SkipTo.NewWindow' | translate }}
             </span>
@@ -131,7 +131,7 @@
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.IosStore' | translate }}</span>
 
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ application?.attributes.title }}
               {{ 'SkipTo.NewWindow' | translate }}
             </span>
@@ -146,7 +146,7 @@
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.LinuxStore' | translate }}</span>
 
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ application?.attributes.title }}
               {{ 'SkipTo.NewWindow' | translate }}
             </span>
@@ -161,7 +161,7 @@
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.WindowsStore' | translate }}</span>
 
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ application?.attributes.title }}
               {{ 'SkipTo.NewWindow' | translate }}
             </span>
@@ -223,10 +223,10 @@
         <div class="d-md-inline-flex align-items-center pt-2 pb-2 pb-md-0">
           <span class="dropdown-label pr-2" id="sortby-label">
             {{ 'Sort.By' | translate }}:
-            <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
+            <span class="visually-hidden"> ({{ 'Search.AutoContentReload' | translate }}) </span>
           </span>
 
-          <select class="form-control sort-order" (change)="updateParams({ sort: $event.target.value })" aria-labelledby="sortby-label">
+          <select class="form-select sort-order" (change)="updateParams({ sort: getValue($event) })" aria-labelledby="sortby-label">
             <option [ngValue]="null" *ngIf="!isSortValid">
               {{ 'Action.Choose' | translate }}
             </option>
@@ -263,18 +263,18 @@
           <strong>{{ 'Institutions.ExternalDatasets' | translate }}</strong>
         </div>
         <div *ngFor="let external of externalDatasets">
-          <div class="result-item">
-            <div class="result-item__left col-lg-8 col-xl-9 col-xxl-10">
+          <div class="result-item row">
+            <div class="result-item__left col-lg-8 col-xl-9 col-xxl-10 px-3">
               <h2 class="heading heading--primary-link heading--sm highlight">
                 <a target="_blank" href="{{ external.url }}"
                   >{{ external.title }}
-                  <span class="sr-only">
+                  <span class="visually-hidden">
                     {{ 'SkipTo.NewWindow' | translate }}
                   </span></a
                 >
               </h2>
             </div>
-            <div class="result-item__right col-lg-4 col-xl-3 col-xxl-2">
+            <div class="result-item__right col-lg-4 col-xl-3 col-xxl-2 px-3">
               <div class="result-item-promoted__left--promoted-tex-pill">
                 <span class="bg-custom">{{ 'Attribute.ExternalDatasets' | translate }}</span>
               </div>

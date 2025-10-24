@@ -6,7 +6,7 @@ import { ScheduleStatusComponent } from '@app/user/schedule/components/schedule-
 describe('Schedule Status Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ScheduleStatusComponent],
+      imports: [ScheduleStatusComponent],
     }).compileComponents();
   });
 

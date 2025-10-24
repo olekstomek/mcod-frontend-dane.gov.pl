@@ -53,7 +53,7 @@
       <small> ({{ 'Validation.RequiredField' | translate | lowercase }}) </small>
     </label>
 
-    <select class="form-control" formControlName="labels" id="labels" (change)="onColumnChange()">
+    <select class="form-select" formControlName="labels" id="labels" (change)="onColumnChange()">
       <option [ngValue]="null">
         {{ 'Filters.Choose' | translate }}
       </option>
@@ -82,7 +82,7 @@
       <small> ({{ 'Validation.RequiredField' | translate | lowercase }}) </small>
     </label>
 
-    <select class="form-control" formControlName="labels" id="labels" (change)="onColumnChange()">
+    <select class="form-select" formControlName="labels" id="labels" (change)="onColumnChange()">
       <option [ngValue]="null">
         {{ 'Filters.Choose' | translate }}
       </option>
@@ -127,7 +127,7 @@
 
     <div class="input-group pb-1" *ngFor="let d of chartForm.get('datasets')['controls']; let i = index" @toggleVertically>
       <!-- data column - y axis -->
-      <select class="form-control" [formControlName]="i" id="dataset-{{ i }}" (change)="onColumnChange()">
+      <select class="form-select" [formControlName]="i" id="dataset-{{ i }}" (change)="onColumnChange()">
         <option [ngValue]="null">
           {{ 'Filters.Choose' | translate }}
         </option>
@@ -146,7 +146,7 @@
         (click)="onRemoveDataColumn(i)"
       >
         <span aria-hidden="true">x</span>
-        <span class="sr-only">
+        <span class="visually-hidden">
           {{ 'Action.Remove' | translate }}
           {{ i }}
         </span>

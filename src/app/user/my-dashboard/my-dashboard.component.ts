@@ -1,10 +1,13 @@
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT, LowerCasePipe, NgFor, NgIf } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@env/environment';
-import { TranslateService } from '@ngx-translate/core';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, zip } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { LogingovplNotificationComponent } from '../logingovpl/logingovpl-notification/logingovpl-notification.component';
+import { ScheduleNotificationPopupComponent } from '../schedule/schedule-notification-popup/schedule-notification-popup.component';
 
 import { APP_CONFIG } from '@app/app.config';
 import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
@@ -14,6 +17,10 @@ import { SeoService } from '@app/services/seo.service';
 import { UserStateService } from '@app/services/user-state.service';
 import { UserService } from '@app/services/user.service';
 import { ConfirmDialogService } from '@app/shared/confirm-dialog/confirm-dialog.service';
+import { LoaderComponent } from '@app/shared/loader/loader.component';
+import { TimespanPipe } from '@app/shared/pipes/timespan.pipe';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { PermissionDirective } from '@app/shared/user-permissions/permission.directive';
 import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { DiscourseService } from '@app/user/forum/discourse.service';
 import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
@@ -21,6 +28,22 @@ import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
 @Component({
     selector: 'app-my-dashboard',
     templateUrl: './my-dashboard.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        LogingovplNotificationComponent,
+        PermissionDirective,
+        RouterLink,
+        ScheduleNotificationPopupComponent,
+        NgFor,
+        LoaderComponent,
+        AsyncPipe,
+        LowerCasePipe,
+        LocalizeRouterPipe,
+        TranslatePipe,
+        TimespanPipe,
+        TranslateDateFormatPipe,
+    ],
 })
 /**
  * Dashboard component

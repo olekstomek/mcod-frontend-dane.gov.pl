@@ -13,7 +13,7 @@
       font-weight: bold;
       padding-bottom: 1rem;
 
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(sm) {
         padding: 0.25rem 0;
       }
     }
@@ -33,18 +33,18 @@
       border-bottom: 1px solid $color-blue-light;
       display: none;
 
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(sm) {
         display: inline;
       }
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       margin-top: 0.5rem;
     }
   }
 
   &__nav {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       padding-top: 0.25rem;
       @include visibility-animated;
     }
@@ -77,11 +77,11 @@
     & > * {
       margin: 0 2rem;
 
-      @include media-breakpoint-down(lg) {
+      @include media-breakpoint-down(xl) {
         margin: 0 1rem;
       }
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         margin: 0 0.5rem;
       }
     }
@@ -100,11 +100,11 @@
     }
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     padding-top: 2rem;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     padding-top: 1.5rem;
   }
 }

@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
+import { ApiConfig } from '@app/services/api/api.config';
 import { SearchHistoryService } from '@app/services/search-history.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { ApiConfig } from '@app/services/api/api.config';
 
 const responseMock = {
   meta: {
@@ -63,14 +63,19 @@ describe('SearchHistoryService', () => {
   });
 
   it('should call getGroupedSearchHistory without parameters', () => {
-    service.getGroupedSearchHistory().subscribe();
-    const req = httpMock.expectOne(`/api${ApiConfig.searchHistory}?per_page=100&page=1&sort=-modified`);
+    service.getGroupedSearchHistory().subscribe(
+      () => {
+        const req = httpMock.expectOne(`/api${ApiConfig.searchHistory}?per_page=100&page=1&sort=-modified`);
+        expect(req).toBeTruthy();
+      }
+    );
 
-    expect(req).toBeTruthy();
   });
 
-  it('should return data grouped by date', done => {
+  it('should return data grouped by date', () => {
     service.getGroupedSearchHistory().subscribe(data => {
+      const req = httpMock.expectOne(`/api${ApiConfig.searchHistory}?per_page=100&page=1&sort=-modified`);
+      req.flush(responseMock);
       expect(data).toEqual({
         '2021.03.15': [
           {
@@ -95,11 +100,6 @@ describe('SearchHistoryService', () => {
           },
         ],
       });
-
-      done();
     });
-
-    const req = httpMock.expectOne(`/api${ApiConfig.searchHistory}?per_page=100&page=1&sort=-modified`);
-    req.flush(responseMock);
   });
 });

@@ -1,9 +1,15 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
 import { ResourceHelper } from '../helpers/resource.helper';
+import { ItemsPerPageComponent } from '../items-per-page/items-per-page.component';
+import { NoResultsFoundComponent } from '../no-results-found/no-results-found.component';
+import { PaginationComponent } from '../pagination/pagination.component';
+import { ResourceColumnDataPipe } from '../pipes/resource-column-data.pipe';
 import { DefaultListViewParams } from '../resource-table/DefaultListViewParams';
 import { ResourceTableColumn } from '../resource-table/ResourceTableColumn';
 
@@ -14,9 +20,21 @@ import { DatasetService } from '@app/services/dataset.service';
  * Resource Table No Filters Component
  */
 @Component({
-  selector: 'app-resource-table-no-filters',
-  templateUrl: './resource-table-no-filters.component.html',
-  animations: [toggleVertically],
+    selector: 'app-resource-table-no-filters',
+    templateUrl: './resource-table-no-filters.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        ItemsPerPageComponent,
+        NgClass,
+        NgFor,
+        RouterLink,
+        PaginationComponent,
+        NoResultsFoundComponent,
+        TranslatePipe,
+        ResourceColumnDataPipe,
+    ],
 })
 export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
   /**
@@ -109,7 +127,7 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
       this.resourceId = ActivatedRouteHelper.getParamFromCurrentOrParentRoute(this.activatedRoute, 'resourceId');
     }
     if (!this.tableTitle) {
-      this.tableTitle = this.activatedRoute.snapshot.data.post?.attributes.title;
+      this.tableTitle = this.activatedRoute.snapshot.data['post']?.attributes.title;
     }
 
     this.params = { ...this.basicParams };

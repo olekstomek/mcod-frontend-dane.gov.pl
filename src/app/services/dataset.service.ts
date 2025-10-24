@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalStorageService } from 'ngx-localstorage';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, share } from 'rxjs';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 
 import { ApiConfig, ApiResponse } from '@app/services/api';
@@ -67,8 +67,12 @@ export class DatasetService extends RestService {
       map(response => {
         return new ApiResponse(response);
       }),
-      publishReplay(1),
-      refCount(),
+      share({
+        connector: () => new ReplaySubject(1),
+        resetOnError: false,
+        resetOnComplete: false,
+        resetOnRefCountZero: false
+      })
     );
   }
 

@@ -16,13 +16,13 @@ import {
 } from '@app/pages/dga-information-point/dga-information-point-tabs/dga-information-point-tabs.component';
 import { DgaInformationPointComponent } from '@app/pages/dga-information-point/dga-information-point/dga-information-point.component';
 import {
-  BreadcrumbsDgaInformationPointDataResolverService
+  breadcrumbsDgaInformationPointDataResolverService
 } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dga-information-point-data-resolver.service';
 import {
-  BreadcrumbsDgaInformationPointTabDataResolverService
+  breadcrumbsDgaInformationPointTabDataResolverService
 } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dga-information-point-tab-data-resolver.service';
 import {
-  BreadcrumbsDgaInformationPointTableDataResolverService
+  breadcrumbsDgaInformationPointTableDataResolverService
 } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dga-information-point-table-data-resolver.service';
 
 const routes: Routes = [
@@ -38,10 +38,11 @@ const routes: Routes = [
             path: '!:id',
             component: DgaInformationPointCmsDetailsComponent,
             data: { breadcrumbs: {dataKey: 'post.title'}},
-            resolve: { post: BreadcrumbsDgaInformationPointDataResolverService }
+            resolve: { post: breadcrumbsDgaInformationPointDataResolverService }
           },
         ],
-        resolve: { post: BreadcrumbsDgaInformationPointTabDataResolverService }
+        resolve: { post: breadcrumbsDgaInformationPointTabDataResolverService }
+
       },
       {
         path: '!list-protected-data',
@@ -54,7 +55,7 @@ const routes: Routes = [
           }
         ],
         data: { breadcrumbs: {dataKey: 'post.cms.title'}},
-        resolve: { post: BreadcrumbsDgaInformationPointTableDataResolverService },
+        resolve: { post: breadcrumbsDgaInformationPointTableDataResolverService },
       },
     ]
   }

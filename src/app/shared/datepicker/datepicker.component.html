@@ -1,6 +1,6 @@
 <div class="datepicker-wrapper">
     <div class="form-group">
-        <label [class.sr-only]="!isLabelVisible" class="font-weight-bold" for="{{generatedId}}">
+        <label [class.visually-hidden]="!isLabelVisible" class="font-weight-bold" for="{{generatedId}}">
             {{label}}
         </label>
         <div class="datepicker"
@@ -30,7 +30,7 @@
                     type="button"
                     class="btn btn-icon">
                 <svg aria-hidden="true" class="icon datepicker__calendar-icon" role="img">
-                    <use xlink:href="/assets/icomoon/sprite/sprite.svg#calendar"></use>
+                    <use href="/assets/icomoon/sprite/sprite.svg#calendar"></use>
                 </svg>
             </button>
         </div>

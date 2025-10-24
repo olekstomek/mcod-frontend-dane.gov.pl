@@ -20,8 +20,8 @@
 
 
     &__item {
-        padding-top: $vertical-spacing/2;
-        padding-bottom: $vertical-spacing/2;
+        padding-top: calc($vertical-spacing/2);
+        padding-bottom: calc($vertical-spacing/2);
 
         &:not(:last-child) {
             border-bottom: 1px solid $color-grey-light-2;
@@ -41,7 +41,7 @@
             display: flex;
             justify-content: space-between;
 
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 flex-direction: column;
             }
         }
@@ -55,7 +55,7 @@
                 margin-right: 1rem;
             }
 
-            @include media-breakpoint-down(lg) {
+            @include media-breakpoint-down(xl) {
                 flex-direction: column;
 
                 :first-child {

@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { SeoService } from './seo.service';
+
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { StringHelper } from '@app/shared/helpers/string.helper';
-
-import { SeoService } from './seo.service';
 
 describe('SeoService', () => {
   let service: SeoService;
@@ -18,31 +18,31 @@ describe('SeoService', () => {
   });
 
   it('should call setPageTitle function', () => {
-    const spyFunction = spyOn(service, 'setPageTitle');
+    const spyFunction = jest.spyOn(service, 'setPageTitle');
     service.setPageTitle('title');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call setDescriptionFromText function', () => {
-    const spyFunction = spyOn(service, 'setDescriptionFromText');
+    const spyFunction = jest.spyOn(service, 'setDescriptionFromText');
     service.setDescriptionFromText('test');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call setPageTitleByTranslationKey function', () => {
-    const spyFunction = spyOn(service, 'setPageTitleByTranslationKey');
+    const spyFunction = jest.spyOn(service, 'setPageTitleByTranslationKey');
     service.setPageTitleByTranslationKey(['translationKeys']);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call setInitialMetaDescription function', () => {
-    const spyFunction = spyOn(service, 'setInitialMetaDescription');
+    const spyFunction = jest.spyOn(service, 'setInitialMetaDescription');
     service.setInitialMetaDescription();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('check page description', () => {

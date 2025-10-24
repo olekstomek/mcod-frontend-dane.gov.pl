@@ -12,19 +12,19 @@
   >
     <!-- icon -->
     <svg class="icon icon-bell" aria-hidden="true">
-      <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-bell"></use>
+      <use href="/assets/icomoon/sprite/sprite.svg#icon-bell"></use>
     </svg>
 
-    <span class="sr-only">
+    <span class="visually-hidden">
       {{ 'Action.Show' | translate }}
       {{ 'Changes.Title' | translate | lowercase }}
     </span>
 
     <!-- total number -->
     <span class="activity-notifications__total" *ngIf="totalCount > 0">
-      <span class="badge badge-danger">
+      <span class="badge bg-danger rounded-pill">
         {{ totalCount }}
-        <span class="sr-only">
+        <span class="visually-hidden">
           {{ 'Changes.VarCount' | translate: { param: totalCount } }}
         </span>
       </span>
@@ -48,7 +48,7 @@
             <span class="badge badge-light" aria-hidden="true">
               {{ datasetsCount }}
             </span>
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'Changes.None' | translate }}
             </span>
           </ng-container>
@@ -60,7 +60,7 @@
               {{ 'Datasets.Self' | translate }}
             </a>
             <span class="badge badge-danger">
-              <span class="sr-only">
+              <span class="visually-hidden">
                 {{ 'Changes.Number' | translate }}
               </span>
               {{ datasetsCount }}
@@ -75,7 +75,7 @@
             <span class="badge badge-light" aria-hidden="true">
               {{ searchResultsCount }}
             </span>
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'Changes.None' | translate }}
             </span>
           </ng-container>
@@ -84,7 +84,7 @@
               {{ 'Search.Results' | translate }}
             </a>
             <span class="badge badge-danger">
-              <span class="sr-only">
+              <span class="visually-hidden">
                 {{ 'Changes.Number' | translate }}
               </span>
               {{ searchResultsCount }}

@@ -52,7 +52,7 @@
 
 
     &--xs-100 {
-        @include media-breakpoint-down(xs)
+        @include media-breakpoint-down(md)
         {
             margin-top: 5px;
             width: 100%;

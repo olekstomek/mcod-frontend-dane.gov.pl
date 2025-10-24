@@ -1,9 +1,17 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, NgZone, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { toggleVertically } from '@app/animations';
+import { DatasetListViewFiltersComponent } from '@app/pages/dataset/dataset-list-view-filters/dataset-list-view-filters.component';
+import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
+import { DatasetResultsComponent } from '@app/pages/dataset/dataset-results/dataset-results.component';
+import { DatasetSelectedFiltersComponent } from '@app/pages/dataset/dataset-selected-filters/dataset-selected-filters.component';
+import { RegionsMapComponent } from '@app/pages/dataset/regions-map/regions-map.component';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
@@ -25,8 +33,19 @@ import { ObserveService } from '@app/services/observe.service';
 import { SearchService } from '@app/services/search.service';
 import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
+import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
+import {
+  FoundResultsCountersAndSortComponent
+} from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NewDataContactComponent } from '@app/shared/new-data-contact/new-data-contact.component';
+import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
 import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-suggest';
+import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
+import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
 
 /**
  * Dataset Component
@@ -35,6 +54,29 @@ import { SearchAdvancedSettings } from '@app/shared/search-suggest/search-sugges
   selector: 'app-dataset',
   templateUrl: './dataset.component.html',
   animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    TranslatePipe,
+    DatasetMetadataComponent,
+    NgIf,
+    SearchSuggestComponent,
+    FormsModule,
+    AsyncPipe,
+    TooltipDirective,
+    RouterLink,
+    DatasetListViewFiltersComponent,
+    LocalizeRouterPipe,
+    DatasetSelectedFiltersComponent,
+    RegionsMapComponent,
+    FoundResultsCountersAndSortComponent,
+    NotificationsServerComponent,
+    DatasetResultsComponent,
+    NoResultsFoundComponent,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    ApiSourceLinkComponent,
+    NewDataContactComponent
+  ]
 })
 export class DatasetComponent extends ListViewFilterPageAbstractComponent implements OnInit {
   /**
@@ -346,6 +388,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.LICENSES]: {},
       [AggregationFilterNames.UPDATE_FREQUENCY]: {},
       [AggregationFilterNames.HIGH_VALUE_DATA]: {},
+      [AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]: {},
       [AggregationFilterNames.DATE_FROM]: null,
       [AggregationFilterNames.DATE_TO]: null,
       [AggregationFilterNames.REGIONS]: {},
@@ -375,6 +418,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LICENSES]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.UPDATE_FREQUENCY]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA]) +
+      this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.REGIONS]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
@@ -464,4 +508,5 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       }
     }
   }
+
 }

@@ -14,7 +14,7 @@
       [innerHTML]="text"
       class="hc-Cms-Text"
     >
-      <span class="sr-only">{{ 'Action.OpenInNewWindow' | translate }}</span>
+      <span class="visually-hidden">{{ 'Action.OpenInNewWindow' | translate }}</span>
     </a>
 
     <div *ngIf="el.type === 1">
@@ -30,7 +30,7 @@
       [attr.aria-pressed]="isVisible"
       (click)="toggleMenu()"
     >
-      <span class="sr-only">
+      <span class="visually-hidden">
         {{ (isVisible ? 'Action.Hide' : 'Action.Show') | translate }}
         {{ strippedText }}
       </span>

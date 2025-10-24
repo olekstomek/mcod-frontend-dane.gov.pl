@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { BreadcrumbsInstitutionResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-institution.resolver';
+import { RouterModule, Routes } from '@angular/router';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
-import { InstitutionComponent } from './institution/institution.component';
 import { InstitutionItemComponent } from './institution-item/institution-item.component';
+import { InstitutionComponent } from './institution/institution.component';
+
+import { breadcrumbsInstitutionResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-institution.resolver';
 
 const routes: Routes = [
     { path: '', component: InstitutionComponent },
@@ -15,7 +15,7 @@ const routes: Routes = [
             breadcrumbs: {dataKey: 'post.attributes.title'}
         },
         resolve: {
-            post: BreadcrumbsInstitutionResolver
+            post: breadcrumbsInstitutionResolver
         }
     }
 ];

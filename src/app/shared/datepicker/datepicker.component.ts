@@ -1,3 +1,4 @@
+import { NgIf, NgStyle } from '@angular/common';
 import {
     ChangeDetectorRef,
     Component,
@@ -9,12 +10,13 @@ import {
     Output,
     SimpleChanges
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker/datepicker-input';
-import { TranslateService } from '@ngx-translate/core';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import moment, { Moment } from 'moment';
 import { StringHelper } from '../helpers/string.helper';
+import { DateInputMaskDirective } from './date-input-mask.directive';
 
 /**
  * Datepicker component
@@ -28,7 +30,9 @@ import { StringHelper } from '../helpers/string.helper';
             useExisting: forwardRef(() => DatepickerComponent),
             multi: true
         }
-    ]
+    ],
+    standalone: true,
+    imports: [NgStyle, FormsModule, MatDatepickerInput, DateInputMaskDirective, ReactiveFormsModule, MatDatepicker, NgIf, TranslatePipe]
 })
 export class DatepickerComponent implements OnInit, OnChanges, ControlValueAccessor {
     /**
@@ -89,7 +93,7 @@ export class DatepickerComponent implements OnInit, OnChanges, ControlValueAcces
     /**
      * date form control
      */
-    dateFormCtrl: FormControl;
+    dateFormCtrl: UntypedFormControl;
     /**
      * emits when date changed
      */
@@ -99,7 +103,7 @@ export class DatepickerComponent implements OnInit, OnChanges, ControlValueAcces
      * Input mask config
      * @type {{showMask: boolean, placeholderChar: string, guide: boolean, mask: (RegExp | string)[]}}
      */
-    mask = {
+    mask: { showMask: boolean; placeholderChar: string; guide: boolean; mask: (RegExp | string)[]; } = {
         mask: [
             new RegExp('\\d'),
             new RegExp('\\d'),
@@ -128,7 +132,7 @@ export class DatepickerComponent implements OnInit, OnChanges, ControlValueAcces
      */
     @Input() set date(date: Date | string) {
         this.dateValue = date ? new Date(date) : null;
-        this.dateFormCtrl = new FormControl({value: this.dateValue, disabled: this.isDisabled});
+        this.dateFormCtrl = new UntypedFormControl({value: this.dateValue, disabled: this.isDisabled});
     }
 
     /**
@@ -177,7 +181,7 @@ export class DatepickerComponent implements OnInit, OnChanges, ControlValueAcces
      */
     ngOnInit() {
         this.adapter.setLocale(this.translateService.currentLang);
-        this.dateFormCtrl = new FormControl({value: this.dateValue, disabled: this.isDisabled});
+        this.dateFormCtrl = new UntypedFormControl({value: this.dateValue, disabled: this.isDisabled});
     }
 
     /**
@@ -200,7 +204,7 @@ export class DatepickerComponent implements OnInit, OnChanges, ControlValueAcces
      */
     change(date: MatDatepickerInputEvent<Moment>) {
         this.onTouched();
-        if (date && date.value && date.value.isValid()) {
+        if (date && date.value) {
             if (this.dateValue && moment(this.dateValue).isSame(date.value, 'day')) {
                 return;
             }
@@ -217,11 +221,11 @@ export class DatepickerComponent implements OnInit, OnChanges, ControlValueAcces
      * @param value
      */
     private onValueChange: (value: any) => void = (value) => {
-    };
+    }
 
     /**
      * Input touched callback
      */
     private onTouched: () => void = () => {
-    };
+    }
 }

@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { LoginService } from '@app/services/login-service';
-import { NotificationsService } from '@app/services/notifications.service';
-import { UserStateService } from '@app/services/user-state.service';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+
+import { LoginService } from '@app/services/login-service';
 import { HttpCustomErrorResponse } from '@app/services/models';
+import { NotificationsService } from '@app/services/notifications.service';
+import { UserStateService } from '@app/services/user-state.service';
 
 @Injectable({
   providedIn: 'root',

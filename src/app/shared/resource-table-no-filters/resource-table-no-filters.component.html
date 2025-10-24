@@ -23,7 +23,7 @@
             (click)="isTableFullWidth = !isTableFullWidth"
             [attr.aria-pressed]="isTableFullWidth || false"
           >
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'Action.SwitchViewTo' | translate }}
             </span>
             {{ (isTableFullWidth ? 'Resources.TableWithoutMargins' : 'Resources.TableWithMargins') | translate }}
@@ -36,7 +36,7 @@
     <div class="vertical-spacing" [ngClass]="{ container: !isTableFullWidth }">
       <div class="sticky-header-table">
         <table class="datagrid" #resourceTable>
-          <caption class="sr-only">
+          <caption class="visually-hidden">
             tabela z danymi
             {{
               tableTitle
@@ -51,7 +51,7 @@
                 [attr.aria-sort]="
                   params.sort.indexOf(column.name) === 0
                     ? ('Sort.Ascending' | translate)
-                    : null || params.sort.indexOf(column.name) === 1
+                    : params.sort.indexOf(column.name) === 1
                     ? ('Sort.Descending' | translate)
                     : null
                 "

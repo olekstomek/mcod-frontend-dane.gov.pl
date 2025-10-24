@@ -1,5 +1,5 @@
-import {ISpace} from '@app/services/models/cms/controls/space';
-import {IColor} from '@app/services/models/cms/controls/color';
+import { IColor } from '@app/services/models/cms/controls/color';
+import { ISpace } from '@app/services/models/cms/controls/space';
 
 export interface IWidgetStyle {
     general: {

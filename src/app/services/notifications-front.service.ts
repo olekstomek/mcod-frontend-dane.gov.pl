@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+
 import {NotificationsService} from '@app/services/notifications.service';
 
 /**

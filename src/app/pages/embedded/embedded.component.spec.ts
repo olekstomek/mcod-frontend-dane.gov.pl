@@ -1,14 +1,14 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs/internal/observable/of';
+import { EmbeddedComponent } from './embedded.component';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { DatasetService } from '@app/services/dataset.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { of } from 'rxjs/internal/observable/of';
-import { EmbeddedComponent } from './embedded.component';
 
 class SeoServiceStub {
   setPageTitle() {}
@@ -22,16 +22,16 @@ describe('EmbeddedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EmbeddedComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), EmbeddedComponent],
       providers: [
+        importProvidersFrom(AppTestingModule),
         { provide: SeoService, useClass: SeoServiceStub },
         DatasetService,
         NotificationsService,
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { paramMap: convertToParamMap({ resourceId: '1' }), queryParamMap: convertToParamMap({ lang: 'pl' }) } },
-        },
+        }
       ],
     }).compileComponents();
 
@@ -47,7 +47,7 @@ describe('EmbeddedComponent', () => {
   });
 
   it('should get params from route', async () => {
-    spyOn(service, 'getResourceById').and.returnValue(
+    jest.spyOn(service, 'getResourceById').mockReturnValue(
       of({ attributes: { title: 'test' }, relationships: { geo_data: false, chart: false } }),
     );
     component.ngOnInit();
@@ -57,7 +57,7 @@ describe('EmbeddedComponent', () => {
   });
 
   it('should get params from route without relationships', async () => {
-    spyOn(service, 'getResourceById').and.returnValue(of({ attributes: { title: 'test' } }));
+    jest.spyOn(service, 'getResourceById').mockReturnValue(of({ attributes: { title: 'test' } }));
     component.ngOnInit();
     expect(component.resourceId).toEqual('1');
   });

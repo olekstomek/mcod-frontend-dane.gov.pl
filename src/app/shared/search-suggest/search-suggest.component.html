@@ -20,7 +20,7 @@
         ngModel
         name="q"
         #q="ngModel"
-        [(ngModel)]="initialValue ? initialValue : searchText"
+        [ngModel]="initialValue ? initialValue : searchText" (ngModelChange)="initialValue ? initialValue : searchText = $event"
         (keydown)="onKeydown($event)"
         (focusin)="onFocusIn()"
         aria-autocomplete="list"
@@ -54,7 +54,7 @@
         >
           <!-- title -->
           <span class="search-suggest__listbox-title">
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'GoTo' | translate }}
             </span>
             {{ option.title }}
@@ -62,7 +62,7 @@
 
           <!-- area -->
           <span>
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'Attribute.Category' | translate }}
             </span>
             <small>
@@ -118,7 +118,7 @@
           />
           <!-- clear search input -->
           <button type="button" class="btn search-suggest__clear-button" (click)="onClear()" *ngIf="searchText?.length">
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ ('Search.ClearInput' | translate) + '-' + ('Search.AutoContentReload' | translate) }}
             </span>
             <span aria-hidden="true">&times;</span>
@@ -129,13 +129,13 @@
             <svg class="icon icon-magnifying-glass" role="img" aria-hidden="true">
               <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-magnifying-glass"></use>
             </svg>
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ ('Action.Search' | translate) + '-' + ('Search.AutoContentReload' | translate) }}
             </span>
           </button>
 
           <!-- button for screen readers only, move to search results -->
-          <button type="button" class="btn sr-only" (click)="emitMoveToSearchResult()">
+          <button type="button" class="btn visually-hidden" (click)="emitMoveToSearchResult()">
             {{ 'Datasets.MoveToSearchResultText' | translate }}
           </button>
 
@@ -162,7 +162,7 @@
             >
               <!-- title -->
               <span class="search-suggest__listbox-title">
-                <span class="sr-only">
+                <span class="visually-hidden">
                   {{ 'GoTo' | translate }}
                 </span>
                 {{ option.title }}
@@ -170,7 +170,7 @@
 
               <!-- area -->
               <span class="search-suggest__listbox-area">
-                <span class="sr-only">
+                <span class="visually-hidden">
                   {{ 'Attribute.Category' | translate }}
                 </span>
                 <small>
@@ -192,14 +192,14 @@
       <div class="d-flex align-items-center mt-3">
         <!-- search query rules -->
         <fieldset *ngIf="showAdvancedSettings">
-          <legend class="sr-only">
+          <legend class="visually-hidden">
             {{ 'Search.Advanced' | translate }}
           </legend>
           <ul class="list-unstyled d-sm-block m-0 p-0">
             <li
-              class="d-inline-flex flex-row align-items-center py-2 py-sm-0 px-0"
-              [ngClass]="{ 'pr-3': !isLastItem }"
+              class="d-inline-flex flex-row align-items-center py-2 py-sm-0"
               *ngFor="let item of searchAdvancedSettings | keyvalueOrder; let i = index; let isLastItem = last"
+              [ngClass]="{ 'pr-3': !isLastItem }"
             >
               <input
                 type="radio"
@@ -237,7 +237,7 @@
           title="{{ 'Tour.Tooltip.ApiValidation.title' | translate }}"
         >
           <span>{{ 'Tour.Tooltip.ApiValidation.title' | translate }} >></span>
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'SkipTo.NewWindow' | translate }}
           </span>
         </a>

@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 /**
  * Returned error type
@@ -13,7 +13,7 @@ type ValidationError = { [key: string]: boolean } | null;
  * @returns {ValidatorFn} if value in array
  */
 export function valueInArrayValidator(formControlName: string, formArrayName: string): ValidatorFn {
-    return (formGroup: FormGroup): { [key: string]: any } => {
+    return (formGroup: UntypedFormGroup): { [key: string]: any } => {
         const formControl = formGroup.controls[formControlName];
         const formArray = formGroup.controls[formArrayName];
 

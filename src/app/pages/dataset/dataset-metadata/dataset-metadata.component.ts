@@ -1,11 +1,20 @@
+import { LowerCasePipe, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { ApiConfig } from '@app/services/api';
+import { FeatureFlagDirective } from '@app/shared/feature-flags/feature-flag.directive';
 
 @Component({
   selector: 'app-dataset-metadata',
   templateUrl: './dataset-metadata.component.html',
+  standalone: true,
+  imports: [
+    TranslatePipe,
+    LowerCasePipe,
+    NgIf,
+    FeatureFlagDirective
+  ]
 })
 export class DatasetMetadataComponent implements OnInit {
   constructor(private readonly translateService: TranslateService) {}

@@ -14,7 +14,7 @@
             }
 
             // < MD
-            @include media-breakpoint-down(sm)
+            @include media-breakpoint-down(md)
             {
                 background-color: transparent;
 

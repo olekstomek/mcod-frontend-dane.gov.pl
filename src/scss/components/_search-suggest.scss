@@ -84,7 +84,7 @@
       flex: 0 0 100px;
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       &-item {
         flex-direction: column;
       }

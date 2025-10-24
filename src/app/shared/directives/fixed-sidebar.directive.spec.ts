@@ -1,11 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FixedSidebarDirective } from '@app/shared/directives/fixed-sidebar.directive';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { FixedSidebarDirective } from '@app/shared/directives/fixed-sidebar.directive';
 
 @Component({
   template: `<aside class="collapsible-sidebar-view__sidebar" id="sidebar" appFixedSidebar></aside>`,
@@ -19,8 +18,11 @@ describe('FixedSidebarDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      declarations: [FixedSidebarDirective, TestComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
+      declarations: [TestComponent],
+      imports: [TranslateModule.forRoot(), FixedSidebarDirective],
+      providers: [
+        importProvidersFrom(AppTestingModule)
+      ]
     }).createComponent(TestComponent);
 
     component = fixture.componentInstance;

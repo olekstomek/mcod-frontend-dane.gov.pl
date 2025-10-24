@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
 
-    @include media-breakpoint-down(lg)
+    @include media-breakpoint-down(xl)
     {
         justify-content: space-between;
     }
@@ -21,8 +21,13 @@
         font-size: 1.6rem;
         height: 3rem;
         line-height: 2;
+
+      &:hover {
+        text-decoration: underline;
+        color: #05407f;
+      }
         
-        @include media-breakpoint-down(lg)
+        @include media-breakpoint-down(xl)
         {
             height: 2rem;
             line-height: 1.5;
@@ -35,10 +40,10 @@
     &__text {
         margin-left: 2rem;
         padding-left: 2rem;
-        border-left: 2px solid theme-color(danger);
+        border-left: 2px solid map-get($theme-colors, danger);
         line-height: 3.5;
         
-        @include media-breakpoint-down(lg)
+        @include media-breakpoint-down(xl)
         {
             display: none;
         }
@@ -55,7 +60,7 @@
             width: 1.25rem;
         }
 
-        @include media-breakpoint-down(lg)
+        @include media-breakpoint-down(xl)
         {
             display: none;
         }
@@ -70,7 +75,7 @@
     &__eu-logo {
         width: 4.875rem;
         
-        @include media-breakpoint-down(lg)
+        @include media-breakpoint-down(xl)
         {
             width: 3rem;
         }

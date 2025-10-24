@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators';
+import { map } from 'rxjs/operators';
 
 import { SparqlExample } from '@app/pages/dataset/sparql/domain/SparqlExample';
 import { ApiConfig } from '@app/services/api';

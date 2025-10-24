@@ -1,7 +1,8 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+
 import { NominatimGeocodeService } from '@app/services/nominatim-geocode.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { HttpTestingController } from '@angular/common/http/testing';
 
 describe('NominatimGeocodeService', () => {
   let service: NominatimGeocodeService;

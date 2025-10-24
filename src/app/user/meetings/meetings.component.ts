@@ -1,21 +1,25 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { UserDashboardListViewComponent } from '../list-view/user-dashboard-list-view.component';
 
 import { ApiConfig } from '@app/services/api';
-import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardListViewConfig';
-import { API_URL } from '@app/user/list-view/API_URL';
-import { MeetingType } from '@app/user/meetings/MeetingType';
-import { MeetingsListContainerComponent } from '@app/user/meetings/meetings-list/meetings-list-container.component';
+import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
 import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
-import { SeoService } from '@app/services/seo.service';
+import { API_URL } from '@app/user/list-view/API_URL';
+import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardListViewConfig';
+import { MeetingsListContainerComponent } from '@app/user/meetings/meetings-list/meetings-list-container.component';
+import { MeetingType } from '@app/user/meetings/MeetingType';
 
 /**
  * Meetings Component
  */
 @Component({
-  selector: 'app-meetings',
-  templateUrl: './meetings.component.html',
-  providers: [{ provide: API_URL, useValue: ApiConfig.meetings }],
+    selector: 'app-meetings',
+    templateUrl: './meetings.component.html',
+    providers: [{ provide: API_URL, useValue: ApiConfig.meetings }],
+    standalone: true,
+    imports: [UserDashboardListViewComponent, TranslatePipe],
 })
 export class MeetingsComponent implements OnInit {
   /**

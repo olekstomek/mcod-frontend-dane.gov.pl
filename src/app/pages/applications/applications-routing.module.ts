@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { ApplicationComponent } from '@app/pages/applications/application/application.component';
-import { ApplicationItemComponent } from '@app/pages/applications/application-item/application-item.component';
-import { RoleGuard } from '@app/services/user-permissions/role.guard';
-import { BreadcrumbsAppsResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-apps.resolver';
-import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
+import { RouterModule, Routes } from '@angular/router';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { SuggestApplicationComponent } from './suggest-application/suggest-application.component';
+
+import { ApplicationItemComponent } from '@app/pages/applications/application-item/application-item.component';
+import { ApplicationComponent } from '@app/pages/applications/application/application.component';
+import { RoleGuard } from '@app/services/user-permissions/role.guard';
+import { breadcrumbsAppsResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-apps.resolver';
+import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 
 const routes: Routes = [
   { path: '', component: ApplicationComponent },
@@ -23,7 +23,7 @@ const routes: Routes = [
       breadcrumbs: { dataKey: 'post.attributes.title' },
     },
     resolve: {
-      post: BreadcrumbsAppsResolver,
+      post: breadcrumbsAppsResolver,
     },
   },
   {
@@ -35,7 +35,7 @@ const routes: Routes = [
       roles: PermissionPerRoles.PREVIEW_UNPUBLISHED_APPLICATION,
     },
     resolve: {
-      post: BreadcrumbsAppsResolver,
+      post: breadcrumbsAppsResolver,
     },
   },
 ];

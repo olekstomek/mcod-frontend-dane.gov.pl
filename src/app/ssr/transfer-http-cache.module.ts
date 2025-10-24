@@ -5,18 +5,9 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpHeaders,
-  HttpInterceptor,
-  HttpParams,
-  HttpRequest,
-  HttpResponse,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
-import { ApplicationRef, Injectable, NgModule } from '@angular/core';
-import { BrowserTransferStateModule, makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
+import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpParams, HttpRequest, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApplicationRef, Injectable, NgModule, makeStateKey, StateKey, TransferState } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { Observable, of as observableOf } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 
@@ -96,7 +87,7 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
 
     if (this.transferState.hasKey(storeKey)) {
       // Request found in cache. Respond using it.
-      const response = this.transferState.get(storeKey, {} as TransferHttpResponse);
+      const response: any = this.transferState.get<any>(storeKey, {} as TransferHttpResponse);
 
       return observableOf(
         new HttpResponse<any>({
@@ -114,7 +105,7 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
       return httpEvent.pipe(
         tap((event: HttpEvent<unknown>) => {
           if (event instanceof HttpResponse) {
-            this.transferState.set(storeKey, {
+            this.transferState.set<any>(storeKey, {
               body: event.body,
               headers: getHeadersMap(event.headers),
               status: event.status,
@@ -142,7 +133,7 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
    * @param params
    * @returns {StateKey<TransferHttpResponse>}
    */
-  private makeCacheKey(method: string, url: string, params: HttpParams): StateKey<string> {
+  private makeCacheKey(method: string, url: string, params: HttpParams): StateKey<TransferHttpResponse> {
     // make the params encoded same as a url so it's easy to identify
     const encodedParams = params
       .keys()
@@ -160,7 +151,7 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
  * calls from the server to the client application.
  */
 @NgModule({
-  imports: [BrowserTransferStateModule],
+  imports: [BrowserModule],
   providers: [TransferHttpCacheInterceptor, { provide: HTTP_INTERCEPTORS, useExisting: TransferHttpCacheInterceptor, multi: true }],
 })
 export class TransferHttpCacheModule {}

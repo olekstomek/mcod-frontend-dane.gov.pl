@@ -1,12 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IPageCms} from '@app/services/models/cms/page-cms';
-import {CmsService} from '@app/services/cms.service';
+import {Component, Input} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {WidgetType} from '@app/services/models/cms/widgets/widget-type';
+
+import {CmsService} from '@app/services/cms.service';
+import {IPageCms} from '@app/services/models/cms/page-cms';
 
 @Component({
     selector: 'app-cms.abstract',
-    template: '<div> </div>'
+    template: '<div> </div>',
+    standalone: true
 })
 export class WidgetAbstractComponent {
 

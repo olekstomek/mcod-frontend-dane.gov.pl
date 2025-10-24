@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 /**
  * Footer Nav Link External Component
@@ -6,6 +7,10 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: '[app-footer-nav-link-external]',
   templateUrl: './footer-nav-link-external.component.html',
+  imports: [
+    TranslatePipe
+  ],
+  standalone: true
 })
 export class FooterNavLinkExternalComponent {
   /**

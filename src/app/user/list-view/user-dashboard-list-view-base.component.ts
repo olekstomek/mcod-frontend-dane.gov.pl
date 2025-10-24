@@ -4,8 +4,9 @@ import { Component } from '@angular/core';
  * User Dashboard List Container Base Component
  */
 @Component({
-  selector: 'app-user-dashboard-list-view-base',
-  template: '',
+    selector: 'app-user-dashboard-list-view-base',
+    template: '',
+    standalone: true,
 })
 export class UserDashboardListViewBaseComponent {
   /**

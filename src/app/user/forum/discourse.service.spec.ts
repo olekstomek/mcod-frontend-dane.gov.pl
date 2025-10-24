@@ -40,7 +40,12 @@ describe('DiscourseService', () => {
   });
 
   it('should sets discourse credentials', () => {
-    spyOn(userService, 'getTokenData').and.returnValue({ user: { discourse_api_key: 'apiKey', discourse_user_name: 'userName' } });
+    jest.spyOn(userService, 'getTokenData').mockReturnValue({
+      user: {discourse_api_key: 'apiKey', discourse_user_name: 'userName', session_key: '', email: '', roles: []},
+      iat: 0,
+      exp: 0,
+      nbf: 0
+    });
     service.setDiscourseCredentials();
     expect(service.apiKey).toEqual('apiKey');
     expect(service.apiUsername).toEqual('userName');

@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
+import { ApiModel } from '@app/services/api/api-model';
+import { ApiConfig } from '@app/services/api/api.config';
 import { SearchSuggestionsService } from '@app/services/search-suggestions.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { ApiConfig } from '@app/services/api/api.config';
-import { ApiModel } from '@app/services/api/api-model';
 
 const responseMock = {
   data: [
@@ -140,29 +140,29 @@ describe('SearchSuggestionsService', () => {
   });
 
   it('should call getSuggestions with parameters', () => {
-    service.getSuggestions(httpParams.q, httpParams.models, httpParams.per_model).subscribe(() => {});
-    const req = httpMock.expectOne(
-      `/api${ApiConfig.searchSuggest}?q=otwarte%20dane&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=${httpParams.per_model}`,
-    );
-    req.flush({});
+    service.getSuggestions(httpParams.q, httpParams.models, httpParams.per_model).subscribe(() => {
+      const req = httpMock.expectOne(
+        `/api${ApiConfig.searchSuggest}?q=otwarte%20dane&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=${httpParams.per_model}`,
+      );
+      req.flush({});
+    });
   });
 
   it('should call getSuggestions with parameters 2', () => {
-    service.getSuggestions(httpParams.q, httpParams.models, httpParams.per_model).subscribe();
-    const req = httpMock.expectOne(
-      `/api${ApiConfig.searchSuggest}?q=otwarte%20dane&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=${httpParams.per_model}`,
-    );
+    service.getSuggestions(httpParams.q, httpParams.models, httpParams.per_model).subscribe(() => {
+      const req = httpMock.expectOne(
+        `/api${ApiConfig.searchSuggest}?q=otwarte%20dane&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=${httpParams.per_model}`,
+      );
 
-    expect(req).toBeTruthy();
+      expect(req).toBeTruthy();
+    });
   });
 
-  it('should return suggestions for specified criteria', done => {
+  it('should return suggestions for specified criteria', () => {
     service.getSuggestions('raport', [ApiModel.DATASET, ApiModel.RESOURCE], 1).subscribe(data => {
+      const req = httpMock.expectOne(`/api${ApiConfig.searchSuggest}?q=raport&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=1`);
+      req.flush(responseMock);
       expect(data).toEqual(responseMock);
-      done();
     });
-
-    const req = httpMock.expectOne(`/api${ApiConfig.searchSuggest}?q=raport&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=1`);
-    req.flush(responseMock);
   });
 });

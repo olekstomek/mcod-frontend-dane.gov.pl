@@ -34,6 +34,7 @@ env.json
 !.vscode/extensions.json
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -51,7 +52,7 @@ Thumbs.db
 *.retry
 
 .vscode
-proxy.local.conf.json
 !docker/frontend/local/proxy.local.conf.json
 
 error.log
+/junit.xml

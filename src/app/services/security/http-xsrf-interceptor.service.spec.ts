@@ -1,12 +1,12 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
-
-import { HttpXsrfInterceptorService } from '@app/services/security/http-xsrf-interceptor.service';
-import { CookieExtractor } from '@app/services/security/cookie-extractor.service';
-import { APP_CONFIG } from '@app/app.config';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+
+import { APP_CONFIG } from '@app/app.config';
+import { CookieExtractor } from '@app/services/security/cookie-extractor.service';
+import { HttpXsrfInterceptorService } from '@app/services/security/http-xsrf-interceptor.service';
 
 @Injectable()
 class HttpXsrfInterceptorServiceMock extends HttpXsrfInterceptorService {
@@ -32,6 +32,7 @@ describe('HttpXsrfInterceptorService', () => {
           useValue: {
             cookie: `${APP_CONFIG.csrfCookieName}=${token};`,
             location: { protocol: 'https:', hostname: 'dev.dane.gov.pl' },
+            querySelectorAll: () => []
           },
         },
       ],

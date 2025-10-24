@@ -11,7 +11,7 @@
           [attr.aria-hidden]="page <= 1 ? true : null"
         >
           <span aria-hidden="true"> &lsaquo; </span>
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'Pagination.Prev' | translate }}
           </span>
         </a>
@@ -27,11 +27,11 @@
           (click)="changePage(pageNumber)"
           [attr.aria-current]="page === pageNumber ? true : null"
         >
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'Pagination.Page' | translate }}
           </span>
           {{ pageNumber }}
-          <span class="sr-only" *ngIf="pageNumber === totalPages"> , {{ 'Pagination.Last' | translate }} </span>
+          <span class="visually-hidden" *ngIf="pageNumber === totalPages"> , {{ 'Pagination.Last' | translate }} </span>
         </a>
 
         <!-- ellipsis -->
@@ -48,7 +48,7 @@
           [attr.aria-hidden]="page >= totalPages ? true : null"
         >
           <span aria-hidden="true"> &rsaquo; </span>
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'Pagination.Next' | translate }}
           </span>
         </a>

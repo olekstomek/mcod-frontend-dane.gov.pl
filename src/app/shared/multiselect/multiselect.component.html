@@ -8,7 +8,7 @@
     [attr.aria-controls]="generatedId"
     [attr.aria-expanded]="isExpanded"
     [attr.aria-labelledby]="labelId ? labelId : null"
-    (click)="toggleDropdown($event)"
+    (click)="toggleDropdown()"
     #toggler
   >
     <ng-container *ngIf="!selected.length"> {{ 'Action.Choose' | translate }}... </ng-container>
@@ -55,7 +55,7 @@
       />
 
       <!-- realtime search info -->
-      <p role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+      <p role="status" aria-live="polite" aria-atomic="true" class="visually-hidden">
         {{ 'Found.PluralCount' | translate: { param: filteredOptions.length } }}
       </p>
     </div>
@@ -74,7 +74,7 @@
 
         <label for="chk-{{ itemIndex }}" class="dropdown-item__text">
           <span aria-hidden="true" [innerHtml]="item[displayValue] || item"></span>
-          <span class="sr-only" *ngIf="item.titleTranslationKey">
+          <span class="visually-hidden" *ngIf="item.titleTranslationKey">
             {{ item.titleTranslationKey | translate }}
             {{ item.key }}
           </span>

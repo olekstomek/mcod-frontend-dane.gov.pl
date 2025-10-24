@@ -1,12 +1,20 @@
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChildren, Input, QueryList, TemplateRef } from '@angular/core';
 
 /**
  * Result list wrapper for list view
  */
 @Component({
-  selector: 'app-result-list',
-  templateUrl: './result-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-result-list',
+    templateUrl: './result-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgClass,
+        NgTemplateOutlet,
+    ],
 })
 export class ResultListComponent implements AfterContentInit {
   /**

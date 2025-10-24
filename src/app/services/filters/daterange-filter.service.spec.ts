@@ -17,7 +17,7 @@ describe('DaterangeFilterService', () => {
   });
 
   it('should call changeDaterange function', () => {
-    const spyFunction = spyOn(service, 'changeDaterange');
+    const spyFunction = jest.spyOn(service, 'changeDaterange');
     const daterangeFilterUpdated = {
       name: '',
       value: new Date(),
@@ -28,7 +28,7 @@ describe('DaterangeFilterService', () => {
   });
 
   it('should call getAvailability function', () => {
-    const spyFunction = spyOn(service, 'getAvailability');
+    const spyFunction = jest.spyOn(service, 'getAvailability');
     service.getAvailability({ value: new Date() }, {});
 
     expect(spyFunction).toBeCalled();

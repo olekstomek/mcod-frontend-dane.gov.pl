@@ -1,5 +1,9 @@
+import { AsyncPipe, LowerCasePipe, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslateDateFormatPipe } from '../pipes/translate-date-format.pipe';
+
+import { TimespanPipe } from '@app/shared/pipes/timespan.pipe';
 
 /**
  * History Entry component stands behind logic for interpreting backend historical items
@@ -7,8 +11,17 @@ import { TranslateService } from '@ngx-translate/core';
  * <app-history-entry item="${item}"></app-history-entry/>
  */
 @Component({
-  selector: 'app-history-entry',
-  templateUrl: './history-entry.component.html',
+    selector: 'app-history-entry',
+    templateUrl: './history-entry.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        AsyncPipe,
+        LowerCasePipe,
+        TranslatePipe,
+        TimespanPipe,
+        TranslateDateFormatPipe,
+    ],
 })
 export class HistoryEntryComponent implements OnInit {
   /**

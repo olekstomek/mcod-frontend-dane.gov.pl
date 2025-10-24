@@ -39,7 +39,7 @@
             }
 
             // < MD
-            @include media-breakpoint-down(sm)
+            @include media-breakpoint-down(md)
             {
                 border:0;
                 background-color: $color-grey-light-6;
@@ -54,7 +54,7 @@
         }
 
         // < MD
-        @include media-breakpoint-down(sm)
+        @include media-breakpoint-down(md)
         {
             border:0;
         }
@@ -75,7 +75,7 @@
     }
 
     // < MD
-    @include media-breakpoint-down(sm)
+    @include media-breakpoint-down(md)
     {
         border: 1px solid $color-grey-light-6;
         border-bottom-color: $color-white;

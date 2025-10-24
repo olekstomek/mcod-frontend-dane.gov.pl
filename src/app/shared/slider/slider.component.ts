@@ -1,9 +1,12 @@
+import { DOCUMENT, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
+    selector: 'app-slider',
+    templateUrl: './slider.component.html',
+    standalone: true,
+    imports: [NgStyle, TranslatePipe],
 })
 export class SliderComponent implements OnInit {
   @Input() savedRadius;

@@ -1,5 +1,4 @@
 import { IDownloadFile } from '@app/services/models/download-item';
-import { APP_CONFIG } from '@app/app.config';
 
 /**
  * Helper class for generating and triggering download link

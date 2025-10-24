@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform, KeyValueDiffers } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
+import { KeyValueDiffers, Pipe, PipeTransform } from '@angular/core';
 
 /**
  * KeyvaluePipe extension - preserves default sort order of keyvalue object
@@ -7,7 +7,8 @@ import { KeyValuePipe } from '@angular/common';
  * <div *ngFor="let item of items | keyvalueOrder">{{ item.key }}: {{ item.value }}</div>
  */
 @Pipe({
-  name: 'keyvalueOrder',
+    name: 'keyvalueOrder',
+    standalone: true,
 })
 export class KeyvalueOrderPipe implements PipeTransform {
   /**

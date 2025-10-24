@@ -1,6 +1,8 @@
+import { NgClass, NgIf } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LinkHelper } from '../helpers';
+import { TooltipDirective } from '../tooltip/tooltip.directive';
 
 /**
  * API source link
@@ -9,7 +11,9 @@ import { LinkHelper } from '../helpers';
  */
 @Component({
     selector: 'app-api-source-link',
-    templateUrl: './api-source-link.component.html'
+    templateUrl: './api-source-link.component.html',
+    standalone: true,
+    imports: [NgIf, NgClass, TooltipDirective, TranslatePipe]
 })
 export class ApiSourceLinkComponent implements OnChanges {
 

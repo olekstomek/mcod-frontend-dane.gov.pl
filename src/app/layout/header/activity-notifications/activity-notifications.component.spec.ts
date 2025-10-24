@@ -1,12 +1,13 @@
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ObserveService } from '@app/services/observe.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { Subject } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { ActivityNotificationsComponent } from './activity-notifications.component';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { ObserveService } from '@app/services/observe.service';
 
 describe('ActivityNotificationsComponent', () => {
   let component: ActivityNotificationsComponent;
@@ -22,7 +23,7 @@ describe('ActivityNotificationsComponent', () => {
     },
   };
   const reloadFn = () => {
-    window.location.reload(true);
+    window.location.reload();
   };
 
   beforeAll(() => {
@@ -38,9 +39,11 @@ describe('ActivityNotificationsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivityNotificationsComponent],
-      imports: [RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [{ provide: ObserveService, useValue: observeServiceStub }],
+      imports: [TranslateModule.forRoot(), ActivityNotificationsComponent],
+      providers: [
+        { provide: ObserveService, useValue: observeServiceStub },
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ActivityNotificationsComponent);
@@ -49,8 +52,8 @@ describe('ActivityNotificationsComponent', () => {
   });
 
   it('should create', async () => {
-    spyOn(observeServiceStub, 'notificationsChanged').and.returnValue(true);
-    spyOn(observeServiceStub, 'getNewNotifications').and.returnValue(of({}));
+    observeServiceStub.notificationsChanged.next();
+    jest.spyOn(observeServiceStub, 'getNewNotifications').mockReturnValue(of({}));
     expect(component).toBeDefined();
   });
 
@@ -67,7 +70,7 @@ describe('ActivityNotificationsComponent', () => {
   });
 
   it('should call onMarkAllAsRead function and reload', () => {
-    spyOn(observeServiceStub, 'markAllAsRead').and.returnValue(of({}));
+    jest.spyOn(observeServiceStub, 'markAllAsRead').mockReturnValue(of({}));
     component.onMarkAllAsRead();
     reloadFn();
     expect(window.location.reload).toHaveBeenCalled();
@@ -96,7 +99,7 @@ describe('ActivityNotificationsComponent', () => {
 
   it('should call onPopupTriggerKeyDown function with key Space and set isPopupVisible for false', () => {
     const event = new KeyboardEvent('keydown', { key: 'Space', shiftKey: true });
-    const spyFunction = spyOn(event, 'preventDefault');
+    const spyFunction = jest.spyOn(event, 'preventDefault');
     document.dispatchEvent(event);
     component.onPopupTriggerKeyDown(event);
     expect(component.isPopupVisible).toBe(false);

@@ -1,19 +1,44 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Params, Router, QueryParamsHandling } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params, QueryParamsHandling, Router } from '@angular/router';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { switchMap } from 'rxjs/operators';
 
-import { SeoService } from '@app/services/seo.service';
-import { SearchService } from '@app/services/search.service';
-import { NotificationsService } from '@app/services/notifications.service';
-import { ISearchCounters, ISearchResponse } from '@app/services/models/search';
-import { RouterEndpoints } from '@app/services/models/routerEndpoints';
-import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ApiModel } from '@app/services/api/api-model';
+import { ListViewDetailsService } from '@app/services/list-view-details.service';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { ISearchCounters, ISearchResponse } from '@app/services/models/search';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SearchService } from '@app/services/search.service';
+import { SeoService } from '@app/services/seo.service';
+import {
+  FoundResultsCountersAndSortComponent
+} from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { LoaderComponent } from '@app/shared/loader/loader.component';
+import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SearchResultsViewComponent } from '@app/shared/result-list/results/search-results-view/search-results-view.component';
+import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 
 @Component({
   selector: 'app-search-results',
   templateUrl: './search-results.component.html',
+  imports: [
+    TranslatePipe,
+    SearchSuggestComponent,
+    NotificationsServerComponent,
+    FoundResultsCountersAndSortComponent,
+    NgIf,
+    LoaderComponent,
+    SearchResultsViewComponent,
+    NoResultsFoundComponent,
+    ItemsPerPageComponent,
+    PaginationComponent
+  ],
+  standalone: true
 })
 export class SearchResultsComponent implements OnInit {
   /**

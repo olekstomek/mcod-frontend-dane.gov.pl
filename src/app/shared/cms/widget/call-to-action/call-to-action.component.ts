@@ -1,7 +1,9 @@
+import { NgClass, NgIf, NgStyle } from '@angular/common';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { SanitizeUrlPipe } from '../../../pipes/sanitize-url.pipe';
 
-import {WidgetAbstractComponent} from '@app/shared/cms/widget/widget.abstract.component';
 import {ICta} from '@app/services/models/cms/widgets/cta';
+import {WidgetAbstractComponent} from '@app/shared/cms/widget/widget.abstract.component';
 import {StringHelper} from '@app/shared/helpers/string.helper';
 
 /**
@@ -12,6 +14,13 @@ import {StringHelper} from '@app/shared/helpers/string.helper';
 @Component({
     selector: 'cms-call-to-action',
     templateUrl: './call-to-action.component.html',
+    standalone: true,
+    imports: [
+        NgStyle,
+        NgIf,
+        NgClass,
+        SanitizeUrlPipe,
+    ],
 })
 export class CallToActionComponent extends WidgetAbstractComponent implements OnInit {
 

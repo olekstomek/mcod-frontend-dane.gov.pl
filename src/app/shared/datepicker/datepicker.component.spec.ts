@@ -6,39 +6,38 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
+import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
+
 import { DateRangePickerComponent } from '@app/shared/date-range-picker/date-range-picker.component';
 import { DatepickerComponent } from '@app/shared/datepicker/datepicker.component';
 import { McodMatDatepickerIntl } from '@app/shared/datepicker/McodMatDatepickerIntl';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
-import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
 describe('Datepicker component', () => {
     let translateService: TranslateService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                DatepickerComponent,
-                DateRangePickerComponent,
-            ],
             imports: [
-                CommonModule,
-                SharedModule,
-                BrowserAnimationsModule,
-                TranslateModule.forRoot({
-                    parser: {
-                        provide: TranslateParser,
-                        useClass: TranslateICUParser
-                    },
-                    defaultLanguage: 'pl',
-                    useDefaultLang: true
-                }),
-                MatDatepickerModule,
-                MatMomentDateModule,
-                MatInputModule,
-                ReactiveFormsModule,
+              CommonModule,
+              SharedModule,
+              NoopAnimationsModule,
+              TranslateModule.forRoot({
+                  parser: {
+                      provide: TranslateParser,
+                      useClass: TranslateICUParser
+                  },
+                  defaultLanguage: 'pl',
+                  useDefaultLang: true
+              }),
+              MatDatepickerModule,
+              MatMomentDateModule,
+              MatInputModule,
+              ReactiveFormsModule,
+              DatepickerComponent,
+              DateRangePickerComponent,
             ],
             providers: [
                 {
@@ -58,6 +57,7 @@ describe('Datepicker component', () => {
 
     it('should be created', () => {
         const fixture = TestBed.createComponent(DatepickerComponent);
+        fixture.detectChanges();
         const datepickerComponent = fixture.componentInstance;
         expect(datepickerComponent).toBeTruthy();
     });

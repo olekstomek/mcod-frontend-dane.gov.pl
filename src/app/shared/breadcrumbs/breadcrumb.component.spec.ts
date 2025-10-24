@@ -1,11 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs/internal/observable/of';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { BreadcrumbService } from '@app/shared/breadcrumbs/breadcrumb.service';
 import { BreadcrumbsComponent } from '@app/shared/breadcrumbs/breadcrumbs.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { of } from 'rxjs/internal/observable/of';
 
 describe('BreadcrumbsComponent', () => {
   let component: BreadcrumbsComponent;
@@ -14,9 +14,11 @@ describe('BreadcrumbsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BreadcrumbsComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [BreadcrumbService],
+      imports: [TranslateModule.forRoot(), BreadcrumbsComponent],
+      providers: [
+        BreadcrumbService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(BreadcrumbService);

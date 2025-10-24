@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import { CmsStaticPageComponent } from '@app/shared/cms/cms-static-page/cms-static-page.component';
+
 /**
 * Preview CMS pages component
 */
 @Component({
   selector: 'app-preview-cms',
-  templateUrl: './preview-cms.component.html'
+  templateUrl: './preview-cms.component.html',
+  imports: [
+    CmsStaticPageComponent
+  ],
+  standalone: true
 })
 export class PreviewCmsComponent implements OnInit {
 

@@ -62,7 +62,7 @@ export abstract class RestService {
    * Cookie Prefix
    * @type {string}
    */
-  private cookie_prefix = '';
+  private cookie_prefix: string = '';
 
   /**
    * Dependency injection required for api calls, and base_url setup
@@ -155,7 +155,7 @@ export abstract class RestService {
       'Lax',
     );
 
-    this.storageService.set('remember', remember ? '1' : '0');
+    this.storageService.set('remember', remember ? 'true' : 'false');
   }
 
   /**
@@ -165,7 +165,7 @@ export abstract class RestService {
   getToken(): string {
     this.token = this.cookieService.get(`${this.cookie_prefix}apiauthtoken`);
     if (this.token) {
-      const remember: boolean = Boolean(+this.storageService.get('remember'));
+      const remember: boolean = Boolean(this.storageService.get('remember'));
       this.sessionExpires = this.getTokenData().exp;
       const currentTime: number = moment().unix();
       if (remember && this.getTokenData().exp > currentTime) {
@@ -270,7 +270,7 @@ export abstract class RestService {
    */
   protected request(method: 'get' | 'delete', url, params?: any, skip404Redirect?: boolean): Observable<any> {
     this.initHeaders();
-    return this.http[method](url, {
+    return this.http.request(method, url, {
       headers: this.headers,
       withCredentials: true,
       params: params,
@@ -298,7 +298,7 @@ export abstract class RestService {
    * Check if session is active i.e. if user is logged in
    * @returns {boolean}
    */
-  protected checkSession() {
+  protected checkSession(): boolean {
     const token: string = this.getToken();
     if (token) {
       this.token = token;
@@ -316,9 +316,9 @@ export abstract class RestService {
    * Here 404 redirection is created for GET Methods
    * @param skip404Redirect
    * @param {HttpCustomErrorResponse} err
-   * @returns {ErrorObservable}
+   * @returns {Observable}
    */
-  protected errorRedirectionHandler(skip404Redirect: boolean = false, err: HttpCustomErrorResponse) {
+  protected errorRedirectionHandler(skip404Redirect: boolean = false, err: HttpCustomErrorResponse): Observable<never> {
     if (err.status === 404) {
       if (!skip404Redirect) {
         this.router.navigate(['/404']);
@@ -332,9 +332,9 @@ export abstract class RestService {
    * Global error handler for all API calls
    * Here notifications are created
    * @param {HttpCustomErrorResponse} err
-   * @returns {ErrorObservable}
+   * @returns {Observable}
    */
-  protected errorNotificationHandler(err: HttpCustomErrorResponse) {
+  protected errorNotificationHandler(err: HttpCustomErrorResponse): Observable<never> {
     let error = err.error;
     const isdBackendErrorVisible = this.checkBackendErrorVisibility(err.url);
     if (typeof error === 'string') {

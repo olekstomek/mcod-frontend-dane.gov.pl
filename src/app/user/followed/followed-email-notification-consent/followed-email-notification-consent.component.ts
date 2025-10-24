@@ -1,4 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import {toggleVertically} from '@app/animations';
 
 /**
@@ -7,7 +10,9 @@ import {toggleVertically} from '@app/animations';
 @Component({
     selector: 'app-followed-email-notification-consent',
     templateUrl: './followed-email-notification-consent.component.html',
-    animations: [toggleVertically]
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [NgIf, TranslatePipe]
 })
 export class FollowedEmailNotificationConsentComponent {
 

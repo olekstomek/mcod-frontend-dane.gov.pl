@@ -5,7 +5,6 @@ import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
 import { SharedModule } from '@app/shared/shared.module';
-import { ConfirmationModalComponent } from '@app/user/schedule/table/components/confirmation-modal/confirmation-modal.component';
 import { ScheduleButtonComponent } from '@app/user/schedule/table/components/schedule-button-component/schedule-button.component';
 
 describe('Schedule Button Component', () => {
@@ -22,10 +21,8 @@ describe('Schedule Button Component', () => {
                     defaultLanguage: 'pl',
                     useDefaultLang: true
                 }),
-            ],
-            declarations: [
-                ScheduleButtonComponent
-            ],
+              ScheduleButtonComponent
+            ]
         }).compileComponents();
     });
 

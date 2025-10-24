@@ -1,19 +1,34 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UserStateService } from '@app/services/user-state.service';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { FollowedEmailNotificationConsentComponent } from '../followed/followed-email-notification-consent/followed-email-notification-consent.component';
 
-import { UserService } from '@app/services/user.service';
-import { SeoService } from '@app/services/seo.service';
-import { User } from '@app/services/models';
 import { toggleVertically } from '@app/animations';
+import { User } from '@app/services/models';
+import { SeoService } from '@app/services/seo.service';
+import { UserStateService } from '@app/services/user-state.service';
+import { UserService } from '@app/services/user.service';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 
 /**
  * My Followed Component
  */
 @Component({
-    selector: "app-my-followed",
-    templateUrl: "./my-followed.component.html",
+    selector: 'app-my-followed',
+    templateUrl: './my-followed.component.html',
     animations: [
         toggleVertically
+    ],
+    standalone: true,
+    imports: [
+      NotificationsServerComponent,
+      NgIf,
+      FollowedEmailNotificationConsentComponent,
+      RouterLinkActive,
+      RouterLink,
+      RouterOutlet,
+      TranslatePipe
     ]
 })
 export class MyFollowedComponent implements OnInit {
@@ -83,7 +98,7 @@ export class MyFollowedComponent implements OnInit {
         this.userService
             .toggleEmailNotificationConsent({[this.emailNotificationsAttribute]: status})
             .subscribe((user: User) => {
-                this.hasNotificationsEnabled = user.attributes[this.emailNotificationsAttribute]
+                this.hasNotificationsEnabled = user.attributes[this.emailNotificationsAttribute];
             });
     }
 }

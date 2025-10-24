@@ -22,6 +22,8 @@
     (selectedChange)="onSelectedChange(FiltersNames.INSTITUTION_TYPE, $event)"
     (applyFilter)="applyFilter()"
     [filterName]="'institution-type'"
+    [sortOptions]="true"
+    [sortingOrder]="institutionsSortingOrder"
   >
   </app-expandable-multiselect>
 </section>

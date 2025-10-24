@@ -1,13 +1,22 @@
+import { NgIf } from '@angular/common';
 import { Component, Injector, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+import { ScheduleStatusSwitcherComponent } from '../../components/schedule-status-switcher/schedule-status-switcher.component';
+import { ScheduleStatusComponent } from '../../components/schedule-status/schedule-status.component';
+import { ScheduleTabComponent } from '../../tab/schedule-tab.component';
+import { ConfirmationModalComponent } from '../../table/components/confirmation-modal/confirmation-modal.component';
+import { ScheduleTableComponent } from '../../table/schedule-table.component';
+import { ScheduleSearchSuggestComponent } from './components/search-suggest/schedule-search-suggest.component';
 
 import { ApiModel } from '@app/services/api/api-model';
 import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
+import { PermissionDirective } from '@app/shared/user-permissions/permission.directive';
 import { Role } from '@app/shared/user-permissions/Role';
 import { ScheduleTableDeleteAction } from '@app/user/schedule/table/domain/actions/ScheduleTableDeleteAction';
 import { ScheduleTableEditAction } from '@app/user/schedule/table/domain/actions/ScheduleTableEditAction';
@@ -23,9 +32,21 @@ import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
  * Schedule Planning Component
  */
 @Component({
-  selector: 'app-schedule-planning',
-  templateUrl: './schedule-planning.component.html',
-  styles: [],
+    selector: 'app-schedule-planning',
+    templateUrl: './schedule-planning.component.html',
+    styles: [],
+    standalone: true,
+    imports: [
+        ScheduleTabComponent,
+        NgIf,
+        ScheduleTableComponent,
+        PermissionDirective,
+        ScheduleStatusSwitcherComponent,
+        ScheduleStatusComponent,
+        ScheduleSearchSuggestComponent,
+        ConfirmationModalComponent,
+        TranslatePipe,
+    ],
 })
 export class SchedulePlanningComponent implements OnInit, OnDestroy {
   /**

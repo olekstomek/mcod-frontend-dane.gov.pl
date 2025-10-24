@@ -1,22 +1,22 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { EMPTY, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { EMPTY, of } from 'rxjs';
+import { ImageUploadComponent } from '../image-upload/image-upload.component';
+import { SuggestApplicationComponent } from './suggest-application.component';
 
+import { AppTestingModule } from '@app/app.testing.module';
+import { ApiResponse } from '@app/services/api';
 import { ApplicationsService } from '@app/services/applications.service';
-import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
-import { SeoService } from '@app/services/seo.service';
 import { NotificationsService } from '@app/services/notifications.service';
+import { SeoService } from '@app/services/seo.service';
+import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
-import { SuggestApplicationComponent } from './suggest-application.component';
 import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TextToLinksPipe } from '@app/shared/pipes/text-to-links.pipe';
-import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -39,7 +39,9 @@ describe('SuggestApplicationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        TranslateModule.forRoot(),
+        ReactiveFormsModule,
         SuggestApplicationComponent,
         MathCaptchaComponent,
         NotificationsComponent,
@@ -48,14 +50,12 @@ describe('SuggestApplicationComponent', () => {
         TextToLinksPipe,
         ImageUploadComponent,
       ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
+      providers: [
+        ApplicationsService,
+        { provide: SeoService, useClass: SeoServiceStub },
+        NotificationsService,
+        importProvidersFrom(AppTestingModule)
       ],
-      providers: [ApplicationsService, { provide: SeoService, useClass: SeoServiceStub }, NotificationsService],
     });
 
     service = TestBed.inject(ApplicationsService);
@@ -80,7 +80,7 @@ describe('SuggestApplicationComponent', () => {
   });
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    let spy = spyOn(service, 'suggest').and.callFake(() => EMPTY);
+    const spy = jest.spyOn(service, 'suggest').mockImplementation(() => EMPTY);
     component.onApplicationFormSubmit();
     expect(spy).not.toHaveBeenCalled();
     expect(component.isSuggestionSent).toBeFalsy();
@@ -139,13 +139,13 @@ describe('SuggestApplicationComponent', () => {
     let equationSum: number;
 
     beforeEach(() => {
-      let select = fixture.debugElement.query(By.css('.form-control')).nativeElement;
+      const select = fixture.debugElement.query(By.css('.form-select')).nativeElement;
       select.value = select.options[1].value;
       select.dispatchEvent(new Event('change'));
       fixture.detectChanges();
-      let captchaDe = fixture.debugElement.query(By.css('.captcha'));
-      let equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
-      let equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
+      const captchaDe = fixture.debugElement.query(By.css('.captcha'));
+      const equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
+      const equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
       equationSum = equationArr.map(item => +item).reduce((acc, item) => acc + item);
     });
 
@@ -158,7 +158,7 @@ describe('SuggestApplicationComponent', () => {
     });
 
     it('should save suggestion (call the service) when the form is valid', () => {
-      let spy = spyOn(service, 'suggest').and.callFake(() => of(true));
+      const spy = jest.spyOn(service, 'suggest').mockReturnValue(of({} as ApiResponse));
 
       component.applicationForm.patchValue({
         ...requiredFieldsDataWithoutCaptcha,
@@ -166,6 +166,7 @@ describe('SuggestApplicationComponent', () => {
       });
 
       component.onApplicationFormSubmit();
+      console.log(spy);
       expect(spy).toHaveBeenCalled();
       expect(component.isSuggestionSent).toBeTruthy();
     });

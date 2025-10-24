@@ -1,15 +1,14 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ElementRef } from '@angular/core';
+import { ElementRef, importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { ApiModel } from '@app/services/api/api-model';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SearchSuggestionsService } from '@app/services/search-suggestions.service';
 import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
-import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 
 class LocalizeRouterServiceStub {}
 
@@ -20,15 +19,17 @@ describe('SearchSuggestComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchSuggestComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         NoopAnimationsModule,
+        SearchSuggestComponent
       ],
-      providers: [SearchSuggestionsService, NotificationsService, { provide: LocalizeRouterService, useClass: LocalizeRouterServiceStub }],
+      providers: [
+        SearchSuggestionsService,
+        NotificationsService,
+        { provide: LocalizeRouterService, useClass: LocalizeRouterServiceStub },
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(SearchSuggestionsService);
@@ -94,7 +95,7 @@ describe('SearchSuggestComponent', () => {
 
   it('should enables keyboard navigation. Performs actions on keyboard events - key ArrowDown', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    const spyFunction = spyOn(component, 'setNextActiveSuggestionIndex');
+    const spyFunction = jest.spyOn(component, 'setNextActiveSuggestionIndex');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();
@@ -102,7 +103,7 @@ describe('SearchSuggestComponent', () => {
 
   it('should enables keyboard navigation. Performs actions on keyboard events - key ArrowUp', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-    const spyFunction = spyOn(component, 'setPreviousActiveSuggestionIndex');
+    const spyFunction = jest.spyOn(component, 'setPreviousActiveSuggestionIndex');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();
@@ -110,7 +111,7 @@ describe('SearchSuggestComponent', () => {
 
   it('should enables keyboard navigation. Performs actions on keyboard events - key Enter', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    const spyFunction = spyOn(component, 'onActiveSuggestionClick');
+    const spyFunction = jest.spyOn(component, 'onActiveSuggestionClick');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();
@@ -125,7 +126,7 @@ describe('SearchSuggestComponent', () => {
 
   it('should enables keyboard navigation. Performs actions on keyboard events - key Space', () => {
     const event = new KeyboardEvent('keydown', { key: 'Space', shiftKey: true });
-    const spyFunction = spyOn(event, 'preventDefault');
+    const spyFunction = jest.spyOn(event, 'preventDefault');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();
@@ -186,7 +187,7 @@ describe('SearchSuggestComponent', () => {
   });
 
   it('should emit event click to move into search results for screen reader', () => {
-    spyOn(component.moveToSearchResultTrigger, 'emit');
+    jest.spyOn(component.moveToSearchResultTrigger, 'emit');
     component.emitMoveToSearchResult();
     expect(component.moveToSearchResultTrigger.emit).toHaveBeenCalled();
   });
@@ -196,8 +197,9 @@ describe('SearchSuggestComponent', () => {
     expect(component.activeSuggestionIndex).toEqual(component.notSelectedSuggestionIndex);
   });
 
-  it('should chose and emit of the active item on the suggestion region list when activeSuggestionIndex != notSelectedSuggestionIndex', () => {
-    spyOn(component.regionListboxOption, 'emit');
+  it('should chose and emit of the ' +
+    'active item on the suggestion region list when activeSuggestionIndex != notSelectedSuggestionIndex', () => {
+    jest.spyOn(component.regionListboxOption, 'emit');
     component.listBoxOptions = ['option1', 'option2'];
     component.activeSuggestionIndex = 1;
     component.onSuggestionSearchClick();
@@ -207,7 +209,7 @@ describe('SearchSuggestComponent', () => {
 
   it('should clears query input and sets focus on it.', () => {
     component.queryInputRef = new ElementRef({ focus() {} });
-    const spyFunction = spyOn(component.queryInputRef.nativeElement, 'focus');
+    const spyFunction = jest.spyOn(component.queryInputRef.nativeElement, 'focus');
     component.onClear();
     expect(component.searchText).toEqual('');
     expect(spyFunction).toHaveBeenCalled();
@@ -216,8 +218,8 @@ describe('SearchSuggestComponent', () => {
   it('should clears query input and sets focus on it with user trigger', () => {
     component.queryInputRef = new ElementRef({ focus() {} });
     component.useTriggers = true;
-    const spyFunction = spyOn(component.queryInputRef.nativeElement, 'focus');
-    spyOn(component.clearTrigger, 'emit');
+    const spyFunction = jest.spyOn(component.queryInputRef.nativeElement, 'focus');
+    jest.spyOn(component.clearTrigger, 'emit');
     component.onClear();
     expect(component.searchText).toEqual('');
     expect(spyFunction).toHaveBeenCalled();

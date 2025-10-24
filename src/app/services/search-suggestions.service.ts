@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiConfig } from './api';
 
 import { SearchHttpParamEncoder } from '@app/services/http/SearchHttpParamEncoder';
 import { RestService } from '@app/services/rest.service';
-import { ApiConfig } from './api';
 
 /**
  *  Service that handles search suggestions

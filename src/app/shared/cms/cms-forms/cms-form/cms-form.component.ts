@@ -1,8 +1,10 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CmsFormQuestionComponent } from '../cms-form-question/cms-form-question.component';
 
 import { toggleVertically } from '@app/animations';
 import { CmsService } from '@app/services/cms.service';
@@ -13,6 +15,7 @@ import { CmsFormset } from '@app/services/models/cms/forms/cms-formset';
 import { IFeatureFlag } from '@app/services/models/feature-flag';
 import { SeoService } from '@app/services/seo.service';
 import { atLeastOneCheckboxSelected, checkboxInputRegex, radioInputRegex } from '@app/shared/form-validators/form-array.validators';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 
 /**
@@ -23,7 +26,9 @@ import { atLeastOneCheckboxSelected, checkboxInputRegex, radioInputRegex } from 
     templateUrl: './cms-form.component.html',
     animations: [
         toggleVertically
-    ]
+    ],
+    standalone: true,
+    imports: [NgIf, FormsModule, ReactiveFormsModule, NgFor, CmsFormQuestionComponent, NgClass, TranslatePipe, SanitizeHtmlPipe]
 })
 export class CmsFormComponent implements OnInit, OnDestroy {
 
@@ -35,7 +40,7 @@ export class CmsFormComponent implements OnInit, OnDestroy {
     /**
      * Survey form
      */
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     /**
      * Is form successfully submitted
@@ -127,7 +132,7 @@ export class CmsFormComponent implements OnInit, OnDestroy {
      * @param {CmsFormset[]} formsets
      * @return FormGroup
      */
-    private toFormGroup(formsets: CmsFormset[]): FormGroup {
+    private toFormGroup(formsets: CmsFormset[]): UntypedFormGroup {
         const group = {};
 
         formsets.forEach(formsetQuestion => {
@@ -147,7 +152,7 @@ export class CmsFormComponent implements OnInit, OnDestroy {
                         defaultValue = answer.value.checked ? this.getDefaultValue(answer) : false;
                     }
 
-                    return new FormControl(defaultValue);
+                    return new UntypedFormControl(defaultValue);
                 });
                 group[formsetQuestion.name] = this.buildFormControl(answersArray, formsetQuestion.required);
             } else if (formsetQuestion.questionType === 'radio') {
@@ -160,7 +165,7 @@ export class CmsFormComponent implements OnInit, OnDestroy {
             }
         });
 
-        return new FormGroup(group);
+        return new UntypedFormGroup(group);
     }
 
     /**
@@ -178,10 +183,10 @@ export class CmsFormComponent implements OnInit, OnDestroy {
      * @param {boolean} isRequired
      * @return {FormControl | FormArray}
      */
-    private buildFormControl(defaultValue: string | AbstractControl[], isRequired: boolean): FormControl | FormArray {
+    private buildFormControl(defaultValue: string | AbstractControl[], isRequired: boolean): UntypedFormControl | UntypedFormArray {
         return Array.isArray(defaultValue) ?
-            new FormArray(defaultValue, isRequired ? atLeastOneCheckboxSelected : null)
-            : new FormControl(defaultValue, isRequired ? [Validators.required] : null);
+            new UntypedFormArray(defaultValue, isRequired ? atLeastOneCheckboxSelected : null)
+            : new UntypedFormControl(defaultValue, isRequired ? [Validators.required] : null);
     }
 
     /**

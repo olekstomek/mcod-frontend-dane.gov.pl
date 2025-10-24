@@ -82,7 +82,7 @@ describe('ListViewDetailsService', () => {
         },
         titleTranslationKey: 'Resources.Single',
         type: 'type',
-        url: '../../dataset/2/resource/2,slug',
+        url: '../dataset/2/resource/2,slug',
       },
     ];
     expect(service.extendViewDetails(items)).toEqual(result);
@@ -114,7 +114,7 @@ describe('ListViewDetailsService', () => {
         },
         titleTranslationKey: 'Datasets.Single',
         type: 'type',
-        url: '../../dataset/2,slug',
+        url: '../dataset/2,slug',
       },
     ];
     expect(service.extendViewDetails(items)).toEqual(result);
@@ -146,7 +146,7 @@ describe('ListViewDetailsService', () => {
         },
         titleTranslationKey: 'Institutions.Single',
         type: 'type',
-        url: '../../institution/2, slug',
+        url: '../institution/2, slug',
       },
     ];
     expect(service.extendViewDetails(items)).toEqual(result);
@@ -178,7 +178,7 @@ describe('ListViewDetailsService', () => {
         },
         titleTranslationKey: 'KnowledgeBase.Self',
         type: 'type',
-        url: '../../knowledgebase/useful-materials/slug/',
+        url: '../knowledgebase/useful-materials/slug/',
       },
     ];
     expect(service.extendViewDetails(items)).toEqual(result);
@@ -210,7 +210,7 @@ describe('ListViewDetailsService', () => {
         },
         titleTranslationKey: 'Menu.Showcases',
         type: 'type',
-        url: '../../showcase/2,slug',
+        url: '../showcase/2,slug',
       },
     ];
     expect(service.extendViewDetails(items)).toEqual(result);
@@ -242,7 +242,7 @@ describe('ListViewDetailsService', () => {
         },
         titleTranslationKey: 'KnowledgeBase.News',
         type: 'type',
-        url: '../../article/slug',
+        url: '../article/slug',
       },
     ];
     expect(service.extendViewDetails(items)).toEqual(result);

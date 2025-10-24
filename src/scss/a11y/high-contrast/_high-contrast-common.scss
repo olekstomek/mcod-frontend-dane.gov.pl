@@ -41,6 +41,24 @@ svg.brand-img * {
     fill: $hcPrimary;
 }
 
+.tab-list__link--active.black-white svg.icon:not(.non-hc) svg * {
+  fill: $hcSecondary
+}
+.tab-list__link--active svg.icon:not(.non-hc) * {
+  fill: $hcSecondary
+}
+.tab-list__link--active svg.brand-img * {
+  fill: $hcSecondary
+}
+
+input[type=checkbox] {
+  accent-color: $hcPrimary;
+}
+
+input[type=radio] {
+  accent-color: $hcSecondary;
+}
+
 :focus {
     outline: 2px dotted $hcPrimary;
     outline-offset: initial;
@@ -49,6 +67,10 @@ svg.brand-img * {
 .border-custom,
 .icon-rounded-wrapper {
     border-color: $hcPrimary;
+}
+
+.text-primary {
+  color: $hcPrimary !important;
 }
 
 

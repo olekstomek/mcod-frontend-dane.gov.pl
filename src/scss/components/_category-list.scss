@@ -67,7 +67,7 @@
     }
 
     // < MD
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       min-height: 100px;
 
       &-wrapper {

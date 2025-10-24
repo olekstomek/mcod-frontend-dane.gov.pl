@@ -1,16 +1,17 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CmsService } from '@app/services/cms.service';
-import { ICmsForm } from '@app/services/models/cms/forms/cms-form';
-import { CmsFormComponent } from '@app/shared/cms/cms-forms/cms-form/cms-form.component';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { CmsService } from '@app/services/cms.service';
+import { ICmsForm } from '@app/services/models/cms/forms/cms-form';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
+import { CmsFormComponent } from '@app/shared/cms/cms-forms/cms-form/cms-form.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -47,18 +48,21 @@ describe('CmsFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CmsFormComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
+        SharedModule,
+        CmsFormComponent
       ],
-      providers: [{ provide: SeoService, useClass: SeoServiceStub }, NotificationsService, CmsService],
+      providers: [
+        { provide: SeoService, useClass: SeoServiceStub },
+        NotificationsService,
+        CmsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     });
   });
 

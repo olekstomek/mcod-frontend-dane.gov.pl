@@ -1,9 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SimpleChange } from '@angular/core';
+import { importProvidersFrom, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SingleselectComponent } from '@app/shared/singleselect/singleselect.component';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { SingleselectComponent } from '@app/shared/singleselect/singleselect.component';
 
 describe('SingleselectComponent', () => {
   let component: SingleselectComponent;
@@ -11,8 +12,8 @@ describe('SingleselectComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SingleselectComponent],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(), NoopAnimationsModule],
+      imports: [TranslateModule.forRoot(), NoopAnimationsModule, SingleselectComponent],
+      providers: [importProvidersFrom(AppTestingModule)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SingleselectComponent);
@@ -44,7 +45,7 @@ describe('SingleselectComponent', () => {
   });
 
   it('should click/select item event handler', () => {
-    spyOn(component.selectedChange, 'emit');
+    jest.spyOn(component.selectedChange, 'emit');
     component.selected = 'opcja1';
     component.selectItem('opcja2');
     expect(component.selected).toEqual('opcja2');
@@ -52,7 +53,7 @@ describe('SingleselectComponent', () => {
   });
 
   it('should not click/select item event handler', () => {
-    spyOn(component.selectedChange, 'emit');
+    jest.spyOn(component.selectedChange, 'emit');
     component.selected = 'opcja1';
     component.selectItem('opcja1');
     expect(component.selected).toEqual('opcja1');
@@ -88,7 +89,7 @@ describe('SingleselectComponent', () => {
   it('should movement inside tbody via keyboards arrows - key ArrowDown', () => {
     component.options = ['opcja1', 'opcja2'];
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    const spyFunction = spyOn(event, 'preventDefault');
+    const spyFunction = jest.spyOn(event, 'preventDefault');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();
@@ -98,7 +99,7 @@ describe('SingleselectComponent', () => {
     component.options = ['opcja1', 'opcja2'];
     component.notSelectedIndex = -1;
     const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-    const spyFunction = spyOn(event, 'preventDefault');
+    const spyFunction = jest.spyOn(event, 'preventDefault');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();
@@ -106,7 +107,7 @@ describe('SingleselectComponent', () => {
 
   it('should movement inside tbody via keyboards arrows - key Enter', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    const spyFunction = spyOn(event, 'preventDefault');
+    const spyFunction = jest.spyOn(event, 'preventDefault');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();
@@ -123,7 +124,7 @@ describe('SingleselectComponent', () => {
 
   it('should movement inside tbody via keyboards arrows - key Space', () => {
     const event = new KeyboardEvent('keydown', { key: 'Space', shiftKey: true });
-    const spyFunction = spyOn(event, 'preventDefault');
+    const spyFunction = jest.spyOn(event, 'preventDefault');
     document.dispatchEvent(event);
     component.onKeydown(event);
     expect(spyFunction).toHaveBeenCalled();

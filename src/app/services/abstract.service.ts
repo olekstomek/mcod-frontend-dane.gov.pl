@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { RestService } from '@app/services/rest.service';
 
 /**
@@ -11,7 +13,7 @@ export class AbstractService extends RestService {
    * @param {string} url
    * @returns {Observable<any>}
    */
-  public getRequest(url: string) {
+  public getRequest(url: string): Observable<any> {
     return this.get(url);
   }
 }

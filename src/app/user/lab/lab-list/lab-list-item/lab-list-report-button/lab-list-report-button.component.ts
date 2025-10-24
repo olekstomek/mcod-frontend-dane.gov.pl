@@ -1,4 +1,7 @@
+import { NgIf } from '@angular/common';
 import {Component, Input, OnInit} from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import {LabListItemReport} from '@app/user/lab/lab-list/LabListItemReport';
 
 /**
@@ -6,7 +9,9 @@ import {LabListItemReport} from '@app/user/lab/lab-list/LabListItemReport';
  */
 @Component({
     selector: 'app-lab-list-report-button',
-    templateUrl: './lab-list-report-button.component.html'
+    templateUrl: './lab-list-report-button.component.html',
+    standalone: true,
+    imports: [NgIf, TranslatePipe]
 })
 export class LabListReportButtonComponent implements OnInit {
 

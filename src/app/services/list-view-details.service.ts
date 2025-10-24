@@ -55,7 +55,7 @@ export class ListViewDetailsService {
    * @param {ISearchResult} item
    */
   private extendResource(item: ISearchResult) {
-    item.url = `../../${this.routerEndpoints.DATASETS}/${item.relationships.dataset.data.id}/${this.routerEndpoints.RESOURCES}/${item.id},${item.attributes.slug}`;
+    item.url = `../${this.routerEndpoints.DATASETS}/${item.relationships.dataset.data.id}/${this.routerEndpoints.RESOURCES}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'Resources.Single';
     const isHarvested = this.isHarvested(item.attributes);
     item.detailsData = [
@@ -74,7 +74,7 @@ export class ListViewDetailsService {
    * @param {ISearchResult} item
    */
   private extendDataset(item: ISearchResult) {
-    item.url = `../../${this.routerEndpoints.DATASETS}/${item.id},${item.attributes.slug}`;
+    item.url = `../${this.routerEndpoints.DATASETS}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'Datasets.Single';
     item.detailsData = [{ titleTranslationKey: 'Attribute.UpdateDate', data: item.attributes.verified, isDate: true }];
   }
@@ -84,7 +84,7 @@ export class ListViewDetailsService {
    * @param {ISearchResult} item
    */
   private extendShowcase(item: ISearchResult) {
-    item.url = `../../${this.routerEndpoints.SHOWCASE}/${item.id},${item.attributes.slug}`;
+    item.url = `../${this.routerEndpoints.SHOWCASE}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'Menu.Showcases';
     item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
   }
@@ -94,7 +94,7 @@ export class ListViewDetailsService {
    * @param {ISearchResult} item
    */
   private extendProvider(item: ISearchResult) {
-    item.url = `../../${this.routerEndpoints.PROVIDERS}/${item.id}, ${item.attributes.slug}`;
+    item.url = `../${this.routerEndpoints.PROVIDERS}/${item.id}, ${item.attributes.slug}`;
     item.titleTranslationKey = 'Institutions.Single';
     item.detailsData = [{ titleTranslationKey: 'Attribute.CreationDate', data: item.attributes.created, isDate: true }];
   }
@@ -104,7 +104,7 @@ export class ListViewDetailsService {
    * @param {ISearchResult} item
    */
   private extendNews(item: ISearchResult) {
-    item.url = `../../${this.routerEndpoints.ARTICLES}/${item.attributes.slug}`;
+    item.url = `../${this.routerEndpoints.ARTICLES}/${item.attributes.slug}`;
     item.titleTranslationKey = 'KnowledgeBase.News';
     item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
   }
@@ -116,7 +116,7 @@ export class ListViewDetailsService {
   private extendKnowledgeBase(item: ISearchResult) {
     item.titleTranslationKey = 'KnowledgeBase.Self';
     item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
-    item.url = `../../${this.routerEndpoints.KNOWLEDGE_BASE}/${this.routerEndpoints.USEFUL_MATERIALS}/${item.attributes.slug}/`;
+    item.url = `../${this.routerEndpoints.KNOWLEDGE_BASE}/${this.routerEndpoints.USEFUL_MATERIALS}/${item.attributes.slug}/`;
   }
 
   /**

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { Feedback } from '@app/shared/feedback/Feedback';
 
 /**
@@ -6,7 +7,8 @@ import { Feedback } from '@app/shared/feedback/Feedback';
  */
 @Component({
     selector: 'app-feedback-component',
-    templateUrl: './feedback.component.html'
+    templateUrl: './feedback.component.html',
+    standalone: true
 })
 export class FeedbackComponent {
     /**

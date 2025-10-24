@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -13,18 +13,24 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LatLngBounds, Map, Rectangle } from 'leaflet';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, first, switchMap } from 'rxjs/operators';
 
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
 import { LeafletService } from '@app/services/leflet.service';
 import { IAggregation, IAggregationArray } from '@app/services/models/map';
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime, first, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-regions-map',
   templateUrl: './regions-map.component.html',
+  standalone: true,
+  imports: [
+    TranslatePipe,
+    NgIf
+  ]
 })
 export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   /**
@@ -345,7 +351,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
       permanent: true,
       direction: 'center',
       opacity: 1,
-      zoomAnimation: true,
+      // zoomAnimation: true,
       className: 'clusterText',
     });
     aggregationCircle.bindPopup(template, { closeButton: false, minWidth: 200, closeOnClick: false });

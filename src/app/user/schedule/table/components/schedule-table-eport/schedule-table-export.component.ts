@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { ScheduleExportSource } from '@app/user/schedule/table/domain/schedule-table.config';
 import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
@@ -6,6 +7,8 @@ import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
 @Component({
     selector: 'app-schedule-table-export',
     templateUrl: './schedule-table-export.component.html',
+    standalone: true,
+    imports: [TranslatePipe],
 })
 export class ScheduleTableExportComponent {
     /**

@@ -1,4 +1,4 @@
-import { PipeTransform, Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 /**
  * Text To Links Pipe
@@ -7,7 +7,8 @@ import { PipeTransform, Pipe } from '@angular/core';
  *  {{ 'Some <a href="http://example.com">link</a> example' | textToLinks }}
  */
 @Pipe({
-  name: 'textToLinks',
+    name: 'textToLinks',
+    standalone: true,
 })
 export class TextToLinksPipe implements PipeTransform {
   /**

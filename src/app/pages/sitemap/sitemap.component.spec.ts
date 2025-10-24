@@ -1,15 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SitemapComponent } from '@app/pages/sitemap/sitemap.component';
-import { ListViewDetailsService } from '@app/services/list-view-details.service';
-import { NotificationsService } from '@app/services/notifications.service';
-import { SearchService } from '@app/services/search.service';
-import { SeoService } from '@app/services/seo.service';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { of } from 'rxjs/internal/observable/of';
+import { BsModalService } from 'ngx-bootstrap/modal';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { SitemapComponent } from '@app/pages/sitemap/sitemap.component';
+import { SeoService } from '@app/services/seo.service';
+import { SharedModule } from '@app/shared/shared.module';
+
+class BsModalServiceStub {}
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -22,15 +22,17 @@ describe('SitemapComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SitemapComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
+        SharedModule,
+        SitemapComponent
       ],
-      providers: [{ provide: SeoService, useClass: SeoServiceStub }],
+      providers: [
+        { provide: SeoService, useClass: SeoServiceStub },
+        { provide: BsModalService, useClass: BsModalServiceStub},
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(SeoService);

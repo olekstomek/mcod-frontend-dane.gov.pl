@@ -1,6 +1,13 @@
+import { NgClass, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ListViewFiltersActionButtonsComponent } from '../filters/list-view-action-buttons/list-view-filters-action-buttons.component';
+import { InfoTooltipDirective } from '../info-tooltip/info-tooltip.directive';
+import { ExpandableMultiselectListComponent } from './expandable-multiselect-list/expandable-multiselect-list.component';
+import { ExpandableMultiselectSearchInputComponent } from './expandable-multiselect-search-input/expandable-multiselect-search-input.component';
 
 import { toggleVertically } from '@app/animations';
+import { RegionsSearchComponent } from '@app/pages/dataset/regions-search/regions-search.component';
 import {
   IAggregationProperties,
   IAggregationPropertiesForRegions,
@@ -12,9 +19,20 @@ import {
  * Multiselect which options are expandable
  */
 @Component({
-  selector: 'app-expandable-multiselect',
-  templateUrl: './expandable-multiselect.component.html',
-  animations: [toggleVertically],
+    selector: 'app-expandable-multiselect',
+    templateUrl: './expandable-multiselect.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        InfoTooltipDirective,
+        NgIf,
+        NgClass,
+        RegionsSearchComponent,
+        ListViewFiltersActionButtonsComponent,
+        ExpandableMultiselectSearchInputComponent,
+        ExpandableMultiselectListComponent,
+        TranslatePipe,
+    ],
 })
 export class ExpandableMultiselectComponent {
   /**
@@ -49,17 +67,7 @@ export class ExpandableMultiselectComponent {
   @Input() ariaLabel: string = null;
 
   @Input() sortOptions = false;
-  updateFrequencySortingOrder: string[] = [
-    'daily',
-    'weekly',
-    'monthly',
-    'quarterly',
-    'everyHalfYear',
-    'yearly',
-    'irregular',
-    'notPlanned',
-    'notApplicable'
-  ];
+  @Input() sortingOrder: string[];
 
   /**
    * when options change it creates copy for filtered options and total options
@@ -68,10 +76,10 @@ export class ExpandableMultiselectComponent {
   @Input() set options(options: IAggregationProperties[]) {
     if (this.sortOptions) {
       this.totalOptions = options.sort((a, b) => {
-        return this.updateFrequencySortingOrder.indexOf(a.id) - this.updateFrequencySortingOrder.indexOf(b.id);
+        return this.sortingOrder.indexOf(a.id) - this.sortingOrder.indexOf(b.id);
       });
       this.filteredOptions = options.sort((a, b) => {
-        return this.updateFrequencySortingOrder.indexOf(a.id) - this.updateFrequencySortingOrder.indexOf(b.id);
+        return this.sortingOrder.indexOf(a.id) - this.sortingOrder.indexOf(b.id);
       });
     } else {
       this.totalOptions = options;

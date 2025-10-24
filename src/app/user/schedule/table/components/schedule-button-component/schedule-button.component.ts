@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import { ScheduleTableAction } from '@app/user/schedule/table/domain/schedule-table.action';
 import { StringHelper } from '@app/shared/helpers/string.helper';
+import { ScheduleTableAction } from '@app/user/schedule/table/domain/schedule-table.action';
 
 /**
  * Schedule Link Component
@@ -9,6 +10,8 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
 @Component({
     selector: 'app-schedule-button',
     templateUrl: './schedule-button.component.html',
+    standalone: true,
+    imports: [TranslatePipe]
 })
 export class ScheduleButtonComponent implements ScheduleTableAction {
 
@@ -46,12 +49,12 @@ export class ScheduleButtonComponent implements ScheduleTableAction {
      */
     @Output()
     buttonClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
-    
+
     /**
      * Unique id
      */
     generatedId = StringHelper.generateRandomHex();
-    
+
     /**
      * Emits event when button clicked
      * @param $event

@@ -1,4 +1,7 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 /**
  * Pagination Global component
@@ -12,8 +15,16 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
  *   </app-pagination>
  */
 @Component({
-  selector: 'app-pagination',
-  templateUrl: './pagination.component.html',
+    selector: 'app-pagination',
+    templateUrl: './pagination.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        RouterLink,
+        NgFor,
+        NgIf,
+        TranslatePipe,
+    ],
 })
 export class PaginationComponent implements OnChanges {
   /**

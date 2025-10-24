@@ -1,15 +1,22 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CmsService } from '@app/services/cms.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+
+import { CmsService } from '@app/services/cms.service';
 import { ICmsForm } from '@app/services/models/cms/forms/cms-form';
-import {CmsFormset} from '@app/services/models/cms/forms/cms-formset';
+import { CmsFormComponent } from '@app/shared/cms/cms-forms/cms-form/cms-form.component';
 
 /**
  * Survey page component
  */
 @Component({
   selector: 'app-survey',
-  templateUrl: './survey.component.html'
+  templateUrl: './survey.component.html',
+  imports: [
+    CmsFormComponent,
+    NgIf
+  ],
+  standalone: true
 })
 export class SurveyComponent implements OnInit {
 
@@ -45,7 +52,7 @@ export class SurveyComponent implements OnInit {
                 },
                 err => {
                     this.cmsService.displayCmsErrorMessage(this.requestedSlug, err.message);
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/']).then();
                 });
     }
 }

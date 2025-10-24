@@ -1,14 +1,14 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs/internal/observable/of';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { DatasetService } from '@app/services/dataset.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { ResourceTableNoFiltersComponent } from '@app/shared/resource-table-no-filters/resource-table-no-filters.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { of } from 'rxjs/internal/observable/of';
 
 describe('ResourceTableNoFiltersComponent', () => {
   let component: ResourceTableNoFiltersComponent;
@@ -17,15 +17,13 @@ describe('ResourceTableNoFiltersComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResourceTableNoFiltersComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         NoopAnimationsModule,
+        ResourceTableNoFiltersComponent
       ],
       providers: [
+        importProvidersFrom(AppTestingModule),
         DatasetService,
         NotificationsService,
         {

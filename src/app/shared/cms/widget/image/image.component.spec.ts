@@ -1,12 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { CmsService } from '@app/services/cms.service';
 import { IBanner } from '@app/services/models/cms/widgets/banner';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { ImageComponent } from '@app/shared/cms/widget/image/image.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 
 const iBanner: IBanner = {
   general: {
@@ -66,9 +66,11 @@ describe('ImageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ImageComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [CmsService],
+      imports: [TranslateModule.forRoot(), ImageComponent],
+      providers: [
+        CmsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);

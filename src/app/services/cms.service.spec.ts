@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
-
-import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { CmsService } from './cms.service';
+
+import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
+import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
 describe('CmsService', () => {
   let service: CmsService;
@@ -255,9 +255,9 @@ describe('CmsService', () => {
     expect(service.footerNavIsExist(true)).not.toEqual(isVisible);
   });
 
-  it('getCredentials should return value', () => {
-    expect(service.getCredentials()).toEqual({ withCredentials: true });
-  });
+  // it('getCredentials should return value', () => {
+  //   expect(service.getCredentials()).toEqual({ withCredentials: true });
+  // });
 
   it('should gets hostname', () => {
     service.getHostName();

@@ -1,17 +1,20 @@
 import { Component, Input, OnInit, Type } from '@angular/core';
+import { UserDashboardListViewComponent } from '../../list-view/user-dashboard-list-view.component';
 
-import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardListViewConfig';
+import { ApiConfig } from '@app/services/api';
 import { LabListContainerComponent } from '@app/user/lab/lab-list/lab-list-container/lab-list-container.component';
 import { API_URL } from '@app/user/list-view/API_URL';
-import { ApiConfig } from '@app/services/api';
+import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardListViewConfig';
 
 /**
  * Lab List Component
  */
 @Component({
-  selector: 'app-lab-list',
-  templateUrl: './lab-list.component.html',
-  providers: [{ provide: API_URL, useValue: ApiConfig.lab }],
+    selector: 'app-lab-list',
+    templateUrl: './lab-list.component.html',
+    providers: [{ provide: API_URL, useValue: ApiConfig.lab }],
+    standalone: true,
+    imports: [UserDashboardListViewComponent],
 })
 export class LabListComponent implements OnInit {
   /**

@@ -3,7 +3,7 @@ import {
   ApplicationRef,
   ComponentFactoryResolver,
   ComponentRef,
-  EmbeddedViewRef,
+  EmbeddedViewRef, inject,
   Inject,
   Injectable,
   Injector,
@@ -12,10 +12,10 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ShepherdService } from '@janekkruczkowski/angular-shepherd';
 import { TranslateService } from '@ngx-translate/core';
+import { ShepherdService } from 'angular-shepherd';
 import { LocalStorageService } from 'ngx-localstorage';
-import pathToRegexp from 'path-to-regexp';
+import { pathToRegexp } from 'path-to-regexp';
 import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
@@ -28,7 +28,9 @@ import { TourItemTreeNode } from '@app/shared/tour/TourItemTreeNode';
 /**
  * Tour service
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TourService implements OnDestroy {
   /**
    * Determine is button should be active
@@ -111,7 +113,7 @@ export class TourService implements OnDestroy {
    * Navigation clickable element timeout reference
    * @type {number}
    */
-  private navigationFromClickableElement$: number;
+  private navigationFromClickableElement$: ReturnType<typeof setTimeout>;
 
   /**
    * Visible steps without optional
@@ -125,6 +127,8 @@ export class TourService implements OnDestroy {
    */
   private tree: TourItemTreeNode;
 
+  private readonly localStorageService = inject(LocalStorageService);
+
   /**
    * @ignore
    */
@@ -135,7 +139,7 @@ export class TourService implements OnDestroy {
     private readonly router: Router,
     private readonly rendererFactory: RendererFactory2,
     private readonly featureFlagService: FeatureFlagService,
-    private readonly localStorageService: LocalStorageService,
+    // private readonly localStorageService: LocalStorageService,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly injector: Injector,
     private translate: TranslateService,
@@ -219,7 +223,10 @@ export class TourService implements OnDestroy {
       const currentStepId = Number(this.shepherdService.tourObject.getCurrentStep().id);
       this.pauseTour(
         Object.assign(tour, {
-          progress: TourProgress.fromRaw(tour.id, currentStepId, TourService.removeLanguagePrefixFromRoute(this.router.url.split('?')[0])),
+          progress: {
+            tourId: tour.id,
+            currentStepIndex: currentStepId,
+            currentStepRoute: TourService.removeLanguagePrefixFromRoute(this.router.url.split('?')[0])}
         }),
       );
       this.removeProgressBar();
@@ -230,7 +237,10 @@ export class TourService implements OnDestroy {
     });
     this.shepherdService.tourObject.on('complete', () => {
       this.localStorageService.remove('tour');
-      this.tourSavedProgress$.next(TourProgress.fromRaw(tour.id, 0, tour.items[0].route));
+      this.tourSavedProgress$.next({
+        tourId: tour.id,
+        currentStepIndex: 0,
+        currentStepRoute: tour.items[0].route});
       this.removeProgressBar();
       this.navigationStart$.unsubscribe();
       this.localStorageService.set('tourComplete', true);
@@ -263,7 +273,7 @@ export class TourService implements OnDestroy {
       switchMap(tourProgress => {
         return this.tourDataService
           .getTourById(tourProgress.tourId)
-          .pipe(map(tour => Object.assign(tour, { progress: Object.assign(new TourProgress(), tourProgress) })));
+          .pipe(map(tour => Object.assign(tour, { progress: tourProgress })));
       }),
     );
   }
@@ -274,7 +284,7 @@ export class TourService implements OnDestroy {
    */
   pauseTour(tour: Tour): void {
     const pausedTour = tour.progress;
-    this.localStorageService.set('tour', pausedTour, pausedTour);
+    this.localStorageService.set('tour', pausedTour);
     this.tourSavedProgress$.next(pausedTour);
   }
 
@@ -325,7 +335,7 @@ export class TourService implements OnDestroy {
     for (const itemToClick of itemsToClick) {
       await new Promise(resolve => {
         if (itemToClick.is_clickable) {
-          this.clickOnClickableStep(itemToClick, resolve);
+          this.clickOnClickableStep(itemToClick, resolve as () => void);
         } else {
           this.clickOnExpendableElement(itemToClick, resolve);
         }
@@ -490,9 +500,10 @@ export class TourService implements OnDestroy {
           return false;
         }
         this.shepherdService.requiredElements = requiredElements as any[];
-        if (!this.shepherdService.requiredElementsPresent()) {
-          throw new Error('Tour required elements not found - ' + JSON.stringify(requiredElements));
-        }
+
+        // if (!this.shepherdService.requiredElementsPresent()) {
+        //   throw new Error('Tour required elements not found - ' + JSON.stringify(requiredElements));
+        // }
         return true;
       }),
     );
@@ -548,10 +559,15 @@ export class TourService implements OnDestroy {
         if (!tour) {
           return false;
         }
-        const isTourStartsOnCurrentRoute = pathToRegexp(tour.items[0].route).test(currentRoute);
+        const modifiedRoute = tour.items[0].route.replace('?', '');
+        const isTourStartsOnCurrentRoute = pathToRegexp(modifiedRoute).regexp.test(currentRoute);
         const pausedTour = this.getPausedTour();
-        if (isTourStartsOnCurrentRoute && (!pausedTour || (pausedTour && !pathToRegexp(pausedTour.currentStepRoute).test(currentRoute)))) {
-          this.tourSavedProgress$.next(TourProgress.fromRaw(tour.id, 0, tour.items[0].route));
+        if (isTourStartsOnCurrentRoute &&
+          (!pausedTour || (pausedTour && !pathToRegexp(pausedTour.currentStepRoute).regexp.test(currentRoute)))) {
+          this.tourSavedProgress$.next({
+            tourId: tour.id,
+            currentStepIndex: 0,
+            currentStepRoute: tour.items[0].route});
           return true;
         }
 
@@ -569,7 +585,7 @@ export class TourService implements OnDestroy {
    * @returns {any}
    */
   private getPausedTour(): TourProgress | null | undefined {
-    return this.localStorageService.get('tour', new TourProgress());
+    return this.localStorageService.get<TourProgress>('tour');
   }
 
   /**

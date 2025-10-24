@@ -1,4 +1,4 @@
-import { DOCUMENT, Location } from '@angular/common';
+import { DOCUMENT, Location, NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -14,21 +14,24 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { toggleVertically } from '@app/animations';
+import { FormsModule, NgForm } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { LocalizeRouterPipe, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { StringHelper } from '../helpers/string.helper';
+import { InfoTooltipDirective } from '../info-tooltip/info-tooltip.directive';
+import { KeyvalueOrderPipe } from '../pipes/keyvalue-order.pipe';
+import { TooltipDirective } from '../tooltip/tooltip.directive';
+import { SearchAdvancedSettings, SearchSuggestListboxOption, SearchSuggestRegionListboxOption } from './search-suggest';
 
+import { toggleVertically } from '@app/animations';
 import { APP_CONFIG } from '@app/app.config';
 import { ApiModel } from '@app/services/api/api-model';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { SearchSuggestionsService } from '@app/services/search-suggestions.service';
-import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
-import { TranslateService } from '@ngx-translate/core';
-import { of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { ObjectHelper } from '../helpers/object.helper';
-import { StringHelper } from '../helpers/string.helper';
-import { SearchAdvancedSettings, SearchSuggestListboxOption, SearchSuggestRegionListboxOption } from './search-suggest';
+import { ObjectHelper } from '@app/shared/helpers';
 
 /**
  * Search Suggest Component
@@ -56,9 +59,23 @@ import { SearchAdvancedSettings, SearchSuggestListboxOption, SearchSuggestRegion
     </app-search-suggest>
  */
 @Component({
-  selector: 'app-search-suggest',
-  templateUrl: './search-suggest.component.html',
-  animations: [toggleVertically],
+    selector: 'app-search-suggest',
+    templateUrl: './search-suggest.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        NgFor,
+        NgClass,
+        InfoTooltipDirective,
+        RouterLink,
+        TooltipDirective,
+        TitleCasePipe,
+        TranslatePipe,
+        LocalizeRouterPipe,
+        KeyvalueOrderPipe,
+    ],
 })
 export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   /**
@@ -274,7 +291,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         }),
       )
       .subscribe(response => {
-        if (!response || response.data.length === 0) {
+        if (!response || response['data'].length === 0) {
           if (this.apiModels[0] === 'region') {
             this.regionListboxOption.emit(null);
             return;
@@ -282,7 +299,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
             return;
           }
         }
-        this.toggleDropdown(this.prepareListboxOptions(response.data));
+        this.toggleDropdown(this.prepareListboxOptions(response['data']));
       });
 
     this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
@@ -587,8 +604,12 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
     if (this.clickOutsideListener instanceof Function) {
       this.clickOutsideListener();
     }
-    this.searchTextChanged && this.searchTextChanged.unsubscribe();
-    this.searchTextCleared && this.searchTextCleared.unsubscribe();
+    if (this.searchTextChanged) {
+      this.searchTextChanged.unsubscribe();
+    }
+    if (this.searchTextCleared) {
+      this.searchTextCleared.unsubscribe();
+    }
   }
 
   /**

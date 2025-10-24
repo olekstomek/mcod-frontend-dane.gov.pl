@@ -1,17 +1,28 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { DatasetService } from '@app/services/dataset.service';
 import { SeoService } from '@app/services/seo.service';
+import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-filters.component';
 
 /**
  * Embedded Component
  */
 @Component({
-    selector: 'app-embedded',
-    templateUrl: './embedded.component.html',
-    styleUrls: ['./embedded.component.scss']
+  selector: 'app-embedded',
+  templateUrl: './embedded.component.html',
+  styleUrls: ['./embedded.component.scss'],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    TranslateModule,
+    RouterLinkActive,
+    NgIf,
+    ResourceFiltersComponent
+  ],
+  standalone: true
 })
 export class EmbeddedComponent implements OnInit {
 
@@ -59,7 +70,7 @@ export class EmbeddedComponent implements OnInit {
         return this.datasetService
             .getResourceById(this.resourceId)
             .subscribe(resource => {
-                this.seoService.setPageTitle(resource['attributes']['title'])
+                this.seoService.setPageTitle(resource['attributes']['title']);
 
                 if (!resource['relationships']) {
                     return;

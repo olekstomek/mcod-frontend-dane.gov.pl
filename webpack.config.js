@@ -6,6 +6,6 @@ module.exports = {
         new VersionOutputWebpackPlugin({outputPath: 'dist/frontend/version.txt'}),
         new MomentLocalesPlugin({
             localesToKeep: ['en', 'pl'],
-        }),
+        })
     ]
 };

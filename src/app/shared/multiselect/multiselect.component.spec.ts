@@ -1,9 +1,10 @@
-import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { importProvidersFrom } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MultiselectComponent } from '@app/shared/multiselect/multiselect.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { MultiselectComponent } from '@app/shared/multiselect/multiselect.component';
 
 describe('MultiselectComponent', () => {
   let component: MultiselectComponent;
@@ -11,11 +12,14 @@ describe('MultiselectComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MultiselectComponent],
-      imports: [RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot(), NoopAnimationsModule],
+      imports: [TranslateModule.forRoot(), NoopAnimationsModule, MultiselectComponent],
+      providers: [
+        importProvidersFrom(AppTestingModule)
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MultiselectComponent);
+    fixture.detectChanges();
     component = fixture.componentInstance;
   });
 
@@ -49,7 +53,7 @@ describe('MultiselectComponent', () => {
   it('should filters out items by text', () => {
     component.multiselect = true;
     component.tempSelected = ['item'];
-    spyOn(component.selectedChange, 'emit');
+    jest.spyOn(component.selectedChange, 'emit');
     component.applyFilters();
     expect(component.selected).toEqual([...component.tempSelected]);
     expect(component.selectedChange.emit).toHaveBeenCalled();
@@ -58,7 +62,7 @@ describe('MultiselectComponent', () => {
   it('should filters out items by text when multiselect is false', () => {
     component.multiselect = false;
     component.tempSelected = ['item'];
-    spyOn(component.selectedChange, 'emit');
+    jest.spyOn(component.selectedChange, 'emit');
     component.applyFilters();
     expect(component.selected).toEqual(component.tempSelected);
     expect(component.selectedChange.emit).toHaveBeenCalled();

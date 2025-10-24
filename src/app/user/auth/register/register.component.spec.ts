@@ -1,12 +1,13 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { EMPTY, of } from 'rxjs';
+import { VisualPasswordValidatorComponent } from '../visual-password-validator/visual-password-validator.component';
 
+import { AppTestingModule } from '@app/app.testing.module';
 import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
@@ -14,10 +15,8 @@ import { UserService } from '@app/services/user.service';
 import { NotificationsFrontComponent } from '@app/shared/notifications-front/notifications-front.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
-import { RegisterComponent } from '@app/user/auth/register/register.component';
-import { BsModalService } from 'ngx-bootstrap';
-import { VisualPasswordValidatorComponent } from '../visual-password-validator/visual-password-validator.component';
 import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
+import { RegisterComponent } from '@app/user/auth/register/register.component';
 
 class BsModalServiceStub {}
 
@@ -39,22 +38,17 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        TranslateModule.forRoot(),
+        LocalizeRouterModule.forRoot([]),
+        FormsModule,
+        ReactiveFormsModule,
         RegisterComponent,
         NotificationsComponent,
         NotificationsFrontComponent,
         NotificationsServerComponent,
         VisualPasswordValidatorComponent,
         RodoModalComponent,
-      ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        FormsModule,
-        ReactiveFormsModule,
       ],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
@@ -63,6 +57,7 @@ describe('RegisterComponent', () => {
         { provide: FormBuilder, useClass: FormBuilder },
         NotificationsFrontService,
         NotificationsService,
+        importProvidersFrom(AppTestingModule)
       ],
     });
   });
@@ -87,14 +82,14 @@ describe('RegisterComponent', () => {
   });
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    const spy = spyOn(service, 'registerUser').and.callFake(() => EMPTY);
+    const spy = jest.spyOn(service, 'registerUser').mockImplementation(() => EMPTY);
     component.onSubmit();
     expect(spy).not.toHaveBeenCalled();
     expect(component.isRegistered).toBeFalsy();
   });
 
   it('should submit when the form is valid', () => {
-    const spy = spyOn(service, 'registerUser').and.returnValue(of(true));
+    const spy = jest.spyOn(service, 'registerUser').mockReturnValue(of(true));
     component.registrationForm.setValue({
       email: 'user@example.com',
       password1: 'Example.1',
@@ -108,16 +103,16 @@ describe('RegisterComponent', () => {
     expect(component.isRegistered).toBeTruthy();
   });
 
-  it.skip('should fill required fields and the form should be valid', () => {
-    component.registrationForm.setValue({
-      email: 'user@example.com',
-      password1: 'Example.1',
-      password2: 'Example.5',
-      rodoConsent: true,
-      regulationsConsent: true,
-    });
-    component.registrationForm.updateValueAndValidity();
-    fixture.detectChanges();
-    expect(component.registrationForm.valid).toBeTruthy();
-  });
+  // it.skip('should fill required fields and the form should be valid', () => {
+  //   component.registrationForm.setValue({
+  //     email: 'user@example.com',
+  //     password1: 'Example.1',
+  //     password2: 'Example.5',
+  //     rodoConsent: true,
+  //     regulationsConsent: true,
+  //   });
+  //   component.registrationForm.updateValueAndValidity();
+  //   fixture.detectChanges();
+  //   expect(component.registrationForm.valid).toBeTruthy();
+  // });
 });

@@ -1,21 +1,39 @@
+import { LowerCasePipe, NgIf, UpperCasePipe } from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import {toggleVertically} from '@app/animations';
-import {NewsletterService} from '@app/services/newsletter.service';
-import {NewsletterConsents, NewsletterRequest} from '@app/services/models/newsletter-request';
-import {NotificationsService} from '@app/services/notifications.service';
-import { SeoService } from '@app/services/seo.service';
 import { CmsHardcodedPages } from '@app/services/api/api.cms.config';
 import { CmsService } from '@app/services/cms.service';
 import { IPageCms } from '@app/services/models/cms/page-cms';
+import { NewsletterConsents } from '@app/services/models/newsletter-request';
+import { NewsletterService } from '@app/services/newsletter.service';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SeoService } from '@app/services/seo.service';
+import { LoaderComponent } from '@app/shared/loader/loader.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
+import { TextToLinksPipe } from '@app/shared/pipes/text-to-links.pipe';
 
 @Component({
-    selector: 'app-newsletter',
-    templateUrl: './newsletter.component.html',
-    animations: [
-        toggleVertically
-    ]
+  selector: 'app-newsletter',
+  templateUrl: './newsletter.component.html',
+  animations: [
+    toggleVertically
+  ],
+  imports: [
+    TranslatePipe,
+    NgIf,
+    NotificationsServerComponent,
+    ReactiveFormsModule,
+    LowerCasePipe,
+    LoaderComponent,
+    TextToLinksPipe,
+    SanitizeHtmlPipe,
+    UpperCasePipe
+  ],
+  standalone: true
 })
 export class NewsletterComponent implements OnInit, OnDestroy {
 
@@ -23,7 +41,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     * CMS static page slugs
     */
      readonly cmsHardcodedPages = CmsHardcodedPages;
-    
+
      /**
      * Determines whether all consents are checked
      */
@@ -42,7 +60,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     /**
      * Newsletter form blueprint
      */
-    newsletterForm: FormGroup;
+    newsletterForm: UntypedFormGroup;
 
     /**
      * Cms page consent
@@ -53,7 +71,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
      * @ignore
      */
     constructor(private seoService: SeoService,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private newsletterService: NewsletterService,
                 private notificationsService: NotificationsService,
                 private cmsService: CmsService) {
@@ -70,7 +88,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
         this.initForm();
         this.getCmsConsent();
     }
-    
+
     /**
      * Inits form
      */
@@ -86,12 +104,14 @@ export class NewsletterComponent implements OnInit, OnDestroy {
      * Gets cms consent
      */
      getCmsConsent() {
-        this.cmsService.getSimplePage(CmsHardcodedPages.NEWSLETTER_DATA_PROCESSING_INFO).subscribe((page: IPageCms) => this.cmsPageInfo = page);
+        this.cmsService.getSimplePage(CmsHardcodedPages.NEWSLETTER_DATA_PROCESSING_INFO).subscribe(
+          (page: IPageCms) => this.cmsPageInfo = page
+        );
     }
-    
+
     /**
      * Determines whether all consents are checked or unchecked
-     * @param {boolean} isChecked 
+     * @param {boolean} isChecked
      */
     onChangeAll(isChecked: boolean): void {
         this.allChecked = isChecked;
@@ -107,10 +127,10 @@ export class NewsletterComponent implements OnInit, OnDestroy {
 
     /**
      * Determines whether single consent is checked or unchecked
-     * @param {string} fieldName 
-     * @param {boolean} isChecked 
+     * @param {string} fieldName
+     * @param {boolean} isChecked
      */
-    onChange(fieldName: string, isChecked: boolean): void {        
+    onChange(fieldName: string, isChecked: boolean): void {
         this.newsletterForm.patchValue({
             [fieldName]: isChecked
         });

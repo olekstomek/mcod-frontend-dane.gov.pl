@@ -1,11 +1,13 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '@env/environment';
-import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { LocalizeRouterPipe, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LogingovplNotificationComponent } from '../../logingovpl/logingovpl-notification/logingovpl-notification.component';
 
 import { toggleVertically } from '@app/animations';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
@@ -14,14 +16,30 @@ import { IErrorBackend } from '@app/services/models/error-backend';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
+import { NotificationsFrontComponent } from '@app/shared/notifications-front/notifications-front.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 
 /**
  * Login Component
  */
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  animations: [toggleVertically],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        LogingovplNotificationComponent,
+        NgIf,
+        NgClass,
+        RouterLink,
+        FormsModule,
+        NotificationsServerComponent,
+        NotificationsFrontComponent,
+        UpperCasePipe,
+        LowerCasePipe,
+        LocalizeRouterPipe,
+        TranslatePipe,
+    ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   /**

@@ -32,7 +32,7 @@ export interface IPagesListCms {
             },
             title: string;
         }
-    ]
+    ];
 }
 
 export enum StaticPageType {

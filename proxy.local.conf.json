@@ -1,6 +1,6 @@
 {
-    "/api": {
-        "target": "https://api.dev.dane.gov.pl/1.4/",
+    "/api/**": {
+        "target": "https://api.mcod.local",
         "secure": false,
         "pathRewrite": {
             "^/api": ""
@@ -9,7 +9,7 @@
         "changeOrigin": true
     },
     "/media": {
-        "target": "https://dev.dane.gov.pl/",
+        "target": "https://api.mcod.local",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
@@ -21,12 +21,19 @@
         "changeOrigin": true
     },
     "/cms": {
-        "target": "https://cms.dev.dane.gov.pl/",
+        "target": "https://cms.mcod.local",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,
         "pathRewrite": {
             "^/cms": ""
         }
+    },
+    "/pn-apps": {
+      "target": "http://mcod.local",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true,
+      "ws": true
     }
 }

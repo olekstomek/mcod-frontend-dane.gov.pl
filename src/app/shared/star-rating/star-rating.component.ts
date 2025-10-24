@@ -1,3 +1,4 @@
+import { NgClass, NgFor } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 /**
@@ -7,8 +8,10 @@ import { Component, Input, OnInit } from '@angular/core';
  * // Outputs: ★ ★ ★ ☆ ☆
  */
 @Component({
-  selector: 'app-star-rating',
-  templateUrl: './star-rating.component.html',
+    selector: 'app-star-rating',
+    templateUrl: './star-rating.component.html',
+    standalone: true,
+    imports: [NgFor, NgClass],
 })
 export class StarRatingComponent implements OnInit {
   /**

@@ -1,6 +1,9 @@
+import { importProvidersFrom } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ResponseService } from '@app/ssr/response.service';
-import { RESPONSE } from '@nguniversal/express-engine/tokens';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { RESPONSE, ResponseService } from '@app/ssr/response.service';
+
 
 class MockResponse {
   status(code: number) {}
@@ -11,14 +14,18 @@ describe('Response service', () => {
   let mockResponseService: MockResponse;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ResponseService, { provide: RESPONSE, useClass: MockResponse }],
+      providers: [
+        importProvidersFrom(AppTestingModule),
+        { provide: RESPONSE, useClass: MockResponse },
+        ResponseService
+      ],
     });
     service = TestBed.inject(ResponseService);
     mockResponseService = TestBed.inject(RESPONSE);
   });
 
   it('should create ', () => {
-    const statusMock = spyOn(mockResponseService, 'status').and.stub();
+    const statusMock = jest.spyOn(mockResponseService, 'status').mockImplementation(() => {});
 
     service.setStatusCode(200);
 

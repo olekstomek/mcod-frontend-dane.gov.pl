@@ -41,7 +41,7 @@
             />
             <!-- clear search field -->
             <button type="button" class="btn clearBtn" *ngIf="addressText.value.length > 0" (click)="clearAddress()">
-              <span class="sr-only">
+              <span class="visually-hidden">
                 {{ 'Search.ClearInput' | translate }}
               </span>
               <span aria-hidden="true">&times;</span>

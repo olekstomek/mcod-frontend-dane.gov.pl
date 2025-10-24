@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ApiFlagsService } from './api-flags.service';
+
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
 describe('AbstractService', () => {

@@ -1,7 +1,8 @@
-import { makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
+
 import { TranslateLoader } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { makeStateKey, StateKey, TransferState } from '@angular/core';
 
 const fs = require('fs');
 const path = require('path');

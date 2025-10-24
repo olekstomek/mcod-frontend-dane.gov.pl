@@ -10,28 +10,26 @@ import { InstitutionsRoutingModule } from './institutions-routing.module';
 
 import { AppBootstrapModule } from '@app/app-bootstrap/app-bootstrap.module';
 import { InstitutionItemListViewFiltersComponent } from '@app/pages/institutions/institution-item-list-view-filters/institution-item-list-view-filters.component';
-import { BreadcrumbsInstitutionResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-institution.resolver';
 import { DatepickerModule } from '@app/shared/datepicker/datepicker.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    InstitutionsRoutingModule,
-    AppBootstrapModule,
-    TranslateModule.forChild({
-      parser: {
-        provide: TranslateParser,
-        useClass: TranslateICUParser,
-      },
-    }),
-    FormsModule,
-    SharedModule,
-    DatepickerModule,
-    ReactiveFormsModule,
-    ClipboardModule,
-  ],
-  providers: [BreadcrumbsInstitutionResolver],
-  declarations: [InstitutionComponent, InstitutionItemComponent, InstitutionItemListViewFiltersComponent],
+    imports: [
+        CommonModule,
+        InstitutionsRoutingModule,
+        AppBootstrapModule,
+        TranslateModule.forChild({
+            parser: {
+                provide: TranslateParser,
+                useClass: TranslateICUParser,
+            },
+        }),
+        FormsModule,
+        SharedModule,
+        DatepickerModule,
+        ReactiveFormsModule,
+        ClipboardModule,
+        InstitutionComponent, InstitutionItemComponent, InstitutionItemListViewFiltersComponent,
+    ],
 })
 export class InstitutionsModule {}

@@ -1,5 +1,4 @@
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ConnectedPosition } from '@angular/cdk/overlay/position/flexible-connected-position-strategy';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Directive, ElementRef, HostListener, Injector, Input, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
 
@@ -11,7 +10,8 @@ import { TooltipPlacement } from '@app/shared/tooltip/tooltipPlacement';
  * Tooltip Directive
  */
 @Directive({
-  selector: '[appTooltip]',
+    selector: '[appTooltip]',
+    standalone: true,
 })
 export class TooltipDirective implements OnInit {
   /**

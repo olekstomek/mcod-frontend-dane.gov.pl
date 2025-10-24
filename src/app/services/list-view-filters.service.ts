@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Params, QueryParamsHandling, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'underscore';
+import _ from 'underscore';
 
 import {
   AggregationFilterNames,
@@ -155,7 +155,7 @@ export class ListViewFiltersService {
         ...updatedParams,
       },
       queryParamsHandling: method,
-    });
+    }).then();
   }
 
   /**
@@ -294,8 +294,14 @@ export class ListViewFiltersService {
    * @param {IAggregationProperties[]} filtersByInstitutionTypes
    */
   private translateInstitutionTypes(filtersByInstitutionTypes: IAggregationProperties[]) {
-    const ids = ['state', 'local', 'other', 'private'];
-    const translateKeys = ['Institutions.TypeState', 'Institutions.TypeLocal', 'Institutions.TypeOther', 'Institutions.TypePrivate'];
+    const ids = ['state', 'local', 'other', 'private', 'developer'];
+    const translateKeys = [
+      'Institutions.TypeState',
+      'Institutions.TypeLocal',
+      'Institutions.TypeOther',
+      'Institutions.TypePrivate',
+      'Institutions.TypeDevelopers'
+    ];
     this.translateFilters(filtersByInstitutionTypes, ids, translateKeys);
   }
 

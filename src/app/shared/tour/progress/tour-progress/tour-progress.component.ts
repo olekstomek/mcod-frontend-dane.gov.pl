@@ -1,11 +1,14 @@
+import { NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
  * Tour progress component
  */
 @Component({
-  selector: 'app-tour-progress',
-  templateUrl: './tour-progress.component.html',
+    selector: 'app-tour-progress',
+    templateUrl: './tour-progress.component.html',
+    standalone: true,
+    imports: [NgFor],
 })
 export class TourProgressComponent {
   /**

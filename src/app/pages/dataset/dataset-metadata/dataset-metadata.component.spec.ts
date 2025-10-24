@@ -1,8 +1,12 @@
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
+import { AppTestingModule } from '@app/app.testing.module';
 import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
+
+
 
 describe('DatasetMetadataComponent', () => {
   let component: DatasetMetadataComponent;
@@ -10,7 +14,6 @@ describe('DatasetMetadataComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DatasetMetadataComponent],
       imports: [
         TranslateModule.forRoot({
           parser: {
@@ -20,7 +23,9 @@ describe('DatasetMetadataComponent', () => {
           defaultLanguage: 'pl',
           useDefaultLang: true,
         }),
+        DatasetMetadataComponent
       ],
+      providers: [importProvidersFrom(AppTestingModule)]
     });
 
     fixture = TestBed.createComponent(DatasetMetadataComponent);

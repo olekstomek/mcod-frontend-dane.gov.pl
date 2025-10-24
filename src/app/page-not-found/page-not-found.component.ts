@@ -1,6 +1,7 @@
-import {isPlatformServer} from '@angular/common';
+import { isPlatformServer, NgIf } from '@angular/common';
 import {Component, Inject, OnInit, Optional, PLATFORM_ID} from '@angular/core';
 import {Router} from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import {CookieService} from 'ngx-cookie-service';
 
 import {ResponseService} from '@app/ssr/response.service';
@@ -11,6 +12,11 @@ import {ResponseService} from '@app/ssr/response.service';
 @Component({
   selector: 'app-page-not-found',
   templateUrl: './page-not-found.component.html',
+  imports: [
+    NgIf,
+    TranslatePipe
+  ],
+  standalone: true
 })
 export class PageNotFoundComponent implements OnInit {
 

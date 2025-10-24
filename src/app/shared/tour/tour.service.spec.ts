@@ -1,14 +1,16 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NotificationsService } from '@app/services/notifications.service';
-import { Tour, TourProgress } from '@app/shared/tour/Tour';
-import { TourDataService } from '@app/shared/tour/tour-data.service';
-import { TourService } from '@app/shared/tour/tour.service';
-import { ShepherdService } from '@janekkruczkowski/angular-shepherd';
 import { TranslateModule } from '@ngx-translate/core';
+import { ShepherdService } from 'angular-shepherd';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalStorageService } from 'ngx-localstorage';
+
+import { NotificationsService } from '@app/services/notifications.service';
+import { Tour } from '@app/shared/tour/Tour';
+import { TourDataService } from '@app/shared/tour/tour-data.service';
+import { TourService } from '@app/shared/tour/tour.service';
 
 class LocalStorageServiceStub {
   set() {}
@@ -27,7 +29,7 @@ describe('TourService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         TourService,
         NotificationsService,
@@ -35,6 +37,8 @@ describe('TourService', () => {
         { provide: LocalStorageService, useClass: LocalStorageServiceStub },
         TourDataService,
         { provide: ShepherdService, useClass: ShepherdServiceStub },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -53,9 +57,8 @@ describe('TourService', () => {
       id: '1',
       items: [],
     };
-    spyOn(serviceShepherd, 'addSteps');
-    spyOn(serviceShepherd, 'tourObject');
-    spyOn(serviceShepherd, 'start');
+    jest.spyOn(serviceShepherd, 'addSteps');
+    jest.spyOn(serviceShepherd, 'start');
     service.startTour(tour);
     expect(serviceShepherd.defaultStepOptions).toStrictEqual({});
   });
@@ -71,9 +74,9 @@ describe('TourService', () => {
       name: 'test',
       id: '1',
       items: [],
-      progress: TourProgress.fromRaw('1', 1, '2'),
+      progress: {tourId: '1', currentStepIndex: 1, currentStepRoute: '2'},
     };
-    spyOn(LocalStorageService.prototype, 'set');
+    jest.spyOn(LocalStorageService.prototype, 'set');
     service.pauseTour(tour);
     expect(tour.progress).toBeTruthy();
   });

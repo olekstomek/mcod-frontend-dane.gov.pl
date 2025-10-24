@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import { DOCUMENT, isPlatformServer, ɵparseCookieValue } from '@angular/common';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { DOCUMENT, isPlatformServer, ɵparseCookieValue } from '@angular/common';
 
 import { APP_CONFIG } from '@app/app.config';
 

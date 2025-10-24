@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SearchComponent } from '@app/pages/home/search/search.component';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { SearchComponent } from '@app/pages/home/search/search.component';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -12,8 +13,8 @@ describe('SearchComponent', () => {
   let router: Router;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, FormsModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, SearchComponent],
+      providers: [importProvidersFrom(AppTestingModule)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchComponent);

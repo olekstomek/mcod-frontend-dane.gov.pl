@@ -1,17 +1,17 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
+import { LocalStorageService } from 'ngx-localstorage';
 import { Observable } from 'rxjs';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 
 import { ApiConfig } from '@app/services/api';
-import { RestService } from '@app/services/rest.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { NotificationsService } from '@app/services/notifications.service';
-import { LocalStorageService } from 'ngx-localstorage';
-import { CookieService } from 'ngx-cookie-service';
 import { LoginService } from '@app/services/login-service';
+import { NotificationsService } from '@app/services/notifications.service';
+import { RestService } from '@app/services/rest.service';
 
 /**
  * Institutions sevice that handles communication with Institutions API `\/institutions`

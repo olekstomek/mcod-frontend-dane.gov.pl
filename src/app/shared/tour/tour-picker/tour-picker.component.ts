@@ -1,15 +1,25 @@
-import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { DOCUMENT, isPlatformServer, NgIf } from '@angular/common';
 import { Component, ElementRef, Inject, OnDestroy, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCopy, faLocationArrow, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { LocalStorageService } from 'ngx-localstorage';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import unique from 'unique-selector';
+import { TooltipDirective } from '../../tooltip/tooltip.directive';
 
 @Component({
-  selector: 'app-tour-picker',
-  templateUrl: 'tour-picker.component.html',
+    selector: 'app-tour-picker',
+    templateUrl: 'tour-picker.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        TooltipDirective,
+        FaIconComponent,
+    ],
 })
 /**
  * Tour picker component

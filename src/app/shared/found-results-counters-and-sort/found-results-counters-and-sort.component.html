@@ -26,14 +26,11 @@
             *ngIf="!counter.url && selectedModel !== counter.value"
             (click)="updateParams({ 'model[terms]': counter.value }, true)"
           >
-            <img
-              *ngIf="counter.value !== 'dataset,resource'"
-              [src]="'assets/icomoon/SVG/' + counter.value + '.svg'"
-              alt=""
-              style="vertical-align: top"
-            />
+            <svg class="icon" style="stroke: none" *ngIf="counter.value !== 'dataset,resource'">
+              <use [attr.href]="'assets/icomoon/SVG/' + counter.value + '.svg#' + counter.value"></use>
+            </svg>
             {{ counter.label }} ({{ counter.count }})
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'Search.AutoContentReload' | translate }}
             </span>
           </button>
@@ -60,10 +57,10 @@
   <div class="d-md-inline-flex align-items-center pt-2">
     <span class="dropdown-label pr-2" id="sortby-label">
       {{ 'Sort.By' | translate }}:
-      <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
+      <span class="visually-hidden"> ({{ 'Search.AutoContentReload' | translate }}) </span>
     </span>
 
-    <select class="form-control sort-order" (change)="updateParams({ sort: $event.target.value })" aria-labelledby="sortby-label">
+    <select class="form-select sort-order" (change)="updateParams({ sort: getValue($event) })" aria-labelledby="sortby-label">
       <option [ngValue]="null" *ngIf="!isSortValid">
         {{ 'Action.Choose' | translate }}
       </option>

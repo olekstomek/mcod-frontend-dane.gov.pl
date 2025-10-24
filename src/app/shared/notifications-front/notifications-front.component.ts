@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { NotificationsComponent } from '../notifications/notifications.component';
+
 import { NotificationsFrontService } from '@app/services/notifications-front.service';
 
 /**
@@ -9,8 +11,10 @@ import { NotificationsFrontService } from '@app/services/notifications-front.ser
  */
 
 @Component({
-  selector: 'app-notifications-front',
-  templateUrl: './notifications-front.component.html',
+    selector: 'app-notifications-front',
+    templateUrl: './notifications-front.component.html',
+    standalone: true,
+    imports: [NotificationsComponent],
 })
 export class NotificationsFrontComponent implements OnInit, OnDestroy {
   /**
@@ -39,6 +43,8 @@ export class NotificationsFrontComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy() {
     this.notificationsService.clearAlerts();
-    this.notificationsSubscription && this.notificationsSubscription.unsubscribe();
+    if (this.notificationsSubscription) {
+      this.notificationsSubscription.unsubscribe();
+    }
   }
 }

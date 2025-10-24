@@ -1,12 +1,13 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { CmsBlockComponent } from '@app/shared/cms/cms-block/cms-block.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { BehaviorSubject } from 'rxjs';
+import { SharedModule } from '@app/shared/shared.module';
 
 const iWidget: IWidget = {
   general: {
@@ -28,8 +29,10 @@ describe('SurveyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CmsBlockComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), SharedModule, CmsBlockComponent],
+      providers: [
+        importProvidersFrom(AppTestingModule)
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CmsBlockComponent);

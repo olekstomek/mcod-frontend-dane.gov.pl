@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 import { ApiConfig } from '@app/services/api';
-import { TemplateHelper } from '@app/shared/helpers';
-import { RestService } from '@app/services/rest.service';
-import { Observable, Subject } from 'rxjs';
 import { BasicPageParams } from '@app/services/models/page-params';
+import { RestService } from '@app/services/rest.service';
+import { TemplateHelper } from '@app/shared/helpers';
 
 /**
  * General following changes service that handles API communication
@@ -19,9 +19,11 @@ export class ObserveService extends RestService {
    * Only for logged in users (requires api_key)
    * @param {string} objectType
    * @param {string} objectId
+   * @param {string} name
+   * @param {number} count
    * @returns {Observable<any>}
    */
-  addSubscription(objectType: string, objectId: string, name?: string, count?: number) {
+  addSubscription(objectType: string, objectId: string, name?: string, count?: number): Observable<any> {
     let objects_count: string;
     if (name) {
       name = `"name": ${JSON.stringify(name)},`;
@@ -56,7 +58,7 @@ export class ObserveService extends RestService {
    * @param {number} id
    * @returns {Observable<any>}
    */
-  removeSubscription(id: number) {
+  removeSubscription(id: number): Observable<any> {
     const url = TemplateHelper.parseUrl(ApiConfig.unsubscribe, { subscriptionId: id });
     return this.delete(url);
   }

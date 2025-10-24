@@ -1,5 +1,5 @@
 {
-    "/api": {
+  "/api/**": {
         "target": "https://api.int.dane.gov.pl/1.4/",
         "secure": false,
         "pathRewrite": {

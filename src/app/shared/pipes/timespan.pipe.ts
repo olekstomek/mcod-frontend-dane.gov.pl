@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
+import moment from 'moment/min/moment-with-locales';
 
 /**
  * Timespan Pipe
@@ -9,8 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
  * {{ item.attributes.modified | timespan }}
  */
 @Pipe({
-  name: 'timespan',
-  pure: true,
+    name: 'timespan',
+    pure: true,
+    standalone: true,
 })
 export class TimespanPipe implements PipeTransform {
   /**

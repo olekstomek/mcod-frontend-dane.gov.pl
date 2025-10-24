@@ -25,15 +25,15 @@
 
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
-import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import { Request, Response } from 'express';
-import { CookieService } from 'ngx-cookie-service';
+export const REQUEST = new InjectionToken<Request>('REQUEST');
+export const RESPONSE = new InjectionToken<Response>('RESPONSE');
 
 /**
  * Server Cookie Service
  */
 @Injectable()
-export class ServerCookieService extends CookieService {
+export class ServerCookieService {
   /**
    * Cookies
    * @type {string}
@@ -49,7 +49,7 @@ export class ServerCookieService extends CookieService {
     @Inject(REQUEST) private readonly request: Request,
     @Inject(RESPONSE) private readonly response: Response,
   ) {
-    super(document, platformId);
+    // super(document, platformId);
     this.cookies = this.request.headers.cookies as string;
   }
 
@@ -110,15 +110,12 @@ export class ServerCookieService extends CookieService {
     }
   }
 
+
   /**
    * Sets cookie
    * @param name
    * @param value
-   * @param expires
-   * @param path
-   * @param domain
-   * @param secure
-   * @param sameSite
+   * @param options
    */
   set(
     name: string,
@@ -131,4 +128,6 @@ export class ServerCookieService extends CookieService {
   ) {
     this.response.cookie(name, value, { domain, path, secure });
   }
+
+
 }

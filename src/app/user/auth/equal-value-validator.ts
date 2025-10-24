@@ -1,4 +1,4 @@
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 /**
  * Checks weather both field values are identicaal
@@ -7,7 +7,7 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
  * @returns value validator
  */
 export function equalValueValidator(formControlName1: string, formControlName2: string): ValidatorFn {
-  return (formGroup: FormGroup): { [key: string]: any } => {
+  return (formGroup: UntypedFormGroup): { [key: string]: any } => {
     const formControl1 = formGroup.controls[formControlName1];
     const formControl2 = formGroup.controls[formControlName2];
 

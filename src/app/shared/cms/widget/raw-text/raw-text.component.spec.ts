@@ -1,11 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { EmbedRawTextService } from '@app/services/embed-raw-text.service';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { RawTextComponent } from '@app/shared/cms/widget/raw-text/raw-text.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 const iWidget: IWidget = {
   general: {
@@ -28,9 +29,8 @@ describe('RawTextComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RawTextComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
-      providers: [EmbedRawTextService],
+      imports: [TranslateModule.forRoot(), RawTextComponent],
+      providers: [EmbedRawTextService, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     service = TestBed.inject(EmbedRawTextService);
@@ -48,7 +48,7 @@ describe('RawTextComponent', () => {
   });
 
   it('should prepare text with styles do display in html', () => {
-    spyOn(component.rawTextHasLoaded, 'emit');
+    jest.spyOn(component.rawTextHasLoaded, 'emit');
     component.ngOnInit();
     expect(component.rawTextHasLoaded.emit).toHaveBeenCalled();
   });

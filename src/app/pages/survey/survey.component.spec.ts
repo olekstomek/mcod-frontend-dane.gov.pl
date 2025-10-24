@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { SurveyComponent } from '@app/pages/survey/survey.component';
 import { CmsService } from '@app/services/cms.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 
 describe('SurveyComponent', () => {
   let component: SurveyComponent;
@@ -13,9 +13,11 @@ describe('SurveyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SurveyComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [CmsService],
+      imports: [TranslateModule.forRoot(), SurveyComponent],
+      providers: [
+        CmsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);

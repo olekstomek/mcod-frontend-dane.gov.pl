@@ -6,7 +6,8 @@ import { Directive, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewContainerRef }
  * Skips rendering element if platform is browser
  */
 @Directive({
-  selector: '[appShellRender]',
+    selector: '[appShellRender]',
+    standalone: true,
 })
 export class AppShellRenderDirective implements OnInit {
   /**

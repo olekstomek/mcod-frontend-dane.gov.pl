@@ -17,7 +17,7 @@ describe('ListViewManageFiltersService', () => {
   });
 
   it('should call buildAvailibilityMap function', () => {
-    const spyFunction = spyOn(service, 'buildAvailibilityMap');
+    const spyFunction = jest.spyOn(service, 'buildAvailibilityMap');
     const keys = ['jeden', 'dwa'];
     service.buildAvailibilityMap(keys);
 
@@ -25,14 +25,14 @@ describe('ListViewManageFiltersService', () => {
   });
 
   it('should call prepareToApply function', () => {
-    const spyFunction = spyOn(service, 'prepareToApply');
+    const spyFunction = jest.spyOn(service, 'prepareToApply');
     service.prepareToApply(['jeden', 'dwa'], { id: '582897' });
 
     expect(spyFunction).toBeCalled();
   });
 
   it('should call changeMultiselectFilter function', () => {
-    const spyFunction = spyOn(service, 'changeMultiselectFilter');
+    const spyFunction = jest.spyOn(service, 'changeMultiselectFilter');
     const selectedIds = {
       key: {
         id: '582897',
@@ -53,7 +53,7 @@ describe('ListViewManageFiltersService', () => {
   });
 
   it('should call changeSingleselectFilter function', () => {
-    const spyFunction = spyOn(service, 'changeSingleselectFilter');
+    const spyFunction = jest.spyOn(service, 'changeSingleselectFilter');
     const selectedOption = {
       hierarchy_label: 'Polska',
       region_id: 582897,
@@ -67,7 +67,7 @@ describe('ListViewManageFiltersService', () => {
   });
 
   it('should call checkIfMultiselectChanged function', () => {
-    const spyFunction = spyOn(service, 'checkIfMultiselectChanged');
+    const spyFunction = jest.spyOn(service, 'checkIfMultiselectChanged');
     const changedData = {
       key: {
         id: '582897',
@@ -90,7 +90,7 @@ describe('ListViewManageFiltersService', () => {
   });
 
   it('should call changeDaterangeFilter function', () => {
-    const spyFunction = spyOn(service, 'changeDaterangeFilter');
+    const spyFunction = jest.spyOn(service, 'changeDaterangeFilter');
     const data = {
       name: '',
       value: new Date(),
@@ -101,7 +101,7 @@ describe('ListViewManageFiltersService', () => {
   });
 
   it('should call getDaterangeAvailability function', () => {
-    const spyFunction = spyOn(service, 'getDaterangeAvailability');
+    const spyFunction = jest.spyOn(service, 'getDaterangeAvailability');
     const previousDaterange = {
       name: '',
       value: new Date(),

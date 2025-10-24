@@ -1,12 +1,13 @@
-import { Directive, ElementRef, Renderer2, Inject, PLATFORM_ID, OnInit, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Directive, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 
 /**
- * Focus Trap Directive. Supports accessibility. 
+ * Focus Trap Directive. Supports accessibility.
  * Limits keyboard navigation through focusable elements to a range set by first and last focusable elements within a given container.
  */
 @Directive({
-    selector: '[app-focus-trap]'
+    selector: '[app-focus-trap]',
+    standalone: true
 })
 export class FocusTrapDirective implements OnInit, OnDestroy {
 
@@ -40,18 +41,18 @@ export class FocusTrapDirective implements OnInit, OnDestroy {
     ) {}
 
     /**
-     * Initializes first and last focusable elements  
+     * Initializes first and last focusable elements
      */
     ngOnInit() {
-        if(!isPlatformBrowser(this.platformId)) return;
+        if (!isPlatformBrowser(this.platformId)) { return; }
 
         this.firstElement = this.elementRef.nativeElement.querySelector('.focus-trap-first');
         this.lastElement = this.elementRef.nativeElement.querySelector('.focus-trap-last');
 
-        if (!this.firstElement || !this.firstElement) return;
+        if (!this.firstElement || !this.firstElement) { return; }
 
         this.firstElementListener = this.renderer.listen(this.firstElement, 'keydown', (event) => {
-            if (event.key !== "Tab") return;
+            if (event.key !== 'Tab') { return; }
 
             if (event.shiftKey && this.lastElement) {
                 event.preventDefault();
@@ -60,7 +61,7 @@ export class FocusTrapDirective implements OnInit, OnDestroy {
         });
 
         this.lastElementListener = this.renderer.listen(this.lastElement, 'keydown', (event) => {
-            if (event.key !== "Tab") return;
+            if (event.key !== 'Tab') { return; }
 
             if (!event.shiftKey && this.firstElement) {
                 event.preventDefault();
@@ -73,7 +74,7 @@ export class FocusTrapDirective implements OnInit, OnDestroy {
      * Unsubscribes from existing subscriptions
      */
     ngOnDestroy() {
-        this.firstElementListener();
-        this.lastElementListener();
+        this.firstElementListener = undefined;
+        this.lastElementListener = undefined;
     }
 }

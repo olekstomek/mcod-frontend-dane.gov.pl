@@ -1,10 +1,10 @@
+import { DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { catchError, finalize, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@app/app.config';
-import { HttpClient } from '@angular/common/http';
-import { DOCUMENT } from '@angular/common';
 
 /**
  * Api Flag Service

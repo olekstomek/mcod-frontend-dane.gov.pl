@@ -1,12 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { CmsService } from '@app/services/cms.service';
+import { IVideo, IVideoHyperEditor } from '@app/services/models/cms/widgets/video';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { VideoComponent } from '@app/shared/cms/widget/video/video.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { IVideo, IVideoHyperEditor } from '@app/services/models/cms/widgets/video';
 
 const videoHyperEditor: IVideoHyperEditor = {
   general: {
@@ -55,9 +55,11 @@ describe('VideoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VideoComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [CmsService],
+      imports: [TranslateModule.forRoot(), VideoComponent],
+      providers: [
+        CmsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);
@@ -70,12 +72,4 @@ describe('VideoComponent', () => {
     fixture.detectChanges();
     expect(component).toBeDefined();
   });
-
-  /*it('should display video from cms', async () => {
-    component.video = video;
-    fixture.detectChanges();
-    component.ngOnInit();
-    expect(component.video).toEqual(video);
-    expect(component.videoClass).toEqual('video-center');
-  });*/
 });

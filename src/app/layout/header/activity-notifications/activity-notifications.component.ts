@@ -1,4 +1,8 @@
-import { Component, OnInit, ElementRef, ViewChild, Renderer2, AfterViewInit } from '@angular/core';
+import { LowerCasePipe, NgIf } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations';
 import { ObserveService } from '@app/services/observe.service';
@@ -10,6 +14,14 @@ import { ObserveService } from '@app/services/observe.service';
   selector: 'app-activity-notifications',
   templateUrl: './activity-notifications.component.html',
   animations: [toggleVertically],
+  imports: [
+    TranslatePipe,
+    LowerCasePipe,
+    NgIf,
+    RouterLink,
+    LocalizeRouterPipe
+  ],
+  standalone: true
 })
 export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
   /**
@@ -70,8 +82,12 @@ export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
       if (response.meta['notifications']) {
         const changes = response.meta['notifications'];
 
-        changes['datasets'] && (this.datasetsCount = changes['datasets']['new']);
-        changes['queries'] && (this.searchResultsCount = changes['queries']['new']);
+        if (changes['datasets']) {
+          (this.datasetsCount = changes['datasets']['new']);
+        }
+        if (changes['queries']) {
+          (this.searchResultsCount = changes['queries']['new']);
+        }
 
         this.countTotal();
       }
@@ -108,7 +124,7 @@ export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
    * @param event
    */
   clickOutside(event) {
-    if (!this.activityNotificationsRef) return;
+    if (!this.activityNotificationsRef) { return; }
 
     const targetElement = event.target as HTMLElement;
     const parentElement = this.activityNotificationsRef.nativeElement as HTMLElement;

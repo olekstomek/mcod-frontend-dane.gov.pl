@@ -1,12 +1,18 @@
+import { NgIf } from '@angular/common';
 import { Component, Injector, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ScheduleTabComponent } from '../../tab/schedule-tab.component';
+import { ConfirmationModalComponent } from '../../table/components/confirmation-modal/confirmation-modal.component';
+import { ScheduleTableComponent } from '../../table/schedule-table.component';
 
 import { toggleVertically } from '@app/animations';
 import { ApiModel } from '@app/services/api/api-model';
+import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
+import { PermissionDirective } from '@app/shared/user-permissions/permission.directive';
 import { Role } from '@app/shared/user-permissions/Role';
 import { ScheduleTableEditAction } from '@app/user/schedule/table/domain/actions/ScheduleTableEditAction';
 import { ScheduleTableViewDetailsAction } from '@app/user/schedule/table/domain/actions/ScheduleTableViewDetailsAction';
@@ -15,7 +21,6 @@ import { ColumnDefinition } from '@app/user/schedule/table/domain/column.definit
 import { ScheduleTableConfig } from '@app/user/schedule/table/domain/schedule-table.config';
 import { Schedule, ScheduleSettings, UserSchedule } from '@app/user/schedule/tabs/planning/domain/schedule';
 import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
-import { SeoService } from '@app/services/seo.service';
 
 /**
  * Schedule Archive Component
@@ -25,7 +30,9 @@ import { SeoService } from '@app/services/seo.service';
     templateUrl: './schedule-archive.component.html',
     animations: [
         toggleVertically
-    ]
+    ],
+    standalone: true,
+    imports: [ScheduleTabComponent, NgIf, ScheduleTableComponent, PermissionDirective, ConfirmationModalComponent]
 })
 export class ScheduleArchiveComponent implements OnInit, OnDestroy {
 
@@ -136,7 +143,7 @@ export class ScheduleArchiveComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.seoService.setPageTitle(['Archiwum', 'Harmonogram otwierania danych']);
-        
+
         this.activatedRoute.url
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
@@ -234,8 +241,8 @@ export class ScheduleArchiveComponent implements OnInit, OnDestroy {
             new ColumnDefinition('department', 'Jednostka podłegła - nadzorowana'),
             new ColumnDefinition('datasets', 'Zasoby danych'),
             new ColumnDefinition('creationDate', 'Data utworzenia', undefined, undefined, 'text-nowrap'),
-            new ColumnDefinition('accepted', 'Zaakceptowane',),
-            new ColumnDefinition('finished', 'Zrealizowane',)
+            new ColumnDefinition('accepted', 'Zaakceptowane', ),
+            new ColumnDefinition('finished', 'Zrealizowane', )
         ];
 
 
@@ -294,7 +301,9 @@ export class ScheduleArchiveComponent implements OnInit, OnDestroy {
     private showMessageWhenNecessary(): void {
         this.isRemoveSuccessMessageVisible = this.router.getCurrentNavigation()?.extras?.state?.isRemoved;
         if (this.isRemoveSuccessMessageVisible) {
-            this.removeMessageSuccessTimeout && clearTimeout(this.removeMessageSuccessTimeout);
+            if (this.removeMessageSuccessTimeout) {
+              clearTimeout(this.removeMessageSuccessTimeout);
+            }
             this.removeMessageSuccessTimeout = setTimeout(() => {
                 this.isRemoveSuccessMessageVisible = false;
             }, 7000);

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -9,6 +9,8 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
     selector: 'app-schedule-status-switcher',
     templateUrl: './schedule-status-switcher.component.html',
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule],
 })
 export class ScheduleStatusSwitcherComponent implements OnInit, OnDestroy {
 
@@ -44,7 +46,7 @@ export class ScheduleStatusSwitcherComponent implements OnInit, OnDestroy {
      * Completion status Form Control
      * @type {FormControl}
      */
-    completedFormControl: FormControl;
+    completedFormControl: UntypedFormControl;
 
     /**
      * Subject for cleanup purposes
@@ -56,7 +58,7 @@ export class ScheduleStatusSwitcherComponent implements OnInit, OnDestroy {
      * Subscribes for completion changes and emits event
      */
     ngOnInit(): void {
-        this.completedFormControl = new FormControl({value: this.completed, disabled: this.disabled});
+        this.completedFormControl = new UntypedFormControl({value: this.completed, disabled: this.disabled});
         this.completedFormControl.valueChanges
             .pipe(takeUntil(this.cleanup$))
             .subscribe(value => this.scheduleStatusChanged.emit(value));

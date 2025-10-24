@@ -1,33 +1,43 @@
-import { Component, Input, forwardRef, ViewChild, ElementRef, HostListener, OnInit, Output, EventEmitter } from '@angular/core';
+import { LowerCasePipe, NgIf } from '@angular/common';
+import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  FormControl,
-  NG_VALIDATORS,
-  ValidationErrors,
   AbstractControl,
   ControlContainer,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  UntypedFormControl,
+  ValidationErrors,
 } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
+import { FileSizeComponent } from '@app/shared/file-size/file-size.component';
 import { StringHelper } from '@app/shared/helpers/string.helper';
 
 @Component({
-  selector: 'app-image-upload',
-  templateUrl: './image-upload.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ImageUploadComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ImageUploadComponent),
-      multi: true,
-    },
-  ],
-  animations: [toggleVertically],
+    selector: 'app-image-upload',
+    templateUrl: './image-upload.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ImageUploadComponent),
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ImageUploadComponent),
+            multi: true,
+        },
+    ],
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        FileSizeComponent,
+        LowerCasePipe,
+        TranslatePipe,
+    ],
 })
 export class ImageUploadComponent implements OnInit, ControlValueAccessor {
   /**
@@ -48,7 +58,7 @@ export class ImageUploadComponent implements OnInit, ControlValueAccessor {
   /**
    * Related formcontrol
    */
-  @Input() formControl: FormControl;
+  @Input() formControl: UntypedFormControl;
 
   /**
    * Related formcontrol name

@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 
-import { RestService } from '@app/services/rest.service';
 import { ApiConfig, ApiResponse } from '@app/services/api';
-import { TemplateHelper } from '@app/shared/helpers';
 import { IHasImageThumbParams } from '@app/services/models/page-params';
+import { RestService } from '@app/services/rest.service';
+import { TemplateHelper } from '@app/shared/helpers';
 
 /**
  * Application service handles backend connectivity for `\/applications` page

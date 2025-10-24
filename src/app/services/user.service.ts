@@ -40,7 +40,7 @@ export class UserService extends RestService {
    * @param {IRegistration} user
    * @returns {Observable<any>}
    */
-  public registerUser(user: IRegistration) {
+  public registerUser(user: IRegistration): Observable<any> {
     this.headers = new HttpHeaders();
     const requestData = this.prepareAuthParameters(user);
 
@@ -52,7 +52,7 @@ export class UserService extends RestService {
    * @param {string} email
    * @returns {Observable<any>}
    */
-  public resendConfirmationEmail(email: string) {
+  public resendConfirmationEmail(email: string): Observable<any> {
     this.headers = new HttpHeaders();
     const requestData = this.prepareAuthParameters({ email });
 
@@ -64,7 +64,7 @@ export class UserService extends RestService {
    * @param {string} token
    * @returns {Observable<any>}
    */
-  public verifyEmail(token: string) {
+  public verifyEmail(token: string): Observable<any> {
     this.headers = new HttpHeaders();
     const url = ApiConfig.userVerifyEmail + `/${token}`;
     return this.get(url);
@@ -75,7 +75,7 @@ export class UserService extends RestService {
    * @param {{email: string}} model
    * @returns {Observable<any>}
    */
-  public forgotPass(model: { email: string }) {
+  public forgotPass(model: { email: string }): Observable<any> {
     this.headers = new HttpHeaders();
     const requestData = this.prepareAuthParameters(model);
 
@@ -94,7 +94,7 @@ export class UserService extends RestService {
       new_password1: string;
       new_password2: string;
     },
-  ) {
+  ): Observable<any> {
     this.headers = new HttpHeaders();
     const requestData = this.prepareAuthParameters(model);
     const url = ApiConfig.userResetPass + `/${token}`;
@@ -136,7 +136,7 @@ export class UserService extends RestService {
    * @returns {Observable<any>}
    * @param model
    */
-  public changePassword(model: { old_password: string; new_password1: string; new_password2: string }) {
+  public changePassword(model: { old_password: string; new_password1: string; new_password2: string }): Observable<any> {
     this.setupHeaders(this.token, true);
     const requestData = this.prepareAuthParameters({ ...model });
 
@@ -147,7 +147,7 @@ export class UserService extends RestService {
    * Logs out user and clears any session tokens
    * @returns {Observable<any>}
    */
-  public logout() {
+  public logout(): Observable<any> {
     return this.post(ApiConfig.userLogout).pipe(
       finalize(() => {
         this.clearToken();
@@ -288,7 +288,7 @@ export class UserService extends RestService {
    * @param {object} payload
    * @returns {Observable<any>}
    */
-  setNotificationsStatusAsRead(payload: object) {
+  setNotificationsStatusAsRead(payload: object): Observable<any> {
     return this.patch(ApiConfig.activityNotifications, payload);
   }
 
@@ -297,7 +297,7 @@ export class UserService extends RestService {
    * @param {object} payload
    * @returns {Observable<any>}
    */
-  toggleEmailNotificationConsent(payload: object) {
+  toggleEmailNotificationConsent(payload: object): Observable<any> {
     const requestData = this.prepareAuthParameters({ ...payload });
 
     return this.put(ApiConfig.userProfile, requestData).pipe(map(resp => resp.data));

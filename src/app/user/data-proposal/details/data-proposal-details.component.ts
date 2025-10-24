@@ -1,10 +1,13 @@
+import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataProposalService } from '@app/services/data-proposal.service';
 import { Feedback } from '@app/shared/feedback/Feedback';
+import { FeedbackComponent } from '@app/shared/feedback/feedback.component';
 import { DataProposalDetails } from '@app/user/data-proposal/details/DataProposalDetails';
 import { FeedbackCounters } from '@app/user/data-proposal/details/FeedbackCounters';
 
@@ -12,9 +15,15 @@ import { FeedbackCounters } from '@app/user/data-proposal/details/FeedbackCounte
  * Data Proposal List Item Component
  */
 @Component({
-  selector: 'app-data-proposal-details',
-  templateUrl: './data-proposal-details.component.html',
-  providers: [{ provide: DataProposalService }],
+    selector: 'app-data-proposal-details',
+    templateUrl: './data-proposal-details.component.html',
+    providers: [{ provide: DataProposalService }],
+    standalone: true,
+    imports: [
+        NgIf,
+        FeedbackComponent,
+        TranslatePipe,
+    ],
 })
 export class DataProposalDetailsComponent implements OnInit, OnDestroy {
   /**

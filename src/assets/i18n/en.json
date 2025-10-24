@@ -580,6 +580,7 @@
     "TypeState": "Public government",
     "TypeOther": "Other",
     "TypePrivate": "Private entities",
+    "TypeDevelopers": "Developers",
     "ExternalDatasets": "Data from outside the portal",
     "EdorAddress": "Address for electronic delivery",
     "CopyEdorAddress": "Copy the address for electronic delivery"

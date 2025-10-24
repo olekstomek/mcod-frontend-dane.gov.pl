@@ -1,21 +1,37 @@
+import { LowerCasePipe, NgClass, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations';
 import { DatasetService } from '@app/services/dataset.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
+import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 
 @Component({
   selector: 'app-suggest-dataset',
   templateUrl: './suggest-dataset.component.html',
   animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    NgIf,
+    TranslatePipe,
+    RouterLink,
+    ReactiveFormsModule,
+    NotificationsServerComponent,
+    NgClass,
+    LowerCasePipe,
+    MathCaptchaComponent
+  ]
 })
 export class SuggestDatasetComponent implements OnInit {
   /**
    * Application form of suggest application component
    */
-  datasetForm: FormGroup;
+  datasetForm: UntypedFormGroup;
 
   /**
    * Determines whether suggestion is sent
@@ -39,13 +55,13 @@ export class SuggestDatasetComponent implements OnInit {
   ngOnInit() {
     this.seoService.setPageTitleByTranslationKey(['DatasetForm.Heading']);
 
-    this.datasetForm = new FormGroup({
-      title: new FormControl(null, Validators.required),
-      notes: new FormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
-      organization_name: new FormControl(null),
-      data_link: new FormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
-      potential_possibilities: new FormControl(null),
-      captcha: new FormControl(null, Validators.required),
+    this.datasetForm = new UntypedFormGroup({
+      title: new UntypedFormControl(null, Validators.required),
+      notes: new UntypedFormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
+      organization_name: new UntypedFormControl(null),
+      data_link: new UntypedFormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
+      potential_possibilities: new UntypedFormControl(null),
+      captcha: new UntypedFormControl(null, Validators.required),
     });
   }
 
@@ -64,7 +80,7 @@ export class SuggestDatasetComponent implements OnInit {
    * Determines whether dataset form is submitted
    */
   onDatasetFormSubmit() {
-    if (!this.datasetForm.valid) {return;}
+    if (!this.datasetForm.valid) { return; }
 
     this.notificationsService.clearAlerts();
     const formValue = { ...this.datasetForm.value };

@@ -5,7 +5,7 @@
     [ngClass]="isDatasetView ? 'result-item-attributes__custom-heading' : ''"
   >
     <svg *ngIf="isDatasetView" [class]="['result-item-icon', highContrastMode]"><use [attr.href]="'assets/icomoon/SVG/' + iconName + '.svg' + '#' + iconName"></use></svg>
-    <p>{{ titleTranslationKey | translate }}</p>
+    <p class="result-item-attributes__text">{{ titleTranslationKey | translate }}</p>
   </div>
 
   <div class="result-item-attributes__list">

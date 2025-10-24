@@ -1,4 +1,4 @@
-<h1 class="sr-only">
+<h1 class="visually-hidden">
   {{ 'MyDashboard.Self' | translate }}
 </h1>
 
@@ -20,12 +20,12 @@
           href="{{ adminPanelUrl }}"
           target="_blank"
         >
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'GoTo' | translate }}
           </span>
           {{ 'MyDashboard.AdminPanel' | translate }}
 
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'SkipTo.NewWindow' | translate }}
           </span>
         </a>
@@ -53,7 +53,7 @@
         <ng-container *ngIf="!dashboardData.user.attributes.is_gov_linked else accountLinked">
           <div class="dashboard-add-login-via-wk">{{ 'MyDashboard.AddLoginViaWK' | translate }}</div>
           <a class="btn btn-primary btn-sm mt-2 pl-3 pr-3" (click)="linkAccountToWK()"
-             [routerLink]="">{{ 'MyDashboard.AddLoginViaWKButton' | translate }}</a>
+             [routerLink]="[]">{{ 'MyDashboard.AddLoginViaWKButton' | translate }}</a>
         </ng-container>
       </div>
     </div>
@@ -244,7 +244,7 @@
         <div *ngFor="let item of forumLatestTopicsWithCategories">
           <a href="{{ forumUrl }}/session/sso?return_path=/t/{{ item.slug }}/{{ item.id }}" target="_blank">
             {{ item.title }}
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'SkipTo.NewWindow' | translate }}
             </span>
           </a>
@@ -260,7 +260,7 @@
           <span class="d-flex justify-content-between">
             <span class="small">
               <span class="forum__type pr-2" style="background-color: #{{ item.category.color }}"></span>
-              <span class="sr-only">{{ 'MyDashboard.Category' | translate }} </span>
+              <span class="visually-hidden">{{ 'MyDashboard.Category' | translate }} </span>
               {{ item.category.name }}
             </span>
           </span>
@@ -271,7 +271,7 @@
         <!-- actions -->
         <a class="btn btn-primary btn-sm mr-2" href="{{ forumUrl }}/session/sso" target="_blank">
           {{ 'MyDashboard.GoToForum' | translate }}
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'SkipTo.NewWindow' | translate }}
           </span>
         </a>
@@ -423,7 +423,7 @@
 <ng-template #accountLinked>
   <div class="dashboard-add-login-via-wk">{{ 'MyDashboard.LoginAdded' | translate }}</div>
   <a class="btn btn-outline-primary btn-sm mt-2 pl-3 pr-3" (click)="openDialog()"
-     [routerLink]="">{{ 'MyDashboard.RemoveLoginViaWK' | translate }}</a>
+     [routerLink]="[]">{{ 'MyDashboard.RemoveLoginViaWK' | translate }}</a>
 </ng-template>
 
 

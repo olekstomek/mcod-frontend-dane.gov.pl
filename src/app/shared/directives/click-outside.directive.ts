@@ -4,7 +4,8 @@ import { fromEvent, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Directive({
-  selector: '[appClickOutside]'
+    selector: '[appClickOutside]',
+    standalone: true
 })
 export class ClickOutsideDirective implements AfterViewInit, OnDestroy {
   @Output() clickOutside: EventEmitter<void> = new EventEmitter<void>();

@@ -1,16 +1,17 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NewsletterService } from '@app/services/newsletter.service';
-import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { of } from 'rxjs/internal/observable/of';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { NewsletterService } from '@app/services/newsletter.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
-import { of } from 'rxjs/internal/observable/of';
+import { SharedModule } from '@app/shared/shared.module';
+import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -23,18 +24,22 @@ describe('NewsletterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NewsletterComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
+        SharedModule,
+        NewsletterComponent
       ],
-      providers: [{ provide: SeoService, useClass: SeoServiceStub }, FormBuilder, NotificationsService, NewsletterService],
+      providers: [
+        { provide: SeoService, useClass: SeoServiceStub },
+        FormBuilder,
+        NotificationsService,
+        NewsletterService,
+        importProvidersFrom(AppTestingModule)
+      ],
     });
   });
 
@@ -50,7 +55,7 @@ describe('NewsletterComponent', () => {
   });
 
   it('should create a form with 3 controls and all should be required', () => {
-    spyOn(service, 'getNewsletterRegulations').and.returnValue(
+    jest.spyOn(service, 'getNewsletterRegulations').mockReturnValue(
       of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
     );
     component.ngOnInit();
@@ -70,7 +75,7 @@ describe('NewsletterComponent', () => {
   });
 
   it('should fill required fields and the form should be valid', () => {
-    spyOn(service, 'addNewsletterSubscription').and.returnValue(
+    jest.spyOn(service, 'addNewsletterSubscription').mockReturnValue(
       of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
     );
     component.newsletterForm.setValue({

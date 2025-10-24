@@ -1,15 +1,38 @@
+import { AsyncPipe, NgFor } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CmsService } from '@app/services/cms.service';
+import { RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+
+import { CmsService } from '@app/services/cms.service';
 import { NotificationsService } from '@app/services/notifications.service';
+import { FooterComponent } from '@app/shared/footer/footer.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { StripHtmlPipe } from '@app/shared/pipes/strip-html.pipe';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { TruncateTextPipe } from '@app/shared/pipes/truncate-text.pipe';
 
 /**
  * News Component
  */
 @Component({
-  selector: 'home-news',
-  templateUrl: './news.component.html',
-  providers: [NotificationsService],
+    selector: 'home-news',
+    templateUrl: './news.component.html',
+    providers: [NotificationsService],
+    standalone: true,
+    imports: [
+        NotificationsServerComponent,
+        NgFor,
+        RouterLink,
+        FooterComponent,
+        AsyncPipe,
+        TranslatePipe,
+        StripHtmlPipe,
+        TruncateTextPipe,
+        TranslateDateFormatPipe,
+        LocalizeRouterPipe,
+    ],
 })
 export class NewsComponent implements OnInit, OnDestroy {
   /**

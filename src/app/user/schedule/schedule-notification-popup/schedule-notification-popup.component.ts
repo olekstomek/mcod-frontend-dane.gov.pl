@@ -1,24 +1,28 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2, OnDestroy, Input, OnInit, Inject } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { DOCUMENT } from "@angular/common";
+import { DOCUMENT, NgFor, NgIf } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '@env/environment';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import * as fas from '@fortawesome/free-solid-svg-icons';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ScheduleStage } from '../forms/schedule-stage';
+import { ScheduleNotificationsService } from '../services/schedule-notifications.service';
 
-import { toggleVertically } from "@app/animations/toggle-vertically";
-import { ScheduleNotification } from "@app/user/schedule/services/schedule-notification";
-import { ScheduleNotificationsService } from "../services/schedule-notifications.service";
-import { UserService } from "@app/services/user.service";
-import { ScheduleStage } from "../forms/schedule-stage";
-import { ForumNotificationWithBadge } from "@app/user/forum/forum.enum";
-import { DiscourseService } from "@app/user/forum/discourse.service";
-import { APP_CONFIG } from "@app/app.config";
-import { environment } from "@env/environment";
+import { toggleVertically } from '@app/animations/toggle-vertically';
+import { APP_CONFIG } from '@app/app.config';
+import { UserService } from '@app/services/user.service';
+import { DiscourseService } from '@app/user/forum/discourse.service';
+import { ForumNotificationWithBadge } from '@app/user/forum/forum.enum';
+import { ScheduleNotification } from '@app/user/schedule/services/schedule-notification';
 
 @Component({
-    selector: "app-schedule-notification-popup",
-    templateUrl: "./schedule-notification-popup.component.html",
+    selector: 'app-schedule-notification-popup',
+    templateUrl: './schedule-notification-popup.component.html',
     animations: [
         toggleVertically
-    ]
+    ],
+    standalone: true,
+    imports: [NgIf, NgFor, FaIconComponent, TranslatePipe]
 })
 export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -115,7 +119,7 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
      * @param {Event} event
      */
     clickOutside(event: Event) {
-        if (!this.notificationsRef) return;
+        if (!this.notificationsRef) { return; }
 
         const targetElement = event.target as HTMLElement;
         const parentElement = this.notificationsRef.nativeElement as HTMLElement;
@@ -164,7 +168,7 @@ export class ScheduleNotificationPopupComponent implements OnInit, AfterViewInit
         let url = ['../', 'schedule'];
 
         if (schedule_state) {
-            let state = ScheduleStage.PLANNING;;
+            let state = ScheduleStage.PLANNING;
 
             if (schedule_state !== 'planned') {
                 state = schedule_state === 'implemented' ? ScheduleStage.REALIZATION : ScheduleStage.ARCHIVE;

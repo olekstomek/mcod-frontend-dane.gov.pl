@@ -4,6 +4,6 @@ export interface IImage {
         height: number,
         title: string,
         width: number
-    }
+    };
     position: string;
 }

@@ -1,4 +1,6 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { IAggregationProperties, MultiselectOption } from '@app/services/models/filters';
 import { StringHelper } from '@app/shared/helpers/string.helper';
@@ -7,8 +9,15 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
  * Expandable list view for filters
  */
 @Component({
-  selector: 'app-expandable-multiselect-list',
-  templateUrl: './expandable-multiselect-list.component.html',
+    selector: 'app-expandable-multiselect-list',
+    templateUrl: './expandable-multiselect-list.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        NgFor,
+        NgIf,
+        TranslatePipe,
+    ],
 })
 export class ExpandableMultiselectListComponent implements OnChanges {
   /**

@@ -1,4 +1,6 @@
+import { NgClass, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { StringHelper } from '@app/shared/helpers/string.helper';
 
@@ -8,6 +10,12 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
 @Component({
   selector: 'app-footer-nav-list',
   templateUrl: './footer-nav-list.component.html',
+  imports: [
+    TranslatePipe,
+    NgClass,
+    NgIf
+  ],
+  standalone: true
 })
 export class FooterNavListComponent {
   /**

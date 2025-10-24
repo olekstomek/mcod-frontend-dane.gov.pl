@@ -1,22 +1,37 @@
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT, LowerCasePipe, NgForOf, NgIf, NgOptimizedImage, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Subscription, zip } from 'rxjs';
+
+import { toggleVertically } from '@app/animations';
+import { DatasetRestrictionsComponent } from '@app/pages/dataset/dataset-restrictions/dataset-restrictions.component';
+import { DatasetResultsComponent } from '@app/pages/dataset/dataset-results/dataset-results.component';
+import { FeedbackFormComponent } from '@app/pages/dataset/feedback-form/feedback-form.component';
+import { ApiModel } from '@app/services/api/api-model';
+import { DatasetService } from '@app/services/dataset.service';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IDatasetFile, IDatasetRegionsList } from '@app/services/models/dataset-resource';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { ISearchResult } from '@app/services/models/search';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { Subscription, zip } from 'rxjs';
-
-import { toggleVertically } from '@app/animations/index';
-import { ApiModel } from '@app/services/api/api-model';
-import { DatasetService } from '@app/services/dataset.service';
 import { SchemaDataService } from '@app/services/schema-data.service';
 import { SchemaService } from '@app/services/schema.service';
 import { SeoService } from '@app/services/seo.service';
+import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
+import { CollapsibleTextComponent } from '@app/shared/collapsible-text/collapsible-text.component';
+import { FocusTrapDirective } from '@app/shared/directives/focus-trap/focus-trap.directive';
+import { DownloadLinkComponent } from '@app/shared/download-link/download-link.component';
 import { LinkHelper } from '@app/shared/helpers';
 import { ActivatedRouteHelper } from '@app/shared/helpers/activated-route.helper';
+import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.directive';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-filters.component';
+import { StarRatingComponent } from '@app/shared/star-rating/star-rating.component';
+import { selectTarget } from '@app/shared/util';
 
 /**
  * Dataset Resource Component
@@ -25,8 +40,50 @@ import { ActivatedRouteHelper } from '@app/shared/helpers/activated-route.helper
   selector: 'app-dataset-resource',
   templateUrl: './dataset-resource.component.html',
   animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    CollapsibleTextComponent,
+    StarRatingComponent,
+    TranslatePipe,
+    NgIf,
+    NgOptimizedImage,
+    TranslateDateFormatPipe,
+    AsyncPipe,
+    TitleCasePipe,
+    LowerCasePipe,
+    NgForOf,
+    DatasetRestrictionsComponent,
+    InfoTooltipDirective,
+    NotificationsServerComponent,
+    UpperCasePipe,
+    DownloadLinkComponent,
+    ResourceFiltersComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    ApiSourceLinkComponent,
+    DatasetResultsComponent,
+    FormsModule,
+    LocalizeRouterPipe,
+    FeedbackFormComponent,
+    FocusTrapDirective
+  ]
 })
 export class DatasetResourceComponent implements OnInit, OnDestroy {
+
+  /**
+   * @ignore
+   */
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private datasetService: DatasetService,
+    private seoService: SeoService,
+    private schemaService: SchemaService,
+    private schemaDataService: SchemaDataService,
+    private modalService: BsModalService,
+    private featureFlagService: FeatureFlagService,
+    @Inject(DOCUMENT) private readonly document: Document,
+  ) {}
   /**
    * API model
    */
@@ -147,19 +204,7 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
    */
   readonly routerEndpoints = RouterEndpoints;
 
-  /**
-   * @ignore
-   */
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private datasetService: DatasetService,
-    private seoService: SeoService,
-    private schemaService: SchemaService,
-    private schemaDataService: SchemaDataService,
-    private modalService: BsModalService,
-    private featureFlagService: FeatureFlagService,
-    @Inject(DOCUMENT) private readonly document: Document,
-  ) {}
+  protected readonly selectTarget = selectTarget;
 
   /**
    * Sets META tags (title, description).
@@ -169,8 +214,8 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.resourcesSubscription = this.activatedRoute.url.subscribe(res => {
       this.relatedResources = [];
-      this.resource = this.activatedRoute.snapshot.data.post;
-      this.relatedDataset = this.activatedRoute.parent.snapshot.data.post.data;
+      this.resource = this.activatedRoute.snapshot.data['post'];
+      this.relatedDataset = this.activatedRoute.parent.snapshot.data['post'].data;
       this.frameUrl = this.document.location.protocol + '//' + this.document.location.host + '/embed/resource/' + this.resource['id'];
       this.selfApi = this.resource.links.self;
       this.downloadFilesList = this.resource.attributes?.files;
@@ -179,7 +224,7 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
       this.hasTabularData = this.hasGeoData || this.resource.relationships.hasOwnProperty('tabular_data');
       this.seoService.setPageTitle(this.resource.attributes.title);
       this.regionsList = this.resource.attributes.regions.filter(region => region.is_additional === false);
-      this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
+      this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0;
 
       zip(
         this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id),
@@ -210,7 +255,7 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
    */
   extendViewDetails(relatedResource: ISearchResult[], slug: string, description: string): ISearchResult[] {
     relatedResource.map(item => {
-      item.url = `../../${this.routerEndpoints.RESOURCES}/${item.id},${slug}`;
+      item.url = `../${this.routerEndpoints.RESOURCES}/${item.id},${slug}`;
       item.titleTranslationKey = 'Resources.Single';
       item.attributes.notes = description;
       item.attributes.slug = slug;

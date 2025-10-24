@@ -38,7 +38,7 @@ export class StringHelper {
     /**
      * Determines whether string has lowercase characters
      * @param {string} text
-     * @returns {boolean} 
+     * @returns {boolean}
      */
     static hasLowercase(text: string): boolean {
         return /[a-z]+/.test(text);
@@ -47,7 +47,7 @@ export class StringHelper {
     /**
      * Determines whether string has uppercase characters
      * @param {string} text
-     * @returns {boolean} 
+     * @returns {boolean}
      */
     static hasUppercase(text: string): boolean {
         return /[A-Z]+/.test(text);
@@ -56,7 +56,7 @@ export class StringHelper {
     /**
      * Determines whether string has numbers
      * @param {string} text
-     * @returns {boolean} 
+     * @returns {boolean}
      */
     static hasNumbers(text: string): boolean {
         return /[0-9]+/.test(text);
@@ -65,7 +65,7 @@ export class StringHelper {
     /**
      * Determines whether string has special characters
      * @param {string} text
-     * @returns {boolean} 
+     * @returns {boolean}
      */
     static hasSpecialChars(text: string): boolean {
         return /[!-\/:-@\[-`\{-~]/g.test(text);

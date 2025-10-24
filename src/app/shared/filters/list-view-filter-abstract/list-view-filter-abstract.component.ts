@@ -1,23 +1,26 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { ListViewManageFiltersService } from '@app/services/filters/list-view-manage-filters.service';
 import {
-  FilterModel,
-  DaterangeFilterUpdated,
-  DaterangeFilterModel,
-  FiltersToSend,
-  AvailabilityFilterMap,
-  DaterangeFilterAvailability,
   AggregationFilterNames,
   AggregationOptionType,
-  IListViewFilterAggregationsOptions,
+  AvailabilityFilterMap,
+  DaterangeFilterAvailability,
+  DaterangeFilterModel,
+  DaterangeFilterUpdated,
+  FiltersToSend,
   IAggregationProperties,
   IAggregationPropertiesForRegions,
+  IListViewFilterAggregationsOptions,
 } from '@app/services/models/filters';
-import { ListViewManageFiltersService } from '@app/services/filters/list-view-manage-filters.service';
 
 /**
  * Abstract Component for List View filters
  */
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: true
+})
 export class ListViewFilterAbstractComponent {
   /**
    * All available Names for Filters

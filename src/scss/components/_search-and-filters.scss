@@ -27,7 +27,7 @@
 
 
     &__button {
-        @include media-breakpoint-down(xs) {
+        @include media-breakpoint-down(sm) {
             margin-top: 10px;
             width: 100%;
         }
@@ -52,13 +52,13 @@
 .aggregation-filters {
 
     &__item-body {
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             @include visibility-animated;
         }
     }
 
     &__item-body-custom {
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             @include visibility-animated-custom;
         }
     }

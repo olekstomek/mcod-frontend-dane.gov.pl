@@ -1,4 +1,7 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations';
 import { StringHelper } from '@app/shared/helpers/string.helper';
@@ -9,9 +12,17 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
  * <app-multiselect [options] [(selected)] [multiselect]="true" placeholder="Example" ></app-multiselect>
  */
 @Component({
-  selector: 'app-multiselect',
-  templateUrl: './multiselect.component.html',
-  animations: [toggleVertically],
+    selector: 'app-multiselect',
+    templateUrl: './multiselect.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        FormsModule,
+        NgFor,
+        TranslatePipe,
+    ],
 })
 export class MultiselectComponent implements OnInit, OnDestroy {
   /**
@@ -71,8 +82,11 @@ export class MultiselectComponent implements OnInit, OnDestroy {
   public set searchText(value: string) {
     this._searchText = value;
 
-    if (this.showSearchInput) this.filteredOptions = this.searchText ? this.performFilter(this.searchText) : [...this.options];
-    else this.filteredOptions = [...this.options];
+    if (this.showSearchInput) {
+      this.filteredOptions = this.searchText ? this.performFilter(this.searchText) : [...this.options];
+    } else {
+      this.filteredOptions = [...this.options];
+    }
   }
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
@@ -124,7 +138,7 @@ export class MultiselectComponent implements OnInit, OnDestroy {
    */
   selectItem(item) {
     if (this.multiselect) {
-      if (!this.tempSelected) this.tempSelected = [];
+      if (!this.tempSelected) { this.tempSelected = []; }
 
       const index = this.tempSelected.indexOf(item);
       index === -1 ? this.tempSelected.push(item) : this.tempSelected.splice(index, 1);
@@ -138,7 +152,9 @@ export class MultiselectComponent implements OnInit, OnDestroy {
    */
   toggleDropdown() {
     this.isExpanded = !this.isExpanded;
-    this.isExpanded && this.showSearchInput && (this.searchText = '');
+    if (this.isExpanded && this.showSearchInput) {
+      (this.searchText = '');
+    }
 
     // renew applied selections
     this.assignTemp();
@@ -181,7 +197,9 @@ export class MultiselectComponent implements OnInit, OnDestroy {
     }
 
     setTimeout(() => {
-      this.toggler && this.toggler.nativeElement.focus();
+      if (this.toggler) {
+        this.toggler.nativeElement.focus();
+      }
     }, 0);
   }
 

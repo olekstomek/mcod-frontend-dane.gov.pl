@@ -1,28 +1,67 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { InstitutionListViewFiltersComponent } from '../institution-list-view-filters/institution-list-view-filters.component';
+import { InstitutionResultsComponent } from '../institution-results/institution-results.component';
+import { InstitutionSelectedFiltersComponent } from '../institution-selected-filters/institution-selected-filters.component';
 
-import { SeoService } from '@app/services/seo.service';
-import { InstitutionsService } from '@app/services/institutions.service';
 import { toggle, toggleVertically } from '@app/animations';
+import { ApiConfig } from '@app/services/api';
+import { ApiModel } from '@app/services/api/api-model';
+import { InstitutionsService } from '@app/services/institutions.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
 import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
-import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
-import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
 import { IInstitutionSource, InstitutionSourceType } from '@app/services/models/institution';
+import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
 import { SearchService } from '@app/services/search.service';
-import { ApiConfig } from '@app/services/api';
-import { ApiModel } from '@app/services/api/api-model';
+import { SeoService } from '@app/services/seo.service';
+import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
+import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
+import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 
 /**
  * Institution Component
  */
 @Component({
-  selector: 'app-institution',
-  templateUrl: './institution.component.html',
-  animations: [toggle, toggleVertically],
+    selector: 'app-institution',
+    templateUrl: './institution.component.html',
+    animations: [toggle, toggleVertically],
+    standalone: true,
+    imports: [
+        SearchSuggestComponent,
+        InstitutionListViewFiltersComponent,
+        InstitutionSelectedFiltersComponent,
+        NgIf,
+        FoundResultsCountersAndSortComponent,
+        NotificationsServerComponent,
+        InstitutionResultsComponent,
+        NoResultsFoundComponent,
+        ItemsPerPageComponent,
+        PaginationComponent,
+        ApiSourceLinkComponent,
+        TranslatePipe,
+    ],
 })
 export class InstitutionComponent extends ListViewFilterPageAbstractComponent implements OnInit {
+
+  constructor(
+    protected filterService: ListViewFiltersService,
+    protected activatedRoute: ActivatedRoute,
+    protected selectedFiltersService: ListViewSelectedFilterService,
+    private router: Router,
+    private institutionsService: InstitutionsService,
+    private seoService: SeoService,
+    private searchService: SearchService,
+  ) {
+    super(filterService, activatedRoute, selectedFiltersService);
+  }
   /**
    * API model
    */
@@ -38,18 +77,6 @@ export class InstitutionComponent extends ListViewFilterPageAbstractComponent im
    * @type {string[]}
    */
   readonly Facets = [AggregationOptionType.INSTITUTION_TYPE];
-
-  constructor(
-    protected filterService: ListViewFiltersService,
-    protected activatedRoute: ActivatedRoute,
-    protected selectedFiltersService: ListViewSelectedFilterService,
-    private router: Router,
-    private institutionsService: InstitutionsService,
-    private seoService: SeoService,
-    private searchService: SearchService,
-  ) {
-    super(filterService, activatedRoute, selectedFiltersService);
-  }
 
   /**
    * Sets META tags (title).

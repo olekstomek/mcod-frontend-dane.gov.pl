@@ -1,10 +1,21 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { NgForOf, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { IDatasetFile } from '@app/services/models/dataset-resource';
 import { IDownloadFile } from '@app/services/models/download-item';
+import { DownloadLinkComponent } from '@app/shared/download-link/download-link.component';
 
 @Component({
   selector: 'app-resource-item-files-download',
   templateUrl: './resource-item-files-download.component.html',
+  standalone: true,
+  imports: [
+    TranslatePipe,
+    NgIf,
+    NgForOf,
+    DownloadLinkComponent
+  ]
 })
 export class ResourceItemFilesDownloadComponent implements OnInit {
   /**

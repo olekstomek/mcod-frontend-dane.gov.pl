@@ -7,10 +7,10 @@ import { LeafletService } from '@app/services/leflet.service';
  */
 export class UserLocationData {
 
-    private centerCircleX;
-    private centerCircleY;
-    private radiusKilometers;
-    private radiusMeters;
+    private readonly centerCircleX;
+    private readonly centerCircleY;
+    private readonly radiusKilometers;
+    private readonly radiusMeters;
 
     private circleMarker: Circle;
 

@@ -1,17 +1,28 @@
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestModuleMetadata } from '@angular/core/testing';
-import { CookieService } from 'ngx-cookie-service';
+import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { provideNgxLocalstorage } from 'ngx-localstorage';
+
 import { NotificationsService } from '@app/services/notifications.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 export class ServiceTestbed {
   static module(forService): TestModuleMetadata {
     return {
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot({ prefix: 'mcod' }), TranslateModule.forRoot()],
-      providers: [forService, HttpClientModule, NotificationsService, CookieService],
+      imports: [TranslateModule.forRoot()],
+      providers: [
+        forService,
+        NotificationsService,
+        CookieService,
+        provideNgxLocalstorage({
+          prefix: 'mcod'
+        }),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        provideHttpClient(withInterceptorsFromDi())
+      ],
     };
   }
 }

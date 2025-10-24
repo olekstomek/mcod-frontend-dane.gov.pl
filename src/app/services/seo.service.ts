@@ -31,7 +31,7 @@ export class SeoService {
 
   /**
    * Set page `<title>` tags
-   * @param {string | null} titleString
+   * @param {string | string[]} title
    */
   setPageTitle(title: string | string[]) {
     if (title instanceof Array) {
@@ -90,7 +90,7 @@ export class SeoService {
   }
 
   private setInitialMetaDescriptionInBrowser(translation) {
-    let descriptionEl: HTMLMetaElement = this.metaService.getTag('name = "description"');
+    const descriptionEl: HTMLMetaElement = this.metaService.getTag('name = "description"');
     const description = { name: 'description', content: translation['Description'] };
 
     if (descriptionEl) {

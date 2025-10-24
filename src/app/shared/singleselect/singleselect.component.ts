@@ -1,18 +1,20 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
   Renderer2,
-  ViewChild,
-  OnChanges,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 
 import { toggleVertically } from '@app/animations';
 import { StringHelper } from '@app/shared/helpers/string.helper';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ObjectHelper } from '../helpers';
 
 /**
@@ -21,9 +23,16 @@ import { ObjectHelper } from '../helpers';
  * <app-singleselect [options]="[1,2,3,4]" [(selected)]="selected" placeholder="Label"></app-singleselect>
  */
 @Component({
-  selector: 'app-singleselect',
-  templateUrl: './singleselect.component.html',
-  animations: [toggleVertically],
+    selector: 'app-singleselect',
+    templateUrl: './singleselect.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        NgFor,
+        TranslatePipe,
+    ],
 })
 export class SingleselectComponent implements OnDestroy, OnChanges {
   /**
@@ -137,8 +146,7 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
         }
       } else {
         this.togglerLabel = this.selected;
-        const matchingOptionIndex = this.options.findIndex(option => option === this.selected);
-        this.selectedIndex = matchingOptionIndex;
+        this.selectedIndex = this.options.findIndex(option => option === this.selected);
       }
     }
 
@@ -183,7 +191,7 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
 
     setTimeout(() => {
       (<HTMLInputElement>this.toggler.nativeElement).focus();
-    });
+    }, 500);
   }
 
   /**

@@ -1,21 +1,34 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { StringHelper } from "@app/shared/helpers/string.helper";
-import { ActivatedRoute } from "@angular/router";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { NgClass, NgIf } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import { SeoService } from "@app/services/seo.service";
-import { DatasetService } from "@app/services/dataset.service";
-import { toggleVertically } from "@app/animations/toggle-vertically";
+import { toggleVertically } from '@app/animations/toggle-vertically';
+import { DatasetService } from '@app/services/dataset.service';
+import { SeoService } from '@app/services/seo.service';
+import { StringHelper } from '@app/shared/helpers/string.helper';
+import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 
 /**
  * Submission Item Component
  */
 @Component({
-    selector: "app-submission-item",
-    templateUrl: "./submission-item.component.html",
-    animations: [
-        toggleVertically
-    ]
+  selector: 'app-submission-item',
+  templateUrl: './submission-item.component.html',
+  animations: [
+    toggleVertically
+  ],
+  imports: [
+    NotificationsServerComponent,
+    TranslatePipe,
+    NgIf,
+    ReactiveFormsModule,
+    NgClass,
+    MathCaptchaComponent
+  ],
+  standalone: true
 })
 export class SubmissionItemComponent implements OnInit {
 
@@ -27,7 +40,7 @@ export class SubmissionItemComponent implements OnInit {
     /**
      * Feedback form
      */
-    feedbackForm: FormGroup;
+    feedbackForm: UntypedFormGroup;
 
     /**
      * Max number of characters in the feedback
@@ -53,11 +66,11 @@ export class SubmissionItemComponent implements OnInit {
     }
 
     /**
-     * Sets META tags. 
+     * Sets META tags.
      * Initializes feedback form.
      */
     ngOnInit(): void {
-        this.submission = this.activatedRoute.snapshot.data.post.data;
+        this.submission = this.activatedRoute.snapshot.data['post'].data;
         this.seoService.setPageTitle(this.submission.attributes.title);
         this.seoService.setDescriptionFromText(StringHelper.stripHtmlTags(this.submission.attributes.notes));
         this.initForm();
@@ -67,13 +80,13 @@ export class SubmissionItemComponent implements OnInit {
      * Initializes form
      */
     initForm(): void {
-        this.feedbackForm = new FormGroup({
-            'feedback': new FormControl(null, [
-                Validators.required, 
-                Validators.minLength(this.minFeedbackLength), 
+        this.feedbackForm = new UntypedFormGroup({
+            'feedback': new UntypedFormControl(null, [
+                Validators.required,
+                Validators.minLength(this.minFeedbackLength),
                 Validators.maxLength(this.maxFeedbackLength)
             ]),
-            'captcha': new FormControl(null, Validators.required)
+            'captcha': new UntypedFormControl(null, Validators.required)
         });
     }
 
@@ -94,6 +107,6 @@ export class SubmissionItemComponent implements OnInit {
             }
         }`;
 
-        this.datasetService.sendSubmissionFeedback(this.submission.id, JSON.parse(payload)).subscribe(() => this.isFeedbackSent=true);
+        this.datasetService.sendSubmissionFeedback(this.submission.id, JSON.parse(payload)).subscribe(() => this.isFeedbackSent = true);
     }
 }

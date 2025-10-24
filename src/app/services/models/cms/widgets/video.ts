@@ -1,5 +1,5 @@
-import {IWidget} from '@app/services/models/cms/widgets/widget';
 import {ISettings} from '@app/services/models/cms/controls/settings';
+import {IWidget} from '@app/services/models/cms/widgets/widget';
 
 export interface IVideo extends IWidget {
     value: {

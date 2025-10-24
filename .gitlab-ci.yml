@@ -19,26 +19,28 @@ cache:
 
 before_script:
   - npm install --verbose
-  - npm run postinstall
-  - "/bin/bash create-env.sh"
+  - "bash create-env.sh"
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 
 test-feat-branch:
   stage: test
-  only:
-    - /^feat-.*$/
+  except:
+    - pre-develop
+    - develop
   script:
     - "npm run test"
   allow_failure: false
+  tags:
+    - frontend-3
 
 release-feat-to-int:
   stage: release
   script:
     - "./node_modules/@angular/cli/bin/ng build -c production --buildOptimizer"
     - "./node_modules/@angular/cli/bin/ng run frontend:server:production"
-    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:feat .
+    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend-ssr:feat .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker tag $REGISTRY_PATH/frontend-ssr:feat $REGISTRY_PATH/frontend-ssr:int-latest
+    - docker tag $REGISTRY_PATH/frontend:feat $REGISTRY_PATH/frontend-ssr:int-latest
     - docker push $REGISTRY_PATH/frontend-ssr:int-latest
   when: manual
   dependencies:
@@ -60,15 +62,16 @@ test-dev:
   script:
     - "npm run test"
   allow_failure: true
+  tags:
+    - frontend-3
 
 build-pre-dev:
   stage: build
   script:
-    - "./node_modules/@angular/cli/bin/ng build -c int"
-    - - "./node_modules/@angular/cli/bin/ng run frontend:server:int"
-    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:pre-dev .
+    - npm run build
+    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:pre-dev .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend-ssr:pre-dev
+    - docker push $REGISTRY_PATH/frontend:pre-dev
   only:
     - pre-develop
   artifacts:
@@ -76,15 +79,16 @@ build-pre-dev:
       - "dist/"
   except:
     - schedules
+  tags:
+    - frontend-3
 
 build-dev:
   stage: build
   script:
-    - "./node_modules/@angular/cli/bin/ng build -c int"
-    - - "./node_modules/@angular/cli/bin/ng run frontend:server:int"
-    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:dev .
+    - npm run build
+    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:dev .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend-ssr:dev
+    - docker push $REGISTRY_PATH/frontend:dev
   only:
     - develop
   artifacts:
@@ -92,15 +96,16 @@ build-dev:
       - "dist/"
   except:
     - schedules
+  tags:
+    - frontend-3
 
 build-master:
   stage: build
   script:
-    - "./node_modules/@angular/cli/bin/ng build -c production --buildOptimizer"
-    - "./node_modules/@angular/cli/bin/ng run frontend:server:production"
-    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:master .
+    - npm run build:prod
+    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:master .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend-ssr:master
+    - docker push $REGISTRY_PATH/frontend:master
   only:
     - master
   # artifacts:
@@ -108,15 +113,16 @@ build-master:
   #     - "dist/"
   except:
     - schedules
+  tags:
+    - frontend-3
 
 build-master-pwa:
   stage: build
   script:
-    - "./node_modules/@angular/cli/bin/ng build -c pwa"
-    - "./node_modules/@angular/cli/bin/ng run frontend:server:pwa"
-    - docker build -f docker/ssr/Dockerfile -t $REGISTRY_PATH/frontend-ssr:pwa .
+    - npm run build:pwa
+    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:pwa .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend-ssr:pwa
+    - docker push $REGISTRY_PATH/frontend:pwa
   only:
     - master
   # artifacts:
@@ -124,30 +130,34 @@ build-master-pwa:
   #     - "dist/"
   except:
     - schedules
+  tags:
+    - frontend-3
 
 release-preprod:
   stage: preprod-release
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker tag $REGISTRY_PATH/frontend-ssr:master $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION
-    - docker tag $REGISTRY_PATH/frontend-ssr:master $REGISTRY_PATH/frontend-ssr:master-rc-latest
-    - docker push $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION
-    - docker push $REGISTRY_PATH/frontend-ssr:master-rc-latest
+    - docker tag $REGISTRY_PATH/frontend:master $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION
+    - docker tag $REGISTRY_PATH/frontend:master $REGISTRY_PATH/frontend:master-rc-latest
+    - docker push $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION
+    - docker push $REGISTRY_PATH/frontend:master-rc-latest
   only:
     - master
   dependencies:
     - build-master
   except:
     - schedules
+  tags:
+    - frontend-3
 
 release-prod:
   stage: release
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker tag $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend-ssr:master-prod-$PACKAGE_VERSION
-    - docker tag $REGISTRY_PATH/frontend-ssr:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend-ssr:master-prod-latest
-    - docker push $REGISTRY_PATH/frontend-ssr:master-prod-$PACKAGE_VERSION
-    - docker push $REGISTRY_PATH/frontend-ssr:master-prod-latest
+    - docker tag $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend:master-prod-$PACKAGE_VERSION
+    - docker tag $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend:master-prod-latest
+    - docker push $REGISTRY_PATH/frontend:master-prod-$PACKAGE_VERSION
+    - docker push $REGISTRY_PATH/frontend:master-prod-latest
   only:
     - master
   when: manual
@@ -155,6 +165,8 @@ release-prod:
     - release-preprod
   except:
     - schedules
+  tags:
+    - frontend-3
 
 merge_to_master:on-schedule:
   before_script: []

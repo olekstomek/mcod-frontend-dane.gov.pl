@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ISpace } from '@app/services/models/cms/controls/space';
+
 import { IColor } from '@app/services/models/cms/controls/color';
-import { IWidget } from '@app/services/models/cms/widgets/widget';
+import { ISpace } from '@app/services/models/cms/controls/space';
 import { IWidgetStyleForHtmlInject } from '@app/services/models/cms/controls/widget-style';
+import { IWidget } from '@app/services/models/cms/widgets/widget';
 
 /**
  * Landing page style service

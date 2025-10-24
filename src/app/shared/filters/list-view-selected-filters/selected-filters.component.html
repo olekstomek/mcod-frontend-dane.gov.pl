@@ -17,7 +17,7 @@
       ></app-remove-button>
 
       <ng-template #customTemplate>
-        <span class="sr-only">{{ 'Filters.Remove' | translate }}</span>
+        <span class="visually-hidden">{{ 'Filters.Remove' | translate }}</span>
           <span>{{region.value.hierarchy_label ? region.value.hierarchy_label : region.value.title}}</span>
       </ng-template>
     </ng-container>
@@ -31,12 +31,12 @@
       ></app-remove-button>
 
       <ng-template #customTemplate>
-        <span class="sr-only">{{ 'Filters.Remove' | translate }}</span>
+        <span class="visually-hidden">{{ 'Filters.Remove' | translate }}</span>
         <span *ngIf="isCustomFilterName">{{ customFiltersName | translate }} - </span> {{ item.value.title }}
       </ng-template>
 
       <ng-template #starsTemplate>
-        <span class="sr-only">
+        <span class="visually-hidden">
           {{ 'Filters.Remove' | translate }}
         </span>
         <span class="mr-2">
@@ -49,7 +49,7 @@
 
 <ng-template #datesTemplate>
   <ng-container *ngIf="items.startDate || items.endDate">
-    <span class="sr-only">
+    <span class="visually-hidden">
       {{ 'Filters.Remove' | translate }}
       ({{ 'Search.AutoContentReload' | translate }})
     </span>

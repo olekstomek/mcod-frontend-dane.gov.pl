@@ -5,7 +5,7 @@
         justify-content: space-between;
         align-items: center;
 
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
             display: block;
 
             .search-site__sort-results {

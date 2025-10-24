@@ -1,17 +1,16 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { EMPTY, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { EMPTY, of } from 'rxjs';
 
+import { AppTestingModule } from '@app/app.testing.module';
+import { FeedbackFormComponent } from '@app/pages/dataset/feedback-form/feedback-form.component';
+import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
-import { FeedbackFormComponent } from '@app/pages/dataset/feedback-form/feedback-form.component';
-import { ApiModel } from '@app/services/api/api-model';
 
 describe('FeedbackFormComponent', () => {
   let component: FeedbackFormComponent;
@@ -20,15 +19,17 @@ describe('FeedbackFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FeedbackFormComponent, MathCaptchaComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         ReactiveFormsModule,
+        FeedbackFormComponent,
+        MathCaptchaComponent
       ],
-      providers: [{ provide: DatasetService, useClass: DatasetService }, NotificationsService],
+      providers: [
+        { provide: DatasetService, useClass: DatasetService },
+        NotificationsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     });
 
     service = TestBed.inject(DatasetService);
@@ -47,20 +48,20 @@ describe('FeedbackFormComponent', () => {
   });
 
   it('should make the feedback control required and have at least min length', () => {
-    let control = component.feedbackForm.get('feedback');
+    const control = component.feedbackForm.get('feedback');
     control.patchValue('ab');
     expect(control.valid).toBeFalsy();
     expect(control.value.length).toBeLessThan(component.minFeedbackLength);
   });
 
   it('should make the captcha control required', () => {
-    let control = component.feedbackForm.get('captcha');
+    const control = component.feedbackForm.get('captcha');
     control.setValue('');
     expect(control.valid).toBeFalsy();
   });
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    let spy = spyOn(service, 'sendDatasetFeedback').and.callFake(() => EMPTY);
+    const spy = jest.spyOn(service, 'sendDatasetFeedback').mockImplementation(() => EMPTY);
     component.onFormSubmit();
     expect(spy).not.toHaveBeenCalled();
     expect(component.isFeedbackSent).toBeFalsy();
@@ -70,9 +71,9 @@ describe('FeedbackFormComponent', () => {
     let equationSum: number;
 
     beforeEach(() => {
-      let captchaDe = fixture.debugElement.query(By.css('.captcha'));
-      let equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
-      let equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
+      const captchaDe = fixture.debugElement.query(By.css('.captcha'));
+      const equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
+      const equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
       equationSum = equationArr.map(item => +item).reduce((acc, item) => acc + item);
     });
 
@@ -85,7 +86,7 @@ describe('FeedbackFormComponent', () => {
     });
 
     it('should save dataset feedback (call the service) when the form is valid', () => {
-      let spy = spyOn(service, 'sendDatasetFeedback').and.callFake(() => of(true));
+      const spy = jest.spyOn(service, 'sendDatasetFeedback').mockImplementation(() => of(true));
 
       component.feedbackForm.setValue({
         feedback: 'Lorem ipsum dolor sit amet as feedback - dataset',
@@ -98,7 +99,7 @@ describe('FeedbackFormComponent', () => {
     });
 
     it('should save resource feedback (call the service) when the form is valid', () => {
-      let spy = spyOn(service, 'sendResourceFeedback').and.callFake(() => of(true));
+      const spy = jest.spyOn(service, 'sendResourceFeedback').mockImplementation(() => of(true));
 
       component.model = ApiModel.RESOURCE;
       component.feedbackForm.setValue({

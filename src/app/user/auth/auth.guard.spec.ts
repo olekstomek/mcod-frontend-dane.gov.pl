@@ -1,15 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { LocalizeRouterModule, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs/internal/observable/of';
+import { AuthGuard } from './auth.guard';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { NotificationsService } from '@app/services/notifications.service';
 import { UserStateService } from '@app/services/user-state.service';
 import { UserService } from '@app/services/user.service';
-import { LocalizeRouterModule, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { of } from 'rxjs/internal/observable/of';
-import { AuthGuard } from './auth.guard';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 function fakeRouterState(url: string): RouterStateSnapshot {
   return {
@@ -24,13 +24,17 @@ describe('AuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
       ],
-      providers: [AuthGuard, UserService, LocalizeRouterService, UserStateService, NotificationsService],
+      providers: [
+        AuthGuard,
+        UserService,
+        LocalizeRouterService,
+        UserStateService,
+        NotificationsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     });
 
     guard = TestBed.inject(AuthGuard);
@@ -47,7 +51,7 @@ describe('AuthGuard', () => {
   });
 
   it('should checks login for specified url and redirects user', async () => {
-    spyOn(userStateService, 'getCurrentUser').and.returnValue(of({}));
+    jest.spyOn(userStateService, 'getCurrentUser').mockReturnValue(of());
     guard.checkLogin('https://dev.dane.gov.pl/pl/user/dashboard/desktop').subscribe(value => {
       expect(value).toBeTruthy();
     });

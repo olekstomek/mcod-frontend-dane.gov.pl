@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2, HostListener, Output, OnDestroy, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { StringHelper } from '@app/shared/helpers/string.helper';
@@ -7,9 +7,24 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
  * Schedule Custom Dropdown Directive
  */
 @Directive({
-  selector: '[appScheduleCustomDropdown]'
+    selector: '[appScheduleCustomDropdown]',
+    standalone: true
 })
 export class ScheduleCustomDropdownDirective implements OnDestroy {
+
+    /**
+     * @ignore
+     */
+    constructor(private elementRef: ElementRef,
+                private renderer: Renderer2) {
+    }
+
+    /**
+     * Gets dropdown menu node
+     */
+    get dropdownMenu(): any {
+        return this.elementRef.nativeElement.parentElement.querySelector('.dropdown-menu');
+    }
 
     /**
      * Dropdown items
@@ -42,8 +57,23 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
     dropdownItemClickListeners: any[] = [];
 
     /**
+     * Default index on init
+     */
+    defaultIndex = -1;
+
+    /**
+     * Active index
+     */
+    activeIndex = this.defaultIndex;
+
+    /**
+     * Previous active index
+     */
+    previousIndex = this.defaultIndex;
+
+    /**
      * Listens on clicks outside the host (input) to remove dropdown
-     * @param {Event} event 
+     * @param {Event} event
      */
     @HostListener('document:click', ['$event']) onDocumentClick(event: Event) {
         if (event.target !== this.elementRef.nativeElement) {
@@ -53,7 +83,7 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
 
     /**
      * Enables keyboard navigation.
-     * Performs actions on keyboard events. 
+     * Performs actions on keyboard events.
      * @param {KeyboardEvent} event
      */
     @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
@@ -85,32 +115,10 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
 
     /**
      * Listens on focus events on hosted input to initialize dropdown
-     * @param {FocusEvent} event 
+     * @param {FocusEvent} event
      */
-    @HostListener("focus", ["$event"]) onFocus(event: FocusEvent) {
+    @HostListener('focus', ['$event']) onFocus(event: FocusEvent) {
         this.initDropdown();
-    }
-
-    /**
-     * Default index on init
-     */
-    defaultIndex = -1;
-
-    /**
-     * Active index
-     */
-    activeIndex = this.defaultIndex;
-
-    /**
-     * Previous active index
-     */
-    previousIndex = this.defaultIndex;
-
-    /**
-     * @ignore
-     */
-    constructor(private elementRef: ElementRef,
-                private renderer: Renderer2) { 
     }
 
     /**
@@ -121,7 +129,7 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
 
         if (this.activeIndex === this.defaultIndex) {
             this.activeIndex = 0;
-        } else if (this.activeIndex === this.items.length-1) {
+        } else if (this.activeIndex === this.items.length - 1) {
             this.activeIndex = this.defaultIndex;
         } else {
             this.activeIndex++;
@@ -137,22 +145,22 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
         this.previousIndex = this.activeIndex;
 
         if (this.activeIndex === this.defaultIndex) {
-            this.activeIndex = this.items.length-1;
+            this.activeIndex = this.items.length - 1;
         } else if (this.activeIndex === 0) {
             this.activeIndex = this.defaultIndex;
         } else {
             this.activeIndex--;
         }
-        
+
         this.markActiveItem(true);
-    }   
+    }
 
     markActiveItem(scroll = false) {
         const buttons = this.dropdownMenu.querySelectorAll('button') as HTMLButtonElement[];
 
         if (this.previousIndex !== this.defaultIndex && this.previousIndex !== this.items.length) {
             this.renderer.removeClass(buttons[this.previousIndex], 'active');
-        }   
+        }
 
         if (this.activeIndex !== this.defaultIndex && this.activeIndex !== this.items.length) {
             this.renderer.addClass(buttons[this.activeIndex], 'active');
@@ -160,20 +168,20 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
             if (scroll) {
                 const activeButton = buttons[this.activeIndex];
                 let offsetTop = 0;
-                
+
                 if ((activeButton.offsetTop + activeButton.offsetHeight) > (<HTMLDivElement>this.dropdownMenu).offsetHeight) {
                     offsetTop = activeButton.offsetTop - activeButton.offsetHeight;
                 } else {
                     offsetTop = 0;
                 }
-    
+
                 (this.dropdownMenu as HTMLDivElement).scroll({
                     top: offsetTop,
                     left: 0,
                     behavior: 'smooth'
-                })
+                });
             }
-        } 
+        }
     }
 
     /**
@@ -218,18 +226,11 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
     }
 
     /**
-     * Gets dropdown menu node
-     */
-    get dropdownMenu(): any {
-        return this.elementRef.nativeElement.parentElement.querySelector('.dropdown-menu');
-    }
-
-    /**
      * Removes dropdown menu
      */
     removeDropdownMenu() {
         if (!this.dropdownMenu) {
-            return
+            return;
         }
 
         this.activeIndex = this.defaultIndex;
@@ -239,9 +240,9 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
 
     /**
      * Creates dropdown menu item
-     * @param {any} item 
-     * @param {number} index 
-     * @returns dropdown menu item 
+     * @param {any} item
+     * @param {number} index
+     * @returns dropdown menu item
      */
     createDropdownMenuItem(item: any, index: number): any {
         // button element
@@ -294,7 +295,7 @@ export class ScheduleCustomDropdownDirective implements OnDestroy {
      * Unsubscribes from existing subscriptions
      */
     ngOnDestroy() {
-        if(this.dropdownItemClickListeners) {
+        if (this.dropdownItemClickListeners) {
             this.dropdownItemClickListeners.forEach(listener => listener());
         }
     }

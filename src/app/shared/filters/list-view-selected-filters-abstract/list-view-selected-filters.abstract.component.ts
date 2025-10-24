@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SelectedFilter, AggregationFilterNames } from '@app/services/models/filters';
+
+import { AggregationFilterNames, SelectedFilter } from '@app/services/models/filters';
 import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
@@ -7,7 +8,10 @@ import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filt
 /**
  * Abstract Component for List View selected filters
  */
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: true
+})
 export class ListViewSelectedFiltersAbstractComponent {
   /**
    * All filters names

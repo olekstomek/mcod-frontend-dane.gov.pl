@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { AccordionModule, TabsModule } from 'ngx-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 import { DatasetItemComponent } from './dataset-item/dataset-item.component';
 import { DatasetComponent } from './dataset-page/dataset.component';
@@ -25,10 +26,6 @@ import { DatasetListViewFiltersComponent } from '@app/pages/dataset/dataset-list
 import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
 import { RegionsMapComponent } from '@app/pages/dataset/regions-map/regions-map.component';
 import { DatasetService } from '@app/services/dataset.service';
-import { BreadcrumbsDatasetResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-dataset.resolver';
-import { BreadcrumbsResourceResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-resource.resolver';
-import { BreadcrumbsSubmissionResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-submission.resolver';
-import { OfflineResourceResolver } from '@app/shared/breadcrumbs/resolvers/offline-resource.resolver';
 import { DatepickerModule } from '@app/shared/datepicker/datepicker.module';
 import { MapModule } from '@app/shared/map/map.module';
 import { ResourceChartModule } from '@app/shared/resource-chart/resource-chart.module';
@@ -36,56 +33,50 @@ import { ResourceFilterModule } from '@app/shared/resource-filters/resource-filt
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DatasetRoutingModule,
-    AppBootstrapModule,
-    TranslateModule.forChild({
-      parser: {
-        provide: TranslateParser,
-        useClass: TranslateICUParser,
-      },
-    }),
-    FormsModule,
-    SharedModule,
-    DatepickerModule,
-    MapModule,
-    ResourceChartModule,
-    DatepickerModule,
-    TabsModule,
-    AccordionModule,
-    ReactiveFormsModule,
-    ResourceFilterModule,
-  ],
-  providers: [
-    DatasetService,
-    BreadcrumbsDatasetResolver,
-    BreadcrumbsSubmissionResolver,
-    BreadcrumbsResourceResolver,
-    OfflineResourceResolver,
-  ],
-  declarations: [
-    DatasetComponent,
-    DatasetItemComponent,
-    DatasetResourceComponent,
-    DatasetParentComponent,
-    SuggestDatasetComponent,
-    DatasetResourceMapComponent,
-    SuggestDatasetComponent,
-    FeedbackFormComponent,
-    DatasetRestrictionsComponent,
-    DatasetListViewFiltersComponent,
-    ResourceListComponent,
-    ResourceItemInfoComponent,
-    ResourceItemFilesDownloadComponent,
-    SubmissionListComponent,
-    SubmissionItemComponent,
-    DatasetMetadataComponent,
-    RegionsMapComponent,
-    DatasetItemResultsComponent,
-  ],
-  exports: [
-    DatasetRestrictionsComponent
-  ]
+    imports: [
+        CommonModule,
+        DatasetRoutingModule,
+        AppBootstrapModule,
+        TranslateModule.forChild({
+            parser: {
+                provide: TranslateParser,
+                useClass: TranslateICUParser,
+            },
+        }),
+        FormsModule,
+        SharedModule,
+        DatepickerModule,
+        MapModule,
+        ResourceChartModule,
+        DatepickerModule,
+        TabsModule,
+        AccordionModule,
+        ReactiveFormsModule,
+        ResourceFilterModule,
+        DatasetComponent,
+        DatasetItemComponent,
+        DatasetResourceComponent,
+        DatasetParentComponent,
+        SuggestDatasetComponent,
+        DatasetResourceMapComponent,
+        SuggestDatasetComponent,
+        FeedbackFormComponent,
+        DatasetRestrictionsComponent,
+        DatasetListViewFiltersComponent,
+        ResourceListComponent,
+        ResourceItemInfoComponent,
+        ResourceItemFilesDownloadComponent,
+        SubmissionListComponent,
+        SubmissionItemComponent,
+        DatasetMetadataComponent,
+        RegionsMapComponent,
+        DatasetItemResultsComponent,
+    ],
+    providers: [
+        DatasetService,
+    ],
+    exports: [
+        DatasetRestrictionsComponent
+    ]
 })
 export class DatasetModule {}

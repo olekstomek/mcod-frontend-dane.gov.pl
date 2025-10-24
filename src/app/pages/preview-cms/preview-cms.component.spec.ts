@@ -1,19 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { PreviewCmsComponent } from '@app/pages/preview-cms/preview-cms.component';
-import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 
-class ActivatedRouteSnapshotStub {
-  data: Data;
-  queryParams: {};
-}
+import { AppTestingModule } from '@app/app.testing.module';
+import { PreviewCmsComponent } from '@app/pages/preview-cms/preview-cms.component';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SeoService } from '@app/services/seo.service';
+import { SharedModule } from '@app/shared/shared.module';
 
-class ActivatedRouteStub {
-  snapshot: ActivatedRouteSnapshotStub = {
+const ActivatedRouteStub = {
     data: {
       post: {
         data: {
@@ -27,7 +23,10 @@ class ActivatedRouteStub {
     queryParams: {
       q: 'test',
     },
-  };
+};
+
+class SeoServiceStub {
+  setPageTitleByTranslationKey() {}
 }
 
 describe('PreviewCmsComponent', () => {
@@ -36,9 +35,12 @@ describe('PreviewCmsComponent', () => {
   let router: Router;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PreviewCmsComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
-      providers: [{ provide: ActivatedRoute, useClass: ActivatedRouteStub }],
+      imports: [TranslateModule.forRoot(), SharedModule, PreviewCmsComponent],
+      providers: [
+        importProvidersFrom(AppTestingModule),
+        { provide: ActivatedRoute, useValue: {snapshot: ActivatedRouteStub} },
+        { provide: SeoService, useClass: SeoServiceStub },
+        NotificationsService, ],
     }).compileComponents();
 
     router = TestBed.inject(Router);
@@ -51,7 +53,7 @@ describe('PreviewCmsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get slug and query params from route. Display content only for admin', async () => {
+  it('should get slug and query params from route. Display content only for admin', () => {
     component.ngOnInit();
     expect(component.queryParams).toEqual({ q: 'test' });
   });

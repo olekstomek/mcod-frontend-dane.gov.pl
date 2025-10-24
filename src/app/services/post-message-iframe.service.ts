@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { EMPTY, fromEvent, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -25,9 +25,6 @@ export class PostMessageIframeService {
     }
 
     getMessages(): Observable<any> {
-        if (isPlatformServer(this.platformId)) {
-            return EMPTY;
-        }
         return fromEvent<MessageEvent>(window, 'message')
             .pipe(
                 filter(e => e.origin.includes('dane.gov.pl')),

@@ -1,20 +1,41 @@
-import { ActivatedRoute, Params, Router, QueryParamsHandling } from '@angular/router';
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, QueryParamsHandling, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ArticleResultsComponent } from '../article-results/article-results.component';
 
-import { SeoService } from '@app/services/seo.service';
 import { APP_CONFIG } from '@app/app.config';
-import { INewsPageParams } from '@app/services/models/page-params';
-import { SearchService } from '@app/services/search.service';
-import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ApiConfig } from '@app/services/api';
 import { ApiModel } from '@app/services/api/api-model';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { INewsPageParams } from '@app/services/models/page-params';
+import { SearchService } from '@app/services/search.service';
+import { SeoService } from '@app/services/seo.service';
+import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 
 /**
  * Article Component
  */
 @Component({
-  selector: 'app-article',
-  templateUrl: './article.component.html',
+    selector: 'app-article',
+    templateUrl: './article.component.html',
+    standalone: true,
+    imports: [
+        SearchSuggestComponent,
+        NgIf,
+        FoundResultsCountersAndSortComponent,
+        NotificationsServerComponent,
+        NoResultsFoundComponent,
+        ArticleResultsComponent,
+        ItemsPerPageComponent,
+        PaginationComponent,
+        TranslatePipe,
+    ],
 })
 export class ArticleComponent implements OnInit {
   /**
@@ -164,4 +185,5 @@ export class ArticleComponent implements OnInit {
       this.count = resp.count;
     });
   }
+
 }

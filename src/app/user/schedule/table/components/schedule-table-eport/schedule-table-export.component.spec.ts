@@ -1,17 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Injectable } from '@angular/core';
+import { importProvidersFrom, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule, TranslateParser } from '@ngx-translate/core';
+import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
+import { Observable, of } from 'rxjs';
 
+import { AppTestingModule } from '@app/app.testing.module';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { ScheduleTableExportComponent } from '@app/user/schedule/table/components/schedule-table-eport/schedule-table-export.component';
 import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
-import { TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
-import { Observable, of } from 'rxjs';
 
 declare var window;
 
@@ -31,9 +29,6 @@ describe('Schedule Table Export Component', () => {
             imports: [
                 ReactiveFormsModule,
                 SharedModule,
-                HttpClientTestingModule,
-                RouterTestingModule,
-                NgxLocalStorageModule.forRoot(),
                 TranslateModule.forRoot({
                     parser: {
                         provide: TranslateParser,
@@ -42,12 +37,13 @@ describe('Schedule Table Export Component', () => {
                     defaultLanguage: 'pl',
                     useDefaultLang: true
                 }),
+              ScheduleTableExportComponent
             ],
-            declarations: [
-                ScheduleTableExportComponent
-            ],
-            providers: [NotificationsService,
-                {provide: ScheduleService, useValue: new ScheduleServiceMock()}]
+            providers: [
+              NotificationsService,
+              {provide: ScheduleService, useValue: new ScheduleServiceMock()},
+              importProvidersFrom(AppTestingModule)
+            ]
         }).compileComponents();
     });
 
@@ -66,7 +62,7 @@ describe('Schedule Table Export Component', () => {
 
         fixture.detectChanges();
         await fixture.whenStable();
-        const windowOpenMock = spyOn(window, 'open').and.callFake(() => {
+        const windowOpenMock = jest.spyOn(window, 'open').mockImplementation(() => {
         });
         scheduleTableExportComponent.generateUrl('csv');
         await fixture.whenStable();

@@ -1,12 +1,10 @@
-import * as config from '../../package.json';
-import * as ENV from '../../env.json';
 
 export const environment = {
     production: true,
     displayBuild: false,
-    VERSION: config.version,
-    HASH: ENV.COMMIT_HASH,
-    DATE: ENV.COMMIT_DATE,
+    VERSION: '2.35.2',
+    HASH: '5a9c2053',
+    DATE: '31-10-2023 15:00:27 CET',
     name: 'prod',
     PWA: true
 };

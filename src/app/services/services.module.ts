@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withNoXsrfProtection } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HomepageInterceptorService } from './homepage-interceptor.service';
 
@@ -27,25 +27,23 @@ import { UserService } from '@app/services/user.service';
 /**
  * Global Service Module that imports all services
  */
-@NgModule({
-  imports: [CommonModule, HttpClientXsrfModule.disable(), HttpXsrfModule.forRoot()],
-  providers: [
-    NotificationsService,
-    NotificationsFrontService,
-    DatasetService,
-    ApplicationsService,
-    InstitutionsService,
-    UserService,
-    ApplicationsService,
-    AbstractService,
-    SeoService,
-    SearchHistoryService,
-    ObserveService,
-    NominatimGeocodeService,
-    MapParamsToTranslationKeysService,
-    { provide: HTTP_INTERCEPTORS, useClass: HomepageInterceptorService, multi: true },
-  ],
-})
+@NgModule({ imports: [CommonModule, HttpXsrfModule.forRoot()], providers: [
+        NotificationsService,
+        NotificationsFrontService,
+        DatasetService,
+        ApplicationsService,
+        InstitutionsService,
+        UserService,
+        ApplicationsService,
+        AbstractService,
+        SeoService,
+        SearchHistoryService,
+        ObserveService,
+        NominatimGeocodeService,
+        MapParamsToTranslationKeysService,
+        { provide: HTTP_INTERCEPTORS, useClass: HomepageInterceptorService, multi: true },
+        provideHttpClient(withNoXsrfProtection()),
+    ] })
 export class ServicesModule {
   constructor(@Optional() @SkipSelf() parentModule: ServicesModule) {
     if (parentModule) {

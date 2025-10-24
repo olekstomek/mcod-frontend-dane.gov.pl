@@ -14,7 +14,7 @@
         <a class="category-list__item-wrapper" role="button" [routerLink]="['/!dataset' | localize]" [queryParams]="getQueryParam(item.id)">
           <div class="category-list__item-content">
             <div *ngIf="item.title === 'Ukraina' || item.title === 'Ukraine'" class="category-list__item-content-flag">
-              <img src="assets/flaga-ukrainy.png" width="40" alt="" />
+              <img ngSrc="assets/flaga-ukrainy.png" width="40" alt="" height="40"/>
             </div>
             <span class="category-list__item-heading heading heading--sm">
               {{ item.title }}

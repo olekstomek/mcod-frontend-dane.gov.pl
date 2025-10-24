@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
 import { IWidgetSvg } from '@app/services/models/cms/widgets/widget-svg';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Injectable()
 export class FooterLogosFilterService {

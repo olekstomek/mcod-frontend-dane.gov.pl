@@ -1,15 +1,35 @@
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { CarouselComponent, SlideComponent } from 'ngx-bootstrap/carousel';
+import { BehaviorSubject } from 'rxjs';
+import { CallToActionComponent } from '../widget/call-to-action/call-to-action.component';
+import { HeadingComponent } from '../widget/heading/heading.component';
+import { ImageComponent } from '../widget/image/image.component';
+import { RawTextComponent } from '../widget/raw-text/raw-text.component';
+import { VideoComponent } from '../widget/video/video.component';
+
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
-import { BehaviorSubject } from 'rxjs';
-import { CarouselComponent } from 'ngx-bootstrap';
 
 /**
 * Cms blocks component
 */
 @Component({
     selector: 'cms-block',
-    templateUrl: './cms-block.component.html'
+    templateUrl: './cms-block.component.html',
+    standalone: true,
+    imports: [
+      NgIf,
+      CarouselComponent,
+      NgFor,
+      SlideComponent,
+      NgTemplateOutlet,
+      ImageComponent,
+      RawTextComponent,
+      VideoComponent,
+      CallToActionComponent,
+      HeadingComponent
+    ]
 })
 
 export class CmsBlockComponent implements OnInit {

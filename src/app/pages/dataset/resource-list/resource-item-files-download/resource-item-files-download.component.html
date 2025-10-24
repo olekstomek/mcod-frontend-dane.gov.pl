@@ -22,7 +22,7 @@
     <ng-template #noFiles>
       <a class="underline ml-3 ml-lg-0" target="_blank" href="{{ item.attributes.link }}">
         źródło <span aria-hidden="true">>></span>
-        <span class="sr-only">
+        <span class="visually-hidden">
           {{ item?.attributes?.title }}
           {{ 'SkipTo.NewWindow' | translate }}
         </span>
@@ -39,7 +39,7 @@
   >
     API <span aria-hidden="true">>></span>
 
-    <span class="sr-only">
+    <span class="visually-hidden">
       {{ item?.attributes?.title }}
       {{ 'SkipTo.NewWindow' | translate }}
     </span>
@@ -55,7 +55,7 @@
     {{ 'TypesFilters.Website' | translate }}
 
     <span aria-hidden="true">>></span>
-    <span class="sr-only">
+    <span class="visually-hidden">
       {{ item?.attributes?.title }}
       {{ 'SkipTo.NewWindow' | translate }}
     </span>

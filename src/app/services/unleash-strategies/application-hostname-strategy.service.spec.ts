@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
+import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { ApplicationHostnameStrategyService } from '@app/services/unleash-strategies/application-hostname-strategy.service';
 
 describe('ApplicationHostnameStrategyService', () => {

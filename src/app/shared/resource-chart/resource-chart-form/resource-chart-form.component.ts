@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChartType } from 'chart.js';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -82,7 +82,7 @@ export class ResourceChartFormComponent implements OnInit {
   /**
    * Chart form of resource chart form component
    */
-  chartForm: FormGroup;
+  chartForm: UntypedFormGroup;
 
   /**
    * Determines whether currently selected chart is circular
@@ -142,7 +142,7 @@ export class ResourceChartFormComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {}
+  constructor(private formBuilder: UntypedFormBuilder, private userService: UserService, private router: Router) {}
 
   /**
    * Checks whether there is alredy stored chart blueprint.
@@ -239,7 +239,7 @@ export class ResourceChartFormComponent implements OnInit {
    * Appends new datasets dropdown to the form
    */
   onAppendDataColumn() {
-    this.datasetsArray.push(new FormControl(null, Validators.required));
+    this.datasetsArray.push(new UntypedFormControl(null, Validators.required));
   }
 
   /**
@@ -337,8 +337,8 @@ export class ResourceChartFormComponent implements OnInit {
    * Gets datasets array
    * @returns {FormArray}
    */
-  get datasetsArray(): FormArray {
-    return <FormArray>this.chartForm.get('datasets');
+  get datasetsArray(): UntypedFormArray {
+    return <UntypedFormArray>this.chartForm.get('datasets');
   }
 
   private getLabelsArray(labels: string | string[]): string[] {

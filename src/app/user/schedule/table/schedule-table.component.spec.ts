@@ -1,19 +1,21 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ScheduleTableViewDetailsAction } from '@app/user/schedule/table/domain/actions/ScheduleTableViewDetailsAction';
-import { ButtonConfig } from '@app/user/schedule/table/domain/button-config';
+import { provideRouter } from '@angular/router';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { provideNgxLocalstorage } from 'ngx-localstorage';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
 import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { UserService } from '@app/services/user.service';
 import { SharedModule } from '@app/shared/shared.module';
+import { ScheduleTableViewDetailsAction } from '@app/user/schedule/table/domain/actions/ScheduleTableViewDetailsAction';
+import { ButtonConfig } from '@app/user/schedule/table/domain/button-config';
 import { ScheduleTableConfig } from '@app/user/schedule/table/domain/schedule-table.config';
 import { ScheduleTableComponent } from '@app/user/schedule/table/schedule-table.component';
+import { UserModule } from '@app/user/user.module';
 
 describe('Schedule Table Component', () => {
   beforeEach(async () => {
@@ -21,9 +23,8 @@ describe('Schedule Table Component', () => {
       imports: [
         ReactiveFormsModule,
         SharedModule,
-        HttpClientTestingModule,
-        NgxLocalStorageModule.forRoot({ prefix: 'mcod' }),
-        RouterTestingModule,
+        UserModule,
+        ScheduleTableComponent,
         TranslateModule.forRoot({
           parser: {
             provide: TranslateParser,
@@ -33,8 +34,15 @@ describe('Schedule Table Component', () => {
           useDefaultLang: true,
         }),
       ],
-      providers: [NotificationsFrontService, NotificationsService, UserService],
-      declarations: [ScheduleTableComponent],
+      providers: [
+        NotificationsFrontService,
+        NotificationsService,
+        UserService,
+        provideNgxLocalstorage({ prefix: 'mcod' }),
+        provideRouter([]),
+        provideHttpClientTesting(),
+        provideHttpClient()
+      ],
     }).compileComponents();
   });
 
@@ -107,7 +115,7 @@ describe('Schedule Table Component', () => {
     const fixture = TestBed.createComponent(ScheduleTableComponent);
     const scheduleTableComponent = fixture.componentInstance;
     fixture.detectChanges();
-    spyOn(scheduleTableComponent.scheduleSettingsUpdated, 'next');
+    jest.spyOn(scheduleTableComponent.scheduleSettingsUpdated, 'next');
     const settings = { schedule_id: '1', period_name: '', end_date: '', new_end_date: '', link: '' };
     scheduleTableComponent.onScheduleSettingsUpdated(settings);
     expect(scheduleTableComponent.scheduleSettingsUpdated.next).toHaveBeenCalled();

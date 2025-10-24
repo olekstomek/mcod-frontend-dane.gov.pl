@@ -1,4 +1,8 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { DropdownToogleComponent } from '../../expandable-multiselect/dropdown-toogle/dropdown-toogle.component';
+
 import { toggleVertically } from '@app/animations';
 
 /**
@@ -7,7 +11,9 @@ import { toggleVertically } from '@app/animations';
 @Component({
     selector: 'app-list-view-filters-action-buttons',
     templateUrl: './list-view-filters-action-buttons.component.html',
-    animations: [toggleVertically]
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [NgIf, DropdownToogleComponent, TranslatePipe]
 })
 export class ListViewFiltersActionButtonsComponent {
     /**

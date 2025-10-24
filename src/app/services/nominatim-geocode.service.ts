@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import {Injectable} from '@angular/core';
+
 import {ICoordinates, INominatimGeocodeResponse, INominatimSearchResponse} from '@app/services/models/map';
-import {HttpClient} from '@angular/common/http';
 
 /**
  * Service that handles communication with external Nominatim API
@@ -22,6 +23,8 @@ export class NominatimGeocodeService {
     }
 
     searchAddress(address: string) {
-        return this.http.get<INominatimSearchResponse>(`${this.nominatimService}/search.php?format=geojson&q=${encodeURIComponent(address)}`);
+        return this.http.get<INominatimSearchResponse>(
+          `${this.nominatimService}/search.php?format=geojson&q=${encodeURIComponent(address)}`
+        );
     }
 }

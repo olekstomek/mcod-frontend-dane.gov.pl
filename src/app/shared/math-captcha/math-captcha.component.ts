@@ -1,14 +1,18 @@
-import { Component, OnInit, Input, forwardRef, ViewChild } from '@angular/core';
+import { LowerCasePipe, NgClass, NgIf } from '@angular/common';
+import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  FormControl,
-  NG_VALIDATORS,
-  ValidationErrors,
   AbstractControl,
-  FormControlDirective,
   ControlContainer,
+  ControlValueAccessor,
+  FormControlDirective,
+  FormsModule,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  ValidationErrors
 } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
 
@@ -16,21 +20,30 @@ import { toggleVertically } from '@app/animations/toggle-vertically';
  * Math Captcha Component
  */
 @Component({
-  selector: 'app-math-captcha',
-  templateUrl: './math-captcha.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MathCaptchaComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => MathCaptchaComponent),
-      multi: true,
-    },
-  ],
-  animations: [toggleVertically],
+    selector: 'app-math-captcha',
+    templateUrl: './math-captcha.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MathCaptchaComponent),
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => MathCaptchaComponent),
+            multi: true,
+        },
+    ],
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgClass,
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        LowerCasePipe,
+        TranslatePipe,
+    ],
 })
 export class MathCaptchaComponent implements OnInit, ControlValueAccessor {
   /**
@@ -41,7 +54,7 @@ export class MathCaptchaComponent implements OnInit, ControlValueAccessor {
   /**
    * Related formcontrol
    */
-  @Input() formControl: FormControl;
+  @Input() formControl: UntypedFormControl;
 
   /**
    * Related formcontrol name

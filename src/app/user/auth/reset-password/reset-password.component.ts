@@ -1,22 +1,41 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { VisualPasswordValidatorComponent } from '../visual-password-validator/visual-password-validator.component';
 
-import { equalValueValidator } from '@app/user/auth/equal-value-validator';
-import { UserService } from '@app/services/user.service';
+import { toggleVertically } from '@app/animations';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
-import { toggleVertically } from '../../../animations/index';
+import { UserService } from '@app/services/user.service';
 import { CustomFormControlValidators } from '@app/shared/form-validators/string.validators';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { equalValueValidator } from '@app/user/auth/equal-value-validator';
 
 /**
  * Reset Password Component
  */
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  animations: [toggleVertically],
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        NgClass,
+        ReactiveFormsModule,
+        NotificationsServerComponent,
+        VisualPasswordValidatorComponent,
+        RouterLink,
+        UpperCasePipe,
+        LowerCasePipe,
+        LocalizeRouterPipe,
+        TranslatePipe,
+    ],
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
   /**
@@ -27,7 +46,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   /**
    * Reset password form of reset password component
    */
-  resetPasswordForm: FormGroup;
+  resetPasswordForm: UntypedFormGroup;
   /**
    * Token form received email
    */
@@ -52,7 +71,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
    * @ignore
    */
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private notificationsService: NotificationsService,
     private userService: UserService,

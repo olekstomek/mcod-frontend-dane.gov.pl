@@ -1,6 +1,6 @@
 import { DOCUMENT, isPlatformBrowser, PlatformLocation } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalStorageService } from 'ngx-localstorage';
@@ -17,8 +17,29 @@ import { SchemaService } from '@app/services/schema.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  imports: [
+    RouterOutlet
+  ],
+  standalone: true
 })
 export class AppComponent implements OnInit {
+
+  /**
+   * @ignore
+   */
+  constructor(
+    private renderer: Renderer2,
+    private location: PlatformLocation,
+    private router: Router,
+    private localStorage: LocalStorageService,
+    private cookieService: CookieService,
+    private languageBootstrapService: LanguageBootstrapService,
+    private translateService: TranslateService,
+    private featureFlagsService: FeatureFlagService,
+    private schemaService: SchemaService,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: string,
+  ) {}
   /**
    * Homepage flag
    */
@@ -50,23 +71,6 @@ export class AppComponent implements OnInit {
   private currentLangCookieKey = 'currentLang';
 
   /**
-   * @ignore
-   */
-  constructor(
-    private renderer: Renderer2,
-    private location: PlatformLocation,
-    private router: Router,
-    private localStorage: LocalStorageService,
-    private cookieService: CookieService,
-    private languageBootstrapService: LanguageBootstrapService,
-    private translateService: TranslateService,
-    private featureFlagsService: FeatureFlagService,
-    private schemaService: SchemaService,
-    @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string,
-  ) {}
-
-  /**
    * Navigation checks and default language setting
    */
   ngOnInit() {
@@ -74,13 +78,15 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.isResourcePage = event.url.indexOf(RouterEndpoints.RESOURCES) !== -1 ? true : false;
+        this.isResourcePage = event.url.indexOf(RouterEndpoints.RESOURCES) !== -1;
         this.schemaService.removeStructuredData();
       }
 
       if (event instanceof NavigationEnd) {
         this.isHomepage = RoutingHelper.isHomePage(event.url);
-        !this.isResourcePage && this.scrollTop();
+        if (!this.isResourcePage) {
+          this.scrollTop();
+        }
       }
     });
 
@@ -101,3 +107,4 @@ export class AppComponent implements OnInit {
     }
   }
 }
+

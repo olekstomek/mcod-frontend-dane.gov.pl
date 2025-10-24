@@ -1,11 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { HttpCustomErrorResponse } from '@app/services/models';
 import { NotificationsService } from '@app/services/notifications.service';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 /**
  * Offline interceptor Interceptor

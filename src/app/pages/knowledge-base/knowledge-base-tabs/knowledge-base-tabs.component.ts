@@ -1,17 +1,27 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { CmsService } from '@app/services/cms.service';
 import { IMetadataPageChildrenCms } from '@app/services/models/cms/metadata-page-cms';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { SeoService } from '@app/services/seo.service';
 
 /**
  * Knowledge Base Tabs Component - displays tabs
  */
 @Component({
-  selector: 'app-knowledge-base-tabs',
-  templateUrl: './knowledge-base-tabs.component.html',
+    selector: 'app-knowledge-base-tabs',
+    templateUrl: './knowledge-base-tabs.component.html',
+    standalone: true,
+    imports: [
+        NgFor,
+        RouterLinkActive,
+        RouterLink,
+        RouterOutlet,
+        TranslatePipe,
+    ],
 })
 export class KnowledgeBaseTabsComponent {
   /**
@@ -47,7 +57,7 @@ export class KnowledgeBaseTabsComponent {
           return;
         }
 
-        this.tabs = this.activatedRoute.snapshot.data.post.meta.children;
+        this.tabs = this.activatedRoute.snapshot.data['post'].meta.children;
         let currentTab = this.tabs.find(tab => event.url.includes(tab.meta.slug));
 
         if (!currentTab) {
@@ -57,7 +67,7 @@ export class KnowledgeBaseTabsComponent {
         this.seoService.setPageTitle(currentTab.title);
 
         if (event.url.split('/').length < 3) {
-          this.router.navigate([`${this.routerEndpoints.KNOWLEDGE_BASE}/${currentTab.meta.slug}`]);
+          this.router.navigate([`${this.routerEndpoints.KNOWLEDGE_BASE}/${currentTab.meta.slug}`]).then();
         }
       }
     });

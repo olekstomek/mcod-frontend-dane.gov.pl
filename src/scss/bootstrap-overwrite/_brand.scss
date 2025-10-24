@@ -26,13 +26,13 @@
     }
 
     // < MD
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
         height: 40px;
         width: 160px;
     }
 
     // < sm
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
         height: 30px;
         width: 120px;
     }

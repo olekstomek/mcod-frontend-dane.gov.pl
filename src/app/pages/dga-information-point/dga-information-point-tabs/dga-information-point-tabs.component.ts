@@ -1,7 +1,7 @@
-import { Location } from '@angular/common';
+import { Location, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
 
 import { IMetadataPageChildrenCms } from '@app/services/models/cms/metadata-page-cms';
@@ -21,6 +21,14 @@ interface IMetadataPageChildrenCmsWithCss extends IMetadataPageChildrenCms {
 @Component({
   selector: 'app-dga-information-point-tabs',
   templateUrl: './dga-information-point-tabs.component.html',
+  standalone: true,
+  imports: [
+    TranslatePipe,
+    NgIf,
+    NgTemplateOutlet,
+    NgForOf,
+    RouterOutlet
+  ]
 })
 export class DgaInformationPointTabsComponent implements OnInit {
   tabs: IMetadataPageChildrenCmsWithCss[];
@@ -43,7 +51,7 @@ export class DgaInformationPointTabsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const sortedTabs = this.route.snapshot.data.post.meta.children;
+    const sortedTabs = this.route.snapshot.data['post'].meta.children;
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
     ).subscribe((a: any) => {

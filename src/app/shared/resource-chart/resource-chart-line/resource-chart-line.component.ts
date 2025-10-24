@@ -1,8 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
-import { Label, Color } from 'ng2-charts';
-
-import { backgroundAndBorderColors, breakLongText } from '../chart-helpers';
+import { Component, Input, OnChanges } from '@angular/core';
+import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
+import { backgroundAndBorderColors, breakLongText, Color, Label } from '../chart-helpers';
 
 /**
  * Resource Chart Line Component
@@ -11,7 +9,7 @@ import { backgroundAndBorderColors, breakLongText } from '../chart-helpers';
   selector: 'app-resource-chart-line',
   templateUrl: './resource-chart-line.component.html',
 })
-export class ResourceChartLineComponent implements OnInit {
+export class ResourceChartLineComponent implements OnChanges {
   /**
    * Chart labels
    */
@@ -28,32 +26,40 @@ export class ResourceChartLineComponent implements OnInit {
   chartColors: Color[];
 
   /**
+   * Data for line chart
+   */
+  public lineChartData: ChartConfiguration<'line'>['data'];
+
+  /**
    * Chart options.
    * Tooltip options - formatted multiline text
    */
   chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    tooltips: {
-      position: 'nearest',
-      callbacks: {
-        title: (tooltipItem, data) => {
-          let title = data['labels'][tooltipItem[0]['index']] as string | string[];
-          const datasetIndex = tooltipItem[0].datasetIndex;
-          const fullDataLabels = data.datasets[datasetIndex]['fullDataLabels'];
+    plugins: {
+      tooltip: {
+        position: 'nearest',
+        callbacks: {
+          title: (context) => {
+            let title = context[0]['label'];
+            const datasetIndex = context[0].dataIndex;
+            const fullDataLabels = (this.chartData as any)[0]['fullDataLabels'][datasetIndex];
 
-          if (fullDataLabels) {
-            const fullTitle = fullDataLabels[tooltipItem[0]['index']];
+            if (fullDataLabels) {
+              const fullTitle = fullDataLabels;
 
-            if (fullTitle) {
-              title = breakLongText(fullTitle);
+              if (fullTitle) {
+                title = breakLongText(fullTitle);
+              }
             }
-          }
 
-          return title;
-        },
-        label: function (tooltipItem, data) {
-          return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+            return title;
+          },
+          label: (context) => {
+            const datasetIndex = context.dataIndex;
+            return context.dataset.data[datasetIndex].toLocaleString();
+          },
         },
       },
     },
@@ -62,7 +68,26 @@ export class ResourceChartLineComponent implements OnInit {
   /**
    * Initializes chart colors
    */
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.chartColors = backgroundAndBorderColors;
+
+    const datasets: ChartConfiguration<'line'>['data']['datasets'] = [];
+
+    this.chartData.forEach((data, index) => {
+      datasets.push({
+        data: (data as any).data,
+        label: (data as any).label,
+        fill: true,
+        tension: 0.5,
+        borderColor: this.chartColors[index].borderColor,
+        backgroundColor: this.chartColors[index].backgroundColor,
+        pointBackgroundColor: this.chartColors[index].backgroundColor,
+      });
+    });
+
+    this.lineChartData = {
+      labels: this.chartLabels,
+      datasets: datasets,
+    };
   }
 }

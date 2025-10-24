@@ -1,9 +1,12 @@
+import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { CmsService } from '@app/services/cms.service';
-import { IVideo, IVideoHyperEditor } from '@app/services/models/cms/widgets/video';
 import { IWidgetStyleForHtmlInject } from '@app/services/models/cms/controls/widget-style';
+import { IVideo, IVideoHyperEditor } from '@app/services/models/cms/widgets/video';
+import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 
 /**
  * Video component displays videos from CMS
@@ -11,8 +14,15 @@ import { IWidgetStyleForHtmlInject } from '@app/services/models/cms/controls/wid
  * <cms-video></app-video>
  */
 @Component({
-  selector: 'cms-video',
-  templateUrl: './video.component.html',
+    selector: 'cms-video',
+    templateUrl: './video.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgStyle,
+        NgClass,
+        TranslatePipe,
+    ],
 })
 
 /**

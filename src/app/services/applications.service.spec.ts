@@ -1,7 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-
-import { ApplicationsService } from './applications.service';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { ApplicationsService } from './applications.service';
 
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
 

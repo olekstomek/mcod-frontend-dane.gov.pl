@@ -11,16 +11,17 @@ import {
   Renderer2,
   ViewContainerRef,
 } from '@angular/core';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
-
-import { InfoTooltipComponent } from '@app/shared/info-tooltip/info-tooltip.component';
 import { Subject } from 'rxjs';
+
+import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { InfoTooltipComponent } from '@app/shared/info-tooltip/info-tooltip.component';
 
 /**
  * Info Tooltip Directive
  */
 @Directive({
-  selector: '[appInfoTooltip]',
+    selector: '[appInfoTooltip]',
+    standalone: true,
 })
 export class InfoTooltipDirective implements OnInit, OnDestroy {
   /**
@@ -116,7 +117,9 @@ export class InfoTooltipDirective implements OnInit, OnDestroy {
     this.withTooltipTitle = this.withTooltipTitle !== undefined;
 
     this.elementRef.nativeElement.appendChild(this.component.location.nativeElement);
-    this.withoutMargin === undefined && this.renderer.addClass(this.viewContainerRef.element.nativeElement, 'mb-1');
+    if (this.withoutMargin === undefined)  {
+      this.renderer.addClass(this.viewContainerRef.element.nativeElement, 'mb-1');
+    }
     this.component.instance.title = this.title;
     this.changeDetectorRef.markForCheck();
   }

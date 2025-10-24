@@ -1,11 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ExpandableMultiselectComponent } from '@app/shared/expandable-multiselect/expandable-multiselect.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { IAggregationProperties } from '@app/services/models/filters';
+import { ExpandableMultiselectComponent } from '@app/shared/expandable-multiselect/expandable-multiselect.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 describe('ExpandableMultiselectComponent', () => {
   let component: ExpandableMultiselectComponent;
@@ -13,14 +14,15 @@ describe('ExpandableMultiselectComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ExpandableMultiselectComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         NoopAnimationsModule,
+        SharedModule,
+        ExpandableMultiselectComponent
       ],
+      providers: [
+        importProvidersFrom(AppTestingModule)
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExpandableMultiselectComponent);
@@ -37,7 +39,7 @@ describe('ExpandableMultiselectComponent', () => {
       doc_count: 3,
       title: 'test',
     };
-    spyOn(component.selectedChange, 'emit');
+    jest.spyOn(component.selectedChange, 'emit');
     component.selectItem(option);
     expect(component.selectedChange.emit).toHaveBeenCalled();
   });
@@ -68,7 +70,7 @@ describe('ExpandableMultiselectComponent', () => {
   });
 
   it('should check sends apply events', () => {
-    spyOn(component.applyFilter, 'emit');
+    jest.spyOn(component.applyFilter, 'emit');
     component.triggerApply();
     expect(component.applyFilter.emit).toHaveBeenCalled();
   });

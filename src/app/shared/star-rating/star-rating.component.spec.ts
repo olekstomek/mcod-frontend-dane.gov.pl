@@ -1,9 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { StarRatingComponent } from '@app/shared/star-rating/star-rating.component';
+import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { provideNgxLocalstorage } from 'ngx-localstorage';
+
+import { StarRatingComponent } from '@app/shared/star-rating/star-rating.component';
 
 describe('StarRatingComponent', () => {
   let component: StarRatingComponent;
@@ -11,8 +12,12 @@ describe('StarRatingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StarRatingComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), StarRatingComponent],
+      providers: [
+        provideNgxLocalstorage(),
+        provideRouter([]),
+        provideHttpClientTesting()
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(StarRatingComponent);

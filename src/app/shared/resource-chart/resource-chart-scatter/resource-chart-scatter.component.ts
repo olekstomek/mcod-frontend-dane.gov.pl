@@ -1,7 +1,6 @@
-import { Component, SimpleChanges, OnChanges, Input } from '@angular/core';
-import { ChartOptions, ChartDataSets } from 'chart.js';
-import { Label, Color } from 'ng2-charts';
-
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChartDataset, ChartOptions } from 'chart.js';
+import { Color, Label } from '../chart-helpers';
 import { backgroundAndBorderColors } from '../chart-helpers';
 
 /**
@@ -20,7 +19,7 @@ export class ResourceChartScatterComponent implements OnChanges {
   /**
    * Chart data
    */
-  @Input('datasets') chartData: ChartDataSets[];
+  @Input('datasets') chartData: ChartDataset[];
 
   /**
    * Background and border colors
@@ -42,11 +41,12 @@ export class ResourceChartScatterComponent implements OnChanges {
     if (!changes['chartData'] || !changes['chartLabels']) {
       return;
     }
+    this.chartColors = backgroundAndBorderColors;
 
     const labels = [...changes['chartLabels'].currentValue];
     const datasets = [...changes['chartData'].currentValue];
 
-    const chartData = datasets.map((dataset, datasetIndex) => {
+    const chartData: ChartDataset[] = datasets.map((dataset, datasetIndex) => {
       const dataRow = dataset['data'].map((item, itemIndex) => {
         return {
           x: labels[itemIndex],
@@ -58,16 +58,16 @@ export class ResourceChartScatterComponent implements OnChanges {
         data: dataRow,
         label: dataset['label'],
         pointRadius: datasetIndex * 2 + 5,
+        borderColor: this.chartColors[datasetIndex].borderColor,
+        backgroundColor: this.chartColors[datasetIndex].backgroundColor,
+        pointBackgroundColor: this.chartColors[datasetIndex].backgroundColor,
       };
     });
 
+    // this.chartData = [...chartData];
     this.chartData = [...chartData];
   }
 
-  /**
-   * Initializes chart colors
-   */
-  ngOnInit(): void {
-    this.chartColors = backgroundAndBorderColors;
-  }
+
+
 }

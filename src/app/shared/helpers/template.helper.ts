@@ -6,7 +6,10 @@ const _ = {
     templateSettings: templateSettings
 };
 
-_.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+_.templateSettings = {
+  interpolate: /{{([\s\S]+?)}}/g,
+  evaluate: /<%([\s\S]+?)%>/g
+};
 
 /**
  * Template helper to parse templates and url string

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+
 import { UserService } from '@app/services/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivate {
+export class RoleGuard  {
   /**
    * @ignore
    */
@@ -18,8 +19,8 @@ export class RoleGuard implements CanActivate {
    * @returns {boolean}
    */
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (!this.userService.hasRequiredRole(next.data.roles)) {
-      this.router.navigate(['/']);
+    if (!this.userService.hasRequiredRole(next.data['roles'])) {
+      this.router.navigate(['/']).then();
       return false;
     }
     return true;

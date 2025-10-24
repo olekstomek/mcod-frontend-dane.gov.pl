@@ -1,5 +1,5 @@
-import { ResultItemDetailsData } from '@app/services/models/result-item-details';
 import { ApiModel } from '@app/services/api/api-model';
+import { ResultItemDetailsData } from '@app/services/models/result-item-details';
 
 export interface ISearchResponse {
   meta: {

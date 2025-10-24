@@ -65,5 +65,5 @@ export class ArrayHelper {
      */
     static convertArrayValuesToCommaSeparatedString(value: Array<string> | string): string {
         return Array.isArray(value) ? value.join(', ') : value;
-    };
+    }
 }

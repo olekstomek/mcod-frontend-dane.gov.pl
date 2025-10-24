@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
-
+import { TranslatePipe } from '@ngx-translate/core';
 import { StringHelper } from '../helpers/string.helper';
+import { TooltipDirective } from '../tooltip/tooltip.directive';
 
 @Component({
-  selector: 'app-info-tooltip',
-  templateUrl: './info-tooltip.component.html',
+    selector: 'app-info-tooltip',
+    templateUrl: './info-tooltip.component.html',
+    standalone: true,
+    imports: [TooltipDirective, TranslatePipe],
 })
 export class InfoTooltipComponent {
   /**

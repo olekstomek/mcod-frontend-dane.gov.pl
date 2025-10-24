@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
+import { Color, Label } from '../chart-helpers';
 
 import { breakLongText, transparentColors } from '../chart-helpers';
 
@@ -8,7 +8,7 @@ import { breakLongText, transparentColors } from '../chart-helpers';
   selector: 'app-resource-chart-circle',
   templateUrl: './resource-chart-circle.component.html',
 })
-export class ResourceChartCircleComponent implements OnChanges, OnInit {
+export class ResourceChartCircleComponent implements OnChanges {
   /**
    * Chart type - donought, pie, polarArea
    */
@@ -35,53 +35,47 @@ export class ResourceChartCircleComponent implements OnChanges, OnInit {
   chartColors: Color[];
 
   /**
-   * Determines if label has been already created
-   * workaround for chart.js bug
-   * @type {boolean}
-   */
-  isLabelAlreadyCreated: boolean;
-
-  /**
    * Chart options.
    * Tooltip options - formatted multiline text
    */
   chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    tooltips: {
-      position: 'nearest', // auto position tooltip
-      callbacks: {
-        title: (tooltipItem, data) => {
-          let title = data['labels'][tooltipItem[0]['index']] as string | string[];
+    plugins: {
 
-          if (this.chartFullLabels && this.chartFullLabels.length) {
-            const fullTitle = this.chartFullLabels[tooltipItem[0]['index']];
+      tooltip: {
+        position: 'nearest', // auto position tooltip
+        callbacks: {
+          title: (context): string | void | string[]  => {
+            let title = context[0]['label'];
+            const datasetIndex = context[0].dataIndex;
+            const fullDataLabels = this.chartFullLabels[datasetIndex];
 
-            if (fullTitle) {
-              title = breakLongText(fullTitle);
+            if (fullDataLabels) {
+              const fullTitle = fullDataLabels;
+              if (fullTitle) {
+                title = breakLongText(fullTitle);
+              }
             }
-          }
-          this.isLabelAlreadyCreated = false;
-          return title;
-        },
-        label: (tooltipItem, data) => {
-          if (this.isLabelAlreadyCreated) {
-            return null;
-          }
-          this.isLabelAlreadyCreated = true;
-          return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+            return title;
+          },
+          label: (context): string | void | string[]  => {
+            const datasetIndex = context.dataIndex;
+            return context.dataset.data[datasetIndex].toLocaleString();
+          },
         },
       },
-    },
-    legend: {
-      position: 'bottom',
+      legend: {
+        position: 'bottom',
+      },
     },
   };
 
   /**
    * @ignore
    */
-  constructor(private changeDetection: ChangeDetectorRef) {}
+  constructor(private changeDetection: ChangeDetectorRef) {
+  }
 
   /**
    * Updates labels and data
@@ -92,30 +86,41 @@ export class ResourceChartCircleComponent implements OnChanges, OnInit {
     }
 
     const tempDatasets = [...changes['chartData'].currentValue];
-    this.chartData = tempDatasets[0]['data'];
+    this.initChartColors(tempDatasets[0]['data'].length);
+    this.chartData = [
+      {
+        datasets: [
+          {
+            data: tempDatasets[0]['data'],
+            backgroundColor: this.chartColors?.length ? this.chartColors.map(c => c.backgroundColor) : [],
+          }
+        ]
+      }
+    ];
 
     if (changes['chartType']) {
       this.chartType = 'radar'; // correct, but not used - forces change detection to run
       this.changeDetection.detectChanges();
       this.chartType = changes['chartType'].currentValue;
+
     }
   }
 
   /**
-   * Initializes chart colors
+   * Init fill colors based on length of data
    */
-  ngOnInit(): void {
-    let colorList = [...transparentColors];
+  private initChartColors(chartDataLength: number): void {
+    const colorList: string[] = [...transparentColors];
 
-    if (this.chartData && this.chartData.length) {
-      colorList[this.chartData.length - 1] = transparentColors[transparentColors.length - 1];
+    if (chartDataLength) {
+      colorList[chartDataLength - 1] = transparentColors[transparentColors.length - 1];
     }
 
-    this.chartColors = [
-      {
-        backgroundColor: colorList,
+    this.chartColors = colorList.map(c => {
+      return {
+        backgroundColor: c,
         borderColor: '#fff',
-      },
-    ];
+      };
+    });
   }
 }

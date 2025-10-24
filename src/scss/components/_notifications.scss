@@ -4,12 +4,12 @@
   color: inherit;
 
   &-danger {
-    border-color: theme-color('danger');
+    border-color: map-get($theme-colors, 'danger');
   }
   &-info {
-    border-color: theme-color('info');
+    border-color: map-get($theme-colors, 'info');
   }
   &-warning {
-    border-color: theme-color('warning');
+    border-color: map-get($theme-colors, 'warning');
   }
 }

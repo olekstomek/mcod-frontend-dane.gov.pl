@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
-import { RESPONSE } from '@nguniversal/express-engine/tokens';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Response } from 'express';
+export const RESPONSE = new InjectionToken<Response>('RESPONSE');
 
 /**
  * Response Service

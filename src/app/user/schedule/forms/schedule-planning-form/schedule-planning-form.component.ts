@@ -1,30 +1,36 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ScheduleCommentsComponent } from '../../components/schedule-comments/schedule-comments.component';
+import { PlanningFormBlueprint } from '../../tabs/planning/domain/schedule';
+import { SchedulePlanningService } from '../../tabs/planning/schedule-planning.service';
+import { ScheduleCustomDropdownDirective } from '../schedule-custom-dropdown.directive';
+import { ScheduleStage } from '../schedule-stage';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
 import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { UserStateService } from '@app/services/user-state.service';
 import { UserService } from '@app/services/user.service';
 import { ObjectHelper } from '@app/shared/helpers';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
-import { PlanningFormBlueprint } from '../../tabs/planning/domain/schedule';
-import { SchedulePlanningService } from '../../tabs/planning/schedule-planning.service';
-import { ScheduleStage } from '../schedule-stage';
 
 @Component({
     selector: 'app-schedule-planning-form',
     templateUrl: './schedule-planning-form.component.html',
     animations: [
         toggleVertically
-    ]
+    ],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgIf, NotificationsServerComponent, NgClass, ScheduleCustomDropdownDirective, NgFor, ScheduleCommentsComponent]
 })
 export class SchedulePlanningFormComponent implements OnInit {
 
     /**
      * Planning form
      */
-    planningForm: FormGroup;
+    planningForm: UntypedFormGroup;
 
     /**
      * Institution list - temp all possible
@@ -250,7 +256,7 @@ export class SchedulePlanningFormComponent implements OnInit {
             return;
         }
 
-        let flattenedFormValue = ObjectHelper.flattenNestedObjects(this.planningForm.value);
+        const flattenedFormValue = ObjectHelper.flattenNestedObjects(this.planningForm.value);
         let newFormValue = {...this.planningForm.value};
         newFormValue = {...flattenedFormValue};
 
@@ -339,15 +345,15 @@ export class SchedulePlanningFormComponent implements OnInit {
      * Initializes form
      */
     private initForm() {
-        this.planningForm = new FormGroup({
-            'institution': new FormControl(null, Validators.required),
-            'institution_unit': new FormControl(''),
-            'dataset_title': new FormControl(null, Validators.required),
-            'format': new FormControl(null, Validators.required),
-            'is_new': new FormControl(null, Validators.required),
-            'is_openness_score_increased': new FormControl(null),
-            'is_quality_improved': new FormControl(null),
-            'description': new FormControl('')
+        this.planningForm = new UntypedFormGroup({
+            'institution': new UntypedFormControl(null, Validators.required),
+            'institution_unit': new UntypedFormControl(''),
+            'dataset_title': new UntypedFormControl(null, Validators.required),
+            'format': new UntypedFormControl(null, Validators.required),
+            'is_new': new UntypedFormControl(null, Validators.required),
+            'is_openness_score_increased': new UntypedFormControl(null),
+            'is_quality_improved': new UntypedFormControl(null),
+            'description': new UntypedFormControl('')
         });
     }
 
@@ -384,7 +390,7 @@ export class SchedulePlanningFormComponent implements OnInit {
                             this.updateRecommendationValidators();
                         }
                     }
-                    
+
                     if (this.currentStage !== ScheduleStage.PLANNING) {
                         this.fillAcceptanceGroup(response);
                         this.updateAcceptanceValidators();
@@ -494,8 +500,8 @@ export class SchedulePlanningFormComponent implements OnInit {
         Object.keys(formGroup.controls).forEach(key => {
             formGroup.controls[key].disable();
 
-            if (formGroup.controls[key] instanceof FormGroup) {
-                this.disableFormGroupFields(formGroup.controls[key] as FormGroup);
+            if (formGroup.controls[key] instanceof UntypedFormGroup) {
+                this.disableFormGroupFields(formGroup.controls[key] as UntypedFormGroup);
             }
         });
     }
@@ -504,9 +510,9 @@ export class SchedulePlanningFormComponent implements OnInit {
      * Attaches recommendation group fields
      */
     private attachRecommendationGroup() {
-        const group = new FormGroup({
-            'recommendation_state': new FormControl(),
-            'recommendation_notes': new FormControl(null)
+        const group = new UntypedFormGroup({
+            'recommendation_state': new UntypedFormControl(),
+            'recommendation_notes': new UntypedFormControl(null)
         });
 
         this.planningForm.addControl('recommendation_group', group);
@@ -525,9 +531,9 @@ export class SchedulePlanningFormComponent implements OnInit {
      * Attaches acceptance group fields
      */
     private attachAcceptanceGroup() {
-        const group = new FormGroup({
-            'is_accepted': new FormControl(),
-            'recommendation_notes': new FormControl(null)
+        const group = new UntypedFormGroup({
+            'is_accepted': new UntypedFormControl(),
+            'recommendation_notes': new UntypedFormControl(null)
         });
 
         this.planningForm.addControl('acceptance_group', group);
@@ -546,10 +552,10 @@ export class SchedulePlanningFormComponent implements OnInit {
      * Attaches realization group fields
      */
     private attachRealizationGroup() {
-        const group = new FormGroup({
-            'is_resource_added': new FormControl(),
-            'resource_link': new FormControl(null, [Validators.required, Validators.pattern(this.linkPattern)]),
-            'is_resource_added_notes': new FormControl(null)
+        const group = new UntypedFormGroup({
+            'is_resource_added': new UntypedFormControl(),
+            'resource_link': new UntypedFormControl(null, [Validators.required, Validators.pattern(this.linkPattern)]),
+            'is_resource_added_notes': new UntypedFormControl(null)
         });
 
         this.planningForm.addControl('realization_group', group);

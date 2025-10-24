@@ -1,13 +1,25 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import {
+  ResourceItemFilesDownloadComponent
+} from '@app/pages/dataset/resource-list/resource-item-files-download/resource-item-files-download.component';
+import { ResourceItemInfoComponent } from '@app/pages/dataset/resource-list/resource-item-info/resource-item-info.component';
 import { IDownloadFile } from '@app/services/models/download-item';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { ResultListComponent } from '@app/shared/result-list/result-list.component';
 
 /**
  * Component to show dataset item results
  */
 @Component({
-    selector: 'app-resource-list',
-    templateUrl: './resource-list.component.html'
+  selector: 'app-resource-list',
+  templateUrl: './resource-list.component.html',
+  imports: [
+    ResultListComponent,
+    ResourceItemInfoComponent,
+    ResourceItemFilesDownloadComponent
+  ],
+  standalone: true
 })
 export class ResourceListComponent {
 

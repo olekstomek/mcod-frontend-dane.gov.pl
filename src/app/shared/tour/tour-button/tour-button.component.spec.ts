@@ -1,13 +1,13 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { ShepherdService } from 'angular-shepherd';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { NotificationsService } from '@app/services/notifications.service';
 import { TourButtonComponent } from '@app/shared/tour/tour-button/tour-button.component';
 import { TourDataService } from '@app/shared/tour/tour-data.service';
 import { TourService } from '@app/shared/tour/tour.service';
-import { ShepherdService } from '@janekkruczkowski/angular-shepherd';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 
 describe('TourButtonComponent', () => {
   let component: TourButtonComponent;
@@ -15,9 +15,14 @@ describe('TourButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TourButtonComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [TourDataService, TourService, NotificationsService, ShepherdService],
+      imports: [TranslateModule.forRoot(), TourButtonComponent],
+      providers: [
+        TourDataService,
+        TourService,
+        NotificationsService,
+        ShepherdService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TourButtonComponent);

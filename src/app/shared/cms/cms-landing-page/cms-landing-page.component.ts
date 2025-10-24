@@ -1,7 +1,8 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router, RouterOutlet } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { CmsBlock2Component } from '../cms-block2/cms-block2.component';
 
 import { CmsService } from '@app/services/cms.service';
 import { IPageCms } from '@app/services/models/cms/page-cms';
@@ -14,8 +15,17 @@ import { RouterEndpoints } from '@app/services/models/routerEndpoints';
  * Hyper editor pages component
  */
 @Component({
-  selector: 'cms-landing-page',
-  templateUrl: './cms-landing-page.component.html',
+    selector: 'cms-landing-page',
+    templateUrl: './cms-landing-page.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgClass,
+        NgTemplateOutlet,
+        CmsBlock2Component,
+        RouterOutlet,
+    ],
 })
 export class CmsLandingPageComponent implements OnInit, OnDestroy {
   /**
@@ -99,7 +109,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate([this.router.url + '/' + section.children[0].settings.url]);
+    this.router.navigate([this.router.url + '/' + section.children[0].settings.url]).then();
   }
 
   /**
@@ -117,7 +127,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     this.queryParams = { ...this.route.snapshot.queryParams };
     this.requestedUrl = this.router.url;
 
-    this.pageCmsCss = `${this.route.snapshot.data.slug} ${this.route.snapshot.data.cssContainerClass}`;
+    this.pageCmsCss = `${this.route.snapshot.data['slug']} ${this.route.snapshot.data['cssContainerClass']}`;
 
     this.requestedUrl = this.router.url;
     const previewIndex = this.requestedUrl.indexOf(`/${this.routerEndpoints.PREVIEW}`);
@@ -158,7 +168,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
         },
         err => {
           this.cmsService.displayCmsErrorMessage(this.requestedUrl, err.message);
-          this.router.navigate(['/']);
+          this.router.navigate(['/']).then();
         },
       );
     }
@@ -191,11 +201,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     if (url.indexOf(origin) !== -1) {
       component.settings.isExternalUrl = true;
     } else {
-      if (url.match(/^http(s)?:\/\//)) {
-        component.settings.isExternalUrl = true;
-      } else {
-        component.settings.isExternalUrl = false;
-      }
+      component.settings.isExternalUrl = !!url.match(/^http(s)?:\/\//);
     }
 
     component.children.forEach(child => {

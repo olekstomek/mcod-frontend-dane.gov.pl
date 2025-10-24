@@ -1,24 +1,27 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter, Renderer2, OnDestroy } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { NgClass, NgIf } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
-import { SchedulePlanningService } from "@app/user/schedule/tabs/planning/schedule-planning.service";
-import { toggleVertically } from "@app/animations/toggle-vertically";
-import { ScheduleItemComment } from "@app/user/schedule/components/schedule-comments/schedule-item-comment";
+import { toggleVertically } from '@app/animations/toggle-vertically';
+import { ScheduleItemComment } from '@app/user/schedule/components/schedule-comments/schedule-item-comment';
+import { SchedulePlanningService } from '@app/user/schedule/tabs/planning/schedule-planning.service';
 
 @Component({
-    selector: "app-schedule-comments-form",
-    templateUrl: "./schedule-comments-form.component.html",
+    selector: 'app-schedule-comments-form',
+    templateUrl: './schedule-comments-form.component.html',
     animations: [
         toggleVertically
-    ]
+    ],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgClass, NgIf]
 })
 export class ScheduleCommentsFormComponent implements OnInit, AfterViewInit, OnDestroy {
-    
+
     /**
      * Comment field (textarea)
      */
     @ViewChild('commentField', {static: false}) commentField: ElementRef;
-    
+
     /**
      * Id of related schedule item
      */
@@ -43,22 +46,22 @@ export class ScheduleCommentsFormComponent implements OnInit, AfterViewInit, OnD
      * Emits comment after changes
      */
     @Output() entrySaved = new EventEmitter<ScheduleItemComment | null>();
-    
+
     /**
      * Emits cancellation event
      */
     @Output() editCanceled = new EventEmitter<null>();
-    
+
     /**
      * Comment form
      */
-    commentForm: FormGroup;
+    commentForm: UntypedFormGroup;
 
     /**
      * Determines whether is edit mode
      */
     isEditMode: boolean;
-    
+
     /**
      * Timeout cleanup
      * @type {any}
@@ -73,7 +76,7 @@ export class ScheduleCommentsFormComponent implements OnInit, AfterViewInit, OnD
     }
 
     /**
-     * Inits form. 
+     * Inits form.
      * Sets form mode.
      */
     ngOnInit(): void {
@@ -93,7 +96,7 @@ export class ScheduleCommentsFormComponent implements OnInit, AfterViewInit, OnD
             const textarea = (<HTMLTextAreaElement>this.commentField.nativeElement);
             textarea.focus();
             const contentHeight = textarea.scrollHeight + 5;
-            this.renderer.setStyle(textarea, 'height', contentHeight + 'px')
+            this.renderer.setStyle(textarea, 'height', contentHeight + 'px');
         });
     }
 
@@ -101,10 +104,10 @@ export class ScheduleCommentsFormComponent implements OnInit, AfterViewInit, OnD
      * Inits form and sets validators
      */
     initForm(): void {
-        this.commentForm = new FormGroup({
-            'comment': new FormControl(this.isEditMode ? this.commentToEdit.attributes.text : null, [
-                Validators.required, 
-                Validators.minLength(this.minCommentLength), 
+        this.commentForm = new UntypedFormGroup({
+            'comment': new UntypedFormControl(this.isEditMode ? this.commentToEdit.attributes.text : null, [
+                Validators.required,
+                Validators.minLength(this.minCommentLength),
                 Validators.maxLength(this.maxCommentLength)
             ])
         });
@@ -128,7 +131,7 @@ export class ScheduleCommentsFormComponent implements OnInit, AfterViewInit, OnD
                 }
             }
         }`;
-       
+
         if (this.isEditMode) {
             this.schedulePlanningService
                 .saveComment(this.scheduleItemId, JSON.parse(payload), this.commentToEdit.id)

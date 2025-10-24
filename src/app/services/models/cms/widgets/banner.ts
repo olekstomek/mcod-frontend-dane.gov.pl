@@ -1,4 +1,4 @@
-import {IWidget} from '@app/services/models/cms/widgets/widget';
+import { IWidget } from '@app/services/models/cms/widgets/widget';
 
 export interface IBanner extends IWidget {
     value: {

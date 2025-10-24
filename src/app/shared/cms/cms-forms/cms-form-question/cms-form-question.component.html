@@ -21,7 +21,7 @@
                         </small>
 
                         <!-- error message - required -->
-                        <span class="sr-only" *ngIf="formset.required && form.get(formset.name).invalid && !form.get(formset.name).pristine"  role="alert" aria-live="polite">
+                        <span class="visually-hidden" *ngIf="formset.required && form.get(formset.name).invalid && !form.get(formset.name).pristine"  role="alert" aria-live="polite">
                             {{ 'Validation.RequiredField' | translate }} - {{formset.title}}
                         </span>
                     </label>

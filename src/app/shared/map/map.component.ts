@@ -1,11 +1,14 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LatLngBounds, Layer, LayerGroup, Map, Marker } from 'leaflet';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, withLatestFrom } from 'rxjs/operators';
-
 import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
+import { TooltipDirective } from '../tooltip/tooltip.directive';
+import { MapOptionsComponent as MapOptionsComponent_1 } from './map-options/map-options.component';
+
 import { DatasetService } from '@app/services/dataset.service';
 import { LeafletService } from '@app/services/leflet.service';
 import { IAggregation, IDisplayedObjectInfo, IGeoShape, IMapFilterParams } from '@app/services/models/map';
@@ -13,8 +16,14 @@ import { UserLocationData } from '@app/services/models/user-location-data';
 import { MapOptionsComponent } from '@app/shared/map/map-options/map-options.component';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    standalone: true,
+    imports: [
+        TooltipDirective,
+        MapOptionsComponent_1,
+        TranslatePipe,
+    ],
 })
 export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
   /**
@@ -415,7 +424,7 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
       permanent: true,
       direction: 'center',
       opacity: 1,
-      zoomAnimation: true,
+      // zoomAnimation: true,
       className: 'clusterText',
     });
     this.clustersLayer.addLayer(aggregationCircle);

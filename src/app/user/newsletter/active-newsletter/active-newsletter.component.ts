@@ -1,14 +1,23 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { HttpCustomErrorResponse } from '@app/services/models';
 import { NewsletterService } from '@app/services/newsletter.service';
+import { LinkButtonComponent } from '@app/shared/buttons/link-button/link-button.component';
 
 @Component({
-    selector: 'app-verify-newsletter',
-    templateUrl: './active-newsletter.component.html'
+  selector: 'app-verify-newsletter',
+  templateUrl: './active-newsletter.component.html',
+  imports: [
+    TranslatePipe,
+    LinkButtonComponent,
+    LocalizeRouterPipe
+  ],
+  standalone: true
 })
 export class ActiveNewsletterComponent implements OnInit, OnDestroy {
 
@@ -42,7 +51,9 @@ export class ActiveNewsletterComponent implements OnInit, OnDestroy {
      * Unsubscribes from existing subscriptions
      */
     ngOnDestroy() {
-        isPlatformBrowser(this.platformId) && this.subscription.unsubscribe();
+        if (isPlatformBrowser(this.platformId)) {
+          this.subscription.unsubscribe();
+        }
     }
 
 }

@@ -7,13 +7,14 @@ import { Pipe, PipeTransform } from '@angular/core';
  * {{ item.description | stripHtmlTagsExceptHighlight:'em' }}
  */
 @Pipe({
-  name: 'stripHtmlTagsExceptHighlight',
+    name: 'stripHtmlTagsExceptHighlight',
+    standalone: true,
 })
 export class StripHtmlWithExceptionPipe implements PipeTransform {
   /**
    * Transforms input value
    * @param {string} value
-   * @param {string} exception, one or more html tags, i.e. 'em|img|script"
+   * @param exception
    * @returns {string}
    */
   transform(value: string, exception: string = 'mark'): string {

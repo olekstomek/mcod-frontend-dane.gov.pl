@@ -1,19 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
-import { UserService } from '@app/services/user.service';
+import { toggleVertically } from '@app/animations';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
-import { toggleVertically } from '../../../animations/index';
+import { UserService } from '@app/services/user.service';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 
 /**
  * Lost Password Component
  */
 @Component({
-  selector: 'app-lost-password',
-  templateUrl: './lost-password.component.html',
-  animations: [toggleVertically],
+    selector: 'app-lost-password',
+    templateUrl: './lost-password.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        FormsModule,
+        NgIf,
+        NotificationsServerComponent,
+        NgClass,
+        UpperCasePipe,
+        LowerCasePipe,
+        TranslatePipe,
+    ],
 })
 export class LostPasswordComponent implements OnInit, OnDestroy {
   /**

@@ -4,7 +4,7 @@
     &::before {
         content: "";
         background-color: $color-blue-dark;
-        background-image: url("assets/bg-1440.jpg");
+        background-image: url("../../assets/bg-1440.jpg");
         background-position: 50% 0;
         background-repeat: no-repeat;
         position: fixed;
@@ -14,20 +14,20 @@
         height: 100%;
         z-index: -1;
 
+        @include media-breakpoint-down(xl) {
+            background-image: url("../../assets/bg-1200.jpg");
+        }
+
         @include media-breakpoint-down(lg) {
-            background-image: url("assets/bg-1200.jpg");
+            background-image: url("../../assets/bg-992.jpg");
         }
 
         @include media-breakpoint-down(md) {
-            background-image: url("assets/bg-992.jpg");
+            background-image: url("../../assets/bg-768.jpg");
         }
 
         @include media-breakpoint-down(sm) {
-            background-image: url("assets/bg-768.jpg");
-        }
-
-        @include media-breakpoint-down(xs) {
-            background-image: url("assets/bg-576.jpg");
+            background-image: url("../../assets/bg-576.jpg");
         }
 
     }
@@ -95,14 +95,14 @@
                 }
 
 				// < LG
-				@include media-breakpoint-down(lg) {
+				@include media-breakpoint-down(xl) {
                     .nav-link {
                         padding: 5px 10px;
                     }
 				}
 
 				// < MD
-				@include media-breakpoint-down(md) {
+				@include media-breakpoint-down(lg) {
 					display: flex;
 					flex-direction: row;
 					padding: 10px 0;
@@ -126,7 +126,7 @@
 				}
 
 				// < SM
-				@include media-breakpoint-down(xs) {
+				@include media-breakpoint-down(sm) {
 					display: flex;
 					flex-direction: column;
 					padding: 10px 0;
@@ -190,7 +190,7 @@
                 padding: 0;
 
                 // < md
-                @include media-breakpoint-down(md) {
+                @include media-breakpoint-down(lg) {
                     padding: 15px 0;
                 }
             }
@@ -211,7 +211,7 @@
                 .nav {
                     &-item {
                         padding-left: 24px;
-                        @include media-breakpoint-down(lg) {
+                        @include media-breakpoint-down(xl) {
                             padding-left: 15px;
                         }
                         &:first-child {
@@ -228,23 +228,23 @@
                         margin-top: 3px;
                         border-bottom: 4px solid $color-white;
                         font-size: 1.125rem;
-                        @include media-breakpoint-down(lg) {
+                        @include media-breakpoint-down(xl) {
                             font-size: 1rem;
 
                         }
                         &:hover {
-                            border-bottom-color: theme-color('primary'); 
+                            border-bottom-color: map-get($theme-colors, 'primary');
                         }
     
                         &.active {
                             font-weight: bold;
-                            border-bottom-color: theme-color('primary'); 
+                            border-bottom-color: map-get($theme-colors, 'primary');
                         }
                     }                    
                 }
 
 				// < MD
-				@include media-breakpoint-down(md) {
+				@include media-breakpoint-down(lg) {
 					display: flex;
 					flex-direction: row;
 					justify-content: center;
@@ -267,7 +267,7 @@
 				}
 
 				// < SM
-				@include media-breakpoint-down(xs) {
+				@include media-breakpoint-down(sm) {
 					flex-direction: column;
 					align-items: center;
 
@@ -287,11 +287,11 @@
     .external-logos {
         background-color: $color-white;
 
-        @include media-breakpoint-down(lg) {
+        @include media-breakpoint-down(xl) {
             margin: 0.5rem 0;
         }
 
-        @include media-breakpoint-down(xs) {
+        @include media-breakpoint-down(sm) {
             width: 100%;
             .icon:nth-child(2) {
                 float: right;

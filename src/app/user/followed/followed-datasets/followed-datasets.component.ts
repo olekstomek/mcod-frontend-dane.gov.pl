@@ -1,16 +1,40 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import { ObserveService } from '@app/services/observe.service';
-import { BasicPageParams } from '@app/services/models/page-params';
 import { ApiModel } from '@app/services/api/api-model';
+import { BasicPageParams } from '@app/services/models/page-params';
+import { ObserveService } from '@app/services/observe.service';
 import { SeoService } from '@app/services/seo.service';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { ResultListComponent } from '@app/shared/result-list/result-list.component';
 
 /**
  * Followed Datasets Component
  */
 @Component({
-  selector: 'app-followed-datasets',
-  templateUrl: './followed-datasets.component.html',
+    selector: 'app-followed-datasets',
+    templateUrl: './followed-datasets.component.html',
+    standalone: true,
+    imports: [
+        NotificationsServerComponent,
+        NgIf,
+        ResultListComponent,
+        RouterLink,
+        ItemsPerPageComponent,
+        PaginationComponent,
+        AsyncPipe,
+        LocalizeRouterPipe,
+        TranslatePipe,
+        SanitizeHtmlPipe,
+        TranslateDateFormatPipe,
+    ],
 })
 export class FollowedDatasetsComponent implements OnInit {
   /**

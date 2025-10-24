@@ -1,13 +1,24 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgIf } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {NewsletterService} from '@app/services/newsletter.service';
-import {Subscription} from 'rxjs';
-import {HttpCustomErrorResponse, IErrorBackend} from '@app/services/models';
+import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+
+import { HttpCustomErrorResponse } from '@app/services/models';
+import { NewsletterService } from '@app/services/newsletter.service';
+import { LinkButtonComponent } from '@app/shared/buttons/link-button/link-button.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 
 @Component({
-    selector: 'app-unsubcribe-newsletter',
-    templateUrl: './unsubcribe-newsletter.component.html'
+  selector: 'app-unsubcribe-newsletter',
+  templateUrl: './unsubcribe-newsletter.component.html',
+  imports: [
+    NotificationsServerComponent,
+    TranslatePipe,
+    LinkButtonComponent,
+    NgIf
+  ],
+  standalone: true
 })
 export class UnsubcribeNewsletterComponent implements OnInit, OnDestroy {
 
@@ -40,6 +51,8 @@ export class UnsubcribeNewsletterComponent implements OnInit, OnDestroy {
      * Unsubscribes from existing subscriptions
      */
     ngOnDestroy() {
-        isPlatformBrowser(this.platformId) && this.subscription.unsubscribe();
+        if (isPlatformBrowser(this.platformId))  {
+          this.subscription.unsubscribe();
+        }
     }
 }

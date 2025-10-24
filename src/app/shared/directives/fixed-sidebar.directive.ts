@@ -1,4 +1,4 @@
-import { DOCUMENT, isPlatformBrowser } from "@angular/common";
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
     AfterViewInit,
     Directive,
@@ -8,19 +8,20 @@ import {
     OnDestroy,
     PLATFORM_ID,
     Renderer2,
-} from "@angular/core";
-import { fromEvent, merge, Subscription } from "rxjs";
-import { map, throttleTime } from "rxjs/operators";
+} from '@angular/core';
+import { fromEvent, merge, Subscription } from 'rxjs';
+import { map, throttleTime } from 'rxjs/operators';
 
 @Directive({
-    selector: "[appFixedSidebar]",
+    selector: '[appFixedSidebar]',
+    standalone: true,
 })
 export class FixedSidebarDirective implements AfterViewInit, OnDestroy {
-    
+
     /**
      * Min window width to position sidebar
      */
-    @Input("fixedSidebarMinWindowWidth") minWindowWidth = 1200;
+    @Input('fixedSidebarMinWindowWidth') minWindowWidth = 1200;
 
     /**
      * Time to get better performance, throttle the event stream and keep fixed element scrolling smooth
@@ -64,8 +65,8 @@ export class FixedSidebarDirective implements AfterViewInit, OnDestroy {
         const sidebar = this.elementRef.nativeElement as HTMLElement;
         const parent = sidebar.parentElement;
 
-        const resize$ = fromEvent(this.document.defaultView, "resize");
-        const scroll$ = fromEvent(this.document.defaultView, "scroll");
+        const resize$ = fromEvent(this.document.defaultView, 'resize');
+        const scroll$ = fromEvent(this.document.defaultView, 'scroll');
 
         this.windowEventsSubscription = merge(resize$, scroll$)
             .pipe(
@@ -92,11 +93,13 @@ export class FixedSidebarDirective implements AfterViewInit, OnDestroy {
                 }
             });
     }
-    
+
     /**
      * Unsubscribes from window events subscription
      */
     ngOnDestroy() {
-        this.windowEventsSubscription && this.windowEventsSubscription.unsubscribe();
+        if (this.windowEventsSubscription) {
+          this.windowEventsSubscription.unsubscribe();
+        }
     }
 }

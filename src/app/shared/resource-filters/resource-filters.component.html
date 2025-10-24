@@ -17,7 +17,7 @@
 
           <!-- clear search field -->
           <button type="button" class="btn search__clear" (click)="generateQuery('')" *ngIf="searchQuery?.length">
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'Search.ClearInput' | translate }}
             </span>
             <span aria-hidden="true">&times;</span>
@@ -78,7 +78,7 @@
             {{ 'ResourceFilter.Column' | translate }}
           </label>
           <select
-            class="form-control"
+            class="form-select"
             [ngModel]="null"
             id="column"
             name="column"
@@ -133,7 +133,7 @@
               />
 
               <select
-                class="form-control"
+                class="form-select"
                 *ngIf="filtersForm.value['column']"
                 id="operator"
                 name="operator"
@@ -203,7 +203,7 @@
                 ngModel
                 name="phraseTime"
                 #phraseTime="ngModel"
-                required="isPhraseFieldAccessible"
+                [required]="isPhraseFieldAccessible"
                 [disabled]="!isPhraseFieldAccessible"
                 [readonlyInput]="!isPhraseFieldAccessible"
                 [showMeridian]="false"

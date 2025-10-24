@@ -1,15 +1,25 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { ApiModel } from '@app/services/api/api-model';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
 import { IAggregationPropertiesForRegions } from '@app/services/models/filters';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
 import { SearchSuggestRegionListboxOption } from '@app/shared/search-suggest/search-suggest';
+import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 
 @Component({
-  selector: 'app-regions-search',
-  templateUrl: './regions-search.component.html',
+    selector: 'app-regions-search',
+    templateUrl: './regions-search.component.html',
+    standalone: true,
+    imports: [
+        SearchSuggestComponent,
+        NgIf,
+        TranslatePipe,
+    ],
 })
 export class RegionsSearchComponent extends ListViewFilterPageAbstractComponent implements OnInit {
   /**

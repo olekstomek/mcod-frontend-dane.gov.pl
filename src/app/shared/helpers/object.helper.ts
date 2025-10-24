@@ -8,8 +8,8 @@ export class ObjectHelper {
      * Gets data from nested objects.
      * Prevents from 'Cannot read property 'someProperty' of undefined' error.
      * @example ObjectHelper.getNested(exampleObject, ['relationships', 'institutions', 'data', 'id'])
-     * @param {any} nestedObject 
-     * @param {string[]} propsArray 
+     * @param {any} nestedObject
+     * @param {string[]} propsArray
      * @returns {any}
      */
     static getNested(nestedObject: any, propsArray: string[]) {
@@ -28,27 +28,27 @@ export class ObjectHelper {
     /**
      * Flattens nested objects.
      * For nested objects (direct children), removes their parents and pastes children on parent level as siblings.
-     * @param {object} object 
-     * @returns object 
+     * @param {object} object
+     * @returns object
      */
     static flattenNestedObjects(object: object): object {
-        let source = {...object};
+        const source = {...object};
         let flattened = {};
 
-        for (let key in source) {
+        for (const key in source) {
             if (this.isObject(source[key])) {
                 flattened = {
                     ...flattened,
                     ...source[key]
-                }
-                
+                };
+
                 delete source[key];
             }
-        }  
+        }
 
         return {
             ...source,
             ...flattened
-        }
+        };
     }
 }

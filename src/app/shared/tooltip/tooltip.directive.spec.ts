@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { TooltipDirective as BsTooltip } from 'ngx-bootstrap';
+import { TooltipDirective as BsTooltip } from 'ngx-bootstrap/tooltip';
 import { BehaviorSubject } from 'rxjs';
 
 import { FeatureFlagService } from '@app/services/feature-flag.service';
@@ -32,8 +32,8 @@ export class MockComponent {}
 describe('Tooltip directive', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [MockComponent, BsTooltip, TooltipDirective, FeatureFlagDirective],
+      imports: [TranslateModule.forRoot(), BsTooltip, TooltipDirective, FeatureFlagDirective],
+      declarations: [MockComponent],
       providers: [{ provide: FeatureFlagService, useClass: MockkFeatureFlagService }, Overlay],
     }).compileComponents();
   });

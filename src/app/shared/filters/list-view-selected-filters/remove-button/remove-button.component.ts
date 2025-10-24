@@ -1,12 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
-import { StartEndDateRange } from '@app/services/models/startEndDateRange';
-
+import { NgTemplateOutlet } from '@angular/common';
+import {Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 /**
  * Remove selected filters component
  */
 @Component({
     selector: 'app-remove-button',
     templateUrl: './remove-button.component.html',
+    standalone: true,
+    imports: [NgTemplateOutlet],
 })
 export class RemoveButtonComponent {
     /**

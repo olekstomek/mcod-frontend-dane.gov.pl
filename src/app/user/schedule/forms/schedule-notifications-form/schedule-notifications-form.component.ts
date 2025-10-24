@@ -1,20 +1,33 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations';
-import { ScheduleNotificationsService } from '@app/user/schedule/services/schedule-notifications.service';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { ScheduleNotificationRecipientType } from '@app/user/schedule/services/schedule-notification-recipient-type';
+import { ScheduleNotificationsService } from '@app/user/schedule/services/schedule-notifications.service';
 
 @Component({
-  selector: 'app-schedule-notifications-form',
-  templateUrl: './schedule-notifications-form.component.html',
-  animations: [toggleVertically],
+    selector: 'app-schedule-notifications-form',
+    templateUrl: './schedule-notifications-form.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        NotificationsServerComponent,
+        NgClass,
+        NgFor,
+        TranslatePipe,
+    ],
 })
 export class ScheduleNotificationsFormComponent implements OnInit {
   /**
    * Notification form
    */
-  notificationForm: FormGroup;
+  notificationForm: UntypedFormGroup;
 
   /**
    * Min notification length
@@ -53,13 +66,13 @@ export class ScheduleNotificationsFormComponent implements OnInit {
   initForm() {
     this.recipientTypes = this.scheduleNotificationsService.getRecipientTypes();
 
-    this.notificationForm = new FormGroup({
-      message: new FormControl(null, [
+    this.notificationForm = new UntypedFormGroup({
+      message: new UntypedFormControl(null, [
         Validators.required,
         Validators.minLength(this.minNotificationLength),
         Validators.maxLength(this.maxNotificationLength),
       ]),
-      type: new FormControl(null),
+      type: new UntypedFormControl(null),
     });
 
     if (this.recipientTypes?.length) {

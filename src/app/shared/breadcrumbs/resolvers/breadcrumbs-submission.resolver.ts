@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { empty } from 'rxjs';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot } from '@angular/router';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { DatasetService } from '@app/services/dataset.service';
@@ -8,26 +8,13 @@ import { DatasetService } from '@app/services/dataset.service';
 /**
  * Breadcrumbs Resolver for /articles page
  */
-@Injectable()
-export class BreadcrumbsSubmissionResolver implements Resolve<any> {
 
-    /**
-     * @ignore
-     */
-    constructor(private service: DatasetService) {
-    }
+export const breadcrumbsSubmissionResolver = (route: ActivatedRouteSnapshot) => {
+  const datasetService = inject(DatasetService);
 
-    /**
-     * Resolve data in routing data parameters
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {any}
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-        return this.service
-            .getSubmission(route.paramMap.get('id'))
-            .pipe(
-                catchError(() => empty())
-            );
-    }
-}
+  return datasetService
+    .getSubmission(route.paramMap.get('id'))
+    .pipe(
+      catchError(() => of())
+    );
+};

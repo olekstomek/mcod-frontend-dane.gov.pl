@@ -1,17 +1,21 @@
+import { NgFor } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { UserDashboardListViewBaseComponent } from '@app/user/list-view/user-dashboard-list-view-base.component';
 import moment from 'moment';
+import { AcademyCourseComponent } from '../academy-course/academy-course.component';
 
+import { AodCourse } from '@app/user/academy/academy-courses/AodCourse';
 import { AodCourseScheduleDay } from '@app/user/academy/academy-courses/AodCourseScheduleDay';
 import { AodCourseSession } from '@app/user/academy/academy-courses/AodCourseSession';
-import { AodCourse } from '@app/user/academy/academy-courses/AodCourse';
+import { UserDashboardListViewBaseComponent } from '@app/user/list-view/user-dashboard-list-view-base.component';
 
 /**
  * Academy Courses List Component
  */
 @Component({
-  selector: 'app-academy-courses-list-container',
-  templateUrl: './academy-courses-list-container.component.html',
+    selector: 'app-academy-courses-list-container',
+    templateUrl: './academy-courses-list-container.component.html',
+    standalone: true,
+    imports: [NgFor, AcademyCourseComponent],
 })
 export class AcademyCoursesListContainerComponent extends UserDashboardListViewBaseComponent implements OnInit {
   /**
@@ -113,7 +117,7 @@ export class AcademyCoursesListContainerComponent extends UserDashboardListViewB
    * @returns {AodCourseScheduleDay}
    */
   private createSchedule(item: AodCourse): AodCourseScheduleDay[] {
-    let schedule = [];
+    const schedule = [];
 
     item.attributes.sessions.forEach((session: AodCourseSession, index: number) => {
       schedule.push(...this.createScheduleItem(session, index + 1));

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Alert } from '@app/services/models/alert';
-import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Global Notifications Service that handles displaying alert messages

@@ -1,5 +1,9 @@
+import { NgFor, NgIf } from '@angular/common';
 import {Component, Input, OnInit} from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LabListReportButtonComponent } from './lab-list-report-button/lab-list-report-button.component';
 
+import { CollapsibleTextComponent } from '@app/shared/collapsible-text/collapsible-text.component';
 import {LabListItem} from '@app/user/lab/lab-list/LabListItem';
 
 
@@ -8,7 +12,9 @@ import {LabListItem} from '@app/user/lab/lab-list/LabListItem';
  */
 @Component({
     selector: 'app-lab-list-item',
-    templateUrl: './lab-list-item.component.html'
+    templateUrl: './lab-list-item.component.html',
+    standalone: true,
+    imports: [NgIf, CollapsibleTextComponent, NgFor, LabListReportButtonComponent, TranslatePipe]
 })
 export class LabListItemComponent implements OnInit {
 

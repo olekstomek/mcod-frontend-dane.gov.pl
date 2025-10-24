@@ -24,7 +24,7 @@
       <img
         class="img-fluid"
         style="max-height: 150px"
-        src="{{ dataset.attributes.image_url }}"
+        ngSrc="{{ dataset.attributes.image_url }}"
         alt="{{ dataset.attributes.image_alt || 'Logo - ' + dataset.attributes.title }}"
       />
     </div>
@@ -73,7 +73,7 @@
       <div *ngIf="isSupplementExpanded" @toggleVertically class="pt-3" id="supplements-container">
         <ul class="list-unstyled">
           <li *ngFor="let supplement of dataset.attributes.supplements" class="d-inline-flex mr-5">
-            <span class="sr-only">{{ 'Action.Download' | translate }}</span>
+            <span class="visually-hidden">{{ 'Action.Download' | translate }}</span>
             <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
           </li>
         </ul>
@@ -100,7 +100,7 @@
               {{ dataset?.attributes.source.title }}
 
               <span aria-hidden="true">>></span>
-              <span class="sr-only">
+              <span class="visually-hidden">
                 {{ 'SkipTo.NewWindow' | translate }}
               </span>
             </a>
@@ -112,7 +112,7 @@
             <a [href]="dataset?.attributes.url" target="_blank">
               {{ 'Action.GoToSource' | translate }}
 
-              <span class="sr-only">
+              <span class="visually-hidden">
                 {{ 'SkipTo.NewWindow' | translate }}
               </span>
             </a>
@@ -223,7 +223,7 @@
 
             {{ (sidebarVisible ? 'Action.Hide' : 'Action.Show') | translate }}
             {{ 'Attribute.Details' | translate | lowercase }}
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ dataset.attributes.title }}
             </span>
 
@@ -242,7 +242,7 @@
           <!-- feedback -->
           <button class="btn btn-danger btn-sm ml-auto" (click)="openFeedbackModal(modalTemplate)">
             {{ 'Datasets.SendFeedback' | translate }}
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ dataset.attributes.title }}
             </span>
             <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
@@ -332,8 +332,8 @@
                   <span class="dropdown-label pr-2" id="sortby-label"> {{ 'Sort.By' | translate }}: </span>
 
                   <select
-                    class="form-control sort-order"
-                    (change)="updateParams({ sort: $event.target.value }, 'resources')"
+                    class="form-select sort-order"
+                    (change)="updateParams({ sort: getValue($event) }, 'resources')"
                     aria-labelledby="sortby-label"
                   >
                     <option [ngValue]="null" *ngIf="!isSortValid">
@@ -423,12 +423,12 @@
               <div class="d-md-inline-flex align-items-center pt-2 pb-2 pb-md-0">
                 <span class="dropdown-label pr-2" id="sortby-showcases-label">
                   {{ 'Sort.By' | translate }}:
-                  <span class="sr-only"> ({{ 'Search.AutoContentReload' | translate }}) </span>
+                  <span class="visually-hidden"> ({{ 'Search.AutoContentReload' | translate }}) </span>
                 </span>
 
                 <select
-                  class="form-control sort-order"
-                  (change)="updateParams({ sort: $event.target.value }, 'showcases')"
+                  class="form-select sort-order"
+                  (change)="updateParams({ sort: getValue($event) }, 'showcases')"
                   aria-labelledby="sortby-showcases-label"
                 >
                   <option [ngValue]="null" *ngIf="!isSortValid">
@@ -478,15 +478,14 @@
     <div class="modal-header">
       <h1 class="modal-title pull-left">
         {{ 'Datasets.SendFeedback' | translate }}
-        <span class="sr-only">
+        <span class="visually-hidden">
           {{ dataset.attributes.title }}
         </span>
       </h1>
 
       <!-- close modal -->
-      <button type="button" id="header-close" class="close pull-right focus-trap-first" (click)="feedbackModalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-        <span class="sr-only">
+      <button type="button" id="header-close" class="btn-close pull-right focus-trap-first" (click)="feedbackModalRef.hide()">
+        <span class="visually-hidden">
           {{ 'Action.Close' | translate }}
           {{ 'Modal' | translate | lowercase }}
           "{{ 'Datasets.SendFeedback' | translate }}"
@@ -504,7 +503,7 @@
       <div class="text-right">
         <button type="button" id="footer-close" class="btn btn-outline-primary focus-trap-last" (click)="onFeedbackModalClose()">
           {{ 'Action.Close' | translate }}
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'Modal' | translate | lowercase }}
             "{{ 'Datasets.SendFeedback' | translate }}"
           </span>

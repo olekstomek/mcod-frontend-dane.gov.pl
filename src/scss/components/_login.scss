@@ -8,7 +8,7 @@
   row-gap: 20px;
   margin-bottom: 15px;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     padding: 5px;
   }
   @include media-breakpoint-up(sm) {
@@ -76,16 +76,16 @@
       max-width: 400px;
     }
 
-    @include media-breakpoint-down(xl) {
+    @include media-breakpoint-down(xxl) {
       max-width: 330px;
     }
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       max-width: 310px;
       min-width: 250px;
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       max-width: 280px;
       min-width: 250px;
     }
@@ -99,7 +99,7 @@
     margin-bottom: 25px;
     padding: 0 10px;
     text-align: center;
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(xl) {
       font-size: 1.25rem;
     }
     &.black-white {

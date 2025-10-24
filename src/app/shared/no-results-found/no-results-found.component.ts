@@ -1,4 +1,6 @@
-import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
 
@@ -6,9 +8,11 @@ import { toggleVertically } from '@app/animations/toggle-vertically';
  * No Results Found Component
  */
 @Component({
-  selector: 'app-no-results-found',
-  templateUrl: './no-results-found.component.html',
-  animations: [toggleVertically],
+    selector: 'app-no-results-found',
+    templateUrl: './no-results-found.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [NgIf, TranslatePipe],
 })
 export class NoResultsFoundComponent implements OnChanges {
   /**

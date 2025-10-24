@@ -2,13 +2,13 @@
     <strong>Eksport {{ isFullExport ? 'pełny' : '' }}:</strong>
     <button (click)="generateUrl('csv')" class="btn btn-link d-inline-block p-0 ml-2">
         CSV <span aria-hidden="true">>></span>
-        <span class="sr-only">
+        <span class="visually-hidden">
             {{ 'SkipTo.NewWindow' | translate }}
         </span>
     </button>
     <button (click)="generateUrl('xlsx')"  class="btn btn-link d-inline-block p-0 ml-2">
         XLS <span aria-hidden="true">>></span>
-        <span class="sr-only">
+        <span class="visually-hidden">
             {{ 'SkipTo.NewWindow' | translate }}
         </span>
     </button>

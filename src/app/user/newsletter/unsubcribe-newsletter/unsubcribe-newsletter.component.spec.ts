@@ -1,15 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { PLATFORM_ID } from '@angular/core';
+import { importProvidersFrom, PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NewsletterService } from '@app/services/newsletter.service';
-import { NotificationsService } from '@app/services/notifications.service';
-import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { of } from 'rxjs/internal/observable/of';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { NewsletterService } from '@app/services/newsletter.service';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SharedModule } from '@app/shared/shared.module';
+import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 
 describe('UnsubcribeNewsletterComponent', () => {
   let component: UnsubcribeNewsletterComponent;
@@ -18,15 +18,14 @@ describe('UnsubcribeNewsletterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UnsubcribeNewsletterComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
+        SharedModule,
+        UnsubcribeNewsletterComponent
       ],
       providers: [
+        importProvidersFrom(AppTestingModule),
         NewsletterService,
         NotificationsService,
         { provide: PLATFORM_ID, useValue: 'browser' },
@@ -50,7 +49,7 @@ describe('UnsubcribeNewsletterComponent', () => {
   });
 
   it('should add success message', () => {
-    spyOn(service, 'removeNewsletterSubscription').and.returnValue(
+    jest.spyOn(service, 'removeNewsletterSubscription').mockReturnValue(
       of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
     );
     component.ngOnInit();

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetailsResultItemComponent } from '@app/shared/result-list/right-column/details-result-item/details-result-item.component';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { DetailsResultItemComponent } from '@app/shared/result-list/right-column/details-result-item/details-result-item.component';
 
 describe('DetailsResultItemComponent', () => {
   let component: DetailsResultItemComponent;
@@ -8,8 +9,7 @@ describe('DetailsResultItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DetailsResultItemComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), DetailsResultItemComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DetailsResultItemComponent);

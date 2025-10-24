@@ -1,9 +1,12 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule, TranslateParser } from '@ngx-translate/core';
+import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
+import { BehaviorSubject } from 'rxjs';
 
+import { AppTestingModule } from '@app/app.testing.module';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { NotificationsService } from '@app/services/notifications.service';
@@ -11,9 +14,6 @@ import { ObserveService } from '@app/services/observe.service';
 import { UserService } from '@app/services/user.service';
 import { SubscribeButtonComponent } from '@app/shared/subscribe-button/subscribe-button.component';
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
-import { TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
-import { BehaviorSubject } from 'rxjs';
 
 class MockkFeatureFlagService {
   featureFlags = new BehaviorSubject([]);
@@ -154,8 +154,6 @@ describe('Subscribe button', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
         TranslateModule.forRoot({
           parser: {
             provide: TranslateParser,
@@ -164,8 +162,9 @@ describe('Subscribe button', () => {
           defaultLanguage: 'pl',
           useDefaultLang: true,
         }),
+        SubscribeButtonComponent,
+        TooltipDirective
       ],
-      declarations: [SubscribeButtonComponent, TooltipDirective],
       providers: [
         { provide: FeatureFlagService, useClass: MockkFeatureFlagService },
         { provide: UserService, useClass: MockUserService },
@@ -173,6 +172,7 @@ describe('Subscribe button', () => {
         NotificationsFrontService,
         Overlay,
         { provide: ObserveService, useClass: MockObserveService },
+        importProvidersFrom(AppTestingModule)
       ],
     }).compileComponents();
   });
@@ -183,7 +183,7 @@ describe('Subscribe button', () => {
     expect(subscribeButtonComponent).toBeTruthy();
   });
 
-  it("should render subscribe button when item isn't subscribed", () => {
+  it('should render subscribe button when item isn\'t subscribed', () => {
     const fixture = TestBed.createComponent(SubscribeButtonComponent);
     const component = fixture.componentInstance;
     component.item = MOCK_ITEM_WITHOUT_SUBSCRIPTION;
@@ -220,7 +220,7 @@ describe('Subscribe button', () => {
 
     const unsubscribeButton = fixture.debugElement.query(By.css('.btn-danger'));
 
-    const unsubscribeMock = spyOn(component, 'removeSubscription').and.callFake(() => {});
+    const unsubscribeMock = jest.spyOn(component, 'removeSubscription').mockImplementation(() => {});
 
     unsubscribeButton.triggerEventHandler('click', {});
 
@@ -236,7 +236,7 @@ describe('Subscribe button', () => {
 
     const subscribeButton = fixture.debugElement.query(By.css('.btn:not(.btn-danger)'));
 
-    const subscribeMock = spyOn(component, 'addSubscription').and.callFake(() => {});
+    const subscribeMock = jest.spyOn(component, 'addSubscription').mockImplementation(() => {});
 
     subscribeButton.triggerEventHandler('click', {});
 

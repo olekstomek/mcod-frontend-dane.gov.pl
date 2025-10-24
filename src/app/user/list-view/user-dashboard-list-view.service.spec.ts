@@ -1,8 +1,8 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ServiceTestbed } from '@app/services/tests/service.testbed';
-
 import { UserDashboardListViewService } from './user-dashboard-list-view.service';
+
+import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
 describe('UserDashboardListViewService', () => {
   let service: UserDashboardListViewService;
@@ -41,17 +41,18 @@ describe('UserDashboardListViewService', () => {
       page: 1,
     };
     service.getAll(params).subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
       expect(value).toBeGreaterThan(0);
     });
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
   });
 
   it('should getOne function return value', () => {
     service.getOne('1').subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
       expect(value).toBeGreaterThan(0);
     });
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+
   });
 });

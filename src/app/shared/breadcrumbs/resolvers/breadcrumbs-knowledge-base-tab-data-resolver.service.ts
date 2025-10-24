@@ -1,23 +1,16 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { IMetadataPageChildrenCms } from '@app/services/models/cms/metadata-page-cms';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
+
+import { IMetadataPageChildrenCms } from '@app/services/models/cms/metadata-page-cms';
 
 /**
  * Breadcrumbs Resolver for knowledgebase tab pages
  */
-@Injectable()
-export class BreadcrumbsKnowledgeBaseTabDataResolverService implements Resolve<any> {
-  /**
-   * Resolve data in routing data parameters
-   * @param {ActivatedRouteSnapshot} route
-   * @param {RouterStateSnapshot} state
-   * @returns {Observable<IMetadataPageChildrenCms>>}
-   */
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Array<IMetadataPageChildrenCms>> {
-    if (route.parent.data?.post?.meta?.children) {
-      return of(route.parent.data.post.meta.children);
-    }
-    return EMPTY;
+
+export const breadcrumbsKnowledgeBaseTabDataResolverService =
+  (route: ActivatedRouteSnapshot): Observable<Array<IMetadataPageChildrenCms>> => {
+  if (route.parent.data?.['post']?.meta?.children) {
+    return of(route.parent.data['post'].meta.children);
   }
-}
+  return EMPTY;
+};

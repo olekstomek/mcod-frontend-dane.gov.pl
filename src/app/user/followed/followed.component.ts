@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+
+import { User } from '@app/services/models';
 import { UserStateService } from '@app/services/user-state.service';
 import { UserService } from '@app/services/user.service';
-import { User } from '@app/services/models';
 
 /**
  * Followed Component
@@ -9,6 +12,13 @@ import { User } from '@app/services/models';
 @Component({
     selector: 'app-followed',
     templateUrl: './followed.component.html',
+    standalone: true,
+    imports: [
+        RouterLinkActive,
+        RouterLink,
+        RouterOutlet,
+        TranslatePipe,
+    ],
 })
 
 export class FollowedComponent implements OnInit {

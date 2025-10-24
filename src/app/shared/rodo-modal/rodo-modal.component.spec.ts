@@ -1,14 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CmsService } from '@app/services/cms.service';
-import { IMetadataPageCms } from '@app/services/models/cms/metadata-page-cms';
-import { IWidget } from '@app/services/models/cms/widgets/widget';
-import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { of } from 'rxjs/internal/observable/of';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { CmsService } from '@app/services/cms.service';
+import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
 
 describe('RodoModalComponent', () => {
   let component: RodoModalComponent;
@@ -17,15 +15,15 @@ describe('RodoModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RodoModalComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         NoopAnimationsModule,
+        RodoModalComponent
       ],
-      providers: [CmsService],
+      providers: [
+        CmsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);
@@ -38,7 +36,7 @@ describe('RodoModalComponent', () => {
   });
 
   it('should create modal', () => {
-    const spyFunction = spyOn(service, 'getSimplePage').and.returnValue(
+    const spyFunction = jest.spyOn(service, 'getSimplePage').mockReturnValue(
       of({
         id: 1,
         meta: {},
@@ -60,7 +58,7 @@ describe('RodoModalComponent', () => {
   });
 
   it('should close modal', () => {
-    spyOn(component.isModalClosed, 'emit');
+    jest.spyOn(component.isModalClosed, 'emit');
     component.closeModal();
     expect(component.isModalClosed.emit).toHaveBeenCalled();
   });

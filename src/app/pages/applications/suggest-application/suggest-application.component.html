@@ -41,8 +41,8 @@
 
             <select
               formControlName="category"
-              class="form-control"
-              (change)="onChangeCategory($event.target.value)"
+              class="form-select"
+              (change)="onChangeCategory(getValue($event))"
               aria-labelledby="categories-label"
             >
               <option [ngValue]="null" selected hidden>
@@ -182,7 +182,7 @@
                           applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').touched
                       }"
                     >
-                      <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-apple.svg" alt="" />
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-apple.svg" alt="" height="17" width="14"/>
                       <label for="iosApp" class="not-bold-label">{{ 'ApplicationForm.iOSLinkText' | translate }}</label>
                       <input
                         type="text"
@@ -230,7 +230,7 @@
                           applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').touched
                       }"
                     >
-                      <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-android.svg" alt="" />
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-android.svg" alt="" height="17" width="14"/>
                       <label for="androidApp" class="not-bold-label">{{ 'ApplicationForm.AndroidLinkText' | translate }}</label>
                       <input
                         type="text"
@@ -319,7 +319,7 @@
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').touched
                       }"
                     >
-                      <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-windows.svg" alt="" />
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-windows.svg" alt="" height="14" width="14"/>
                       <label for="winApp" class="not-bold-label">{{ 'ApplicationForm.WinLinkText' | translate }}</label>
                       <input
                         type="text"
@@ -366,7 +366,7 @@
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').touched
                       }"
                     >
-                      <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-linux.svg" alt="" />
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-linux.svg" alt="" height="14" width="14"/>
                       <label for="linApp" class="not-bold-label">{{ 'ApplicationForm.LinLinkText' | translate }}</label>
                       <input
                         type="text"
@@ -413,7 +413,7 @@
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').touched
                       }"
                     >
-                      <img class="ml-4 mr-2" src="assets/icomoon/SVG/ic-apple.svg" alt="" />
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-apple.svg" alt="" height="17" width="14"/>
                       <label for="macApp" class="not-bold-label">{{ 'ApplicationForm.MacLinkText' | translate }}</label>
                       <input
                         type="text"
@@ -644,7 +644,7 @@
                 *ngFor="let datasetControl of applicationForm.get('datasets')['controls']; let i = index"
                 [formGroupName]="i"
                 @toggleVertically
-                [ngClass]="{ 'form-group-invalid': applicationForm.get('datasets')?.controls[i].controls.dataset.invalid }"
+                [ngClass]="{ 'form-group-invalid': applicationForm.get('datasets')?.invalid }"
               >
                 <!-- dataset autocomplete -->
                 <input
@@ -659,27 +659,27 @@
                   (keydown.enter)="$event.preventDefault()"
                   (change)="onCheckIfItemIsSelected($event, i)"
                   [attr.aria-describedby]="
-                    applicationForm.get('datasets')?.controls[i].controls.dataset.invalid ? 'dataset_invalid_error' : null
+                    applicationForm.get('datasets')?.invalid ? 'dataset_invalid_error' : null
                   "
-                  [attr.aria-invalid]="applicationForm.get('datasets')?.controls[i].controls.dataset.invalid"
+                  [attr.aria-invalid]="applicationForm.get('datasets')?.invalid"
                 />
 
                 <!-- remove dataset -->
                 <button type="button" class="btn btn-outline-danger" (click)="onRemoveDatasetRow(i)">
                   <span aria-hidden="true">x</span>
-                  <span class="sr-only">
+                  <span class="visually-hidden">
                     {{ 'Action.Remove' | translate }}
                     {{ 'Datasets.Single' | translate | lowercase }}
                     {{ i }}
                   </span>
                 </button>
                 <!-- invalid error -->
-                <ng-container *ngIf="applicationForm.get('datasets')?.controls[i].controls.dataset.invalid">
+                <ng-container *ngIf="applicationForm.get('datasets')?.invalid">
                   <small
                     class="form-text text-err w-100"
                     role="alert"
                     id="dataset_invalid_error"
-                    *ngIf="applicationForm.get('datasets')?.controls[i].controls.dataset?.errors['invalid']"
+                    *ngIf="applicationForm.get('datasets')?.errors && applicationForm.get('datasets')?.errors['invalid']"
                     @toggleVertically
                   >
                     {{ 'Validation.RequireDataFromList' | translate }}
@@ -705,7 +705,7 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-primary float-none"
-                  (click)="onAppendDatasetRow($event)"
+                  (click)="onAppendDatasetRow()"
                   *ngIf="applicationForm.get('datasets')['controls'].length < maxDatasetsNumber"
                 >
                   {{ 'Action.Add' | translate }}
@@ -757,7 +757,7 @@
                 <!-- remove dataset -->
                 <button type="button" class="btn btn-outline-danger" (click)="onRemoveExternalDatasetRow(i)">
                   <span aria-hidden="true">x</span>
-                  <span class="sr-only">
+                  <span class="visually-hidden">
                     {{ 'Action.Remove' | translate }}
                     {{ 'Datasets.Single' | translate | lowercase }}
                     {{ i }}
@@ -781,11 +781,11 @@
               <div class="clearfix">
                 <!-- dataset limit reached -->
                 <ng-container *ngIf="applicationForm.get('external_datasets')['controls'].length >= maxDatasetsNumber">
-                  <p class="alert alert-danger" role="alert" aria-live="polite" id="dataset-limit-alert" @toggleVertically>
+                  <p class="alert alert-danger" role="alert" aria-live="polite" id="dataset-limit-alert-ext" @toggleVertically>
                     {{ 'ApplicationForm.RelatedDatasetsLimitAlert' | translate: { param: maxDatasetsNumber } }}
                   </p>
 
-                  <button type="button" class="btn btn-secondary float-none" aria-describedby="dataset-limit-alert">
+                  <button type="button" class="btn btn-secondary float-none" aria-describedby="dataset-limit-alert-ext">
                     {{ 'Action.Add' | translate }}
                     {{ 'Datasets.Single' | translate | lowercase }}
                   </button>
@@ -795,7 +795,7 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-primary float-none"
-                  (click)="onAppendExternalDatasetRow($event)"
+                  (click)="onAppendExternalDatasetRow()"
                   *ngIf="applicationForm.get('external_datasets')['controls'].length < maxDatasetsNumber"
                 >
                   {{ 'Action.Add' | translate }}
@@ -873,7 +873,7 @@
                     applicationForm.controls.is_personal_data_processing_accepted.invalid &&
                     applicationForm.controls.is_personal_data_processing_accepted.touched
                   "
-                  (change)="applicationForm.controls.is_personal_data_processing_accepted.value = $event.target.checked"
+                  (change)="onCheckPersonalDataProcessingAccepted($event)"
                   (keydown.enter)="$event.preventDefault()"
                 />
 
@@ -929,7 +929,7 @@
                     applicationForm.controls.is_terms_of_service_accepted.invalid &&
                     applicationForm.controls.is_terms_of_service_accepted.touched
                   "
-                  (change)="applicationForm.controls.is_terms_of_service_accepted.value = $event.target.checked"
+                  (change)="onCheckIsTermsOfServiceAccepted($event)"
                   (keydown.enter)="$event.preventDefault()"
                 />
 

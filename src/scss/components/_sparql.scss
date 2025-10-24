@@ -23,11 +23,11 @@
 
   @include media-breakpoint-up(md) {
     .sparql-editor--select-container {
-      width: 200px;
+      width: 240px;
     }
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     .sparql-editor--btn {
       width: 100%;
     }

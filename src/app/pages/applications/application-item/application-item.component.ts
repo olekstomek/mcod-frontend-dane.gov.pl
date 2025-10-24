@@ -1,23 +1,63 @@
-import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { toggleVertically } from '@app/animations/toggle-vertically';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { ApplicationItemResultsComponent } from '../application-item-results/application-item-results.component';
 
+import { toggleVertically } from '@app/animations/toggle-vertically';
 import { ApplicationsService } from '@app/services/applications.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { SeoService } from '@app/services/seo.service';
 import { ArrayHelper } from '@app/shared/helpers';
 import { StringHelper } from '@app/shared/helpers/string.helper';
+import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.directive';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { KeywordsComponent } from '@app/shared/result-list/related-components/keywords/keywords.component';
+import { getEventValue } from '@app/shared/util';
 
 /**
  * Application Item Component
  */
 @Component({
-  templateUrl: './application-item.component.html',
-  animations: [toggleVertically],
+    templateUrl: './application-item.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        InfoTooltipDirective,
+        KeywordsComponent,
+        NotificationsServerComponent,
+        NgClass,
+        FormsModule,
+        NgFor,
+        ApplicationItemResultsComponent,
+        ItemsPerPageComponent,
+        PaginationComponent,
+        AsyncPipe,
+        TranslatePipe,
+        SanitizeHtmlPipe,
+        TranslateDateFormatPipe,
+    ],
 })
 export class ApplicationItemComponent implements OnInit, OnDestroy {
+
+  /**
+   * @ignore
+   */
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private applicationsService: ApplicationsService,
+    private seoService: SeoService,
+    private listViewDetailsService: ListViewDetailsService,
+  ) {}
   /**
    * Applications subscription of application item component
    */
@@ -92,16 +132,7 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
 
   externalDatasets = [];
 
-  /**
-   * @ignore
-   */
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private applicationsService: ApplicationsService,
-    private seoService: SeoService,
-    private listViewDetailsService: ListViewDetailsService,
-  ) {}
+  protected readonly getValue = getEventValue;
 
   /**
    * Sets META tags (title, description).
@@ -109,7 +140,7 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
    * Initializes and updates list of items (related datasets) on query params change.
    */
   ngOnInit() {
-    this.application = this.activatedRoute.snapshot.data.post;
+    this.application = this.activatedRoute.snapshot.data['post'];
     this.application.attributes.tags = ArrayHelper.convertArrayValuesToCommaSeparatedString(this.application.attributes.tags);
     this.setCategories();
 

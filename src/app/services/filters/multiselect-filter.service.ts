@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MultiselectOption } from '@app/services/models/filters';
 
 @Injectable({
   providedIn: 'root',

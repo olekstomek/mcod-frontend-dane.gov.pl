@@ -1,8 +1,8 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ServiceTestbed } from '@app/services/tests/service.testbed';
-
 import { SchedulePlanningService } from './schedule-planning.service';
+
+import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
 describe('SchedulePlanningService', () => {
   let service: SchedulePlanningService;
@@ -20,52 +20,52 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should call getSchedulesItemForCurrentSchedule function', () => {
-    const spyFunction = spyOn(service, 'getSchedulesItemForCurrentSchedule');
+    const spyFunction = jest.spyOn(service, 'getSchedulesItemForCurrentSchedule');
     service.getSchedulesItemForCurrentSchedule();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getRepresentativesSchedules function', () => {
-    const spyFunction = spyOn(service, 'getRepresentativesSchedules');
+    const spyFunction = jest.spyOn(service, 'getRepresentativesSchedules');
     service.getRepresentativesSchedules();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call updateScheduleStatus function', () => {
     const spyFunction = jest.spyOn(service, 'updateScheduleStatus');
     service.updateScheduleStatus(1, true);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call blockSchedule function', () => {
     const spyFunction = jest.spyOn(service, 'blockSchedule');
     service.blockSchedule(false);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call deleteScheduleItem function', () => {
     const spyFunction = jest.spyOn(service, 'deleteScheduleItem');
     service.deleteScheduleItem('2');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call searchForUserSchedules function', () => {
     const spyFunction = jest.spyOn(service, 'searchForUserSchedules');
     service.searchForUserSchedules('q', 2);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getUserScheduleItem function', () => {
     const spyFunction = jest.spyOn(service, 'getUserScheduleItem');
     service.getUserScheduleItem(2);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call updateUserScheduleItem function', () => {
@@ -82,7 +82,7 @@ describe('SchedulePlanningService', () => {
     };
     service.updateUserScheduleItem(planningBlueprint);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call addUserScheduleItem function', () => {
@@ -99,7 +99,7 @@ describe('SchedulePlanningService', () => {
     };
     service.addUserScheduleItem(planningBlueprint);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call addUserScheduleItemByAdmin function', () => {
@@ -116,89 +116,91 @@ describe('SchedulePlanningService', () => {
     };
     service.addUserScheduleItemByAdmin(planningBlueprint);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getUserInstitutions function', () => {
     const spyFunction = jest.spyOn(service, 'getUserInstitutions');
     service.getUserInstitutions();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getUserEmailAndInstitutions function', () => {
     const spyFunction = jest.spyOn(service, 'getUserEmailAndInstitutions');
     service.getUserEmailAndInstitutions('2', 'test@test.pl');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getUserInstitutionsForScheduleItem function', () => {
     const spyFunction = jest.spyOn(service, 'getUserInstitutionsForScheduleItem');
     service.getUserInstitutionsForScheduleItem('2');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getUserInstitutionsForScheduleItemId function', () => {
     const spyFunction = jest.spyOn(service, 'getUserInstitutionsForScheduleItemId');
     service.getUserInstitutionsForScheduleItemId('2');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call openNewSchedule function', () => {
     const spyFunction = jest.spyOn(service, 'openNewSchedule');
     service.openNewSchedule();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call isTableShouldBeReloaded function', () => {
     const spyFunction = jest.spyOn(service, 'isTableShouldBeReloaded');
     service.isTableShouldBeReloaded();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call setTableShouldBeReloaded function', () => {
     const spyFunction = jest.spyOn(service, 'setTableShouldBeReloaded');
     service.setTableShouldBeReloaded();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getScheduleItemComments function', () => {
     const spyFunction = jest.spyOn(service, 'getScheduleItemComments');
     service.getScheduleItemComments('1');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call saveComment function', () => {
     const spyFunction = jest.spyOn(service, 'saveComment');
     service.saveComment('1', 'text');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call saveComment function with comment ID', () => {
     const spyFunction = jest.spyOn(service, 'saveComment');
     service.saveComment('1', 'text', '1');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should getSchedulesItemForCurrentSchedule function return value', () => {
-    service.getSchedulesItemForCurrentSchedule().subscribe();
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getSchedulesItemForCurrentSchedule().subscribe(() => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should getRepresentativesSchedules function return value', () => {
-    service.getRepresentativesSchedules().subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getRepresentativesSchedules().subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should updateScheduleStatus function return value', () => {
@@ -226,9 +228,10 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should getUserScheduleItem function return value', () => {
-    service.getUserScheduleItem(2).subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getUserScheduleItem(2).subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should updateUserScheduleItem function return value', () => {
@@ -280,34 +283,39 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should getUserInstitutions function return value', () => {
-    service.getUserInstitutions('2').subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getUserInstitutions('2').subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should getUserEmailAndInstitutions function return value', () => {
     const dataTest = { email: 'test@test.pl', institutions: {} };
-    service.getUserEmailAndInstitutions('2', 'test@test.pl').subscribe(value => {});
-    const req = httpMock.expectOne(() => true);
-    req.flush(dataTest);
+    service.getUserEmailAndInstitutions('2', 'test@test.pl').subscribe(value => {
+      const req = httpMock.expectOne(() => true);
+      req.flush(dataTest);
+    });
   });
 
   it('should getUserInstitutionsForScheduleItem function return value', () => {
-    service.getUserInstitutionsForScheduleItem('2').subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getUserInstitutionsForScheduleItem('2').subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should getUserInstitutionsForScheduleItemId function return value', () => {
-    service.getUserInstitutionsForScheduleItemId('2').subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getUserInstitutionsForScheduleItemId('2').subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should openNewSchedule function return value', () => {
-    service.openNewSchedule().subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'POST' });
-    req.flush('Post');
+    service.openNewSchedule().subscribe(value => {
+      const req = httpMock.expectOne({ method: 'POST' });
+      req.flush('Post');
+    });
   });
 
   it('should isTableShouldBeReloaded function return value', () => {
@@ -317,20 +325,23 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should getScheduleItemComments function return value', () => {
-    service.getScheduleItemComments('2').subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getScheduleItemComments('2').subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should saveComment function return value', () => {
-    service.saveComment('2', 'text').subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'POST' });
-    req.flush('Post');
+    service.saveComment('2', 'text').subscribe(value => {
+      const req = httpMock.expectOne({ method: 'POST' });
+      req.flush('Post');
+    });
   });
 
   it('should getSchedules function return value', () => {
-    service.getSchedules().subscribe(value => {});
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getSchedules().subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 });

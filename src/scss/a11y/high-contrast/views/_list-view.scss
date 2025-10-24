@@ -19,12 +19,12 @@
             border-left-color: currentColor;
             background-color: $hcSecondary;
 
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 border-top: 1px solid currentColor;
             }
         }
 
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             &__right {
                 border-left: none;
             }
@@ -36,7 +36,7 @@
             color: currentColor;
         }
 
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
 
             &__heading {
                 border-right-color: currentColor;

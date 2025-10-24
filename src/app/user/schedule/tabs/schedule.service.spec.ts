@@ -1,7 +1,7 @@
 import { HttpTestingController } from '@angular/common/http/testing';
-import { async, TestBed } from '@angular/core/testing';
-import { ApiConfig } from '@app/services/api';
+import { TestBed } from '@angular/core/testing';
 
+import { ApiConfig } from '@app/services/api';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
 
@@ -159,19 +159,22 @@ describe('ApplicationsService', () => {
   });
 
   it('should fetch schedules item for current schedule from user schedules endpoint when user is admin', () => {
-    service.getSchedulesItemForCurrentSchedule(1, true, 1).subscribe(() => {});
-    expect(httpMock.expectOne(`/api${ApiConfig.userSchedules}/${1}?include=schedule,user_schedule_item`)).toBeTruthy();
+    service.getSchedulesItemForCurrentSchedule(1, true, 1).subscribe(() => {
+      httpMock.expectOne(`/api${ApiConfig.userSchedules}/${1}?include=schedule,user_schedule_item`);
+    });
   });
 
-  it("should fetch schedules item for current schedule from schedules endpoint when user isn't admin", async(() => {
+  it('should fetch schedules item for current schedule from schedules endpoint when user isn\'t admin', () => {
     service.getSchedulesItemForCurrentSchedule(1, false, 1).subscribe(data => {
+      httpMock.expectOne(`/api${ApiConfig.schedules}/${1}/user_schedule_items?include=schedule,user_schedule`);
       expect(data).toBeTruthy();
     });
-    expect(httpMock.expectOne(`/api${ApiConfig.schedules}/${1}/user_schedule_items?include=schedule,user_schedule`)).toBeTruthy();
-  }));
+  });
 
-  it('should map response to UserSchedule', done => {
+  it('should map response to UserSchedule', () => {
     service.getSchedulesItemForCurrentSchedule(1, true, 1).subscribe(data => {
+      const req = httpMock.expectOne(`/api${ApiConfig.userSchedules}/${1}?include=schedule,user_schedule_item`);
+      req.flush(userSchedulesMock);
       expect(data).toEqual({
         completed: false,
         data: [
@@ -202,25 +205,22 @@ describe('ApplicationsService', () => {
         state: 'implemented',
         userScheduleId: '16',
       });
-      done();
     });
-    const req = httpMock.expectOne(`/api${ApiConfig.userSchedules}/${1}?include=schedule,user_schedule_item`);
-    req.flush(userSchedulesMock);
   });
 
   it('should call getRepresentativesSchedules function', () => {
-    const spyFunction = spyOn(service, 'getRepresentativesSchedules');
+    const spyFunction = jest.spyOn(service, 'getRepresentativesSchedules');
     service.getRepresentativesSchedules('1', 'archived');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should check http url with params in getRepresentativesSchedules function', () => {
     const id = '1';
     const state = 'archived';
-    service.getRepresentativesSchedules(id, state).subscribe(() => {});
-
-    expect(httpMock.expectOne(`/api${ApiConfig.schedules}/${id}?state=${state}&include=user_schedule`)).toBeTruthy();
+    service.getRepresentativesSchedules(id, state).subscribe(() => {
+      httpMock.expectOne(`/api${ApiConfig.schedules}/${id}?state=${state}&include=user_schedule`);
+    });
   });
 
   it('should check params in getRepresentativesSchedules function', () => {
@@ -233,10 +233,10 @@ describe('ApplicationsService', () => {
   });
 
   it('should call getSchedules function', () => {
-    const spyFunction = spyOn(service, 'getSchedules');
+    const spyFunction = jest.spyOn(service, 'getSchedules');
     service.getSchedules('archived');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should check params in getSchedules function', () => {
@@ -249,40 +249,42 @@ describe('ApplicationsService', () => {
 
   it('should check http url with params in getSchedules function', () => {
     const state = 'archived';
-    service.getSchedules(state).subscribe(() => {});
-
-    expect(httpMock.expectOne(`/api${ApiConfig.schedules}?state=${state}&sort=-id`)).toBeTruthy();
+    service.getSchedules(state).subscribe(() => {
+      httpMock.expectOne(`/api${ApiConfig.schedules}?state=${state}&sort=-id`);
+    });
   });
 
   it('should check if getSchedules http request is GET', () => {
-    service.getSchedules('archived').subscribe(() => {});
-
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getSchedules('archived').subscribe(() => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 
   it('should call moveScheduleToArchive function', () => {
-    const spyFunction = spyOn(service, 'moveScheduleToArchive');
+    const spyFunction = jest.spyOn(service, 'moveScheduleToArchive');
     service.moveScheduleToArchive(1);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should move schedule to archive for current schedule', () => {
-    service.moveScheduleToArchive(1).subscribe(() => {});
-    expect(httpMock.expectOne(`/api${ApiConfig.schedules}/${1}`)).toBeTruthy();
+    service.moveScheduleToArchive(1).subscribe(() => {
+      httpMock.expectOne(`/api${ApiConfig.schedules}/${1}`);
+    });
   });
 
   it('should call restoreScheduleToImplemented function', () => {
-    const spyFunction = spyOn(service, 'restoreScheduleToImplemented');
+    const spyFunction = jest.spyOn(service, 'restoreScheduleToImplemented');
     service.restoreScheduleToImplemented(1);
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should restore schedule to implemented state for current schedule', () => {
-    service.restoreScheduleToImplemented(1).subscribe(() => {});
-    expect(httpMock.expectOne(`/api${ApiConfig.schedules}/${1}`)).toBeTruthy();
+    service.restoreScheduleToImplemented(1).subscribe(() => {
+      httpMock.expectOne(`/api${ApiConfig.schedules}/${1}`);
+    });
   });
 
   it('should call addUserScheduleItemByAdmin function', () => {
@@ -330,10 +332,10 @@ describe('ApplicationsService', () => {
   });
 
   it('should call getExportUrl function', () => {
-    const spyFunction = spyOn(service, 'getExportUrl');
+    const spyFunction = jest.spyOn(service, 'getExportUrl');
     service.getExportUrl('schedules', 1, 'csv');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should mach url if source parameter is schedule in getExportUrl function', () => {
@@ -370,9 +372,9 @@ describe('ApplicationsService', () => {
     const source = 'schedules';
     const id = 1;
     const isFullExport = false;
-    service.getExportUrl(source, id, 'csv', isFullExport).subscribe(() => {});
-
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
+    service.getExportUrl(source, id, 'csv', isFullExport).subscribe(() => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
+    });
   });
 });

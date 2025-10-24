@@ -25,6 +25,9 @@ import { SchedulePlanningService } from '@app/user/schedule/tabs/planning/schedu
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 /**
@@ -34,7 +37,9 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-schedule-search-suggest',
     templateUrl: './schedule-search-suggest.component.html',
-    animations: [toggleVertically]
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [NgIf, CdkTrapFocus, NgFor, NgClass, TranslatePipe]
 })
 export class ScheduleSearchSuggestComponent implements OnInit, OnDestroy {
     /**
@@ -141,7 +146,7 @@ export class ScheduleSearchSuggestComponent implements OnInit, OnDestroy {
      * Focus timeout reference
      * @type {number}
      */
-    private focusTimeout: number;
+    private focusTimeout: ReturnType<typeof setTimeout>;
 
     /**
      * @ignore
@@ -178,7 +183,7 @@ export class ScheduleSearchSuggestComponent implements OnInit, OnDestroy {
             return;
         }
 
-        //this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
+        // this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
     }
 
     /**
@@ -203,7 +208,7 @@ export class ScheduleSearchSuggestComponent implements OnInit, OnDestroy {
         const {dataset_title: title}: { dataset_title: string } = item.attributes;
         const {id: scheduleId} = item.relationships.schedule.data;
         const {id: userScheduleId} = item.relationships.user_schedule.data;
-        const schedule = schedules.find(schedule => schedule.id === scheduleId);
+        const schedule = schedules.find(foundSchedule => foundSchedule.id === scheduleId);
         const {period_name, state} = schedule.attributes;
         return {
             title: title,
@@ -397,8 +402,10 @@ export class ScheduleSearchSuggestComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         if (this.clickOutsideListener instanceof Function) {
             this.clickOutsideListener();
+          if (this.focusTimeout) {
+            clearTimeout(this.focusTimeout);
+          }
         }
-        this.focusTimeout && clearTimeout(this.focusTimeout);
     }
 
     /**

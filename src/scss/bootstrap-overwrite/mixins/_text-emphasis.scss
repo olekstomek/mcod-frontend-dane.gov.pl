@@ -1,5 +1,5 @@
 // stylelint-disable declaration-no-important
-
+@import "base/mixins";
 // Typography
 
 @mixin text-emphasis-variant($parent, $color) {

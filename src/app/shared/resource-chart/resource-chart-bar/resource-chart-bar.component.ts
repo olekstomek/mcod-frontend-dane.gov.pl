@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import Chart, { ChartData, ChartOptions, defaults } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
-import { backgroundAndBorderColors, breakLongText } from '../chart-helpers';
+import { Chart, ChartData, ChartOptions } from 'chart.js';
+import { LegendItem } from 'chart.js/dist/types';
+import { backgroundAndBorderColors, breakLongText, Color, Label } from '../chart-helpers';
 
 /**
  * Resource Chart Bar Component
@@ -34,6 +34,7 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
    */
   ngOnInit() {
     this.chartColors = backgroundAndBorderColors;
+
     this.setupChartValues();
   }
 
@@ -105,9 +106,11 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
    * @param chart
    * @returns {any[]}
    */
-  generateLabels(chart: Chart): Chart.ChartLegendLabelItem[] {
-    const defaultLabels = defaults.global.legend.labels.generateLabels(chart);
-    const labelsWithoutSpecialCharacterColor = [];
+  generateLabels(chart: Chart): LegendItem[] {
+    const defaultLabels = chart.data.datasets.map(d => d.label);
+
+    const labelsWithoutSpecialCharacterColor: LegendItem[] = [];
+
     chart.data.datasets.map((item, index) => {
       if (Array.isArray(item.backgroundColor)) {
         const specialCharacterBgColor = 'rgb(255,0,0)';
@@ -121,22 +124,27 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
           }
           if (!!fitsNonSpecialCharacterBg) {
             labelsWithoutSpecialCharacterColor.push({
-              ...defaultLabels[index],
+              text: defaultLabels[index],
               fillStyle: fitsNonSpecialCharacterBg,
+
             });
           } else {
             labelsWithoutSpecialCharacterColor.push({
-              ...defaultLabels[index],
+              // label: this.chartLabels[index],
               text: 'znak umowny',
             });
           }
         } else {
           labelsWithoutSpecialCharacterColor.push({
-            ...defaultLabels[index],
+            text: defaultLabels[index],
+            fillStyle: this.chartColors[index].backgroundColor,
+            lineWidth: 0,
+
           });
         }
       }
     });
+
     return labelsWithoutSpecialCharacterColor;
   }
 
@@ -149,38 +157,48 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
     this.chartOptions = {
       responsive: true,
       maintainAspectRatio: true,
-      tooltips: {
-        position: 'nearest',
-        callbacks: {
-          title: (tooltipItem, data) => {
-            let title = data['labels'][tooltipItem[0]['index']] as string | string[];
-            const datasetIndex = tooltipItem[0].datasetIndex;
-            const fullDataLabels = data.datasets[datasetIndex]['fullDataLabels'];
+      plugins: {
+        tooltip: {
+          position: 'nearest',
+          callbacks: {
+            title(context): string {
 
-            if (fullDataLabels) {
-              const fullTitle = fullDataLabels[tooltipItem[0]['index']];
+              let title = context[0]['label'];
+              const datasetIndex = context[0].dataIndex;
+              const fullDataLabels = context[0].dataset['fullDataLabels'][datasetIndex];
 
-              if (fullTitle) {
-                title = breakLongText(fullTitle);
+              if (fullDataLabels) {
+                const fullTitle = fullDataLabels;
+
+                if (fullTitle) {
+                  title = breakLongText(fullTitle);
+                }
               }
-            }
 
-            return title;
-          },
-          label: function (tooltipItem, data) {
-            if (nullValues[tooltipItem.datasetIndex][0].indexOf(tooltipItem.index) !== -1) {
-              return 'Znak umowny';
-            }
-            return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+              return title;
+
+            },
+            label: (context): string => {
+              const datasetIndex = context.dataIndex;
+
+              // if (nullValues[datasetIndex][0].indexOf(datasetIndex) !== -1) {
+              //   return 'Znak umowny';
+              // }
+              return context.dataset.data[datasetIndex].toLocaleString();
+            },
           },
         },
-      },
-      legend: {
-        display: true,
-        labels: {
-          generateLabels: this.generateLabels.bind(this),
+        legend: {
+          display: true,
+          labels: {
+            generateLabels: (chart) => {
+              return this.generateLabels(chart);
+            },
+          },
         },
       },
     };
   }
 }
+
+

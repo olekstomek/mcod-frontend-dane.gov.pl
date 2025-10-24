@@ -1,10 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { InstitutionItemResultsComponent } from '@app/pages/institutions/institution-item-results/institution-item-results.component';
+import { provideRouter } from '@angular/router';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { provideNgxLocalstorage } from 'ngx-localstorage';
+
+import { InstitutionItemResultsComponent } from '@app/pages/institutions/institution-item-results/institution-item-results.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 describe('InstitutionItemResultsComponent', () => {
   let component: InstitutionItemResultsComponent;
@@ -12,14 +14,17 @@ describe('InstitutionItemResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InstitutionItemResultsComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
+        SharedModule,
+        InstitutionItemResultsComponent
       ],
+      providers: [
+        provideNgxLocalstorage(),
+        provideRouter([]),
+        provideHttpClientTesting()
+      ]
     });
   });
 

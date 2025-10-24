@@ -18,7 +18,7 @@
         <!-- name -->
         <p>
           <span class="d-block">
-            <span class="sr-only">
+            <span class="visually-hidden">
               {{ 'Attribute.Name' | translate }}
             </span>
             {{ uploadedFile.name }}
@@ -27,7 +27,7 @@
 
         <!-- size -->
         <p>
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'File.Size' | translate }}
           </span>
           <app-file-size [fileSize]="uploadedFile.size"></app-file-size>
@@ -47,7 +47,7 @@
   <button class="btn btn-sm btn-outline-danger float-none" (click)="onImageRemove()" *ngIf="uploadedFile">
     {{ 'Action.Remove' | translate }}
     {{ 'Attribute.Image' | translate | lowercase }}
-    <span class="sr-only">
+    <span class="visually-hidden">
       {{ uploadedFile.name }}
     </span>
   </button>

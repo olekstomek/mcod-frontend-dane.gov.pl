@@ -1,20 +1,34 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
-import { IRawText } from '@app/services/models/cms/widgets/raw-text';
-import { IRawTextObject } from '@app/services/models/cms/controls/raw-text/raw-text-object';
-import { CmsService } from '@app/services/cms.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslatePipe } from '@ngx-translate/core';
+import { RawTextEmbedComponent } from './raw-text-embed/raw-text-embed.component';
+
+import { CmsService } from '@app/services/cms.service';
 import { EmbedRawTextService } from '@app/services/embed-raw-text.service';
-import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { IRawTextObject } from '@app/services/models/cms/controls/raw-text/raw-text-object';
+import { IRawText } from '@app/services/models/cms/widgets/raw-text';
+import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
+import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Raw text
  */
 @Component({
-  selector: 'cms-raw-text',
-  templateUrl: './raw-text.component.html',
+    selector: 'cms-raw-text',
+    templateUrl: './raw-text.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        NgFor,
+        NgStyle,
+        RawTextEmbedComponent,
+        TranslatePipe,
+        SanitizeHtmlPipe,
+    ],
 })
 export class RawTextComponent extends WidgetAbstractComponent implements OnInit, AfterViewInit {
   /**

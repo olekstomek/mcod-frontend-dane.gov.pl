@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators';
 import moment from 'moment';
-
-import { RestService } from '@app/services/rest.service';
-import { ApiConfig } from '@app/services/api';
-import { LinkHelper } from '@app/shared/helpers';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BasicPageParams } from './models/page-params';
+
+import { ApiConfig } from '@app/services/api';
+import { RestService } from '@app/services/rest.service';
+import { LinkHelper } from '@app/shared/helpers';
 
 /**
  * Search history service
@@ -19,7 +19,7 @@ export class SearchHistoryService extends RestService {
    * @param {number} [page]
    * @returns {Observable<GroupedSearchHistory>}
    */
-  getGroupedSearchHistory(page = 1): Observable<GroupedSearchHistory> {
+  getGroupedSearchHistory(page: number = 1): Observable<GroupedSearchHistory> {
     return this.get(ApiConfig.searchHistory, { per_page: 100, page: page, sort: '-modified' }).pipe(map(data => this.groupByDate(data)));
   }
 

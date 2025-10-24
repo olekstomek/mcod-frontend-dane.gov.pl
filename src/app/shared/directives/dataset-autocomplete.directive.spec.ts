@@ -1,13 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SearchService } from '@app/services/search.service';
 import { DatasetAutocompleteDirective } from '@app/shared/directives/dataset-autocomplete.directive';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 
 @Component({
   template: `<input type="text" app-dataset-autocomplete />`,
@@ -21,9 +20,14 @@ describe('DatasetAutocompleteDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      declarations: [DatasetAutocompleteDirective, TestComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [SearchService, NotificationsService],
+      declarations: [TestComponent],
+      imports: [TranslateModule.forRoot()],
+      providers: [
+        DatasetAutocompleteDirective,
+        SearchService,
+        NotificationsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).createComponent(TestComponent);
 
     component = fixture.componentInstance;

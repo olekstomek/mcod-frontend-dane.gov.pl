@@ -1,8 +1,8 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
-import { HttpXsrfInterceptorService } from '@app/services/security/http-xsrf-interceptor.service';
 import { CookieExtractor } from '@app/services/security/cookie-extractor.service';
+import { HttpXsrfInterceptorService } from '@app/services/security/http-xsrf-interceptor.service';
 
 @NgModule()
 export class HttpXsrfModule {

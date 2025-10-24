@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 
 import { ArrayHelper } from '@app/shared/helpers';
 
@@ -9,6 +9,10 @@ import { ArrayHelper } from '@app/shared/helpers';
 @Component({
   selector: 'app-dataset-parent',
   templateUrl: './dataset-parent.component.html',
+  standalone: true,
+  imports: [
+    RouterOutlet
+  ]
 })
 export class DatasetParentComponent implements OnInit {
   /**
@@ -25,7 +29,7 @@ export class DatasetParentComponent implements OnInit {
    * Initializes dataset.
    */
   ngOnInit() {
-    this.dataset = this.activatedRoute.snapshot.data.post.data;
+    this.dataset = this.activatedRoute.snapshot.data['post'].data;
     this.dataset.attributes['tags'] = this.dataset.attributes['tags'] ? this.convertTagsToString() : '';
   }
 

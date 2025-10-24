@@ -1,13 +1,19 @@
+import { NgIf } from '@angular/common';
 import {Component, Input} from '@angular/core';
+import { ImageComponent } from '../../image/image.component';
+import { VideoComponent } from '../../video/video.component';
+
 import {IRawTextEmbed} from '@app/services/models/cms/controls/raw-text/raw-text-embed';
 import {IRawTextEmbedType} from '@app/services/models/cms/controls/raw-text/raw-text-embed-type.enum';
 import {IBanner} from '@app/services/models/cms/widgets/banner';
-import {WidgetType} from '@app/services/models/cms/widgets/widget-type';
 import {IVideo} from '@app/services/models/cms/widgets/video';
+import {WidgetType} from '@app/services/models/cms/widgets/widget-type';
 
 @Component({
     selector: 'raw-text-embed-object',
-    templateUrl: './raw-text-embed.component.html'
+    templateUrl: './raw-text-embed.component.html',
+    standalone: true,
+    imports: [NgIf, VideoComponent, ImageComponent]
 })
 export class RawTextEmbedComponent {
 

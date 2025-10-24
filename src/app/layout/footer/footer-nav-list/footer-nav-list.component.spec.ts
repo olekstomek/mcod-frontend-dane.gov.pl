@@ -1,16 +1,19 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FooterNavListComponent } from '@app/layout/footer/footer-nav-list/footer-nav-list.component';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { FooterNavListComponent } from '@app/layout/footer/footer-nav-list/footer-nav-list.component';
 
 describe('FooterNavListComponent', () => {
   let component: FooterNavListComponent;
   let fixture: ComponentFixture<FooterNavListComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FooterNavListComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), FooterNavListComponent],
+      providers: [
+        importProvidersFrom(AppTestingModule)
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FooterNavListComponent);

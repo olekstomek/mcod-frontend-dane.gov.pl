@@ -1,16 +1,19 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
+import { LabListComponent } from '../lab-list/lab-list.component';
 
-import { SeoService } from "@app/services/seo.service";
+import { SeoService } from '@app/services/seo.service';
 
 /**
  * Lab Researches Component
  */
 @Component({
-    selector: "app-lab-researches",
-    templateUrl: "./lab-researches.component.html",
+    selector: 'app-lab-researches',
+    templateUrl: './lab-researches.component.html',
+    standalone: true,
+    imports: [LabListComponent],
 })
 export class LabResearchesComponent implements OnInit {
-    
+
     /**
      * @ignore
      */

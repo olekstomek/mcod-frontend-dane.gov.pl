@@ -1,13 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-
-import { NotificationsService } from './notifications.service';
 import { TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { NotificationsService } from './notifications.service';
+
+class TranslateServiceStub {
+  get = jest.fn().mockImplementation((key: string | Array<string>, interpolateParams?: Object) => of(''));
+}
 
 describe('NotificationsService', () => {
   let service: NotificationsService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NotificationsService, { provide: TranslateService, useValue: TranslateService }],
+      providers: [NotificationsService, { provide: TranslateService, useClass: TranslateServiceStub }],
     });
     service = TestBed.inject(NotificationsService);
   });
@@ -17,45 +21,45 @@ describe('NotificationsService', () => {
   });
 
   it('should call addSuccess function', () => {
-    const spyFunction = spyOn(service, 'addSuccess');
+    const spyFunction = jest.spyOn(service, 'addSuccess');
     service.addSuccess('success');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call addAlertWithTranslation function', () => {
-    const spyFunction = spyOn(service, 'addAlertWithTranslation');
+    const spyFunction = jest.spyOn(service, 'addAlertWithTranslation');
     service.addAlertWithTranslation('type', 'key');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call addError function', () => {
-    const spyFunction = spyOn(service, 'addError');
+    const spyFunction = jest.spyOn(service, 'addError');
     service.addError('error');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call addAlert function', () => {
-    const spyFunction = spyOn(service, 'addAlert');
+    const spyFunction = jest.spyOn(service, 'addAlert');
     service.addAlert('alert', 'test');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call clearAlerts function', () => {
-    const spyFunction = spyOn(service, 'clearAlerts');
+    const spyFunction = jest.spyOn(service, 'clearAlerts');
     service.clearAlerts();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should call getAlerts function', () => {
-    const spyFunction = spyOn(service, 'getAlerts');
+    const spyFunction = jest.spyOn(service, 'getAlerts');
     service.getAlerts();
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('getAlerts - Observable should add value', async () => {
@@ -65,8 +69,8 @@ describe('NotificationsService', () => {
   });
 
   it('should call shortcut for new success message', () => {
-    const spyFunction = spyOn(service, 'addAlert');
+    const spyFunction = jest.spyOn(service, 'addAlert');
     service.addSuccess('test');
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 });

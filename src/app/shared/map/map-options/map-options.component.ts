@@ -1,3 +1,4 @@
+import { AsyncPipe, DOCUMENT, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,15 +10,28 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { SliderComponent } from '../../slider/slider.component';
+
 import { IDisplayedObjectInfo, INominatimGeocodeResponse } from '@app/services/models/map';
 import { NominatimGeocodeService } from '@app/services/nominatim-geocode.service';
 
 @Component({
-  selector: 'app-map-options',
-  templateUrl: './map-options.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-map-options',
+    templateUrl: './map-options.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        SliderComponent,
+        NgClass,
+        NgFor,
+        AsyncPipe,
+        TranslatePipe,
+    ],
 })
 export class MapOptionsComponent implements OnChanges, OnDestroy {
   @Output() displayPointsInRange = new EventEmitter();

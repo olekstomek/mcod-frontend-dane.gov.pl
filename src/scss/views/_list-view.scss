@@ -7,18 +7,18 @@
 
     .btn {
       // < MD
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         margin-top: 5px;
       }
 
       // < SM
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(sm) {
         text-align: left;
         white-space: normal;
       }
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex-direction: column;
     }
   }
@@ -59,18 +59,16 @@
     }
 
     // MOBILE VIEW
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
+      flex-direction: column;
       padding-bottom: 0;
 
       &__right {
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
+        padding: 0.5rem 15px;
         border-left: 0;
         background-color: $color-grey-light-6;
         margin-top: 0.5rem;
         justify-content: flex-start;
-        padding-right: 15px;
-        padding-left: 15px;
       }
     }
   }
@@ -111,6 +109,9 @@
         fill: $color-blue-light
       }
 
+      &__text {
+        word-break: break-word;
+      }
     }
 
     &__custom-heading {
@@ -131,7 +132,7 @@
       font-size: 0.875rem;
     }
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       &__heading {
         display: inline;
         font-size: 0.875rem;
@@ -157,7 +158,7 @@
       }
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       &__heading {
         display: block;
         margin: 0;
@@ -177,14 +178,14 @@
       align-items: center;
 
       &__left {
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
           a {
             width: 100%;
           }
         }
 
         &--xs {
-          @include media-breakpoint-down(xs) {
+          @include media-breakpoint-down(sm) {
             a {
               width: 100%;
             }
@@ -193,13 +194,13 @@
 
         // CUSTOM PADDING
         &.md-pb {
-          @include media-breakpoint-down(md) {
+          @include media-breakpoint-down(lg) {
             padding-bottom: 1rem;
           }
         }
 
         &.sm-pb {
-          @include media-breakpoint-down(sm) {
+          @include media-breakpoint-down(md) {
             padding-bottom: 1rem;
           }
         }
@@ -209,7 +210,7 @@
         display: flex;
         justify-content: flex-end;
 
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
           .new-data-link,
           .write-us-info,
           .write-us-info-container {
@@ -235,7 +236,7 @@
       }
 
       // < sm
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(sm) {
         text-align: center;
 
         &__label {

@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-
-import { SchemaDataService } from './schema-data.service';
-import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { SchemaDataService } from './schema-data.service';
+
+import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
 describe('SchemaDataService', () => {
   let service: SchemaDataService;

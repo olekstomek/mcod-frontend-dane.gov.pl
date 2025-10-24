@@ -1,10 +1,10 @@
-# Otwarte Dane 2018 Frontend App
+# Otwarte Dane 2025 Frontend App
 
 ## Installation
 
 Recommended node and npm versions 
-- node > 8.9.1
-- npm > 6.4.1
+- node > 20.10.0
+- npm > 10.9.2
 
 Main installation script is simply `npm install`. Other commands are optional, in case you need 
 Angular CLI for code generation or your Node Package Manager is outdated. Check your version 
@@ -31,7 +31,7 @@ To run your application locally, all you need to run is npm script. Script defin
 found inside `package.json`.
 
 ```shell
-npm run start
+npm run start-local
 ```
 
 ### Building application for production 
@@ -51,8 +51,21 @@ Proxy settings are stored in `proxy.conf.json` file. This file is used when fron
 Change the `target` path if you want services to refer to different API address. You can copy, rename and change `proxy.conf.json` file contents according to your needs.
 
 Usage:
+Run local environment with local backend
 ```shell
-ng serve --host 0.0.0.0 --proxy-config my-proxy.conf.json
+npm run start-local 
+```
+Run local environment with dev backend
+```shell
+npm run start-dev
+```
+Run local environment with int backend
+```shell
+npm run start-int
+```
+Run local environment with preprod backend
+```shell
+npm run start-preprod
 ```
 
 Proxy options:
@@ -68,7 +81,7 @@ do the same; change `target` for `/cms` (in this example is `localhost:8001`).
 Example `proxy.conf.json` file:
 ```shell
 {
-    "/api": {
+    "/api/**": {
         "target": "http://localhost:8000",
         "secure": false,
         "pathRewrite": {

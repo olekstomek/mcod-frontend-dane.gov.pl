@@ -1,6 +1,6 @@
-import { Location } from '@angular/common';
+import { Location, NgIf } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -10,6 +10,12 @@ import { filter } from 'rxjs/operators';
 @Component({
     selector: 'app-schedule-tab',
     templateUrl: './schedule-tab.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        RouterOutlet,
+    ],
 })
 export class ScheduleTabComponent implements OnDestroy {
 

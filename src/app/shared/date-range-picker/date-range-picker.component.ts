@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { StartEndDateRange } from '@app/services/models/startEndDateRange';
+import { LowerCasePipe, NgClass, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import moment from 'moment';
+import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { ListViewFiltersActionButtonsComponent } from '../filters/list-view-action-buttons/list-view-filters-action-buttons.component';
+import { InfoTooltipDirective } from '../info-tooltip/info-tooltip.directive';
+
+import { StartEndDateRange } from '@app/services/models/startEndDateRange';
 
 /**
  * Daterange component
@@ -8,6 +14,16 @@ import moment from 'moment';
 @Component({
     selector: 'app-date-range-picker',
     templateUrl: './date-range-picker.component.html',
+    standalone: true,
+    imports: [
+        InfoTooltipDirective,
+        NgIf,
+        NgClass,
+        DatepickerComponent,
+        ListViewFiltersActionButtonsComponent,
+        LowerCasePipe,
+        TranslatePipe,
+    ],
 })
 export class DateRangePickerComponent {
     /**

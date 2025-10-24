@@ -1,21 +1,22 @@
+import { ActivatedRoute, Params, QueryParamsHandling } from '@angular/router';
+
+import { APP_CONFIG } from '@app/app.config';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
 import {
-  SelectedFilter,
   IListViewFilterAggregationsOptions,
   MultiselectOption,
+  SelectedFilter,
   SingleselectOptionForRegions,
 } from '@app/services/models/filters';
 import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
-import { ActivatedRoute, Params, QueryParamsHandling } from '@angular/router';
-import { APP_CONFIG } from '@app/app.config';
-import { ListViewFiltersService } from '@app/services/list-view-filters.service';
-import { BasicPageParams, PageParams } from '@app/services/models/page-params';
-import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
 import {
   IListViewInstitutionItemCategoryFiltersModel,
   IListViewInstitutionItemFiltersModel,
 } from '@app/services/models/page-filters/institution-item-filters';
+import { BasicPageParams, PageParams } from '@app/services/models/page-params';
 import { ISearchCounters } from '@app/services/models/search';
 
 /**
@@ -111,6 +112,7 @@ export abstract class ListViewFilterPageAbstractComponent {
   /**
    * Clears selected filter and updates query
    * @param { SelectedFilter} filter
+   * @param isMapOpen
    */
   clearSelectedFilter(filter: SelectedFilter, isMapOpen?: boolean) {
     let updatedQueryParams: PageParams = this.selectedFiltersService.removeSelectedFilter(

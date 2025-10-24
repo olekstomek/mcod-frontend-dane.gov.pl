@@ -9,13 +9,13 @@
         height: auto;
         fill: $primary;
 
-        @include media-breakpoint-down(xs) {
+        @include media-breakpoint-down(sm) {
             float: none;
             margin-bottom: 8px;
         }
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
         display: block;
     }
 }

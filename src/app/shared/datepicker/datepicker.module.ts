@@ -6,25 +6,20 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { BsDatepickerModule } from 'ngx-bootstrap';
 import { defineLocale } from 'ngx-bootstrap/chronos';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { plLocale } from 'ngx-bootstrap/locale';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
 import { DateRangePickerComponent } from '@app/shared/date-range-picker/date-range-picker.component';
-import { DatepickerComponent } from '@app/shared/datepicker/datepicker.component';
 import { DateInputMaskDirective } from '@app/shared/datepicker/date-input-mask.directive';
+import { DatepickerComponent } from '@app/shared/datepicker/datepicker.component';
 import { McodMatDatepickerIntl } from '@app/shared/datepicker/McodMatDatepickerIntl';
 import { SharedModule } from '@app/shared/shared.module';
 
 defineLocale('pl', plLocale);
 
 @NgModule({
-    declarations: [
-        DatepickerComponent,
-        DateRangePickerComponent,
-        DateInputMaskDirective
-    ],
     exports: [
         DatepickerComponent,
         DateRangePickerComponent,
@@ -44,6 +39,9 @@ defineLocale('pl', plLocale);
         MatMomentDateModule,
         MatInputModule,
         ReactiveFormsModule,
+        DatepickerComponent,
+        DateRangePickerComponent,
+        DateInputMaskDirective,
     ],
     providers: [
         {
@@ -52,10 +50,10 @@ defineLocale('pl', plLocale);
                 parse: {
                     dateInput: ['DD-MM-YYYY'],
                 },
-                display: {...MAT_MOMENT_DATE_FORMATS.display, dateInput: 'DD-MM-YYYY'},
+                display: { ...MAT_MOMENT_DATE_FORMATS.display, dateInput: 'DD-MM-YYYY' },
             }
         },
-        {provide: MatDatepickerIntl, useClass: McodMatDatepickerIntl},
+        { provide: MatDatepickerIntl, useClass: McodMatDatepickerIntl },
     ]
 })
 export class DatepickerModule {

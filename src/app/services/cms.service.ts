@@ -2,12 +2,6 @@ import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { INewsPageParams } from '@app/services/models/page-params';
-import { environment } from '@env/environment';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
-import { of } from 'rxjs/internal/observable/of';
-import { map } from 'rxjs/operators';
 
 import { ApiCmsConfig, CmsHardcodedPages } from '@app/services/api/api.cms.config';
 import { LandingPageStyleService } from '@app/services/landing-page-style.service';
@@ -17,6 +11,12 @@ import { ICmsForm } from '@app/services/models/cms/forms/cms-form';
 import { IPageCms } from '@app/services/models/cms/page-cms';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
+import { INewsPageParams } from '@app/services/models/page-params';
+import { environment } from '@env/environment';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, Subject } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
+import { map } from 'rxjs/operators';
 
 /**
  * Cms Service that handles communication with CMS
@@ -33,7 +33,7 @@ export class CmsService {
   /**
    * Hostname dependent on the environment
    */
-  private base_hostname: string;
+  private readonly base_hostname: string;
 
   elementFooterNavIsExist: Subject<boolean> = new Subject<boolean>();
   isElementFooterNavExist: boolean;
@@ -311,10 +311,9 @@ export class CmsService {
     if (revision) {
       paramsObj = { ...paramsObj, rev: revision };
     }
-    const params = new HttpParams({
+    return new HttpParams({
       fromObject: paramsObj,
     });
-    return params;
   }
 
   /**

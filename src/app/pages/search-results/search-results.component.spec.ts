@@ -1,15 +1,16 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs/internal/observable/of';
+import { SearchResultsComponent } from './search-results.component';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SearchService } from '@app/services/search.service';
 import { SeoService } from '@app/services/seo.service';
-import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { of } from 'rxjs/internal/observable/of';
-import { SearchResultsComponent } from './search-results.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -24,15 +25,19 @@ describe('SearchResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchResultsComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
+        SharedModule,
+        SearchResultsComponent
       ],
-      providers: [{ provide: SeoService, useClass: SeoServiceStub }, ListViewDetailsService, SearchService, NotificationsService],
+      providers: [
+        { provide: SeoService, useClass: SeoServiceStub },
+        ListViewDetailsService,
+        SearchService,
+        NotificationsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(ListViewDetailsService);
@@ -48,7 +53,7 @@ describe('SearchResultsComponent', () => {
   });
 
   it('should set counter and results', async () => {
-    spyOn(searchService, 'search').and.returnValue(
+    jest.spyOn(searchService, 'search').mockReturnValue(
       of({
         meta: {
           count: 3,

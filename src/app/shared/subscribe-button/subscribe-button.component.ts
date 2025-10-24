@@ -1,9 +1,12 @@
+import { NgClass, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TooltipDirective } from '../tooltip/tooltip.directive';
 
-import { UserService } from '@app/services/user.service';
-import { ObserveService } from '@app/services/observe.service';
-import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { ApiModel } from '@app/services/api/api-model';
+import { NotificationsFrontService } from '@app/services/notifications-front.service';
+import { ObserveService } from '@app/services/observe.service';
+import { UserService } from '@app/services/user.service';
 
 /**
  * Subscribe Button Component.
@@ -12,8 +15,15 @@ import { ApiModel } from '@app/services/api/api-model';
  * <app-subscribe-button [item]="item"></app-subscribe-button>
  */
 @Component({
-  selector: 'app-subscribe-button',
-  templateUrl: './subscribe-button.component.html',
+    selector: 'app-subscribe-button',
+    templateUrl: './subscribe-button.component.html',
+    standalone: true,
+    imports: [
+        TooltipDirective,
+        NgIf,
+        NgClass,
+        TranslatePipe,
+    ],
 })
 export class SubscribeButtonComponent implements OnInit {
   /**

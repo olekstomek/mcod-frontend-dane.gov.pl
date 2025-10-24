@@ -1,22 +1,20 @@
+import { importProvidersFrom } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ScheduleLinkComponent } from '@app/user/schedule/table/components/schedule-link-component/schedule-link.component';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
+import { AppTestingModule } from '@app/app.testing.module';
 import { SharedModule } from '@app/shared/shared.module';
-import { ConfirmationModalComponent } from '@app/user/schedule/table/components/confirmation-modal/confirmation-modal.component';
-import { ScheduleButtonComponent } from '@app/user/schedule/table/components/schedule-button-component/schedule-button.component';
+import { ScheduleLinkComponent } from '@app/user/schedule/table/components/schedule-link-component/schedule-link.component';
 
 describe('Schedule Link Component', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [
+                ScheduleLinkComponent,
                 ReactiveFormsModule,
                 SharedModule,
-                RouterTestingModule,
                 TranslateModule.forRoot({
                     parser: {
                         provide: TranslateParser,
@@ -26,9 +24,7 @@ describe('Schedule Link Component', () => {
                     useDefaultLang: true
                 }),
             ],
-            declarations: [
-                ScheduleLinkComponent
-            ],
+          providers: [importProvidersFrom(AppTestingModule)]
         }).compileComponents();
     });
 

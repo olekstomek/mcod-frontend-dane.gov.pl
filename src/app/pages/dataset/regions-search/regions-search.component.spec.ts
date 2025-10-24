@@ -1,16 +1,21 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslateModule } from '@ngx-translate/core';
+import { RegionsSearchComponent } from './regions-search.component';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { SeoService } from '@app/services/seo.service';
+import { ServicesModule } from '@app/services/services.module';
 import { SearchSuggestRegionListboxOption } from '@app/shared/search-suggest/search-suggest';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { RegionsSearchComponent } from './regions-search.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 class SeoServiceStub {
   setPageTitle() {}
 }
+
+class LocalizeRouterServiceStub {}
 
 describe('RegionsSearchComponent', () => {
   let component: RegionsSearchComponent;
@@ -20,9 +25,13 @@ describe('RegionsSearchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RegionsSearchComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [{ provide: SeoService, useClass: SeoServiceStub }, ListViewFiltersService],
+      imports: [TranslateModule.forRoot(), SharedModule, ServicesModule, RegionsSearchComponent],
+      providers: [
+        { provide: SeoService, useClass: SeoServiceStub },
+        {provide: LocalizeRouterService, useClass: LocalizeRouterServiceStub},
+        ListViewFiltersService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     service = TestBed.inject(ListViewFiltersService);

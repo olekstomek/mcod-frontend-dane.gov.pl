@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { UserService } from '@app/services/user.service';
 
 @Component({
-  selector: 'app-logout',
-  templateUrl: './logout.component.html',
+    selector: 'app-logout',
+    templateUrl: './logout.component.html',
+    standalone: true,
+    imports: [TranslatePipe],
 })
 export class LogoutComponent implements OnInit {
   /**

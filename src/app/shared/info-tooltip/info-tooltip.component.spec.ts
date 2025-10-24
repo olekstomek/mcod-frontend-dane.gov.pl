@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { BehaviorSubject } from 'rxjs';
+
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { FeatureFlagDirective } from '@app/shared/feature-flags/feature-flag.directive';
 import { InfoTooltipComponent } from '@app/shared/info-tooltip/info-tooltip.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { TooltipDirective } from 'ngx-bootstrap';
-import { BehaviorSubject } from 'rxjs';
+import { SharedModule } from '@app/shared/shared.module';
 
-class MockkFeatureFlagService {
+class MockFeatureFlagService {
   featureFlags = new BehaviorSubject([]);
 
   isFlagEnabled = true;
@@ -24,9 +26,8 @@ class MockkFeatureFlagService {
 describe('Info tooltip Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [InfoTooltipComponent, TooltipDirective, FeatureFlagDirective],
-      providers: [{ provide: FeatureFlagService, useClass: MockkFeatureFlagService }],
+      imports: [TranslateModule.forRoot(), SharedModule, InfoTooltipComponent, TooltipDirective, FeatureFlagDirective],
+      providers: [{ provide: FeatureFlagService, useClass: MockFeatureFlagService }],
     }).compileComponents();
   });
 
@@ -44,7 +45,7 @@ describe('Info tooltip Component', () => {
     fixture.detectChanges();
 
     return fixture.whenStable().then(() => {
-      const text = fixture.debugElement.query(By.css('.info-tooltip')).properties.appTooltip;
+      const text = fixture.debugElement.query(By.css('.info-tooltip')).componentInstance.text;
       expect(text).toBe('Asdf');
     });
   });

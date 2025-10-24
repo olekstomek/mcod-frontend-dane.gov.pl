@@ -1,8 +1,8 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+
 import { PostMessageIframeService } from '@app/services/post-message-iframe.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { of } from 'rxjs/internal/observable/of';
 
 describe('PostMessageIframeService', () => {
   let service: PostMessageIframeService;

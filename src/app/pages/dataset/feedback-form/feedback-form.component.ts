@@ -1,9 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { LowerCasePipe, NgClass, NgIf } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import { DatasetService } from '@app/services/dataset.service';
-import { ApiModel } from '@app/services/api/api-model';
 import { toggleVertically } from '@app/animations/toggle-vertically';
+import { ApiModel } from '@app/services/api/api-model';
+import { DatasetService } from '@app/services/dataset.service';
+import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
 
 /**
  * Feedback Form Component
@@ -12,6 +15,15 @@ import { toggleVertically } from '@app/animations/toggle-vertically';
   selector: 'app-feedback-form',
   templateUrl: './feedback-form.component.html',
   animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    NgIf,
+    NgClass,
+    TranslatePipe,
+    MathCaptchaComponent,
+    LowerCasePipe
+  ]
 })
 export class FeedbackFormComponent implements OnInit {
   /**
@@ -42,7 +54,7 @@ export class FeedbackFormComponent implements OnInit {
   /**
    * Feedback form
    */
-  feedbackForm: FormGroup;
+  feedbackForm: UntypedFormGroup;
 
   /**
    * Feedback sent indicator
@@ -65,13 +77,13 @@ export class FeedbackFormComponent implements OnInit {
    * Inits form
    */
   initForm(): void {
-    this.feedbackForm = new FormGroup({
-      feedback: new FormControl(null, [
+    this.feedbackForm = new UntypedFormGroup({
+      feedback: new UntypedFormControl(null, [
         Validators.required,
         Validators.minLength(this.minFeedbackLength),
         Validators.maxLength(this.maxFeedbackLength),
       ]),
-      captcha: new FormControl(null, Validators.required),
+      captcha: new UntypedFormControl(null, Validators.required),
     });
   }
 

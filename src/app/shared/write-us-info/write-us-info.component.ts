@@ -1,11 +1,23 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
+import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FocusTrapDirective } from '../directives/focus-trap/focus-trap.directive';
 
 import { APP_CONFIG } from '@app/app.config';
 
 @Component({
-  selector: 'app-write-us-info',
-  templateUrl: './write-us-info.component.html',
+    selector: 'app-write-us-info',
+    templateUrl: './write-us-info.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        FocusTrapDirective,
+        UpperCasePipe,
+        LowerCasePipe,
+        TranslatePipe,
+    ],
 })
 export class WriteUsInfoComponent implements OnInit {
   @Input() textLabel: string;

@@ -1,7 +1,14 @@
+import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { InstitutionItemListViewFiltersComponent } from '../institution-item-list-view-filters/institution-item-list-view-filters.component';
+import { InstitutionItemResultsComponent } from '../institution-item-results/institution-item-results.component';
+import { InstitutionItemSelectedFiltersComponent } from '../institution-item-selected-filters/institution-item-selected-filters.component';
 
 import { toggle, toggleVertically } from '@app/animations';
 import { ApiConfig } from '@app/services/api';
@@ -20,16 +27,46 @@ import {
 import { SearchService } from '@app/services/search.service';
 import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
+import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
+import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
 import { TemplateHelper } from '@app/shared/helpers';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
+import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.component';
 
 /**
  * Institution Item Component
  */
 @Component({
-  selector: 'app-institution-item',
-  templateUrl: './institution-item.component.html',
-  animations: [toggle, toggleVertically],
+    selector: 'app-institution-item',
+    templateUrl: './institution-item.component.html',
+    animations: [toggle, toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        CdkCopyToClipboard,
+        TooltipDirective,
+        NgClass,
+        SearchSuggestComponent,
+        InstitutionItemListViewFiltersComponent,
+        InstitutionItemSelectedFiltersComponent,
+        FoundResultsCountersAndSortComponent,
+        NoResultsFoundComponent,
+        NotificationsServerComponent,
+        InstitutionItemResultsComponent,
+        ItemsPerPageComponent,
+        PaginationComponent,
+        ApiSourceLinkComponent,
+        WriteUsInfoComponent,
+        AsyncPipe,
+        TranslatePipe,
+        TranslateDateFormatPipe,
+    ],
 })
 export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit, OnDestroy {
   /**
@@ -106,7 +143,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
    * Initializes and updates list of items (related datasets) on query params change.
    */
   ngOnInit() {
-    this.institution = this.activatedRoute.snapshot.data.post;
+    this.institution = this.activatedRoute.snapshot.data['post'];
     this.institution.count = this.institution.relationships ? this.institution.relationships.datasets.meta.count : 0;
     this.seoService.setPageTitle(this.institution.attributes.title);
     this.seoService.setDescriptionFromText(this.institution.attributes.description);
@@ -226,4 +263,5 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     this.destroy$.next(true);
     this.destroy$.complete();
   }
+
 }

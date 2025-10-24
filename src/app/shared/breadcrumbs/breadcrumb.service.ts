@@ -158,7 +158,7 @@ export class BreadcrumbService {
    * @param route
    * @returns {string}
    */
-  private getPath(route: ActivatedRoute) {
+  private getPath(route: ActivatedRoute): string {
     return route.routeConfig && route.routeConfig.path ? route.routeConfig.path : '';
   }
 

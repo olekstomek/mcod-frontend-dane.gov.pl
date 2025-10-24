@@ -1,22 +1,43 @@
+import { AsyncPipe, LowerCasePipe, NgClass, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
-import { ListViewDetailsService } from '@app/services/list-view-details.service';
-import { IDatasetRegionsList } from '@app/services/models/dataset-resource';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { NgForm, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, QueryParamsHandling, Router, RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { toggleHorizontally, toggleVertically } from '@app/animations';
+import { DatasetItemResultsComponent } from '@app/pages/dataset/dataset-item-results/dataset-item-results.component';
+import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
+import { DatasetRestrictionsComponent } from '@app/pages/dataset/dataset-restrictions/dataset-restrictions.component';
+import { FeedbackFormComponent } from '@app/pages/dataset/feedback-form/feedback-form.component';
+import { ResourceListComponent } from '@app/pages/dataset/resource-list/resource-list.component';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
+import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
+import { IDatasetRegionsList } from '@app/services/models/dataset-resource';
 import { IDownloadFile } from '@app/services/models/download-item';
 import { PageParams } from '@app/services/models/page-params';
 import { SchemaDataService } from '@app/services/schema-data.service';
 import { SchemaService } from '@app/services/schema.service';
 import { SeoService } from '@app/services/seo.service';
+import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
+import { CollapsibleTextComponent } from '@app/shared/collapsible-text/collapsible-text.component';
+import { FixedSidebarDirective } from '@app/shared/directives/fixed-sidebar.directive';
+import { FocusTrapDirective } from '@app/shared/directives/focus-trap/focus-trap.directive';
 import { LinkHelper } from '@app/shared/helpers';
+import { HistoryEntryComponent } from '@app/shared/history-entry/history-entry.component';
+import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.directive';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { SubscribeButtonComponent } from '@app/shared/subscribe-button/subscribe-button.component';
+import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
+import { getEventValue } from '@app/shared/util';
 
 /**
  * Dataset Item Component
@@ -24,8 +45,53 @@ import { LinkHelper } from '@app/shared/helpers';
 @Component({
   templateUrl: './dataset-item.component.html',
   animations: [toggleHorizontally, toggleVertically],
+  standalone: true,
+  imports: [
+    NgIf,
+    DatasetMetadataComponent,
+    CollapsibleTextComponent,
+    NgOptimizedImage,
+    InfoTooltipDirective,
+    TranslatePipe,
+    NgForOf,
+    NgClass,
+    FixedSidebarDirective,
+    RouterLink,
+    LocalizeRouterPipe,
+    TranslateDateFormatPipe,
+    AsyncPipe,
+    NotificationsServerComponent,
+    SubscribeButtonComponent,
+    LowerCasePipe,
+    TooltipDirective,
+    ReactiveFormsModule,
+    ResourceListComponent,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    DatasetRestrictionsComponent,
+    HistoryEntryComponent,
+    ApiSourceLinkComponent,
+    DatasetItemResultsComponent,
+    FeedbackFormComponent,
+    FocusTrapDirective
+  ]
 })
 export class DatasetItemComponent implements OnInit, OnDestroy {
+
+  /**
+   * @ignore
+   */
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private filterService: ListViewFiltersService,
+    private router: Router,
+    private datasetService: DatasetService,
+    private seoService: SeoService,
+    private schemaService: SchemaService,
+    private schemaDataService: SchemaDataService,
+    private modalService: BsModalService,
+    private listViewDetailsService: ListViewDetailsService,
+  ) {}
   /**
    * API model
    */
@@ -178,20 +244,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
    */
   isNotRegionPoland: boolean;
 
-  /**
-   * @ignore
-   */
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private filterService: ListViewFiltersService,
-    private router: Router,
-    private datasetService: DatasetService,
-    private seoService: SeoService,
-    private schemaService: SchemaService,
-    private schemaDataService: SchemaDataService,
-    private modalService: BsModalService,
-    private listViewDetailsService: ListViewDetailsService,
-  ) {}
+  protected readonly getValue = getEventValue;
 
   /**
    * Sets META tags (title, description).
@@ -199,7 +252,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
    * Initializes and updates list of items (resources) on query params change.
    */
   ngOnInit() {
-    const { data: dataset, included: datasetRelated } = this.activatedRoute.snapshot.data.post;
+    const { data: dataset, included: datasetRelated } = this.activatedRoute.snapshot.data['post'];
 
     if (Array.isArray(dataset.attributes.keywords)) {
       this.keywords = (dataset.attributes.keywords as []).join(', ');
@@ -207,10 +260,10 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
 
     this.dataset = dataset;
     this.selfApi = this.dataset.links.self;
-    this.isExistsZipFileForDownload = this.dataset.attributes.archived_resources_files_url ? true : false;
+    this.isExistsZipFileForDownload = !!this.dataset.attributes.archived_resources_files_url;
 
     this.regionsList = this.dataset.attributes.regions.filter(region => region.is_additional === false);
-    this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0 ? true : false;
+    this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0;
 
     if (this.dataset.attributes.source && this.dataset.attributes.source.type === 'ckan') {
       this.basicParams.sort = '-created';

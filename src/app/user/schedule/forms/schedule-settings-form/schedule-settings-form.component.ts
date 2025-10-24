@@ -1,22 +1,38 @@
+import { NgClass, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { BsLocaleService } from 'ngx-bootstrap';
-import { defineLocale } from 'ngx-bootstrap/chronos';
-import { plLocale } from 'ngx-bootstrap/locale';
-
-defineLocale('pl', plLocale);
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 import moment from 'moment';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { plLocale } from 'ngx-bootstrap/locale';
+import { ScheduleSettingsService } from '../../services/schedule-settings.service';
+import { Schedule, ScheduleSettings } from '../../tabs/planning/domain/schedule';
 
 import { toggleVertically } from '@app/animations';
 import { NotificationsService } from '@app/services/notifications.service';
-import { ScheduleSettingsService } from '../../services/schedule-settings.service';
-import { Schedule, ScheduleSettings } from '../../tabs/planning/domain/schedule';
+import { DatepickerComponent } from '@app/shared/datepicker/datepicker.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
+
+defineLocale('pl', plLocale);
 
 @Component({
     selector: 'app-schedule-settings-form',
     templateUrl: './schedule-settings-form.component.html',
     animations: [
         toggleVertically
+    ],
+    standalone: true,
+    imports: [
+      NgIf,
+      FormsModule,
+      ReactiveFormsModule,
+      NotificationsServerComponent,
+      TooltipDirective,
+      NgClass,
+      DatepickerComponent,
+      TranslatePipe
     ]
 })
 export class ScheduleSettingsFormComponent implements OnInit, OnChanges {
@@ -47,7 +63,7 @@ export class ScheduleSettingsFormComponent implements OnInit, OnChanges {
     /**
      * Settings form
      */
-    settingsForm: FormGroup;
+    settingsForm: UntypedFormGroup;
 
     /**
      * Determines whether form is submitted
@@ -107,11 +123,11 @@ export class ScheduleSettingsFormComponent implements OnInit, OnChanges {
     initForm() {
         this.isOnlyLinkEditable = this.schedule.state !== 'planned';
 
-        this.settingsForm = new FormGroup({
-            'period_name': new FormControl(this.schedule.periodName, this.isOnlyLinkEditable ? undefined : Validators.required),
-            'end_date': new FormControl(this.schedule.planningEndDate),
-            'new_end_date': new FormControl(this.schedule.newPlanningEndDate),
-            'link': new FormControl(this.schedule.link, Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')),
+        this.settingsForm = new UntypedFormGroup({
+            'period_name': new UntypedFormControl(this.schedule.periodName, this.isOnlyLinkEditable ? undefined : Validators.required),
+            'end_date': new UntypedFormControl(this.schedule.planningEndDate),
+            'new_end_date': new UntypedFormControl(this.schedule.newPlanningEndDate),
+            'link': new UntypedFormControl(this.schedule.link, Validators.pattern('^(https?)[^/]+(/.*)/[^/]+$')),
         });
     }
 

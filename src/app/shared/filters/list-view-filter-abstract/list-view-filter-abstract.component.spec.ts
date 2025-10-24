@@ -1,11 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ListViewManageFiltersService } from '@app/services/filters/list-view-manage-filters.service';
-import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-filter-abstract/list-view-filter-abstract.component';
+import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { provideNgxLocalstorage } from 'ngx-localstorage';
+
+import { ListViewManageFiltersService } from '@app/services/filters/list-view-manage-filters.service';
 import { DaterangeFilterUpdated, IAggregationProperties } from '@app/services/models/filters';
+import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-filter-abstract/list-view-filter-abstract.component';
 
 describe('ListViewFilterAbstractComponent', () => {
   let component: ListViewFilterAbstractComponent;
@@ -13,9 +14,13 @@ describe('ListViewFilterAbstractComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ListViewFilterAbstractComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
-      providers: [ListViewManageFiltersService],
+      imports: [TranslateModule.forRoot(), ListViewFilterAbstractComponent],
+      providers: [
+        ListViewManageFiltersService,
+        provideNgxLocalstorage(),
+        provideRouter([]),
+        provideHttpClientTesting()
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListViewFilterAbstractComponent);

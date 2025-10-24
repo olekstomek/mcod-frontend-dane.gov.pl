@@ -1,42 +1,35 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-
+import { importProvidersFrom } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-
-import { HomeComponent } from './home.component';
-import { ServicesModule } from '@app/services/services.module';
-import { SearchComponent } from './search/search.component';
+import { CookieService } from 'ngx-cookie-service';
 import { CategoriesComponent } from './categories/categories.component';
-import { StatsComponent } from './stats/stats.component';
+import { HomeComponent } from './home.component';
 import { InstitutionsComponent } from './institutions/institutions.component';
 import { NewsComponent } from './news/news.component';
-import { SharedModule } from '@app/shared/shared.module';
-import { CookieService } from 'ngx-cookie-service';
+import { SearchComponent } from './search/search.component';
 import { ServiceAlertComponent } from './service-alert/service-alert.component';
+import { StatsComponent } from './stats/stats.component';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { ApplicationsComponent } from '@app/pages/home/applications/applications.component';
+import { ServicesModule } from '@app/services/services.module';
 import { FooterComponent } from '@app/shared/footer/footer.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
         SharedModule,
         FormsModule,
         ServicesModule,
         TranslateModule.forRoot({}),
-        NgxLocalStorageModule.forRoot({ prefix: 'mcod' }),
         LocalizeRouterModule.forRoot([]),
-      ],
-      declarations: [
         HomeComponent,
         SearchComponent,
         CategoriesComponent,
@@ -45,9 +38,12 @@ describe('HomeComponent', () => {
         NewsComponent,
         ServiceAlertComponent,
         ApplicationsComponent,
-        FooterComponent,
+        FooterComponent
       ],
-      providers: [CookieService],
+      providers: [
+        CookieService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
   }));
 

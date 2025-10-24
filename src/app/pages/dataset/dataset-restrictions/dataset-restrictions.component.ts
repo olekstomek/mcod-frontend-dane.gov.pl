@@ -1,8 +1,11 @@
+import { NgForOf, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
 import { LicensesService } from '@app/services/licenses.service';
 import { LicenseWithRules, ZeroLicense } from '@app/services/models/license';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Dataset Restrictions Component
@@ -12,6 +15,13 @@ import { LicenseWithRules, ZeroLicense } from '@app/services/models/license';
   templateUrl: './dataset-restrictions.component.html',
   providers: [LicensesService],
   animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    NgIf,
+    TranslatePipe,
+    SanitizeHtmlPipe,
+    NgForOf
+  ]
 })
 export class DatasetRestrictionsComponent implements OnInit {
   /**

@@ -17,7 +17,7 @@
             transition: all $collapsible-sidebar-transition-duration;
 
             // < MD
-            @include media-breakpoint-down(lg)
+            @include media-breakpoint-down(xl)
             {
                 float: none;
                 width: 100%;
@@ -39,7 +39,7 @@
             .collapsible-sidebar-view__main { margin-left: ($collapsible-sidebar-width + $collapsible-sidebar-spacing); }
 
             // < MD
-            @include media-breakpoint-down(lg)
+            @include media-breakpoint-down(xl)
             {
                 .collapsible-sidebar-view__sidbar { width: 100%; }
                 .collapsible-sidebar-view__main { margin-left: 0; }
@@ -59,7 +59,7 @@
                 display: block;
 
                 // < MD
-                @include media-breakpoint-down(lg)
+                @include media-breakpoint-down(xl)
                 {
                     display: inline;
                 }

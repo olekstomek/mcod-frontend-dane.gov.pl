@@ -1,16 +1,25 @@
+import { NgIf } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { environment } from '@env/environment';
+import { TranslatePipe } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@app/app.config';
 import { AvailableIFrameService } from '@app/services/available-i-frame.service';
 import { PostMessageIframeService } from '@app/services/post-message-iframe.service';
 import { SeoService } from '@app/services/seo.service';
+import { LoaderComponent } from '@app/shared/loader/loader.component';
 
 @Component({
-  selector: 'app-stats-page',
-  templateUrl: './dashboard-stats.component.html',
+    selector: 'app-stats-page',
+    templateUrl: './dashboard-stats.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        LoaderComponent,
+        TranslatePipe,
+    ],
 })
 
 /**

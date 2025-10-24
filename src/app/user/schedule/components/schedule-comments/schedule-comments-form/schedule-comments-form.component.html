@@ -4,7 +4,7 @@
     <div class="form-group mb-2" 
         [ngClass]="{'form-group-invalid': commentForm.controls.comment.invalid && commentForm.controls.comment.touched}">
         
-        <label for="comment" class="sr-only" [ngClass]="{'sr-only': isEditMode}">
+        <label for="comment" class="visually-hidden" [ngClass]="{'visually-hidden': isEditMode}">
             {{ isEditMode ? 'Edycja komentarza' : 'Dodaj nowy komentarz' }}
         </label>
 

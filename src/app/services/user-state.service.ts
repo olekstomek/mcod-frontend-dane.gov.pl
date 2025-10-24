@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { filter, take } from 'rxjs/operators';
 import { defer, Observable, ReplaySubject } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 import { User } from '@app/services/models';
 import { UserService } from '@app/services/user.service';

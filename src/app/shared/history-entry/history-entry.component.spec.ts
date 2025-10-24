@@ -1,10 +1,11 @@
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateDateFormatPipe } from '../pipes/translate-date-format.pipe';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { HistoryEntryComponent } from '@app/shared/history-entry/history-entry.component';
 import { TimespanPipe } from '@app/shared/pipes/timespan.pipe';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { TranslateDateFormatPipe } from '../pipes/translate-date-format.pipe';
 
 describe('HistoryEntryComponent', () => {
   let component: HistoryEntryComponent;
@@ -12,8 +13,10 @@ describe('HistoryEntryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HistoryEntryComponent, TranslateDateFormatPipe, TimespanPipe],
-      imports: [RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), HistoryEntryComponent, TranslateDateFormatPipe, TimespanPipe],
+      providers: [
+        importProvidersFrom(AppTestingModule)
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HistoryEntryComponent);
@@ -70,7 +73,8 @@ describe('HistoryEntryComponent', () => {
     },
   ));
 
-  it('should translate action and table name, format variables according to entry data and pass them to template for application_dataset', inject(
+  it('should translate action and table name, format variables according to entry data and pass them to template for application_dataset',
+    inject(
     [TranslateService],
     (translateService: TranslateService) => {
       const data = {

@@ -1,14 +1,26 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { toggleHorizontally, toggleVertically } from '@app/animations';
+import { TranslatePipe } from '@ngx-translate/core';
 import { StringHelper } from '../helpers/string.helper';
+import { TruncateTextPipe } from '../pipes/truncate-text.pipe';
+
+import { toggleVertically } from '@app/animations';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Truncated text component with expand/ collapse button
  */
 @Component({
-  selector: 'collapsible-text',
-  templateUrl: './collapsible-text.component.html',
-  animations: [toggleVertically],
+    selector: 'collapsible-text',
+    templateUrl: './collapsible-text.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        TranslatePipe,
+        SanitizeHtmlPipe,
+        TruncateTextPipe,
+    ],
 })
 export class CollapsibleTextComponent {
   /**

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { enGbLocale, plLocale } from 'ngx-bootstrap/locale';
-import { BsLocaleService, defineLocale } from 'ngx-bootstrap';
 
 const localName = 'bootstrap-language';
 

@@ -1,16 +1,19 @@
+import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { VisualPasswordValidatorComponent } from '../auth/visual-password-validator/visual-password-validator.component';
 
-import { equalValueValidator } from '@app/user/auth/equal-value-validator';
-import { UserService } from '@app/services/user.service';
+import { toggleVertically } from '@app/animations';
+import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
-import { toggleVertically } from '@app/animations';
+import { UserService } from '@app/services/user.service';
 import { CustomFormControlValidators } from '@app/shared/form-validators/string.validators';
-import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
-import { TranslateService } from '@ngx-translate/core';
-import { NotificationsFrontService } from '@app/services/notifications-front.service';
-import { Router } from '@angular/router';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { equalValueValidator } from '@app/user/auth/equal-value-validator';
 
 /**
  * Change Password Component
@@ -20,6 +23,18 @@ import { Router } from '@angular/router';
     templateUrl: './change-password.component.html',
     animations: [
         toggleVertically
+    ],
+    standalone: true,
+    imports: [
+      FormsModule,
+      ReactiveFormsModule,
+      NotificationsServerComponent,
+      NgClass,
+      NgIf,
+      VisualPasswordValidatorComponent,
+      UpperCasePipe,
+      LowerCasePipe,
+      TranslatePipe
     ]
 })
 export class ChangePasswordComponent implements OnInit {
@@ -27,7 +42,7 @@ export class ChangePasswordComponent implements OnInit {
     /**
      * Change password form of change password component
      */
-    changePasswordForm: FormGroup;
+    changePasswordForm: UntypedFormGroup;
 
     /**
      * Determines password min length
@@ -42,7 +57,7 @@ export class ChangePasswordComponent implements OnInit {
     /**
      * @ignore
      */
-    constructor(private formBuilder: FormBuilder,
+    constructor(private formBuilder: UntypedFormBuilder,
                 private notificationsService: NotificationsService,
                 private notificationsFrontService: NotificationsFrontService,
                 private userService: UserService,

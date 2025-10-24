@@ -7,10 +7,7 @@ import { ScheduleStatusSwitcherComponent } from '@app/user/schedule/components/s
 describe('Schedule Status Switcher Component', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [ReactiveFormsModule],
-            declarations: [
-                ScheduleStatusSwitcherComponent
-            ],
+            imports: [ReactiveFormsModule, ScheduleStatusSwitcherComponent],
         }).compileComponents();
     });
 
@@ -24,7 +21,7 @@ describe('Schedule Status Switcher Component', () => {
     it('should cleanup subscriptions on destroy', () => {
         const fixture = TestBed.createComponent(ScheduleStatusSwitcherComponent);
         const scheduleStatusSwitcherComponent = fixture.componentInstance;
-        const cleanup$ = spyOn(scheduleStatusSwitcherComponent['cleanup$'], 'next').and.callThrough();
+        const cleanup$ = jest.spyOn(scheduleStatusSwitcherComponent['cleanup$'], 'next');
         fixture.detectChanges();
         fixture.destroy();
         expect(cleanup$).toHaveBeenCalled();
@@ -33,7 +30,7 @@ describe('Schedule Status Switcher Component', () => {
     it('should emit event when value changed', () => {
         const fixture = TestBed.createComponent(ScheduleStatusSwitcherComponent);
         const scheduleStatusSwitcherComponent = fixture.componentInstance;
-        const test = spyOn(scheduleStatusSwitcherComponent['cleanup$'], 'next').and.callThrough();
+        const test = jest.spyOn(scheduleStatusSwitcherComponent['cleanup$'], 'next');
         fixture.detectChanges();
 
         let statusEventValue;

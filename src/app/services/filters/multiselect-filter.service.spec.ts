@@ -17,21 +17,21 @@ describe('MultiselectFilterService', () => {
   });
 
   it('should call changeMultiselect function', () => {
-    const spyFunction = spyOn(service, 'changeMultiselect');
+    const spyFunction = jest.spyOn(service, 'changeMultiselect');
     service.changeMultiselect({ id: 1 }, { id: '582897' });
 
     expect(spyFunction).toBeCalled();
   });
 
   it('should call changeSingleselect function', () => {
-    const spyFunction = spyOn(service, 'changeSingleselect');
+    const spyFunction = jest.spyOn(service, 'changeSingleselect');
     service.changeSingleselect({ region_id: '582897' });
 
     expect(spyFunction).toBeCalled();
   });
 
   it('should call getAvailability function', () => {
-    const spyFunction = spyOn(service, 'getAvailability');
+    const spyFunction = jest.spyOn(service, 'getAvailability');
     service.getAvailability({ id: 2 }, { id: 1 });
 
     expect(spyFunction).toBeCalled();

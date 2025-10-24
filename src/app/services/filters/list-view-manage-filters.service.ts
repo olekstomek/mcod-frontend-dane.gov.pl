@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment';
+
 import { DaterangeFilterService } from '@app/services/filters/daterange-filter.service';
 import { MultiselectFilterService } from '@app/services/filters/multiselect-filter.service';
 import {
   AvailabilityFilterMap,
   DaterangeFilterAvailability,
-  DaterangeFilterUpdated,
   DaterangeFilterModel,
+  DaterangeFilterUpdated,
   FilterModel,
   FiltersToSend,
   IAggregationProperties,
   IAggregationPropertiesForRegions,
   MultiselectOption,
 } from '@app/services/models/filters';
-import moment from 'moment';
 
 /**
  * General service for managing List view fitlers

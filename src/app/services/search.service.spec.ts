@@ -1,10 +1,10 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { SearchService } from './search.service';
+
 import { ApiResponse } from '@app/services/api';
 import { AggregationOptionType } from '@app/services/models/filters';
-
-import { SearchService } from './search.service';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { HttpTestingController } from '@angular/common/http/testing';
 
 describe('SearchService', () => {
   let service: SearchService;

@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import pathToRegexp from 'path-to-regexp';
+import { pathToRegexp } from 'path-to-regexp';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -19,7 +19,8 @@ export class TourDataService extends RestService {
    */
   private routesWithVisibleButton$: Observable<{ [key: string]: boolean }>;
 
-  /**
+  /**https://api.int.dane.gov.pl/1.4/stats
+
    * Tours observable reference
    * @type {[key: string]: Observable<Array<Tour>>}
    */
@@ -60,8 +61,9 @@ export class TourDataService extends RestService {
           const tour = tours[i];
           for (let j = 0; j < tour.items.length; j++) {
             const tourItem = tour.items[j];
-            const routeRegExp = pathToRegexp(tourItem.route);
-            if (routeRegExp.test(routeToFind)) {
+            const modifiedRoute = tourItem.route.replace('?', '');
+            const routeRegExp = pathToRegexp(modifiedRoute);
+            if (routeRegExp.regexp.test(routeToFind)) {
               return tour;
             }
           }

@@ -104,7 +104,7 @@
         [originalSelectedData]="backupSelectedFilters"
         [data]="selectedFilters"
         (applyFilters)="updateParams($event, null, true)"
-        [showHideMapButton]="selectedFiltersCount > 0 ? true : false"
+        [showHideMapButton]="selectedFiltersCount > 0"
         [initialValue]="initialRegionValue"
         (showMapEmit)="showMap = $event"
       >
@@ -140,7 +140,7 @@
           <!-- show/hide map button -->
           <button *ngIf="!showMap" type="button" class="btn btn-outline-primary" (click)="onShowMap()">
             <svg class="icon icon-filter-map" aria-hidden="true">
-              <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-filter-map"></use>
+              <use href="/assets/icomoon/sprite/sprite.svg#icon-filter-map"></use>
             </svg>
             {{ 'Map.MapView' | translate }}
           </button>
@@ -196,7 +196,7 @@
               </app-pagination>
 
               <!-- button for screen readers only, back to search input -->
-              <button type="button" class="btn sr-only" (click)="backToSearchControl()">
+              <button type="button" class="btn visually-hidden" (click)="backToSearchControl()">
                 {{ 'Datasets.BackToSearchInputText' | translate }}
               </button>
             </div>

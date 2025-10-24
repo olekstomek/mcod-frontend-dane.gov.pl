@@ -1,10 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SimpleChange } from '@angular/core';
+import { importProvidersFrom, SimpleChange } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
 
 describe('ApiSourceLinkComponent', () => {
   let component: ApiSourceLinkComponent;
@@ -12,8 +11,10 @@ describe('ApiSourceLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ApiSourceLinkComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, NgxLocalStorageModule.forRoot(), TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), ApiSourceLinkComponent],
+      providers: [
+        importProvidersFrom(AppTestingModule)
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ApiSourceLinkComponent);

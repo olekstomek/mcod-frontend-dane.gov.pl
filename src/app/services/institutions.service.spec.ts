@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-
-import { InstitutionsService } from './institutions.service';
-import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { InstitutionsService } from './institutions.service';
+
+import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
 describe('InstitutionsService', () => {
   let service: InstitutionsService;
@@ -23,11 +23,11 @@ describe('InstitutionsService', () => {
     expect(service.getOne('44')).toBeTruthy();
   });
 
-  it('Observable should return value', async () => {
+  it('Observable should return value', () => {
     service.getOne('44').subscribe(value => {
+      const req = httpMock.expectOne({ method: 'GET' });
+      req.flush('Get');
       expect(value.length).toBeGreaterThan(0);
     });
-    const req = httpMock.expectOne({ method: 'GET' });
-    req.flush('Get');
   });
 });

@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartType } from 'chart.js';
-import { Label } from 'ng2-charts';
 import { LocalStorageService } from 'ngx-localstorage';
 import { combineLatest, Subscription } from 'rxjs';
 import { distinctUntilChanged, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -115,7 +114,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
   /**
    * Chart labels
    */
-  chartLabels: Label[] = [];
+  chartLabels: string[] = [];
 
   /**
    * Full chart labels (not truncated)

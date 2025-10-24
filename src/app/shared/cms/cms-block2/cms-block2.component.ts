@@ -1,16 +1,36 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { CallToActionComponent } from '../widget/call-to-action/call-to-action.component';
+import { HeadingComponent } from '../widget/heading/heading.component';
+import { ImageComponent } from '../widget/image/image.component';
+import { RawTextComponent } from '../widget/raw-text/raw-text.component';
+import { VideoComponent } from '../widget/video/video.component';
+
+import { toggleVertically } from '@app/animations/toggle-vertically';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { toggleVertically } from '@app/animations/toggle-vertically';
 
 /**
  * Cms blocks component
  */
 @Component({
-  selector: 'cms-block2',
-  templateUrl: './cms-block2.component.html',
-  animations: [toggleVertically],
+    selector: 'cms-block2',
+    templateUrl: './cms-block2.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgFor,
+        NgClass,
+        NgIf,
+        ImageComponent,
+        RouterLink,
+        RawTextComponent,
+        VideoComponent,
+        CallToActionComponent,
+        HeadingComponent,
+    ],
 })
 export class CmsBlock2Component implements OnInit, OnDestroy {
   /**

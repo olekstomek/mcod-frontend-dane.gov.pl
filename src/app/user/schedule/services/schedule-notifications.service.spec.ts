@@ -30,7 +30,7 @@ describe('ScheduleNotificationsService', () => {
   });
 
   it('should call getRecipientTypes function', () => {
-    const spyFunction = spyOn(service, 'getRecipientTypes');
+    const spyFunction = jest.spyOn(service, 'getRecipientTypes');
     service.getRecipientTypes();
 
     expect(spyFunction).toBeCalled();

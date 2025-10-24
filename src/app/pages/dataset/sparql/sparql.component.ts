@@ -1,8 +1,10 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { Ace, edit, EditSession, require as aceRequire } from 'ace-builds';
-import 'ace-builds/src-noconflict/ext-beautify';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { Ace, edit, EditSession as aceRequire } from 'ace-builds';
+import { EditSession } from 'ace-builds/src-noconflict/ace';
+import { beautify } from 'ace-builds/src-noconflict/ext-beautify';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/mode-sparql';
 import 'ace-builds/src-noconflict/mode-text';
@@ -10,17 +12,31 @@ import 'ace-builds/src-noconflict/mode-xml';
 import 'ace-builds/src-noconflict/theme-chrome';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SparqlEditorComponent } from './editor/sparql-editor-component';
 
 import { SparqlExample } from '@app/pages/dataset/sparql/domain/SparqlExample';
 import { SparqlService } from '@app/pages/dataset/sparql/sparql.service';
 import { NotificationsService } from '@app/services/notifications.service';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
 
 /**
  * About Component
  */
 @Component({
-  selector: 'app-sparql',
-  templateUrl: './sparql.component.html',
+    selector: 'app-sparql',
+    templateUrl: './sparql.component.html',
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        SparqlEditorComponent,
+        NgIf,
+        NgFor,
+        NotificationsServerComponent,
+        PaginationComponent,
+        TranslatePipe,
+    ],
 })
 export class SparqlComponent implements OnInit, OnDestroy {
   /**
@@ -43,9 +59,9 @@ export class SparqlComponent implements OnInit, OnDestroy {
 
   /**
    * Search form
-   * @type {FormGroup}
+   * @type {UntypedFormGroup}
    */
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
 
   /**
    * Results count
@@ -83,14 +99,14 @@ export class SparqlComponent implements OnInit, OnDestroy {
    * Editor setup timeout reference
    * @type {number}
    */
-  private editorSetupTimeout: number;
+  private editorSetupTimeout: ReturnType<typeof setTimeout>;
 
   /**
    * @ignore
    */
   constructor(
     private readonly sparqlService: SparqlService,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly translateService: TranslateService,
     private readonly notificationsService: NotificationsService,
     private readonly ngZone: NgZone,
@@ -124,7 +140,9 @@ export class SparqlComponent implements OnInit, OnDestroy {
     this.resultEditor?.destroy();
     this.resultEditor?.container.remove();
     this.destroy$.next();
-    this.editorSetupTimeout && clearTimeout(this.editorSetupTimeout);
+    if (this.editorSetupTimeout) {
+      clearTimeout(this.editorSetupTimeout);
+    }
   }
 
   /**
@@ -149,14 +167,13 @@ export class SparqlComponent implements OnInit, OnDestroy {
         this.downloadUrl = res.data.attributes.download_url;
         this.editorSetupTimeout = setTimeout(() => {
           this.ngZone.runOutsideAngular(() => {
-            const beautify = aceRequire('ace/ext/beautify');
             this.resultEditor = edit('sparqlResult');
             this.resultEditor.setReadOnly(true);
             this.resultEditor.setSession(new EditSession(res.data.attributes.result));
-            const EditorMode = this.getEditMode();
-            this.resultEditor.session.setMode(new EditorMode());
+            const editorMode = this.getEditMode();
+            this.resultEditor.session.setMode(editorMode);
             this.resultEditor.session.setUseWorker(false);
-            beautify.beautify(this.resultEditor.session);
+            beautify(this.resultEditor.session);
           });
         });
       });
@@ -190,20 +207,20 @@ export class SparqlComponent implements OnInit, OnDestroy {
    * Creates edit mode for selected data type
    * @returns {any}
    */
-  private getEditMode(): any {
-    let EditorMode;
+  private getEditMode(): Ace.SyntaxMode {
+    let EditorMode: Ace.SyntaxMode;
     switch (this.searchForm.value.format) {
       case 'application/rdf+xml':
-        EditorMode = aceRequire('ace/mode/xml').Mode;
+        EditorMode = new aceRequire('ace/mode/xml').getMode();
         break;
       case 'application/sparql-results+xml':
-        EditorMode = aceRequire('ace/mode/xml').Mode;
+        EditorMode = new aceRequire('ace/mode/xml').getMode();
         break;
       case 'application/sparql-results+json':
-        EditorMode = aceRequire('ace/mode/json').Mode;
+        EditorMode = new aceRequire('ace/mode/json').getMode();
         break;
       default:
-        EditorMode = aceRequire('ace/mode/text').Mode;
+        EditorMode = new aceRequire('ace/mode/text').getMode();
         break;
     }
     return EditorMode;

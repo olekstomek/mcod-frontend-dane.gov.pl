@@ -5,7 +5,8 @@ import * as textMask from 'vanilla-text-mask/dist/vanillaTextMask.js';
  * Date Input Mask Directive
  */
 @Directive({
-    selector: '[appMaskDate]'
+    selector: '[appMaskDate]',
+    standalone: true
 })
 export class DateInputMaskDirective implements OnInit, OnDestroy {
 
@@ -13,7 +14,7 @@ export class DateInputMaskDirective implements OnInit, OnDestroy {
      * Mask
      * @type {(RegExp | string)[]}
      */
-    mask = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]; // dd/mm/yyyy
+    mask: (RegExp | string)[] = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]; // yyyy/mm/dd
 
     /**
      * Mask input controller reference

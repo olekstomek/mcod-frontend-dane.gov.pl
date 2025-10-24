@@ -1,8 +1,11 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { TranslateDateFormatPipe } from '../../../pipes/translate-date-format.pipe';
 
-import {HighContrastModeEnum, HighContrastService} from '@app/services/high-contrast.service';
+import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
 import { ResultItemDetailsData } from '@app/services/models/result-item-details';
 
 /**
@@ -10,8 +13,17 @@ import { ResultItemDetailsData } from '@app/services/models/result-item-details'
  * Component which displays additional data on the right column of list view
  */
 @Component({
-  selector: 'app-details-result-item',
-  templateUrl: './details-result-item.component.html',
+    selector: 'app-details-result-item',
+    templateUrl: './details-result-item.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        NgFor,
+        AsyncPipe,
+        TranslatePipe,
+        TranslateDateFormatPipe,
+    ],
 })
 export class DetailsResultItemComponent implements OnInit, OnDestroy {
   /**

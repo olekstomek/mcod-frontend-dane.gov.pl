@@ -1,9 +1,14 @@
+import { NgClass, NgIf } from '@angular/common';
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject, Subscription} from 'rxjs';
-import {CmsService} from '@app/services/cms.service';
-import {SeoService} from '@app/services/seo.service';
 import {Router} from '@angular/router';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import { LoaderComponent } from '../../loader/loader.component';
+import { NotificationsServerComponent } from '../../notifications-server/notifications-server.component';
+import { CmsBlock2Component } from '../cms-block2/cms-block2.component';
+
+import {CmsService} from '@app/services/cms.service';
 import {IPageCms} from '@app/services/models/cms/page-cms';
+import {SeoService} from '@app/services/seo.service';
 
 
 /**
@@ -12,6 +17,14 @@ import {IPageCms} from '@app/services/models/cms/page-cms';
 @Component({
     selector: 'app-cms-static-page',
     templateUrl: './cms-static-page.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        NotificationsServerComponent,
+        LoaderComponent,
+        CmsBlock2Component,
+    ],
 })
 export class CmsStaticPageComponent implements OnInit, OnDestroy {
 

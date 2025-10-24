@@ -1,11 +1,15 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
+import { ScheduleCommentsFormComponent } from './schedule-comments-form/schedule-comments-form.component';
+import { ScheduleCommentsListComponent } from './schedule-comments-list/schedule-comments-list.component';
 
-import { SchedulePlanningService } from "@app/user/schedule/tabs/planning/schedule-planning.service";
-import { ScheduleItemComment } from "@app/user/schedule/components/schedule-comments/schedule-item-comment";
+import { ScheduleItemComment } from '@app/user/schedule/components/schedule-comments/schedule-item-comment';
+import { SchedulePlanningService } from '@app/user/schedule/tabs/planning/schedule-planning.service';
 
 @Component({
-    selector: "app-schedule-comments",
-    templateUrl: "./schedule-comments.component.html",
+    selector: 'app-schedule-comments',
+    templateUrl: './schedule-comments.component.html',
+    standalone: true,
+    imports: [ScheduleCommentsListComponent, ScheduleCommentsFormComponent],
 })
 export class ScheduleCommentsComponent implements OnInit {
 
@@ -18,7 +22,7 @@ export class ScheduleCommentsComponent implements OnInit {
      * List of comments
      */
     comments: ScheduleItemComment[];
-    
+
     /**
      * @ignore
      */
@@ -30,7 +34,7 @@ export class ScheduleCommentsComponent implements OnInit {
     ngOnInit() {
         this.getComments();
     }
-    
+
     /**
      * Gets list of comments
      */

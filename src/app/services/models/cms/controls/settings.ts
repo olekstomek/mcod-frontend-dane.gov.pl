@@ -14,5 +14,5 @@ export interface ISettings {
     title?: string;
     video_url?: string;
     video_caption?: string;
-    image?: {alt: string; id: number; title: string; url: string; }
+    image?: {alt: string; id: number; title: string; url: string; };
 }

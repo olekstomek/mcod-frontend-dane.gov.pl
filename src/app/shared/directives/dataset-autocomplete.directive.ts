@@ -1,8 +1,8 @@
-import { Directive, ElementRef, Renderer2, OnInit, HostListener, Output, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
-
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { StringHelper } from '../helpers/string.helper';
+
 import { ApiModel } from '@app/services/api/api-model';
 import { SearchService } from '@app/services/search.service';
 
@@ -10,7 +10,8 @@ import { SearchService } from '@app/services/search.service';
  * Dataset Autocomplete Directive
  */
 @Directive({
-    selector: '[app-dataset-autocomplete]'
+    selector: '[app-dataset-autocomplete]',
+    standalone: true
 })
 export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
 
@@ -31,7 +32,7 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
 
     /**
      * Listens on clicks outside the host (input) to remove dropdown
-     * @param event 
+     * @param event
      */
     @HostListener('document:click', ['$event']) onDocumentClick(event) {
         if (event.target !== this.elementRef.nativeElement) {
@@ -41,7 +42,7 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
 
     /**
      * Listens on keyup events on hosted input to initialize search
-     * @param event 
+     * @param event
      */
     @HostListener('keyup', ['$event']) onKeyUp(event: KeyboardEvent) {
         // 0-9 numbers, a-z letters, Backspace
@@ -71,7 +72,7 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
      */
     constructor(private elementRef: ElementRef,
                 private renderer: Renderer2,
-                private searchService: SearchService) { 
+                private searchService: SearchService) {
     }
 
     /**
@@ -97,7 +98,7 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
                 })
             )
             .subscribe(response => {
-                
+
             this.removeDropdownMenu();
 
             if (!response['data'] || !response['data'].length) {
@@ -107,7 +108,7 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
             // recreate list of options to choose from
             const dropdown = this.createDropdownMenu();
 
-            for (let dataset of response['data']) {
+            for (const dataset of response['data']) {
                 this.renderer.appendChild(dropdown, this.createDropdownMenuItem(dataset));
             }
         });
@@ -139,8 +140,8 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
 
     /**
      * Creates dropdown menu item
-     * @param dataset 
-     * @returns dropdown menu item 
+     * @param dataset
+     * @returns dropdown menu item
      */
     createDropdownMenuItem(dataset): any {
         // button element
@@ -174,7 +175,7 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.searchChanged.unsubscribe();
 
-        if(this.dropdownItemClickListeners) {
+        if (this.dropdownItemClickListeners) {
             this.dropdownItemClickListeners.forEach(listener => listener());
         }
     }

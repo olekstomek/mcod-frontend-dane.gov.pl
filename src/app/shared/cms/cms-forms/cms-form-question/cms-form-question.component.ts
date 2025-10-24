@@ -1,9 +1,11 @@
+import { DOCUMENT, LowerCasePipe, NgClass, NgFor, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { Component, Inject, Input } from '@angular/core';
-import { toggleVertically } from '@app/animations';
-import { FormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
+import { toggleVertically } from '@app/animations';
 import { CmsFormset } from '@app/services/models/cms/forms/cms-formset';
-import { DOCUMENT } from '@angular/common';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * CMS form question component
@@ -13,6 +15,19 @@ import { DOCUMENT } from '@angular/common';
     templateUrl: './cms-form-question.component.html',
     animations: [
         toggleVertically
+    ],
+    standalone: true,
+    imports: [
+      FormsModule,
+      ReactiveFormsModule,
+      NgIf,
+      NgClass,
+      NgFor,
+      NgSwitch,
+      NgSwitchCase,
+      LowerCasePipe,
+      TranslatePipe,
+      SanitizeHtmlPipe
     ]
 })
 export class CmsFormQuestionComponent {
@@ -25,7 +40,7 @@ export class CmsFormQuestionComponent {
     /**
      * Form group
      */
-    @Input() form: FormGroup;
+    @Input() form: UntypedFormGroup;
 
     /**
      * @ignore

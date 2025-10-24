@@ -1,15 +1,14 @@
-// jest.config.js
 module.exports = {
-    preset: 'jest-preset-angular',
-    roots: ['<rootDir>/src/'],
-    setupFilesAfterEnv: ["<rootDir>/src/jest.setup.ts"],
-    moduleNameMapper: {
-        '@app/(.*)': '<rootDir>/src/app/$1',
-        '@env/(.*)': '<rootDir>/src/environments/$1',
-        "^lodash-es$": "lodash"
-    },
-    "transformIgnorePatterns": [
-        'node_modules/(?!@ngrx)',
-        "/!node_modules\\/lodash-es/"
-    ]
+  roots: ['<rootDir>/src/'],
+  moduleDirectories: [
+    "node_modules",
+    "src"
+  ],
+  preset: 'jest-preset-angular',
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  moduleNameMapper: {
+    '@app/(.*)': '<rootDir>/src/app/$1',
+    '@env/(.*)': '<rootDir>/src/environments/$1',
+    '^lodash-es$': 'lodash',
+  }
 };

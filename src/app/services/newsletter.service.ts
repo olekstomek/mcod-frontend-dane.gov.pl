@@ -1,10 +1,11 @@
+import { HttpHeaders } from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {RestService} from '@app/services/rest.service';
+
 import {ApiConfig} from '@app/services/api';
-import {TemplateHelper} from '@app/shared/helpers';
-import {HttpHeaders} from '@angular/common/http';
-import {NewsletterRequest} from '@app/services/models/newsletter-request';
 import {HttpCustomErrorResponse, IErrorBackend} from '@app/services/models';
+import {NewsletterRequest} from '@app/services/models/newsletter-request';
+import {RestService} from '@app/services/rest.service';
+import {TemplateHelper} from '@app/shared/helpers';
 
 @Injectable({
     providedIn: 'root'

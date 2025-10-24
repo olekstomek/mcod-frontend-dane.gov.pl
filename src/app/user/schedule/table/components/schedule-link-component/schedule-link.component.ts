@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import { ScheduleTableAction } from '@app/user/schedule/table/domain/schedule-table.action';
 import { StringHelper } from '@app/shared/helpers/string.helper';
+import { ScheduleTableAction } from '@app/user/schedule/table/domain/schedule-table.action';
 
 /**
  * Schedule Link Component
@@ -10,6 +11,8 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
 @Component({
     selector: 'app-schedule-link',
     templateUrl: './schedule-link.component.html',
+    standalone: true,
+    imports: [RouterLink, TranslatePipe],
 })
 export class ScheduleLinkComponent implements ScheduleTableAction, OnInit {
 
@@ -40,7 +43,7 @@ export class ScheduleLinkComponent implements ScheduleTableAction, OnInit {
      */
     @Input()
     className: string;
-    
+
     /**
      * Unique id
      */

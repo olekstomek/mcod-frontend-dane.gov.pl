@@ -1,12 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
 import { EMPTY } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
 
+import { AppTestingModule } from '@app/app.testing.module';
 import { NotificationsFrontService } from '@app/services/notifications-front.service';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
@@ -15,7 +15,6 @@ import { NotificationsFrontComponent } from '@app/shared/notifications-front/not
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
 import { ResetPasswordComponent } from '@app/user/auth/reset-password/reset-password.component';
-import { of } from 'rxjs/internal/observable/of';
 
 class SeoServiceStub {
   setPageTitleByTranslationKey() {}
@@ -33,15 +32,15 @@ describe('ResetPasswordComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResetPasswordComponent, NotificationsComponent, NotificationsFrontComponent, NotificationsServerComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule,
+        ResetPasswordComponent,
+        NotificationsComponent,
+        NotificationsFrontComponent,
+        NotificationsServerComponent
       ],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
@@ -49,6 +48,7 @@ describe('ResetPasswordComponent', () => {
         { provide: FormBuilder, useClass: FormBuilder },
         NotificationsFrontService,
         NotificationsService,
+        importProvidersFrom(AppTestingModule)
       ],
     });
   });
@@ -70,14 +70,14 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    const spy = spyOn(service, 'resetPass').and.callFake(() => EMPTY);
+    const spy = jest.spyOn(service, 'resetPass').mockImplementation(() => EMPTY);
     component.onSubmitNewPassword();
     expect(spy).not.toHaveBeenCalled();
     expect(component.passwordChanged).toBeFalsy();
   });
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    const spy = spyOn(service, 'resetPass').and.returnValue(of({}));
+    const spy = jest.spyOn(service, 'resetPass').mockReturnValue(of({}));
     component.resetPasswordForm.setValue({
       new_password1: 'Example.1',
       new_password2: 'Example.2',
@@ -98,11 +98,11 @@ describe('ResetPasswordComponent', () => {
     expect(component.token).toEqual('45tghj');
   });
 
-  it.skip('should fill required fields and the form should be valid', () => {
-    component.resetPasswordForm.setValue({
-      new_password1: 'Example.1',
-      new_password2: 'Example.2',
-    });
-    expect(component.resetPasswordForm.valid).toBeTruthy();
-  });
+  // it.skip('should fill required fields and the form should be valid', () => {
+  //   component.resetPasswordForm.setValue({
+  //     new_password1: 'Example.1',
+  //     new_password2: 'Example.2',
+  //   });
+  //   expect(component.resetPasswordForm.valid).toBeTruthy();
+  // });
 });

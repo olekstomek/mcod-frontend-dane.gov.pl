@@ -10,12 +10,12 @@
 
     <!-- no logo - default icon -->
     <ng-template #noIcon>
-      <span class="sr-only">
+      <span class="visually-hidden">
         {{ 'Applications.NoLogo' | translate }}
         {{ item.attributes.title }}
       </span>
       <svg class="icon result-item-logo__icon" role="img" aria-hidden="true">
-        <use xlink:href="/assets/icomoon/sprite/sprite.svg#no-icon"></use>
+        <use href="/assets/icomoon/sprite/sprite.svg#no-icon"></use>
       </svg>
     </ng-template>
   </div>

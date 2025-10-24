@@ -1,13 +1,13 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NotificationsService } from '@app/services/notifications.service';
-import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.component';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { BsModalService } from 'ngx-bootstrap';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { BsModalService } from 'ngx-bootstrap/modal';
+
+import { AppTestingModule } from '@app/app.testing.module';
+import { NotificationsService } from '@app/services/notifications.service';
+import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.component';
 
 class BsModalServiceStub {}
 
@@ -18,15 +18,16 @@ describe('WriteUsInfoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WriteUsInfoComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxLocalStorageModule.forRoot(),
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
+        WriteUsInfoComponent
       ],
-      providers: [{ provide: BsModalService, useClass: BsModalServiceStub }, NotificationsService],
+      providers: [
+        { provide: BsModalService, useClass: BsModalServiceStub },
+        NotificationsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     });
   });
 
@@ -42,7 +43,7 @@ describe('WriteUsInfoComponent', () => {
   });
 
   it('should open write us modal', () => {
-    spyOn(component, 'openWriteUsModal');
+    jest.spyOn(component, 'openWriteUsModal');
     const link = fixture.debugElement.query(By.css('.write-us-info'));
     link.triggerEventHandler('click', null);
     expect(component.openWriteUsModal).toHaveBeenCalled();

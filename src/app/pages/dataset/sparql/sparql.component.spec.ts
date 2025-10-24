@@ -1,8 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { importProvidersFrom } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
+
+import { AppTestingModule } from '@app/app.testing.module';
 import { SparqlEditorComponent } from '@app/pages/dataset/sparql/editor/sparql-editor-component';
 import { SparqlComponent } from '@app/pages/dataset/sparql/sparql.component';
 import { SparqlService } from '@app/pages/dataset/sparql/sparql.service';
@@ -12,10 +16,6 @@ import { NotificationsServerComponent } from '@app/shared/notifications-server/n
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
 import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { of } from 'rxjs/internal/observable/of';
 
 const translations = {
   Sparql: {
@@ -56,24 +56,24 @@ describe('Sparql Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: FakeLoader },
-        }),
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
-        NgxLocalStorageModule.forRoot(),
-        ReactiveFormsModule,
-        FormsModule,
-      ],
-      declarations: [
         SparqlComponent,
         SparqlEditorComponent,
         NotificationsComponent,
         NotificationsServerComponent,
         PaginationComponent,
         SanitizeHtmlPipe,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeLoader },
+        }),
+        ReactiveFormsModule,
+        FormsModule,
       ],
-      providers: [{ provide: FeatureFlagService, useClass: MockkFeatureFlagService }, SparqlService, NotificationsService],
+      providers: [
+        { provide: FeatureFlagService, useClass: MockkFeatureFlagService },
+        SparqlService,
+        NotificationsService,
+        importProvidersFrom(AppTestingModule)
+      ],
     }).compileComponents();
 
     translate = TestBed.inject(TranslateService);
@@ -144,7 +144,7 @@ describe('Sparql Component', () => {
 
   it('should update query when user click on example', () => {
     const fixture = TestBed.createComponent(SparqlComponent);
-    spyOn(fixture.componentInstance, 'updateEditorContent').and.stub();
+    jest.spyOn(fixture.componentInstance, 'updateEditorContent').mockImplementation(() => {});
     fixture.detectChanges();
     const example = fixture.debugElement.query(By.css('.sparql--example'));
     example.triggerEventHandler('click', {});
@@ -169,7 +169,7 @@ describe('Sparql Component', () => {
       fixture.componentInstance.updateEditorContent('SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}');
     });
     fixture.detectChanges();
-    spyOn(sparqlService, 'search').and.callFake(() => {
+    jest.spyOn(sparqlService, 'search').mockImplementation(() => {
       return of();
     });
     return fixture.whenStable().then(() => {
@@ -185,7 +185,7 @@ describe('Sparql Component', () => {
       fixture.componentInstance.updateEditorContent('SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}');
     });
     fixture.detectChanges();
-    spyOn(sparqlService, 'search').and.callFake(() => {
+    jest.spyOn(sparqlService, 'search').mockImplementation(() => {
       return of({
         meta: {
           count: 300,
@@ -213,7 +213,7 @@ describe('Sparql Component', () => {
       fixture.componentInstance.updateEditorContent('SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}');
     });
     fixture.detectChanges();
-    spyOn(sparqlService, 'search').and.callFake(() => {
+    jest.spyOn(sparqlService, 'search').mockImplementation(() => {
       return of({
         meta: {
           count: 300,

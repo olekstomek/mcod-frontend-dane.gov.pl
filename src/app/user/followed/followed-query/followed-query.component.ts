@@ -1,16 +1,24 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { FollowQueryResultsComponent } from '../follow-query-results/follow-query-results.component';
 
-import { ObserveService } from '@app/services/observe.service';
 import { BasicPageParams } from '@app/services/models/page-params';
+import { ObserveService } from '@app/services/observe.service';
 import { SeoService } from '@app/services/seo.service';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
 
 /**
  * Followed Query Component
  */
 @Component({
     selector: 'app-followed-query',
-    templateUrl: './followed-query.component.html'
+    templateUrl: './followed-query.component.html',
+    standalone: true,
+    imports: [NotificationsServerComponent, NgIf, FollowQueryResultsComponent, ItemsPerPageComponent, PaginationComponent, TranslatePipe]
 })
 export class FollowedQueryComponent implements OnInit {
     /**

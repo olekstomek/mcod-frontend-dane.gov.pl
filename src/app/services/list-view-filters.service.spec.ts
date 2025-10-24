@@ -1,10 +1,10 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AggregationOptionType } from '@app/services/models/filters';
-
 import { ListViewFiltersService } from './list-view-filters.service';
+
+import { AggregationOptionType } from '@app/services/models/filters';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
-import { HttpTestingController } from '@angular/common/http/testing';
 
 describe('ListViewFiltersService', () => {
   let service: ListViewFiltersService;
@@ -174,7 +174,7 @@ describe('ListViewFiltersService', () => {
   });
 
   it('updateParams - should return value', inject([Router], async (router: Router) => {
-    const routerNavigationSpy = spyOn(router, 'navigateByUrl').and.stub();
+    const routerNavigationSpy = jest.spyOn(router, 'navigateByUrl');
     const params = {
       sort: 'data',
       per_page: 5,
@@ -186,7 +186,7 @@ describe('ListViewFiltersService', () => {
   }));
 
   it('performSearch - should return value', inject([Router], async (router: Router) => {
-    const routerNavigationSpy = spyOn(router, 'navigateByUrl').and.stub();
+    const routerNavigationSpy = jest.spyOn(router, 'navigateByUrl');
     const params = {
       sort: 'data',
       per_page: 5,

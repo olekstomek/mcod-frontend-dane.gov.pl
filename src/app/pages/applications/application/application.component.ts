@@ -1,25 +1,54 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { DatasetSelectedFiltersComponent } from '../../dataset/dataset-selected-filters/dataset-selected-filters.component';
+import { ApplicationsListViewFiltersComponent } from '../application-list-view-filters/applications-list-view-filters.component';
+import { ApplicationResultsComponent } from '../application-results/application-results.component';
 
+import { ApiConfig } from '@app/services/api';
+import { ApiModel } from '@app/services/api/api-model';
 import { ApplicationsService } from '@app/services/applications.service';
+import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
 import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
 import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
-import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
-import { SeoService } from '@app/services/seo.service';
-import { SearchService } from '@app/services/search.service';
-import { ApiConfig } from '@app/services/api';
-import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { BasicPageParams } from '@app/services/models/page-params';
-import { ApiModel } from '@app/services/api/api-model';
+import { SearchService } from '@app/services/search.service';
+import { SeoService } from '@app/services/seo.service';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
+import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NewDataContactComponent } from '@app/shared/new-data-contact/new-data-contact.component';
+import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 
 /**
  * Application Component
  */
 @Component({
-  selector: 'app-application',
-  templateUrl: './application.component.html',
+    selector: 'app-application',
+    templateUrl: './application.component.html',
+    standalone: true,
+    imports: [
+        RouterLink,
+        SearchSuggestComponent,
+        ApplicationsListViewFiltersComponent,
+        DatasetSelectedFiltersComponent,
+        NgIf,
+        FoundResultsCountersAndSortComponent,
+        NotificationsServerComponent,
+        NoResultsFoundComponent,
+        ApplicationResultsComponent,
+        ItemsPerPageComponent,
+        PaginationComponent,
+        NewDataContactComponent,
+        LocalizeRouterPipe,
+        TranslatePipe,
+    ],
 })
 export class ApplicationComponent extends ListViewFilterPageAbstractComponent implements OnInit {
   /**
@@ -156,4 +185,5 @@ export class ApplicationComponent extends ListViewFilterPageAbstractComponent im
   moveToSearchResult() {
     document.getElementById('search-counters-label').focus();
   }
+
 }

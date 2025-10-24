@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { KnowledgeBaseItemDetailsComponent } from '@app/pages/knowledge-base/knowledge-base-item-details/knowledge-base-item-details.component';
-import { RouterEndpoints } from '@app/services/models/routerEndpoints';
-import { BreadcrumbsArticleResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-article.resolver';
-import { BreadcrumbsKnowledgeBaseTabDataResolverService } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-base-tab-data-resolver.service';
-import { BreadcrumbsKnowledgeBaseDataResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-data-resolver.service';
-import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { KnowledgeBaseItemPreviewComponent } from './knowledge-base-item-preview/knowledge-base-item-preview.component';
 import { KnowledgeBaseTabsComponent } from './knowledge-base-tabs/knowledge-base-tabs.component';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
+
+import { KnowledgeBaseItemDetailsComponent } from '@app/pages/knowledge-base/knowledge-base-item-details/knowledge-base-item-details.component';
+import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+import { breadcrumbsArticleResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-article.resolver';
+import { breadcrumbsKnowledgeBaseTabDataResolverService } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-base-tab-data-resolver.service';
+import { breadcrumbsKnowledgeBaseDataResolver } from '@app/shared/breadcrumbs/resolvers/breadcrumbs-knowledge-data-resolver.service';
+import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
 
 /**
  * Router endpoints
@@ -30,7 +30,7 @@ const routes: Routes = [
           breadcrumbs: { dataKey: 'post.attributes.title' },
         },
         resolve: {
-          post: BreadcrumbsArticleResolver,
+          post: breadcrumbsArticleResolver,
         },
       },
 
@@ -44,7 +44,7 @@ const routes: Routes = [
             path: '!' + routerEndpoints.MULTIMEDIA_TRAINING,
             component: CmsLandingPageComponent,
             resolve: {
-              children: BreadcrumbsKnowledgeBaseTabDataResolverService,
+              children: breadcrumbsKnowledgeBaseTabDataResolverService,
             },
             data: {
               slug: routerEndpoints.MULTIMEDIA_TRAINING,
@@ -56,7 +56,7 @@ const routes: Routes = [
             path: '!' + routerEndpoints.USEFUL_MATERIALS,
             component: CmsLandingPageComponent,
             resolve: {
-              children: BreadcrumbsKnowledgeBaseTabDataResolverService,
+              children: breadcrumbsKnowledgeBaseTabDataResolverService,
             },
             data: {
               cssContainerClass: 'cms-tiles',
@@ -69,7 +69,7 @@ const routes: Routes = [
                 path: `!:id`,
                 component: KnowledgeBaseItemDetailsComponent,
                 data: { details: true, breadcrumbs: { dataKey: 'post.title' } },
-                resolve: { post: BreadcrumbsKnowledgeBaseDataResolver },
+                resolve: { post: breadcrumbsKnowledgeBaseDataResolver },
               },
             ],
           },
@@ -77,7 +77,7 @@ const routes: Routes = [
             path: '!' + routerEndpoints.EVENTS,
             component: CmsLandingPageComponent,
             resolve: {
-              children: BreadcrumbsKnowledgeBaseTabDataResolverService,
+              children: breadcrumbsKnowledgeBaseTabDataResolverService,
             },
             data: {
               cssContainerClass: 'cms-tiles',
@@ -90,13 +90,13 @@ const routes: Routes = [
                 path: `!:id`,
                 component: KnowledgeBaseItemDetailsComponent,
                 data: { details: true, breadcrumbs: { dataKey: 'post.title' } },
-                resolve: { post: BreadcrumbsKnowledgeBaseDataResolver },
+                resolve: { post: breadcrumbsKnowledgeBaseDataResolver },
               },
             ],
           },
         ],
         resolve: {
-          post: BreadcrumbsKnowledgeBaseDataResolver,
+          post: breadcrumbsKnowledgeBaseDataResolver,
         },
       },
     ],

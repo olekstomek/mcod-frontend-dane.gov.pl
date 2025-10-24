@@ -35,7 +35,7 @@
                      || institution?.attributes.street  || institution?.attributes.street_number
                      || institution?.attributes.flat_number || institution?.attributes.postal_code ">
                     <svg aria-hidden="true" class="icon icon-location-pin">
-                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-location-pin"></use>
+                        <use href="/assets/icomoon/sprite/sprite.svg#icon-location-pin"></use>
                     </svg>
 
                     <!-- address: street, number -->
@@ -79,7 +79,7 @@
                 <div class="col-md-6 col-lg-4 mb-4 mb-lg-0"
                      *ngIf="institution?.attributes.tel || institution?.attributes.fax">
                     <svg aria-hidden="true" class="icon icon-mobile">
-                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-mobile"></use>
+                        <use href="/assets/icomoon/sprite/sprite.svg#icon-mobile"></use>
                     </svg>
                     <p class="item-view__attribute item-view__attribute--tight item-view__attribute--icon-related"
                        *ngIf="institution?.attributes.tel">
@@ -96,13 +96,13 @@
                 <div class="col-md-6 col-lg-4 institution-contact-info-container"
                      *ngIf="institution?.attributes.website || institution?.attributes.email || institution?.attributes.epuap">
                     <svg aria-hidden="true" class="icon icon-paper-plane">
-                        <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-paper-plane"></use>
+                        <use href="/assets/icomoon/sprite/sprite.svg#icon-paper-plane"></use>
                     </svg>
                     <p class="item-view__attribute item-view__attribute--tight item-view__attribute--icon-related"
                        *ngIf="institution?.attributes.website">
                         <a href="{{ institution?.attributes.website }}" target="_blank">
                             {{ institution?.attributes.website }}
-                            <span class="sr-only">{{ "SkipTo.NewWindow" | translate }}</span>
+                            <span class="visually-hidden">{{ "SkipTo.NewWindow" | translate }}</span>
                         </a>
                     </p>
                     <p class="item-view__attribute item-view__attribute--tight item-view__attribute--icon-related"
@@ -115,7 +115,7 @@
                        *ngIf="institution?.attributes.epuap">
                         <a href="{{ institution?.attributes.epuap }}" target="_blank">
                             {{ 'Institutions.EpuapMailBox' | translate }}
-                            <span class="sr-only">{{ "SkipTo.NewWindow" | translate }}</span>
+                            <span class="visually-hidden">{{ "SkipTo.NewWindow" | translate }}</span>
                         </a>
                     </p>
                     <p class="item-view__attribute item-view__attribute--tight item-view__attribute--icon-related institution-delivery-address"

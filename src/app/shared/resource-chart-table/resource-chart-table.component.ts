@@ -1,17 +1,26 @@
+import { LowerCasePipe, NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
 
 import { toggleVertically } from '@app/animations/toggle-vertically';
-import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
 import { DatasetService } from '@app/services/dataset.service';
 
 /**
  * Resource Chart Table Component
  */
 @Component({
-  selector: 'app-resource-chart-table',
-  templateUrl: './resource-chart-table.component.html',
-  animations: [toggleVertically],
+    selector: 'app-resource-chart-table',
+    templateUrl: './resource-chart-table.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        LowerCasePipe,
+        TranslatePipe,
+    ],
 })
 export class ResourceChartTableComponent implements OnInit {
   @Input() summaryTranslationKey: string;

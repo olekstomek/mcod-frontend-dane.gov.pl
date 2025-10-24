@@ -1,27 +1,49 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, ViewChild, TemplateRef, ElementRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-
-import { UserService } from '@app/services/user.service';
-import { IRegistration } from '@app/services/models';
-import { SeoService } from '@app/services/seo.service';
-import { NotificationsService } from '@app/services/notifications.service';
-import { toggleVertically } from '@app/animations';
+import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { equalValueValidator } from '../equal-value-validator';
+import { VisualPasswordValidatorComponent } from '../visual-password-validator/visual-password-validator.component';
+
+import { toggleVertically } from '@app/animations';
+import { IRegistration } from '@app/services/models';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SeoService } from '@app/services/seo.service';
+import { UserService } from '@app/services/user.service';
 import { CustomFormControlValidators } from '@app/shared/form-validators/string.validators';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
 
 /**
  * Register Component
  */
 @Component({
-  templateUrl: './register.component.html',
-  animations: [toggleVertically],
+    templateUrl: './register.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        FormsModule,
+        ReactiveFormsModule,
+        NotificationsServerComponent,
+        NgClass,
+        VisualPasswordValidatorComponent,
+        RodoModalComponent,
+        UpperCasePipe,
+        LowerCasePipe,
+        LocalizeRouterPipe,
+        TranslatePipe,
+    ],
 })
 export class RegisterComponent implements OnInit {
   /**
    * Registration form of register component
    */
-  registrationForm: FormGroup;
+  registrationForm: UntypedFormGroup;
 
   /**
    * Determines whether a user is registered
@@ -50,7 +72,7 @@ export class RegisterComponent implements OnInit {
    * @ignore
    */
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private seoService: SeoService,
     private userService: UserService,
     private notificationsService: NotificationsService,

@@ -1,23 +1,41 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { AsyncPipe, formatDate, LowerCasePipe, NgFor, NgIf } from '@angular/common';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { formatDate } from '@angular/common';
-import { NgForm } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TimepickerComponent } from 'ngx-bootstrap/timepicker';
+import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
+import { ResourceHelper } from '../helpers/resource.helper';
+import { InfoTooltipDirective } from '../info-tooltip/info-tooltip.directive';
+import { TranslateDateFormatPipe } from '../pipes/translate-date-format.pipe';
+import { ResourceDataType, ResourceFilterOperator } from '../resource-table/enums';
+import { IResourceTableFilter } from '../resource-table/IResourceTableFilter';
+import { ResourceTableColumn } from '../resource-table/ResourceTableColumn';
 
 import { toggleVertically } from '@app/animations';
-import { IResourceTableFilter } from '../resource-table/IResourceTableFilter';
-import { ResourceFilterOperator, ResourceDataType } from '../resource-table/enums';
-import { ResourceTableColumn } from '../resource-table/ResourceTableColumn';
 import { DatasetService } from '@app/services/dataset.service';
-import { ResourceHelper } from '../helpers/resource.helper';
-import { ActivatedRouteHelper } from '../helpers/activated-route.helper';
 
 /**
  * Resource Filters Component
  */
 @Component({
-  selector: 'app-resource-filters',
-  templateUrl: './resource-filters.component.html',
-  animations: [toggleVertically],
+    selector: 'app-resource-filters',
+    templateUrl: './resource-filters.component.html',
+    animations: [toggleVertically],
+    standalone: true,
+  imports: [
+    FormsModule,
+    NgIf,
+    InfoTooltipDirective,
+    NgFor,
+    DatepickerComponent,
+    AsyncPipe,
+    LowerCasePipe,
+    TranslatePipe,
+    TranslateDateFormatPipe,
+    TimepickerComponent,
+  ],
 })
 export class ResourceFiltersComponent implements OnInit {
   /**

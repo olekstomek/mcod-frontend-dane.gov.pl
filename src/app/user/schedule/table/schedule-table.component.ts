@@ -1,5 +1,14 @@
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ScheduleSettingsFormComponent } from '../forms/schedule-settings-form/schedule-settings-form.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { ScheduleButtonComponent } from './components/schedule-button-component/schedule-button.component';
+import { ScheduleLinkComponent } from './components/schedule-link-component/schedule-link.component';
+import { ScheduleTableExportComponent } from './components/schedule-table-eport/schedule-table-export.component';
 
+import { NotificationsFrontComponent } from '@app/shared/notifications-front/notifications-front.component';
+import { PermissionDirective } from '@app/shared/user-permissions/permission.directive';
 import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { Role } from '@app/shared/user-permissions/Role';
 import { ColumnDefinition } from '@app/user/schedule/table/domain/column.definition';
@@ -12,6 +21,21 @@ import { Schedule, ScheduleSettings, UserSchedule } from '@app/user/schedule/tab
 @Component({
     selector: 'app-schedule-table',
     templateUrl: './schedule-table.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        PermissionDirective,
+        ScheduleSettingsFormComponent,
+        NotificationsFrontComponent,
+        NgFor,
+        NgClass,
+        NgTemplateOutlet,
+        ScheduleButtonComponent,
+        ScheduleLinkComponent,
+        ConfirmationModalComponent,
+        RouterLink,
+        ScheduleTableExportComponent,
+    ],
 })
 export class ScheduleTableComponent implements OnInit {
 
@@ -80,7 +104,7 @@ export class ScheduleTableComponent implements OnInit {
      * Determines hovered row index number
      */
     hoveredRowIndex = -1;
-    
+
     /**
      * Checks if config provided
      */
@@ -121,7 +145,7 @@ export class ScheduleTableComponent implements OnInit {
     onScheduleSettingsUpdated(settings: ScheduleSettings): void {
         this.scheduleSettingsUpdated.next(settings);
     }
-    
+
     /**
      * View mouse leave event, clears focus
      */

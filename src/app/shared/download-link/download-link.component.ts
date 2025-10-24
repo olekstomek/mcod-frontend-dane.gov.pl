@@ -1,11 +1,18 @@
+import { NgClass, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { FileSizeComponent } from '../file-size/file-size.component';
+import { TooltipDirective } from '../tooltip/tooltip.directive';
 
 /**
  * download link Component
  */
 @Component({
     selector: 'app-download-link',
-    templateUrl: './download-link.component.html'
+    templateUrl: './download-link.component.html',
+    standalone: true,
+    imports: [NgIf, NgClass, RouterLink, TooltipDirective, FileSizeComponent, UpperCasePipe, TranslatePipe]
 })
 export class DownloadLinkComponent {
     /**

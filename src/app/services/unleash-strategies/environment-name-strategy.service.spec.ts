@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
+import { ServiceTestbed } from '@app/services/tests/service.testbed';
 import { EnvironmentNameStrategyService } from '@app/services/unleash-strategies/environment-name-strategy.service';
 
 describe('EnvironmentNameStrategyService', () => {
@@ -18,7 +18,7 @@ describe('EnvironmentNameStrategyService', () => {
     const spyFunction = jest.spyOn(service, 'validateStrategy');
     service.validateStrategy('localhost');
 
-    expect(spyFunction).toBeCalled();
+    expect(spyFunction).toHaveBeenCalled();
   });
 
   it('should validateStrategy function returns true value', () => {

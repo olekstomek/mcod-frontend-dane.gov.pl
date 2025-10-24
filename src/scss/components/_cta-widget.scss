@@ -84,7 +84,7 @@
     height: 60px;
     display: inline-block;
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       width: 80px;
     }
   }
@@ -96,7 +96,7 @@
     justify-content: center;
     width: 100%;
 
-    @include media-breakpoint-between(sm, md) {
+    @include media-breakpoint-between(md, lg) {
       justify-content: space-between;
     }
     @include media-breakpoint-only(xs) {
@@ -110,7 +110,7 @@
               width: 100px;
               margin: 0;
           }
-        @include media-breakpoint-between(sm, md) {
+        @include media-breakpoint-between(md, lg) {
           width: auto;
         }
 

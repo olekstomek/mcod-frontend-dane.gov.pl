@@ -1,14 +1,22 @@
+import { NgIf } from '@angular/common';
 import { Component, Input, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { DataProposalListComponent } from '../list/data-proposal-list.component';
 
 /**
  * Data Proposal Tab Component
  */
 @Component({
-  selector: 'app-data-proposal-tab',
-  templateUrl: './data-proposal-tab.component.html',
+    selector: 'app-data-proposal-tab',
+    templateUrl: './data-proposal-tab.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        DataProposalListComponent,
+        RouterOutlet,
+    ],
 })
 export class DataProposalTabComponent implements OnDestroy {
   /**

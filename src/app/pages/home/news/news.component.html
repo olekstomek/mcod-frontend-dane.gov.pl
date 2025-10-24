@@ -29,12 +29,12 @@
         <!-- read more -->
         <a class="home-news__item-read-more with-chevron" [routerLink]="['/!article' | localize, item.attributes.slug]">
           {{ 'Home.News.ReadMore' | translate }}
-          <span class="sr-only">
+          <span class="visually-hidden">
             {{ 'Connector.About' | translate }}
             {{ item.attributes.title }}
           </span>
           <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
-            <use xlink:href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use></svg
+            <use href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use></svg
         ></a>
       </li>
     </ul>

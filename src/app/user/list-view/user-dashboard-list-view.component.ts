@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,24 +12,34 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import moment from 'moment/min/moment-with-locales';
+import { switchMap } from 'rxjs/operators';
 
 import { BasicPageParams } from '@app/services/models/page-params';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
 import { UserDashboardListViewService } from '@app/user/list-view/user-dashboard-list-view.service';
 import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardListViewConfig';
 import { UserDashboardListViewContainer } from '@app/user/list-view/UserDashboardListViewContainer';
 import { UserDashboardListViewFilterType } from '@app/user/list-view/UserDashboardListViewFilterType';
-import { TranslateService } from '@ngx-translate/core';
-import moment from 'moment';
-import { switchMap } from 'rxjs/operators';
 
 /**
  * User Dashboard List View Component
  */
 @Component({
-  selector: 'app-user-dashboard-list-view',
-  templateUrl: './user-dashboard-list-view.component.html',
-  providers: [UserDashboardListViewService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-user-dashboard-list-view',
+    templateUrl: './user-dashboard-list-view.component.html',
+    providers: [UserDashboardListViewService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        ItemsPerPageComponent,
+        PaginationComponent,
+        TranslatePipe,
+    ],
 })
 export class UserDashboardListViewComponent implements OnInit {
   /**

@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 /**
  * Search input for list view filter
  */
 @Component({
-  selector: 'app-expandable-multiselect-input',
-  templateUrl: './expandable-multiselect-search-input.component.html',
+    selector: 'app-expandable-multiselect-input',
+    templateUrl: './expandable-multiselect-search-input.component.html',
+    standalone: true,
+    imports: [TranslatePipe],
 })
 export class ExpandableMultiselectSearchInputComponent {
   /**

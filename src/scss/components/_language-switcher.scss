@@ -2,12 +2,12 @@
     margin-left: auto;
     display: flex;
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
         margin-left: 0;
         margin-right: auto;
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
         margin-left: auto;
         margin-right: 0;
     }
@@ -35,6 +35,7 @@
             &.active {
                 font-weight: bold;
                 color: currentColor;
+                border: none;
             }
         }
     }

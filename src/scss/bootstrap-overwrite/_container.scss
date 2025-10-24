@@ -1,6 +1,6 @@
 
 // < MD
-@include media-breakpoint-down(sm)
+@include media-breakpoint-down(md)
 {
     .container {
         padding-right: 40px;
@@ -10,7 +10,7 @@
 }
 
 // < SM
-@include media-breakpoint-down(xs)
+@include media-breakpoint-down(sm)
 {
     .container {
         padding-right: 15px;

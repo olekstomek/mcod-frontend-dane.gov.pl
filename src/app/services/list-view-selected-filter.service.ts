@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
+
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { SelectedFilter } from '@app/services/models/filters';
 import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
-import { PageParams } from '@app/services/models/page-params';
 import { IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
 import {
   IListViewInstitutionItemCategoryFiltersModel,
   IListViewInstitutionItemFiltersModel,
 } from '@app/services/models/page-filters/institution-item-filters';
+import { PageParams } from '@app/services/models/page-params';
 
 @Injectable({
   providedIn: 'root',

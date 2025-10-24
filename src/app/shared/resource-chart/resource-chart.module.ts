@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '@app/shared/shared.module';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
-import { ChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
+import { ResourceChartNameFormComponent } from './resource-chart-name-form/resource-chart-name-form.component';
+import { ResourceChartSelectorComponent } from './resource-chart-selector/resource-chart-selector.component';
 
 import { ResourceChartBarComponent } from '@app/shared/resource-chart/resource-chart-bar/resource-chart-bar.component';
 import { ResourceChartCircleComponent } from '@app/shared/resource-chart/resource-chart-circle/resource-chart-circle.component';
@@ -14,8 +15,7 @@ import { ResourceChartFormComponent } from '@app/shared/resource-chart/resource-
 import { ResourceChartLineComponent } from '@app/shared/resource-chart/resource-chart-line/resource-chart-line.component';
 import { ResourceChartScatterComponent } from '@app/shared/resource-chart/resource-chart-scatter/resource-chart-scatter.component';
 import { ResourceChartComponent } from '@app/shared/resource-chart/resource-chart.component';
-import { ResourceChartSelectorComponent } from './resource-chart-selector/resource-chart-selector.component';
-import { ResourceChartNameFormComponent } from './resource-chart-name-form/resource-chart-name-form.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,6 @@ import { ResourceChartNameFormComponent } from './resource-chart-name-form/resou
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ChartsModule,
     SharedModule,
     TranslateModule.forChild({
       parser: {
@@ -50,6 +49,7 @@ import { ResourceChartNameFormComponent } from './resource-chart-name-form/resou
     }),
     RouterModule,
     LocalizeRouterModule,
+    BaseChartDirective,
   ],
 })
 export class ResourceChartModule {}

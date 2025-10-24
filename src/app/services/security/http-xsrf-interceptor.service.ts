@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-
-import { CookieExtractor } from '@app/services/security/cookie-extractor.service';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
+
 import { APP_CONFIG } from '@app/app.config';
+import { CookieExtractor } from '@app/services/security/cookie-extractor.service';
 
 @Injectable()
 export class HttpXsrfInterceptorService implements HttpInterceptor {

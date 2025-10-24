@@ -1,7 +1,7 @@
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 export function requireOneUrlValidator(minRequired = 1): ValidatorFn {
-  return function validate(formGroup: FormGroup) {
+  return function validate(formGroup: UntypedFormGroup) {
     let isNotEmpty = 0;
 
     Object.keys(formGroup.controls).forEach(key => {

@@ -1,10 +1,21 @@
-import { Component, Output, EventEmitter, Input, SimpleChanges } from '@angular/core';
-
+import { NgFor, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 import { StringHelper } from '../helpers/string.helper';
 
+import { getEventSelectValue } from '@app/shared/util';
+
 @Component({
-  selector: 'app-items-per-page',
-  templateUrl: './items-per-page.component.html',
+    selector: 'app-items-per-page',
+    templateUrl: './items-per-page.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        NgFor,
+        TranslatePipe,
+    ],
 })
 export class ItemsPerPageComponent {
   /**
@@ -31,6 +42,9 @@ export class ItemsPerPageComponent {
    * Unique id
    */
   uniqueId = StringHelper.generateRandomHex();
+
+  protected readonly getSelectValue = getEventSelectValue;
+  protected readonly Number = Number;
 
   /**
    * Emits value on change

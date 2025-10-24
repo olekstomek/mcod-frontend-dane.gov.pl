@@ -1,20 +1,39 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import { UserService } from '@app/services/user.service';
-import { ObserveService } from '@app/services/observe.service';
-import { LinkHelper } from '@app/shared/helpers';
-import { BasicPageParams } from '@app/services/models/page-params';
 import { ApiModel } from '@app/services/api/api-model';
+import { BasicPageParams } from '@app/services/models/page-params';
+import { ObserveService } from '@app/services/observe.service';
+import { UserService } from '@app/services/user.service';
+import { LinkHelper } from '@app/shared/helpers';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { TimespanPipe } from '@app/shared/pipes/timespan.pipe';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 
 @Component({
     selector: 'app-followed-object-activity',
-    templateUrl: './followed-object-activity.component.html'
+    templateUrl: './followed-object-activity.component.html',
+    standalone: true,
+    imports: [
+      NgFor,
+      NgIf,
+      RouterLink,
+      ItemsPerPageComponent,
+      PaginationComponent,
+      LocalizeRouterPipe,
+      TranslatePipe,
+      TimespanPipe,
+      TranslateDateFormatPipe
+    ]
 })
 export class FollowedObjectActivityComponent implements OnInit {
 
     /**
-     * API model 
+     * API model
      */
     apiModel = ApiModel;
 
@@ -77,7 +96,7 @@ export class FollowedObjectActivityComponent implements OnInit {
      */
     private loadActivities(): void {
         this.userService
-            .getFollowedObjectsActivity(this.route.snapshot.data.type, this.params)
+            .getFollowedObjectsActivity(this.route.snapshot.data['type'], this.params)
             .subscribe(result => {
                 this.activities = result.data;
                 this.newActivities = result.data.filter(item => item.attributes.status === 'new');

@@ -5,7 +5,10 @@ import { Role } from '@app/shared/user-permissions/Role';
 /**
  * Adds the template content to the DOM when user has required permissions.
  */
-@Directive({ selector: '[hasPermission]' })
+@Directive({
+    selector: '[hasPermission]',
+    standalone: true
+})
 export class PermissionDirective {
   private hasView = false;
 

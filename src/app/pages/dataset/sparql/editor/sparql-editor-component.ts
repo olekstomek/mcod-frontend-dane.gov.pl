@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, forwardRef, NgZone, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SparqlService } from '@app/pages/dataset/sparql/sparql.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Ace } from 'ace-builds';
 import ace, { EditSession } from 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-sparql';
@@ -10,24 +10,28 @@ import { fromEvent, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Parser } from 'sparqljs';
 
+import { SparqlService } from '@app/pages/dataset/sparql/sparql.service';
+
 /**
  * Sparql Editor Component
  */
 @Component({
-  selector: 'app-sparql-editor',
-  templateUrl: './sparql-editor-component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SparqlEditorComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SparqlEditorComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-sparql-editor',
+    templateUrl: './sparql-editor-component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SparqlEditorComponent),
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => SparqlEditorComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [TranslatePipe],
 })
 export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor {
   /**

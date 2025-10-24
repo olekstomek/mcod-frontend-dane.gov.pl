@@ -12,7 +12,7 @@
     [attr.aria-pressed]="isVisible"
     (click)="isVisible = !isVisible"
   >
-    <span class="sr-only">
+    <span class="visually-hidden">
       {{ (isVisible ? 'Action.Hide' : 'Action.Show') | translate }}
       {{ titleTranslationKey | translate }}
     </span>

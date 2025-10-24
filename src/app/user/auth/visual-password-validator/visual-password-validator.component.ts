@@ -1,11 +1,14 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { UserService } from '@app/services/user.service';
+import { CapitalizeFirstLetterPipe } from '@app/shared/pipes/capitalize-first-letter.pipe';
 
 /**
  * Visual Password Validator Component
- * @example 
+ * @example
  *  <app-visual-password-validator
         [control]="registrationForm.get('password1')"
         [controlValueMinLength]="passwordMinLength"
@@ -13,8 +16,16 @@ import { UserService } from '@app/services/user.service';
     </app-visual-password-validator>
  */
 @Component({
-  selector: 'app-visual-password-validator',
-  templateUrl: './visual-password-validator.component.html',
+    selector: 'app-visual-password-validator',
+    templateUrl: './visual-password-validator.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgClass,
+        TranslatePipe,
+        CapitalizeFirstLetterPipe,
+    ],
 })
 export class VisualPasswordValidatorComponent implements OnInit {
   /**
@@ -25,7 +36,7 @@ export class VisualPasswordValidatorComponent implements OnInit {
   /**
    * FormControl assosiacted with passwords field
    */
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
 
   /**
    * Password min length

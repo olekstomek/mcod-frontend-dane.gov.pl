@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import moment from 'moment/min/moment-with-locales';
 import { BehaviorSubject } from 'rxjs';
-import moment from 'moment';
 
 import { APP_CONFIG } from '@app/app.config';
 
@@ -13,8 +13,9 @@ import { APP_CONFIG } from '@app/app.config';
  * {{ item.attributes.created | translateDateFormat | async }}
  */
 @Pipe({
-  name: 'translateDateFormat',
-  pure: true,
+    name: 'translateDateFormat',
+    pure: true,
+    standalone: true,
 })
 export class TranslateDateFormatPipe implements PipeTransform {
   /**

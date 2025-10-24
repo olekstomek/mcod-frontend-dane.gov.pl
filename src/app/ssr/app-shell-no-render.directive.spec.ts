@@ -1,8 +1,9 @@
 import { Component, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directive';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directive';
 
 @Component({
   template: `
@@ -10,6 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
       <h1 *appShellNoRender class="header">Hello From server</h1>
     </div>
   `,
+  imports: [
+    AppShellNoRenderDirective
+  ],
+  standalone: true
 })
 export class MockComponent {}
 
@@ -17,8 +22,7 @@ describe('App shell no render directive', () => {
   describe('platform browser', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        declarations: [MockComponent, AppShellNoRenderDirective],
+        imports: [TranslateModule.forRoot(), MockComponent, AppShellNoRenderDirective],
         providers: [{ provide: PLATFORM_ID, useValue: 'browser' }],
       }).compileComponents();
     });
@@ -43,8 +47,7 @@ describe('App shell no render directive', () => {
   describe('platform server', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        declarations: [MockComponent, AppShellNoRenderDirective],
+        imports: [TranslateModule.forRoot(), MockComponent, AppShellNoRenderDirective],
         providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
       }).compileComponents();
     });

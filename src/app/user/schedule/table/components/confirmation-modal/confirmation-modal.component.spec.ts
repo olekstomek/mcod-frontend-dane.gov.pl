@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserService } from '@app/services/user.service';
 import { TranslateModule, TranslateParser } from '@ngx-translate/core';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 
+import { UserService } from '@app/services/user.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { ConfirmationModalComponent } from '@app/user/schedule/table/components/confirmation-modal/confirmation-modal.component';
 
@@ -21,9 +21,7 @@ describe('Schedule Delete Confirm Modal Component', () => {
                     defaultLanguage: 'pl',
                     useDefaultLang: true
                 }),
-            ],
-            declarations: [
-                ConfirmationModalComponent
+              ConfirmationModalComponent
             ],
             providers: [UserService]
         }).compileComponents();
@@ -55,7 +53,7 @@ describe('Schedule Delete Confirm Modal Component', () => {
 
         fixture.detectChanges();
         await fixture.whenStable();
-        const clickOutside = spyOn<any>(deleteConfirmationModalComponent, 'clickOutsideListener').and.callThrough();
+        const clickOutside = jest.spyOn<any, any>(deleteConfirmationModalComponent, 'clickOutsideListener');
         deleteConfirmationModalComponent.ngOnDestroy();
         expect(clickOutside).toHaveBeenCalled();
     });

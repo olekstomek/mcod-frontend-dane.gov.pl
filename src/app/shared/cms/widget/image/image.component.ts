@@ -1,11 +1,14 @@
+import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { CmsService } from '@app/services/cms.service';
-import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
-import { IBanner } from '@app/services/models/cms/widgets/banner';
-import { IWidgetStyleForHtmlInject } from '@app/services/models/cms/controls/widget-style';
-import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { IWidgetStyleForHtmlInject } from '@app/services/models/cms/controls/widget-style';
+import { IBanner } from '@app/services/models/cms/widgets/banner';
+import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
+import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 
 /**
  * Image components displays images from CMS
@@ -13,8 +16,15 @@ import { FeatureFlagService } from '@app/services/feature-flag.service';
  * <cms-image></cms-image>
  */
 @Component({
-  selector: 'cms-image',
-  templateUrl: './image.component.html',
+    selector: 'cms-image',
+    templateUrl: './image.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        NgStyle,
+        TranslatePipe,
+    ],
 })
 export class ImageComponent extends WidgetAbstractComponent implements OnInit {
   @Input() banner: IBanner | any;

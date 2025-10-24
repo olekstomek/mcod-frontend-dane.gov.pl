@@ -1,9 +1,11 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IFeatureFlag } from '@app/services/models/feature-flag';
 
 @Directive({
-    selector: '[featureFlag]'
+    selector: '[featureFlag]',
+    standalone: true
 })
 export class FeatureFlagDirective implements OnInit {
 

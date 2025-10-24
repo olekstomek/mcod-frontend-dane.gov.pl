@@ -1,5 +1,5 @@
-import {IPageCms} from '@app/services/models/cms/page-cms';
-import {IWidget} from '@app/services/models/cms/widgets/widget';
+import { IPageCms } from '@app/services/models/cms/page-cms';
+import { IWidget } from '@app/services/models/cms/widgets/widget';
 
 export interface IHome extends IPageCms {
     over_login_section_cb: IWidget[];

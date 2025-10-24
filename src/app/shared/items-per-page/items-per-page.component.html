@@ -4,10 +4,10 @@
   </span>
 
   <select
-    class="form-control p-1"
-    (change)="onChange($event.target.value)"
+    class="form-select p-1"
+    (change)="onChange(Number(getSelectValue($event)))"
     attr.aria-labelledby="items-per-page-label-{{ uniqueId }}"
-    style="width: 50px"
+    style="width: 50px; background-position: right 0.25rem center"
   >
     <option [ngValue]="null" *ngIf="!isNumberValid">
       {{ selected }}

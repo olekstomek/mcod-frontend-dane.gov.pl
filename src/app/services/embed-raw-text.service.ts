@@ -1,9 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
+
+import {CmsService} from '@app/services/cms.service';
+import {IRawTextEmbed} from '@app/services/models/cms/controls/raw-text/raw-text-embed';
 import {IRawTextObject} from '@app/services/models/cms/controls/raw-text/raw-text-object';
 import {IRawTextObjectType} from '@app/services/models/cms/controls/raw-text/raw-text-object-type.enum';
-import {IRawTextEmbed} from '@app/services/models/cms/controls/raw-text/raw-text-embed';
-import {CmsService} from '@app/services/cms.service';
 
 /**
  *  Service with functions for embed text and objects

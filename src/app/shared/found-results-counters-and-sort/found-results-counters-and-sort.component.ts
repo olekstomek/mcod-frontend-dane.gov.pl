@@ -1,10 +1,16 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { Params } from '@angular/router';
+import { NgFor, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Params, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { InfoTooltipDirective } from '../info-tooltip/info-tooltip.directive';
+
 import { PageParams } from '@app/services/models/page-params';
+import { getEventValue } from '@app/shared/util';
 
 interface IComponentOptions {
   label: string;
-  count: string;
+  count?: number;
   value?: string;
   url?: string;
   param?: Params;
@@ -25,10 +31,21 @@ interface IComponentOptions {
  * </app-found-results-counters-and-sort>
  */
 @Component({
-  selector: 'app-found-results-counters-and-sort',
-  templateUrl: './found-results-counters-and-sort.component.html',
+    selector: 'app-found-results-counters-and-sort',
+    templateUrl: './found-results-counters-and-sort.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        InfoTooltipDirective,
+        NgFor,
+        RouterLink,
+        FormsModule,
+        TranslatePipe,
+    ],
 })
 export class FoundResultsCountersAndSortComponent implements OnChanges {
+
+  constructor() {}
   /**
    * Selected item on sort dropdown
    */
@@ -77,14 +94,14 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
    */
   isSortValid: boolean;
 
-  constructor() {}
+  protected readonly getValue = getEventValue;
 
   /**
    * Emits new params
    * @param {Params} params
    * @param {boolean} isFoundParam
    */
-  updateParams(params: PageParams, isFoundParam = false) {
+  updateParams(params: PageParams, isFoundParam: boolean = false) {
     const isSameFoundParamSelected = isFoundParam && params['model[terms]'] === this.selectedModel;
     if (!isSameFoundParamSelected) {
       this.update.emit(params);

@@ -1,16 +1,41 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { QueryParamsHandling, Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, QueryParamsHandling, Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { switchMap } from 'rxjs/operators';
 
-import { SeoService } from '@app/services/seo.service';
+import { toggleVertically } from '@app/animations';
 import { DatasetService } from '@app/services/dataset.service';
 import { BasicPageParams } from '@app/services/models/page-params';
-import { toggleVertically } from '@app/animations';
+import { SeoService } from '@app/services/seo.service';
+import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
+import { NewDataContactComponent } from '@app/shared/new-data-contact/new-data-contact.component';
+import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
+import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
+import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
+import { ResultListComponent } from '@app/shared/result-list/result-list.component';
 
 @Component({
   selector: 'app-submission-list',
   templateUrl: './submission-list.component.html',
   animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    TranslatePipe,
+    NgIf,
+    NotificationsServerComponent,
+    NoResultsFoundComponent,
+    ResultListComponent,
+    RouterLink,
+    SanitizeHtmlPipe,
+    TranslateDateFormatPipe,
+    AsyncPipe,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    NewDataContactComponent
+  ]
 })
 export class SubmissionListComponent implements OnInit {
   /**
@@ -36,6 +61,7 @@ export class SubmissionListComponent implements OnInit {
    * User defined params
    */
   params: BasicPageParams;
+  numPages: any;
 
   /**
    * @ignore

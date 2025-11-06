@@ -1,8 +1,7 @@
 <!-- RESOURCE DETAILS -->
 <section class="item-view__body vertical-spacing">
   <div class="container">
-    <h1 class="heading heading--md">
-      {{ resource?.attributes?.title }}
+    <h1 class="heading heading--md" [innerHtml]="resource?.attributes?.title | sanitizeHtml">
     </h1>
 
     <!-- description -->
@@ -390,11 +389,10 @@
     <h2 class="modal-title pull-left">
       {{ 'Embed.Self' | translate }}
     </h2>
-    <button type="button" class="close pull-right" (click)="modal.hide()">
+    <button type="button" class="btn-close pull-right" (click)="modal.hide()">
       <span class="visually-hidden">
         {{ 'Action.Close' | translate }}
       </span>
-      <span aria-hidden="true">&times;</span>
     </button>
   </div>
 

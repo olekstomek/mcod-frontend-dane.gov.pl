@@ -15,7 +15,6 @@ export class LinkHelper {
    */
   static downloadFile(sUrl): boolean {
     const hasDownloadAttribute = 'download' in document.createElement('a');
-
     if (/(iP)/g.test(navigator.userAgent)) {
       console.log('Your device does not support files downloading. Please try again in desktop browser.');
       window.open(sUrl, '_blank');
@@ -31,16 +30,14 @@ export class LinkHelper {
       link.download = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
       // Dispatching click event
       if (document.createEvent) {
-        const e = document.createEvent('MouseEvents');
-        e.initEvent('click', true, true);
-        link.dispatchEvent(e);
+        const mouseEvent = new MouseEvent('click', {bubbles: true, cancelable: true});
+        link.dispatchEvent(mouseEvent);
         return true;
       }
     }
     if (sUrl.indexOf('?') === -1) {
       sUrl += '?download';
     }
-
     window.open(sUrl, '_blank');
     return true;
   }

@@ -53,11 +53,10 @@
           *ngFor="let option of listBoxOptions; let i = index"
         >
           <!-- title -->
-          <span class="search-suggest__listbox-title">
-            <span class="visually-hidden">
+          <span class="search-suggest__listbox-title" [innerHtml]="option.title | sanitizeHtml">
+            <span class="visually-hidden" >
               {{ 'GoTo' | translate }}
             </span>
-            {{ option.title }}
           </span>
 
           <!-- area -->
@@ -161,11 +160,10 @@
               *ngFor="let option of listBoxOptions; let i = index"
             >
               <!-- title -->
-              <span class="search-suggest__listbox-title">
+              <span class="search-suggest__listbox-title" [innerHtml]="option.title | sanitizeHtml">
                 <span class="visually-hidden">
                   {{ 'GoTo' | translate }}
                 </span>
-                {{ option.title }}
               </span>
 
               <!-- area -->

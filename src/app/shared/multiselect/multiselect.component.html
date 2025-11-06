@@ -73,7 +73,7 @@
         />
 
         <label for="chk-{{ itemIndex }}" class="dropdown-item__text">
-          <span aria-hidden="true" [innerHtml]="item[displayValue] || item"></span>
+          <span aria-hidden="true" [innerHtml]="item[displayValue] || item | sanitizeHtml"></span>
           <span class="visually-hidden" *ngIf="item.titleTranslationKey">
             {{ item.titleTranslationKey | translate }}
             {{ item.key }}

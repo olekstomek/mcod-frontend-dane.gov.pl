@@ -12,12 +12,15 @@
 
                     <!-- breadcrumb as link -->
                     <a *ngIf="!breadcrumb.lastChild && !(i+1 === breadcrumbs.length - 1 && breadcrumbs[i+1].label === '')"
-                        [routerLink]="breadcrumb.segments">
-                        {{ breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label }}</a>
+                        [routerLink]="breadcrumb.segments"
+                        [innerHtml]="breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label | sanitizeHtml"
+                    >
+                    </a>
 
                     <!-- breadcrumb as text (last breadcrumb) -->
-                    <span *ngIf="breadcrumb.lastChild || (i+1 === breadcrumbs.length - 1 && breadcrumbs[i+1].label === '')">
-                        {{ breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label }}
+                    <span *ngIf="breadcrumb.lastChild || (i+1 === breadcrumbs.length - 1 && breadcrumbs[i+1].label === '')"
+                        [innerHtml]="breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label | sanitizeHtml"
+                    >
                     </span>
                 </li>
             </ng-container>

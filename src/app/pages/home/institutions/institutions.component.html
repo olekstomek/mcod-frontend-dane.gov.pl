@@ -13,8 +13,7 @@
       <li class="category-list__item col-12 col-sm-6 col-md-6 col-xl-3" *ngFor="let item of items">
         <a class="category-list__item-wrapper" [routerLink]="['/!institution' | localize, item?.id + ',' + item.slug]">
           <div class="category-list__item-content">
-            <span class="category-list__item-heading heading heading--sm">
-              {{ item?.title }}
+            <span class="category-list__item-heading heading heading--sm" [innerHtml]="item?.title | sanitizeHtml">
             </span>
             <span class="category-list__item-info m-0"> {{ 'Datasets.Count' | translate }}: {{ item?.count }} </span>
           </div>

@@ -3,10 +3,8 @@
     <!-- DETAILS HEADER -->
     <header class="item-view__header vertical-spacing">
         <div class="container">
-            <h1 class="heading">
-                {{ institution?.attributes.title }}
-                <span *ngIf="institution.attributes.abbreviation" class="font-weight-light">
-                    ({{institution.attributes.abbreviation}})
+            <h1 class="heading" [innerHtml]="institution?.attributes.title | sanitizeHtml">
+                <span *ngIf="institution.attributes.abbreviation" class="font-weight-light" [innerHtml]="institution.attributes.abbreviation | sanitizeHtml">
                 </span>
             </h1>
 

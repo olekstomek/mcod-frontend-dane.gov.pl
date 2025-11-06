@@ -35,6 +35,7 @@ import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page
 import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.component';
@@ -47,26 +48,27 @@ import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.co
     templateUrl: './institution-item.component.html',
     animations: [toggle, toggleVertically],
     standalone: true,
-    imports: [
-        NgIf,
-        CdkCopyToClipboard,
-        TooltipDirective,
-        NgClass,
-        SearchSuggestComponent,
-        InstitutionItemListViewFiltersComponent,
-        InstitutionItemSelectedFiltersComponent,
-        FoundResultsCountersAndSortComponent,
-        NoResultsFoundComponent,
-        NotificationsServerComponent,
-        InstitutionItemResultsComponent,
-        ItemsPerPageComponent,
-        PaginationComponent,
-        ApiSourceLinkComponent,
-        WriteUsInfoComponent,
-        AsyncPipe,
-        TranslatePipe,
-        TranslateDateFormatPipe,
-    ],
+  imports: [
+    NgIf,
+    CdkCopyToClipboard,
+    TooltipDirective,
+    NgClass,
+    SearchSuggestComponent,
+    InstitutionItemListViewFiltersComponent,
+    InstitutionItemSelectedFiltersComponent,
+    FoundResultsCountersAndSortComponent,
+    NoResultsFoundComponent,
+    NotificationsServerComponent,
+    InstitutionItemResultsComponent,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    ApiSourceLinkComponent,
+    WriteUsInfoComponent,
+    AsyncPipe,
+    TranslatePipe,
+    TranslateDateFormatPipe,
+    SanitizeHtmlPipe,
+  ],
 })
 export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit, OnDestroy {
   /**

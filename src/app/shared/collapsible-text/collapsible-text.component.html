@@ -11,7 +11,7 @@
     <p class="mt-4" *ngIf="tags && (text.length <= maxTextLength || !isCollapsed)">
       <strong>{{ 'Attribute.Tags' | translate }}</strong
       >:
-      {{ tags }}
+      <span [innerHtml]="tags | sanitizeHtml"></span>
     </p>
 
     <!--collapse / expand button-->
@@ -55,6 +55,6 @@
   <p class="mt-4" *ngIf="tags && tags.length <= maxTextLength">
     <strong>{{ 'Attribute.Tags' | translate }}</strong
     >:
-    {{ tags }}
+    <span [innerHtml]="tags | sanitizeHtml">{{ tags }}</span>
   </p>
 </ng-template>

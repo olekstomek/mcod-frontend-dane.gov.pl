@@ -17,7 +17,7 @@
         <span
           class="dropdown-item__content-title"
           [attr.aria-hidden]="item.titleTranslationKey ? true : null"
-          [innerHtml]="(item[displayValue]) || item"
+          [innerHtml]="(item[displayValue]) || item | sanitizeHtml"
         >
         </span>
       </span>

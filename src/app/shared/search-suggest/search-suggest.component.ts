@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { LocalizeRouterPipe, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
@@ -63,19 +64,20 @@ import { ObjectHelper } from '@app/shared/helpers';
     templateUrl: './search-suggest.component.html',
     animations: [toggleVertically],
     standalone: true,
-    imports: [
-        NgIf,
-        FormsModule,
-        NgFor,
-        NgClass,
-        InfoTooltipDirective,
-        RouterLink,
-        TooltipDirective,
-        TitleCasePipe,
-        TranslatePipe,
-        LocalizeRouterPipe,
-        KeyvalueOrderPipe,
-    ],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgFor,
+    NgClass,
+    InfoTooltipDirective,
+    RouterLink,
+    TooltipDirective,
+    TitleCasePipe,
+    TranslatePipe,
+    LocalizeRouterPipe,
+    KeyvalueOrderPipe,
+    SanitizeHtmlPipe,
+  ],
 })
 export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   /**

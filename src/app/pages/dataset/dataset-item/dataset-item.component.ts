@@ -34,6 +34,7 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
 import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { SubscribeButtonComponent } from '@app/shared/subscribe-button/subscribe-button.component';
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
@@ -73,7 +74,8 @@ import { getEventValue } from '@app/shared/util';
     ApiSourceLinkComponent,
     DatasetItemResultsComponent,
     FeedbackFormComponent,
-    FocusTrapDirective
+    FocusTrapDirective,
+    SanitizeHtmlPipe
   ]
 })
 export class DatasetItemComponent implements OnInit, OnDestroy {

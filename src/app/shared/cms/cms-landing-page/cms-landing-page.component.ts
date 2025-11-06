@@ -85,6 +85,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     /**
      * sets isDetailView value
      */
+    this.isDetailView = this.router.url && this.router.url.split('/').length > 4;
     this.sub.add(
       router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {

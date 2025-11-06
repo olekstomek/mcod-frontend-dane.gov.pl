@@ -1,6 +1,6 @@
 <div
   *ngIf="rawText.type === widgetType.TEXT"
-  class="text-justify raw-text-container"
+  class="text-justify raw-text-container position-relative"
   [ngClass]="classes ? classes + ' ' + { container: !isFullWidth } : { container: !isFullWidth }"
 >
   <div *ngFor="let el of rawTextObjects">
@@ -11,7 +11,7 @@
       [ngStyle]="style"
       [href]="rawText.settings.url"
       target="_blank"
-      [innerHTML]="text"
+      [innerHTML]="text | sanitizeHtml"
       class="hc-Cms-Text"
     >
       <span class="visually-hidden">{{ 'Action.OpenInNewWindow' | translate }}</span>

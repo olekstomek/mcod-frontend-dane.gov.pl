@@ -2,6 +2,7 @@
   *ngIf="fileUrl"
   [ngClass]="customCssClass"
   [routerLink]="[]"
+  queryParamsHandling="preserve"
   [title]="opennessScore ? 'Pobierz plik ' + (format ? (format | uppercase) : ('Action.Download' | translate)) : ''"
   [appTooltip]="opennessScore ? 'Poziom otwartości pliku: ' : ''"
   [levelDataOpennessTooltip]="opennessScore ? +opennessScore : null"

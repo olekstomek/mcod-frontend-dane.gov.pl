@@ -11,6 +11,7 @@ import { VideoComponent } from '../widget/video/video.component';
 import { toggleVertically } from '@app/animations/toggle-vertically';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Cms blocks component
@@ -20,17 +21,18 @@ import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
     templateUrl: './cms-block2.component.html',
     animations: [toggleVertically],
     standalone: true,
-    imports: [
-        NgFor,
-        NgClass,
-        NgIf,
-        ImageComponent,
-        RouterLink,
-        RawTextComponent,
-        VideoComponent,
-        CallToActionComponent,
-        HeadingComponent,
-    ],
+  imports: [
+    NgFor,
+    NgClass,
+    NgIf,
+    ImageComponent,
+    RouterLink,
+    RawTextComponent,
+    VideoComponent,
+    CallToActionComponent,
+    HeadingComponent,
+    SanitizeHtmlPipe,
+  ],
 })
 export class CmsBlock2Component implements OnInit, OnDestroy {
   /**

@@ -1,8 +1,7 @@
 <!-- DETAILS: HEADER -->
 <header class="data-item-view__header vertical-spacing" *ngIf="dataset?.attributes">
   <div class="container">
-    <h1 class="heading" *ngIf="dataset.attributes.title">
-      {{ dataset.attributes.title }}
+    <h1 class="heading" *ngIf="dataset.attributes.title" [innerHtml]="dataset.attributes.title | sanitizeHtml">
     </h1>
 
     <!-- metadata -->
@@ -96,9 +95,12 @@
             *ngIf="dataset?.attributes.source?.type === 'ckan' && dataset?.attributes.source.title && dataset?.attributes.source.url"
           >
             <span class="vertical-list__item-label"> {{ 'Attribute.HarvestedSource' | translate }}: </span>
-            <a class="vertical-list__item vertical-list__link" [href]="dataset?.attributes.source?.url" target="_blank">
-              {{ dataset?.attributes.source.title }}
-
+            <a
+              class="vertical-list__item vertical-list__link"
+              [href]="dataset?.attributes.source?.url"
+              target="_blank"
+              [innerHtml]="dataset?.attributes.source.title | sanitizeHtml"
+            >
               <span aria-hidden="true">>></span>
               <span class="visually-hidden">
                 {{ 'SkipTo.NewWindow' | translate }}
@@ -109,7 +111,7 @@
           <!-- source -->
           <li class="vertical-list__item" *ngIf="dataset?.attributes.url">
             <span class="vertical-list__item-label"> {{ 'Attribute.Source' | translate }}: </span>
-            <a [href]="dataset?.attributes.url" target="_blank">
+            <a [href]="dataset?.attributes.url" [innerHtml]="dataset?.attributes.url | sanitizeHtml" target="_blank">
               {{ 'Action.GoToSource' | translate }}
 
               <span class="visually-hidden">
@@ -121,7 +123,7 @@
           <!-- institution -->
           <li class="vertical-list__item" *ngIf="institution">
             <span class="vertical-list__item-label"> {{ 'Institutions.Single' | translate }}: </span>
-            <a [routerLink]="['/!institution' | localize, institution.id + ',' + institution.attributes.slug]">
+            <a [routerLink]="['/!institution' | localize, institution.id + ',' + institution.attributes.slug]" [innerHtml]="institution.attributes.title | sanitizeHtml">
               {{ institution.attributes.title }}
             </a>
           </li>

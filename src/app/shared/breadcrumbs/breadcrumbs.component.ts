@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { RoutingHelper } from '@app/services/commons/routing-helper';
 import { Breadcrumb } from '@app/shared/breadcrumbs/Breadcrumb';
 import { BreadcrumbService } from '@app/shared/breadcrumbs/breadcrumb.service';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Breadcrumbs global component
@@ -15,13 +16,14 @@ import { BreadcrumbService } from '@app/shared/breadcrumbs/breadcrumb.service';
     selector: 'app-breadcrumbs',
     templateUrl: './breadcrumbs.component.html',
     standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        SlicePipe,
-        TranslatePipe,
-    ],
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    SlicePipe,
+    TranslatePipe,
+    SanitizeHtmlPipe,
+  ],
 })
 export class BreadcrumbsComponent implements OnDestroy {
   /**

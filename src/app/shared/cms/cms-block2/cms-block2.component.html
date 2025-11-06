@@ -14,7 +14,7 @@
     <a
       [href]="widget.settings.url"
       [title]="widget.settings.title || ''"
-      [innerHTML]="widget.settings.text"
+      [innerHTML]="widget.settings.text | sanitizeHtml"
       *ngIf="widget.settings.isExternalUrl"
     >
     </a>
@@ -23,7 +23,7 @@
     <a
       [routerLink]="widget.settings.url"
       [title]="widget.settings.title || ''"
-      [innerHTML]="widget.settings.text"
+      [innerHTML]="widget.settings.text | sanitizeHtml"
       *ngIf="!widget.settings.isExternalUrl"
     >
     </a>

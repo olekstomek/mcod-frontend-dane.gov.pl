@@ -1,6 +1,7 @@
 import { AsyncPipe, NgFor } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -21,18 +22,19 @@ import { TruncateTextPipe } from '@app/shared/pipes/truncate-text.pipe';
     templateUrl: './news.component.html',
     providers: [NotificationsService],
     standalone: true,
-    imports: [
-        NotificationsServerComponent,
-        NgFor,
-        RouterLink,
-        FooterComponent,
-        AsyncPipe,
-        TranslatePipe,
-        StripHtmlPipe,
-        TruncateTextPipe,
-        TranslateDateFormatPipe,
-        LocalizeRouterPipe,
-    ],
+  imports: [
+    NotificationsServerComponent,
+    NgFor,
+    RouterLink,
+    FooterComponent,
+    AsyncPipe,
+    TranslatePipe,
+    StripHtmlPipe,
+    TruncateTextPipe,
+    TranslateDateFormatPipe,
+    LocalizeRouterPipe,
+    SanitizeHtmlPipe,
+  ],
 })
 export class NewsComponent implements OnInit, OnDestroy {
   /**

@@ -5,6 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 import { toggleVertically } from '@app/animations';
 import { StringHelper } from '@app/shared/helpers/string.helper';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Custom dropdown component with multi-selection capability
@@ -16,13 +17,14 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
     templateUrl: './multiselect.component.html',
     animations: [toggleVertically],
     standalone: true,
-    imports: [
-        NgClass,
-        NgIf,
-        FormsModule,
-        NgFor,
-        TranslatePipe,
-    ],
+  imports: [
+    NgClass,
+    NgIf,
+    FormsModule,
+    NgFor,
+    TranslatePipe,
+    SanitizeHtmlPipe,
+  ],
 })
 export class MultiselectComponent implements OnInit, OnDestroy {
   /**

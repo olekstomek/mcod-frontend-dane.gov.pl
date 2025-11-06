@@ -2,6 +2,7 @@ import { AsyncPipe, DOCUMENT, LowerCasePipe, NgForOf, NgIf, NgOptimizedImage, Ti
 import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -66,7 +67,8 @@ import { selectTarget } from '@app/shared/util';
     FormsModule,
     LocalizeRouterPipe,
     FeedbackFormComponent,
-    FocusTrapDirective
+    FocusTrapDirective,
+    SanitizeHtmlPipe
   ]
 })
 export class DatasetResourceComponent implements OnInit, OnDestroy {

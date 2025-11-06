@@ -1,6 +1,6 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { CmsService } from '@app/services/cms.service';
@@ -51,25 +51,13 @@ export class KnowledgeBaseTabsComponent {
    * Sets active tab
    */
   setActiveTab() {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        if (!event.url.includes(this.routerEndpoints.KNOWLEDGE_BASE)) {
-          return;
-        }
+    this.tabs = this.activatedRoute.snapshot.data['post'].meta.children;
+    let currentTab = this.tabs.find(tab => this.router.url.includes(tab.meta.slug));
 
-        this.tabs = this.activatedRoute.snapshot.data['post'].meta.children;
-        let currentTab = this.tabs.find(tab => event.url.includes(tab.meta.slug));
+    if (!currentTab) {
+      currentTab = this.tabs[0];
+    }
 
-        if (!currentTab) {
-          currentTab = this.tabs[0];
-        }
-
-        this.seoService.setPageTitle(currentTab.title);
-
-        if (event.url.split('/').length < 3) {
-          this.router.navigate([`${this.routerEndpoints.KNOWLEDGE_BASE}/${currentTab.meta.slug}`]).then();
-        }
-      }
-    });
+    this.seoService.setPageTitle(currentTab.title);
   }
 }

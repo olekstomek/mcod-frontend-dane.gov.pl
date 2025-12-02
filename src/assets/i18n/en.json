@@ -283,6 +283,13 @@
     "DeclarationComponent": "Declaration of accessibility",
     "ShowcasesComponent": "PoCoTo"
   },
+  "BrokenLinks": {
+    "Self": "Broken links",
+    "NumberOfBrokenLinks": "Number of broken links",
+    "UpdateInfo": "Last updated",
+    "Search": "Search",
+    "Tooltip": "The word or phrase entered in the \"Search\" box is searched for in the entire table. If you want to search for an exact word, put it in quotation marks."
+  },
   "Calendar": {
     "CalendarLabel": "Calendar",
     "NextMonthLabel": "Next month",
@@ -636,7 +643,8 @@
     "Declaration": "Declaration of accessibility",
     "Regulations": "Regulations",
     "Showcases": "PoCoTo",
-    "DGAInformationPoint": "DGA Information Point"
+    "DGAInformationPoint": "DGA Information Point",
+    "More": "More"
   },
   "MyDashboard": {
     "Self": "My dashboard",

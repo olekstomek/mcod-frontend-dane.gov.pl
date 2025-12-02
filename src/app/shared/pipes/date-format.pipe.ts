@@ -29,8 +29,7 @@ export class DateFormatPipe implements PipeTransform {
   transform(value: string): string {
     // TODO: Custom DateTime dateFormat helper
     const lang = this.translate.currentLang;
-    const _moment: moment.Moment = moment(value);
     moment.locale(lang);
-    return _moment.format(APP_CONFIG.dateTime);
+    return moment(value).format('DD MMMM YYYY, HH:MM');
   }
 }

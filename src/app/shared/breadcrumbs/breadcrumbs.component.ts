@@ -1,4 +1,4 @@
-import { NgFor, NgIf, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -17,8 +17,6 @@ import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
     templateUrl: './breadcrumbs.component.html',
     standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     SlicePipe,
     TranslatePipe,
@@ -49,7 +47,13 @@ export class BreadcrumbsComponent implements OnDestroy {
    */
   constructor(private readonly breadcrumbService: BreadcrumbService, private readonly router: Router) {
     this.breadcrumbs$ = this.breadcrumbService.getBreadcrumbs().subscribe(res => {
-      this.breadcrumbs = res;
+      const filteredBreadcrumbs = res.filter((item) =>  item.label !== '');
+      this.breadcrumbs = filteredBreadcrumbs.map((item, index) => {
+        if (index + 1 === filteredBreadcrumbs.length) {
+          item.lastChild = true;
+        }
+        return item;
+      });
 
       this.displayBreadcrumbs = !this.router.isActive('/pl', true) && !RoutingHelper.isHomePage(this.router.url);
     });

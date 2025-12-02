@@ -38,6 +38,7 @@
                         ],
 
                         "styles": [
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "src/styles.scss",
                             "node_modules/leaflet/dist/leaflet.css",
                             "src/mcod-material-theme.scss",
@@ -49,7 +50,9 @@
                               "src/scss"
                             ]
                         },
-                        "scripts": []
+                        "scripts": [
+                          "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+                        ]
                     },
                     "configurations": {
                         "int": {

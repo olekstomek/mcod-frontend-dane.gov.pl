@@ -399,7 +399,8 @@
 
             <!-- news (articles) -->
             <!-- news is a subset of knowledge base in the admin panel -->
-            <li class="nav-item" role="presentation">
+
+            <li class="nav-item expanded-section" role="presentation">
               <a
                 class="nav-link"
                 role="menuitem"
@@ -438,6 +439,64 @@
             >
               {{ 'Menu.DGAInformationPoint' | translate }}
             </a>
+          </li>
+
+          <!--  broken links        -->
+            <li class="nav-item expanded-section" role="presentation">
+              <a
+                class="nav-link"
+                role="menuitem"
+                [routerLink]="['/!brokenlinks' | localize]"
+                routerLinkActive="active"
+                #menuBrokenLinks="routerLinkActive"
+                [attr.aria-current]="menuBrokenLinks.isActive ? true : null"
+              >
+                {{"BrokenLinks.Self" | translate}}
+              </a>
+            </li>
+          <!--   dropdown more         -->
+          <li class="nav-item expandable-menu" role="presentation">
+            <div class="dropdown">
+                <a
+                  class="nav-link dropdown-button"
+                  [ngClass]="isMorePagesActive()"
+                  type="button"
+                  id="dropdownMenuLink"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {{'Menu.More' | translate}}
+                  <svg class="icon dropdown-menu-toggle">
+                    <use href="/assets/icomoon/SVG/up.svg#up"></use>
+                  </svg>
+                </a>
+            <ul [ngClass]="[highContrastMode,'dropdown-menu','dropdown-menu-end','pt-2','pb-2']" aria-labelledby="dropdownMenuLink" style="width: max-content">
+              <li>
+                <a
+                  class="dropdown-item"
+                  role="menuitem"
+                  [routerLink]="['/!article' | localize]"
+                  routerLinkActive="active"
+                  #menuLinkArticles="routerLinkActive"
+                  [attr.aria-current]="menuLinkArticles.isActive ? true : null"
+                >
+                  {{ 'Menu.News' | translate }}
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  role="menuitem"
+                  [routerLink]="['/!brokenlinks' | localize]"
+                  routerLinkActive="active"
+                  #menuBrokenLinks="routerLinkActive"
+                  [attr.aria-current]="menuBrokenLinks.isActive ? true : null"
+                >
+                  {{ 'BrokenLinks.Self' | translate}}
+                </a>
+              </li>
+            </ul>
+            </div>
           </li>
           </ul>
         </nav>

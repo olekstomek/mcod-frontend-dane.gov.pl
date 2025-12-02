@@ -11,7 +11,7 @@
 <app-header></app-header>
 
 <!-- main content - different styling for the homepage -->
-<main id="main-content" tabindex="-1" [ngClass]="{ page: !isHomepage }">
+<main id="main-content" tabindex="-1" class="page" [class.content-page]="!isHomepage">
   <router-outlet></router-outlet>
 </main>
 

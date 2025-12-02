@@ -19,7 +19,17 @@ body {
   }
 }
 
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
 .page {
+  flex: 1;
+}
+
+.content-page {
   background-color: $color-grey-light-1;
 }
 
@@ -30,6 +40,7 @@ body {
 a, .btn-link {
   color: $primary;
   text-decoration: none;
+
   &:hover {
     color: $color-hover-2;
     text-decoration: underline;
@@ -54,6 +65,7 @@ a, .btn-link {
 .btn-outline-primary {
   color: $primary;
   border-color: $primary;
+
   &:hover, &:focus, &:active {
     background-color: $primary-hover;
     border-color: $primary-hover;
@@ -64,12 +76,15 @@ a, .btn-link {
 .font-size-100 {
   font-size: 100%;
 }
+
 .font-size-125 {
   font-size: 125%
 }
+
 .font-size-150 {
   font-size: 150%
 }
+
 .font-size-200 {
   font-size: 200%
 }

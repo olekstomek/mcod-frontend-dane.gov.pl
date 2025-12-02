@@ -283,6 +283,13 @@
     "DeclarationComponent": "Deklaracja dostępności",
     "ShowcasesComponent": "PoCoTo"
   },
+  "BrokenLinks": {
+    "Self": "Uszkodzone linki",
+    "NumberOfBrokenLinks": "Liczba uszkodzonych linków",
+    "UpdateInfo": "Ostatnia aktualizacja",
+    "Search": "Wyszukiwarka",
+    "Tooltip": "Słowo lub fraza wpisane do pola „Wyszukaj” są wyszukiwane w danych w całej tabeli. Jeśli chcesz wyszukać dokładne wyrażenie, wpisz je w cudzysłowach, na przykład \"Ministerstwo Cyfryzacji”."
+  },
   "Calendar": {
     "CalendarLabel": "Kalendarz",
     "NextMonthLabel": "Następny Miesiąc",
@@ -636,7 +643,8 @@
     "Declaration": "Deklaracja dostępności",
     "Regulations": "Regulamin",
     "Showcases": "PoCoTo",
-    "DGAInformationPoint": "Punkt informacyjny DGA"
+    "DGAInformationPoint": "Punkt informacyjny DGA",
+    "More": "Więcej"
   },
   "MyDashboard": {
     "Self": "Mój pulpit",

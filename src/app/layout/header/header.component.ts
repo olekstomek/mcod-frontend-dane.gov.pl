@@ -32,6 +32,7 @@ import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  styleUrl: 'header.component.scss',
   animations: [toggleVertically],
   imports: [
     TranslatePipe,
@@ -232,7 +233,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isListOpen = !this.isListOpen;
     }, 50);
   }
-
   clickedOutside(): void {
     this.isListOpen = false;
   }
@@ -243,6 +243,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       window.location.href = `https://admin.${currentUrl}/logingovpl/switch?email=${newEmail}`;
     } else {
       window.location.href = `https://admin.mcod.local/logingovpl/switch?email=${newEmail}`;
+    }
+  }
+
+  isMorePagesActive(): string {
+    if (this.router.url.includes('brokenlinks') || this.router.url.includes('article')) {
+      return 'active';
+    } else {
+      return '';
     }
   }
 

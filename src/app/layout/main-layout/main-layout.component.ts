@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
@@ -21,7 +20,6 @@ import { TourPickerComponent } from '@app/shared/tour/tour-picker/tour-picker.co
     TranslatePipe,
     TourPickerComponent,
     NgProgressbar,
-    NgClass,
     RouterOutlet,
     TourButtonComponent,
     HeaderComponent,
@@ -29,7 +27,10 @@ import { TourPickerComponent } from '@app/shared/tour/tour-picker/tour-picker.co
     NgProgressHttp,
     NgProgressRouter
   ],
-  standalone: true
+  standalone: true,
+  host: {
+    class: 'main-layout'
+  }
 })
 export class MainLayoutComponent {
   isHomepage: boolean;

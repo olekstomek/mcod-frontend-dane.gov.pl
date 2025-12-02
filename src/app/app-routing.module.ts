@@ -74,6 +74,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/dga-information-point/dga-information-point.module').then(m => m.DgaInformationPointModule)
       },
       {
+        path: '!brokenlinks',
+        data: { breadcrumbs: {translationKey: 'BrokenLinks.Self'}},
+        loadChildren: () => import('./pages/broken-links/broken-links.routes').then(mod => mod.BROKEN_LINKS_ROUTES)
+      },
+      {
         path: '!user',
         loadChildren: () => import('./user/user.module').then(m => m.UserModule),
       },
@@ -142,7 +147,7 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {bindToComponentInputs: true}),
     LocalizeRouterModule.forRoot(routes, {
       parser: {
         provide: LocalizeParser,

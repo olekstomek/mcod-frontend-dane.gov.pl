@@ -1,4 +1,4 @@
 export interface IDownloadFile {
-    title: string;
+    title?: string;
     url: string;
 }

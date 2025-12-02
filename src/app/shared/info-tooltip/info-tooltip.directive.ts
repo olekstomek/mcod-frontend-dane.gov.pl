@@ -57,7 +57,7 @@ export class InfoTooltipDirective implements OnInit, OnDestroy {
    * @type {string}
    */
   @Input('tooltipTitle')
-  private title: string;
+  title: string;
   /**
    * Tooltip component
    * @type {ComponentRef<InfoTooltipComponent>}

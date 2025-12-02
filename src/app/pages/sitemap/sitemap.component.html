@@ -37,6 +37,18 @@
             </a>
         </li>
         <li role="presentation">
+            <a role="menuitem"
+               [routerLink]="['/!' + routerEndpoints.DGA] | localize">
+              {{ 'Menu.DGAInformationPoint' | translate }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem"
+               [routerLink]="['/!' + '/!brokenlinks'] | localize">
+              {{ "BrokenLinks.Self" | translate }}
+            </a>
+        </li>
+        <li role="presentation">
             <a role="menuitem" [routerLink]="['/!about'] | localize">
                 {{ 'Menu.About' | translate }}
             </a>

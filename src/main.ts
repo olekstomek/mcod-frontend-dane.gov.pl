@@ -15,6 +15,7 @@ import { environment } from '@env/environment';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
 import * as Sentry from '@sentry/angular';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
 import { provideNgxLocalstorage } from 'ngx-localstorage';
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         useFactory: matomoConfigFactory,
         deps: [PLATFORM_ID],
       },
-      provideClientHydration(),
+      provideCharts(withDefaultRegisterables()),
       provideNgxLocalstorage({
         prefix: 'mcod'
       }),

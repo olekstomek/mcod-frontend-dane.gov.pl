@@ -11,9 +11,10 @@ export class LinkHelper {
    * LinkHelper.downloadFile('http://media.dane.gov.pl/data.xls')
    *
    * @param sUrl
+   * @param lang
    * @returns {boolean}
    */
-  static downloadFile(sUrl): boolean {
+  static downloadFile(sUrl, lang?: string): boolean {
     const hasDownloadAttribute = 'download' in document.createElement('a');
     if (/(iP)/g.test(navigator.userAgent)) {
       console.log('Your device does not support files downloading. Please try again in desktop browser.');
@@ -24,7 +25,7 @@ export class LinkHelper {
     if (hasDownloadAttribute) {
       // Creating new link node
       const link = document.createElement('a');
-      link.href = sUrl;
+      link.href = lang ? sUrl + `?lang=${lang}` : sUrl;
       link.target = '_blank';
 
       link.download = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
@@ -66,10 +67,11 @@ export class LinkHelper {
   /**
    * downloads resource
    * @param {IDownloadFile} file
+   * @param {string} lang
    */
-  static downloadResource(file: IDownloadFile) {
+  static downloadResource(file: IDownloadFile, lang?: string) {
     // Fire away download right after click, regardless of api response,
     // to not get cought in browser's pop up guard
-    this.downloadFile(file.url);
+    this.downloadFile(file.url, lang);
   }
 }

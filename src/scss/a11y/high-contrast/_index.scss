@@ -11,7 +11,7 @@ body.black-white {
     background-color: $hcSecondary;
 
     // styles base on the above settings
-    @import "high-contrast-common";
+    @import "./high-contrast-common";
 
 }
 
@@ -30,7 +30,7 @@ body.black-yellow {
 
 
     // styles base on the above settings
-    @import "high-contrast-common";
+    @import "./high-contrast-common";
 
 }
 
@@ -49,6 +49,6 @@ body.yellow-black {
 
 
     // styles base on the above settings
-    @import "high-contrast-common";
+    @import "./high-contrast-common";
 
 }

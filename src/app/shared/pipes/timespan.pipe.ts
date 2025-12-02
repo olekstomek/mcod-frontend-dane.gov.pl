@@ -27,7 +27,6 @@ export class TimespanPipe implements PipeTransform {
    */
   transform(value: any, lang = this.translate.currentLang): any {
     moment.locale(lang);
-    const _moment: moment.Moment = moment(value);
-    return _moment.fromNow();
+    return moment(value).fromNow();
   }
 }

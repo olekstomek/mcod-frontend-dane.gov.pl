@@ -33,7 +33,7 @@ export class DataProposalTabComponent implements OnDestroy {
   private routerEvents$: Subscription;
 
   constructor(public readonly activeRoute: ActivatedRoute, private readonly router: Router) {
-    this.routerEvents$ = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+    this.routerEvents$ = this.router.events.subscribe((event) => {
       this.hasChildRoute = this.activeRoute.children.length > 0;
     });
   }

@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -10,13 +10,11 @@ import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
  * Expandable list view for filters
  */
 @Component({
-    selector: 'app-expandable-multiselect-list',
-    templateUrl: './expandable-multiselect-list.component.html',
-    standalone: true,
+  selector: 'app-expandable-multiselect-list',
+  templateUrl: './expandable-multiselect-list.component.html',
+  standalone: true,
   imports: [
     NgClass,
-    NgFor,
-    NgIf,
     TranslatePipe,
     SanitizeHtmlPipe,
   ],

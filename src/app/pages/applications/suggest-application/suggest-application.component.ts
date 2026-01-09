@@ -1,9 +1,9 @@
-import { LowerCasePipe, NgClass, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AsyncPipe, LowerCasePipe, NgClass, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { zip } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
 import { toggleVertically } from '@app/animations';
@@ -11,6 +11,7 @@ import { requireOneUrlValidator } from '@app/pages/applications/suggest-applicat
 import { CmsHardcodedPages } from '@app/services/api/api.cms.config';
 import { ApplicationsService } from '@app/services/applications.service';
 import { CmsService } from '@app/services/cms.service';
+import { Alert } from '@app/services/models/alert';
 import { IPageCms } from '@app/services/models/cms/page-cms';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SeoService } from '@app/services/seo.service';
@@ -50,6 +51,7 @@ interface IComponentOptions {
     SanitizeHtmlPipe,
     TextToLinksPipe,
     NgOptimizedImage,
+    AsyncPipe,
   ],
 })
 export class SuggestApplicationComponent implements OnInit, AfterViewInit {
@@ -62,6 +64,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     private applicationsService: ApplicationsService,
     private notificationsService: NotificationsService,
     private cmsService: CmsService,
+    private renderer: Renderer2,
   ) {}
   /**
    * Application form of suggest application component
@@ -163,6 +166,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
   @ViewChildren('externalDatasetTitleInput') externalDatasetTitleInputs: QueryList<HTMLInputElement>;
 
   protected readonly getValue = getEventValue;
+  notificationAlerts$: Observable<Alert[]> = this.notificationsService.getAlerts();
 
   /**
    * Sets META tags (title).
@@ -536,11 +540,13 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * check if item form autocompleted list is selected, if not set invalid error
+   * check if item form autocompleted list is selected, if not set invalid error and remove the class form-control-plaintext
    * @param event
    * @param {number} index
    */
   onCheckIfItemIsSelected(event, index: number) {
+    this.renderer.removeClass(event.target, 'form-control-plaintext');
+    this.renderer.removeStyle(event.target, 'border');
     if (!event.target.attributes.readonly) {
       this.applicationForm.get('datasets')['controls'][index].controls.dataset.setErrors({ invalid: true });
     }

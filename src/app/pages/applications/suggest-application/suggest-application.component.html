@@ -962,10 +962,31 @@
           <div class="row">
             <div class="col-12 text-right">
               <!-- fake submit -->
+              @let alerts = notificationAlerts$ | async;
+              @let ariaDescribedby =
+                (alerts.length ? 'backend_notifications ' : '') +
+                (applicationForm.controls.title.invalid && applicationForm.controls.title.touched ? 'title_required_error ' : '') +
+                (applicationForm.controls.url.invalid && applicationForm.controls.url.touched && applicationForm.controls.url.errors['required'] ? 'url_required_error ' : '') +
+                (applicationForm.controls.url.invalid && applicationForm.controls.url.touched && applicationForm.controls.url.errors['pattern'] ? 'url_invalid_error ' : '') +
+                (applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').invalid && applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').touched ? 'mobile_apple_url_invalid_error ' : '') +
+                (applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').invalid && applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').touched ? 'mobile_google_url_invalid_error ' : '') +
+                (applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull && applicationForm.controls.myMobileUrlGroup.touched ? 'is_mobile_app_required_error ' : '') +
+                (applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').invalid && applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').touched ? 'desktop_windows_url_invalid_error ' : '') +
+                (applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').invalid && applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').touched ? 'desktop_linux_url_invalid_error ' : '') +
+                (applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').invalid && applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').touched ? 'desktop_macos_url_invalid_error ' : '') +
+                (applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull && applicationForm.controls.myDesktopUrlGroup.touched ? 'is_desktop_app_required_error ' : '') +
+                (applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched && applicationForm.controls.notes.errors['required'] ? 'notes_required_error ' : '') +
+                (applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched && applicationForm.controls.notes.errors['maxlength'] ? 'notes_maxlength_error ' : '') +
+                (applicationForm.controls.author.invalid && applicationForm.controls.author.touched ? 'author_required_error ' : '') +
+                (applicationForm.get('datasets')?.errors && applicationForm.get('datasets')?.errors['invalid'] ? 'dataset_invalid_error ' : '') +
+                (applicationForm.controls.external_datasets.invalid && applicationForm.controls.external_datasets.touched ? 'external_datasets_url_error ' : '') +
+                (applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched ? 'applicant_email_error ' : '') +
+                (applicationForm.controls.is_personal_data_processing_accepted.invalid && applicationForm.controls.is_personal_data_processing_accepted.touched ? 'is_personal_data_processing_accepted_error ' : '') +
+                (applicationForm.controls.is_terms_of_service_accepted.invalid && applicationForm.controls.is_terms_of_service_accepted.touched ? 'is_terms_of_service_accepted_error ' : '');
               <button
                 type="button"
                 class="btn btn-secondary"
-                aria-describedby="backend_notifications name_required_error url_required_error url_invalid_error notes_required_error notes_maxlength_error applicant_email_error external_datasets_url_error"
+                [attr.aria-describedby]="ariaDescribedby"
                 *ngIf="!applicationForm.valid"
               >
                 {{ 'Action.Send' | translate }}

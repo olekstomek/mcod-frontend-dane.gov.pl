@@ -1,9 +1,10 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
+import { SeoService } from '@app/services/seo.service';
 import { CmsBlock2Component } from '@app/shared/cms/cms-block2/cms-block2.component';
 import { DownloadLinkComponent } from '@app/shared/download-link/download-link.component';
 import { LinkHelper } from '@app/shared/helpers';
@@ -33,9 +34,10 @@ export interface BrokenLinksData {
   templateUrl: './broken-links.component.html',
   styleUrl: './broken-links.component.scss',
 })
-export class BrokenLinksComponent {
+export class BrokenLinksComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly translateService = inject(TranslateService);
+  private readonly seoService = inject(SeoService);
 
   readonly post = input<BrokenLinksData>();
 
@@ -44,6 +46,10 @@ export class BrokenLinksComponent {
   downloadFileList = computed(() => this.apiData().attributes?.files);
   title = computed(() => this.cmsData().title);
   searchQuery: string;
+
+  ngOnInit() {
+    this.seoService.setPageTitleByTranslationKey(['BrokenLinks.Self']);
+  }
 
   generateQuery(searchQuery?: string) {
     this.searchQuery = searchQuery || '';

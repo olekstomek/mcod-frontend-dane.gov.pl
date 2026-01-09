@@ -124,15 +124,16 @@ describe('SuggestApplicationComponent', () => {
   });
 
   it('should check if item form autocompleted list is selected, if not set invalid error', () => {
+    component.onAppendDatasetRow();
+    const mockElement = document.createElement('input');
     const event = {
-      target: {
-        attributes: {
-          readonly: true,
-        },
-      },
+      target: mockElement
     };
-    component.onCheckIfItemIsSelected(event, 1);
-    expect(component.applicationForm.get('dataset')).toBeNull();
+
+    component.onCheckIfItemIsSelected(event, 0);
+
+    const datasetControl = component.applicationForm.get('datasets')['controls'][0].controls.dataset;
+    expect(datasetControl.errors).toEqual({ invalid: true });
   });
 
   describe('Submit form (save suggestion)', () => {

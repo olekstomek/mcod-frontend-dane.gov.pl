@@ -1,9 +1,6 @@
 .idea/
 .dockerignore
 Dockerfile
-Vagrantfile
-vagrant
-.vagrant/
 db.sqlite3
 #docker/
 coverage/

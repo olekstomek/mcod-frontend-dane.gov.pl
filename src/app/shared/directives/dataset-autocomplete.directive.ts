@@ -122,6 +122,7 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
         const dropdown = this.renderer.createElement('div');
         this.renderer.addClass(dropdown, 'dropdown-menu');
         this.renderer.addClass(dropdown, 'show');
+        this.renderer.setAttribute(dropdown, 'style', 'position: absolute; top: 40px; left: 0px;');
         this.renderer.appendChild(this.elementRef.nativeElement.parentElement, dropdown);
 
         return dropdown;
@@ -157,7 +158,6 @@ export class DatasetAutocompleteDirective implements OnInit, OnDestroy {
         // button click event
         const itemClickListener = this.renderer.listen(button, 'click', () => {
             this.renderer.setProperty(this.elementRef.nativeElement, 'value', dataset.attributes.title);
-            this.renderer.setAttribute(this.elementRef.nativeElement, 'readonly', 'readonly');
             this.renderer.addClass(this.elementRef.nativeElement, 'form-control-plaintext');
             this.renderer.setStyle(this.elementRef.nativeElement, 'border', 0);
 

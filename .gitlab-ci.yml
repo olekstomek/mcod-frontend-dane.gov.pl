@@ -1,203 +1,206 @@
 stages:
-  - test
+  - .pre
   - build
-  - preprod-release
+  - test
   - release
-  - merge
-  - update
 
 variables:
   REGISTRY_HOST: registry.dane.gov.pl
-  REGISTRY_PATH: registry.dane.gov.pl/mcod/frontend
-  COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+  REGISTRY: ${REGISTRY_HOST}/mcod/frontend
+  REGISTRY_USER: gitlab-ci-token
+  IMAGE: frontend
+  # intermediate images
+  DEPENDENCIES_IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}-dependencies
+  BUILD_IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}-build
+  # versions
+  NODE_VERSION: "20"
+  DOCKER_VERSION: "28-dind"
+  # runtime
+  VERSION_FILE: version.txt
+  RELEASE_DOCKER_BUILD_TARGET: serve-static
 
-cache:
-  key: "$CI_BUILD_REF_NAME"
-  untracked: true
-  paths:
-    - node_modules/
+# prevent running branch pipelines for open MRs
+# https://docs.gitlab.com/ci/yaml/workflow/#switch-between-branch-pipelines-and-merge-request-pipelines
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
 
-before_script:
-  - npm install --verbose
-  - "bash create-env.sh"
-  - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-
-test-feat-branch:
-  stage: test
-  except:
-    - pre-develop
-    - develop
+# region .pre
+get-version:
+  stage: .pre
+  image: node:${NODE_VERSION}-alpine
   script:
-    - "npm run test"
-  allow_failure: false
+    - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+    - echo "${PACKAGE_VERSION}" > ${VERSION_FILE}
+  artifacts:
+    paths:
+      - ${VERSION_FILE}
+    expire_in: 30 days
   tags:
-    - frontend-3
+    - docker
+# endregion
 
-release-feat-to-int:
-  stage: release
+# region build
+build-images:
+  image: docker:${DOCKER_VERSION}
+  stage: build
+  before_script:
+    - echo "Image target=dependencies name=${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}"
+    - docker login -u $REGISTRY_USER -p $CI_JOB_TOKEN $REGISTRY_HOST
   script:
-    - "./node_modules/@angular/cli/bin/ng build -c production --buildOptimizer"
-    - "./node_modules/@angular/cli/bin/ng run frontend:server:production"
-    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend-ssr:feat .
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker tag $REGISTRY_PATH/frontend:feat $REGISTRY_PATH/frontend-ssr:int-latest
-    - docker push $REGISTRY_PATH/frontend-ssr:int-latest
-  when: manual
-  dependencies:
-    - test-feat-branch
-  # artifacts:
-  #   paths:
-  #     - "dist/"
-  only:
-    - /^feat-.*$/
+    - > 
+      docker build --progress=plain 
+      --target dependencies 
+      --tag ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
+      .
+    - docker push ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
+  tags:
+    - docker
+# endregion
 
-test-dev:
+# region test
+test: &test-job
+  image: ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
   stage: test
-  only:
-    - pre-develop
-    - develop
-  except:
-    - tags
-    - schedules
+  before_script:
+    - cp -r /usr/src/mcod/node_modules ./node_modules # PWD in gitlab it not the same as WORKDIR
   script:
-    - "npm run test"
+    - npm run test
+  tags:
+    - docker
+  rules:
+    # do not run for tagged build
+    - if: $CI_COMMIT_TAG
+      when: never
+    # do not run on release'able branches
+    - if: $CI_COMMIT_BRANCH == 'master' || $CI_COMMIT_BRANCH == 'pre-develop'
+      when: never
+    # do not run on merge requests during release: develop -> master or develop -> pre-develop
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == 'develop'
+      when: never
+    # do not run on schedule
+    - if: $CI_PIPELINE_SOURCE == 'schedule'
+      when: never
+    # run on merge requests
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: on_success
+
+lint:
+  <<: *test-job
+  script:
+    - npm run lint
   allow_failure: true
-  tags:
-    - frontend-3
+# endregion
 
-build-pre-dev:
-  stage: build
-  script:
-    - npm run build
-    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:pre-dev .
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend:pre-dev
-  only:
-    - pre-develop
-  artifacts:
-    paths:
-      - "dist/"
-  except:
-    - schedules
+# region build and release templates
+release-job: &release-job
+  # Builds the package for release and pushes it to the BUILD_IMAGE_TAG image
+  # Tags the BUILD_IMAGE_TAG with environment specific tags, eg.: pre-dev, pre-dev-3.0.1
+  # Pushes these new tags to the Registry
+  # Child jobs need to set
+  # - variables
+  # - rules
+  stage: release
+  image: docker:${DOCKER_VERSION}
   tags:
-    - frontend-3
+    - docker
+  before_script:
+    - PACKAGE_VERSION=$(cat ${VERSION_FILE})
+    - echo "PACKAGE_VERSION=${PACKAGE_VERSION}"
+    - echo "Image target=${RELEASE_DOCKER_BUILD_TARGET} name=${REGISTRY}/${IMAGE}:${BUILD_IMAGE_TAG}"
+    - echo "Image name=${REGISTRY}/${IMAGE}:${IMAGE_TAG}"
+    - echo "Image name=${REGISTRY}/${IMAGE}:${IMAGE_TAG}-${PACKAGE_VERSION}"
+    - docker login -u $REGISTRY_USER -p $CI_JOB_TOKEN $REGISTRY_HOST
+  script:
+    - echo "Building image to ${REGISTRY}/${IMAGE}:${IMAGE_TAG} with command"
+    - >
+      echo docker build --progress=plain 
+      --build-arg MCOD_BUILD_CONFIGURATION_ENV=${MCOD_BUILD_CONFIGURATION_ENV}
+      --target ${RELEASE_DOCKER_BUILD_TARGET} 
+      --tag ${REGISTRY}/${IMAGE}:${BUILD_IMAGE_TAG}
+      --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}
+      --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}-${PACKAGE_VERSION}
+      --push
+      .
+    - >
+      docker build --progress=plain 
+      --build-arg MCOD_BUILD_CONFIGURATION_ENV=${MCOD_BUILD_CONFIGURATION_ENV}
+      --target ${RELEASE_DOCKER_BUILD_TARGET} 
+      --tag ${REGISTRY}/${IMAGE}:${BUILD_IMAGE_TAG}
+      --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}
+      --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}-${PACKAGE_VERSION}
+      --push
+      .
+  variables:
+    MCOD_BUILD_CONFIGURATION_ENV: FILL_IN_LATER
+    IMAGE_TAG: FILL_IN_LATER
+  rules:
+    - when: never
+# endregion
 
-build-dev:
-  stage: build
-  script:
-    - npm run build
-    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:dev .
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend:dev
-  only:
-    - develop
-  artifacts:
-    paths:
-      - "dist/"
-  except:
-    - schedules
-  tags:
-    - frontend-3
+# region environments
+release-pre-dev:
+  <<: *release-job
+  variables:
+    MCOD_BUILD_CONFIGURATION_ENV: int
+    IMAGE_TAG: pre-dev
+  rules:
+    # run on push to develop
+    - if: $CI_COMMIT_BRANCH == 'develop'
+    # run on push to pre-develop
+    - if: $CI_COMMIT_BRANCH == 'pre-develop'
+    # do not run on merge requests during release: develop -> master
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == 'develop'
+      when: never
+    # run on merge requests otherwise, but ask for confirmation
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: manual
 
-build-master:
-  stage: build
-  script:
-    - npm run build:prod
-    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:master .
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend:master
-  only:
-    - master
-  # artifacts:
-  #   paths:
-  #     - "dist/"
-  except:
-    - schedules
-  tags:
-    - frontend-3
-
-build-master-pwa:
-  stage: build
-  script:
-    - npm run build:pwa
-    - docker build -f docker/frontend/Dockerfile -t $REGISTRY_PATH/frontend:pwa .
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker push $REGISTRY_PATH/frontend:pwa
-  only:
-    - master
-  # artifacts:
-  #   paths:
-  #     - "dist/"
-  except:
-    - schedules
-  tags:
-    - frontend-3
+release-int:
+  <<: *release-job
+  variables:
+    MCOD_BUILD_CONFIGURATION_ENV: int
+    IMAGE_TAG: dev
+  rules:
+    # run on develop automatically
+    - if: $CI_COMMIT_BRANCH == 'develop'
+      when: on_success
 
 release-preprod:
-  stage: preprod-release
-  script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker tag $REGISTRY_PATH/frontend:master $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION
-    - docker tag $REGISTRY_PATH/frontend:master $REGISTRY_PATH/frontend:master-rc-latest
-    - docker push $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION
-    - docker push $REGISTRY_PATH/frontend:master-rc-latest
-  only:
-    - master
-  dependencies:
-    - build-master
-  except:
-    - schedules
-  tags:
-    - frontend-3
+  <<: *release-job
+  variables:
+    MCOD_BUILD_CONFIGURATION_ENV: production
+    IMAGE_TAG: master
+  rules:
+    # run on master automatically
+    - if: $CI_COMMIT_BRANCH == 'master'
+      when: on_success
 
 release-prod:
-  stage: release
-  script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
-    - docker tag $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend:master-prod-$PACKAGE_VERSION
-    - docker tag $REGISTRY_PATH/frontend:master-rc-$PACKAGE_VERSION $REGISTRY_PATH/frontend:master-prod-latest
-    - docker push $REGISTRY_PATH/frontend:master-prod-$PACKAGE_VERSION
-    - docker push $REGISTRY_PATH/frontend:master-prod-latest
-  only:
-    - master
-  when: manual
+  <<: *release-job
+  variables:
+    MCOD_BUILD_CONFIGURATION_ENV: production
+    IMAGE_TAG: master-prod-latest
+  rules:
+    # run on master, only after previous release worked, and ask for confirmation
+    - if: $CI_COMMIT_BRANCH == 'master'
+      when: manual
   dependencies:
     - release-preprod
-  except:
-    - schedules
-  tags:
-    - frontend-3
+# endregion
 
-merge_to_master:on-schedule:
-  before_script: []
-  script:
-    - merge-frontend
-  after_script: []
-  only:
-    - schedules
-  except:
-    variables:
-      - $RENOVATE == "true"
-
-renovate_deps:on-schedule:
-  stage: update
-  before_script: []
-  script:
-    - docker run -e RENOVATE_TOKEN="$RENOVATE_KEY" -v $PWD/renovate-config.js:/usr/src/app/config.js renovate/renovate:slim
-  after_script: []
-  only:
-    variables:
-      - $RENOVATE == "true"
-
+# region publish code
 publish-code:
-  stage: release
+  <<: *release-job
   script:
-    - git archive --output /gluster/mcod/code/frontend_$PACKAGE_VERSION.zip -9 HEAD
     - cd /gluster/mcod/code
+    - git archive --output frontend_$PACKAGE_VERSION.zip -9 HEAD
     - ln -sf frontend_$PACKAGE_VERSION.zip frontend_latest.zip
-  except:
-    - schedules
-  only:
-    - master
-  when: manual
-
+  rules:
+    # run on master, but ask for confirmation
+    - if: $CI_COMMIT_BRANCH == 'master'
+      when: manual
+# endregion

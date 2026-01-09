@@ -116,11 +116,13 @@
 
     &__custom-heading {
       display: flex;
-      align-items: flex-start;
+      flex-wrap: wrap;
+      align-items: center;
       font-size: 1.05rem;
+      gap: 5px;
 
       p {
-        margin: 0 0 0 5px;
+        margin: 0;
       }
 
       img {

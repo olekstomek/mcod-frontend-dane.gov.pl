@@ -758,7 +758,7 @@
   },
   "Hod": {
     "Planning": "Planowanie",
-    "Realization": "Ralizacja",
+    "Realization": "Realizacja",
     "Archives": "Archiwum",
     "Period": "Okres",
     "EndDate": "Data zakończenia",
@@ -774,7 +774,7 @@
     "LockSchedule": "Zablokuj harmonogram",
     "Notifications": "powiadomienia",
     "NotificationContent": "Treść powiadomienia",
-    "MaxCharacters": "maksymalanie {param} znaków",
+    "MaxCharacters": "maksymalnie {param} znaków",
     "SendTo": "Wyślij do",
     "SendNotification": "Wyślij powiadomienie",
     "MaxLengthError": "Maksymalna długość pola została przekroczona o"

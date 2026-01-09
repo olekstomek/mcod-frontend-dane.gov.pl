@@ -1,7 +1,9 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { filter, startWith } from 'rxjs/operators';
 
 import { CmsService } from '@app/services/cms.service';
 import { IMetadataPageChildrenCms } from '@app/services/models/cms/metadata-page-cms';
@@ -12,16 +14,16 @@ import { SeoService } from '@app/services/seo.service';
  * Knowledge Base Tabs Component - displays tabs
  */
 @Component({
-    selector: 'app-knowledge-base-tabs',
-    templateUrl: './knowledge-base-tabs.component.html',
-    standalone: true,
-    imports: [
-        NgFor,
-        RouterLinkActive,
-        RouterLink,
-        RouterOutlet,
-        TranslatePipe,
-    ],
+  selector: 'app-knowledge-base-tabs',
+  templateUrl: './knowledge-base-tabs.component.html',
+  standalone: true,
+  imports: [
+    NgFor,
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    TranslatePipe,
+  ],
 })
 export class KnowledgeBaseTabsComponent {
   /**
@@ -44,7 +46,12 @@ export class KnowledgeBaseTabsComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
-    this.setActiveTab();
+    this.router.events
+      .pipe(
+        startWith(new NavigationEnd(0, this.router.url, this.router.url)),
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed())
+      .subscribe(() => this.setActiveTab());
   }
 
   /**

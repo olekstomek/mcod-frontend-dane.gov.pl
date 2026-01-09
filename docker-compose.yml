@@ -1,15 +1,74 @@
-version: '3'
-
 services:
-  frontend:
+  serve-static:
+    # Builds the frontend and serves it with nginx (like production)
+    # Open http://localhost:4000/
     build:
       context: .
-      dockerfile: docker/frontend/Dockerfile
+      dockerfile: Dockerfile
+      tags:
+        - mcod/frontend-static
+      args:
+        MCOD_BUILD_CONFIGURATION_ENV: local # local | production | pwa
+      target: "serve-static"
     ports:
-      - 80:80
-  ssr:
+      - "4000:80"
+    volumes:
+      - ./src:/usr/src/mcod/src
+
+  serve:
+    # Runs dockerized ng serve with local config
     build:
       context: .
-      dockerfile: docker/ssr/Dockerfile
+      dockerfile: Dockerfile
+      target: "serve-dynamic"
+      args:
+        MCOD_PORT: 4000
     ports:
-      - 4000:4000
+      - "4000:4000"
+    environment:
+      # int | local | production | pwa , as in angular.json:/projects/frontend/architect/build/configurations
+      MCOD_BUILD_CONFIGURATION_ENV: local
+      # production | development | local, as in angular.json:/projects/frontend/architect/serve/configurations
+      MCOD_SERVE_CONFIGURATION_ENV: local
+      # can be relative - /usr/src/mcod reflects the repo root
+      MCOD_PROXY_CONFIG_FILE: proxy.dev.conf.json
+    volumes:
+      - ./src:/usr/src/mcod/src
+      # build requirements
+      - ./angular.json:/usr/src/mcod/angular.json
+      - ./package.json:/usr/src/mcod/package.json
+      - ./tsconfig.app.json:/usr/src/mcod/tsconfig.app.json
+      - ./tsconfig.json:/usr/src/mcod/tsconfig.json
+      - ./index-html-transform.ts:/usr/src/mcod/index-html-transform.ts
+      # runtime overrides
+      - ./proxy.dev.conf.json:/usr/src/mcod/proxy.dev.conf.json
+      - ./proxy.int.conf.json:/usr/src/mcod/proxy.int.conf.json
+      - ./proxy.local.conf.json:/usr/src/mcod/proxy.local.conf.json
+      - ./proxy.preprod.conf.json:/usr/src/mcod/proxy.preprod.conf.json
+
+  test:
+    # Runs tests using npm test
+    # Run lint with ➜ docker compose run test npm run lint
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - mcod/frontend-tests
+      target: "dependencies"
+    volumes:
+      - ./src:/usr/src/mcod/src
+      # build requirements
+      - ./angular.json:/usr/src/mcod/angular.json
+      - ./package.json:/usr/src/mcod/package.json
+      - ./tsconfig.app.json:/usr/src/mcod/tsconfig.app.json
+      - ./tsconfig.json:/usr/src/mcod/tsconfig.json
+      # tests requirements
+      - ./jest-global-mocks.ts:/usr/src/mcod/jest-global-mocks.ts
+      - ./jest.config.js:/usr/src/mcod/jest.config.js
+      - ./setup-jest.ts:/usr/src/mcod/setup-jest.ts
+      - ./tsconfig.spec.json:/usr/src/mcod/tsconfig.spec.json
+      # lint requirements - TBD
+    command:
+      - npm
+      - run
+      - test

@@ -5,6 +5,7 @@ import { APP_ID, Inject, NgModule, PLATFORM_ID, TransferState } from '@angular/c
 import { environment } from '@env/environment';
 import { TranslatePipe } from '@ngx-translate/core';
 import * as Sentry from '@sentry/angular';
+import 'moment/locale/pl';
 import { FooterNavLinkExternalComponent } from './layout/footer/footer-nav-link-external/footer-nav-link-external.component';
 import { FooterNavLinkInternalComponent } from './layout/footer/footer-nav-link-internal/footer-nav-link-internal.component';
 import { FooterNavListComponent } from './layout/footer/footer-nav-list/footer-nav-list.component';

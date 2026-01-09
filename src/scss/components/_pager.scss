@@ -10,6 +10,7 @@
                 padding: 2px 8px;
                 line-height: 1.5rem;
                 background-color: transparent;
+                color: $primary;
 
                 &--as-icon {
                     font-size: 200%;
@@ -25,8 +26,33 @@
                 .page-link {
                     font-weight: bold;
                     background-color: $color-blue-light;
+                    color: white;
                 }
             }
         }
     }
+}
+
+body.black-white .page-item--ellipsis {
+  color: inherit;
+}
+
+body.black-yellow .page-item--ellipsis {
+  color: inherit;
+}
+
+body.yellow-black .page-item--ellipsis {
+  color: inherit;
+}
+
+body.black-white .pager .pagination .page-item .page-link {
+    color: white;
+}
+
+body.black-yellow .pager .pagination .page-item .page-link {
+    color: $color-yellow;
+}
+
+body.yellow-black .pager .pagination .page-item .page-link {
+    color: black;
 }

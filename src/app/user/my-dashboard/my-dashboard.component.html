@@ -72,18 +72,16 @@
         <div class="row no-gutters mt-4">
           <div class="col-md-6">
             <!-- DATASETS -->
-            <div class="row">
-              <div class="col-2 col-md-3">
-                <span class="icon-rounded-wrapper">
-                  <svg aria-labelledby="icon-followed-datasets-title" class="icon icon-followed-datasets" role="img">
-                    <title id="icon-followed-datasets-title">
-                      {{ 'Datasets.Self' | translate }}
-                    </title>
-                    <use href="/assets/icomoon/sprite/sprite.svg#icon-followed-datasets"></use>
-                  </svg>
-                </span>
-              </div>
-              <div class="col">
+            <div class="d-flex flex-wrap gap-3">
+              <span class="icon-rounded-wrapper">
+                <svg aria-labelledby="icon-followed-datasets-title" class="icon icon-followed-datasets" role="img">
+                  <title id="icon-followed-datasets-title">
+                    {{ 'Datasets.Self' | translate }}
+                  </title>
+                  <use href="/assets/icomoon/sprite/sprite.svg#icon-followed-datasets"></use>
+                </svg>
+              </span>
+              <div class="mw-100">
                 {{ 'Datasets.Self' | translate }}
                 <span class="d-block font-weight-bold h4">
                   {{ dashboardData.data.subscriptions.datasets }}
@@ -93,18 +91,16 @@
           </div>
           <div class="col-md-6">
             <!-- QUERIES -->
-            <div class="row">
-              <div class="col-2 col-md-3">
-                <span class="icon-rounded-wrapper">
-                  <svg aria-labelledby="icon-followed-queries-title" class="icon icon-followed-queries" role="img">
-                    <title id="icon-followed-queries-title">
-                      {{ 'Search.Results' | translate }}
-                    </title>
-                    <use href="/assets/icomoon/sprite/sprite.svg#icon-followed-queries"></use>
-                  </svg>
-                </span>
-              </div>
-              <div class="col">
+            <div class="d-flex flex-wrap gap-3">
+              <span class="icon-rounded-wrapper">
+                <svg aria-labelledby="icon-followed-queries-title" class="icon icon-followed-queries" role="img">
+                  <title id="icon-followed-queries-title">
+                    {{ 'Search.Results' | translate }}
+                  </title>
+                  <use href="/assets/icomoon/sprite/sprite.svg#icon-followed-queries"></use>
+                </svg>
+              </span>
+              <div class="mw-100">
                 {{ 'Search.Results' | translate }}
                 <span class="d-block font-weight-bold h4">
                   {{ dashboardData.data.subscriptions.queries }}

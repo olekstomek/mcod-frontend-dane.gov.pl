@@ -590,7 +590,8 @@
     "TypeDevelopers": "Developers",
     "ExternalDatasets": "Data from outside the portal",
     "EdorAddress": "Address for electronic delivery",
-    "CopyEdorAddress": "Copy the address for electronic delivery"
+    "CopyEdorAddress": "Copy the address for electronic delivery",
+    "CopyEdorAddressShort": "Copy the address"
   },
   "KnowledgeBase": {
     "Self": "Knowledge base",

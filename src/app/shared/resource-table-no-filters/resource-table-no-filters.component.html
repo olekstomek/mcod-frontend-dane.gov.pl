@@ -78,17 +78,14 @@
           <tbody>
             <tr
               class="datagrid__row"
-              (mouseenter)="hoveredRowIndex = rowIndex"
+              (mouseenter)="onMouseEnter(rowIndex)"
               (mouseleave)="onMouseLeave()"
               [ngClass]="hoveredRowIndex === rowIndex ? 'hovered' : ''"
               *ngFor="let item of items; let rowIndex = index"
             >
               <td
                 class="datagrid__cell"
-                tabindex="0"
-                (keydown)="onKeyDown($event)"
-                (focus)="onFocus(rowIndex, cellIndex)"
-                *ngFor="let column of columns; let cellIndex = index"
+                *ngFor="let column of columns"
               >
                 {{ item[column.name] | resourceColumnData: 'repr' }}
               </td>

@@ -590,7 +590,8 @@
     "TypeDevelopers": "Deweloperzy",
     "ExternalDatasets": "Dane pochodzące spoza portalu",
     "EdorAddress": "Adres do doręczeń elektronicznych",
-    "CopyEdorAddress": "Skopiuj adres do doręczeń elektronicznych"
+    "CopyEdorAddress": "Skopiuj adres do doręczeń elektronicznych",
+    "CopyEdorAddressShort": "Kopiuj adres"
   },
   "KnowledgeBase": {
     "Self": "Baza wiedzy",

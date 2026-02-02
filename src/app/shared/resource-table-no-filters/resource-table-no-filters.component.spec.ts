@@ -73,23 +73,13 @@ describe('ResourceTableNoFiltersComponent', () => {
   });
 
   it('should view mouse leave event, clears focus', () => {
-    component.focusedCell = null;
     component.onMouseLeave();
     expect(component.hoveredRowIndex).toEqual(-1);
   });
 
-  it('should movement inside tbody via keyboards arrows', () => {
-    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-    document.dispatchEvent(event);
-    component.onKeyDown(event);
-    expect(component.hoveredRowIndex).toEqual(-1);
-  });
-
-  it('should sets cell focus using mouse', () => {
+  it('should view mouse enter event, sets focus', () => {
     const rowIndex = 1;
-    const cellIndex = 1;
-    component.onFocus(rowIndex, cellIndex);
+    component.onMouseEnter(rowIndex);
     expect(component.hoveredRowIndex).toEqual(1);
-    expect(component.focusedCell).toEqual(1);
   });
 });

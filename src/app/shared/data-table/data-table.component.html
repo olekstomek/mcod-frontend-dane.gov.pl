@@ -69,16 +69,15 @@
                 [ngClass]="hoveredRowIndex === rowIndex ? 'hovered' : ''"
               >
                 @for (column of columns; track column.name; let cellIndex = $index) {
-                  <td
-                    class="datagrid__cell"
-                    tabindex="0"
-                    (keydown)="onKeyDown($event)"
-                    (focus)="onFocus(rowIndex, cellIndex)"
-                  >
+                  <td class="datagrid__cell">
                     @if (column.name.includes('portal_data_link')) {
-                      <a [routerLink]="'/' + getUrlAfterNthSlash(item[column.name].val, 3)">{{ item[column.name] | resourceColumnData : 'repr' }}</a>
+                      <a
+                        [routerLink]="'/' + getUrlAfterNthSlash(item[column.name].val, 3)"
+                        (focus)="onFocus(rowIndex, cellIndex)">{{ item[column.name] | resourceColumnData : 'repr' }}</a>
                     } @else if (column.name.includes('link')) {
-                      <a [href]="item[column.name].val" [matTooltip]="item[column.name].val" matTooltipClass="data-table-link-tooltip">
+                      <a [href]="item[column.name].val" [matTooltip]="item[column.name].val"
+                         matTooltipClass="data-table-link-tooltip"
+                         (focus)="onFocus(rowIndex, cellIndex)">
                         <svg class="icon icon-external-link" role="img" aria-hidden="true">
                           <use href="/assets/icomoon/SVG/external-link.svg#external-link"></use>
                         </svg>

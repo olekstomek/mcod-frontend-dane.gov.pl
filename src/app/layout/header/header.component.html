@@ -163,9 +163,10 @@
                 (click)="useLanguage('pl')"
                 [ngClass]="{ active: currentLang === 'pl' }"
                 [attr.aria-current]="currentLang === 'pl'"
+                lang="pl"
               >
                 <span aria-hidden="true">PL</span>
-                <span class="visually-hidden" lang="pl">
+                <span class="visually-hidden">
                   {{ currentLang === 'pl' ? 'polski' : 'Zmień język na polski' }}
                 </span>
               </button>
@@ -178,9 +179,10 @@
                 (click)="useLanguage('en')"
                 [ngClass]="{ active: currentLang === 'en' }"
                 [attr.aria-current]="currentLang === 'en'"
+                lang="en"
               >
                 <span aria-hidden="true">EN</span>
-                <span class="visually-hidden" lang="en">
+                <span class="visually-hidden">
                   {{ currentLang === 'en' ? 'english' : 'Change language to english' }}
                 </span>
               </button>

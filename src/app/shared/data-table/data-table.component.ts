@@ -130,33 +130,10 @@ export class DataTableComponent implements OnInit {
     }
   }
 
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowUp') {
-      return this.hoveredRowIndex - 1 > -1 && (this.hoveredRowIndex -= 1);
-    } else if (event.key === 'ArrowDown') {
-      return this.hoveredRowIndex + 1 < this.params().per_page && (this.hoveredRowIndex += 1);
-    } else if (event.key === 'ArrowRight') {
-      return this.focusedCell + 1 < this.columns.length && (this.focusedCell += 1);
-    } else if (event.key === 'ArrowLeft') {
-      return this.focusedCell - 1 > -1 && (this.focusedCell -= 1);
-    } else {
-      return this.hoveredRowIndex > -1 && this.focusedCell > -1 && this.setFocus();
-    }
-  }
-
-  setFocus() {
-    const row = this.dataTableRef.nativeElement.querySelectorAll('tbody tr')[this.hoveredRowIndex];
-    const cell = row.querySelectorAll('td')[this.focusedCell];
-
-    cell.focus();
-  }
-
   onFocus(rowIndex: number, cellIndex: number) {
     this.hoveredRowIndex = rowIndex;
     this.focusedCell = cellIndex;
   }
-
-
 
   public getUrlAfterNthSlash(url: string, n: number): string {
     const parts = url.split('/');

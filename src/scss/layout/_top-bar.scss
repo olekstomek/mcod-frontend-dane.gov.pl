@@ -42,20 +42,18 @@
 
         
 		// LEFT SIDE
-		.a11y-buttons {
-      display: flex;
-
-			&__group {
-				margin: 0;
-				padding: 0;
-        list-style: none;
+      .a11y-buttons {
         display: flex;
-        align-items: center;
 
-				&:last-child {
-          margin-left: 15px;
+        &__group {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: flex;
+          align-items: center;
 
-          // < MD
+          &:last-child {
+            margin-left: 15px;
           @include media-breakpoint-down(md) {
             display: none;
           }
@@ -202,24 +200,19 @@
        
 		// LEFT SIDE
 		.a11y-buttons {
-      display: flex;
+          display: flex;
 
-			&__group {
-				margin: 0;
-				padding: 0;
-        list-style: none;
-        display: flex;
-        align-items: center;
+          &__group {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
 
-				&:last-child {
-          margin-left: 15px;
-
-          // < MD
-          @include media-breakpoint-down(md) {
-            display: none;
-          }
-				}
-      }
+            &:last-child {
+             margin-left: 15px;
+            }
+        }
 
 
       &__item {

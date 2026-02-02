@@ -188,8 +188,6 @@ release-prod:
     # run on master, only after previous release worked, and ask for confirmation
     - if: $CI_COMMIT_BRANCH == 'master'
       when: manual
-  dependencies:
-    - release-preprod
 # endregion
 
 # region publish code

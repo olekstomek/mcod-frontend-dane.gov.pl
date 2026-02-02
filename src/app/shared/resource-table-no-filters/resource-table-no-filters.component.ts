@@ -105,11 +105,6 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
   hoveredRowIndex = -1;
 
   /**
-   * Determines focused cell index number
-   */
-  focusedCell = -1;
-
-  /**
    * Determines whether table width is full or limited to parent
    */
   isTableFullWidth = false;
@@ -210,47 +205,15 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
    * View mouse leave event, clears focus
    */
   onMouseLeave() {
-    if (!this.focusedCell) {
-      this.hoveredRowIndex = -1;
-    }
+    this.hoveredRowIndex = -1;
   }
 
   /**
-   * Movement inside tbody via keyboard's arrows
-   * @param {KeyboardEvent} event
-   */
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowUp') {
-      return this.hoveredRowIndex - 1 > -1 && (this.hoveredRowIndex -= 1);
-    } else if (event.key === 'ArrowDown') {
-       return this.hoveredRowIndex + 1 < this.params.per_page && (this.hoveredRowIndex += 1);
-    } else if (event.key === 'ArrowRight') {
-      return this.focusedCell + 1 < this.columns.length && (this.focusedCell += 1);
-    } else if (event.key === 'ArrowLeft') {
-      return this.focusedCell - 1 > -1 && (this.focusedCell -= 1);
-    } else {
-      return this.hoveredRowIndex > -1 && this.focusedCell > -1 && this.setFocus();
-    }
-  }
-
-  /**
-   * Sets cell focus using arrow keys
-   */
-  setFocus() {
-    const row = this.resourceTableRef.nativeElement.querySelectorAll('tbody tr')[this.hoveredRowIndex];
-    const cell = row.querySelectorAll('td')[this.focusedCell];
-
-    cell.focus();
-  }
-
-  /**
-   * Sets cell focus using mouse
+   * View mouse enter event, sets focus
    * @param {number} rowIndex
-   * @param {number} cellIndex
    */
-  onFocus(rowIndex: number, cellIndex: number) {
+  onMouseEnter(rowIndex: number) {
     this.hoveredRowIndex = rowIndex;
-    this.focusedCell = cellIndex;
   }
 
   /**

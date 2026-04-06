@@ -152,7 +152,7 @@ describe('CmsService', () => {
   });
 
   it('get - Observable should return value', async () => {
-    service.get('https://test.pl').subscribe(value => {
+    service.get('https://test.pl').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -164,25 +164,25 @@ describe('CmsService', () => {
       children_extra_fields: 'body,author',
       children_sort: 'relevance',
     };
-    service.getAllNewsWidgets(params).subscribe(value => {
+    service.getAllNewsWidgets(params).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getNewsWidgets - Observable should return value', async () => {
-    service.getNewsWidgets('22').subscribe(value => {
+    service.getNewsWidgets('22').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getHomePageWidgets - Observable should return value', async () => {
-    service.getHomePageWidgets().subscribe(value => {
+    service.getHomePageWidgets().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getImageMetaData - Observable should return value', async () => {
-    service.getImageMetaData(22).subscribe(value => {
+    service.getImageMetaData(22).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -202,7 +202,7 @@ describe('CmsService', () => {
         blocks: [],
       },
     };
-    service.getLandingPage('https://test.pl').subscribe(value => {
+    service.getLandingPage('https://test.pl').subscribe((value) => {
       expect(value).toEqual(iPageCms);
     });
   });
@@ -222,7 +222,7 @@ describe('CmsService', () => {
         blocks: [],
       },
     };
-    service.getSimplePage('https://test.pl').subscribe(value => {
+    service.getSimplePage('https://test.pl').subscribe((value) => {
       expect(value).toEqual(iPageCms);
     });
   });
@@ -239,13 +239,13 @@ describe('CmsService', () => {
       formsets: [],
       formsetObjects: [],
     };
-    service.getForms('https://test.pl').subscribe(value => {
+    service.getForms('https://test.pl').subscribe((value) => {
       expect(value).toEqual(iCmsForms);
     });
   });
 
   it('sendForm - Observable should return value', async () => {
-    service.sendForm('https://test.pl', {}).subscribe(value => {
+    service.sendForm('https://test.pl', {}).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

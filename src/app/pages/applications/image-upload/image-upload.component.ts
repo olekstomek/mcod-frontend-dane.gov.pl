@@ -1,5 +1,15 @@
 import { LowerCasePipe, NgIf } from '@angular/common';
-import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   ControlContainer,
@@ -16,28 +26,23 @@ import { FileSizeComponent } from '@app/shared/file-size/file-size.component';
 import { StringHelper } from '@app/shared/helpers/string.helper';
 
 @Component({
-    selector: 'app-image-upload',
-    templateUrl: './image-upload.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ImageUploadComponent),
-            multi: true,
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => ImageUploadComponent),
-            multi: true,
-        },
-    ],
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        FileSizeComponent,
-        LowerCasePipe,
-        TranslatePipe,
-    ],
+  selector: 'app-image-upload',
+  templateUrl: './image-upload.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ImageUploadComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => ImageUploadComponent),
+      multi: true,
+    },
+  ],
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgIf, FileSizeComponent, LowerCasePipe, TranslatePipe],
 })
 export class ImageUploadComponent implements OnInit, ControlValueAccessor {
   /**
@@ -199,7 +204,7 @@ export class ImageUploadComponent implements OnInit, ControlValueAccessor {
     this.uploadedFile = null;
     this.uploadedImagePreview = null;
 
-    (<HTMLInputElement>this.imageInput.nativeElement).value = '';
+    (this.imageInput.nativeElement as HTMLInputElement).value = '';
     this.control.reset();
     this.imageDataChanged.emit(null);
   }

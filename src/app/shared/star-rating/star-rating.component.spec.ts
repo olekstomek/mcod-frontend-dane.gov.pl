@@ -13,11 +13,7 @@ describe('StarRatingComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), StarRatingComponent],
-      providers: [
-        provideNgxLocalstorage(),
-        provideRouter([]),
-        provideHttpClientTesting()
-      ]
+      providers: [provideNgxLocalstorage(), provideRouter([]), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StarRatingComponent);

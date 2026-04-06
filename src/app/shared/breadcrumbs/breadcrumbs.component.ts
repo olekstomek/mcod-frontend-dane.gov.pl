@@ -7,27 +7,21 @@ import { Subscription } from 'rxjs';
 import { RoutingHelper } from '@app/services/commons/routing-helper';
 import { Breadcrumb } from '@app/shared/breadcrumbs/Breadcrumb';
 import { BreadcrumbService } from '@app/shared/breadcrumbs/breadcrumb.service';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Breadcrumbs global component
  */
 @Component({
-    selector: 'app-breadcrumbs',
-    templateUrl: './breadcrumbs.component.html',
-    standalone: true,
-  imports: [
-    RouterLink,
-    SlicePipe,
-    TranslatePipe,
-    SanitizeHtmlPipe,
-  ],
+  selector: 'app-breadcrumbs',
+  templateUrl: './breadcrumbs.component.html',
+  standalone: true,
+  imports: [RouterLink, SlicePipe, TranslatePipe],
 })
 export class BreadcrumbsComponent implements OnDestroy {
   /**
    * Breadcrumbs value
    */
-  public breadcrumbs: Array<Breadcrumb>;
+  public breadcrumbs: Breadcrumb[];
 
   /**
    * Determines breadcrumbs visibility based on specific page. By default breadcrumbs are hidden on home page.
@@ -45,9 +39,12 @@ export class BreadcrumbsComponent implements OnDestroy {
    * @param {BreadcrumbService} breadcrumbService
    * @param router
    */
-  constructor(private readonly breadcrumbService: BreadcrumbService, private readonly router: Router) {
-    this.breadcrumbs$ = this.breadcrumbService.getBreadcrumbs().subscribe(res => {
-      const filteredBreadcrumbs = res.filter((item) =>  item.label !== '');
+  constructor(
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly router: Router,
+  ) {
+    this.breadcrumbs$ = this.breadcrumbService.getBreadcrumbs().subscribe((res) => {
+      const filteredBreadcrumbs = res.filter((item) => item.label !== '');
       this.breadcrumbs = filteredBreadcrumbs.map((item, index) => {
         if (index + 1 === filteredBreadcrumbs.length) {
           item.lastChild = true;

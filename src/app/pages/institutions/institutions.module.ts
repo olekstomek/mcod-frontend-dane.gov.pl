@@ -14,22 +14,24 @@ import { DatepickerModule } from '@app/shared/datepicker/datepicker.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        InstitutionsRoutingModule,
-        AppBootstrapModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser,
-            },
-        }),
-        FormsModule,
-        SharedModule,
-        DatepickerModule,
-        ReactiveFormsModule,
-        ClipboardModule,
-        InstitutionComponent, InstitutionItemComponent, InstitutionItemListViewFiltersComponent,
-    ],
+  imports: [
+    CommonModule,
+    InstitutionsRoutingModule,
+    AppBootstrapModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    FormsModule,
+    SharedModule,
+    DatepickerModule,
+    ReactiveFormsModule,
+    ClipboardModule,
+    InstitutionComponent,
+    InstitutionItemComponent,
+    InstitutionItemListViewFiltersComponent,
+  ],
 })
 export class InstitutionsModule {}

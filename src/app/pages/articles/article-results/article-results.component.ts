@@ -5,11 +5,11 @@ import { ResultListComponent } from '@app/shared/result-list/result-list.compone
 import { DetailsResultItemComponent } from '@app/shared/result-list/right-column/details-result-item/details-result-item.component';
 
 @Component({
-    selector: 'app-article-results',
-    templateUrl: './article-results.component.html',
-    standalone: true,
-    imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent]
+  selector: 'app-article-results',
+  templateUrl: './article-results.component.html',
+  standalone: true,
+  imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent],
 })
 export class ArticleResultsComponent {
-    @Input() items: any;
+  @Input() items: any;
 }

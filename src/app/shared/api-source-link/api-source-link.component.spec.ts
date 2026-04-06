@@ -12,9 +12,7 @@ describe('ApiSourceLinkComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), ApiSourceLinkComponent],
-      providers: [
-        importProvidersFrom(AppTestingModule)
-      ]
+      providers: [importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ApiSourceLinkComponent);
@@ -33,12 +31,15 @@ describe('ApiSourceLinkComponent', () => {
     expect(component.apiUrl).toEqual('localhost:8080/homepage?lang=pl');
   }));
 
-  it('should call ngOnChanges for apiUrl with params', inject([TranslateService], (translateService: TranslateService) => {
-    component.apiUrl = 'localhost:8080/homepage?sort=relevance';
-    translateService.currentLang = 'pl';
-    component.ngOnChanges({ apiUrl: new SimpleChange(null, component.apiUrl, true) });
-    expect(component.apiUrl).toEqual('localhost:8080/homepage?sort=relevance&lang=pl');
-  }));
+  it('should call ngOnChanges for apiUrl with params', inject(
+    [TranslateService],
+    (translateService: TranslateService) => {
+      component.apiUrl = 'localhost:8080/homepage?sort=relevance';
+      translateService.currentLang = 'pl';
+      component.ngOnChanges({ apiUrl: new SimpleChange(null, component.apiUrl, true) });
+      expect(component.apiUrl).toEqual('localhost:8080/homepage?sort=relevance&lang=pl');
+    },
+  ));
 
   it('should call ngOnChanges for apiUrl when component.apiUrl is not defined', inject(
     [TranslateService],

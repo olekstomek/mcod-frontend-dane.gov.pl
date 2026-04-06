@@ -24,7 +24,7 @@ describe('InstitutionsService', () => {
   });
 
   it('Observable should return value', () => {
-    service.getOne('44').subscribe(value => {
+    service.getOne('44').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value.length).toBeGreaterThan(0);

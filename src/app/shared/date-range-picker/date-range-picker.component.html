@@ -2,8 +2,7 @@
 <div
   class="d-flex align-items-center"
   appInfoTooltip="{{ 'Tour.Tooltip.Filters.' + titleTranslationKey + '.text' | translate }}"
-  tooltipTitle="{{ 'Tour.Tooltip.Filters.' + titleTranslationKey + '.title' | translate }}"
->
+  tooltipTitle="{{ 'Tour.Tooltip.Filters.' + titleTranslationKey + '.title' | translate }}">
   <span class="font-weight-bold" *ngIf="titleTranslationKey">
     {{ titleTranslationKey | translate }}
   </span>
@@ -14,8 +13,7 @@
     class="btn btn-link d-inline-block d-lg-none ml-auto"
     *ngIf="titleTranslationKey"
     [attr.aria-pressed]="isCollapsed"
-    (click)="isCollapsed = !isCollapsed"
-  >
+    (click)="isCollapsed = !isCollapsed">
     {{ (isCollapsed ? 'Action.Collapse' : 'Action.Expand') | translate }}
   </button>
 </div>
@@ -35,8 +33,7 @@
           [date]="startDate"
           [maxDate]="endDate"
           [placeholderTranslationKey]="''"
-          label="{{ 'Attribute.Date' | translate }} {{ 'Attribute.From' | translate | lowercase }}"
-        >
+          label="{{ 'Attribute.Date' | translate }} {{ 'Attribute.From' | translate | lowercase }}">
         </app-datepicker>
       </span>
 
@@ -51,8 +48,7 @@
           [date]="endDate"
           [minDate]="startDate"
           [placeholderTranslationKey]="''"
-          label="{{ 'Attribute.Date' | translate }} {{ 'Attribute.To' | translate | lowercase }}"
-        >
+          label="{{ 'Attribute.Date' | translate }} {{ 'Attribute.To' | translate | lowercase }}">
         </app-datepicker>
       </span>
     </div>

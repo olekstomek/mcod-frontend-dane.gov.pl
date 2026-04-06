@@ -8,58 +8,57 @@ import { ScheduleTableAction } from '@app/user/schedule/table/domain/schedule-ta
  * Schedule Link Component
  */
 @Component({
-    selector: 'app-schedule-button',
-    templateUrl: './schedule-button.component.html',
-    standalone: true,
-    imports: [TranslatePipe]
+  selector: 'app-schedule-button',
+  templateUrl: './schedule-button.component.html',
+  standalone: true,
+  imports: [TranslatePipe],
 })
 export class ScheduleButtonComponent implements ScheduleTableAction {
+  /**
+   * Url
+   * @type {string}
+   */
+  @Input()
+  onClick: (data?: any) => void;
 
-    /**
-     * Url
-     * @type {string}
-     */
-    @Input()
-    onClick: (data?: any) => void;
+  /**
+   * Icon Name
+   * @type {string}
+   */
+  @Input()
+  iconName: string;
 
-    /**
-     * Icon Name
-     * @type {string}
-     */
-    @Input()
-    iconName: string;
+  /**
+   * Title
+   * @type {string}
+   */
+  @Input()
+  titleTranslationKey: string;
 
-    /**
-     * Title
-     * @type {string}
-     */
-    @Input()
-    titleTranslationKey: string;
+  /**
+   * Class name
+   * @type {string}
+   */
+  @Input()
+  className: string;
 
-    /**
-     * Class name
-     * @type {string}
-     */
-    @Input()
-    className: string;
+  /**
+   * Button clicked event emitter
+   * @type {EventEmitter<MouseEvent>}
+   */
+  @Output()
+  buttonClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-    /**
-     * Button clicked event emitter
-     * @type {EventEmitter<MouseEvent>}
-     */
-    @Output()
-    buttonClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  /**
+   * Unique id
+   */
+  generatedId = StringHelper.generateRandomHex();
 
-    /**
-     * Unique id
-     */
-    generatedId = StringHelper.generateRandomHex();
-
-    /**
-     * Emits event when button clicked
-     * @param $event
-     */
-    onButtonClicked($event: MouseEvent) {
-        this.buttonClicked.emit($event);
-    }
+  /**
+   * Emits event when button clicked
+   * @param $event
+   */
+  onButtonClicked($event: MouseEvent) {
+    this.buttonClicked.emit($event);
+  }
 }

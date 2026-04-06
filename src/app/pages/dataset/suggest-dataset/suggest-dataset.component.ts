@@ -24,8 +24,8 @@ import { NotificationsServerComponent } from '@app/shared/notifications-server/n
     NotificationsServerComponent,
     NgClass,
     LowerCasePipe,
-    MathCaptchaComponent
-  ]
+    MathCaptchaComponent,
+  ],
 })
 export class SuggestDatasetComponent implements OnInit {
   /**
@@ -36,17 +36,21 @@ export class SuggestDatasetComponent implements OnInit {
   /**
    * Determines whether suggestion is sent
    */
-  isSuggestionSent: boolean = false;
+  isSuggestionSent = false;
 
   /**
    * Max number of characters in notes (description)
    */
-  maxDescriptionLength: number = 3000;
+  maxDescriptionLength = 3000;
 
   /**
    * @ignore
    */
-  constructor(private seoService: SeoService, private datasetService: DatasetService, private notificationsService: NotificationsService) {}
+  constructor(
+    private seoService: SeoService,
+    private datasetService: DatasetService,
+    private notificationsService: NotificationsService,
+  ) {}
 
   /**
    * Sets META tags (title).
@@ -59,7 +63,10 @@ export class SuggestDatasetComponent implements OnInit {
       title: new UntypedFormControl(null, Validators.required),
       notes: new UntypedFormControl(null, [Validators.required, Validators.maxLength(this.maxDescriptionLength)]),
       organization_name: new UntypedFormControl(null),
-      data_link: new UntypedFormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
+      data_link: new UntypedFormControl(
+        null,
+        Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+      ),
       potential_possibilities: new UntypedFormControl(null),
       captcha: new UntypedFormControl(null, Validators.required),
     });
@@ -70,17 +77,19 @@ export class SuggestDatasetComponent implements OnInit {
       return null;
     }
     if (data_link && (data_link.split('http://').length > 1 || data_link.split('https://').length > 1)) {
-    return data_link;
-  } else {
-    return 'http://' + data_link;
+      return data_link;
+    } else {
+      return 'http://' + data_link;
+    }
   }
-}
 
   /**
    * Determines whether dataset form is submitted
    */
   onDatasetFormSubmit() {
-    if (!this.datasetForm.valid) { return; }
+    if (!this.datasetForm.valid) {
+      return;
+    }
 
     this.notificationsService.clearAlerts();
     const formValue = { ...this.datasetForm.value };
@@ -102,7 +111,7 @@ export class SuggestDatasetComponent implements OnInit {
 
     this.datasetService.sendSubmission(JSON.parse(payload)).subscribe(
       () => (this.isSuggestionSent = true),
-      error => {
+      (error) => {
         this.notificationsService.addError(error);
       },
     );

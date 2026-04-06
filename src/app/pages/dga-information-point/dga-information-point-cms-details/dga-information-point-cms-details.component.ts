@@ -11,15 +11,9 @@ import { CmsBlock2Component } from '@app/shared/cms/cms-block2/cms-block2.compon
   selector: 'app-dga-information-point-cms-details',
   templateUrl: './dga-information-point-cms-details.component.html',
   standalone: true,
-  imports: [
-    RouterLink,
-    TranslatePipe,
-    NgForOf,
-    CmsBlock2Component
-  ]
+  imports: [RouterLink, TranslatePipe, NgForOf, CmsBlock2Component],
 })
 export class DgaInformationPointCmsDetailsComponent implements OnInit {
-
   pageData: IPageCms;
   parentUrlPath: string;
 
@@ -27,13 +21,12 @@ export class DgaInformationPointCmsDetailsComponent implements OnInit {
     private seoService: SeoService,
     private route: ActivatedRoute,
     private translateService: TranslateService,
-    private translate: TranslateService
-  ) { }
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit(): void {
     this.pageData = this.route.snapshot.data['post'];
     this.parentUrlPath = '/' + this.translate.currentLang + '/dga';
     this.seoService.setPageTitle(this.pageData.title);
   }
-
 }

@@ -8,8 +8,7 @@
           [appTooltip]="isInFinderMode ? '' : 'Rozpocznij wyszukiwanie elementów'"
           [class.btn-outline-primary]="!isInFinderMode"
           [class.btn-primary]="isInFinderMode"
-          type="button"
-        >
+          type="button">
           <fa-icon [icon]="faLocationArrow"></fa-icon>
         </button>
       </div>
@@ -22,16 +21,26 @@
         name="cssSelector"
         class="form-control"
         id="tourPickerInput"
-        placeholder="Naciśnij prawym klawiszem aby pobrać selektor CSS dla zaznaczonego elementu"
-      />
+        placeholder="Naciśnij prawym klawiszem aby pobrać selektor CSS dla zaznaczonego elementu" />
 
       <div class="input-group-append">
-        <div [appTooltip]="!!!cssSelector?.length ? 'Pobierz element aby uaktywnić kopiowanie' : 'Skopiuj wybrany selector'">
-          <button class="btn btn-outline-primary" [disabled]="!!!cssSelector?.length" (click)="copyToClipboard()" type="button">
+        <div
+          [appTooltip]="
+            !!!cssSelector?.length ? 'Pobierz element aby uaktywnić kopiowanie' : 'Skopiuj wybrany selector'
+          ">
+          <button
+            class="btn btn-outline-primary"
+            [disabled]="!!!cssSelector?.length"
+            (click)="copyToClipboard()"
+            type="button">
             <fa-icon [icon]="faCopy"></fa-icon>
           </button>
         </div>
-        <button class="btn btn-outline-primary" [appTooltip]="'Zakończ wyszukiwanie elementów'" (click)="hidePicker()" type="button">
+        <button
+          class="btn btn-outline-primary"
+          [appTooltip]="'Zakończ wyszukiwanie elementów'"
+          (click)="hidePicker()"
+          type="button">
           <fa-icon [icon]="faTimes"></fa-icon>
         </button>
       </div>

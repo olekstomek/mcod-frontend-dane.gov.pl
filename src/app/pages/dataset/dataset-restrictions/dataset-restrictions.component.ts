@@ -5,7 +5,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { toggleVertically } from '@app/animations/toggle-vertically';
 import { LicensesService } from '@app/services/licenses.service';
 import { LicenseWithRules, ZeroLicense } from '@app/services/models/license';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Dataset Restrictions Component
@@ -16,12 +15,7 @@ import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
   providers: [LicensesService],
   animations: [toggleVertically],
   standalone: true,
-  imports: [
-    NgIf,
-    TranslatePipe,
-    SanitizeHtmlPipe,
-    NgForOf
-  ]
+  imports: [NgIf, TranslatePipe, NgForOf],
 })
 export class DatasetRestrictionsComponent implements OnInit {
   /**
@@ -69,7 +63,7 @@ export class DatasetRestrictionsComponent implements OnInit {
     }
 
     this.checkDatasetRestrictions();
-    this.licensesService.getLicense(this.dataset.attributes.license_name).subscribe(res => {
+    this.licensesService.getLicense(this.dataset.attributes.license_name).subscribe((res) => {
       this.license = res;
     });
   }

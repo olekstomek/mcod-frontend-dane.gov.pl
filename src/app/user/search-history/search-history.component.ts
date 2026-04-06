@@ -12,17 +12,10 @@ import { KeyvalueOrderPipe } from '@app/shared/pipes/keyvalue-order.pipe';
  * Search History Component
  */
 @Component({
-    templateUrl: './search-history.component.html',
-    standalone: true,
-    imports: [
-        NgFor,
-        RouterLink,
-        LocalizeRouterPipe,
-        KeyvalueOrderPipe,
-    ],
-    providers: [
-      SearchHistoryService
-    ]
+  templateUrl: './search-history.component.html',
+  standalone: true,
+  imports: [NgFor, RouterLink, LocalizeRouterPipe, KeyvalueOrderPipe],
+  providers: [SearchHistoryService],
 })
 export class SearchHistoryComponent implements OnInit {
   /**
@@ -47,7 +40,7 @@ export class SearchHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.seoService.setPageTitleByTranslationKey(['User.SearchHistory', 'MyDashboard.Self']);
 
-    this.service.getGroupedSearchHistory().subscribe(data => {
+    this.service.getGroupedSearchHistory().subscribe((data) => {
       this.groupedSearchHistory = data;
     });
   }

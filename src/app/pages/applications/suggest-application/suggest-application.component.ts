@@ -1,6 +1,22 @@
 import { AsyncPipe, LowerCasePipe, NgClass, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  Renderer2,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable, zip } from 'rxjs';
@@ -18,7 +34,6 @@ import { SeoService } from '@app/services/seo.service';
 import { DatasetAutocompleteDirective } from '@app/shared/directives/dataset-autocomplete.directive';
 import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TextToLinksPipe } from '@app/shared/pipes/text-to-links.pipe';
 import { getEventValue } from '@app/shared/util';
 
@@ -31,10 +46,10 @@ interface IComponentOptions {
  * Suggest Application Component
  */
 @Component({
-    selector: 'app-suggest-application',
-    templateUrl: './suggest-application.component.html',
-    animations: [toggleVertically],
-    standalone: true,
+  selector: 'app-suggest-application',
+  templateUrl: './suggest-application.component.html',
+  animations: [toggleVertically],
+  standalone: true,
   imports: [
     NgIf,
     RouterLink,
@@ -48,14 +63,12 @@ interface IComponentOptions {
     MathCaptchaComponent,
     LowerCasePipe,
     TranslatePipe,
-    SanitizeHtmlPipe,
     TextToLinksPipe,
     NgOptimizedImage,
     AsyncPipe,
   ],
 })
 export class SuggestApplicationComponent implements OnInit, AfterViewInit {
-
   /**
    * @ignore
    */
@@ -205,7 +218,9 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       is_mobile_app: new UntypedFormControl(false),
       myMobileUrlGroup: new UntypedFormGroup(
         {
-          mobile_apple_url: new UntypedFormControl(null, [Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')]),
+          mobile_apple_url: new UntypedFormControl(null, [
+            Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+          ]),
           mobile_google_url: new UntypedFormControl(null, [
             Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
           ]),
@@ -239,7 +254,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * set Urls group to disabled when the checkbox is not checked, set to enabled when checkbox is checked
    */
   ValueChangesUrlsGroup() {
-    this.applicationForm.get('is_mobile_app').valueChanges.subscribe(value => {
+    this.applicationForm.get('is_mobile_app').valueChanges.subscribe((value) => {
       if (value) {
         this.applicationForm.get('myMobileUrlGroup').enable();
       } else {
@@ -247,7 +262,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.applicationForm.get('is_desktop_app').valueChanges.subscribe(value => {
+    this.applicationForm.get('is_desktop_app').valueChanges.subscribe((value) => {
       if (value) {
         this.applicationForm.get('myDesktopUrlGroup').enable();
       } else {
@@ -292,7 +307,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     if (formValue['datasets'] && formValue['datasets'].length) {
       formValue['datasets'] = formValue['datasets']
         .filter(Boolean) // remove null values
-        .map(dataset => dataset['id']) // only ids
+        .map((dataset) => dataset['id']) // only ids
         .reduce(function (a, b) {
           // remove duplicates
           if (a.indexOf(b) < 0) {
@@ -313,7 +328,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
 
     // external datasets
     if (formValue['external_datasets'] && formValue['external_datasets'].length) {
-      formValue['external_datasets'] = formValue['external_datasets'].filter(item => {
+      formValue['external_datasets'] = formValue['external_datasets'].filter((item) => {
         if (item['title'] && item['url']) {
           item['url'] = this.addHttpIfMissing(item['url']);
           return item;
@@ -353,8 +368,8 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     }
 
     this.applicationsService.suggest(formValue).subscribe({
-      next: () => this.isSuggestionSent = true,
-      error: err => this.notificationsService.addError(err)
+      next: () => (this.isSuggestionSent = true),
+      error: (err) => this.notificationsService.addError(err),
     });
   }
 
@@ -370,7 +385,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * Appends new, empty dataset row (input + remove button)
    */
   onAppendDatasetRow() {
-    (<UntypedFormArray>this.applicationForm.get('datasets')).push(
+    (this.applicationForm.get('datasets') as UntypedFormArray).push(
       new UntypedFormGroup({
         dataset: new UntypedFormControl(null),
         id: new UntypedFormControl(null),
@@ -382,10 +397,13 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * Appends new, empty external dataset row (input + input + remove button)
    */
   onAppendExternalDatasetRow() {
-    (<UntypedFormArray>this.applicationForm.get('external_datasets')).push(
+    (this.applicationForm.get('external_datasets') as UntypedFormArray).push(
       new UntypedFormGroup({
         title: new UntypedFormControl(null),
-        url: new UntypedFormControl(null, Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?')),
+        url: new UntypedFormControl(
+          null,
+          Validators.pattern('((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?'),
+        ),
       }),
     );
   }
@@ -395,7 +413,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * @param {number} index
    */
   onRemoveDatasetRow(index: number) {
-    (<UntypedFormArray>this.applicationForm.get('datasets')).removeAt(index);
+    (this.applicationForm.get('datasets') as UntypedFormArray).removeAt(index);
   }
 
   /**
@@ -403,15 +421,17 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * @param {number} index
    */
   onRemoveExternalDatasetRow(index: number) {
-    (<UntypedFormArray>this.applicationForm.get('external_datasets')).removeAt(index);
+    (this.applicationForm.get('external_datasets') as UntypedFormArray).removeAt(index);
   }
 
   onCheckPersonalDataProcessingAccepted(event: Event) {
-    this.applicationForm.patchValue({ is_personal_data_processing_accepted: (event.target as HTMLInputElement).checked});
+    this.applicationForm.patchValue({
+      is_personal_data_processing_accepted: (event.target as HTMLInputElement).checked,
+    });
   }
 
   onCheckIsTermsOfServiceAccepted(event: Event) {
-    this.applicationForm.patchValue({ is_terms_of_service_accepted: (event.target as HTMLInputElement).checked});
+    this.applicationForm.patchValue({ is_terms_of_service_accepted: (event.target as HTMLInputElement).checked });
   }
 
   /**
@@ -420,7 +440,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    * @param {number} index
    */
   onDatasetSelected(dataset, index: number) {
-    (<UntypedFormArray>this.applicationForm.get('datasets')).at(index).setValue({
+    (this.applicationForm.get('datasets') as UntypedFormArray).at(index).setValue({
       dataset: dataset.attributes.title,
       id: dataset.id,
     });
@@ -433,9 +453,11 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
    */
   onFileSelected(event) {
     // 'Cancel' clicked - no image chosen
-    if (!event.target.files.length) { return; }
+    if (!event.target.files.length) {
+      return;
+    }
 
-    const fileToUpload: File = <File>event.target.files[0];
+    const fileToUpload: File = event.target.files[0] as File;
 
     // not an image
     if (this.acceptedMimeTypes.indexOf(fileToUpload.type) === -1) {
@@ -462,7 +484,7 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
     let datasetCount = 0;
     let externalDatasetCount = 0;
 
-    this.datasetInputs.changes.subscribe(elements => {
+    this.datasetInputs.changes.subscribe((elements) => {
       // all elements removed
       if (!elements.length) {
         datasetCount = 0;
@@ -470,13 +492,15 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       }
 
       // no change
-      if (datasetCount === elements.length) { return; }
+      if (datasetCount === elements.length) {
+        return;
+      }
 
       datasetCount = elements.length;
-      (<HTMLInputElement>elements.last.nativeElement).focus();
+      (elements.last.nativeElement as HTMLInputElement).focus();
     });
 
-    this.externalDatasetTitleInputs.changes.subscribe(elements => {
+    this.externalDatasetTitleInputs.changes.subscribe((elements) => {
       // all elements removed
       if (!elements.length) {
         externalDatasetCount = 0;
@@ -484,10 +508,12 @@ export class SuggestApplicationComponent implements OnInit, AfterViewInit {
       }
 
       // no change
-      if (externalDatasetCount === elements.length) { return; }
+      if (externalDatasetCount === elements.length) {
+        return;
+      }
 
       externalDatasetCount = elements.length;
-      (<HTMLInputElement>elements.last.nativeElement).focus();
+      (elements.last.nativeElement as HTMLInputElement).focus();
     });
   }
 

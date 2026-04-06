@@ -4,9 +4,9 @@ export function requireOneUrlValidator(minRequired = 1): ValidatorFn {
   return function validate(formGroup: UntypedFormGroup) {
     let isNotEmpty = 0;
 
-    Object.keys(formGroup.controls).forEach(key => {
+    Object.keys(formGroup.controls).forEach((key) => {
       const control = formGroup.controls[key];
-      if (!!control.value) {
+      if (control.value) {
         isNotEmpty++;
       }
     });

@@ -12,20 +12,20 @@
       *ngIf="counters.length > 1"
       aria-labelledby="search-counters-label"
       [appInfoTooltip]="tooltipText"
-      [tooltipTitle]="tooltipTitle"
-    >
+      [tooltipTitle]="tooltipTitle">
       <ng-container *ngFor="let counter of counters; let isLastCounter = last">
         <li class="list-inline-item">
           <!-- outer route -->
-          <a *ngIf="counter.url" [routerLink]="counter.url" [queryParams]="counter.param">{{ counter.label }} ({{ counter.count }})</a>
+          <a *ngIf="counter.url" [routerLink]="counter.url" [queryParams]="counter.param"
+            >{{ counter.label }} ({{ counter.count }})</a
+          >
 
           <!-- inner route -->
           <button
             type="button"
             class="btn btn-link p-0"
             *ngIf="!counter.url && selectedModel !== counter.value"
-            (click)="updateParams({ 'model[terms]': counter.value }, true)"
-          >
+            (click)="updateParams({ 'model[terms]': counter.value }, true)">
             <svg class="icon" style="stroke: none" *ngIf="counter.value !== 'dataset,resource'">
               <use [attr.href]="'assets/icomoon/SVG/' + counter.value + '.svg#' + counter.value"></use>
             </svg>
@@ -41,8 +41,7 @@
               *ngIf="counter.value !== 'dataset,resource'"
               [src]="'assets/icomoon/SVG/' + counter.value + 'Black.svg'"
               alt=""
-              style="vertical-align: top"
-            />
+              style="vertical-align: top" />
             {{ counter.label }} ({{ counter.count }})</span
           >
 
@@ -60,7 +59,10 @@
       <span class="visually-hidden"> ({{ 'Search.AutoContentReload' | translate }}) </span>
     </span>
 
-    <select class="form-select sort-order" (change)="updateParams({ sort: getValue($event) })" aria-labelledby="sortby-label">
+    <select
+      class="form-select sort-order"
+      (change)="updateParams({ sort: getValue($event) })"
+      aria-labelledby="sortby-label">
       <option [ngValue]="null" *ngIf="!isSortValid">
         {{ 'Action.Choose' | translate }}
       </option>

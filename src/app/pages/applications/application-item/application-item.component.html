@@ -54,19 +54,27 @@
       <div
         class="d-flex"
         appInfoTooltip="{{
-          'Tour.Tooltip.InnovationDetails.Link.text' | translate: { param1: categoryNameForTooltip, param2: categoryNameForTooltipPlural }
+          'Tour.Tooltip.InnovationDetails.Link.text'
+            | translate: { param1: categoryNameForTooltip, param2: categoryNameForTooltipPlural }
         }}"
         tooltipTitle="{{
           application.attributes.category === 'app'
             ? ('Tour.Tooltip.InnovationDetails.Link.title' | translate)
             : ('Tour.Tooltip.InnovationDetails.LinkNoApp.title' | translate)
         }}"
-        withoutMargin
-      >
+        withoutMargin>
         <p class="item-view__attribute">
           <span class="font-weight-bold">{{ 'Attribute.Page' | translate }}:</span>
-          <a class="with-chevron" href="{{ application.attributes.url }}" target="_blank" *ngIf="application?.attributes.url">
-            {{ application.attributes.category === 'app' ? ('Applications.Link' | translate) : ('Applications.LinkNoApp' | translate) }}
+          <a
+            class="with-chevron"
+            href="{{ application.attributes.url }}"
+            target="_blank"
+            *ngIf="application?.attributes.url">
+            {{
+              application.attributes.category === 'app'
+                ? ('Applications.Link' | translate)
+                : ('Applications.LinkNoApp' | translate)
+            }}
 
             <span class="visually-hidden">
               {{ application?.attributes.title }}
@@ -88,8 +96,7 @@
             class="btn btn-outline-primary btn-sm pr-3 pl-3 mr-3"
             href="{{ application.attributes.mobile_apple_url }}"
             target="_blank"
-            *ngIf="application?.attributes.mobile_apple_url"
-          >
+            *ngIf="application?.attributes.mobile_apple_url">
             <img class="mr-2" src="assets/icomoon/SVG/ic-apple.svg" alt="" />
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.AppStore' | translate }}</span>
@@ -103,8 +110,7 @@
             class="btn btn-outline-primary btn-sm pr-3 pl-3"
             href="{{ application.attributes.mobile_google_url }}"
             target="_blank"
-            *ngIf="application?.attributes.mobile_google_url"
-          >
+            *ngIf="application?.attributes.mobile_google_url">
             <img class="mr-2" src="assets/icomoon/SVG/ic-android.svg" alt="" />
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.GooglePlay' | translate }}</span>
@@ -125,8 +131,7 @@
             class="btn btn-outline-primary btn-sm pr-3 pl-3 mr-3"
             href="{{ application.attributes.desktop_macos_url }}"
             target="_blank"
-            *ngIf="application?.attributes.desktop_macos_url"
-          >
+            *ngIf="application?.attributes.desktop_macos_url">
             <img class="mr-2" src="assets/icomoon/SVG/ic-apple.svg" alt="" />
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.IosStore' | translate }}</span>
@@ -140,8 +145,7 @@
             class="btn btn-outline-primary btn-sm pr-3 pl-3 mr-3"
             href="{{ application.attributes.desktop_linux_url }}"
             target="_blank"
-            *ngIf="application?.attributes.desktop_linux_url"
-          >
+            *ngIf="application?.attributes.desktop_linux_url">
             <img class="mr-2" src="assets/icomoon/SVG/ic-linux.svg" alt="" />
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.LinuxStore' | translate }}</span>
@@ -155,8 +159,7 @@
             class="btn btn-outline-primary btn-sm pr-3 pl-3"
             href="{{ application.attributes.desktop_windows_url }}"
             target="_blank"
-            *ngIf="application?.attributes.desktop_windows_url"
-          >
+            *ngIf="application?.attributes.desktop_windows_url">
             <img class="mr-2" src="assets/icomoon/SVG/ic-windows.svg" alt="" />
             <span class="mr-1">{{ 'Attribute.GoTo' | translate }}</span>
             <span>{{ 'Attribute.WindowsStore' | translate }}</span>
@@ -192,15 +195,15 @@
         <div *ngIf="application?.attributes.illustrative_graphics_url" class="mr-4 mw-50">
           <img
             src="{{ application?.attributes.illustrative_graphics_url }}"
-            alt="{{ application?.attributes.illustrative_graphics_alt ? application?.attributes.illustrative_graphics_alt : '' }}"
-          />
+            alt="{{
+              application?.attributes.illustrative_graphics_alt ? application?.attributes.illustrative_graphics_alt : ''
+            }}" />
         </div>
 
         <!-- notes -->
         <div
-          [innerHTML]="application?.attributes.notes | sanitizeHtml"
-          [ngClass]="application?.attributes.illustrative_graphics_url ? 'mw-50' : 'mw-100'"
-        ></div>
+          [innerHTML]="application?.attributes.notes"
+          [ngClass]="application?.attributes.illustrative_graphics_url ? 'mw-50' : 'mw-100'"></div>
       </div>
     </div>
   </section>
@@ -212,10 +215,10 @@
         <div
           class="heading heading--sm heading--separator"
           appInfoTooltip="{{
-            'Tour.Tooltip.InnovationDetails.RelatedDatasets.text' | translate: { param: categoryNameForTooltipPluralDataset }
+            'Tour.Tooltip.InnovationDetails.RelatedDatasets.text'
+              | translate: { param: categoryNameForTooltipPluralDataset }
           }}"
-          tooltipTitle="{{ 'Tour.Tooltip.InnovationDetails.RelatedDatasets.title' | translate }}"
-        >
+          tooltipTitle="{{ 'Tour.Tooltip.InnovationDetails.RelatedDatasets.title' | translate }}">
           {{ 'Institutions.RelatedDatasets' | translate }}
           <small>({{ count || 0 }})</small>
         </div>
@@ -226,7 +229,10 @@
             <span class="visually-hidden"> ({{ 'Search.AutoContentReload' | translate }}) </span>
           </span>
 
-          <select class="form-select sort-order" (change)="updateParams({ sort: getValue($event) })" aria-labelledby="sortby-label">
+          <select
+            class="form-select sort-order"
+            (change)="updateParams({ sort: getValue($event) })"
+            aria-labelledby="sortby-label">
             <option [ngValue]="null" *ngIf="!isSortValid">
               {{ 'Action.Choose' | translate }}
             </option>
@@ -244,15 +250,15 @@
       <footer class="results-footer" *ngIf="items && items.length">
         <div class="d-flex justify-content-between align-items-center">
           <!-- results per page -->
-          <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+          <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+          </app-items-per-page>
 
           <!-- pagination -->
           <app-pagination
             [itemsPerPage]="params.per_page"
             [totalItems]="count"
             [(page)]="params.page"
-            (pageChange)="updateParams({ page: $event })"
-          >
+            (pageChange)="updateParams({ page: $event })">
           </app-pagination>
         </div>
       </footer>

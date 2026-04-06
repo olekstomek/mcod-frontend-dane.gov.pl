@@ -6,8 +6,6 @@ import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 import { AppTestingModule } from '@app/app.testing.module';
 import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
 
-
-
 describe('DatasetMetadataComponent', () => {
   let component: DatasetMetadataComponent;
   let fixture: ComponentFixture<DatasetMetadataComponent>;
@@ -23,9 +21,9 @@ describe('DatasetMetadataComponent', () => {
           defaultLanguage: 'pl',
           useDefaultLang: true,
         }),
-        DatasetMetadataComponent
+        DatasetMetadataComponent,
       ],
-      providers: [importProvidersFrom(AppTestingModule)]
+      providers: [importProvidersFrom(AppTestingModule)],
     });
 
     fixture = TestBed.createComponent(DatasetMetadataComponent);

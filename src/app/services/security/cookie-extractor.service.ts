@@ -18,7 +18,7 @@ export class CookieExtractor implements HttpXsrfTokenExtractor {
    * Last cookie value
    * @type {string}
    */
-  private lastCookieString: string = '';
+  private lastCookieString = '';
 
   /**
    * Last parsed token
@@ -30,12 +30,15 @@ export class CookieExtractor implements HttpXsrfTokenExtractor {
    * Cookie parse count
    * @type {number}
    */
-  private parseCount: number = 0;
+  private parseCount = 0;
 
   /**
    * @ignore
    */
-  constructor(@Inject(DOCUMENT) private doc: Document, @Inject(PLATFORM_ID) private platform: string) {}
+  constructor(
+    @Inject(DOCUMENT) private doc: Document,
+    @Inject(PLATFORM_ID) private platform: string,
+  ) {}
 
   /**
    * Gets token CSRF token from cookie

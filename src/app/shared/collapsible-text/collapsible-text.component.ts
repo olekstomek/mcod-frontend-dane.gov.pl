@@ -5,22 +5,16 @@ import { StringHelper } from '../helpers/string.helper';
 import { TruncateTextPipe } from '../pipes/truncate-text.pipe';
 
 import { toggleVertically } from '@app/animations';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Truncated text component with expand/ collapse button
  */
 @Component({
-    selector: 'collapsible-text',
-    templateUrl: './collapsible-text.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        TranslatePipe,
-        SanitizeHtmlPipe,
-        TruncateTextPipe,
-    ],
+  selector: 'collapsible-text',
+  templateUrl: './collapsible-text.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgIf, TranslatePipe, TruncateTextPipe],
 })
 export class CollapsibleTextComponent {
   /**

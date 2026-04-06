@@ -19,20 +19,20 @@ import {
  * Multiselect which options are expandable
  */
 @Component({
-    selector: 'app-expandable-multiselect',
-    templateUrl: './expandable-multiselect.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        InfoTooltipDirective,
-        NgIf,
-        NgClass,
-        RegionsSearchComponent,
-        ListViewFiltersActionButtonsComponent,
-        ExpandableMultiselectSearchInputComponent,
-        ExpandableMultiselectListComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-expandable-multiselect',
+  templateUrl: './expandable-multiselect.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    InfoTooltipDirective,
+    NgIf,
+    NgClass,
+    RegionsSearchComponent,
+    ListViewFiltersActionButtonsComponent,
+    ExpandableMultiselectSearchInputComponent,
+    ExpandableMultiselectListComponent,
+    TranslatePipe,
+  ],
 })
 export class ExpandableMultiselectComponent {
   /**

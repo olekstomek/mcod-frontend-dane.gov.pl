@@ -19,19 +19,11 @@ import { IDisplayedObjectInfo, INominatimGeocodeResponse } from '@app/services/m
 import { NominatimGeocodeService } from '@app/services/nominatim-geocode.service';
 
 @Component({
-    selector: 'app-map-options',
-    templateUrl: './map-options.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        FormsModule,
-        SliderComponent,
-        NgClass,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-    ],
+  selector: 'app-map-options',
+  templateUrl: './map-options.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, FormsModule, SliderComponent, NgClass, NgFor, AsyncPipe, TranslatePipe],
 })
 export class MapOptionsComponent implements OnChanges, OnDestroy {
   @Output() displayPointsInRange = new EventEmitter();
@@ -69,7 +61,7 @@ export class MapOptionsComponent implements OnChanges, OnDestroy {
   ngOnChanges() {
     this.setActualRangeFromSavedSettings();
 
-    this.labelsSubscription = this.labels.subscribe(res => {
+    this.labelsSubscription = this.labels.subscribe((res) => {
       if (res) {
         this.labelsList = Array.from(res);
         this.changeDetectorRef.detectChanges();
@@ -107,7 +99,7 @@ export class MapOptionsComponent implements OnChanges, OnDestroy {
     this.inputError = false;
     this.address = address.value;
     this.mapService.searchAddress(address.value).subscribe(
-      response => {
+      (response) => {
         if (response.features.length === 0) {
           this.hasFoundAddress.next(false);
         } else {
@@ -124,7 +116,7 @@ export class MapOptionsComponent implements OnChanges, OnDestroy {
           this.saveUserSettings.emit(this.userSettings);
         }
       },
-      err => {
+      (err) => {
         console.log('ERROR: ', err);
       },
     );
@@ -135,7 +127,7 @@ export class MapOptionsComponent implements OnChanges, OnDestroy {
       this.markObject(this.selectedListItem);
       return;
     } else {
-      const element = this.labelsList.filter(el => el.layerId === id);
+      const element = this.labelsList.filter((el) => el.layerId === id);
       this.selectedListItem = element.length ? element[0] : this.resetSelectedListItem();
       this.changeDetectorRef.detectChanges();
     }
@@ -149,7 +141,7 @@ export class MapOptionsComponent implements OnChanges, OnDestroy {
       (location: INominatimGeocodeResponse) => {
         this.document.querySelector<HTMLInputElement>('#searchAddressInput').value = location.display_name;
       },
-      err => {
+      (err) => {
         console.log('ERROR: ', err);
       },
     );
@@ -164,9 +156,13 @@ export class MapOptionsComponent implements OnChanges, OnDestroy {
   markObject(item: IDisplayedObjectInfo) {
     const prevItem = this.selectedListItem;
     this.selectedListItem = this.selectedListItem.id === item.id ? this.resetSelectedListItem() : item;
-    const updatedPrevObj = this.labelsList.filter(el => el.id === prevItem.id);
+    const updatedPrevObj = this.labelsList.filter((el) => el.id === prevItem.id);
     const updatedPrevLayerId = updatedPrevObj.length ? updatedPrevObj[0].layerId : null;
-    this.selectLabel.emit({ prevLayerId: updatedPrevLayerId, newLayerId: this.selectedListItem.layerId, onListTriggered: true });
+    this.selectLabel.emit({
+      prevLayerId: updatedPrevLayerId,
+      newLayerId: this.selectedListItem.layerId,
+      onListTriggered: true,
+    });
     this.changeDetectorRef.detectChanges();
   }
 
@@ -180,7 +176,7 @@ export class MapOptionsComponent implements OnChanges, OnDestroy {
 
   checkIfItemIsSelected() {
     if (this.selectedListItem.id) {
-      const filteredList = this.labelsList.filter(el => this.selectedListItem.id === el.id);
+      const filteredList = this.labelsList.filter((el) => this.selectedListItem.id === el.id);
       return filteredList.length ? { id: filteredList[0].layerId } : { id: null };
     }
     return { id: null };

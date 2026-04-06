@@ -15,15 +15,11 @@ import { FeedbackCounters } from '@app/user/data-proposal/details/FeedbackCounte
  * Data Proposal List Item Component
  */
 @Component({
-    selector: 'app-data-proposal-details',
-    templateUrl: './data-proposal-details.component.html',
-    providers: [{ provide: DataProposalService }],
-    standalone: true,
-    imports: [
-        NgIf,
-        FeedbackComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-data-proposal-details',
+  templateUrl: './data-proposal-details.component.html',
+  providers: [{ provide: DataProposalService }],
+  standalone: true,
+  imports: [NgIf, FeedbackComponent, TranslatePipe],
 })
 export class DataProposalDetailsComponent implements OnInit, OnDestroy {
   /**
@@ -41,7 +37,10 @@ export class DataProposalDetailsComponent implements OnInit, OnDestroy {
   /**
    * @ignore
    */
-  constructor(private readonly dataProposalService: DataProposalService, private readonly activatedRoute: ActivatedRoute) {}
+  constructor(
+    private readonly dataProposalService: DataProposalService,
+    private readonly activatedRoute: ActivatedRoute,
+  ) {}
 
   /**
    * Gets required data
@@ -51,7 +50,7 @@ export class DataProposalDetailsComponent implements OnInit, OnDestroy {
     this.dataProposalService
       .getOne(this.activatedRoute.snapshot.params.id)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(data => {
+      .subscribe((data) => {
         this.data = data;
       });
   }
@@ -124,7 +123,7 @@ export class DataProposalDetailsComponent implements OnInit, OnDestroy {
    * @param isRemoveRating
    * @returns {FeedbackCounters}
    */
-  private calculateFeedbackCount(action: Feedback, isRemoveRating: boolean = false): FeedbackCounters {
+  private calculateFeedbackCount(action: Feedback, isRemoveRating = false): FeedbackCounters {
     const feedbackCounters: FeedbackCounters = { ...this.data.attributes.feedback_counters };
 
     if (!isRemoveRating) {

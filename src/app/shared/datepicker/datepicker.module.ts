@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatMomentDateModule, MAT_MOMENT_DATE_FORMATS, } from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -20,41 +20,38 @@ import { SharedModule } from '@app/shared/shared.module';
 defineLocale('pl', plLocale);
 
 @NgModule({
-    exports: [
-        DatepickerComponent,
-        DateRangePickerComponent,
-    ],
-    imports: [
-        CommonModule,
-        BsDatepickerModule,
-        FormsModule,
-        SharedModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        MatDatepickerModule,
-        MatMomentDateModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        DatepickerComponent,
-        DateRangePickerComponent,
-        DateInputMaskDirective,
-    ],
-    providers: [
-        {
-            provide: MAT_DATE_FORMATS, useValue: {
-                ...MAT_MOMENT_DATE_FORMATS,
-                parse: {
-                    dateInput: ['DD-MM-YYYY'],
-                },
-                display: { ...MAT_MOMENT_DATE_FORMATS.display, dateInput: 'DD-MM-YYYY' },
-            }
+  exports: [DatepickerComponent, DateRangePickerComponent],
+  imports: [
+    CommonModule,
+    BsDatepickerModule,
+    FormsModule,
+    SharedModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    DatepickerComponent,
+    DateRangePickerComponent,
+    DateInputMaskDirective,
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        ...MAT_MOMENT_DATE_FORMATS,
+        parse: {
+          dateInput: ['DD-MM-YYYY'],
         },
-        { provide: MatDatepickerIntl, useClass: McodMatDatepickerIntl },
-    ]
+        display: { ...MAT_MOMENT_DATE_FORMATS.display, dateInput: 'DD-MM-YYYY' },
+      },
+    },
+    { provide: MatDatepickerIntl, useClass: McodMatDatepickerIntl },
+  ],
 })
-export class DatepickerModule {
-}
+export class DatepickerModule {}

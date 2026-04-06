@@ -7,8 +7,9 @@ import { IMetadataPageChildrenCms } from '@app/services/models/cms/metadata-page
  * Breadcrumbs Resolver for knowledgebase tab pages
  */
 
-export const breadcrumbsKnowledgeBaseTabDataResolverService =
-  (route: ActivatedRouteSnapshot): Observable<Array<IMetadataPageChildrenCms>> => {
+export const breadcrumbsKnowledgeBaseTabDataResolverService = (
+  route: ActivatedRouteSnapshot,
+): Observable<IMetadataPageChildrenCms[]> => {
   if (route.parent.data?.['post']?.meta?.children) {
     return of(route.parent.data['post'].meta.children);
   }

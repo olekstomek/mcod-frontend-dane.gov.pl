@@ -5,12 +5,11 @@ import {
   importProvidersFrom,
   PLATFORM_ID,
   provideZoneChangeDetection,
-  TransferState
+  TransferState,
 } from '@angular/core';
-import { bootstrapApplication, BrowserModule, provideClientHydration, Title } from '@angular/platform-browser';
+import { bootstrapApplication, BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environment';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
@@ -95,29 +94,28 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       provideCharts(withDefaultRegisterables()),
       provideNgxLocalstorage({
-        prefix: 'mcod'
+        prefix: 'mcod',
       }),
       provideZoneChangeDetection({ eventCoalescing: true }),
       importProvidersFrom(
         AppRoutingModule,
         BrowserAnimationsModule,
         BrowserModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.PWA }),
         TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient, TransferState]
-            },
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        })),
-        LeafletService,
-        TourService,
-        TourDataService,
-    ]
-})
-    .catch(err => console.error(err));
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient, TransferState],
+          },
+          parser: {
+            provide: TranslateParser,
+            useClass: TranslateICUParser,
+          },
+        }),
+      ),
+      LeafletService,
+      TourService,
+      TourDataService,
+    ],
+  }).catch((err) => console.error(err));
 });

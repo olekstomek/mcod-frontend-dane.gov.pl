@@ -11,16 +11,10 @@ import { DataProposalListItem } from '@app/user/data-proposal/list/DataProposalL
  * Data Proposal List Item Component
  */
 @Component({
-    selector: 'app-data-proposal-list-item',
-    templateUrl: './data-proposal-list-item.component.html',
-    standalone: true,
-    imports: [
-        RouterLink,
-        NgIf,
-        CollapsibleTextComponent,
-        TranslatePipe,
-        DateFormatPipe,
-    ],
+  selector: 'app-data-proposal-list-item',
+  templateUrl: './data-proposal-list-item.component.html',
+  standalone: true,
+  imports: [RouterLink, NgIf, CollapsibleTextComponent, TranslatePipe, DateFormatPipe],
 })
 export class DataProposalListItemComponent {
   /**

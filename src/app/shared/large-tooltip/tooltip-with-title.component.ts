@@ -7,14 +7,10 @@ import { TooltipData, TOOLTIP_DATA } from '@app/shared/tooltip/TooltipData';
  * Tooltip with title component
  */
 @Component({
-    selector: 'app-tooltip-with-title',
-    templateUrl: './tooltip-with-title.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-    ],
+  selector: 'app-tooltip-with-title',
+  templateUrl: './tooltip-with-title.component.html',
+  standalone: true,
+  imports: [NgIf, NgFor, NgClass],
 })
 export class TooltipWithTitleComponent implements OnInit {
   /**

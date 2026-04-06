@@ -11,17 +11,10 @@ import { CmsService } from '@app/services/cms.service';
 import { IPageCms } from '@app/services/models/cms/page-cms';
 
 @Component({
-    selector: 'app-rodo-modal',
-    templateUrl: './rodo-modal.component.html',
-    standalone: true,
-    imports: [
-        FocusTrapDirective,
-        NgIf,
-        LoaderComponent,
-        CmsBlock2Component,
-        LowerCasePipe,
-        TranslatePipe,
-    ],
+  selector: 'app-rodo-modal',
+  templateUrl: './rodo-modal.component.html',
+  standalone: true,
+  imports: [FocusTrapDirective, NgIf, LoaderComponent, CmsBlock2Component, LowerCasePipe, TranslatePipe],
 })
 export class RodoModalComponent implements OnInit {
   @Output() isModalClosed = new EventEmitter<null>();

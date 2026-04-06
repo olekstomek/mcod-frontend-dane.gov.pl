@@ -1,5 +1,15 @@
 import { NgClass } from '@angular/common';
-import { Component, DestroyRef, ElementRef, inject, Input, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  Input,
+  OnInit,
+  signal,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -24,11 +34,11 @@ import { ResourceTableColumn } from '@app/shared/resource-table/ResourceTableCol
     RouterLink,
     ResourceColumnDataPipe,
     PaginationComponent,
-    MatTooltip
+    MatTooltip,
   ],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class DataTableComponent implements OnInit {
   // TODO do more generic data fetching when more reports will be meant to display
@@ -59,7 +69,6 @@ export class DataTableComponent implements OnInit {
   focusedCell = -1;
 
   ngOnInit() {
-
     this.activatedRoute.queryParamMap
       .pipe(
         switchMap((qParamMap) => {
@@ -71,13 +80,13 @@ export class DataTableComponent implements OnInit {
           };
           this.params.update((value) => ({
             ...value,
-            ...params
+            ...params,
           }));
           return this.brokenLinksService.getBrokenLinksTableData(params);
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         if (!response['meta']['headers_map']) {
           this.hasTableView = false;
           return;
@@ -90,11 +99,9 @@ export class DataTableComponent implements OnInit {
           return;
         }
         this.columns = ResourceHelper.getTableColumns(response);
-        this.items = response['data'].map(item => item['attributes']);
+        this.items = response['data'].map((item) => item['attributes']);
         this.count = response['meta']['count'];
       });
-
-
   }
 
   updateParams(params: DefaultListViewParams) {
@@ -105,7 +112,7 @@ export class DataTableComponent implements OnInit {
     this.params.update((value) => {
       return {
         ...value,
-        ...params
+        ...params,
       };
     });
     this.router.navigate([], { queryParams: this.params(), replaceUrl: true });
@@ -139,5 +146,4 @@ export class DataTableComponent implements OnInit {
     const parts = url.split('/');
     return parts.slice(n).join('/');
   }
-
 }

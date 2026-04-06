@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { APP_CONFIG } from '@app/app.config';
 import { StringHelper } from '@app/shared/helpers/string.helper';
+import { unescape } from 'underscore';
 
 /**
  * Shared singleton service that handles every case of SEO
@@ -46,7 +47,7 @@ export class SeoService {
    * @param {string | null} text
    * @param {number} limitWords
    */
-  setDescriptionFromText(text: string | null, limitWords: number = 30) {
+  setDescriptionFromText(text: string | null, limitWords = 30) {
     if (!text) {
       return;
     }
@@ -61,7 +62,7 @@ export class SeoService {
    * @param {string[]} translationKeys
    */
   setPageTitleByTranslationKey(translationKeys: string[]) {
-    this.translate.stream(translationKeys).subscribe(translations => {
+    this.translate.stream(translationKeys).subscribe((translations) => {
       this.titleService.setTitle(`${Object.values(translations).join(' - ')} - ${APP_CONFIG.name}`);
     });
   }
@@ -70,7 +71,7 @@ export class SeoService {
    * Sets initial meta description
    */
   setInitialMetaDescription() {
-    this.translate.get(['Description']).subscribe(translation => {
+    this.translate.get(['Description']).subscribe((translation) => {
       if (isPlatformBrowser(this.platformId)) {
         this.setInitialMetaDescriptionInBrowser(translation);
       } else {

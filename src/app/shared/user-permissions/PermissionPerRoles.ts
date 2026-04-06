@@ -1,4 +1,3 @@
-/* tslint:disable:max-line-length */
 import { Role } from '@app/shared/user-permissions/Role';
 import { SchedulePermissionPerRole } from '@app/shared/user-permissions/SchedulePermissionPerRole';
 
@@ -19,7 +18,15 @@ export class PermissionPerRoles {
   /*
      User is allowed to browse lod
     */
-  static readonly BROWSE_LOD = [Role.LOGGED_IN, Role.OFFICIAL, Role.EDITOR, Role.ADMIN_AOD, Role.ADMIN_LOD, Role.PORTAL_ADMIN, Role.ADMIN];
+  static readonly BROWSE_LOD = [
+    Role.LOGGED_IN,
+    Role.OFFICIAL,
+    Role.EDITOR,
+    Role.ADMIN_AOD,
+    Role.ADMIN_LOD,
+    Role.PORTAL_ADMIN,
+    Role.ADMIN,
+  ];
 
   /*
      User is allowed to browse aod

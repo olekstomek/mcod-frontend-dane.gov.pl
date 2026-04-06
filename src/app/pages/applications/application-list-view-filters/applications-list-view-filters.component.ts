@@ -9,21 +9,21 @@ import { ListViewFilterAbstractComponent } from '@app/shared/filters/list-view-f
  * Applications filter wrapper for all components
  */
 @Component({
-    selector: 'app-applications-list-view-filters',
-    templateUrl: './applications-list-view-filters.component.html',
-    standalone: true,
-    imports: [ExpandableMultiselectComponent, TranslatePipe],
+  selector: 'app-applications-list-view-filters',
+  templateUrl: './applications-list-view-filters.component.html',
+  standalone: true,
+  imports: [ExpandableMultiselectComponent, TranslatePipe],
 })
 export class ApplicationsListViewFiltersComponent extends ListViewFilterAbstractComponent {
-    /**
-     * set filter name for automatic test
-     */
-    @Input() filterName: string;
+  /**
+   * set filter name for automatic test
+   */
+  @Input() filterName: string;
 
-    /**
-     * invokes applyFilter from extended component with applications filter names
-     */
-    applyFilter() {
-        super.applyFilter(ApplicationsListViewFilterNames);
-    }
+  /**
+   * invokes applyFilter from extended component with applications filter names
+   */
+  applyFilter() {
+    super.applyFilter(ApplicationsListViewFilterNames);
+  }
 }

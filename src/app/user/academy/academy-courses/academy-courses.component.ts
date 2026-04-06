@@ -13,11 +13,11 @@ import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardLi
  * Academy Courses Component
  */
 @Component({
-    selector: 'app-academy-courses',
-    templateUrl: './academy-courses.component.html',
-    providers: [{ provide: API_URL, useValue: ApiConfig.aodCourses }],
-    standalone: true,
-    imports: [UserDashboardListViewComponent, TranslatePipe],
+  selector: 'app-academy-courses',
+  templateUrl: './academy-courses.component.html',
+  providers: [{ provide: API_URL, useValue: ApiConfig.aodCourses }],
+  standalone: true,
+  imports: [UserDashboardListViewComponent, TranslatePipe],
 })
 export class AcademyCoursesComponent implements OnInit {
   courseComponent: any = AcademyCoursesListContainerComponent;
@@ -41,7 +41,11 @@ export class AcademyCoursesComponent implements OnInit {
       .withFoundedItemsCountHeader('Aod.Courses')
       .withFilterConfig({
         filterType: AodCourseType,
-        selectedFilters: [AodCourseType.PLANNED.toString(), AodCourseType.CURRENT.toString(), AodCourseType.FINISHED.toString()],
+        selectedFilters: [
+          AodCourseType.PLANNED.toString(),
+          AodCourseType.CURRENT.toString(),
+          AodCourseType.FINISHED.toString(),
+        ],
         title: 'Aod.CoursesStatus',
       })
       .build();

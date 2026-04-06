@@ -23,16 +23,11 @@ import { ObjectHelper } from '../helpers';
  * <app-singleselect [options]="[1,2,3,4]" [(selected)]="selected" placeholder="Label"></app-singleselect>
  */
 @Component({
-    selector: 'app-singleselect',
-    templateUrl: './singleselect.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgClass,
-        NgIf,
-        NgFor,
-        TranslatePipe,
-    ],
+  selector: 'app-singleselect',
+  templateUrl: './singleselect.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgClass, NgIf, NgFor, TranslatePipe],
 })
 export class SingleselectComponent implements OnDestroy, OnChanges {
   /**
@@ -53,7 +48,7 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
   /**
    * Determines whether is dropdown or dropup
    */
-  @Input() isUp: boolean = false;
+  @Input() isUp = false;
 
   /**
    * Id of related element
@@ -73,7 +68,7 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
   /**
    * Determines whether dropdown is expanded
    */
-  isExpanded: boolean = false;
+  isExpanded = false;
 
   /**
    * Random id - button-dropdown relation
@@ -113,7 +108,10 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
   /**
    * @ignore
    */
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+  ) {
     this.clickOutsideListener = this.renderer.listen('body', 'click', this.clickOutside.bind(this));
     this.clickEscapeListener = this.renderer.listen('body', 'keydown.esc', (event: KeyboardEvent) => {
       this.isExpanded = false;
@@ -137,8 +135,8 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
       this.selectedIndex = 0;
     } else {
       if (optionsAreObjects) {
-        const matchingOption = this.options.find(option => option['value'] === this.selected);
-        const matchingOptionIndex = this.options.findIndex(option => option['value'] === this.selected);
+        const matchingOption = this.options.find((option) => option['value'] === this.selected);
+        const matchingOptionIndex = this.options.findIndex((option) => option['value'] === this.selected);
 
         if (matchingOption) {
           this.togglerLabel = matchingOption['label'];
@@ -146,7 +144,7 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
         }
       } else {
         this.togglerLabel = this.selected;
-        this.selectedIndex = this.options.findIndex(option => option === this.selected);
+        this.selectedIndex = this.options.findIndex((option) => option === this.selected);
       }
     }
 
@@ -190,7 +188,7 @@ export class SingleselectComponent implements OnDestroy, OnChanges {
     this.selectedChange.emit(this.selected);
 
     setTimeout(() => {
-      (<HTMLInputElement>this.toggler.nativeElement).focus();
+      (this.toggler.nativeElement as HTMLInputElement).focus();
     }, 500);
   }
 

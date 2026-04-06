@@ -26,14 +26,19 @@ import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newslette
 import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
 import { UnsubcribeNewsletterComponent } from '@app/user/newsletter/unsubcribe-newsletter/unsubcribe-newsletter.component';
 
-export function localizeLoaderFactory(translate: TranslateService, location: Location, settings: LocalizeRouterSettings, http: HttpClient) {
+export function localizeLoaderFactory(
+  translate: TranslateService,
+  location: Location,
+  settings: LocalizeRouterSettings,
+  http: HttpClient,
+) {
   return new ManualParserLoader(translate, location, settings, APP_CONFIG.availableLanguages, 'ROUTES.', '!');
 }
 
 const routes: Routes = [
   {
     path: '!embed',
-    loadChildren: () => import('./pages/embedded/embedded.module').then(m => m.EmbeddedModule),
+    loadChildren: () => import('./pages/embedded/embedded.module').then((m) => m.EmbeddedModule),
   },
   {
     path: '',
@@ -46,41 +51,42 @@ const routes: Routes = [
       {
         path: '!dataset',
         data: { breadcrumbs: { translationKey: 'Menu.Datasets' } },
-        loadChildren: () => import('./pages/dataset/dataset.module').then(m => m.DatasetModule),
+        loadChildren: () => import('./pages/dataset/dataset.module').then((m) => m.DatasetModule),
       },
       {
         path: '!showcase',
         data: { breadcrumbs: { translationKey: 'Breadcrumbs.ShowcasesComponent' } },
-        loadChildren: () => import('./pages/applications/applications.module').then(m => m.ApplicationsModule),
+        loadChildren: () => import('./pages/applications/applications.module').then((m) => m.ApplicationsModule),
       },
       {
         path: '!institution',
         data: { breadcrumbs: { translationKey: 'Institutions.Self' } },
-        loadChildren: () => import('./pages/institutions/institutions.module').then(m => m.InstitutionsModule),
+        loadChildren: () => import('./pages/institutions/institutions.module').then((m) => m.InstitutionsModule),
       },
       {
         path: '!article',
         data: { breadcrumbs: { translationKey: 'Articles.News' } },
-        loadChildren: () => import('./pages/articles/articles.module').then(m => m.ArticlesModule),
+        loadChildren: () => import('./pages/articles/articles.module').then((m) => m.ArticlesModule),
       },
       {
         path: '!knowledgebase',
         data: { breadcrumbs: { translationKey: 'KnowledgeBase.Self' } },
-        loadChildren: () => import('./pages/knowledge-base/knowledge-base.module').then(m => m.KnowledgeBaseModule),
+        loadChildren: () => import('./pages/knowledge-base/knowledge-base.module').then((m) => m.KnowledgeBaseModule),
       },
       {
         path: '!dga',
-        data: { breadcrumbs: {translationKey: 'DgaInformationPoint.Self' }},
-        loadChildren: () => import('./pages/dga-information-point/dga-information-point.module').then(m => m.DgaInformationPointModule)
+        data: { breadcrumbs: { translationKey: 'DgaInformationPoint.Self' } },
+        loadChildren: () =>
+          import('./pages/dga-information-point/dga-information-point.module').then((m) => m.DgaInformationPointModule),
       },
       {
         path: '!brokenlinks',
-        data: { breadcrumbs: {translationKey: 'BrokenLinks.Self'}},
-        loadChildren: () => import('./pages/broken-links/broken-links.routes').then(mod => mod.BROKEN_LINKS_ROUTES)
+        data: { breadcrumbs: { translationKey: 'BrokenLinks.Self' } },
+        loadChildren: () => import('./pages/broken-links/broken-links.routes').then((mod) => mod.BROKEN_LINKS_ROUTES),
       },
       {
         path: '!user',
-        loadChildren: () => import('./user/user.module').then(m => m.UserModule),
+        loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
       },
       { path: '!refresh', component: SitemapComponent },
       { path: '!newsletter', component: NewsletterComponent },
@@ -147,7 +153,7 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {bindToComponentInputs: true}),
+    RouterModule.forRoot(routes, { bindToComponentInputs: true }),
     LocalizeRouterModule.forRoot(routes, {
       parser: {
         provide: LocalizeParser,

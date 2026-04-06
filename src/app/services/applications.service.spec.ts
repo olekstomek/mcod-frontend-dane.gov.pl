@@ -28,19 +28,19 @@ describe('ApplicationsService', () => {
   });
 
   it('Observable should return value', async () => {
-    service.getOne('44').subscribe(value => {
+    service.getOne('44').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('Observable should return value', async () => {
-    service.getAll({ has_image_thumb: true }).subscribe(value => {
+    service.getAll({ has_image_thumb: true }).subscribe((value) => {
       expect(value).toBeTruthy();
     });
   });
 
   it('should get related datasets for a given application item', async () => {
-    service.getDatasets('1').subscribe(value => {
+    service.getDatasets('1').subscribe((value) => {
       expect(value).toBeTruthy();
     });
   });

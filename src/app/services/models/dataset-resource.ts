@@ -6,8 +6,8 @@ export interface IDatasetFile {
 }
 
 export interface IDatasetRegionsList {
-    hierarchy_label: string;
-    is_additional: boolean;
-    name: string;
-    region_id: string;
+  hierarchy_label: string;
+  is_additional: boolean;
+  name: string;
+  region_id: string;
 }

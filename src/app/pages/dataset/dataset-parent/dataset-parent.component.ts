@@ -10,9 +10,7 @@ import { ArrayHelper } from '@app/shared/helpers';
   selector: 'app-dataset-parent',
   templateUrl: './dataset-parent.component.html',
   standalone: true,
-  imports: [
-    RouterOutlet
-  ]
+  imports: [RouterOutlet],
 })
 export class DatasetParentComponent implements OnInit {
   /**

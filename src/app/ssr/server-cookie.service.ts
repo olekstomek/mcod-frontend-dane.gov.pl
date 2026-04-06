@@ -110,7 +110,6 @@ export class ServerCookieService {
     }
   }
 
-
   /**
    * Sets cookie
    * @param name
@@ -128,6 +127,4 @@ export class ServerCookieService {
   ) {
     this.response.cookie(name, value, { domain, path, secure });
   }
-
-
 }

@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { StripHtmlWithExceptionPipe } from '@app/shared/pipes/strip-html-with-exception';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
@@ -16,13 +15,12 @@ import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
     NgIf,
     RouterLink,
     StripHtmlWithExceptionPipe,
-    SanitizeHtmlPipe,
     TranslatePipe,
     NgOptimizedImage,
     TooltipDirective,
     TranslateDateFormatPipe,
-    AsyncPipe
-  ]
+    AsyncPipe,
+  ],
 })
 export class ResourceItemInfoComponent {
   /**

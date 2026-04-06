@@ -7,6 +7,7 @@ export enum ApiConfig {
   userVerifyEmail = '/auth/registration/verify-email',
   userResetPass = '/auth/password/reset',
   userChangePass = '/auth/password/change',
+  userVerifyToken = '/auth/password/verify-token',
   userProfile = '/auth/user',
   userDashboard = '/auth/user/dashboard',
   userFormats = '/auth/user_schedule_items/formats',
@@ -70,5 +71,5 @@ export enum ApiConfig {
   dga_aggregated = '/dga-aggregated',
   logingovpl = '/logingovpl',
   brokenlinks = '/reports/brokenlinks',
-  brokenlinksdata = '/reports/brokenlinks/data'
+  brokenlinksdata = '/reports/brokenlinks/data',
 }

@@ -13,10 +13,9 @@ import { NotificationsService } from '@app/services/notifications.service';
 import { RestService } from '@app/services/rest.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BrokenLinksService extends RestService {
-
   readonly ApiConfig = ApiConfig;
 
   constructor(
@@ -30,7 +29,17 @@ export class BrokenLinksService extends RestService {
     @Inject(DOCUMENT) public document: any,
     @Inject(PLATFORM_ID) public platformId: string,
   ) {
-    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+    super(
+      http,
+      translate,
+      router,
+      notificationService,
+      storageService,
+      cookieService,
+      loginService,
+      document,
+      platformId,
+    );
   }
 
   getBrokenLinksApiData() {
@@ -39,7 +48,7 @@ export class BrokenLinksService extends RestService {
 
   getBrokenLinksTableData(params?: any) {
     if (params) {
-      const httpParams = new HttpParams({fromObject: params, encoder: new SearchHttpParamEncoder() });
+      const httpParams = new HttpParams({ fromObject: params, encoder: new SearchHttpParamEncoder() });
       return this.get(this.ApiConfig.brokenlinksdata, httpParams);
     }
     return this.get(this.ApiConfig.brokenlinksdata);

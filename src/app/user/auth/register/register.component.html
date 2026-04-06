@@ -4,10 +4,6 @@
     <ng-container *ngIf="isRegistered">
       <!-- success message -->
       <div class="alert alert-success" role="alert">
-        <p>
-          <strong> {{ 'User.Congratulations' | translate }}! </strong>
-          {{ 'User.SuccessfullRegistration' | translate }}
-        </p>
         <p class="mb-0">
           {{ 'User.ActivationEmailSent' | translate }}
         </p>
@@ -35,8 +31,9 @@
           <!-- EMAIL -->
           <div
             class="form-group"
-            [ngClass]="{ 'form-group-invalid': registrationForm.controls.email.invalid && registrationForm.controls.email.touched }"
-          >
+            [ngClass]="{
+              'form-group-invalid': registrationForm.controls.email.invalid && registrationForm.controls.email.touched,
+            }">
             <label for="email">
               E-mail <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
             </label>
@@ -47,8 +44,9 @@
               id="email"
               placeholder="{{ 'Action.Enter' | translate }} {{ 'User.Email' | translate | lowercase }}"
               formControlName="email"
-              [attr.aria-invalid]="registrationForm.controls.email.invalid && registrationForm.controls.email.touched"
-            />
+              [attr.aria-invalid]="
+                registrationForm.controls.email.invalid && registrationForm.controls.email.touched
+              " />
 
             <!-- Email - required error -->
             <small
@@ -57,8 +55,7 @@
               id="email_required_error"
               aria-live="polite"
               *ngIf="registrationForm.controls.email.invalid && registrationForm.controls.email.touched"
-              @toggleVertically
-            >
+              @toggleVertically>
               {{ 'Validation.RequiredEmail' | translate }}
             </small>
           </div>
@@ -66,8 +63,10 @@
           <!-- PASSWORD -->
           <div
             class="form-group"
-            [ngClass]="{ 'form-group-invalid': registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched }"
-          >
+            [ngClass]="{
+              'form-group-invalid':
+                registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched,
+            }">
             <label for="password1">
               {{ 'User.Password' | translate }}
               <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
@@ -81,13 +80,14 @@
                 id="password1"
                 placeholder="{{ 'Action.Enter' | translate }} {{ 'User.Password' | translate | lowercase }}"
                 [attr.aria-label]="'Validation.VarPasswordPolicy' | translate: { param: passwordMinLength }"
-                [attr.aria-invalid]="registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched"
+                [attr.aria-invalid]="
+                  registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched
+                "
                 formControlName="password1"
                 (focus)="showPasswordHint = true"
                 (blur)="showPasswordHint = false"
                 (mouseenter)="showPasswordHint = true"
-                (mouseleave)="showPasswordHint = false"
-              />
+                (mouseleave)="showPasswordHint = false" />
 
               <!-- Password policy description (tooltip) -->
               <span class="hint" role="tooltip" id="password_policy" *ngIf="showPasswordHint">
@@ -104,14 +104,14 @@
               id="password_required_error"
               aria-live="polite"
               *ngIf="registrationForm.controls.password1.invalid && registrationForm.controls.password1.touched"
-              @toggleVertically
-            >
+              @toggleVertically>
               "{{ 'User.Password' | translate }}"
               {{ 'Validation.IsRequired' | translate }}
             </small>
 
             <!-- visual password validator -->
-            <app-visual-password-validator [control]="registrationForm.get('password1')"></app-visual-password-validator>
+            <app-visual-password-validator
+              [control]="registrationForm.get('password1')"></app-visual-password-validator>
           </div>
 
           <!-- PASSWORD CONFIRMATION -->
@@ -120,9 +120,8 @@
             [ngClass]="{
               'form-group-invalid':
                 (registrationForm.controls.password2.invalid && registrationForm.controls.password2.touched) ||
-                registrationForm.hasError('notEqualValues')
-            }"
-          >
+                registrationForm.hasError('notEqualValues'),
+            }">
             <label for="password2">
               {{ 'User.RetypePassword' | translate }}
             </label>
@@ -138,8 +137,7 @@
               [attr.aria-invalid]="
                 (registrationForm.controls.password2.invalid && registrationForm.controls.password2.touched) ||
                 registrationForm.hasError('notEqualValues')
-              "
-            />
+              " />
 
             <!-- Password confirmation - required error -->
             <small
@@ -151,8 +149,7 @@
                 (registrationForm.controls.password2.invalid && registrationForm.controls.password2.touched) ||
                 registrationForm.hasError('notEqualValues')
               "
-              @toggleVertically
-            >
+              @toggleVertically>
               {{ 'Validation.RequiredPasswordConfirmation' | translate }}
             </small>
           </div>
@@ -160,7 +157,11 @@
           <!-- CHECKBOXES-->
           <!-- regulations checkbox-->
           <div class="form-group form-check mb-0">
-            <input type="checkbox" class="form-check-input" id="regulationsConsent" formControlName="regulationsConsent" />
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="regulationsConsent"
+              formControlName="regulationsConsent" />
 
             <label class="form-check-label" for="regulationsConsent">
               {{ 'User.RegulationsCheckboxText' | translate }}
@@ -171,9 +172,11 @@
               class="form-text text-err"
               role="alert"
               aria-live="polite"
-              *ngIf="registrationForm.controls.regulationsConsent.invalid && registrationForm.controls.regulationsConsent.touched"
-              @toggleVertically
-            >
+              *ngIf="
+                registrationForm.controls.regulationsConsent.invalid &&
+                registrationForm.controls.regulationsConsent.touched
+              "
+              @toggleVertically>
               {{ 'Validation.RegulationsCheckbox' | translate }}
             </small>
           </div>
@@ -192,8 +195,7 @@
               role="alert"
               aria-live="polite"
               *ngIf="registrationForm.controls.rodoConsent.invalid && registrationForm.controls.rodoConsent.touched"
-              @toggleVertically
-            >
+              @toggleVertically>
               {{ 'Validation.RodoCheckbox' | translate }}
             </small>
           </div>
@@ -220,9 +222,10 @@
               type="button"
               class="btn btn-secondary disabled align-content-center"
               *ngIf="!registrationForm.valid"
-              [attr.aria-label]="'Validation.InvalidEmailOrPassword' | translate: { param: 'User.CreateAccount' | translate }"
-              [attr.aria-disabled]="true"
-            >
+              [attr.aria-label]="
+                'Validation.InvalidEmailOrPassword' | translate: { param: 'User.CreateAccount' | translate }
+              "
+              [attr.aria-disabled]="true">
               {{ 'User.CreateAccount' | translate | uppercase }}
             </button>
 

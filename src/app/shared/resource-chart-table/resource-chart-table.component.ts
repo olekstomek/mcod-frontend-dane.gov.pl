@@ -11,16 +11,11 @@ import { DatasetService } from '@app/services/dataset.service';
  * Resource Chart Table Component
  */
 @Component({
-    selector: 'app-resource-chart-table',
-    templateUrl: './resource-chart-table.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        LowerCasePipe,
-        TranslatePipe,
-    ],
+  selector: 'app-resource-chart-table',
+  templateUrl: './resource-chart-table.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgIf, NgFor, LowerCasePipe, TranslatePipe],
 })
 export class ResourceChartTableComponent implements OnInit {
   @Input() summaryTranslationKey: string;
@@ -63,14 +58,17 @@ export class ResourceChartTableComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private datasetService: DatasetService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private datasetService: DatasetService,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   /**
    * Gets related resource title
    */
   ngOnInit(): void {
     this.resourceId = ActivatedRouteHelper.getParamFromCurrentOrParentRoute(this.activatedRoute, 'resourceId');
-    this.datasetService.getResourceById(this.resourceId).subscribe(response => {
+    this.datasetService.getResourceById(this.resourceId).subscribe((response) => {
       this.resourceTitle = response.attributes.title;
     });
   }

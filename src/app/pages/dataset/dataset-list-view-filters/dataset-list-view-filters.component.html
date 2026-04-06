@@ -2,8 +2,7 @@
   <h2
     class="heading heading--xs"
     appInfoTooltip="{{ 'Tour.Tooltip.Filters.Self.text' | translate }}"
-    tooltipTitle="{{ 'Tour.Tooltip.Filters.Self.title' | translate }}"
-  >
+    tooltipTitle="{{ 'Tour.Tooltip.Filters.Self.title' | translate }}">
     {{ 'Filters.Self' | translate }}
   </h2>
 
@@ -19,8 +18,7 @@
     [ariaLabel]="'category-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.CATEGORIES, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'category'"
-  >
+    [filterName]="'category'">
   </app-expandable-multiselect>
 
   <!-- Institutions -->
@@ -35,8 +33,7 @@
     [ariaLabel]="'institution-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.INSTITUTION, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'institution'"
-  >
+    [filterName]="'institution'">
   </app-expandable-multiselect>
 
   <!-- Region -->
@@ -54,8 +51,7 @@
     [showHideMapButton]="showHideMapButton && selectedData[FiltersNames.REGIONS]"
     (applyFilter)="applyFilter()"
     (selectedChange)="onSelectedChange(FiltersNames.REGIONS, $event)"
-    [initialValue]="initialValue"
-  >
+    [initialValue]="initialValue">
   </app-expandable-multiselect>
 
   <!-- Format -->
@@ -70,8 +66,7 @@
     [ariaLabel]="'format-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.FORMAT, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'format'"
-  >
+    [filterName]="'format'">
   </app-expandable-multiselect>
 
   <!-- Openness score -->
@@ -88,8 +83,7 @@
     [ariaLabel]="'openness-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.OPENNESS_SCORE, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'openness'"
-  >
+    [filterName]="'openness'">
   </app-expandable-multiselect>
 
   <!-- Visualization type -->
@@ -106,8 +100,7 @@
     [ariaLabel]="'visualization-types-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.VISUALIZATION_TYPE, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'visualization'"
-  >
+    [filterName]="'visualization'">
   </app-expandable-multiselect>
 
   <!-- Licenses -->
@@ -122,8 +115,7 @@
     [ariaLabel]="'licenses-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.LICENSES, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'licenses'"
-  >
+    [filterName]="'licenses'">
   </app-expandable-multiselect>
 
   <!-- Update frequency -->
@@ -140,8 +132,7 @@
     (applyFilter)="applyFilter()"
     [filterName]="'update'"
     [sortOptions]="true"
-    [sortingOrder]="updateFrequencySortingOrder"
-  >
+    [sortingOrder]="updateFrequencySortingOrder">
   </app-expandable-multiselect>
 
   <!-- Resource type -->
@@ -157,8 +148,7 @@
     [ariaLabel]="'types-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.TYPES, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'resource'"
-  >
+    [filterName]="'resource'">
   </app-expandable-multiselect>
 
   <!--High value data-->
@@ -173,8 +163,7 @@
     [ariaLabel]="'high-value-data-label'"
     (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'high'"
-  >
+    [filterName]="'high'">
   </app-expandable-multiselect>
 
   <!--high value data from EC-->
@@ -189,10 +178,8 @@
     [ariaLabel]="'high-value-data-from-ec-label'"
     (selectedChange)="onSelectedChange(FiltersNames.HIGH_VALUE_DATA_FROM_EC, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'high'"
-  >
+    [filterName]="'high'">
   </app-expandable-multiselect>
-
 
   <!--dynamic data-->
   <app-expandable-multiselect
@@ -207,8 +194,7 @@
     [ariaLabel]="'dynamic-data-label'"
     (selectedChange)="onSelectedChange(FiltersNames.DYNAMIC_DATA, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'dynamic'"
-  >
+    [filterName]="'dynamic'">
   </app-expandable-multiselect>
 
   <!--research data-->
@@ -224,8 +210,7 @@
     [ariaLabel]="'research-data-label'"
     (selectedChange)="onSelectedChange(FiltersNames.RESEARCH_DATA, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'research'"
-  >
+    [filterName]="'research'">
   </app-expandable-multiselect>
 
   <!--protected dga data-->
@@ -241,8 +226,7 @@
     [ariaLabel]="'protected-dga-data-label'"
     (selectedChange)="onSelectedChange(FiltersNames.PROTECTED_DATA, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'protected'"
-  >
+    [filterName]="'protected'">
   </app-expandable-multiselect>
 
   <!-- Language -->
@@ -258,8 +242,7 @@
     [ariaLabel]="'language-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.LANGUAGE, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'language'"
-  >
+    [filterName]="'language'">
   </app-expandable-multiselect>
 
   <!-- Upload date range -->
@@ -271,10 +254,9 @@
     (datesChanged)="
       onDaterangeChange([
         { name: FiltersNames.DATE_FROM, value: $event.startDate },
-        { name: FiltersNames.DATE_TO, value: $event.endDate }
+        { name: FiltersNames.DATE_TO, value: $event.endDate },
       ])
     "
-    (applyFilterChanged)="applyFilter()"
-  >
+    (applyFilterChanged)="applyFilter()">
   </app-date-range-picker>
 </section>

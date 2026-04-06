@@ -16,16 +16,10 @@ import { CapitalizeFirstLetterPipe } from '@app/shared/pipes/capitalize-first-le
     </app-visual-password-validator>
  */
 @Component({
-    selector: 'app-visual-password-validator',
-    templateUrl: './visual-password-validator.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-        TranslatePipe,
-        CapitalizeFirstLetterPipe,
-    ],
+  selector: 'app-visual-password-validator',
+  templateUrl: './visual-password-validator.component.html',
+  standalone: true,
+  imports: [NgIf, NgFor, NgClass, TranslatePipe, CapitalizeFirstLetterPipe],
 })
 export class VisualPasswordValidatorComponent implements OnInit {
   /**

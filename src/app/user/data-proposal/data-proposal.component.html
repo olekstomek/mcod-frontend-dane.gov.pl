@@ -14,14 +14,16 @@
         [routerLink]="['active']"
         routerLinkActive="tab-list__link--active"
         #activeActive="routerLinkActive"
-        [attr.aria-selected]="activeActive.isActive ? true : null"
-      >
+        [attr.aria-selected]="activeActive.isActive ? true : null">
         {{ 'Ndp.Active' | translate }}
       </a>
     </li>
 
     <!-- Inactive -->
-    <li *hasPermission="PermissionPerRoles.BROWSE_INACTIVE_DATA_PROPOSAL" class="tab-list__item col-md-6" role="presentation">
+    <li
+      *hasPermission="PermissionPerRoles.BROWSE_INACTIVE_DATA_PROPOSAL"
+      class="tab-list__item col-md-6"
+      role="presentation">
       <a
         class="tab-list__link"
         role="tab"
@@ -29,8 +31,7 @@
         [routerLink]="['inactive']"
         routerLinkActive="tab-list__link--active"
         #inactiveActive="routerLinkActive"
-        [attr.aria-selected]="inactiveActive.isActive ? true : null"
-      >
+        [attr.aria-selected]="inactiveActive.isActive ? true : null">
         {{ 'Ndp.Inactive' | translate }}
       </a>
     </li>
@@ -40,7 +41,6 @@
 <div
   class="tabs-content"
   role="tabpanel"
-  attr.aria-labelledby="{{ activeActive.isActive ? 'tabActiveDataProposal' : 'tabInactiveDataProposal' }}"
->
+  attr.aria-labelledby="{{ activeActive.isActive ? 'tabActiveDataProposal' : 'tabInactiveDataProposal' }}">
   <router-outlet></router-outlet>
 </div>

@@ -7,7 +7,6 @@ import { SeoService } from '@app/services/seo.service';
 import { ArrayHelper } from '@app/shared/helpers';
 import { StringHelper } from '@app/shared/helpers/string.helper';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { KeywordsComponent } from '@app/shared/result-list/related-components/keywords/keywords.component';
 
@@ -15,17 +14,9 @@ import { KeywordsComponent } from '@app/shared/result-list/related-components/ke
  * Article Item Component
  */
 @Component({
-    templateUrl: './article-item.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        KeywordsComponent,
-        NotificationsServerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        SanitizeHtmlPipe,
-        TranslateDateFormatPipe,
-    ],
+  templateUrl: './article-item.component.html',
+  standalone: true,
+  imports: [NgIf, KeywordsComponent, NotificationsServerComponent, AsyncPipe, TranslatePipe, TranslateDateFormatPipe],
 })
 export class ArticleItemComponent implements OnInit {
   /**
@@ -36,7 +27,10 @@ export class ArticleItemComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private activatedRoute: ActivatedRoute, private seoService: SeoService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private seoService: SeoService,
+  ) {}
 
   /**
    * Sets META tags (title, description).

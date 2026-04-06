@@ -32,7 +32,7 @@ describe('HttpXsrfInterceptorService', () => {
           useValue: {
             cookie: `${APP_CONFIG.csrfCookieName}=${token};`,
             location: { protocol: 'https:', hostname: 'dev.dane.gov.pl' },
-            querySelectorAll: () => []
+            querySelectorAll: () => [],
           },
         },
       ],

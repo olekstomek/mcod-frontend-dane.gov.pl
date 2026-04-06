@@ -8,15 +8,15 @@ import { UserDashboardListViewBaseComponent } from '@app/user/list-view/user-das
  * Lab List Component
  */
 @Component({
-    selector: 'app-lab-list-container',
-    templateUrl: './lab-list-container.component.html',
-    standalone: true,
-    imports: [NgFor, LabListItemComponent],
+  selector: 'app-lab-list-container',
+  templateUrl: './lab-list-container.component.html',
+  standalone: true,
+  imports: [NgFor, LabListItemComponent],
 })
 export class LabListContainerComponent extends UserDashboardListViewBaseComponent {
-    /**
-     * Type of laboratory items
-     */
-    @Input()
-    items: any;
+  /**
+   * Type of laboratory items
+   */
+  @Input()
+  items: any;
 }

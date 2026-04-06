@@ -3,22 +3,16 @@ import { Component, Input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { ArrayHelper } from '@app/shared/helpers';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { StripHtmlWithExceptionPipe } from '@app/shared/pipes/strip-html-with-exception';
 
 /**
  * Component which displays key words
  */
 @Component({
-    selector: 'app-keywords',
-    templateUrl: './keywords.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        TranslatePipe,
-        SanitizeHtmlPipe,
-        StripHtmlWithExceptionPipe,
-    ],
+  selector: 'app-keywords',
+  templateUrl: './keywords.component.html',
+  standalone: true,
+  imports: [NgIf, TranslatePipe, StripHtmlWithExceptionPipe],
 })
 export class KeywordsComponent {
   /**

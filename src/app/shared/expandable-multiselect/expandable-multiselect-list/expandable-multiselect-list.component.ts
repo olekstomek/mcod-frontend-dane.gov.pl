@@ -4,7 +4,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 import { IAggregationProperties, MultiselectOption } from '@app/services/models/filters';
 import { StringHelper } from '@app/shared/helpers/string.helper';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Expandable list view for filters
@@ -13,11 +12,7 @@ import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
   selector: 'app-expandable-multiselect-list',
   templateUrl: './expandable-multiselect-list.component.html',
   standalone: true,
-  imports: [
-    NgClass,
-    TranslatePipe,
-    SanitizeHtmlPipe,
-  ],
+  imports: [NgClass, TranslatePipe],
 })
 export class ExpandableMultiselectListComponent implements OnChanges {
   /**

@@ -1,5 +1,5 @@
 export interface BreadcrumbConfig {
-    label?: string;
-    translationKey?: string;
-    dataKey?: string;
+  label?: string;
+  translationKey?: string;
+  dataKey?: string;
 }

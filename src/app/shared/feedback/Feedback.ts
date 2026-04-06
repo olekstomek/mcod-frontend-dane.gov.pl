@@ -1,4 +1,4 @@
 export enum Feedback {
-    PLUS = 'plus',
-    MINUS = 'minus'
+  PLUS = 'plus',
+  MINUS = 'minus',
 }

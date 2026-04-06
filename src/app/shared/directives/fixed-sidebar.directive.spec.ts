@@ -20,9 +20,7 @@ describe('FixedSidebarDirective', () => {
     fixture = TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [TranslateModule.forRoot(), FixedSidebarDirective],
-      providers: [
-        importProvidersFrom(AppTestingModule)
-      ]
+      providers: [importProvidersFrom(AppTestingModule)],
     }).createComponent(TestComponent);
 
     component = fixture.componentInstance;

@@ -1,7 +1,5 @@
-
 import './jest.mocks';
 
-module.exports = function(config) {
-
-  console.log(config)
+module.exports = function (config) {
+  console.log(config);
 };

@@ -16,8 +16,7 @@
             [routerLink]="childTab.meta.slug"
             #tab="routerLinkActive"
             [attr.aria-selected]="tab.isActive ? true : null"
-            routerLinkActive="tab-list__link--active"
-          >
+            routerLinkActive="tab-list__link--active">
             {{ childTab.title }}
           </a>
         </li>

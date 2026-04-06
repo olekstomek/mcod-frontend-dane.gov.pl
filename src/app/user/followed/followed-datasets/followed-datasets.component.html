@@ -31,7 +31,7 @@
         </h3>
 
         <!-- notes -->
-        <div [innerHTML]="item.attributes.notes | sanitizeHtml"></div>
+        <div [innerHTML]="item.attributes.notes"></div>
       </ng-template>
 
       <!-- RIGHT -->
@@ -61,15 +61,15 @@
     <footer class="results-footer" *ngIf="count > 0">
       <div class="d-flex justify-content-between align-items-center">
         <!-- results per page -->
-        <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+        <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+        </app-items-per-page>
 
         <!-- pagination -->
         <app-pagination
           [itemsPerPage]="params.per_page"
           [totalItems]="count"
           [page]="params.page"
-          (pageChange)="updateParams({ page: $event })"
-        >
+          (pageChange)="updateParams({ page: $event })">
         </app-pagination>
       </div>
     </footer>

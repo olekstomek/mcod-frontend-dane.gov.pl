@@ -6,27 +6,25 @@ import { DgaInformationPointTabsComponent } from './dga-information-point-tabs/d
 import { DgaInformationPointComponent } from './dga-information-point/dga-information-point.component';
 
 import { DatasetModule } from '@app/pages';
-import {
-  DgaInformationPointCmsDetailsComponent
-} from '@app/pages/dga-information-point/dga-information-point-cms-details/dga-information-point-cms-details.component';
+import { DgaInformationPointCmsDetailsComponent } from '@app/pages/dga-information-point/dga-information-point-cms-details/dga-information-point-cms-details.component';
 import { DgaInformationPointRoutingModule } from '@app/pages/dga-information-point/dga-information-point-routing.module';
 import { DgaInformationPointTablePageComponent } from '@app/pages/dga-information-point/dga-information-point-table-page/dga-information-point-table-page.component';
 import { ResourceFilterModule } from '@app/shared/resource-filters/resource-filter.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        DgaInformationPointRoutingModule,
-        TranslateModule,
-        SharedModule,
-        ResourceFilterModule,
-        DatasetModule,
-        DgaInformationPointComponent,
-        DgaInformationPointTabsComponent,
-        DgaInformationPointCmsDetailsComponent,
-        DgaInformationPointTablePageComponent,
-        DgaInformationPointTableComponent
-    ]
+  imports: [
+    CommonModule,
+    DgaInformationPointRoutingModule,
+    TranslateModule,
+    SharedModule,
+    ResourceFilterModule,
+    DatasetModule,
+    DgaInformationPointComponent,
+    DgaInformationPointTabsComponent,
+    DgaInformationPointCmsDetailsComponent,
+    DgaInformationPointTablePageComponent,
+    DgaInformationPointTableComponent,
+  ],
 })
-export class DgaInformationPointModule { }
+export class DgaInformationPointModule {}

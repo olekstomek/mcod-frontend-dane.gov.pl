@@ -47,14 +47,14 @@ describe('SubmissionItemComponent', () => {
         SubmissionItemComponent,
         MathCaptchaComponent,
         NotificationsComponent,
-        NotificationsServerComponent
+        NotificationsServerComponent,
       ],
       providers: [
         importProvidersFrom(AppTestingModule),
         DatasetService,
-        { provide: ActivatedRoute, useValue: {snapshot: params }},
+        { provide: ActivatedRoute, useValue: { snapshot: params } },
         { provide: SeoService, useClass: SeoServiceStub },
-        NotificationsService
+        NotificationsService,
       ],
     });
 
@@ -101,7 +101,7 @@ describe('SubmissionItemComponent', () => {
       const captchaDe = fixture.debugElement.query(By.css('.captcha'));
       const equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
       const equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
-      equationSum = equationArr.map(item => +item).reduce((acc, item) => acc + item);
+      equationSum = equationArr.map((item) => +item).reduce((acc, item) => acc + item);
     });
 
     it('should fill required fields and the form should be valid', () => {

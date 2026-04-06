@@ -78,7 +78,9 @@ const MOCK_ITEM_WITHOUT_SUBSCRIPTION = {
   institution: { doc_count: 191, id: '41', title: 'Ministerstwo Energii', slug: 'ministerstwo-energii' },
   url: '../../dataset/2060,si-kdr-wykaz-oddziaow-partnerow-programu',
   titleTranslationKey: 'Datasets.Single',
-  detailsData: [{ titleTranslationKey: 'Attribute.UpdateDate', data: '2021-03-19T12:12:23.486776+00:00', isDate: true }],
+  detailsData: [
+    { titleTranslationKey: 'Attribute.UpdateDate', data: '2021-03-19T12:12:23.486776+00:00', isDate: true },
+  ],
 };
 
 const MOCK_ITEM_WITH_SUBSCRIPTION = {
@@ -143,7 +145,9 @@ const MOCK_ITEM_WITH_SUBSCRIPTION = {
   institution: { doc_count: 2, id: '295', title: 'Zarząd Dróg i Zieleni', slug: 'zarzad-drog-i-zieleni' },
   url: '../../dataset/2062,dane-statystyczne-wytwarzane-wg-przepisow-odrebnych',
   titleTranslationKey: 'Datasets.Single',
-  detailsData: [{ titleTranslationKey: 'Attribute.UpdateDate', data: '2021-03-23T09:46:42.169349+00:00', isDate: true }],
+  detailsData: [
+    { titleTranslationKey: 'Attribute.UpdateDate', data: '2021-03-23T09:46:42.169349+00:00', isDate: true },
+  ],
 };
 
 class MockUserService {}
@@ -163,7 +167,7 @@ describe('Subscribe button', () => {
           useDefaultLang: true,
         }),
         SubscribeButtonComponent,
-        TooltipDirective
+        TooltipDirective,
       ],
       providers: [
         { provide: FeatureFlagService, useClass: MockkFeatureFlagService },
@@ -172,7 +176,7 @@ describe('Subscribe button', () => {
         NotificationsFrontService,
         Overlay,
         { provide: ObserveService, useClass: MockObserveService },
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
   });
@@ -183,7 +187,7 @@ describe('Subscribe button', () => {
     expect(subscribeButtonComponent).toBeTruthy();
   });
 
-  it('should render subscribe button when item isn\'t subscribed', () => {
+  it("should render subscribe button when item isn't subscribed", () => {
     const fixture = TestBed.createComponent(SubscribeButtonComponent);
     const component = fixture.componentInstance;
     component.item = MOCK_ITEM_WITHOUT_SUBSCRIPTION;

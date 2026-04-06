@@ -1,24 +1,19 @@
-import {NgFor, NgIf} from '@angular/common';
-import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {TranslatePipe} from '@ngx-translate/core';
-import {StringHelper} from '../helpers/string.helper';
+import { NgFor, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output, SimpleChanges, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
+import { StringHelper } from '../helpers/string.helper';
 
-import {getEventSelectValue} from '@app/shared/util';
+import { getEventSelectValue } from '@app/shared/util';
 
 @Component({
   selector: 'app-items-per-page',
   templateUrl: './items-per-page.component.html',
   styleUrls: ['./items-per-page.component.scss'],
   standalone: true,
-  imports: [
-    NgIf,
-    FormsModule,
-    NgFor,
-    TranslatePipe,
-  ],
+  imports: [NgIf, FormsModule, NgFor, TranslatePipe],
 })
-export class ItemsPerPageComponent {
+export class ItemsPerPageComponent implements OnChanges {
   /**
    * List of options to choose from
    */
@@ -63,7 +58,7 @@ export class ItemsPerPageComponent {
   ngOnChanges(changes: SimpleChanges) {
     this.selected = Number(this.selected);
     if (changes.selected) {
-      this.isNumberValid = !!this.options.find(option => option === Number(changes.selected.currentValue));
+      this.isNumberValid = !!this.options.find((option) => option === Number(changes.selected.currentValue));
     }
   }
 }

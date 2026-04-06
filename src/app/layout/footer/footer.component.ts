@@ -1,5 +1,14 @@
 import { AsyncPipe, DOCUMENT, isPlatformBrowser, LowerCasePipe } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env/environment';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -20,6 +29,7 @@ import { CmsBlock2Component } from '@app/shared/cms/cms-block2/cms-block2.compon
 import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
 import { FocusTrapDirective } from '@app/shared/directives/focus-trap/focus-trap.directive';
 import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
+import packageJson from '../../../../package.json';
 
 @Component({
   selector: 'app-footer',
@@ -31,9 +41,9 @@ import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component'
     FocusTrapDirective,
     TranslatePipe,
     LowerCasePipe,
-    AsyncPipe
+    AsyncPipe,
   ],
-  standalone: true
+  standalone: true,
 })
 export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
@@ -55,7 +65,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * write us modal reference
    */
-  @ViewChild('writeUsModalTemplate', {static: false}) writeUsModalTemplate: TemplateRef<any>;
+  @ViewChild('writeUsModalTemplate', { static: false }) writeUsModalTemplate: TemplateRef<any>;
   writeUsModalRef: BsModalRef;
 
   /**
@@ -71,7 +81,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Current version of app
    */
-  currentVersion = environment.VERSION;
+  currentVersion = packageJson.version;
 
   /**
    * App config
@@ -102,9 +112,8 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     public cmsService: CmsService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-    private footerLogosFilterService: FooterLogosFilterService
-  ) {
-  }
+    private footerLogosFilterService: FooterLogosFilterService,
+  ) {}
 
   /**
    * Setups rdf documentation link
@@ -116,12 +125,12 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
       const writeUsLinkElem = this.document.querySelector('a.page-footer__list-item.btn-write-us');
       const rodoLinkElem = this.document.querySelector('a.page-footer__list-item.btn-link-rodo');
 
-      writeUsLinkElem.addEventListener('click', e => {
+      writeUsLinkElem.addEventListener('click', (e) => {
         e.preventDefault();
         this.writeUsModalRef = this.modalService.show(this.writeUsModalTemplate);
       });
 
-      rodoLinkElem.addEventListener('click', e => {
+      rodoLinkElem.addEventListener('click', (e) => {
         e.preventDefault();
         this.rodoModalOpen();
       });
@@ -133,7 +142,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.isAcquintedWithRodo = !!this.localStorage.get('isAcquintedWithRodo', {prefix: this.storagePrefix});
+      this.isAcquintedWithRodo = !!this.localStorage.get('isAcquintedWithRodo', { prefix: this.storagePrefix });
 
       if (this.isAcquintedWithRodo) {
         return;
@@ -144,7 +153,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       this.rodoModalHideSubscription = this.modalService.onHidden.subscribe(() => {
-        this.localStorage.set('isAcquintedWithRodo', 'true', {prefix: this.storagePrefix});
+        this.localStorage.set('isAcquintedWithRodo', 'true', { prefix: this.storagePrefix });
         this.rodoModalRef = null;
       });
     }
@@ -175,7 +184,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * Opens RODO modal
    */
   private rodoModalOpen() {
-    this.rodoModalRef = this.modalService.show(this.rodoModalTemplate, {class: 'modal-lg'});
+    this.rodoModalRef = this.modalService.show(this.rodoModalTemplate, { class: 'modal-lg' });
   }
 
   /**
@@ -195,7 +204,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cmsService.getHomePageWidgets().subscribe((response: IHome) => {
       this.homeData = response;
 
-      this.cmsFooterNavigationPage.next(<IWidget[]>this.homeData.footer_nav.blocks);
+      this.cmsFooterNavigationPage.next(this.homeData.footer_nav.blocks as IWidget[]);
       this.setFooterLogos();
     });
   }
@@ -204,10 +213,13 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * Set footer images based on contrast
    */
   private setFooterLogos() {
-    this.footerLogosFilterService.filter(<IWidgetSvg[]>this.homeData.footer_logos)
+    this.footerLogosFilterService
+      .filter(this.homeData.footer_logos as IWidgetSvg[])
       .pipe(
-        tap(footerLogos => {
-          this.cmsFooterLogoSection.next(<IWidgetSvg[]>footerLogos);
-        })).subscribe();
+        tap((footerLogos) => {
+          this.cmsFooterLogoSection.next(footerLogos as IWidgetSvg[]);
+        }),
+      )
+      .subscribe();
   }
 }

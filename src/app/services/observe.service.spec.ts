@@ -46,13 +46,13 @@ describe('ObserveService', () => {
   });
 
   it('addSubscription - Observable should return value', async () => {
-    service.addSubscription('test', '1', 'test', 2).subscribe(value => {
+    service.addSubscription('test', '1', 'test', 2).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('removeSubscription - Observable should return value', async () => {
-    service.removeSubscription(1).subscribe(value => {
+    service.removeSubscription(1).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -64,13 +64,13 @@ describe('ObserveService', () => {
       q: '',
       page: 1,
     };
-    service.getSubscriptions('test', params).subscribe(value => {
+    service.getSubscriptions('test', params).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getNewNotifications - Observable should return value', async () => {
-    service.getNewNotifications().subscribe(value => {
+    service.getNewNotifications().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

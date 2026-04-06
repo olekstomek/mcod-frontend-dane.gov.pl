@@ -12,7 +12,7 @@ RUN npm install @angular/cli
 RUN npm install
 
 FROM node:${NODE_VERSION}-alpine AS build
-ARG MCOD_BUILD_CONFIGURATION_ENV=local
+ARG MCOD_BUILD_CONFIGURATION_ENV=int
 
 WORKDIR /usr/src/mcod
 COPY --from=dependencies /usr/src/mcod/node_modules ./node_modules
@@ -26,9 +26,6 @@ ADD ./package-lock.json ./
 ADD ./tsconfig.app.json ./
 ADD ./tsconfig.json ./
 
-# only used if MCOD_BUILD_CONFIGURATION_ENV == pwa
-ADD ./ngsw-config.json ./
-ADD ./index-html-transform.ts ./
 # to check if this file is indeed used by autoprefixer
 ADD ./.browserslistrc ./
 

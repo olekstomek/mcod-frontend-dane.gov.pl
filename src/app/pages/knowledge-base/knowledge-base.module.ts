@@ -12,26 +12,24 @@ import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.componen
 import { AppBootstrapModule } from '@app/app-bootstrap/app-bootstrap.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-
 @NgModule({
-    imports: [
-        CommonModule,
-        KnowledgeBaseRoutingModule,
-        AppBootstrapModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        FormsModule,
-        SharedModule,
-        ReactiveFormsModule,
-        KnowledgeBaseComponent,
-        KnowledgeBaseItemPreviewComponent,
-        KnowledgeBaseTabsComponent,
-        KnowledgeBaseItemDetailsComponent
-    ]
+  imports: [
+    CommonModule,
+    KnowledgeBaseRoutingModule,
+    AppBootstrapModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
+    KnowledgeBaseComponent,
+    KnowledgeBaseItemPreviewComponent,
+    KnowledgeBaseTabsComponent,
+    KnowledgeBaseItemDetailsComponent,
+  ],
 })
-export class KnowledgeBaseModule {
-}
+export class KnowledgeBaseModule {}

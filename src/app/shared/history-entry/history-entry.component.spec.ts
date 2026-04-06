@@ -14,9 +14,7 @@ describe('HistoryEntryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), HistoryEntryComponent, TranslateDateFormatPipe, TimespanPipe],
-      providers: [
-        importProvidersFrom(AppTestingModule)
-      ]
+      providers: [importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HistoryEntryComponent);
@@ -73,8 +71,7 @@ describe('HistoryEntryComponent', () => {
     },
   ));
 
-  it('should translate action and table name, format variables according to entry data and pass them to template for application_dataset',
-    inject(
+  it('should translate action and table name, format variables according to entry data and pass them to template for application_dataset', inject(
     [TranslateService],
     (translateService: TranslateService) => {
       const data = {

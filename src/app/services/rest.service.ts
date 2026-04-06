@@ -46,7 +46,10 @@ export abstract class RestService {
    * Request errors without notifications
    * @type {string[]}
    */
-  private readonly requestsErrorsWithoutNotifications: string[] = [ApiConfig.unsubscribeNewsletter, ApiConfig.confirmSubscribeNewsletter];
+  private readonly requestsErrorsWithoutNotifications: string[] = [
+    ApiConfig.unsubscribeNewsletter,
+    ApiConfig.confirmSubscribeNewsletter,
+  ];
   /**
    * Cookie domain
    * @type {string}
@@ -62,7 +65,7 @@ export abstract class RestService {
    * Cookie Prefix
    * @type {string}
    */
-  private cookie_prefix: string = '';
+  private cookie_prefix = '';
 
   /**
    * Dependency injection required for api calls, and base_url setup
@@ -127,7 +130,7 @@ export abstract class RestService {
    * @param {string} token
    * @param {boolean} remember
    */
-  setToken(token: string, remember: boolean = false) {
+  setToken(token: string, remember = false) {
     this.token = token;
 
     const jwtData: any = this.jwtHelperService.decodeToken(this.token);
@@ -165,7 +168,7 @@ export abstract class RestService {
   getToken(): string {
     this.token = this.cookieService.get(`${this.cookie_prefix}apiauthtoken`);
     if (this.token) {
-      const remember: boolean = Boolean(this.storageService.get('remember'));
+      const remember = Boolean(this.storageService.get('remember'));
       this.sessionExpires = this.getTokenData().exp;
       const currentTime: number = moment().unix();
       if (remember && this.getTokenData().exp > currentTime) {
@@ -184,7 +187,7 @@ export abstract class RestService {
    * @returns {any}
    */
   public getTokenData(): UserToken {
-    return <UserToken>this.jwtHelperService.decodeToken(this.token);
+    return this.jwtHelperService.decodeToken(this.token) as UserToken;
   }
 
   /**
@@ -270,11 +273,13 @@ export abstract class RestService {
    */
   protected request(method: 'get' | 'delete', url, params?: any, skip404Redirect?: boolean): Observable<any> {
     this.initHeaders();
-    return this.http.request(method, url, {
-      headers: this.headers,
-      withCredentials: true,
-      params: params,
-    }).pipe(catchError(this.errorRedirectionHandler.bind(this, skip404Redirect)));
+    return this.http
+      .request(method, url, {
+        headers: this.headers,
+        withCredentials: true,
+        params: params,
+      })
+      .pipe(catchError(this.errorRedirectionHandler.bind(this, skip404Redirect)));
   }
 
   /**
@@ -318,7 +323,7 @@ export abstract class RestService {
    * @param {HttpCustomErrorResponse} err
    * @returns {Observable}
    */
-  protected errorRedirectionHandler(skip404Redirect: boolean = false, err: HttpCustomErrorResponse): Observable<never> {
+  protected errorRedirectionHandler(skip404Redirect = false, err: HttpCustomErrorResponse): Observable<never> {
     if (err.status === 404) {
       if (!skip404Redirect) {
         this.router.navigate(['/404']);
@@ -376,7 +381,7 @@ export abstract class RestService {
       );
     });
 
-    return !checkedUrlResults.some(val => val === true);
+    return !checkedUrlResults.some((val) => val === true);
   }
 
   /**

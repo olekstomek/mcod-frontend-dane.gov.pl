@@ -15,17 +15,10 @@ import { RouterEndpoints } from '@app/services/models/routerEndpoints';
  * Hyper editor pages component
  */
 @Component({
-    selector: 'cms-landing-page',
-    templateUrl: './cms-landing-page.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-        NgTemplateOutlet,
-        CmsBlock2Component,
-        RouterOutlet,
-    ],
+  selector: 'cms-landing-page',
+  templateUrl: './cms-landing-page.component.html',
+  standalone: true,
+  imports: [NgIf, NgFor, NgClass, NgTemplateOutlet, CmsBlock2Component, RouterOutlet],
 })
 export class CmsLandingPageComponent implements OnInit, OnDestroy {
   /**
@@ -87,7 +80,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
      */
     this.isDetailView = this.router.url && this.router.url.split('/').length > 4;
     this.sub.add(
-      router.events.subscribe(event => {
+      router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
           this.isDetailView = event.url && event.url.split('/').length > 4;
           if (!this.isDetailView && !this.isFirstEnter) {
@@ -104,7 +97,9 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
    */
   navigateToDetail(section: IWidget) {
     const isBanner =
-      section.children && section.children[0].children.length && (section.children[0].children[0] as IBanner).value?.action_url;
+      section.children &&
+      section.children[0].children.length &&
+      (section.children[0].children[0] as IBanner).value?.action_url;
 
     if (isBanner) {
       return;
@@ -148,7 +143,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
     }
     if (this.widgetFooterSubject) {
       this.sub.add(
-        this.widgetFooterSubject.subscribe(response => {
+        this.widgetFooterSubject.subscribe((response) => {
           this.body = response;
           if (this.body) {
             this.findElementsWithLinks(this.body);
@@ -167,7 +162,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
             this.addClassnameProperty(this.body);
           }
         },
-        err => {
+        (err) => {
           this.cmsService.displayCmsErrorMessage(this.requestedUrl, err.message);
           this.router.navigate(['/']).then();
         },
@@ -180,7 +175,7 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
    * @param {IWidget[]} components
    */
   private findElementsWithLinks(components: IWidget[]) {
-    components.forEach(component => {
+    components.forEach((component) => {
       if (!component.children || !component.children.length) {
         return;
       }
@@ -205,14 +200,14 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
       component.settings.isExternalUrl = !!url.match(/^http(s)?:\/\//);
     }
 
-    component.children.forEach(child => {
+    component.children.forEach((child) => {
       if (!child.settings.url) {
         child.settings.url = component.settings.url;
 
         if (component.type === WidgetType.LINK) {
           if (child.type === WidgetType.TEXT) {
             component.settings.text = child.settings.text;
-            if (!component.children.find(child => child.type === WidgetType.IMAGE)) {
+            if (!component.children.find((child) => child.type === WidgetType.IMAGE)) {
               component.children = [];
             }
           }
@@ -230,8 +225,13 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
    * @param {IWidget[]} elements
    */
   private addClassnameProperty(elements: IWidget[]) {
-    elements.forEach(element => {
-      element.classname = element.type === 'row' ? 'row' : element.type === 'column' ? this.getColumnClassnameString(element.settings) : '';
+    elements.forEach((element) => {
+      element.classname =
+        element.type === 'row'
+          ? 'row'
+          : element.type === 'column'
+            ? this.getColumnClassnameString(element.settings)
+            : '';
       if (element.children && element.children.length > 0) {
         this.addClassnameProperty(element.children);
       }

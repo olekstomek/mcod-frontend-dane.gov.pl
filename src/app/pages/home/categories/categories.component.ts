@@ -10,18 +10,10 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
  * Categories Component
  */
 @Component({
-    selector: 'home-categories',
-    templateUrl: './categories.component.html',
-    standalone: true,
-  imports: [
-    InfoTooltipDirective,
-    NgIf,
-    NgFor,
-    RouterLink,
-    TranslatePipe,
-    LocalizeRouterPipe,
-    NgOptimizedImage,
-  ],
+  selector: 'home-categories',
+  templateUrl: './categories.component.html',
+  standalone: true,
+  imports: [InfoTooltipDirective, NgIf, NgFor, RouterLink, TranslatePipe, LocalizeRouterPipe, NgOptimizedImage],
 })
 export class CategoriesComponent implements OnInit {
   /**
@@ -46,7 +38,7 @@ export class CategoriesComponent implements OnInit {
    * Gets query params
    * @param id
    */
-  getQueryParam(id: string): { [key: string]: any } {
+  getQueryParam(id: string): Record<string, any> {
     return { [this.queryParamName]: id };
   }
 }

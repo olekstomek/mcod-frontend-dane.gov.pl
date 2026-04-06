@@ -33,7 +33,17 @@ export class InstitutionsService extends RestService {
     @Inject(DOCUMENT) public document: any,
     @Inject(PLATFORM_ID) public platformId: string,
   ) {
-    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+    super(
+      http,
+      translate,
+      router,
+      notificationService,
+      storageService,
+      cookieService,
+      loginService,
+      document,
+      platformId,
+    );
   }
 
   /**
@@ -43,7 +53,7 @@ export class InstitutionsService extends RestService {
    */
   getOne(id: string): Observable<any> {
     return this.get(ApiConfig.institutions + '/' + id).pipe(
-      map(response => response['data']),
+      map((response) => response['data']),
       publishReplay(1),
       refCount(),
     );

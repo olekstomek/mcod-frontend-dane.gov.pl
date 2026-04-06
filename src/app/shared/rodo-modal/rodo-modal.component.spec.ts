@@ -15,15 +15,8 @@ describe('RodoModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        NoopAnimationsModule,
-        RodoModalComponent
-      ],
-      providers: [
-        CmsService,
-        importProvidersFrom(AppTestingModule)
-      ],
+      imports: [TranslateModule.forRoot(), NoopAnimationsModule, RodoModalComponent],
+      providers: [CmsService, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);

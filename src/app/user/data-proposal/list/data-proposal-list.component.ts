@@ -8,10 +8,10 @@ import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardLi
  * Data Proposal List Component
  */
 @Component({
-    selector: 'app-data-proposal-list',
-    templateUrl: './data-proposal-list.component.html',
-    standalone: true,
-    imports: [UserDashboardListViewComponent],
+  selector: 'app-data-proposal-list',
+  templateUrl: './data-proposal-list.component.html',
+  standalone: true,
+  imports: [UserDashboardListViewComponent],
 })
 export class DataProposalListComponent implements OnInit {
   /**

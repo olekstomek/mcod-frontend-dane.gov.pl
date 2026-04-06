@@ -52,7 +52,7 @@ describe('SearchService', () => {
       q: '',
       page: 1,
     };
-    service.search(params).subscribe(value => {
+    service.search(params).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -64,7 +64,7 @@ describe('SearchService', () => {
       q: '',
       page: 1,
     };
-    service.getData('https://test.pl', params).subscribe(value => {
+    service.getData('https://test.pl', params).subscribe((value) => {
       expect(value).toEqual(new ApiResponse(value));
     });
   });
@@ -195,7 +195,7 @@ describe('SearchService', () => {
       ],
     };
 
-    service.getFilters('https://test.pl', []).subscribe(value => {
+    service.getFilters('https://test.pl', []).subscribe((value) => {
       expect(value).toEqual(listViewFilterAggregationsOptions);
     });
   });

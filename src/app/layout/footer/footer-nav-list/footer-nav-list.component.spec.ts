@@ -11,9 +11,7 @@ describe('FooterNavListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), FooterNavListComponent],
-      providers: [
-        importProvidersFrom(AppTestingModule)
-      ]
+      providers: [importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FooterNavListComponent);

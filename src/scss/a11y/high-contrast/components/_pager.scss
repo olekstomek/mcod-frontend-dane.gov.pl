@@ -1,14 +1,12 @@
-
-
 .pager {
-    .pagination {
-        .page-item {
-            &.active {
-                .page-link {
-                    background-color: $hcPrimary;
-                    color: $hcSecondary;
-                }
-            }
+  .pagination {
+    .page-item {
+      &.active {
+        .page-link {
+          background-color: $hcPrimary;
+          color: $hcSecondary;
         }
+      }
     }
+  }
 }

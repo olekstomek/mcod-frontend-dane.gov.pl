@@ -3,7 +3,7 @@
  * @param {number} [opacity]
  * @returns {string[]}
  */
-function getColorPalette(opacity: number = 0.8): string[] {
+function getColorPalette(opacity = 0.8): string[] {
   return [
     `rgba(136, 189, 230, ${opacity})`,
     `rgba(70, 107, 176, ${opacity})`,

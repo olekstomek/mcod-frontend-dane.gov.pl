@@ -11,16 +11,15 @@ import { VideoComponent } from '../widget/video/video.component';
 import { toggleVertically } from '@app/animations/toggle-vertically';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Cms blocks component
  */
 @Component({
-    selector: 'cms-block2',
-    templateUrl: './cms-block2.component.html',
-    animations: [toggleVertically],
-    standalone: true,
+  selector: 'cms-block2',
+  templateUrl: './cms-block2.component.html',
+  animations: [toggleVertically],
+  standalone: true,
   imports: [
     NgFor,
     NgClass,
@@ -31,7 +30,6 @@ import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
     VideoComponent,
     CallToActionComponent,
     HeadingComponent,
-    SanitizeHtmlPipe,
   ],
 })
 export class CmsBlock2Component implements OnInit, OnDestroy {
@@ -85,7 +83,7 @@ export class CmsBlock2Component implements OnInit, OnDestroy {
    */
   ngOnInit() {
     if (this.widgetsSubject) {
-      this.widgetsSubjectSubscription = this.widgetsSubject.subscribe(response => {
+      this.widgetsSubjectSubscription = this.widgetsSubject.subscribe((response) => {
         this.widgets = response;
       });
     } else {

@@ -56,5 +56,5 @@ export const DatasetListViewFilterNames = [
   AggregationFilterNames.DYNAMIC_DATA,
   AggregationFilterNames.RESEARCH_DATA,
   AggregationFilterNames.LANGUAGE,
-  AggregationFilterNames.PROTECTED_DATA
+  AggregationFilterNames.PROTECTED_DATA,
 ];

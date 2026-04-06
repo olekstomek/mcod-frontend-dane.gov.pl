@@ -7,23 +7,21 @@ import { LogingovplErrorEnum } from './logingovpl-error.enum';
 import { HighContrastModeEnum } from '@app/services/high-contrast.service';
 
 @Component({
-    selector: 'app-logingovpl-notification',
-    templateUrl: './logingovpl-notification.component.html',
-    styleUrls: ['logingovpl-notification.component.scss'],
-    standalone: true,
-    imports: [NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet, NgClass, TranslatePipe]
+  selector: 'app-logingovpl-notification',
+  templateUrl: './logingovpl-notification.component.html',
+  styleUrls: ['logingovpl-notification.component.scss'],
+  standalone: true,
+  imports: [NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet, NgClass, TranslatePipe],
 })
 export class LogingovplNotificationComponent implements OnInit {
-
-  @Input() styleClass: string = '';
+  @Input() styleClass = '';
   @Input() contrastMode: HighContrastModeEnum;
-  @Input() hideAfter: number = 0;
+  @Input() hideAfter = 0;
 
   public logingovplQueryCode: LogingovplErrorEnum;
   protected readonly LogingovplErrorEnum: typeof LogingovplErrorEnum = LogingovplErrorEnum;
 
-  constructor(private route: ActivatedRoute) {
-  }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const logingovplCode: string = this.route.snapshot.queryParamMap.get('logingovpl');

@@ -9,15 +9,10 @@ import { LogingovplNotificationComponent } from '../logingovpl-notification/logi
 import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
 
 @Component({
-    selector: 'app-logingovpl-error-page',
-    templateUrl: './logingovpl-error-page.component.html',
-    standalone: true,
-    imports: [
-        LogingovplNotificationComponent,
-        RouterLink,
-        LocalizeRouterPipe,
-        TranslatePipe,
-    ],
+  selector: 'app-logingovpl-error-page',
+  templateUrl: './logingovpl-error-page.component.html',
+  standalone: true,
+  imports: [LogingovplNotificationComponent, RouterLink, LocalizeRouterPipe, TranslatePipe],
 })
 export class LogingovplErrorPageComponent implements OnInit, OnDestroy {
   highContrastMode: HighContrastModeEnum;
@@ -26,9 +21,10 @@ export class LogingovplErrorPageComponent implements OnInit, OnDestroy {
   constructor(private highContrastService: HighContrastService) {}
 
   ngOnInit() {
-    this.highContrastService.getCurrentContrastMode()
+    this.highContrastService
+      .getCurrentContrastMode()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(mode => this.highContrastMode = mode);
+      .subscribe((mode) => (this.highContrastMode = mode));
   }
 
   ngOnDestroy() {

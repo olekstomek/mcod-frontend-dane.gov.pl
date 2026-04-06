@@ -5,7 +5,16 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpParams, HttpRequest, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpParams,
+  HttpRequest,
+  HttpResponse,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { ApplicationRef, Injectable, NgModule, makeStateKey, StateKey, TransferState } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Observable, of as observableOf } from 'rxjs';
@@ -16,7 +25,7 @@ import { filter, take, tap } from 'rxjs/operators';
  */
 export interface TransferHttpResponse {
   body?: any | null;
-  headers?: { [k: string]: string[] };
+  headers?: Record<string, string[]>;
   status?: number;
   statusText?: string;
   url?: string;
@@ -50,10 +59,12 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
   /**
    * @ignore
    */
-  constructor(appRef: ApplicationRef, private transferState: TransferState) {
+  constructor(
+    appRef: ApplicationRef,
+    private transferState: TransferState,
+  ) {
     // Stop using the cache if the application has stabilized, indicating initial rendering is
     // complete.
-    // tslint:disable-next-line: no-floating-promises
     appRef.isStable
       .pipe(
         filter((isStable: boolean) => isStable),
@@ -73,7 +84,10 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Stop using the cache if there is a mutating call.
-    if ((req.method !== 'GET' && req.method !== 'HEAD' && !req.url.includes('client/register')) || !!req.headers.get('authorization')) {
+    if (
+      (req.method !== 'GET' && req.method !== 'HEAD' && !req.url.includes('client/register')) ||
+      !!req.headers.get('authorization')
+    ) {
       this.isCacheActive = false;
       this.invalidateCacheEntry(req.url);
     }
@@ -123,7 +137,9 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
    * @param url
    */
   private invalidateCacheEntry(url: string): void {
-    Object.keys(this.transferState['store']).forEach(key => (key.includes(url) ? this.transferState.remove(makeStateKey(key)) : null));
+    Object.keys(this.transferState['store']).forEach((key) =>
+      key.includes(url) ? this.transferState.remove(makeStateKey(key)) : null,
+    );
   }
 
   /**
@@ -138,7 +154,7 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
     const encodedParams = params
       .keys()
       .sort()
-      .map(k => `${k}=${params.get(k)}`)
+      .map((k) => `${k}=${params.get(k)}`)
       .join('&');
     const key = (method === 'GET' ? 'G.' : 'H.') + url + '?' + encodedParams;
 
@@ -152,6 +168,9 @@ export class TransferHttpCacheInterceptor implements HttpInterceptor {
  */
 @NgModule({
   imports: [BrowserModule],
-  providers: [TransferHttpCacheInterceptor, { provide: HTTP_INTERCEPTORS, useExisting: TransferHttpCacheInterceptor, multi: true }],
+  providers: [
+    TransferHttpCacheInterceptor,
+    { provide: HTTP_INTERCEPTORS, useExisting: TransferHttpCacheInterceptor, multi: true },
+  ],
 })
 export class TransferHttpCacheModule {}

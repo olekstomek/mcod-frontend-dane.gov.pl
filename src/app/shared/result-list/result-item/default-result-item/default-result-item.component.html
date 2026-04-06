@@ -8,10 +8,9 @@
       [queryParams]="queryParams ? queryParams : ''"
       [innerHTML]="
         item.attributes.abbreviation
-          ? (item.attributes.title + ' (' + item.attributes.abbreviation + ')' | stripHtmlTagsExceptHighlight | sanitizeHtml)
-          : (item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml)
-      "
-    >
+          ? item.attributes.title + ' (' + item.attributes.abbreviation + ')'
+          : item.attributes.title
+      ">
     </a>
     <svg
       class="ml-2 result-list-svg"
@@ -19,8 +18,7 @@
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueData.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.HighValueData.title' | translate }}"
       alt="duza_wartosc_dane"
-      tabindex="0"
-    >
+      tabindex="0">
       <use href="assets/icomoon/SVG/high-value-data.svg#high-value-data"></use>
     </svg>
     <svg
@@ -29,8 +27,7 @@
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.title' | translate }}"
       alt="duza_wartosc_dane_ke"
-      tabindex="0"
-    >
+      tabindex="0">
       <use href="assets/icomoon/SVG/high-value-data-from-ec.svg#high-value-data-from-ec"></use>
     </svg>
     <svg
@@ -39,8 +36,7 @@
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.DynamicData.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
       alt="dynamiczne_dane"
-      tabindex="0"
-      >
+      tabindex="0">
       <use href="assets/icomoon/SVG/ic-dane-dynamiczne.svg#ic-dane-dynamiczne"></use>
     </svg>
     <svg
@@ -49,8 +45,7 @@
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.ResearchData.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.ResearchData.title' | translate }}"
       alt="dane_badawcze"
-      tabindex="0"
-    >
+      tabindex="0">
       <use href="assets/icomoon/SVG/ic-research-data.svg#ic-research-data"></use>
     </svg>
     <svg
@@ -59,8 +54,7 @@
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.ProtectedData.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.ProtectedData.title' | translate }}"
       alt="chronione_dane"
-      tabindex="0"
-    >
+      tabindex="0">
       <use href="assets/icomoon/SVG/key.svg#key"></use>
     </svg>
   </h2>
@@ -74,8 +68,7 @@
       <strong class="pr-1">{{ 'Attribute.InstitutionLong' | translate }}:</strong>
       <a
         [routerLink]="['/' | localize, '!institution', item.institution?.id + ',' + item.institution?.slug]"
-        [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight | sanitizeHtml"
-      >
+        [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight">
       </a>
     </div>
   </ng-container>
@@ -86,8 +79,7 @@
       <strong class="pr-1">{{ 'Attribute.InstitutionLong' | translate }}:</strong>
       <a
         [routerLink]="['/' | localize, 'institution', item.institution?.id + ',' + item.institution?.slug]"
-        [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight | sanitizeHtml"
-      >
+        [innerHTML]="item.institution?.title | stripHtmlTagsExceptHighlight">
       </a>
     </div>
   </ng-container>
@@ -96,7 +88,7 @@
   <div *ngIf="item.attributes.source?.type === 'ckan'" class="pt-1">
     <strong class="pr-1">{{ 'Attribute.DataSource' | translate }}:</strong>
     <a href="{{ item.attributes.source?.url }}" target="_blank">
-      <span [innerHTML]="item.attributes.source?.title | stripHtmlTagsExceptHighlight | sanitizeHtml"></span>
+      <span [innerHTML]="item.attributes.source?.title | stripHtmlTagsExceptHighlight"></span>
       <span aria-hidden="true">>></span>
       <span class="visually-hidden">
         {{ 'SkipTo.NewWindow' | translate }}

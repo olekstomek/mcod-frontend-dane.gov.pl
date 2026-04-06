@@ -12,47 +12,46 @@ import { CmsFormComponent } from '@app/shared/cms/cms-forms/cms-form/cms-form.co
 @Component({
   selector: 'app-survey',
   templateUrl: './survey.component.html',
-  imports: [
-    CmsFormComponent,
-    NgIf
-  ],
-  standalone: true
+  imports: [CmsFormComponent, NgIf],
+  standalone: true,
 })
 export class SurveyComponent implements OnInit {
+  /**
+   * Page slug
+   */
+  requestedSlug: string;
 
-    /**
-     * Page slug
-     */
-    requestedSlug: string;
+  /**
+   * Page query params
+   */
+  queryParams: Params;
 
-    /**
-     * Page query params
-     */
-    queryParams: Params;
+  /**
+   * Survey page to display
+   */
+  cmsForm: ICmsForm;
 
-    /**
-     * Survey page to display
-     */
-    cmsForm: ICmsForm;
+  constructor(
+    private cmsService: CmsService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
-    constructor(private cmsService: CmsService,
-                private route: ActivatedRoute,
-                private router: Router) {}
+  /**
+   * Loads survey page
+   */
+  ngOnInit() {
+    this.queryParams = { ...this.route.snapshot.queryParams };
+    this.requestedSlug = this.router.url.substring(3);
 
-    /**
-     * Loads survey page
-     */
-    ngOnInit() {
-        this.queryParams = {...this.route.snapshot.queryParams};
-        this.requestedSlug = this.router.url.substring(3);
-
-        this.cmsService.getForms(this.requestedSlug, this.queryParams.lang, this.queryParams.rev)
-            .subscribe( (page: ICmsForm) => {
-                    this.cmsForm = page;
-                },
-                err => {
-                    this.cmsService.displayCmsErrorMessage(this.requestedSlug, err.message);
-                    this.router.navigate(['/']).then();
-                });
-    }
+    this.cmsService.getForms(this.requestedSlug, this.queryParams.lang, this.queryParams.rev).subscribe(
+      (page: ICmsForm) => {
+        this.cmsForm = page;
+      },
+      (err) => {
+        this.cmsService.displayCmsErrorMessage(this.requestedSlug, err.message);
+        this.router.navigate(['/']).then();
+      },
+    );
+  }
 }

@@ -9,14 +9,14 @@ import { DetailsResultItemComponent } from '@app/shared/result-list/right-column
  * Component to show application items item results
  */
 @Component({
-    selector: 'app-application-item-results',
-    templateUrl: './application-item-results.component.html',
-    standalone: true,
-    imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent, LocalizeRouterPipe]
+  selector: 'app-application-item-results',
+  templateUrl: './application-item-results.component.html',
+  standalone: true,
+  imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent, LocalizeRouterPipe],
 })
 export class ApplicationItemResultsComponent {
-    /**
-     * items to display
-     */
-    @Input() items: any;
+  /**
+   * items to display
+   */
+  @Input() items: any;
 }

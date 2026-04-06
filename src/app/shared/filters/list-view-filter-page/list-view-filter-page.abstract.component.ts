@@ -122,7 +122,7 @@ export abstract class ListViewFilterPageAbstractComponent {
     );
 
     if (filter.names === 'regions') {
-      (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      (document.getElementById('regions-search-input') as HTMLInputElement).value = '';
       this.initialRegionValue = '';
       updatedQueryParams = { ...updatedQueryParams, isMapOpen: isMapOpen };
     }
@@ -178,7 +178,10 @@ export abstract class ListViewFilterPageAbstractComponent {
     this.backupSelectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFilters = { ...newSelectedFilters } as IListViewDatasetFiltersModel;
     this.selectedFiltersCount = this.getSelectedFiltersCount();
-    if (this.selectedFilters.regions && !this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].hierarchy_label) {
+    if (
+      this.selectedFilters.regions &&
+      !this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].hierarchy_label
+    ) {
       this.initialRegionValue = this.selectedFilters.regions[Object.keys(this.selectedFilters.regions)[0]].title;
     }
   }
@@ -189,9 +192,9 @@ export abstract class ListViewFilterPageAbstractComponent {
   protected resetSelectedFilters() {
     this.backupSelectedFilters = this.getFiltersModel();
     this.selectedFiltersCount = 0;
-    const regionsSearchInput = <HTMLInputElement>document.getElementById('regions-search-input');
+    const regionsSearchInput = document.getElementById('regions-search-input') as HTMLInputElement;
     if (regionsSearchInput) {
-      (<HTMLInputElement>document.getElementById('regions-search-input')).value = '';
+      (document.getElementById('regions-search-input') as HTMLInputElement).value = '';
       this.initialRegionValue = '';
     }
   }

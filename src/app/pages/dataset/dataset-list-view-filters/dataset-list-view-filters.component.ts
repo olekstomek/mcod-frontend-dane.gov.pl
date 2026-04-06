@@ -14,12 +14,7 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
   selector: 'app-dataset-list-view-filters',
   templateUrl: './dataset-list-view-filters.component.html',
   standalone: true,
-  imports: [
-    ExpandableMultiselectComponent,
-    DateRangePickerComponent,
-    InfoTooltipDirective,
-    TranslateModule
-  ]
+  imports: [ExpandableMultiselectComponent, DateRangePickerComponent, InfoTooltipDirective, TranslateModule],
 })
 export class DatasetListViewFiltersComponent extends ListViewFilterAbstractComponent {
   @Input() showHideMapButton = false;
@@ -35,7 +30,7 @@ export class DatasetListViewFiltersComponent extends ListViewFilterAbstractCompo
     'yearly',
     'irregular',
     'notPlanned',
-    'notApplicable'
+    'notApplicable',
   ];
   /**
    * invokes applyFilter from extended component with dataset filter names

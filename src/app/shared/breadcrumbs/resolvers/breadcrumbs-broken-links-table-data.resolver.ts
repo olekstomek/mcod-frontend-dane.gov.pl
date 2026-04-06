@@ -13,13 +13,12 @@ export const breadcrumbsBrokenLinksTableDataResolver = (route, state) => {
 
   const url = '/report/' + slug;
 
-  return combineLatest([
-    cmsService.getLandingPage(url),
-    brokenLinksService.getBrokenLinksApiData()
-  ]).pipe(map(([cmsData, apiData]) => {
-    return {
-      cmsData,
-      apiData
-    };
-  }));
+  return combineLatest([cmsService.getLandingPage(url), brokenLinksService.getBrokenLinksApiData()]).pipe(
+    map(([cmsData, apiData]) => {
+      return {
+        cmsData,
+        apiData,
+      };
+    }),
+  );
 };

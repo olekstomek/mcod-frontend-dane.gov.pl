@@ -17,13 +17,10 @@ import { SchemaService } from '@app/services/schema.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [
-    RouterOutlet
-  ],
-  standalone: true
+  imports: [RouterOutlet],
+  standalone: true,
 })
 export class AppComponent implements OnInit {
-
   /**
    * @ignore
    */
@@ -76,7 +73,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.document.documentElement.lang = this.translateService.currentLang;
 
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.isResourcePage = event.url.indexOf(RouterEndpoints.RESOURCES) !== -1;
         this.schemaService.removeStructuredData();
@@ -107,4 +104,3 @@ export class AppComponent implements OnInit {
     }
   }
 }
-

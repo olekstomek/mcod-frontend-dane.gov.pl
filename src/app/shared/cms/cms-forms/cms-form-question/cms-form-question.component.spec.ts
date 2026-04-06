@@ -18,11 +18,9 @@ describe('CmsFormQuestionComponent', () => {
         NoopAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        CmsFormQuestionComponent
+        CmsFormQuestionComponent,
       ],
-      providers: [
-        importProvidersFrom(AppTestingModule)
-      ]
+      providers: [importProvidersFrom(AppTestingModule)],
     });
   });
 

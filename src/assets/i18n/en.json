@@ -704,7 +704,7 @@
       "UnlinkSuccess": "Login via login.gov.pl has been removed.",
       "UnlinkError": "Login via login.gov.pl has not been removed.",
       "SwitchError": "An error occurred during switching account. Please try again later.",
-      "LoginErrorHeader":  "You cannot log in via login.gov.pl",
+      "LoginErrorHeader": "You cannot log in via login.gov.pl",
       "LoginErrorLine1": "If <b>you have an account</b> on Dane.gov.pl portal, please log in with your e-mail and password. Then add login via login.gov.pl in <b>My desktop</b> tab. ",
       "LoginErrorLine2": "If <b>you do not have an account</b> at Dane.gov.pl, please register. "
     },
@@ -1264,7 +1264,7 @@
     "NewPasswordCreationDescription1of3": "A password change link will be sent to the provided e-mail address. If it does not work, please use",
     "NewPasswordCreationDescription2of3": "password change form",
     "NewPasswordCreationDescription3of3": "and enter the code you received in the message",
-    "NewPasswordCreationLinkSent": "Link to the new password creation form has been sent to your email address. Please check also your Junk/Spam folder.",
+    "NewPasswordCreationLinkSent": "If the email address provided is associated with an account on the dane.gov.pl portal, we will send you a link to change your password. The message may end up in your spam folder.",
     "RodoCheckboxText": "I acknowledge having been acquainted with the Privacy Policy and the GDPR made available on dane.gov.pl",
     "RegulationsCheckboxText": "I acknowledge having been acquainted with the regulations made available on dane.gov.pl",
     "Login": "Log in",
@@ -1279,7 +1279,7 @@
     "PasswordChange": "Password change",
     "PasswordChanged": "Your password has benn successfully changed",
     "Congratulations": "Congratulations!",
-    "ActivationEmailSent": "Activation link has been sent to your email address. Please check also your Junk/Spam folder. The activation link is valid for 72 hours",
+    "ActivationEmailSent": "We will send a link to complete your registration to the email address you provided. The link will be valid for 72 hours. The message may end up in your spam folder.",
     "SearchHistory": "Search history",
     "Followed": "Followed",
     "FollowedList": "Followed objects list",
@@ -1288,7 +1288,8 @@
     "FollowedDatasetActivity": "Activity of the fallowed dataset",
     "AccountActivated": "Your account has been activated. You can now log in.",
     "Unregistered": "Don`t have an account?",
-    "LogInToFollow": "If you want to follow datasets log in or register. Following datasets is available to users who have an account on the portal."
+    "LogInToFollow": "If you want to follow datasets log in or register. Following datasets is available to users who have an account on the portal.",
+    "ActivationEmailExpired": "The password change link has expired. Enter your e-mail to receive a new link."
   },
   "Validation": {
     "Self": "Validation",

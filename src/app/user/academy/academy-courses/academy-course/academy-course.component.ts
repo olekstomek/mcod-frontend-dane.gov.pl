@@ -12,19 +12,19 @@ import { AodCourseScheduleDay } from '@app/user/academy/academy-courses/AodCours
  * Academy Course Component
  */
 @Component({
-    selector: 'app-academy-course',
-    templateUrl: './academy-course.component.html',
-    standalone: true,
-    imports: [
-        NgClass,
-        NgIf,
-        CollapsibleTextComponent,
-        NgFor,
-        AcademyScheduleComponent,
-        TitleCasePipe,
-        TranslatePipe,
-        KeyvalueOrderPipe,
-    ],
+  selector: 'app-academy-course',
+  templateUrl: './academy-course.component.html',
+  standalone: true,
+  imports: [
+    NgClass,
+    NgIf,
+    CollapsibleTextComponent,
+    NgFor,
+    AcademyScheduleComponent,
+    TitleCasePipe,
+    TranslatePipe,
+    KeyvalueOrderPipe,
+  ],
 })
 export class AcademyCourseComponent {
   /**
@@ -35,10 +35,10 @@ export class AcademyCourseComponent {
   /**
    * AOD Course schedules grouped by month, related to all the courses
    */
-  @Input('courseSchedulesByMonth') schedulesByMonth: { [key: string]: AodCourseScheduleDay[] };
+  @Input('courseSchedulesByMonth') schedulesByMonth: Record<string, AodCourseScheduleDay[]>;
 
   /**
    * AOD Course schedules grouped by type without duplicates, related to all the courses
    */
-  @Input('courseSchedulesByType') schedulesByType: { [key: string]: string };
+  @Input('courseSchedulesByType') schedulesByType: Record<string, string>;
 }

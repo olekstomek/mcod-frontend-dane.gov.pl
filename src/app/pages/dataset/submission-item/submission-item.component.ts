@@ -17,88 +17,79 @@ import { NotificationsServerComponent } from '@app/shared/notifications-server/n
 @Component({
   selector: 'app-submission-item',
   templateUrl: './submission-item.component.html',
-  animations: [
-    toggleVertically
-  ],
-  imports: [
-    NotificationsServerComponent,
-    TranslatePipe,
-    NgIf,
-    ReactiveFormsModule,
-    NgClass,
-    MathCaptchaComponent
-  ],
-  standalone: true
+  animations: [toggleVertically],
+  imports: [NotificationsServerComponent, TranslatePipe, NgIf, ReactiveFormsModule, NgClass, MathCaptchaComponent],
+  standalone: true,
 })
 export class SubmissionItemComponent implements OnInit {
+  /**
+   * Submission - data proposal
+   */
+  submission: any;
 
-    /**
-     * Submission - data proposal
-     */
-    submission: any;
+  /**
+   * Feedback form
+   */
+  feedbackForm: UntypedFormGroup;
 
-    /**
-     * Feedback form
-     */
-    feedbackForm: UntypedFormGroup;
+  /**
+   * Max number of characters in the feedback
+   */
+  @Input() minFeedbackLength = 3;
 
-    /**
-     * Max number of characters in the feedback
-     */
-    @Input() minFeedbackLength = 3;
+  /**
+   * Max number of characters in the feedback
+   */
+  @Input() maxFeedbackLength = 3000;
 
-    /**
-     * Max number of characters in the feedback
-     */
-    @Input() maxFeedbackLength = 3000;
+  /**
+   * Determines whether feedback is sent
+   */
+  isFeedbackSent: boolean;
 
-    /**
-     * Determines whether feedback is sent
-     */
-    isFeedbackSent: boolean;
+  /**
+   * @ignore
+   */
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private seoService: SeoService,
+    private datasetService: DatasetService,
+  ) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private activatedRoute: ActivatedRoute,
-                private seoService: SeoService,
-                private datasetService: DatasetService) {
+  /**
+   * Sets META tags.
+   * Initializes feedback form.
+   */
+  ngOnInit(): void {
+    this.submission = this.activatedRoute.snapshot.data['post'].data;
+    this.seoService.setPageTitle(this.submission.attributes.title);
+    this.seoService.setDescriptionFromText(StringHelper.stripHtmlTags(this.submission.attributes.notes));
+    this.initForm();
+  }
+
+  /**
+   * Initializes form
+   */
+  initForm(): void {
+    this.feedbackForm = new UntypedFormGroup({
+      feedback: new UntypedFormControl(null, [
+        Validators.required,
+        Validators.minLength(this.minFeedbackLength),
+        Validators.maxLength(this.maxFeedbackLength),
+      ]),
+      captcha: new UntypedFormControl(null, Validators.required),
+    });
+  }
+
+  /**
+   * Sends feedback on form submit
+   */
+  onFormSubmit(): void {
+    if (this.feedbackForm.invalid) {
+      return;
     }
 
-    /**
-     * Sets META tags.
-     * Initializes feedback form.
-     */
-    ngOnInit(): void {
-        this.submission = this.activatedRoute.snapshot.data['post'].data;
-        this.seoService.setPageTitle(this.submission.attributes.title);
-        this.seoService.setDescriptionFromText(StringHelper.stripHtmlTags(this.submission.attributes.notes));
-        this.initForm();
-    }
-
-    /**
-     * Initializes form
-     */
-    initForm(): void {
-        this.feedbackForm = new UntypedFormGroup({
-            'feedback': new UntypedFormControl(null, [
-                Validators.required,
-                Validators.minLength(this.minFeedbackLength),
-                Validators.maxLength(this.maxFeedbackLength)
-            ]),
-            'captcha': new UntypedFormControl(null, Validators.required)
-        });
-    }
-
-    /**
-     * Sends feedback on form submit
-     */
-    onFormSubmit(): void  {
-        if (this.feedbackForm.invalid) {
-            return;
-        }
-
-        const payload = `{
+    const payload = `{
             "data": {
                 "type": "comment",
                 "attributes": {
@@ -107,6 +98,8 @@ export class SubmissionItemComponent implements OnInit {
             }
         }`;
 
-        this.datasetService.sendSubmissionFeedback(this.submission.id, JSON.parse(payload)).subscribe(() => this.isFeedbackSent = true);
-    }
+    this.datasetService
+      .sendSubmissionFeedback(this.submission.id, JSON.parse(payload))
+      .subscribe(() => (this.isFeedbackSent = true));
+  }
 }

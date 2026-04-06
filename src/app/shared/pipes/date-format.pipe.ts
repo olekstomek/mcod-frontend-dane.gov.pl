@@ -11,9 +11,9 @@ import { APP_CONFIG } from '@app/app.config';
  * {{ item.attributes.created | dateFormat }}
  */
 @Pipe({
-    name: 'dateFormat',
-    pure: true,
-    standalone: true,
+  name: 'dateFormat',
+  pure: true,
+  standalone: true,
 })
 export class DateFormatPipe implements PipeTransform {
   /**

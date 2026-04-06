@@ -13,7 +13,7 @@ describe('SingleselectComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NoopAnimationsModule, SingleselectComponent],
-      providers: [importProvidersFrom(AppTestingModule)]
+      providers: [importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SingleselectComponent);

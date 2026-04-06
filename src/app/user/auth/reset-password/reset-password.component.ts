@@ -1,10 +1,18 @@
 import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
-import { TranslatePipe } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { delay, Subscription } from 'rxjs';
 import { VisualPasswordValidatorComponent } from '../visual-password-validator/visual-password-validator.component';
 
 import { toggleVertically } from '@app/animations';
@@ -19,25 +27,29 @@ import { equalValueValidator } from '@app/user/auth/equal-value-validator';
  * Reset Password Component
  */
 @Component({
-    selector: 'app-reset-password',
-    templateUrl: './reset-password.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        FormsModule,
-        NgClass,
-        ReactiveFormsModule,
-        NotificationsServerComponent,
-        VisualPasswordValidatorComponent,
-        RouterLink,
-        UpperCasePipe,
-        LowerCasePipe,
-        LocalizeRouterPipe,
-        TranslatePipe,
-    ],
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss'],
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    NgIf,
+    FormsModule,
+    NgClass,
+    ReactiveFormsModule,
+    NotificationsServerComponent,
+    VisualPasswordValidatorComponent,
+    RouterLink,
+    UpperCasePipe,
+    LowerCasePipe,
+    LocalizeRouterPipe,
+    TranslatePipe,
+    MatProgressSpinner,
+  ],
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
   /**
    * User subscription of reset password component
    */
@@ -55,7 +67,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   /**
    * Determines whether password  has been changed
    */
-  passwordChanged: boolean = false;
+  passwordChanged = false;
 
   /**
    * Determines password min length
@@ -65,7 +77,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   /**
    * Determines whether to show password hint
    */
-  showPasswordHint: boolean = false;
+  showPasswordHint = false;
+  loading = true;
 
   /**
    * @ignore
@@ -85,15 +98,25 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.seoService.setPageTitleByTranslationKey(['User.NewPasswordCreation']);
     this.token = this.route.snapshot.paramMap.get('token');
-
+    this.userService.verifyToken(this.token).subscribe((res) => {
+      const validToken = res.data.attributes['is_valid'];
+      if (!validToken) {
+        const language: string = this.translate.currentLang;
+        this.router.navigate([language, 'user', 'lost-password'], { state: { showErrorMessage: true } });
+      }
+      this.loading = false;
+    });
     this.passwordMinLength = this.userService.passwordMinLength;
-    const customValidators = this.userService.passwordCustomValidators.map(validator => {
+    const customValidators = this.userService.passwordCustomValidators.map((validator) => {
       return CustomFormControlValidators.checkString(validator[0], validator[1]);
     });
 
     this.resetPasswordForm = this.formBuilder.group(
       {
-        new_password1: ['', [Validators.required, Validators.minLength(this.userService.passwordMinLength), ...customValidators]],
+        new_password1: [
+          '',
+          [Validators.required, Validators.minLength(this.userService.passwordMinLength), ...customValidators],
+        ],
         new_password2: ['', Validators.required],
       },
       { validator: equalValueValidator('new_password1', 'new_password2') },

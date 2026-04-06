@@ -1,7 +1,6 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -12,24 +11,14 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
  * Institutions Component
  */
 @Component({
-    selector: 'home-institutions',
-    templateUrl: './institutions.component.html',
-    standalone: true,
-  imports: [
-    InfoTooltipDirective,
-    NgIf,
-    NgFor,
-    RouterLink,
-    FooterComponent,
-    TranslatePipe,
-    LocalizeRouterPipe,
-    SanitizeHtmlPipe,
-  ],
+  selector: 'home-institutions',
+  templateUrl: './institutions.component.html',
+  standalone: true,
+  imports: [InfoTooltipDirective, NgIf, NgFor, RouterLink, FooterComponent, TranslatePipe, LocalizeRouterPipe],
 })
 export class InstitutionsComponent {
-
-    /**
-     * Items (institutions) of institutions component
-     */
-    @Input() items;
+  /**
+   * Items (institutions) of institutions component
+   */
+  @Input() items;
 }

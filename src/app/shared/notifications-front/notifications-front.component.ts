@@ -11,10 +11,10 @@ import { NotificationsFrontService } from '@app/services/notifications-front.ser
  */
 
 @Component({
-    selector: 'app-notifications-front',
-    templateUrl: './notifications-front.component.html',
-    standalone: true,
-    imports: [NotificationsComponent],
+  selector: 'app-notifications-front',
+  templateUrl: './notifications-front.component.html',
+  standalone: true,
+  imports: [NotificationsComponent],
 })
 export class NotificationsFrontComponent implements OnInit, OnDestroy {
   /**
@@ -35,7 +35,9 @@ export class NotificationsFrontComponent implements OnInit, OnDestroy {
    * Subscribe to notification service
    */
   ngOnInit() {
-    this.notificationsSubscription = this.notificationsService.getAlerts().subscribe(alerts => (this.alerts = alerts));
+    this.notificationsSubscription = this.notificationsService
+      .getAlerts()
+      .subscribe((alerts) => (this.alerts = alerts));
   }
 
   /**

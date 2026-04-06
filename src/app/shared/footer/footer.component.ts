@@ -7,20 +7,19 @@ import { TranslatePipe } from '@ngx-translate/core';
  * Categories Component
  */
 @Component({
-    selector: 'home-section-footer',
-    templateUrl: './footer.component.html',
-    standalone: true,
-    imports: [RouterLink, TranslatePipe, LocalizeRouterPipe]
+  selector: 'home-section-footer',
+  templateUrl: './footer.component.html',
+  standalone: true,
+  imports: [RouterLink, TranslatePipe, LocalizeRouterPipe],
 })
 export class FooterComponent {
+  /**
+   * Router url
+   */
+  @Input() routerURL: string;
 
-    /**
-     * Router url
-     */
-    @Input() routerURL: string;
-
-    /**
-     * Link test
-     */
-    @Input() text: string;
+  /**
+   * Link test
+   */
+  @Input() text: string;
 }

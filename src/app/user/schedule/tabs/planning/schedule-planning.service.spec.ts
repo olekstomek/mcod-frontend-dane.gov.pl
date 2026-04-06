@@ -197,38 +197,38 @@ describe('SchedulePlanningService', () => {
   });
 
   it('should getRepresentativesSchedules function return value', () => {
-    service.getRepresentativesSchedules().subscribe(value => {
+    service.getRepresentativesSchedules().subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });
   });
 
   it('should updateScheduleStatus function return value', () => {
-    service.updateScheduleStatus(2, true).subscribe(value => {
+    service.updateScheduleStatus(2, true).subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should blockSchedule function return value', () => {
-    service.blockSchedule(true).subscribe(value => {
+    service.blockSchedule(true).subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should deleteScheduleItem function return value', () => {
-    service.deleteScheduleItem('1').subscribe(value => {
+    service.deleteScheduleItem('1').subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should searchForUserSchedules function return value', () => {
-    service.searchForUserSchedules('g', 1).subscribe(value => {
+    service.searchForUserSchedules('g', 1).subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should getUserScheduleItem function return value', () => {
-    service.getUserScheduleItem(2).subscribe(value => {
+    service.getUserScheduleItem(2).subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });
@@ -245,7 +245,7 @@ describe('SchedulePlanningService', () => {
       is_schedule_blocked: true,
       is_user_schedule_blocked: true,
     };
-    service.updateUserScheduleItem(planningBlueprint).subscribe(value => {
+    service.updateUserScheduleItem(planningBlueprint).subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
@@ -261,7 +261,7 @@ describe('SchedulePlanningService', () => {
       is_schedule_blocked: true,
       is_user_schedule_blocked: true,
     };
-    service.addUserScheduleItem(planningBlueprint).subscribe(value => {
+    service.addUserScheduleItem(planningBlueprint).subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
@@ -277,13 +277,13 @@ describe('SchedulePlanningService', () => {
       is_schedule_blocked: true,
       is_user_schedule_blocked: true,
     };
-    service.addUserScheduleItemByAdmin(planningBlueprint).subscribe(value => {
+    service.addUserScheduleItemByAdmin(planningBlueprint).subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should getUserInstitutions function return value', () => {
-    service.getUserInstitutions('2').subscribe(value => {
+    service.getUserInstitutions('2').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });
@@ -291,55 +291,55 @@ describe('SchedulePlanningService', () => {
 
   it('should getUserEmailAndInstitutions function return value', () => {
     const dataTest = { email: 'test@test.pl', institutions: {} };
-    service.getUserEmailAndInstitutions('2', 'test@test.pl').subscribe(value => {
+    service.getUserEmailAndInstitutions('2', 'test@test.pl').subscribe((value) => {
       const req = httpMock.expectOne(() => true);
       req.flush(dataTest);
     });
   });
 
   it('should getUserInstitutionsForScheduleItem function return value', () => {
-    service.getUserInstitutionsForScheduleItem('2').subscribe(value => {
+    service.getUserInstitutionsForScheduleItem('2').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });
   });
 
   it('should getUserInstitutionsForScheduleItemId function return value', () => {
-    service.getUserInstitutionsForScheduleItemId('2').subscribe(value => {
+    service.getUserInstitutionsForScheduleItemId('2').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });
   });
 
   it('should openNewSchedule function return value', () => {
-    service.openNewSchedule().subscribe(value => {
+    service.openNewSchedule().subscribe((value) => {
       const req = httpMock.expectOne({ method: 'POST' });
       req.flush('Post');
     });
   });
 
   it('should isTableShouldBeReloaded function return value', () => {
-    service.isTableShouldBeReloaded().subscribe(value => {
+    service.isTableShouldBeReloaded().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should getScheduleItemComments function return value', () => {
-    service.getScheduleItemComments('2').subscribe(value => {
+    service.getScheduleItemComments('2').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });
   });
 
   it('should saveComment function return value', () => {
-    service.saveComment('2', 'text').subscribe(value => {
+    service.saveComment('2', 'text').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'POST' });
       req.flush('Post');
     });
   });
 
   it('should getSchedules function return value', () => {
-    service.getSchedules().subscribe(value => {
+    service.getSchedules().subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });

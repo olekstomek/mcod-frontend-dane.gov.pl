@@ -17,7 +17,10 @@ const userSchedulesMock = {
   data: {
     relationships: {
       user: { data: { id: '2573', type: 'user' } },
-      period: { data: { id: '13', type: 'period' }, links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/periods/13' } },
+      period: {
+        data: { id: '13', type: 'period' },
+        links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/periods/13' },
+      },
       schedule: {
         data: { id: '13', type: 'schedule' },
         links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/schedules/13' },
@@ -80,7 +83,10 @@ const userSchedulesMock = {
           data: { id: '16', type: 'user_schedule' },
           links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/user_schedules/16' },
         },
-        comments: { links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/51/comments' }, meta: { count: 0 } },
+        comments: {
+          links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/51/comments' },
+          meta: { count: 0 },
+        },
       },
       attributes: {
         institution: 'Urz\u0105d Miejski w B\u0142oniu 30.11.2020',
@@ -113,7 +119,10 @@ const userSchedulesMock = {
           data: { id: '16', type: 'user_schedule' },
           links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/user_schedules/16' },
         },
-        comments: { links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/52/comments' }, meta: { count: 0 } },
+        comments: {
+          links: { related: 'https://api.dev.dane.gov.pl/1.4/auth/user_schedule_items/52/comments' },
+          meta: { count: 0 },
+        },
       },
       attributes: {
         institution: 'Urz\u0105d Miejski w B\u0142oniu',
@@ -164,15 +173,15 @@ describe('ApplicationsService', () => {
     });
   });
 
-  it('should fetch schedules item for current schedule from schedules endpoint when user isn\'t admin', () => {
-    service.getSchedulesItemForCurrentSchedule(1, false, 1).subscribe(data => {
+  it("should fetch schedules item for current schedule from schedules endpoint when user isn't admin", () => {
+    service.getSchedulesItemForCurrentSchedule(1, false, 1).subscribe((data) => {
       httpMock.expectOne(`/api${ApiConfig.schedules}/${1}/user_schedule_items?include=schedule,user_schedule`);
       expect(data).toBeTruthy();
     });
   });
 
   it('should map response to UserSchedule', () => {
-    service.getSchedulesItemForCurrentSchedule(1, true, 1).subscribe(data => {
+    service.getSchedulesItemForCurrentSchedule(1, true, 1).subscribe((data) => {
       const req = httpMock.expectOne(`/api${ApiConfig.userSchedules}/${1}?include=schedule,user_schedule_item`);
       req.flush(userSchedulesMock);
       expect(data).toEqual({
@@ -343,7 +352,10 @@ describe('ApplicationsService', () => {
     const id = 1;
     const format = 'cvs';
     service.getExportUrl(source, id, 'csv');
-    const url = source === 'schedules' ? `${ApiConfig.schedules}/${id}.${format}` : `${ApiConfig.userSchedules}/${id}/items.${format}`;
+    const url =
+      source === 'schedules'
+        ? `${ApiConfig.schedules}/${id}.${format}`
+        : `${ApiConfig.userSchedules}/${id}/items.${format}`;
     expect(url).toEqual(`${ApiConfig.schedules}/${id}.${format}`);
     expect(url).not.toEqual(`${ApiConfig.userSchedules}/${id}/items.${format}`);
   });
@@ -353,7 +365,10 @@ describe('ApplicationsService', () => {
     const id = 1;
     const format = 'cvs';
     service.getExportUrl(source, id, 'csv');
-    const url = source === 'user_schedules' ? `${ApiConfig.userSchedules}/${id}/items.${format}` : `${ApiConfig.schedules}/${id}.${format}`;
+    const url =
+      source === 'user_schedules'
+        ? `${ApiConfig.userSchedules}/${id}/items.${format}`
+        : `${ApiConfig.schedules}/${id}.${format}`;
     expect(url).toEqual(`${ApiConfig.userSchedules}/${id}/items.${format}`);
     expect(url).not.toEqual(`${ApiConfig.schedules}/${id}.${format}`);
   });

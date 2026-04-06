@@ -15,16 +15,10 @@ import { TranslatePipe } from '@ngx-translate/core';
  *   </app-pagination>
  */
 @Component({
-    selector: 'app-pagination',
-    templateUrl: './pagination.component.html',
-    standalone: true,
-    imports: [
-        NgClass,
-        RouterLink,
-        NgFor,
-        NgIf,
-        TranslatePipe,
-    ],
+  selector: 'app-pagination',
+  templateUrl: './pagination.component.html',
+  standalone: true,
+  imports: [NgClass, RouterLink, NgFor, NgIf, TranslatePipe],
 })
 export class PaginationComponent implements OnChanges {
   /**
@@ -65,7 +59,7 @@ export class PaginationComponent implements OnChanges {
   /**
    * List of visible page links
    */
-  pageNumbersToShow: Array<number>;
+  pageNumbersToShow: number[];
 
   /**
    * @ignore

@@ -20,7 +20,7 @@ describe('PostMessageIframeService', () => {
   });
 
   it('should get message', () => {
-    service.getMessages().subscribe(value => {
+    service.getMessages().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

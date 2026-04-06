@@ -31,20 +31,12 @@ interface IComponentOptions {
  * </app-found-results-counters-and-sort>
  */
 @Component({
-    selector: 'app-found-results-counters-and-sort',
-    templateUrl: './found-results-counters-and-sort.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        InfoTooltipDirective,
-        NgFor,
-        RouterLink,
-        FormsModule,
-        TranslatePipe,
-    ],
+  selector: 'app-found-results-counters-and-sort',
+  templateUrl: './found-results-counters-and-sort.component.html',
+  standalone: true,
+  imports: [NgIf, InfoTooltipDirective, NgFor, RouterLink, FormsModule, TranslatePipe],
 })
 export class FoundResultsCountersAndSortComponent implements OnChanges {
-
   constructor() {}
   /**
    * Selected item on sort dropdown
@@ -82,12 +74,12 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
   /**
    * Update param event emitter
    */
-  @Output() update: EventEmitter<PageParams> = new EventEmitter();
+  @Output() update = new EventEmitter<PageParams>();
 
   /**
    * Sort option param event emitter
    */
-  @Output() sortOption: EventEmitter<string> = new EventEmitter();
+  @Output() sortOption = new EventEmitter<string>();
 
   /**
    * Determines whether sort value is valid
@@ -101,7 +93,7 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
    * @param {Params} params
    * @param {boolean} isFoundParam
    */
-  updateParams(params: PageParams, isFoundParam: boolean = false) {
+  updateParams(params: PageParams, isFoundParam = false) {
     const isSameFoundParamSelected = isFoundParam && params['model[terms]'] === this.selectedModel;
     if (!isSameFoundParamSelected) {
       this.update.emit(params);
@@ -116,11 +108,13 @@ export class FoundResultsCountersAndSortComponent implements OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     if (changes.selected) {
-      this.isSortValid = !!this.sortOptions.find(option => option.value === changes.selected.currentValue);
+      this.isSortValid = !!this.sortOptions.find((option) => option.value === changes.selected.currentValue);
     }
 
     if (changes.counters && changes.counters.currentValue instanceof Array) {
-      this.counters = changes.counters.currentValue.filter((counter: IComponentOptions) => !!counter['count']) as IComponentOptions[];
+      this.counters = changes.counters.currentValue.filter(
+        (counter: IComponentOptions) => !!counter['count'],
+      ) as IComponentOptions[];
     }
   }
 }

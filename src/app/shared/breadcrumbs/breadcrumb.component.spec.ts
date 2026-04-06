@@ -15,10 +15,7 @@ describe('BreadcrumbsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), BreadcrumbsComponent],
-      providers: [
-        BreadcrumbService,
-        importProvidersFrom(AppTestingModule)
-      ],
+      providers: [BreadcrumbService, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     service = TestBed.inject(BreadcrumbService);

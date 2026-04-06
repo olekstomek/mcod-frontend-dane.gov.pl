@@ -1,4 +1,4 @@
 export interface StartEndDateRange {
-    startDate: Date;
-    endDate: Date;
+  startDate: Date;
+  endDate: Date;
 }

@@ -12,15 +12,19 @@ import { TemplateHelper } from '@app/shared/helpers';
   providedIn: 'root',
 })
 export class BreadcrumbService {
-  constructor(private readonly router: Router, private readonly activatedRoute: ActivatedRoute, private translate: TranslateService) {}
+  constructor(
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private translate: TranslateService,
+  ) {}
 
   /**
    * Returns Breadcrumbs
    * @returns {Observable<Array<Breadcrumb>>}
    */
-  getBreadcrumbs(): Observable<Array<Breadcrumb>> {
+  getBreadcrumbs(): Observable<Breadcrumb[]> {
     return this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
+      filter((event) => event instanceof NavigationEnd),
       distinctUntilChanged(),
       switchMap(() => this.buildBreadcrumb(this.activatedRoute.root)),
     );
@@ -30,11 +34,11 @@ export class BreadcrumbService {
    * Returns reversed breadcrumb array
    * @returns {Observable<any[]>}
    */
-  getReversedBreadcrumbsLabels(): Observable<Array<string>> {
+  getReversedBreadcrumbsLabels(): Observable<string[]> {
     return this.getBreadcrumbs().pipe(
-      map(breadcrumbs => {
+      map((breadcrumbs) => {
         const filteredBreadcrumbs = [];
-        breadcrumbs.forEach(breadcrumb => {
+        breadcrumbs.forEach((breadcrumb) => {
           if (breadcrumb.label) {
             filteredBreadcrumbs.push(breadcrumb);
           }
@@ -51,13 +55,13 @@ export class BreadcrumbService {
    * @param {Array<any>} [breadcrumbs]
    * @returns {any}
    */
-  private buildBreadcrumb(route: ActivatedRoute, url: string = '', breadcrumbs: Array<any> = []): Observable<Array<Breadcrumb>> {
+  private buildBreadcrumb(route: ActivatedRoute, url = '', breadcrumbs: any[] = []): Observable<Breadcrumb[]> {
     const path = this.getPath(route);
 
     const params = this.getParams(url, route);
 
     return this.getTitle(route, path).pipe(
-      switchMap(title => {
+      switchMap((title) => {
         const { nextUrl, segments } = this.parseCurrentUrl(url, path, params);
 
         const breadcrumb: Breadcrumb = {
@@ -73,7 +77,7 @@ export class BreadcrumbService {
         if (route.firstChild) {
           breadcrumb.lastChild = false;
           return this.buildBreadcrumb(route.firstChild, nextUrl, newBreadcrumbs);
-        } else if (!!newBreadcrumbs[newBreadcrumbs.length - 1]) {
+        } else if (newBreadcrumbs[newBreadcrumbs.length - 1]) {
           newBreadcrumbs[newBreadcrumbs.length - 1].lastChild = true;
         }
 
@@ -97,7 +101,7 @@ export class BreadcrumbService {
     // Prepare clean array of segments for [routerLink]
     let segments = nextUrl.split('/');
     segments.unshift('/'); // Start from root
-    segments = segments.filter(n => !!n); // Filter out empty strings, nulls and undefined
+    segments = segments.filter((n) => !!n); // Filter out empty strings, nulls and undefined
     return { nextUrl, segments };
   }
 
@@ -168,7 +172,7 @@ export class BreadcrumbService {
    * @param obj
    * @returns {any}
    */
-  private getKeyFromObject(key: string, obj: Object): string {
+  private getKeyFromObject(key: string, obj: object): string {
     if (!key.includes('.')) {
       return obj[key];
     }

@@ -18,15 +18,11 @@ describe('WriteUsInfoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        WriteUsInfoComponent
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), WriteUsInfoComponent],
       providers: [
         { provide: BsModalService, useClass: BsModalServiceStub },
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
   });

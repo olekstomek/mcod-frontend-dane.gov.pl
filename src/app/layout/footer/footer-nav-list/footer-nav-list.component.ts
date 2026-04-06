@@ -10,12 +10,8 @@ import { StringHelper } from '@app/shared/helpers/string.helper';
 @Component({
   selector: 'app-footer-nav-list',
   templateUrl: './footer-nav-list.component.html',
-  imports: [
-    TranslatePipe,
-    NgClass,
-    NgIf
-  ],
-  standalone: true
+  imports: [TranslatePipe, NgClass, NgIf],
+  standalone: true,
 })
 export class FooterNavListComponent {
   /**

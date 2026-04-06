@@ -28,18 +28,12 @@ import { UserDashboardListViewFilterType } from '@app/user/list-view/UserDashboa
  * User Dashboard List View Component
  */
 @Component({
-    selector: 'app-user-dashboard-list-view',
-    templateUrl: './user-dashboard-list-view.component.html',
-    providers: [UserDashboardListViewService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        ItemsPerPageComponent,
-        PaginationComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-user-dashboard-list-view',
+  templateUrl: './user-dashboard-list-view.component.html',
+  providers: [UserDashboardListViewService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, NgFor, ItemsPerPageComponent, PaginationComponent, TranslatePipe],
 })
 export class UserDashboardListViewComponent implements OnInit {
   /**
@@ -190,7 +184,7 @@ export class UserDashboardListViewComponent implements OnInit {
   private handleActivatedRouteParams() {
     this.activatedRoute.queryParamMap
       .pipe(
-        switchMap(qParamMap => {
+        switchMap((qParamMap) => {
           let sort = '';
 
           if (!this.allBasicParamsIn(qParamMap['params'])) {
@@ -211,7 +205,7 @@ export class UserDashboardListViewComponent implements OnInit {
             this.params['state'] = this.selectedFilters.join(',');
           }
 
-          Object.keys(this.config.additionalPageParams).forEach(key => {
+          Object.keys(this.config.additionalPageParams).forEach((key) => {
             this.params[key] = this.config.additionalPageParams[key];
           });
 
@@ -220,7 +214,7 @@ export class UserDashboardListViewComponent implements OnInit {
           return this.listService.getAll(this.params);
         }),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         this.items = response.results;
         this.count = response.count;
         this.config.afterDataFetchedCallback(response);

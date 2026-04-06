@@ -7,14 +7,10 @@ import { DetailsResultItemComponent } from '../../right-column/details-result-it
  * Search result component
  */
 @Component({
-    selector: 'app-search-results-view',
-    templateUrl: './search-results-view.component.html',
-    standalone: true,
-    imports: [
-        ResultListComponent,
-        DefaultResultItemComponent,
-        DetailsResultItemComponent,
-    ],
+  selector: 'app-search-results-view',
+  templateUrl: './search-results-view.component.html',
+  standalone: true,
+  imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent],
 })
 export class SearchResultsViewComponent {
   /**

@@ -26,165 +26,169 @@ import { DiscourseService } from '@app/user/forum/discourse.service';
 import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
 
 @Component({
-    selector: 'app-my-dashboard',
-    templateUrl: './my-dashboard.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        LogingovplNotificationComponent,
-        PermissionDirective,
-        RouterLink,
-        ScheduleNotificationPopupComponent,
-        NgFor,
-        LoaderComponent,
-        AsyncPipe,
-        LowerCasePipe,
-        LocalizeRouterPipe,
-        TranslatePipe,
-        TimespanPipe,
-        TranslateDateFormatPipe,
-    ],
+  selector: 'app-my-dashboard',
+  templateUrl: './my-dashboard.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    LogingovplNotificationComponent,
+    PermissionDirective,
+    RouterLink,
+    ScheduleNotificationPopupComponent,
+    NgFor,
+    LoaderComponent,
+    AsyncPipe,
+    LowerCasePipe,
+    LocalizeRouterPipe,
+    TranslatePipe,
+    TimespanPipe,
+    TranslateDateFormatPipe,
+  ],
 })
 /**
  * Dashboard component
  */
 export class MyDashboardComponent implements OnInit, OnDestroy {
+  /**
+   * Admin panel url
+   */
+  adminPanelUrl: string;
 
-    /**
-     * Admin panel url
-     */
-    adminPanelUrl: string;
+  /**
+   * Discourse forum url
+   */
+  forumUrl: string;
 
-    /**
-     * Discourse forum url
-     */
-    forumUrl: string;
+  /**
+   * Data required by dashboard child components
+   */
+  dashboardData$: Observable<{ user: User; data: UserDashboardData }>;
 
-    /**
-     * Data required by dashboard child components
-     */
-    dashboardData$: Observable<{ user: User, data: UserDashboardData }>;
+  /**
+   * Determines whether current user is admin
+   */
+  isAdmin: boolean;
 
-    /**
-     * Determines whether current user is admin
-     */
-    isAdmin: boolean;
+  /**
+   * @ignore
+   */
+  PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
 
-    /**
-     * @ignore
-     */
-    PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
+  /**
+   * Forum latest topics with categories
+   */
+  forumLatestTopicsWithCategories: ForumTopicWithCategory[];
 
-    /**
-     * Forum latest topics with categories
-     */
-    forumLatestTopicsWithCategories: ForumTopicWithCategory[];
+  /**
+   * Forum username
+   */
+  forumUsername: string;
+  highContrastMode: HighContrastModeEnum;
+  destroy$ = new Subject<boolean>();
 
-    /**
-     * Forum username
-     */
-    forumUsername: string;
-    highContrastMode: HighContrastModeEnum;
-    destroy$: Subject<boolean> = new Subject();
+  constructor(
+    private seoService: SeoService,
+    private userService: UserService,
+    private userStateService: UserStateService,
+    private discourseService: DiscourseService,
+    private dialog: ConfirmDialogService,
+    private route: ActivatedRoute,
+    private translateService: TranslateService,
+    private highContrastService: HighContrastService,
+    @Inject(DOCUMENT) private document: Document,
+  ) {}
 
-    constructor(private seoService: SeoService,
-                private userService: UserService,
-                private userStateService: UserStateService,
-                private discourseService: DiscourseService,
-                private dialog: ConfirmDialogService,
-                private route: ActivatedRoute,
-                private translateService: TranslateService,
-                private highContrastService: HighContrastService,
-                @Inject(DOCUMENT) private document: Document) {
+  /**
+   * Sets access to admin panel
+   * Initializes user permissions
+   * Setups dashboard data
+   * Setups forum notifications and latest topics
+   */
+  ngOnInit() {
+    this.seoService.setPageTitleByTranslationKey(['MyDashboard.Self']);
+    this.setAdminPanelUrl();
+    this.setupDashboardData();
+    this.setupForumData();
+    this.isAdmin = this.userService.isAdmin();
+    this.highContrastService
+      .getCurrentContrastMode()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((mode) => (this.highContrastMode = mode));
+  }
+
+  /**
+   * Sets admin panel url
+   */
+  private setAdminPanelUrl(): void {
+    const { protocol, hostname } = this.document.location;
+    this.adminPanelUrl = !environment.production
+      ? APP_CONFIG.urls.adminPanelDev
+      : protocol + '//admin.' + hostname.replace('www.', '');
+    this.forumUrl = !environment.production
+      ? APP_CONFIG.urls.forumInt
+      : protocol + '//forum.' + hostname.replace('www.', '');
+  }
+
+  /**
+   * Combines data needed by template
+   */
+  private setupDashboardData(): void {
+    this.dashboardData$ = zip(this.userStateService.getCurrentUser(), this.userService.getUserDashboardData()).pipe(
+      map(([user, data]) => ({ user, data })),
+    );
+  }
+
+  /**
+   * Setups forum data
+   */
+  private setupForumData() {
+    if (!this.userService.getTokenData().user.discourse_user_name) {
+      return;
     }
 
-    /**
-     * Sets access to admin panel
-     * Initializes user permissions
-     * Setups dashboard data
-     * Setups forum notifications and latest topics
-     */
-    ngOnInit() {
-      this.seoService.setPageTitleByTranslationKey(['MyDashboard.Self']);
-      this.setAdminPanelUrl();
-      this.setupDashboardData();
-      this.setupForumData();
-      this.isAdmin = this.userService.isAdmin();
-      this.highContrastService.getCurrentContrastMode()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(mode => this.highContrastMode = mode);
+    this.forumUsername = this.userService.getTokenData().user.discourse_user_name;
+    this.discourseService.getLatestTopicsWithCategories().subscribe((latestTopics) => {
+      this.forumLatestTopicsWithCategories = latestTopics;
+    });
+  }
+
+  linkAccountToWK() {
+    if (environment.production) {
+      const currentUrl = this.document.location.hostname.replace('www.', '');
+      window.location.href = `https://admin.${currentUrl}/logingovpl`;
+    } else {
+      window.location.href = `https://admin.mcod.local/logingovpl`;
     }
+  }
 
-    /**
-     * Sets admin panel url
-     */
-    private setAdminPanelUrl(): void {
-        const {protocol, hostname} = this.document.location;
-        this.adminPanelUrl = !environment.production ? APP_CONFIG.urls.adminPanelDev : protocol + '//admin.' + hostname.replace('www.', '');
-        this.forumUrl = !environment.production ? APP_CONFIG.urls.forumInt : protocol + '//forum.' + hostname.replace('www.', '');
+  unlinkAccountFromWK() {
+    if (environment.production) {
+      const currentUrl = this.document.location.hostname.replace('www.', '');
+      window.location.href = `https://admin.${currentUrl}/logingovpl/unlink`;
+    } else {
+      window.location.href = `https://admin.mcod.local/logingovpl/unlink`;
     }
+  }
 
-    /**
-     * Combines data needed by template
-     */
-    private setupDashboardData(): void {
-        this.dashboardData$ = zip(
-            this.userStateService.getCurrentUser(),
-            this.userService.getUserDashboardData())
-            .pipe(map(([user, data]) => ({user, data})));
-    }
+  openDialog() {
+    const options = {
+      title: this.translateService.instant('MyDashboard.Dialog.Title'),
+      message: '',
+      confirmText: this.translateService.instant('MyDashboard.Dialog.Confirm'),
+      cancelText: this.translateService.instant('MyDashboard.Dialog.Cancel'),
+    };
 
-    /**
-     * Setups forum data
-     */
-    private setupForumData() {
-        if (!this.userService.getTokenData().user.discourse_user_name) {
-            return;
-        }
+    this.dialog.open(options);
 
-        this.forumUsername = this.userService.getTokenData().user.discourse_user_name;
-        this.discourseService.getLatestTopicsWithCategories().subscribe(latestTopics => {
-            this.forumLatestTopicsWithCategories = latestTopics;
-        });
-    }
-
-    linkAccountToWK() {
-      if (environment.production) {
-        const currentUrl = this.document.location.hostname.replace('www.', '');
-        window.location.href = `https://admin.${currentUrl}/logingovpl`;
-      } else {
-        window.location.href = `https://admin.mcod.local/logingovpl`;
+    this.dialog.confirmed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.unlinkAccountFromWK();
       }
-    }
+    });
+  }
 
-    unlinkAccountFromWK() {
-      if (environment.production) {
-        const currentUrl = this.document.location.hostname.replace('www.', '');
-        window.location.href = `https://admin.${currentUrl}/logingovpl/unlink`;
-      } else {
-        window.location.href = `https://admin.mcod.local/logingovpl/unlink`;
-      }
-    }
-
-    openDialog() {
-      const options = {
-        title: this.translateService.instant('MyDashboard.Dialog.Title'),
-        message: '',
-        confirmText: this.translateService.instant('MyDashboard.Dialog.Confirm'),
-        cancelText: this.translateService.instant('MyDashboard.Dialog.Cancel'),
-      };
-
-      this.dialog.open(options);
-
-      this.dialog.confirmed().subscribe(confirmed => {
-        if (confirmed) {
-          this.unlinkAccountFromWK();
-        }
-      });
-    }
-
-    ngOnDestroy() {
-      this.destroy$.next(true);
-      this.destroy$.complete();
-    }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 }

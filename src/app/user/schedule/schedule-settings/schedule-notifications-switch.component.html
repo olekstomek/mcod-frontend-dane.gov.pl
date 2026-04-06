@@ -5,9 +5,9 @@
       type="button"
       class="btn btn-sm"
       [ngClass]="!isSettingsActive ? 'btn-primary' : 'btn-outline-primary'"
-      (click)="isSettingsActive = !isSettingsActive"
-    >
-      {{ isSettingsActive ? ('Action.Show' | translate) : ('Action.Hide' | translate) }} {{ 'Hod.Notifications' | translate }}
+      (click)="isSettingsActive = !isSettingsActive">
+      {{ isSettingsActive ? ('Action.Show' | translate) : ('Action.Hide' | translate) }}
+      {{ 'Hod.Notifications' | translate }}
     </button>
   </div>
 

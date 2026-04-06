@@ -31,20 +31,21 @@ input.form-control-lg {
   }
 
   .form-text-inline {
-      position: absolute;
-      left: 262px;
+    position: absolute;
+    left: 262px;
 
-      &-1, &-3 {
-          top: 55px;
-      }
+    &-1,
+    &-3 {
+      top: 55px;
+    }
 
-      &-2, &-4 {
-          top: 120px;
-      }
+    &-2,
+    &-4 {
+      top: 120px;
+    }
 
-      &-5 {
-          top: 180px;
-      }
-
+    &-5 {
+      top: 180px;
+    }
   }
 }

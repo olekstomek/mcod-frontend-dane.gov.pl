@@ -1,3 +1,4 @@
 export enum IRawTextObjectType {
-    STRING, EMBED
+  STRING,
+  EMBED,
 }

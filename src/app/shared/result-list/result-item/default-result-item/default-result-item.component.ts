@@ -9,29 +9,27 @@ import { NotesComponent } from '../../related-components/notes/notes.component';
 
 import { ApiModel } from '@app/services/api/api-model';
 import { MapParamsToTranslationKeysService } from '@app/services/map-params-to-translation-keys.service';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { StripHtmlWithExceptionPipe } from '@app/shared/pipes/strip-html-with-exception';
 
 /**
  * Component which displays deafult data for the left side column
  */
 @Component({
-    selector: 'app-default-result-item',
-    templateUrl: './default-result-item.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        RouterLink,
-        TooltipDirective,
-        NotesComponent,
-        NgFor,
-        KeywordsComponent,
-        LowerCasePipe,
-        TranslatePipe,
-        LocalizeRouterPipe,
-        SanitizeHtmlPipe,
-        StripHtmlWithExceptionPipe,
-    ],
+  selector: 'app-default-result-item',
+  templateUrl: './default-result-item.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    RouterLink,
+    TooltipDirective,
+    NotesComponent,
+    NgFor,
+    KeywordsComponent,
+    LowerCasePipe,
+    TranslatePipe,
+    LocalizeRouterPipe,
+    StripHtmlWithExceptionPipe,
+  ],
 })
 export class DefaultResultItemComponent implements OnInit {
   /**
@@ -52,7 +50,7 @@ export class DefaultResultItemComponent implements OnInit {
   /**
    * url router link
    */
-  @Input() detailsUrl: string | Array<string>;
+  @Input() detailsUrl: string | string[];
 
   /**
    * query params object

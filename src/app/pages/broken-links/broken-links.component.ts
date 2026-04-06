@@ -55,12 +55,12 @@ export class BrokenLinksComponent implements OnInit {
     this.searchQuery = searchQuery || '';
 
     this.router.navigate([], {
-      queryParams: {q: this.searchQuery || null},
-      queryParamsHandling: 'merge'
+      queryParams: { q: this.searchQuery || null },
+      queryParamsHandling: 'merge',
     });
   }
 
-  downloadResource( url: string) {
+  downloadResource(url: string) {
     LinkHelper.downloadResource({ title: '', url }, this.translateService.currentLang);
   }
 }

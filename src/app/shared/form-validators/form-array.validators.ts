@@ -3,7 +3,7 @@ import { AbstractControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 /**
  * Returned error type
  */
-type ValidationError = { [key: string]: boolean } | null;
+type ValidationError = Record<string, boolean> | null;
 
 /**
  * Value in array validator.
@@ -13,29 +13,29 @@ type ValidationError = { [key: string]: boolean } | null;
  * @returns {ValidatorFn} if value in array
  */
 export function valueInArrayValidator(formControlName: string, formArrayName: string): ValidatorFn {
-    return (formGroup: UntypedFormGroup): { [key: string]: any } => {
-        const formControl = formGroup.controls[formControlName];
-        const formArray = formGroup.controls[formArrayName];
+  return (formGroup: UntypedFormGroup): Record<string, any> => {
+    const formControl = formGroup.controls[formControlName];
+    const formArray = formGroup.controls[formArrayName];
 
-        if (formControl.pristine || formArray.pristine) {
-            return null;
-        }
+    if (formControl.pristine || formArray.pristine) {
+      return null;
+    }
 
-        const formControlValue = formControl.value as string;
-        const formArrayValue = formArray.value as string[];
+    const formControlValue = formControl.value as string;
+    const formArrayValue = formArray.value as string[];
 
-        if (!formControlValue || !formArrayValue) {
-            return null;
-        }
+    if (!formControlValue || !formArrayValue) {
+      return null;
+    }
 
-        const found = formArrayValue.some(item => item === formControlValue);
+    const found = formArrayValue.some((item) => item === formControlValue);
 
-        if (found) {
-            return {'valueInArray': true};
-        }
+    if (found) {
+      return { valueInArray: true };
+    }
 
-        return null;
-    };
+    return null;
+  };
 }
 
 /**
@@ -45,16 +45,16 @@ export function valueInArrayValidator(formControlName: string, formArrayName: st
  * @returns {ValidationError}
  */
 export function uniqueValuesInArrayValidator(control: AbstractControl): ValidationError {
-    const array = Array.from(control.value);
-    const noDuplicatesArray = Array.from(
-        new Set(array.map(item => JSON.stringify(item)))).map(item => JSON.parse(item)
-    );
+  const array = Array.from(control.value);
+  const noDuplicatesArray = Array.from(new Set(array.map((item) => JSON.stringify(item)))).map((item) =>
+    JSON.parse(item),
+  );
 
-    if (array.length !== noDuplicatesArray.length) {
-        return {'duplicatesInArray': true};
-    }
+  if (array.length !== noDuplicatesArray.length) {
+    return { duplicatesInArray: true };
+  }
 
-    return null;
+  return null;
 }
 
 /**
@@ -63,13 +63,13 @@ export function uniqueValuesInArrayValidator(control: AbstractControl): Validati
  * @returns {ValidationError}
  */
 export function oneElementInArrayValidator(control: AbstractControl): ValidationError {
-    const array = Array.from(control.value);
+  const array = Array.from(control.value);
 
-    if (array.length > 1) {
-        return {'moreThanOneElementInArray': true};
-    }
+  if (array.length > 1) {
+    return { moreThanOneElementInArray: true };
+  }
 
-    return null;
+  return null;
 }
 
 /**
@@ -78,8 +78,8 @@ export function oneElementInArrayValidator(control: AbstractControl): Validation
  * @returns {ValidationError}
  */
 export function atLeastOneCheckboxSelected(control: AbstractControl): ValidationError {
-    const isValid = control.value.some(el => !!el);
-    return isValid ? null : {'atLeastOneCheckboxSelected': true };
+  const isValid = control.value.some((el) => !!el);
+  return isValid ? null : { atLeastOneCheckboxSelected: true };
 }
 
 /**
@@ -91,4 +91,3 @@ export const radioInputRegex = new RegExp(/^check/);
  * Regexp helpful pattern to determine type of radio buttons fields
  */
 export const checkboxInputRegex = new RegExp(/^radio/);
-

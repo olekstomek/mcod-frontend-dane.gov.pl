@@ -11,29 +11,28 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CollapseModule.forRoot(),
-        PaginationModule.forRoot(),
-        BsDropdownModule.forRoot(),
-        ModalModule.forRoot(),
-        TabsModule.forRoot(),
-        AccordionModule.forRoot(),
-        TooltipModule.forRoot(),
-        BsDatepickerModule.forRoot(),
-        TimepickerModule.forRoot(),
-    ],
-    exports: [
-        CollapseModule,
-        PaginationModule,
-        BsDropdownModule,
-        ModalModule,
-        TabsModule,
-        AccordionModule,
-        TooltipModule,
-        BsDatepickerModule,
-        TimepickerModule
-    ]
+  imports: [
+    CommonModule,
+    CollapseModule.forRoot(),
+    PaginationModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    TabsModule.forRoot(),
+    AccordionModule.forRoot(),
+    TooltipModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
+  ],
+  exports: [
+    CollapseModule,
+    PaginationModule,
+    BsDropdownModule,
+    ModalModule,
+    TabsModule,
+    AccordionModule,
+    TooltipModule,
+    BsDatepickerModule,
+    TimepickerModule,
+  ],
 })
-export class AppBootstrapModule {
-}
+export class AppBootstrapModule {}

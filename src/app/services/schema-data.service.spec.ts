@@ -28,13 +28,13 @@ describe('SchemaDataService', () => {
   });
 
   it('getDatasetStructuredData - Observable should return value', async () => {
-    service.getDatasetStructuredData(1).subscribe(value => {
+    service.getDatasetStructuredData(1).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getResourceStructuredData - Observable should return value', async () => {
-    service.getResourceStructuredData(2, 1).subscribe(value => {
+    service.getResourceStructuredData(2, 1).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

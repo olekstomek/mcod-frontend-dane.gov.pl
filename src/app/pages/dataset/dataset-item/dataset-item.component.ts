@@ -34,7 +34,6 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
 import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { SubscribeButtonComponent } from '@app/shared/subscribe-button/subscribe-button.component';
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
@@ -75,11 +74,9 @@ import { getEventValue } from '@app/shared/util';
     DatasetItemResultsComponent,
     FeedbackFormComponent,
     FocusTrapDirective,
-    SanitizeHtmlPipe
-  ]
+  ],
 })
 export class DatasetItemComponent implements OnInit, OnDestroy {
-
   /**
    * @ignore
    */
@@ -264,8 +261,8 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     this.selfApi = this.dataset.links.self;
     this.isExistsZipFileForDownload = !!this.dataset.attributes.archived_resources_files_url;
 
-    this.regionsList = this.dataset.attributes.regions.filter(region => region.is_additional === false);
-    this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0;
+    this.regionsList = this.dataset.attributes.regions.filter((region) => region.is_additional === false);
+    this.isNotRegionPoland = this.regionsList.filter((region) => region.region_id !== '85633723').length > 0;
 
     if (this.dataset.attributes.source && this.dataset.attributes.source.type === 'ckan') {
       this.basicParams.sort = '-created';
@@ -276,15 +273,15 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     this.seoService.setPageTitle(this.dataset.attributes.title);
     this.seoService.setDescriptionFromText(this.dataset.attributes.notes);
 
-    this.schemaDataService.getDatasetStructuredData(this.dataset.id).subscribe(data => {
+    this.schemaDataService.getDatasetStructuredData(this.dataset.id).subscribe((data) => {
       this.schemaService.addStructuredData(data);
     });
 
-    this.institution = datasetRelated.find(item => item.type === this.apiModel.INSTITUTION);
+    this.institution = datasetRelated.find((item) => item.type === this.apiModel.INSTITUTION);
 
     this.resourcesSubscription = this.activatedRoute.queryParamMap
       .pipe(
-        switchMap(qParamMap => {
+        switchMap((qParamMap) => {
           if (qParamMap.get('model') === 'resources' || qParamMap.get('model') === null) {
             this.params = {
               page: +qParamMap.get('page') || this.basicParams['page'],
@@ -306,16 +303,16 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
           }
         }),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         this.resources = response.results;
         this.resourcesCount = response.count;
-        this.isSortValid = !!this.sortOptions.find(option => option.value === this.params.sort);
+        this.isSortValid = !!this.sortOptions.find((option) => option.value === this.params.sort);
       });
 
     if (this.dataset.relationships.showcases.meta.count > 0) {
       this.showcasesSubscription = this.activatedRoute.queryParamMap
         .pipe(
-          switchMap(qParamMap => {
+          switchMap((qParamMap) => {
             if (qParamMap.get('model') === 'showcases' || qParamMap.get('model') === null) {
               this.paramsShowcases = {
                 page: +qParamMap.get('page') || this.basicParams['page'],
@@ -333,14 +330,14 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
             }
           }),
         )
-        .subscribe(showcases => {
-          showcases.results.forEach(data => {
+        .subscribe((showcases) => {
+          showcases.results.forEach((data) => {
             data.attributes.model = 'showcase';
           });
           const results = showcases.results ? showcases.results : [];
           this.items = this.listViewDetailsService.extendViewDetails(results);
           this.showcasesCount = showcases.count;
-          this.isSortValid = !!this.sortOptions.find(option => option.value === this.paramsShowcases.sort);
+          this.isSortValid = !!this.sortOptions.find((option) => option.value === this.paramsShowcases.sort);
         });
     }
 
@@ -354,7 +351,7 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
   public loadHistory(page: number) {
     this.historyPageNumber = page;
 
-    this.datasetService.getHistoryById(this.dataset.id, page).subscribe(history => {
+    this.datasetService.getHistoryById(this.dataset.id, page).subscribe((history) => {
       this.historyTotal = history.meta.count;
       this.history = this.history.concat(history.data);
     });
@@ -413,7 +410,9 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
                 }
             }`;
 
-      this.datasetService.sendDatasetFeedback(this.dataset['id'], JSON.parse(payload)).subscribe(() => (this.feedbackSent = true));
+      this.datasetService
+        .sendDatasetFeedback(this.dataset['id'], JSON.parse(payload))
+        .subscribe(() => (this.feedbackSent = true));
     }
   }
 

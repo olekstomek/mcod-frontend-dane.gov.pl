@@ -23,7 +23,7 @@ export class SearchSuggestionsService extends RestService {
   getSuggestions(phrase: string, apiModels: string[] = [], maxResultsPerModel: number): Observable<any[]> {
     let httpParams = new HttpParams({ encoder: new SearchHttpParamEncoder() });
     httpParams = httpParams.append('q', phrase);
-    httpParams = httpParams.append('models', apiModels.map(model => model.trim()).join(','));
+    httpParams = httpParams.append('models', apiModels.map((model) => model.trim()).join(','));
     httpParams = httpParams.append('per_model', maxResultsPerModel.toString());
 
     return this.get(ApiConfig.searchSuggest, httpParams);

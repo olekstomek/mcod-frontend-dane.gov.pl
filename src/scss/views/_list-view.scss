@@ -102,11 +102,13 @@
         height: 23px;
         width: 23px;
       }
-      .black-white, .black-yellow, .yellow-black {
+      .black-white,
+      .black-yellow,
+      .yellow-black {
         fill: currentColor;
       }
       .normal {
-        fill: $color-blue-light
+        fill: $color-blue-light;
       }
 
       &__text {

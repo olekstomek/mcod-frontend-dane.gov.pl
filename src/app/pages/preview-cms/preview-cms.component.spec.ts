@@ -10,19 +10,19 @@ import { SeoService } from '@app/services/seo.service';
 import { SharedModule } from '@app/shared/shared.module';
 
 const ActivatedRouteStub = {
-    data: {
-      post: {
-        data: {
-          attributes: {
-            title: 'Lorem ipsum title',
-            notes: 'Lorem ipsum notes',
-          },
+  data: {
+    post: {
+      data: {
+        attributes: {
+          title: 'Lorem ipsum title',
+          notes: 'Lorem ipsum notes',
         },
       },
     },
-    queryParams: {
-      q: 'test',
-    },
+  },
+  queryParams: {
+    q: 'test',
+  },
 };
 
 class SeoServiceStub {
@@ -38,9 +38,10 @@ describe('PreviewCmsComponent', () => {
       imports: [TranslateModule.forRoot(), SharedModule, PreviewCmsComponent],
       providers: [
         importProvidersFrom(AppTestingModule),
-        { provide: ActivatedRoute, useValue: {snapshot: ActivatedRouteStub} },
+        { provide: ActivatedRoute, useValue: { snapshot: ActivatedRouteStub } },
         { provide: SeoService, useClass: SeoServiceStub },
-        NotificationsService, ],
+        NotificationsService,
+      ],
     }).compileComponents();
 
     router = TestBed.inject(Router);

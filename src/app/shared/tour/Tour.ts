@@ -1,7 +1,7 @@
 export interface Tour {
   name: string;
   id: string;
-  items: Array<TourItem>;
+  items: TourItem[];
   progress?: TourProgress;
 }
 
@@ -18,7 +18,7 @@ export interface ShepardStep {
     element: string;
     on: TourItemPosition;
   };
-  buttons: Array<any>;
+  buttons: any[];
   id: string;
 }
 

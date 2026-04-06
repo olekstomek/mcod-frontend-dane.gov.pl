@@ -25,7 +25,7 @@ describe('AbstractService', () => {
   });
 
   it('Observable should return value', async () => {
-    service.getFeatureFlags().subscribe(value => {
+    service.getFeatureFlags().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

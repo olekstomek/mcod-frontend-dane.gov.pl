@@ -16,14 +16,7 @@ import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.comp
   templateUrl: './feedback-form.component.html',
   animations: [toggleVertically],
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NgIf,
-    NgClass,
-    TranslatePipe,
-    MathCaptchaComponent,
-    LowerCasePipe
-  ]
+  imports: [ReactiveFormsModule, NgIf, NgClass, TranslatePipe, MathCaptchaComponent, LowerCasePipe],
 })
 export class FeedbackFormComponent implements OnInit {
   /**

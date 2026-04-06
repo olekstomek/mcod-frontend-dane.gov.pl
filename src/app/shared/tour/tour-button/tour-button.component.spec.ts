@@ -21,7 +21,7 @@ describe('TourButtonComponent', () => {
         TourService,
         NotificationsService,
         ShepherdService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
 

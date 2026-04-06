@@ -11,10 +11,8 @@ import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directiv
       <h1 *appShellNoRender class="header">Hello From server</h1>
     </div>
   `,
-  imports: [
-    AppShellNoRenderDirective
-  ],
-  standalone: true
+  imports: [AppShellNoRenderDirective],
+  standalone: true,
 })
 export class MockComponent {}
 

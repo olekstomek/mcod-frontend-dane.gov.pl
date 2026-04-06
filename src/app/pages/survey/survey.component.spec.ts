@@ -14,10 +14,7 @@ describe('SurveyComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), SurveyComponent],
-      providers: [
-        CmsService,
-        importProvidersFrom(AppTestingModule)
-      ],
+      providers: [CmsService, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);

@@ -47,25 +47,25 @@ describe('NewsletterService', () => {
       personal_data_processing: false,
       personal_data_use: false,
     };
-    service.addNewsletterSubscription(newsletterRequest).subscribe(value => {
+    service.addNewsletterSubscription(newsletterRequest).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('removeNewsletterSubscription - Observable should return value', async () => {
-    service.removeNewsletterSubscription('token').subscribe(value => {
+    service.removeNewsletterSubscription('token').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getNewsletterRegulations - Observable should return value', async () => {
-    service.getNewsletterRegulations().subscribe(value => {
+    service.getNewsletterRegulations().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('confirmNewsletterSubscription - Observable should return value', async () => {
-    service.confirmNewsletterSubscription('token').subscribe(value => {
+    service.confirmNewsletterSubscription('token').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

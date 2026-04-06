@@ -3,7 +3,7 @@
     overflow: hidden;
 
     .bk-btn {
-      @extend .btn
+      @extend .btn;
     }
 
     .bk-btn-default {
@@ -25,11 +25,14 @@
         border-collapse: separate;
         table-layout: auto;
 
-        tr, th, td {
+        tr,
+        th,
+        td {
           text-align: left;
 
           th {
-            &:first-child, &:last-child {
+            &:first-child,
+            &:last-child {
               width: 1%;
               white-space: nowrap;
             }
@@ -53,7 +56,6 @@
             }
           }
         }
-
       }
     }
   }

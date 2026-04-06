@@ -1,36 +1,36 @@
 // bootstratp override
 .pager {
-    display: flex;
-    justify-content: flex-end;
-    .pagination {
-        margin: 0;
-        .page-item {
-            .page-link {
-                border: 0;
-                padding: 2px 8px;
-                line-height: 1.5rem;
-                background-color: transparent;
-                color: $primary;
+  display: flex;
+  justify-content: flex-end;
+  .pagination {
+    margin: 0;
+    .page-item {
+      .page-link {
+        border: 0;
+        padding: 2px 8px;
+        line-height: 1.5rem;
+        background-color: transparent;
+        color: $primary;
 
-                &--as-icon {
-                    font-size: 200%;
-                    padding: 0px 10px 2px 10px;
-                }
-            }
-
-            &--ellipsis {
-                cursor: default;
-            }
-
-            &.active {
-                .page-link {
-                    font-weight: bold;
-                    background-color: $color-blue-light;
-                    color: white;
-                }
-            }
+        &--as-icon {
+          font-size: 200%;
+          padding: 0px 10px 2px 10px;
         }
+      }
+
+      &--ellipsis {
+        cursor: default;
+      }
+
+      &.active {
+        .page-link {
+          font-weight: bold;
+          background-color: $color-blue-light;
+          color: white;
+        }
+      }
     }
+  }
 }
 
 body.black-white .page-item--ellipsis {
@@ -46,13 +46,13 @@ body.yellow-black .page-item--ellipsis {
 }
 
 body.black-white .pager .pagination .page-item .page-link {
-    color: white;
+  color: white;
 }
 
 body.black-yellow .pager .pagination .page-item .page-link {
-    color: $color-yellow;
+  color: $color-yellow;
 }
 
 body.yellow-black .pager .pagination .page-item .page-link {
-    color: black;
+  color: black;
 }

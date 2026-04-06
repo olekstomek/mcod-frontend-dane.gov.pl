@@ -25,18 +25,13 @@ describe('SearchResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        SharedModule,
-        SearchResultsComponent
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), SharedModule, SearchResultsComponent],
       providers: [
         { provide: SeoService, useClass: SeoServiceStub },
         ListViewDetailsService,
         SearchService,
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
 

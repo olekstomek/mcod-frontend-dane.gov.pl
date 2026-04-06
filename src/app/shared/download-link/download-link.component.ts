@@ -9,44 +9,44 @@ import { TooltipDirective } from '../tooltip/tooltip.directive';
  * download link Component
  */
 @Component({
-    selector: 'app-download-link',
-    templateUrl: './download-link.component.html',
-    standalone: true,
-    imports: [NgIf, NgClass, RouterLink, TooltipDirective, FileSizeComponent, UpperCasePipe, TranslatePipe]
+  selector: 'app-download-link',
+  templateUrl: './download-link.component.html',
+  standalone: true,
+  imports: [NgIf, NgClass, RouterLink, TooltipDirective, FileSizeComponent, UpperCasePipe, TranslatePipe],
 })
 export class DownloadLinkComponent {
-    /**
-     * title
-     */
-    @Input() title: string;
+  /**
+   * title
+   */
+  @Input() title: string;
 
-    /**
-     * file size
-     */
-    @Input() fileSize: number;
+  /**
+   * file size
+   */
+  @Input() fileSize: number;
 
-    /**
-     * file format
-     */
-    @Input() format: string;
+  /**
+   * file format
+   */
+  @Input() format: string;
 
-    /**
-     * file url to download
-     */
-    @Input() fileUrl: string;
+  /**
+   * file url to download
+   */
+  @Input() fileUrl: string;
 
-    /**
-     * show download text
-     */
-    @Input() showDownloadText = false;
+  /**
+   * show download text
+   */
+  @Input() showDownloadText = false;
 
-    /**
-     * custom css class for styling
-     */
-    @Input() customCssClass: string;
+  /**
+   * custom css class for styling
+   */
+  @Input() customCssClass: string;
 
-    /**
-     * show star rating data openness
-     */
-    @Input() opennessScore: number;
+  /**
+   * show star rating data openness
+   */
+  @Input() opennessScore: number;
 }

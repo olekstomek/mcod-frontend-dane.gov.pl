@@ -11,17 +11,16 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
  * Institution item filter wrapper for all components
  */
 @Component({
-    selector: 'app-institution-item-list-view-filters',
-    templateUrl: './institution-item-list-view-filters.component.html',
-    standalone: true,
-    imports: [InfoTooltipDirective, ExpandableMultiselectComponent, DateRangePickerComponent, TranslatePipe]
+  selector: 'app-institution-item-list-view-filters',
+  templateUrl: './institution-item-list-view-filters.component.html',
+  standalone: true,
+  imports: [InfoTooltipDirective, ExpandableMultiselectComponent, DateRangePickerComponent, TranslatePipe],
 })
 export class InstitutionItemListViewFiltersComponent extends ListViewFilterAbstractComponent {
-
-    /**
-     * invokes applyFilter from extended component with institution item filter names
-     */
-    applyFilter() {
-        super.applyFilter(InstitutionItemListViewFilterNames);
-    }
+  /**
+   * invokes applyFilter from extended component with institution item filter names
+   */
+  applyFilter() {
+    super.applyFilter(InstitutionItemListViewFilterNames);
+  }
 }

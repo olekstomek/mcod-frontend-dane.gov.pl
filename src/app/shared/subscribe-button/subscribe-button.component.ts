@@ -15,15 +15,10 @@ import { UserService } from '@app/services/user.service';
  * <app-subscribe-button [item]="item"></app-subscribe-button>
  */
 @Component({
-    selector: 'app-subscribe-button',
-    templateUrl: './subscribe-button.component.html',
-    standalone: true,
-    imports: [
-        TooltipDirective,
-        NgIf,
-        NgClass,
-        TranslatePipe,
-    ],
+  selector: 'app-subscribe-button',
+  templateUrl: './subscribe-button.component.html',
+  standalone: true,
+  imports: [TooltipDirective, NgIf, NgClass, TranslatePipe],
 })
 export class SubscribeButtonComponent implements OnInit {
   /**
@@ -84,7 +79,7 @@ export class SubscribeButtonComponent implements OnInit {
    */
   addSubscription() {
     this.observeService.addSubscription(this.type, this.item.id).subscribe(
-      subscribedObject => {
+      (subscribedObject) => {
         this.subscriptionId = subscribedObject.data.id;
       },
       () => {

@@ -63,17 +63,14 @@ describe('SearchHistoryService', () => {
   });
 
   it('should call getGroupedSearchHistory without parameters', () => {
-    service.getGroupedSearchHistory().subscribe(
-      () => {
-        const req = httpMock.expectOne(`/api${ApiConfig.searchHistory}?per_page=100&page=1&sort=-modified`);
-        expect(req).toBeTruthy();
-      }
-    );
-
+    service.getGroupedSearchHistory().subscribe(() => {
+      const req = httpMock.expectOne(`/api${ApiConfig.searchHistory}?per_page=100&page=1&sort=-modified`);
+      expect(req).toBeTruthy();
+    });
   });
 
   it('should return data grouped by date', () => {
-    service.getGroupedSearchHistory().subscribe(data => {
+    service.getGroupedSearchHistory().subscribe((data) => {
       const req = httpMock.expectOne(`/api${ApiConfig.searchHistory}?per_page=100&page=1&sort=-modified`);
       req.flush(responseMock);
       expect(data).toEqual({

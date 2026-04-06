@@ -5,11 +5,12 @@
   <!-- LOGOs -->
   <div class="external-logos">
     <cms-block2
-      class="pt-3 pb-3 external-logos--cms-block external-logos--cms-block__elements-{{(cmsFooterLogoSection | async)?.length}}"
+      class="pt-3 pb-3 external-logos--cms-block external-logos--cms-block__elements-{{
+        (cmsFooterLogoSection | async)?.length
+      }}"
       [widgetsSubject]="cmsFooterLogoSection"
       [isFooterLogos]="true"
-      [isFullWidth]="true"
-    ></cms-block2>
+      [isFullWidth]="true"></cms-block2>
   </div>
 
   <!-- Modal RODO  -->
@@ -47,7 +48,11 @@
       <!-- modal footer -->
       <div class="modal-footer">
         <div class="form-group text-right">
-          <button type="button" id="footer-close" class="btn btn-outline-primary focus-trap-last" (click)="onWriteUsModalClose()">
+          <button
+            type="button"
+            id="footer-close"
+            class="btn btn-outline-primary focus-trap-last"
+            (click)="onWriteUsModalClose()">
             {{ 'Action.Close' | translate }}
             <span class="visually-hidden">
               {{ 'Modal' | translate | lowercase }}

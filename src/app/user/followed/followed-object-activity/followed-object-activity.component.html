@@ -2,16 +2,20 @@
   <ul class="activity">
     <li class="activity__item" *ngFor="let item of activities; let i = index">
       <!-- action -->
-      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && regexp.test(item.attributes.notification_type)">
+      <ng-container
+        *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && regexp.test(item.attributes.notification_type)">
         {{ 'ActivityNotification.application.' + item.attributes.notification_type | translate }}
       </ng-container>
-      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && !regexp.test(item.attributes.notification_type)">
+      <ng-container
+        *ngIf="subscriptions[i].data?.type === apiModel.APPLICATION && !regexp.test(item.attributes.notification_type)">
         {{ 'ActivityNotification.' + item.attributes.notification_type | translate }}
       </ng-container>
-      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && regexp.test(item.attributes.notification_type)">
+      <ng-container
+        *ngIf="subscriptions[i].data?.type === apiModel.DATASET && regexp.test(item.attributes.notification_type)">
         {{ 'ActivityNotification.datasetRelated.' + item.attributes.notification_type | translate }}
       </ng-container>
-      <ng-container *ngIf="subscriptions[i].data?.type === apiModel.DATASET && !regexp.test(item.attributes.notification_type)">
+      <ng-container
+        *ngIf="subscriptions[i].data?.type === apiModel.DATASET && !regexp.test(item.attributes.notification_type)">
         {{ 'ActivityNotification.' + item.attributes.notification_type | translate }}
       </ng-container>
       <ng-container *ngIf="subscriptions[i].data?.type === apiModel.ARTICLE">
@@ -29,8 +33,7 @@
       <!-- link to subscribed object -->
       <a
         [routerLink]="['/' | localize, subscriptions[i].data.type, subscriptions[i].data.id]"
-        *ngIf="subscriptions[i].links.related && subscriptions[i].data.type !== apiModel.QUERY"
-      >
+        *ngIf="subscriptions[i].links.related && subscriptions[i].data.type !== apiModel.QUERY">
         {{ subscriptions[i].title }}
       </a>
 
@@ -46,7 +49,8 @@
 <footer class="pt-4" *ngIf="activities && activities.length">
   <div class="d-flex justify-content-between align-items-center">
     <!-- results per page -->
-    <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+    <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+    </app-items-per-page>
 
     <!-- pagination -->
     <app-pagination
@@ -54,8 +58,7 @@
       [totalItems]="count"
       [page]="params.page"
       (numPages)="numPages = $event"
-      (pageChange)="updateParams({ page: $event })"
-    >
+      (pageChange)="updateParams({ page: $event })">
     </app-pagination>
   </div>
 </footer>

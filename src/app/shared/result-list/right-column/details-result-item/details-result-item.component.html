@@ -2,14 +2,18 @@
   <div
     *ngIf="titleTranslationKey"
     class="result-item-attributes__heading"
-    [ngClass]="isDatasetView ? 'result-item-attributes__custom-heading' : ''"
-  >
-    <svg *ngIf="isDatasetView" [class]="['result-item-icon', highContrastMode]"><use [attr.href]="'assets/icomoon/SVG/' + iconName + '.svg' + '#' + iconName"></use></svg>
+    [ngClass]="isDatasetView ? 'result-item-attributes__custom-heading' : ''">
+    <svg *ngIf="isDatasetView" [class]="['result-item-icon', highContrastMode]">
+      <use [attr.href]="'assets/icomoon/SVG/' + iconName + '.svg' + '#' + iconName"></use>
+    </svg>
     <p class="result-item-attributes__text">{{ titleTranslationKey | translate }}</p>
   </div>
 
   <div class="result-item-attributes__list">
-    <div class="result-item-attributes__list-item" [ngClass]="{ 'pt-lg-3': i > 1 }" *ngFor="let details of detailsData; let i = index">
+    <div
+      class="result-item-attributes__list-item"
+      [ngClass]="{ 'pt-lg-3': i > 1 }"
+      *ngFor="let details of detailsData; let i = index">
       <div *ngIf="isShowcaseView" class="mb-5">
         <p>
           <img class="mr-2" [src]="'assets/icomoon/SVG/' + categoryIcon + '.svg'" alt="" />

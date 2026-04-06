@@ -1,37 +1,36 @@
 @if (options) {
   <ul class="dropdown__list dropdown__list-expandable dropdown__list-{{ filterName }}" [ngClass]="expandedClass">
     @for (item of options; let itemIndex = $index; track item) {
-    <li class="dropdown-item">
-      <input
-        type="checkbox"
-        class="dropdown-item__input"
-        id="chk-{{ itemIndex }}-{{ generatedId }}"
-        [checked]="selectedIds && !!selectedIds[item.id]"
-        (click)="selectItem(item)"
-        (keyup.enter)="selectItem(item)"
-      />
+      <li class="dropdown-item">
+        <input
+          type="checkbox"
+          class="dropdown-item__input"
+          id="chk-{{ itemIndex }}-{{ generatedId }}"
+          [checked]="selectedIds && !!selectedIds[item.id]"
+          (click)="selectItem(item)"
+          (keyup.enter)="selectItem(item)" />
 
-      <label for="chk-{{ itemIndex }}-{{ generatedId }}" class="dropdown-item__content">
-      <span
-        class="dropdown-item__content-wrapper"
-        title="{{ item.titleTranslationKey ? (item.titleTranslationKey | translate) + ' ' + item.id : item.title }}"
-      >
-        <span
-          class="dropdown-item__content-title"
-          [attr.aria-hidden]="item.titleTranslationKey ? true : null"
-          [innerHtml]="(item[displayValue]) || item | sanitizeHtml"
-        >
-        </span>
-      </span>
+        <label for="chk-{{ itemIndex }}-{{ generatedId }}" class="dropdown-item__content">
+          <span
+            class="dropdown-item__content-wrapper"
+            title="{{
+              item.titleTranslationKey ? (item.titleTranslationKey | translate) + ' ' + item.id : item.title
+            }}">
+            <span
+              class="dropdown-item__content-title"
+              [attr.aria-hidden]="item.titleTranslationKey ? true : null"
+              [innerHtml]="item[displayValue] || item">
+            </span>
+          </span>
 
-        <span class="dropdown-item__content-doc-count">
-        <span aria-hidden="true">({{ item.doc_count }})</span>
-        <span class="visually-hidden">
-          {{ 'Filters.VarElements' | translate: {param: item.doc_count} }}
-        </span>
-      </span>
-      </label>
-    </li>
+          <span class="dropdown-item__content-doc-count">
+            <span aria-hidden="true">({{ item.doc_count }})</span>
+            <span class="visually-hidden">
+              {{ 'Filters.VarElements' | translate: { param: item.doc_count } }}
+            </span>
+          </span>
+        </label>
+      </li>
     } @empty {
       <li>{{ 'Filters.NoResults' | translate }}</li>
     }

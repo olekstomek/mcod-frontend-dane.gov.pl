@@ -7,17 +7,10 @@ import { FocusTrapDirective } from '../directives/focus-trap/focus-trap.directiv
 import { APP_CONFIG } from '@app/app.config';
 
 @Component({
-    selector: 'app-write-us-info',
-    templateUrl: './write-us-info.component.html',
-    standalone: true,
-    imports: [
-        NgClass,
-        NgIf,
-        FocusTrapDirective,
-        UpperCasePipe,
-        LowerCasePipe,
-        TranslatePipe,
-    ],
+  selector: 'app-write-us-info',
+  templateUrl: './write-us-info.component.html',
+  standalone: true,
+  imports: [NgClass, NgIf, FocusTrapDirective, UpperCasePipe, LowerCasePipe, TranslatePipe],
 })
 export class WriteUsInfoComponent implements OnInit {
   @Input() textLabel: string;
@@ -54,6 +47,6 @@ export class WriteUsInfoComponent implements OnInit {
   onWriteUsModalClose() {
     this.writeUsModalRef.hide();
     this.writeUsModalRef = null;
-    (<HTMLButtonElement>this.modalTrigger.nativeElement).focus();
+    (this.modalTrigger.nativeElement as HTMLButtonElement).focus();
   }
 }

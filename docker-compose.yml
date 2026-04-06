@@ -8,7 +8,7 @@ services:
       tags:
         - mcod/frontend-static
       args:
-        MCOD_BUILD_CONFIGURATION_ENV: local # local | production | pwa
+        MCOD_BUILD_CONFIGURATION_ENV: int # int | production
       target: "serve-static"
     ports:
       - "4000:80"
@@ -26,9 +26,9 @@ services:
     ports:
       - "4000:4000"
     environment:
-      # int | local | production | pwa , as in angular.json:/projects/frontend/architect/build/configurations
-      MCOD_BUILD_CONFIGURATION_ENV: local
-      # production | development | local, as in angular.json:/projects/frontend/architect/serve/configurations
+      # int | production , as in angular.json:/projects/frontend/architect/build/configurations
+      MCOD_BUILD_CONFIGURATION_ENV: int
+      # dev | int | preprod | local, as in angular.json:/projects/frontend/architect/serve/configurations
       MCOD_SERVE_CONFIGURATION_ENV: local
       # can be relative - /usr/src/mcod reflects the repo root
       MCOD_PROXY_CONFIG_FILE: proxy.dev.conf.json
@@ -39,7 +39,6 @@ services:
       - ./package.json:/usr/src/mcod/package.json
       - ./tsconfig.app.json:/usr/src/mcod/tsconfig.app.json
       - ./tsconfig.json:/usr/src/mcod/tsconfig.json
-      - ./index-html-transform.ts:/usr/src/mcod/index-html-transform.ts
       # runtime overrides
       - ./proxy.dev.conf.json:/usr/src/mcod/proxy.dev.conf.json
       - ./proxy.int.conf.json:/usr/src/mcod/proxy.int.conf.json

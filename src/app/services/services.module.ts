@@ -27,23 +27,26 @@ import { UserService } from '@app/services/user.service';
 /**
  * Global Service Module that imports all services
  */
-@NgModule({ imports: [CommonModule, HttpXsrfModule.forRoot()], providers: [
-        NotificationsService,
-        NotificationsFrontService,
-        DatasetService,
-        ApplicationsService,
-        InstitutionsService,
-        UserService,
-        ApplicationsService,
-        AbstractService,
-        SeoService,
-        SearchHistoryService,
-        ObserveService,
-        NominatimGeocodeService,
-        MapParamsToTranslationKeysService,
-        { provide: HTTP_INTERCEPTORS, useClass: HomepageInterceptorService, multi: true },
-        provideHttpClient(withNoXsrfProtection()),
-    ] })
+@NgModule({
+  imports: [CommonModule, HttpXsrfModule.forRoot()],
+  providers: [
+    NotificationsService,
+    NotificationsFrontService,
+    DatasetService,
+    ApplicationsService,
+    InstitutionsService,
+    UserService,
+    ApplicationsService,
+    AbstractService,
+    SeoService,
+    SearchHistoryService,
+    ObserveService,
+    NominatimGeocodeService,
+    MapParamsToTranslationKeysService,
+    { provide: HTTP_INTERCEPTORS, useClass: HomepageInterceptorService, multi: true },
+    provideHttpClient(withNoXsrfProtection()),
+  ],
+})
 export class ServicesModule {
   constructor(@Optional() @SkipSelf() parentModule: ServicesModule) {
     if (parentModule) {

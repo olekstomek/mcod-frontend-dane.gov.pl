@@ -115,19 +115,19 @@ describe('DatasetService', () => {
   });
 
   it('getOneById - Observable should return value', async () => {
-    service.getOneById('1').subscribe(value => {
+    service.getOneById('1').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getHistoryById - Observable should return value', async () => {
-    service.getHistoryById('1').subscribe(value => {
+    service.getHistoryById('1').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getResourcesList - Observable should return value', async () => {
-    service.getResourcesList('1').subscribe(value => {
+    service.getResourcesList('1').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value).toEqual(new ApiResponse(value));
@@ -135,34 +135,33 @@ describe('DatasetService', () => {
   });
 
   it('getResourceById - Observable should return value', async () => {
-    service.getResourceById('1').subscribe(value => {
+    service.getResourceById('1').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value.length).toBeGreaterThan(0);
     });
-
   });
 
   it('getResourceData - Observable should return value', async () => {
-    service.getResourceData('1', {}).subscribe(value => {
+    service.getResourceData('1', {}).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('sendDatasetFeedback - Observable should return value', async () => {
-    service.sendDatasetFeedback('1', 'test').subscribe(value => {
+    service.sendDatasetFeedback('1', 'test').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('sendResourceFeedback - Observable should return value', async () => {
-    service.sendResourceFeedback('1', 'test').subscribe(value => {
+    service.sendResourceFeedback('1', 'test').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('sendSubmission - Observable should return value', async () => {
-    service.sendSubmission('test').subscribe(value => {
+    service.sendSubmission('test').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -174,7 +173,7 @@ describe('DatasetService', () => {
       q: '',
       page: 1,
     };
-    service.getSubmissions(params).subscribe(value => {
+    service.getSubmissions(params).subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value).toEqual(new ApiResponse(value));
@@ -182,26 +181,33 @@ describe('DatasetService', () => {
   });
 
   it('getSubmission - Observable should return value', async () => {
-    service.getSubmission('1').subscribe(value => {
+    service.getSubmission('1').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('sendSubmissionFeedback - Observable should return value', async () => {
-    service.sendSubmissionFeedback('1', 'test').subscribe(value => {
+    service.sendSubmissionFeedback('1', 'test').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getGeoData - Observable should return value', async () => {
-    service.getGeoData('1').subscribe(value => {
+    service.getGeoData('1').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('should get geo data of resource with given id and filters', async () => {
-    const filters = { noData: 'test', boundaryBox: '', shapesCount: '', distance: '', coordinates: { lat: 1, lng: 2 }, q: '' };
-    service.getGeoData('1', filters).subscribe(value => {
+    const filters = {
+      noData: 'test',
+      boundaryBox: '',
+      shapesCount: '',
+      distance: '',
+      coordinates: { lat: 1, lng: 2 },
+      q: '',
+    };
+    service.getGeoData('1', filters).subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value.length).toBeGreaterThan(0);
@@ -209,7 +215,7 @@ describe('DatasetService', () => {
   });
 
   it('getResourceChartById - Observable should return value', async () => {
-    service.getResourceChartById('1').subscribe(value => {
+    service.getResourceChartById('1').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -221,7 +227,7 @@ describe('DatasetService', () => {
       labels: '',
       sort: '',
     };
-    service.updateResourceChart('1', '1', chartBlueprint).subscribe(value => {
+    service.updateResourceChart('1', '1', chartBlueprint).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -233,7 +239,7 @@ describe('DatasetService', () => {
       labels: '',
       sort: '',
     };
-    service.saveResourceChart('1', chartBlueprint).subscribe(value => {
+    service.saveResourceChart('1', chartBlueprint).subscribe((value) => {
       const req = httpMock.expectOne({ method: 'POST' });
       req.flush('Post');
       expect(value.length).toBeGreaterThan(0);
@@ -241,13 +247,13 @@ describe('DatasetService', () => {
   });
 
   it('deleteResourceChart - Observable should return value', async () => {
-    service.deleteResourceChart('1').subscribe(value => {
+    service.deleteResourceChart('1').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('getShowcasesList - Observable should return value', async () => {
-    service.getShowcasesList('1').subscribe(value => {
+    service.getShowcasesList('1').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value).toEqual(new ApiResponse(value));
@@ -255,7 +261,7 @@ describe('DatasetService', () => {
   });
 
   it('getDataFromBBox - Observable should return value', async () => {
-    service.getDataFromBBox('1', 'date', '').subscribe(value => {
+    service.getDataFromBBox('1', 'date', '').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -266,7 +272,7 @@ describe('DatasetService', () => {
       ['has_high_value_data', { true: { doc_count: 9, id: 'true', title: 'Tak' } }],
       ['types', { api: { id: 'api', doc_count: 61, title: 'Api' } }],
     ];
-    service.getDataFromBBox('1', 'date', '', filters).subscribe(value => {
+    service.getDataFromBBox('1', 'date', '', filters).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
@@ -278,7 +284,7 @@ describe('DatasetService', () => {
       q: '',
       page: 1,
     };
-    service.getAll(params).subscribe(value => {
+    service.getAll(params).subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });

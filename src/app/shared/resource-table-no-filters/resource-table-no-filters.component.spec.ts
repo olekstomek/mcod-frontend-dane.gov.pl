@@ -17,11 +17,7 @@ describe('ResourceTableNoFiltersComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        NoopAnimationsModule,
-        ResourceTableNoFiltersComponent
-      ],
+      imports: [TranslateModule.forRoot(), NoopAnimationsModule, ResourceTableNoFiltersComponent],
       providers: [
         importProvidersFrom(AppTestingModule),
         DatasetService,

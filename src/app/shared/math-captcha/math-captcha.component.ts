@@ -10,7 +10,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
   UntypedFormControl,
-  ValidationErrors
+  ValidationErrors,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -20,30 +20,23 @@ import { toggleVertically } from '@app/animations/toggle-vertically';
  * Math Captcha Component
  */
 @Component({
-    selector: 'app-math-captcha',
-    templateUrl: './math-captcha.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => MathCaptchaComponent),
-            multi: true,
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => MathCaptchaComponent),
-            multi: true,
-        },
-    ],
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgClass,
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        LowerCasePipe,
-        TranslatePipe,
-    ],
+  selector: 'app-math-captcha',
+  templateUrl: './math-captcha.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MathCaptchaComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => MathCaptchaComponent),
+      multi: true,
+    },
+  ],
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgClass, FormsModule, ReactiveFormsModule, NgIf, LowerCasePipe, TranslatePipe],
 })
 export class MathCaptchaComponent implements OnInit, ControlValueAccessor {
   /**

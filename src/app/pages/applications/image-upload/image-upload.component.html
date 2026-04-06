@@ -4,7 +4,8 @@
     {{ labelTranslationKey | translate }}
     <small *ngIf="labelTranslationKeyHint">{{ labelTranslationKeyHint | translate }}</small>
     <small class="d-block">
-      {{ 'File.Size' | translate }}: {{ maxHeight }}px x {{ maxWidth }}px, {{ 'File.AcceptedTypes' | translate }}: jpg, gif, png
+      {{ 'File.Size' | translate }}: {{ maxHeight }}px x {{ maxWidth }}px, {{ 'File.AcceptedTypes' | translate }}: jpg,
+      gif, png
     </small>
   </label>
 
@@ -12,7 +13,10 @@
   <div class="mb-2" *ngIf="uploadedImagePreview" @toggleVertically>
     <div class="row mt-1">
       <div class="col-6">
-        <img src="{{ uploadedImagePreview }}" alt="{{ uploadedFile.name }}" style="max-width: 100%; max-height: 200px" />
+        <img
+          src="{{ uploadedImagePreview }}"
+          alt="{{ uploadedFile.name }}"
+          style="max-width: 100%; max-height: 200px" />
       </div>
       <div class="col-6">
         <!-- name -->
@@ -68,5 +72,12 @@
   </button>
 
   <!-- hidden image uplaod -->
-  <input type="file" name="image" id="image-{{ uniqueId }}" accept="image/*" class="d-none" aria-hidden="true" #imageInput />
+  <input
+    type="file"
+    name="image"
+    id="image-{{ uniqueId }}"
+    accept="image/*"
+    class="d-none"
+    aria-hidden="true"
+    #imageInput />
 </div>

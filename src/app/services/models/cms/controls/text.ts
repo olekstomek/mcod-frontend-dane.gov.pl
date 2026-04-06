@@ -1,4 +1,4 @@
 export interface IText {
-    text: string;
-    align: string;
+  text: string;
+  align: string;
 }

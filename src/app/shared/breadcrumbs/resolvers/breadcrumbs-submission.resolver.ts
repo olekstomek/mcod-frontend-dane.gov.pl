@@ -12,9 +12,5 @@ import { DatasetService } from '@app/services/dataset.service';
 export const breadcrumbsSubmissionResolver = (route: ActivatedRouteSnapshot) => {
   const datasetService = inject(DatasetService);
 
-  return datasetService
-    .getSubmission(route.paramMap.get('id'))
-    .pipe(
-      catchError(() => of())
-    );
+  return datasetService.getSubmission(route.paramMap.get('id')).pipe(catchError(() => of()));
 };

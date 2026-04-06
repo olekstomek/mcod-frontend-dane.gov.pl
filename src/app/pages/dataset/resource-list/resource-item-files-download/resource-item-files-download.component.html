@@ -1,6 +1,9 @@
 <div class="d-flex flex-lg-column small">
   <div class="font-weight-bold">
-    {{ (item?.attributes?.media_type === 'file' && downloadFilesList.length > 0 ? 'Action.Download' : 'Action.Go') | translate }}:
+    {{
+      (item?.attributes?.media_type === 'file' && downloadFilesList.length > 0 ? 'Action.Download' : 'Action.Go')
+        | translate
+    }}:
   </div>
 
   <ng-container *ngIf="item.attributes.media_type === 'file'">
@@ -13,8 +16,7 @@
           [fileUrl]="dataFiles.download_url"
           [format]="dataFiles.format"
           [title]="item.attributes.title"
-          (click)="onDownload(item.attributes.title, dataFiles.download_url)"
-        >
+          (click)="onDownload(item.attributes.title, dataFiles.download_url)">
         </app-download-link>
       </div>
     </div>
@@ -35,8 +37,7 @@
     *ngIf="item.attributes.media_type === 'api' && item.attributes.link"
     class="underline ml-3 ml-lg-0"
     target="_blank"
-    href="{{ item.attributes.link }}"
-  >
+    href="{{ item.attributes.link }}">
     API <span aria-hidden="true">>></span>
 
     <span class="visually-hidden">
@@ -50,8 +51,7 @@
     *ngIf="item.attributes.media_type === 'website' && item.attributes.link"
     class="underline ml-3 ml-lg-0"
     target="_blank"
-    href="{{ item.attributes.link }}"
-  >
+    href="{{ item.attributes.link }}">
     {{ 'TypesFilters.Website' | translate }}
 
     <span aria-hidden="true">>></span>

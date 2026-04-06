@@ -8,20 +8,14 @@ import { AodCourseScheduleDay } from '@app/user/academy/academy-courses/AodCours
  * Academy Schedule Component
  */
 @Component({
-    selector: 'app-academy-schedule',
-    templateUrl: './academy-schedule.component.html',
-    standalone: true,
-    imports: [
-        NgFor,
-        AsyncPipe,
-        TitleCasePipe,
-        DatePipe,
-        TranslateDateFormatPipe,
-    ],
+  selector: 'app-academy-schedule',
+  templateUrl: './academy-schedule.component.html',
+  standalone: true,
+  imports: [NgFor, AsyncPipe, TitleCasePipe, DatePipe, TranslateDateFormatPipe],
 })
 export class AcademyScheduleComponent {
   /**
    * AOD Course schedules grouped by month, related to a course
    */
-  @Input() scheduleByMonth: { [key: string]: AodCourseScheduleDay[] };
+  @Input() scheduleByMonth: Record<string, AodCourseScheduleDay[]>;
 }

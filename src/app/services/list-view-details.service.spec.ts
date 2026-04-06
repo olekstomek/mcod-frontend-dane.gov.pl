@@ -72,7 +72,13 @@ describe('ListViewDetailsService', () => {
           verified: '',
         },
         detailsData: [
-          { data: null, dateFormat: 'D MMMM YYYY', isDate: true, language: undefined, titleTranslationKey: 'Attribute.DataDate' },
+          {
+            data: null,
+            dateFormat: 'D MMMM YYYY',
+            isDate: true,
+            language: undefined,
+            titleTranslationKey: 'Attribute.DataDate',
+          },
         ],
         id: '2',
         language: 'pl',

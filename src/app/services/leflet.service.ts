@@ -36,7 +36,10 @@ export class LeafletService {
   /**
    * @ignore
    */
-  constructor(private zone: NgZone, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    private zone: NgZone,
+    @Inject(PLATFORM_ID) private platformId: object,
+  ) {
     if (isPlatformBrowser(platformId)) {
       this.L = require('leaflet');
     }

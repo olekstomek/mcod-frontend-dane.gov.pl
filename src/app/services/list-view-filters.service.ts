@@ -18,7 +18,10 @@ import { BasicPageParams, PageParams } from '@app/services/models/page-params';
   providedIn: 'root',
 })
 export class ListViewFiltersService {
-  constructor(private router: Router, private translate: TranslateService) {}
+  constructor(
+    private router: Router,
+    private translate: TranslateService,
+  ) {}
 
   /**
    * Returns filter name with [terms] or [id][terms] suffix
@@ -149,13 +152,15 @@ export class ListViewFiltersService {
       updatedParams.page = 1;
     }
 
-    this.router.navigate([], {
-      queryParams: {
-        ...updatedBasicParams,
-        ...updatedParams,
-      },
-      queryParamsHandling: method,
-    }).then();
+    this.router
+      .navigate([], {
+        queryParams: {
+          ...updatedBasicParams,
+          ...updatedParams,
+        },
+        queryParamsHandling: method,
+      })
+      .then();
   }
 
   /**
@@ -169,7 +174,7 @@ export class ListViewFiltersService {
       return;
     }
 
-    params['q'] = (<string>params['q']).trim();
+    params['q'] = (params['q'] as string).trim();
     const param = params['q'].length ? params : { q: '' };
 
     this.updateParams(param, 'merge', basicParams, paramsIn);
@@ -213,10 +218,10 @@ export class ListViewFiltersService {
         const filterValues = queryParams[nameWithTerms].split(',');
 
         if (options[byName]) {
-          const newValues = options[byName].filter(item => {
+          const newValues = options[byName].filter((item) => {
             return filterValues.indexOf(item.id) !== -1;
           });
-          newValues.forEach(val => {
+          newValues.forEach((val) => {
             newSelectedFilters[name][val.id] = val;
           });
         }
@@ -279,7 +284,7 @@ export class ListViewFiltersService {
    * @param {IAggregationProperties} filtersByOpennessScore
    */
   private addStarsForOpennessScore(filtersByOpennessScore: IAggregationProperties[]) {
-    filtersByOpennessScore.forEach(item => {
+    filtersByOpennessScore.forEach((item) => {
       item.title = '';
       item.titleTranslationKey = 'Attribute.OpennessScore';
 
@@ -300,7 +305,7 @@ export class ListViewFiltersService {
       'Institutions.TypeLocal',
       'Institutions.TypeOther',
       'Institutions.TypePrivate',
-      'Institutions.TypeDevelopers'
+      'Institutions.TypeDevelopers',
     ];
     this.translateFilters(filtersByInstitutionTypes, ids, translateKeys);
   }
@@ -338,7 +343,7 @@ export class ListViewFiltersService {
    */
   private translateFilters(filters: IAggregationProperties[], filterIds: string[], translateKeys: string[]) {
     let idIndex = null;
-    filters.forEach(item => {
+    filters.forEach((item) => {
       filterIds.some((id: string, index: number) => {
         if (item.id === id) {
           idIndex = index;
@@ -358,7 +363,7 @@ export class ListViewFiltersService {
    * @param {IAggregationProperties} elements
    */
   private addMissingTitle(elements: IAggregationProperties[]) {
-    elements.forEach(el => {
+    elements.forEach((el) => {
       if (!el.title) {
         el.title = el.id.toString();
       }

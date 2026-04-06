@@ -11,7 +11,6 @@ import { SeoService } from '@app/services/seo.service';
 import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { ResultListComponent } from '@app/shared/result-list/result-list.component';
 
@@ -19,22 +18,21 @@ import { ResultListComponent } from '@app/shared/result-list/result-list.compone
  * Followed Datasets Component
  */
 @Component({
-    selector: 'app-followed-datasets',
-    templateUrl: './followed-datasets.component.html',
-    standalone: true,
-    imports: [
-        NotificationsServerComponent,
-        NgIf,
-        ResultListComponent,
-        RouterLink,
-        ItemsPerPageComponent,
-        PaginationComponent,
-        AsyncPipe,
-        LocalizeRouterPipe,
-        TranslatePipe,
-        SanitizeHtmlPipe,
-        TranslateDateFormatPipe,
-    ],
+  selector: 'app-followed-datasets',
+  templateUrl: './followed-datasets.component.html',
+  standalone: true,
+  imports: [
+    NotificationsServerComponent,
+    NgIf,
+    ResultListComponent,
+    RouterLink,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    AsyncPipe,
+    LocalizeRouterPipe,
+    TranslatePipe,
+    TranslateDateFormatPipe,
+  ],
 })
 export class FollowedDatasetsComponent implements OnInit {
   /**
@@ -69,7 +67,10 @@ export class FollowedDatasetsComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private seoService: SeoService, private observeService: ObserveService) {}
+  constructor(
+    private seoService: SeoService,
+    private observeService: ObserveService,
+  ) {}
 
   /**
    * Initializes lists
@@ -110,7 +111,7 @@ export class FollowedDatasetsComponent implements OnInit {
    * Initializes lists of subscriptions and related datasets
    */
   private getSubscriptions() {
-    this.observeService.getSubscriptions(this.subscriptionType, this.params).subscribe(subscriptions => {
+    this.observeService.getSubscriptions(this.subscriptionType, this.params).subscribe((subscriptions) => {
       if (!subscriptions || !subscriptions['included'] || !subscriptions['data']) {
         if (this.items?.length > 0) {
           this.items = [];
@@ -122,7 +123,9 @@ export class FollowedDatasetsComponent implements OnInit {
 
       this.items = subscriptions['included'];
       this.count = subscriptions['meta']['count'];
-      this.followedDatasets = subscriptions['data'] ? subscriptions['data'].map(subscription => subscription.id) : subscriptions['data'];
+      this.followedDatasets = subscriptions['data']
+        ? subscriptions['data'].map((subscription) => subscription.id)
+        : subscriptions['data'];
     });
   }
 }

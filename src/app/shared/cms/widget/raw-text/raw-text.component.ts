@@ -11,24 +11,15 @@ import { IRawTextObject } from '@app/services/models/cms/controls/raw-text/raw-t
 import { IRawText } from '@app/services/models/cms/widgets/raw-text';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Raw text
  */
 @Component({
-    selector: 'cms-raw-text',
-    templateUrl: './raw-text.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgClass,
-        NgFor,
-        NgStyle,
-        RawTextEmbedComponent,
-        TranslatePipe,
-        SanitizeHtmlPipe,
-    ],
+  selector: 'cms-raw-text',
+  templateUrl: './raw-text.component.html',
+  standalone: true,
+  imports: [NgIf, NgClass, NgFor, NgStyle, RawTextEmbedComponent, TranslatePipe],
 })
 export class RawTextComponent extends WidgetAbstractComponent implements OnInit, AfterViewInit {
   /**

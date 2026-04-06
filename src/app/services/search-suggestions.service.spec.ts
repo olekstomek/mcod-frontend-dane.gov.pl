@@ -65,7 +65,8 @@ const responseMock = {
           id: '4',
         },
         modified: '2019-07-15T13:39:14.800415+00:00',
-        notes: '<p>Raporty o stanie kształcenia na poziomie wyższym w obszarze badań kosmicznych i satelitarnych w Polsce</p>',
+        notes:
+          '<p>Raporty o stanie kształcenia na poziomie wyższym w obszarze badań kosmicznych i satelitarnych w Polsce</p>',
         title: 'Raporty o stanie kształcenia na poziomie wyższym w obszarze badań kosmicznych i satelitarnych w Polsce',
         model: 'dataset',
         visualization_types: [],
@@ -159,8 +160,10 @@ describe('SearchSuggestionsService', () => {
   });
 
   it('should return suggestions for specified criteria', () => {
-    service.getSuggestions('raport', [ApiModel.DATASET, ApiModel.RESOURCE], 1).subscribe(data => {
-      const req = httpMock.expectOne(`/api${ApiConfig.searchSuggest}?q=raport&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=1`);
+    service.getSuggestions('raport', [ApiModel.DATASET, ApiModel.RESOURCE], 1).subscribe((data) => {
+      const req = httpMock.expectOne(
+        `/api${ApiConfig.searchSuggest}?q=raport&models=${ApiModel.DATASET}%2C${ApiModel.RESOURCE}&per_model=1`,
+      );
       req.flush(responseMock);
       expect(data).toEqual(responseMock);
     });

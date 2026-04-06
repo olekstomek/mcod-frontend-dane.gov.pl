@@ -12,14 +12,10 @@ import { SeoService } from '@app/services/seo.service';
 import { LoaderComponent } from '@app/shared/loader/loader.component';
 
 @Component({
-    selector: 'app-stats-page',
-    templateUrl: './dashboard-stats.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        LoaderComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-stats-page',
+  templateUrl: './dashboard-stats.component.html',
+  standalone: true,
+  imports: [NgIf, LoaderComponent, TranslatePipe],
 })
 
 /**
@@ -37,7 +33,7 @@ export class DashboardStatsComponent implements OnInit, AfterViewInit, OnDestroy
    * Frame content height
    * @type {string}
    */
-  frameContentHeight: string = '0';
+  frameContentHeight = '0';
 
   /**
    * Stats URL
@@ -82,11 +78,11 @@ export class DashboardStatsComponent implements OnInit, AfterViewInit, OnDestroy
     this.postMessageService
       .getMessages()
       .pipe(
-        filter(data => data.height),
+        filter((data) => data.height),
         debounceTime(100),
         distinctUntilChanged((prev, curr) => prev.height === curr.height),
       )
-      .subscribe(dimensions => {
+      .subscribe((dimensions) => {
         this.frameContentHeight = dimensions.height + 'px';
       });
   }

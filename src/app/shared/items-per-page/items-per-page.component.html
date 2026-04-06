@@ -6,8 +6,7 @@
   <select
     class="form-select items-select"
     (change)="onChange(Number(getSelectValue($event)))"
-    attr.aria-labelledby="items-per-page-label-{{ uniqueId }}"
-  >
+    attr.aria-labelledby="items-per-page-label-{{ uniqueId }}">
     <option [ngValue]="null" *ngIf="!isNumberValid">
       {{ selected }}
     </option>

@@ -17,11 +17,7 @@ describe('ActiveNewsletterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        ActiveNewsletterComponent
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), ActiveNewsletterComponent],
       providers: [
         importProvidersFrom(AppTestingModule),
         NewsletterService,
@@ -47,9 +43,9 @@ describe('ActiveNewsletterComponent', () => {
   });
 
   it('should add success message', () => {
-    jest.spyOn(service, 'confirmNewsletterSubscription').mockReturnValue(
-      of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
-    );
+    jest
+      .spyOn(service, 'confirmNewsletterSubscription')
+      .mockReturnValue(of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }));
     component.ngOnInit();
     expect(component.successMessage).toEqual('treść testowa');
   });

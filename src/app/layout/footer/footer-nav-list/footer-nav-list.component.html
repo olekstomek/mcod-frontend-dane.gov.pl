@@ -10,8 +10,7 @@
     *ngIf="titleTranslationKey"
     [attr.aria-controls]="listId"
     [attr.aria-pressed]="isVisible"
-    (click)="isVisible = !isVisible"
-  >
+    (click)="isVisible = !isVisible">
     <span class="visually-hidden">
       {{ (isVisible ? 'Action.Hide' : 'Action.Show') | translate }}
       {{ titleTranslationKey | translate }}

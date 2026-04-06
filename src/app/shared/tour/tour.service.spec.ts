@@ -64,7 +64,7 @@ describe('TourService', () => {
   });
 
   it('should gets current tour', () => {
-    service.getCurrentTour().subscribe(value => {
+    service.getCurrentTour().subscribe((value) => {
       expect(value).toBe({});
     });
   });
@@ -74,7 +74,7 @@ describe('TourService', () => {
       name: 'test',
       id: '1',
       items: [],
-      progress: {tourId: '1', currentStepIndex: 1, currentStepRoute: '2'},
+      progress: { tourId: '1', currentStepIndex: 1, currentStepRoute: '2' },
     };
     jest.spyOn(LocalStorageService.prototype, 'set');
     service.pauseTour(tour);

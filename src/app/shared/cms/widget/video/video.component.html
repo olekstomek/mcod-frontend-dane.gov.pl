@@ -1,13 +1,15 @@
 <div class="container p-0">
   <ng-container *ngIf="isPlayerSupported">
-    <div *ngIf="!!videoYoutubeUrl" class="embed-responsive embed-responsive-4by3 widget__item--middle" [ngStyle]="videoStyles">
+    <div
+      *ngIf="!!videoYoutubeUrl"
+      class="embed-responsive embed-responsive-4by3 widget__item--middle"
+      [ngStyle]="videoStyles">
       <iframe
         class="embed-responsive-item"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         [title]="video.settings?.video_caption ? video.settings.video_caption : 'video'"
         [src]="videoYoutubeUrl"
-        allowfullscreen
-      >
+        allowfullscreen>
       </iframe>
     </div>
     <div [ngClass]="videoClass">

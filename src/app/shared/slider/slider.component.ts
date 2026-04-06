@@ -3,10 +3,10 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-slider',
-    templateUrl: './slider.component.html',
-    standalone: true,
-    imports: [NgStyle, TranslatePipe],
+  selector: 'app-slider',
+  templateUrl: './slider.component.html',
+  standalone: true,
+  imports: [NgStyle, TranslatePipe],
 })
 export class SliderComponent implements OnInit {
   @Input() savedRadius;
@@ -20,7 +20,7 @@ export class SliderComponent implements OnInit {
 
   ngOnInit() {
     if (this.savedRadius) {
-      this.radius = this.sliderValueMapping.findIndex(el => el === this.savedRadius);
+      this.radius = this.sliderValueMapping.findIndex((el) => el === this.savedRadius);
     }
     this.sliderLabel = this.document.getElementById('sliderLabel');
     this.newRadiusValue.emit(this.sliderValueMapping[this.radius]);

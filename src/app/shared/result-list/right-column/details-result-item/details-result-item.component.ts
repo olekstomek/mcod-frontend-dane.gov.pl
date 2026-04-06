@@ -13,17 +13,10 @@ import { ResultItemDetailsData } from '@app/services/models/result-item-details'
  * Component which displays additional data on the right column of list view
  */
 @Component({
-    selector: 'app-details-result-item',
-    templateUrl: './details-result-item.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgClass,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        TranslateDateFormatPipe,
-    ],
+  selector: 'app-details-result-item',
+  templateUrl: './details-result-item.component.html',
+  standalone: true,
+  imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe, TranslateDateFormatPipe],
 })
 export class DetailsResultItemComponent implements OnInit, OnDestroy {
   /**
@@ -76,13 +69,13 @@ export class DetailsResultItemComponent implements OnInit, OnDestroy {
   highContrastMode: HighContrastModeEnum;
   destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private highContrastService: HighContrastService) {
-  }
+  constructor(private highContrastService: HighContrastService) {}
 
   ngOnInit() {
-    this.highContrastService.getCurrentContrastMode()
+    this.highContrastService
+      .getCurrentContrastMode()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(mode => this.highContrastMode = mode);
+      .subscribe((mode) => (this.highContrastMode = mode));
     switch (this.showcaseCategoryKey) {
       case 'app':
         this.categoryIcon = 'ic-aplikacje';

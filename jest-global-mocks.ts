@@ -22,4 +22,3 @@ Object.defineProperty(document.body.style, 'transform', {
     };
   },
 });
-

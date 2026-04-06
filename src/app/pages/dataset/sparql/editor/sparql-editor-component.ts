@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, forwardRef, NgZone, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Ace } from 'ace-builds';
-import ace, { EditSession } from 'ace-builds/src-noconflict/ace';
+import * as ace from 'ace-builds';
+import { Ace, EditSession } from 'ace-builds';
 import 'ace-builds/src-noconflict/mode-sparql';
 import 'ace-builds/src-noconflict/mode-xml';
 import 'ace-builds/src-noconflict/theme-chrome';
@@ -16,29 +16,29 @@ import { SparqlService } from '@app/pages/dataset/sparql/sparql.service';
  * Sparql Editor Component
  */
 @Component({
-    selector: 'app-sparql-editor',
-    templateUrl: './sparql-editor-component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => SparqlEditorComponent),
-            multi: true,
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => SparqlEditorComponent),
-            multi: true,
-        },
-    ],
-    standalone: true,
-    imports: [TranslatePipe],
+  selector: 'app-sparql-editor',
+  templateUrl: './sparql-editor-component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SparqlEditorComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => SparqlEditorComponent),
+      multi: true,
+    },
+  ],
+  standalone: true,
+  imports: [TranslatePipe],
 })
 export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor {
   /**
    * Sparql Mode
-   * @type {any}
+   * @type {string}
    */
-  private static SparqlMode = ace.require('ace/mode/sparql').Mode;
+  private static SparqlMode = 'ace/mode/sparql';
 
   /**
    * Determines if prefix editor should be visible
@@ -78,7 +78,10 @@ export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlV
   /**
    * @ignore
    */
-  constructor(private readonly sparqlService: SparqlService, private readonly ngZone: NgZone) {}
+  constructor(
+    private readonly sparqlService: SparqlService,
+    private readonly ngZone: NgZone,
+  ) {}
 
   /**
    * Cleanups editor instance
@@ -188,34 +191,35 @@ export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlV
    */
   writeValue(obj: any): void {
     this.queryEditorValue = obj;
-    if (!!this.queryEditor) {
+    if (this.queryEditor) {
       this.queryEditor.setSession(new EditSession(obj));
-      this.queryEditor.session.setMode(new SparqlEditorComponent.SparqlMode());
+      this.queryEditor.setTheme('ace/theme/chrome');
+      this.queryEditor.session.setMode(SparqlEditorComponent.SparqlMode);
       this.validateEditors();
     }
   }
 
   /**
    * Setups profile editor
-   * @param SparqlMode
+   * @param modeId
    */
-  private setupPrefixEditor(SparqlMode): void {
-    this.sparqlService.getDefaultPrefixes().subscribe(res => {
+  private setupPrefixEditor(modeId: string): void {
+    this.sparqlService.getDefaultPrefixes().subscribe((res) => {
       this.prefixesEditor = ace.edit('prefixes');
       this.prefixesEditor.setSession(new EditSession(res));
-      this.prefixesEditor.session.setMode(new SparqlMode());
+      this.prefixesEditor.session.setMode(modeId);
       this.prefixesEditor.setTheme('ace/theme/chrome');
     });
   }
 
   /**
    * Setups editor
-   * @param SparqlMode
+   * @param modeId
    */
-  private setupEditor(SparqlMode): void {
+  private setupEditor(modeId: string): void {
     this.queryEditor = ace.edit('editor');
     this.queryEditor.setSession(new EditSession(this.queryEditorValue));
-    this.queryEditor.session.setMode(new SparqlMode());
+    this.queryEditor.session.setMode(modeId);
     this.queryEditor.setTheme('ace/theme/chrome');
     this.queryEditor.commands.addCommand({
       name: 'goToNextElement',
@@ -242,7 +246,7 @@ export class SparqlEditorComponent implements AfterViewInit, OnDestroy, ControlV
    * Input value change callback
    * @param value
    */
-  private onValueChange: (value: any) => void = value => {};
+  private onValueChange: (value: any) => void = (value) => {};
 
   /**
    * Input touched callback

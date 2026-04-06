@@ -12,7 +12,10 @@ export class HttpXsrfInterceptorService implements HttpInterceptor {
   /**
      @ignore
      */
-  constructor(private readonly cookieExtractor: CookieExtractor, @Inject(DOCUMENT) private readonly document: Document) {}
+  constructor(
+    private readonly cookieExtractor: CookieExtractor,
+    @Inject(DOCUMENT) private readonly document: Document,
+  ) {}
 
   /**
    * Intercepts http request and adds CSRF token if needed
@@ -44,7 +47,9 @@ export class HttpXsrfInterceptorService implements HttpInterceptor {
     if (!this.isProductionEnv()) {
       return url.includes('/api');
     }
-    return url.startsWith(this.document.location.protocol + '//api.' + this.document.location.hostname.replace('www.', ''));
+    return url.startsWith(
+      this.document.location.protocol + '//api.' + this.document.location.hostname.replace('www.', ''),
+    );
   }
 
   /**

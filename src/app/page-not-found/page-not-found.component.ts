@@ -1,10 +1,10 @@
 import { isPlatformServer, NgIf } from '@angular/common';
-import {Component, Inject, OnInit, Optional, PLATFORM_ID} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, Inject, OnInit, Optional, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import {CookieService} from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
 
-import {ResponseService} from '@app/ssr/response.service';
+import { ResponseService } from '@app/ssr/response.service';
 
 /**
  * Page Not Found Component
@@ -12,25 +12,19 @@ import {ResponseService} from '@app/ssr/response.service';
 @Component({
   selector: 'app-page-not-found',
   templateUrl: './page-not-found.component.html',
-  imports: [
-    NgIf,
-    TranslatePipe
-  ],
-  standalone: true
+  imports: [NgIf, TranslatePipe],
+  standalone: true,
 })
 export class PageNotFoundComponent implements OnInit {
-
-  public missingLang: boolean = false;
-  private currentLang: string = 'pl';
+  public missingLang = false;
+  private currentLang = 'pl';
 
   constructor(
     @Optional() private readonly responseService: ResponseService,
     @Inject(PLATFORM_ID) private readonly platformId: string,
     private router: Router,
-    private cookieService: CookieService
-  ) {
-
-  }
+    private cookieService: CookieService,
+  ) {}
 
   ngOnInit(): void {
     this.setCurrentLang();

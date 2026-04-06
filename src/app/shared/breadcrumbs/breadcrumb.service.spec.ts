@@ -16,13 +16,13 @@ describe('BreadcrumbService', () => {
   });
 
   it('should call getBreadcrumbs function', async () => {
-    service.getBreadcrumbs().subscribe(value => {
+    service.getBreadcrumbs().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('should call getReversedBreadcrumbsLabels function', async () => {
-    service.getReversedBreadcrumbsLabels().subscribe(value => {
+    service.getReversedBreadcrumbsLabels().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

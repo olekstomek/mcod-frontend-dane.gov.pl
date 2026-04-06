@@ -7,8 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  * [innerHTML]="item.attributes.source_title | innerHtmlAppend: ' >>'
  */
 @Pipe({
-    name: 'innerHtmlAppend',
-    standalone: true,
+  name: 'innerHtmlAppend',
+  standalone: true,
 })
 export class InnerHtmlAppendPipe implements PipeTransform {
   transform(value: string, appendText: string): string {

@@ -10,16 +10,12 @@ import { DetailsResultItemComponent } from '@app/shared/result-list/right-column
 @Component({
   selector: 'app-dataset-item-results',
   templateUrl: './dataset-item-results.component.html',
-  imports: [
-    ResultListComponent,
-    ResultItemImageComponent,
-    DetailsResultItemComponent
-  ],
-  standalone: true
+  imports: [ResultListComponent, ResultItemImageComponent, DetailsResultItemComponent],
+  standalone: true,
 })
 export class DatasetItemResultsComponent {
-    /**
-     * items to display
-     */
-    @Input() items: any;
+  /**
+   * items to display
+   */
+  @Input() items: any;
 }

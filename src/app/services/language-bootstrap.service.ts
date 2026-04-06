@@ -10,20 +10,17 @@ const localName = 'bootstrap-language';
  */
 @Injectable()
 export class LanguageBootstrapService {
+  constructor(private ngxBootstrapLocalService: BsLocaleService) {}
 
-    constructor(private ngxBootstrapLocalService: BsLocaleService) {
+  setBootstrapLanguage(language: string) {
+    if (language === 'pl') {
+      plLocale.invalidDate = '';
+      defineLocale(localName, plLocale);
+    } else {
+      enGbLocale.invalidDate = '';
+      defineLocale(localName, enGbLocale);
     }
-
-    setBootstrapLanguage(language: string) {
-        if (language === 'pl') {
-            plLocale.invalidDate = '';
-            defineLocale(localName, plLocale);
-        } else {
-            enGbLocale.invalidDate = '';
-            defineLocale(localName, enGbLocale);
-        }
-        this.ngxBootstrapLocalService.use(language);
-        this.ngxBootstrapLocalService.use(localName);
-    }
-
+    this.ngxBootstrapLocalService.use(language);
+    this.ngxBootstrapLocalService.use(localName);
+  }
 }

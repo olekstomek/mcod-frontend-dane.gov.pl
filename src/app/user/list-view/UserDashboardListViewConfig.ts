@@ -8,7 +8,7 @@ export class UserDashboardListViewConfig {
     public readonly isPaginationVisible: boolean,
     public readonly sortParamValue: string,
     public readonly filterConfig: UserDashboardListViewFilterConfig | null,
-    public readonly additionalPageParams: { [key: string]: string | boolean },
+    public readonly additionalPageParams: Record<string, string | boolean>,
     public readonly additionalPageParamsCallback: (params, qParams) => void,
     public readonly foundedItemsCountHeaderTitle: string,
     public readonly afterDataFetchedCallback: (response: ApiResponse) => void,
@@ -18,7 +18,7 @@ export class UserDashboardListViewConfig {
   static builder = class UserDashboardListViewConfigBuilder {
     private isPagingVisible: boolean;
     private isPaginationVisible: boolean;
-    private additionalPageParams: { [p: string]: string | boolean };
+    private additionalPageParams: Record<string, string | boolean>;
     private foundedItemsCountHeader: string;
     private additionalPageParamsCallback: (params, qParamMap) => void;
     private filterConfig: UserDashboardListViewFilterConfig;
@@ -46,7 +46,7 @@ export class UserDashboardListViewConfig {
       return this;
     }
 
-    withAdditionalPageParams(params: { [key: string]: string | boolean }): UserDashboardListViewConfigBuilder {
+    withAdditionalPageParams(params: Record<string, string | boolean>): UserDashboardListViewConfigBuilder {
       this.additionalPageParams = params;
       return this;
     }
@@ -99,7 +99,7 @@ export class UserDashboardListViewConfig {
 }
 
 interface UserDashboardListViewFilterConfig {
-  selectedFilters: Array<string>;
+  selectedFilters: string[];
   filterType: typeof UserDashboardListViewFilterType;
   title: string;
 }

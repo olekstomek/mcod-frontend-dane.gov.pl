@@ -9,15 +9,15 @@ import { TooltipWithTitleComponent } from '@app/shared/large-tooltip/tooltip-wit
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
 
 @NgModule({
-    imports: [
-      TranslateModule.forChild(),
-      FeatureFlagsModule,
-      CommonModule,
-      TooltipDirective,
-      InfoTooltipDirective,
-      InfoTooltipComponent,
-      TooltipWithTitleComponent
-    ],
-    exports: [TooltipDirective, InfoTooltipDirective, InfoTooltipComponent, TooltipWithTitleComponent],
+  imports: [
+    TranslateModule.forChild(),
+    FeatureFlagsModule,
+    CommonModule,
+    TooltipDirective,
+    InfoTooltipDirective,
+    InfoTooltipComponent,
+    TooltipWithTitleComponent,
+  ],
+  exports: [TooltipDirective, InfoTooltipDirective, InfoTooltipComponent, TooltipWithTitleComponent],
 })
 export class TooltipModule {}

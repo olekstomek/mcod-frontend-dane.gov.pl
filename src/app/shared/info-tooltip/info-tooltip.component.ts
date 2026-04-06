@@ -4,10 +4,10 @@ import { StringHelper } from '../helpers/string.helper';
 import { TooltipDirective } from '../tooltip/tooltip.directive';
 
 @Component({
-    selector: 'app-info-tooltip',
-    templateUrl: './info-tooltip.component.html',
-    standalone: true,
-    imports: [TooltipDirective, TranslatePipe],
+  selector: 'app-info-tooltip',
+  templateUrl: './info-tooltip.component.html',
+  standalone: true,
+  imports: [TooltipDirective, TranslatePipe],
 })
 export class InfoTooltipComponent {
   /**

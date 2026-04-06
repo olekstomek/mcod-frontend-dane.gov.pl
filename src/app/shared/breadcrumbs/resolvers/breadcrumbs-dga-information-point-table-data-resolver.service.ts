@@ -7,8 +7,10 @@ import { CmsService } from '@app/services/cms.service';
 import { DatasetService } from '@app/services/dataset.service';
 import { DgaService } from '@app/services/dga.service';
 
-export const breadcrumbsDgaInformationPointTableDataResolverService = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-
+export const breadcrumbsDgaInformationPointTableDataResolverService = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
   const dgaService = inject(DgaService);
   const datasetService = inject(DatasetService);
   const cmsService = inject(CmsService);
@@ -24,24 +26,25 @@ export const breadcrumbsDgaInformationPointTableDataResolverService = (route: Ac
       of(data),
       datasetService.getResourceById(data.resource_id),
       datasetService.getDatasetsStats(data.dataset_id, data.dataset_slug),
-      cmsService.getLandingPage(slicedUrl, lang, rev)
-    ]).pipe(map(([resData, resource, stats, cms]) => {
-      return {
-        resData,
-        resource,
-        stats,
-        cms
-      };
-    }));
+      cmsService.getLandingPage(slicedUrl, lang, rev),
+    ]).pipe(
+      map(([resData, resource, stats, cms]) => {
+        return {
+          resData,
+          resource,
+          stats,
+          cms,
+        };
+      }),
+    );
   };
 
   return dgaService.getDgaAggregatedData().pipe(
-    switchMap(responseData => getMoreData(responseData)),
+    switchMap((responseData) => getMoreData(responseData)),
     catchError((err) => {
-      console.warn('Couldn\'t load data');
+      console.warn("Couldn't load data");
       router.navigate(['/']).then();
       return EMPTY;
-    }));
+    }),
+  );
 };
-
-

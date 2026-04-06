@@ -11,7 +11,7 @@ enum DGASortingEnum {
   DGA_INFORMATION = 'cms.DGAInformation',
   DGA_PROTECTED_DATA_LIST = 'cms.DGAProtectedDataList',
   DGA_ACCESS_APPLICATION = 'cms.DGAAccessApplication',
-  DGA_NEW_SUB_PAGE = 'cms.DGANewSubPage'
+  DGA_NEW_SUB_PAGE = 'cms.DGANewSubPage',
 }
 
 interface IMetadataPageChildrenCmsWithCss extends IMetadataPageChildrenCms {
@@ -22,13 +22,7 @@ interface IMetadataPageChildrenCmsWithCss extends IMetadataPageChildrenCms {
   selector: 'app-dga-information-point-tabs',
   templateUrl: './dga-information-point-tabs.component.html',
   standalone: true,
-  imports: [
-    TranslatePipe,
-    NgIf,
-    NgTemplateOutlet,
-    NgForOf,
-    RouterOutlet
-  ]
+  imports: [TranslatePipe, NgIf, NgTemplateOutlet, NgForOf, RouterOutlet],
 })
 export class DgaInformationPointTabsComponent implements OnInit {
   tabs: IMetadataPageChildrenCmsWithCss[];
@@ -37,7 +31,7 @@ export class DgaInformationPointTabsComponent implements OnInit {
     [DGASortingEnum.DGA_INFORMATION]: 0,
     [DGASortingEnum.DGA_PROTECTED_DATA_LIST]: 1,
     [DGASortingEnum.DGA_ACCESS_APPLICATION]: 2,
-    [DGASortingEnum.DGA_NEW_SUB_PAGE]: 3
+    [DGASortingEnum.DGA_NEW_SUB_PAGE]: 3,
   };
 
   detailView = false;
@@ -47,14 +41,12 @@ export class DgaInformationPointTabsComponent implements OnInit {
     private location: Location,
     private seoService: SeoService,
     private translateService: TranslateService,
-    private route: ActivatedRoute) {
-  }
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     const sortedTabs = this.route.snapshot.data['post'].meta.children;
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-    ).subscribe((a: any) => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((a: any) => {
       if (a.url === '/pl/dga') {
         this.seoService.setPageTitle(this.translateService.instant('DgaInformationPoint.Self'));
       }
@@ -98,5 +90,4 @@ export class DgaInformationPointTabsComponent implements OnInit {
         return '';
     }
   }
-
 }

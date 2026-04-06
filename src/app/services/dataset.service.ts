@@ -26,7 +26,6 @@ import { TemplateHelper } from '@app/shared/helpers';
  */
 @Injectable()
 export class DatasetService extends RestService {
-
   apiModel = ApiModel;
   /**
    * Determines whether a new resource filter was generated
@@ -52,7 +51,17 @@ export class DatasetService extends RestService {
     @Inject(DOCUMENT) public document: any,
     @Inject(PLATFORM_ID) public platformId: string,
   ) {
-    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+    super(
+      http,
+      translate,
+      router,
+      notificationService,
+      storageService,
+      cookieService,
+      loginService,
+      document,
+      platformId,
+    );
   }
 
   /**
@@ -64,15 +73,15 @@ export class DatasetService extends RestService {
     const httpParams = new HttpParams({ fromObject: params });
 
     return this.get(ApiConfig.search, httpParams).pipe(
-      map(response => {
+      map((response) => {
         return new ApiResponse(response);
       }),
       share({
         connector: () => new ReplaySubject(1),
         resetOnError: false,
         resetOnComplete: false,
-        resetOnRefCountZero: false
-      })
+        resetOnRefCountZero: false,
+      }),
     );
   }
 
@@ -95,7 +104,7 @@ export class DatasetService extends RestService {
    * @param {number} per_page
    * @returns {any}
    */
-  getHistoryById(id: string, page: number = 1, per_page: number = 10) {
+  getHistoryById(id: string, page = 1, per_page = 10) {
     let httpParams = new HttpParams();
     httpParams = httpParams.append('table_name', ApiModel.DATASET);
     httpParams = httpParams.append('row_id', id);
@@ -115,7 +124,7 @@ export class DatasetService extends RestService {
   getResourcesList(id: string, params: any = {}): Observable<ApiResponse> {
     const url = TemplateHelper.parseUrl(ApiConfig.resources, { id: id });
 
-    return this.get(url, params).pipe(map(response => new ApiResponse(response)));
+    return this.get(url, params).pipe(map((response) => new ApiResponse(response)));
   }
 
   /**
@@ -126,7 +135,7 @@ export class DatasetService extends RestService {
   getResourceById(resourceId: string) {
     const url = TemplateHelper.parseUrl(ApiConfig.resourceDetails, { resourceId: resourceId });
 
-    return this.get(url).pipe(map(data => data['data']));
+    return this.get(url).pipe(map((data) => data['data']));
   }
 
   /**
@@ -155,7 +164,7 @@ export class DatasetService extends RestService {
   getDatasetsStats(datasetId: string, datasetSlug: string) {
     const url = ApiConfig.datasets + '/' + `${datasetId},${datasetSlug}`;
     const params = {
-      include: this.apiModel.INSTITUTION
+      include: this.apiModel.INSTITUTION,
     };
 
     return this.get(url, params);
@@ -189,7 +198,7 @@ export class DatasetService extends RestService {
   getSubmissions(params: PageParams): Observable<ApiResponse> {
     const httpParams = new HttpParams({ fromObject: params });
     return this.get(`${ApiConfig.acceptedPublicSubmissions}`, httpParams).pipe(
-      map(response => {
+      map((response) => {
         return new ApiResponse(response);
       }),
       publishReplay(1),
@@ -302,7 +311,7 @@ export class DatasetService extends RestService {
    * @param {boolean} isDefault
    * @returns {Observable<any>}
    */
-  saveResourceChart(resourceId: string, chart: IChartBlueprint, isDefault: boolean = false, isNamedChart = true) {
+  saveResourceChart(resourceId: string, chart: IChartBlueprint, isDefault = false, isNamedChart = true) {
     let name = '';
     if (chart.name) {
       name = `"name": ${JSON.stringify(chart.name)},`;
@@ -322,7 +331,10 @@ export class DatasetService extends RestService {
 
     if (isNamedChart) {
       resourceId = resourceId.split(',')[0];
-      return this.post(TemplateHelper.parseUrl(ApiConfig.resourceCharts, { resourceId: resourceId }), JSON.parse(payload));
+      return this.post(
+        TemplateHelper.parseUrl(ApiConfig.resourceCharts, { resourceId: resourceId }),
+        JSON.parse(payload),
+      );
     }
 
     return this.post(TemplateHelper.parseUrl(ApiConfig.resourceChart, { resourceId: resourceId }), JSON.parse(payload));
@@ -353,7 +365,7 @@ export class DatasetService extends RestService {
    */
   getShowcasesList(id: string, params: any = {}): Observable<ApiResponse> {
     const url = TemplateHelper.parseUrl(ApiConfig.datasetsShowcases, { id: id });
-    return this.get(url, params).pipe(map(response => new ApiResponse(response)));
+    return this.get(url, params).pipe(map((response) => new ApiResponse(response)));
   }
 
   /**
@@ -373,7 +385,7 @@ export class DatasetService extends RestService {
 
     if (filters) {
       let name: string;
-      filters.forEach(filter => {
+      filters.forEach((filter) => {
         name = filter[0];
         id = filter[1][Object.keys(filter[1])[0]].id;
 

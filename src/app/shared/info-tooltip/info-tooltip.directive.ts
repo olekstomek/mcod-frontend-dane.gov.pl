@@ -20,8 +20,8 @@ import { InfoTooltipComponent } from '@app/shared/info-tooltip/info-tooltip.comp
  * Info Tooltip Directive
  */
 @Directive({
-    selector: '[appInfoTooltip]',
-    standalone: true,
+  selector: '[appInfoTooltip]',
+  standalone: true,
 })
 export class InfoTooltipDirective implements OnInit, OnDestroy {
   /**
@@ -117,7 +117,7 @@ export class InfoTooltipDirective implements OnInit, OnDestroy {
     this.withTooltipTitle = this.withTooltipTitle !== undefined;
 
     this.elementRef.nativeElement.appendChild(this.component.location.nativeElement);
-    if (this.withoutMargin === undefined)  {
+    if (this.withoutMargin === undefined) {
       this.renderer.addClass(this.viewContainerRef.element.nativeElement, 'mb-1');
     }
     this.component.instance.title = this.title;

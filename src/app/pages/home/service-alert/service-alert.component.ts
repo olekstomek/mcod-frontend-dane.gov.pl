@@ -4,21 +4,15 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 import { AbstractService } from '@app/services/abstract.service';
 import { ApiConfig } from '@app/services/api';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 /**
  * Service Alert Component
  */
 @Component({
-    selector: 'home-service-alert',
-    templateUrl: './service-alert.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        TranslatePipe,
-        SanitizeHtmlPipe,
-    ],
+  selector: 'home-service-alert',
+  templateUrl: './service-alert.component.html',
+  standalone: true,
+  imports: [NgIf, NgFor, TranslatePipe],
 })
 export class ServiceAlertComponent implements OnInit {
   /**
@@ -35,6 +29,6 @@ export class ServiceAlertComponent implements OnInit {
    * Initializes service alert.
    */
   ngOnInit() {
-    this.api.getRequest(ApiConfig.stats).subscribe(data => (this.serviceAlerts = data.meta.alerts));
+    this.api.getRequest(ApiConfig.stats).subscribe((data) => (this.serviceAlerts = data.meta.alerts));
   }
 }

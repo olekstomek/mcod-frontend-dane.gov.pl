@@ -5,14 +5,17 @@ import { TourItem } from '@app/shared/tour/Tour';
  */
 export class TourItemTreeNode {
   private parent: TourItemTreeNode | null;
-  private children: Array<TourItemTreeNode> = [];
+  private children: TourItemTreeNode[] = [];
   private data: TourItem;
 
   /**
    * @param data
    * @param document
    */
-  constructor(data: any = null, private readonly document: Document) {
+  constructor(
+    data: any = null,
+    private readonly document: Document,
+  ) {
     this.data = data;
   }
 
@@ -22,7 +25,7 @@ export class TourItemTreeNode {
    * @param document
    * @returns {TourItemTreeNode}
    */
-  static fromArray(array: Array<TourItem>, document: Document): TourItemTreeNode {
+  static fromArray(array: TourItem[], document: Document): TourItemTreeNode {
     const rootNode = new TourItemTreeNode(null, document);
     let parentNode: TourItemTreeNode;
     for (let i = 0; i < array.length; i++) {
@@ -32,10 +35,15 @@ export class TourItemTreeNode {
         parentNode = rootNode.insert(new TourItemTreeNode(step, document));
         continue;
       }
-      if (!!!parentNode) {
+      if (!parentNode) {
         parentNode = rootNode;
       }
-      if (step.is_optional && step.is_clickable && step.is_expandable && document.querySelector(step.css_selector) === null) {
+      if (
+        step.is_optional &&
+        step.is_clickable &&
+        step.is_expandable &&
+        document.querySelector(step.css_selector) === null
+      ) {
         continue;
       }
       if (step.is_optional && (step.is_clickable || step.is_expandable)) {
@@ -44,7 +52,7 @@ export class TourItemTreeNode {
           (previousStep?.is_clickable || previousStep?.is_expandable) &&
           !(previousStep.is_clickable && previousStep.is_expandable)
         ) {
-          if (document.querySelector(previousStep.css_selector) === null && !!!parentNode?.parent) {
+          if (document.querySelector(previousStep.css_selector) === null && !parentNode?.parent) {
             continue;
           }
           const newNode = new TourItemTreeNode(step, document);
@@ -90,8 +98,8 @@ export class TourItemTreeNode {
    * @returns {Array<TourItem>}
    */
   findVisibleItems(): TourItem[] {
-    const visibleItemsWithChildren: Array<TourItem> = [];
-    this.children.forEach(child => {
+    const visibleItemsWithChildren: TourItem[] = [];
+    this.children.forEach((child) => {
       if (this.document.querySelector(child.data.css_selector) !== null) {
         this.appendChildTilLastChild(child, visibleItemsWithChildren);
       }
@@ -105,7 +113,7 @@ export class TourItemTreeNode {
    * @returns {TourItem[]}
    */
   findTourItemsToClick(cssSelector: string): TourItem[] {
-    const selectorsToClick: Array<TourItem> = [];
+    const selectorsToClick: TourItem[] = [];
     const element = TourItemTreeNode.findBySelector(this, cssSelector);
     if (element !== null) {
       this.appendChildTilRoot(element, selectorsToClick);
@@ -138,7 +146,7 @@ export class TourItemTreeNode {
    * @param selectorsToClick
    * @returns {any}
    */
-  private appendChildTilRoot(element: TourItemTreeNode, selectorsToClick: Array<TourItem>): any {
+  private appendChildTilRoot(element: TourItemTreeNode, selectorsToClick: TourItem[]): any {
     if (element.parent) {
       if (element.data.is_clickable || element.data.is_expandable) {
         selectorsToClick.push(element.data);
@@ -153,7 +161,7 @@ export class TourItemTreeNode {
    * @param selectorsToClick
    * @returns {any}
    */
-  private appendChildTilLastChild(element: TourItemTreeNode, selectorsToClick: Array<TourItem>): any {
+  private appendChildTilLastChild(element: TourItemTreeNode, selectorsToClick: TourItem[]): any {
     if (this.document.querySelector(element.data.css_selector) !== null) {
       selectorsToClick.push(element.data);
     }

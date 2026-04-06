@@ -57,7 +57,7 @@ describe('RegisterComponent', () => {
         { provide: FormBuilder, useClass: FormBuilder },
         NotificationsFrontService,
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
   });

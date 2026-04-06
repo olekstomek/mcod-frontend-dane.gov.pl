@@ -23,7 +23,9 @@ describe('NominatimGeocodeService', () => {
     const coordinates = { lat: 123, lng: 123 };
     service.geocodePoint(coordinates);
     expect(
-      httpMock.expectNone(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.lat}&lon=${coordinates.lng}`),
+      httpMock.expectNone(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.lat}&lon=${coordinates.lng}`,
+      ),
     ).toBeFalsy();
   });
 
@@ -31,7 +33,9 @@ describe('NominatimGeocodeService', () => {
     const address = 'adres';
     service.searchAddress(address);
     expect(
-      httpMock.expectNone(`https://nominatim.openstreetmap.org/search.php?format=geojson&q=${encodeURIComponent(address)}`),
+      httpMock.expectNone(
+        `https://nominatim.openstreetmap.org/search.php?format=geojson&q=${encodeURIComponent(address)}`,
+      ),
     ).toBeFalsy();
   });
 });

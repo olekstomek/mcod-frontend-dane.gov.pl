@@ -19,16 +19,12 @@ describe('SearchSuggestComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        NoopAnimationsModule,
-        SearchSuggestComponent
-      ],
+      imports: [TranslateModule.forRoot(), NoopAnimationsModule, SearchSuggestComponent],
       providers: [
         SearchSuggestionsService,
         NotificationsService,
         { provide: LocalizeRouterService, useClass: LocalizeRouterServiceStub },
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
 
@@ -51,22 +47,39 @@ describe('SearchSuggestComponent', () => {
   it('should creates listbox option from a data item of the api response for ApiModel.ARTICLE', () => {
     const item = { attributes: { title: 'test', model: ApiModel.ARTICLE, slug: 'articles' }, id: '2' };
     const returnValue = component.createListboxOptionFromItem(item);
-    expect(returnValue).toStrictEqual({ title: 'test', url: '/article/2,articles', areaTranslationKey: 'Articles.News' });
+    expect(returnValue).toStrictEqual({
+      title: 'test',
+      url: '/article/2,articles',
+      areaTranslationKey: 'Articles.News',
+    });
   });
 
   it('should creates listbox option from a data item of the api response for ApiModel.SHOWCASE', () => {
     const item = { attributes: { title: 'test', model: ApiModel.SHOWCASE, slug: 'showcases' }, id: '2' };
     const returnValue = component.createListboxOptionFromItem(item);
-    expect(returnValue).toStrictEqual({ title: 'test', url: '/showcase/2,showcases', areaTranslationKey: 'Menu.Showcases' });
+    expect(returnValue).toStrictEqual({
+      title: 'test',
+      url: '/showcase/2,showcases',
+      areaTranslationKey: 'Menu.Showcases',
+    });
   });
 
   it('should creates listbox option from a data item of the api response for ApiModel.KNOWLEDGE_BASE', () => {
     const item = {
-      attributes: { title: 'test', model: ApiModel.KNOWLEDGE_BASE, slug: 'knowledge_base', html_url: 'pl/knowledgebase/useful-materials/' },
+      attributes: {
+        title: 'test',
+        model: ApiModel.KNOWLEDGE_BASE,
+        slug: 'knowledge_base',
+        html_url: 'pl/knowledgebase/useful-materials/',
+      },
       id: '2',
     };
     const returnValue = component.createListboxOptionFromItem(item);
-    expect(returnValue).toStrictEqual({ title: 'test', url: '/knowledgebase/useful-materials', areaTranslationKey: 'KnowledgeBase.Self' });
+    expect(returnValue).toStrictEqual({
+      title: 'test',
+      url: '/knowledgebase/useful-materials',
+      areaTranslationKey: 'KnowledgeBase.Self',
+    });
   });
 
   it('should creates listbox option from a data item of the api response for ApiModel.NEWS', () => {
@@ -78,7 +91,11 @@ describe('SearchSuggestComponent', () => {
   it('should creates listbox option from a data item of the api response for ApiModel.RESOURCE', () => {
     const item = { attributes: { title: 'test', model: ApiModel.RESOURCE, slug: 'resource' }, id: '2' };
     const returnValue = component.createListboxOptionFromItem(item);
-    expect(returnValue).toStrictEqual({ title: 'test', url: '/resource/2,resource', areaTranslationKey: 'Resources.Self' });
+    expect(returnValue).toStrictEqual({
+      title: 'test',
+      url: '/resource/2,resource',
+      areaTranslationKey: 'Resources.Self',
+    });
   });
 
   it('should parses knowledge base url', () => {
@@ -197,15 +214,18 @@ describe('SearchSuggestComponent', () => {
     expect(component.activeSuggestionIndex).toEqual(component.notSelectedSuggestionIndex);
   });
 
-  it('should chose and emit of the ' +
-    'active item on the suggestion region list when activeSuggestionIndex != notSelectedSuggestionIndex', () => {
-    jest.spyOn(component.regionListboxOption, 'emit');
-    component.listBoxOptions = ['option1', 'option2'];
-    component.activeSuggestionIndex = 1;
-    component.onSuggestionSearchClick();
-    expect(component.regionListboxOption.emit).toHaveBeenCalled();
-    expect(component.listBoxOptions).toEqual([]);
-  });
+  it(
+    'should chose and emit of the ' +
+      'active item on the suggestion region list when activeSuggestionIndex != notSelectedSuggestionIndex',
+    () => {
+      jest.spyOn(component.regionListboxOption, 'emit');
+      component.listBoxOptions = ['option1', 'option2'];
+      component.activeSuggestionIndex = 1;
+      component.onSuggestionSearchClick();
+      expect(component.regionListboxOption.emit).toHaveBeenCalled();
+      expect(component.listBoxOptions).toEqual([]);
+    },
+  );
 
   it('should clears query input and sets focus on it.', () => {
     component.queryInputRef = new ElementRef({ focus() {} });

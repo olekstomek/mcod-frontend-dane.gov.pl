@@ -22,20 +22,20 @@ import { SearchSuggestComponent } from '@app/shared/search-suggest/search-sugges
  * Article Component
  */
 @Component({
-    selector: 'app-article',
-    templateUrl: './article.component.html',
-    standalone: true,
-    imports: [
-        SearchSuggestComponent,
-        NgIf,
-        FoundResultsCountersAndSortComponent,
-        NotificationsServerComponent,
-        NoResultsFoundComponent,
-        ArticleResultsComponent,
-        ItemsPerPageComponent,
-        PaginationComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-article',
+  templateUrl: './article.component.html',
+  standalone: true,
+  imports: [
+    SearchSuggestComponent,
+    NgIf,
+    FoundResultsCountersAndSortComponent,
+    NotificationsServerComponent,
+    NoResultsFoundComponent,
+    ArticleResultsComponent,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    TranslatePipe,
+  ],
 })
 export class ArticleComponent implements OnInit {
   /**
@@ -129,7 +129,7 @@ export class ArticleComponent implements OnInit {
    */
   updateParams(params: any, search: boolean | null = false, method: QueryParamsHandling | null = 'merge') {
     // empty search
-    if (!('sort' in params) && params['sort'] && 'q' in params && !(<string>params['q']).trim().length) {
+    if (!('sort' in params) && params['sort'] && 'q' in params && !(params['q'] as string).trim().length) {
       return;
     } else if ('sort' in params && !params['sort']) {
       // default sort
@@ -180,10 +180,9 @@ export class ArticleComponent implements OnInit {
    * Gets list of articles
    */
   private getData() {
-    this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+    this.searchService.getData(ApiConfig.search, this.params).subscribe((resp) => {
       this.items = resp.results;
       this.count = resp.count;
     });
   }
-
 }

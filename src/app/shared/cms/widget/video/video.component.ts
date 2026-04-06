@@ -14,15 +14,10 @@ import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.
  * <cms-video></app-video>
  */
 @Component({
-    selector: 'cms-video',
-    templateUrl: './video.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgStyle,
-        NgClass,
-        TranslatePipe,
-    ],
+  selector: 'cms-video',
+  templateUrl: './video.component.html',
+  standalone: true,
+  imports: [NgIf, NgStyle, NgClass, TranslatePipe],
 })
 
 /**
@@ -132,7 +127,7 @@ export class VideoComponent extends WidgetAbstractComponent implements OnInit {
    *  @return {SafeUrl}
    */
   private createEmbedUrl(originalUrl: string): SafeUrl {
-    const videoPlayer = this.videoPlayers.find(player => RegExp(player.name, 'i').test(originalUrl));
+    const videoPlayer = this.videoPlayers.find((player) => RegExp(player.name, 'i').test(originalUrl));
     if (!videoPlayer) {
       this.isPlayerSupported = false;
       return null;

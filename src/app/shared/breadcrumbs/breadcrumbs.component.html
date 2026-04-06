@@ -1,7 +1,6 @@
 @if (displayBreadcrumbs) {
   <div class="breadcrumbs-section" id="breadcrumbs">
     <div class="container">
-
       <!-- label -->
       <strong id="breadcrumbs-label">{{ 'Breadcrumbs.YouAreHere' | translate }}:</strong>
 
@@ -11,17 +10,19 @@
           @if (breadcrumb.label !== '') {
             <li class="breadcrumbs__item">
               <!-- breadcrumb as link -->
-              @if (!breadcrumb.lastChild && !(i+1 === breadcrumbs.length - 1 && breadcrumbs[i+1].label === '')) {
+              @if (!breadcrumb.lastChild && !(i + 1 === breadcrumbs.length - 1 && breadcrumbs[i + 1].label === '')) {
                 <a
                   [routerLink]="breadcrumb.segments"
-                  [innerHtml]="breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label | sanitizeHtml"
-                >
+                  [innerHtml]="
+                    breadcrumb.label.length > 32 ? (breadcrumb.label | slice: 0 : 32) + '...' : breadcrumb.label
+                  ">
                 </a>
               }
-              @if (breadcrumb.lastChild || (i+1 === breadcrumbs.length - 1 && breadcrumbs[i+1].label === '')) {
+              @if (breadcrumb.lastChild || (i + 1 === breadcrumbs.length - 1 && breadcrumbs[i + 1].label === '')) {
                 <span
-                  [innerHtml]="breadcrumb.label.length > 32 ? (breadcrumb.label | slice:0:32) + '...' : breadcrumb.label | sanitizeHtml"
-                ></span>
+                  [innerHtml]="
+                    breadcrumb.label.length > 32 ? (breadcrumb.label | slice: 0 : 32) + '...' : breadcrumb.label
+                  "></span>
               }
               <!-- breadcrumb as text (last breadcrumb) -->
             </li>
@@ -30,5 +31,4 @@
       </ol>
     </div>
   </div>
-
 }

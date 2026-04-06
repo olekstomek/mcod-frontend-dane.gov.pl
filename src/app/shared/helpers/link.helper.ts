@@ -31,7 +31,7 @@ export class LinkHelper {
       link.download = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
       // Dispatching click event
       if (document.createEvent) {
-        const mouseEvent = new MouseEvent('click', {bubbles: true, cancelable: true});
+        const mouseEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
         link.dispatchEvent(mouseEvent);
         return true;
       }
@@ -59,7 +59,7 @@ export class LinkHelper {
       .split('&')
       .map(
         function (n) {
-          return (n = n.split('=')), (this[n[0]] = decodeURIComponent(n[1])), this;
+          return ((n = n.split('=')), (this[n[0]] = decodeURIComponent(n[1])), this);
         }.bind({}),
       )[0];
   }

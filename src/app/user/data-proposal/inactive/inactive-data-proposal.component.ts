@@ -8,10 +8,10 @@ import { SeoService } from '@app/services/seo.service';
  */
 
 @Component({
-    selector: 'app-inactive-data-proposal',
-    templateUrl: './inactive-data-proposal.component.html',
-    standalone: true,
-    imports: [DataProposalTabComponent],
+  selector: 'app-inactive-data-proposal',
+  templateUrl: './inactive-data-proposal.component.html',
+  standalone: true,
+  imports: [DataProposalTabComponent],
 })
 export class InactiveDataProposalComponent implements OnInit {
   /**

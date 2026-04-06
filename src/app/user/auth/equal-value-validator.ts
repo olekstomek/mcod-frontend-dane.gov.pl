@@ -7,7 +7,7 @@ import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
  * @returns value validator
  */
 export function equalValueValidator(formControlName1: string, formControlName2: string): ValidatorFn {
-  return (formGroup: UntypedFormGroup): { [key: string]: any } => {
+  return (formGroup: UntypedFormGroup): Record<string, any> => {
     const formControl1 = formGroup.controls[formControlName1];
     const formControl2 = formGroup.controls[formControlName2];
 

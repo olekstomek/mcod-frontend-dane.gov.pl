@@ -17,7 +17,6 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
 import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { KeywordsComponent } from '@app/shared/result-list/related-components/keywords/keywords.component';
 import { getEventValue } from '@app/shared/util';
@@ -26,28 +25,26 @@ import { getEventValue } from '@app/shared/util';
  * Application Item Component
  */
 @Component({
-    templateUrl: './application-item.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        InfoTooltipDirective,
-        KeywordsComponent,
-        NotificationsServerComponent,
-        NgClass,
-        FormsModule,
-        NgFor,
-        ApplicationItemResultsComponent,
-        ItemsPerPageComponent,
-        PaginationComponent,
-        AsyncPipe,
-        TranslatePipe,
-        SanitizeHtmlPipe,
-        TranslateDateFormatPipe,
-    ],
+  templateUrl: './application-item.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    NgIf,
+    InfoTooltipDirective,
+    KeywordsComponent,
+    NotificationsServerComponent,
+    NgClass,
+    FormsModule,
+    NgFor,
+    ApplicationItemResultsComponent,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    AsyncPipe,
+    TranslatePipe,
+    TranslateDateFormatPipe,
+  ],
 })
 export class ApplicationItemComponent implements OnInit, OnDestroy {
-
   /**
    * @ignore
    */
@@ -141,7 +138,9 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.application = this.activatedRoute.snapshot.data['post'];
-    this.application.attributes.tags = ArrayHelper.convertArrayValuesToCommaSeparatedString(this.application.attributes.tags);
+    this.application.attributes.tags = ArrayHelper.convertArrayValuesToCommaSeparatedString(
+      this.application.attributes.tags,
+    );
     this.setCategories();
 
     this.seoService.setPageTitle(this.application.attributes.title);
@@ -150,7 +149,7 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
 
     this.applicationsSubscription = this.activatedRoute.queryParamMap
       .pipe(
-        switchMap(qParamMap => {
+        switchMap((qParamMap) => {
           this.params = {
             page: +qParamMap.get('page') || this.basicParams['page'],
             per_page: +qParamMap.get('per_page') || this.basicParams['per_page'],
@@ -161,11 +160,11 @@ export class ApplicationItemComponent implements OnInit, OnDestroy {
           return this.applicationsService.getDatasets(this.application.id, this.params);
         }),
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         const results = data.results ? data.results : [];
         this.items = this.listViewDetailsService.extendViewDetails(results);
         this.count = data.count;
-        this.isSortValid = !!this.sortOptions.find(option => option.value === this.params.sort);
+        this.isSortValid = !!this.sortOptions.find((option) => option.value === this.params.sort);
       });
   }
 

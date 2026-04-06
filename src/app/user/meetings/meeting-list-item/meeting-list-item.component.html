@@ -1,8 +1,7 @@
 <div class="row">
   <div
     class="col-md-9 dashboard-filtered-list-item
-     dashboard-filtered-list-item--{{ meeting.attributes.state }} order-1 order-md-2"
-  >
+     dashboard-filtered-list-item--{{ meeting.attributes.state }} order-1 order-md-2">
     <!-- state -->
     <div class="dashboard-filtered-list-item__state">
       {{ 'ProxiesMeetings.' + (meeting.attributes.state | titlecase) | translate }}
@@ -22,7 +21,8 @@
     <!-- notes -->
     <div>
       <span class="font-weight-bold d-block"> {{ 'ProxiesMeetings.Agenda' | translate }}: </span>
-      <collapsible-text *ngIf="meeting.attributes.description" [text]="meeting.attributes.description"> </collapsible-text>
+      <collapsible-text *ngIf="meeting.attributes.description" [text]="meeting.attributes.description">
+      </collapsible-text>
     </div>
 
     <!-- attachments -->
@@ -30,7 +30,9 @@
       <ng-container *ngIf="meeting.attributes.materials.length > 0">
         <span class="font-weight-bold d-block mt-3"> {{ 'ProxiesMeetings.DownloadMaterials' | translate }}: </span>
         <ul class="list-unstyled mb-0">
-          <li *ngFor="let attachment of meeting.attributes.materials; let isLast = last" [ngClass]="{ 'pb-2': !isLast }">
+          <li
+            *ngFor="let attachment of meeting.attributes.materials; let isLast = last"
+            [ngClass]="{ 'pb-2': !isLast }">
             <a [href]="attachment.download_url" target="_blank">
               {{ attachment.name }}
             </a>
@@ -46,7 +48,12 @@
       <li class="">
         <span class=""> {{ 'ProxiesMeetings.StartDate' | translate }} </span>
         <span class="d-block font-weight-bold">
-          <svg attr.aria-labelledby="{{ 'icon-clock-title-date-' + meeting.id }}" class="icon" height="19" role="img" width="19">
+          <svg
+            attr.aria-labelledby="{{ 'icon-clock-title-date-' + meeting.id }}"
+            class="icon"
+            height="19"
+            role="img"
+            width="19">
             <title id="{{ 'icon-clock-title-date-' + meeting.id }}">
               {{ 'MyDashboard.Clock' | translate }}
             </title>
@@ -60,7 +67,12 @@
       <li class="pt-4">
         <span class=""> {{ 'ProxiesMeetings.DurationHours' | translate }} </span>
         <span class="d-block font-weight-bold">
-          <svg attr.aria-labelledby="{{ 'icon-clock-title-time-' + meeting.id }}" class="icon" height="19" role="img" width="19">
+          <svg
+            attr.aria-labelledby="{{ 'icon-clock-title-time-' + meeting.id }}"
+            class="icon"
+            height="19"
+            role="img"
+            width="19">
             <title id="{{ 'icon-clock-title-time-' + meeting.id }}">
               {{ 'MyDashboard.Clock' | translate }}
             </title>

@@ -11,62 +11,61 @@ import { ScheduleItemComment } from '@app/user/schedule/components/schedule-comm
  * Schedule Comments List Component
  */
 @Component({
-    selector: 'app-schedule-comments-list',
-    templateUrl: './schedule-comments-list.component.html',
-    animations: [
-        toggleVertically
-    ],
-    standalone: true,
-    imports: [NgFor, NgIf, ScheduleCommentsFormComponent, AsyncPipe, SlicePipe, TitleCasePipe, TranslateDateFormatPipe]
+  selector: 'app-schedule-comments-list',
+  templateUrl: './schedule-comments-list.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgFor, NgIf, ScheduleCommentsFormComponent, AsyncPipe, SlicePipe, TitleCasePipe, TranslateDateFormatPipe],
 })
 export class ScheduleCommentsListComponent implements OnInit {
+  /**
+   * Input  of schedule comments list component
+   */
+  @Input() scheduleItemId: string;
 
-    /**
-     * Input  of schedule comments list component
-     */
-    @Input() scheduleItemId: string;
+  /**
+   * List of comments
+   */
+  @Input() comments: ScheduleItemComment[];
 
-    /**
-     * List of comments
-     */
-    @Input() comments: ScheduleItemComment[];
+  /**
+   * Comment to edit
+   */
+  commentToEdit: ScheduleItemComment;
 
-    /**
-     * Comment to edit
-     */
-    commentToEdit: ScheduleItemComment;
+  /**
+   * Current user email
+   */
+  currentUserEmail: string;
 
-    /**
-     * Current user email
-     */
-    currentUserEmail: string;
+  /**
+   * @ignore
+   */
+  constructor(private userStateService: UserStateService) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private userStateService: UserStateService) {}
+  /**
+   * Initializes current user's email
+   */
+  ngOnInit() {
+    this.userStateService
+      .getCurrentUser()
+      .subscribe((currentUser) => (this.currentUserEmail = currentUser.attributes.email));
+  }
 
-    /**
-     * Initializes current user's email
-     */
-    ngOnInit() {
-        this.userStateService.getCurrentUser().subscribe(currentUser => this.currentUserEmail = currentUser.attributes.email);
-    }
+  /**
+   * Updates selected comment
+   * @param {ScheduleItemComment} comment
+   */
+  onCommentUpdate(comment: ScheduleItemComment) {
+    const index = this.comments.findIndex((item) => item.id === comment.id);
+    this.comments[index] = comment;
+    this.commentToEdit = null;
+  }
 
-    /**
-     * Updates selected comment
-     * @param {ScheduleItemComment} comment
-     */
-    onCommentUpdate(comment: ScheduleItemComment) {
-        const index = this.comments.findIndex(item => item.id === comment.id);
-        this.comments[index] = comment;
-        this.commentToEdit = null;
-    }
-
-    /**
-     * Clears selected comment
-     */
-    onEditCancel() {
-        this.commentToEdit = null;
-    }
+  /**
+   * Clears selected comment
+   */
+  onEditCancel() {
+    this.commentToEdit = null;
+  }
 }

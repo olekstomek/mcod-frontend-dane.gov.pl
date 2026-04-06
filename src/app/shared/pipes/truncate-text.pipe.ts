@@ -9,8 +9,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  *  {{ 'lorem ipsum dolor' | truncateText:10 }}
  */
 @Pipe({
-    name: 'truncateText',
-    standalone: true,
+  name: 'truncateText',
+  standalone: true,
 })
 export class TruncateTextPipe implements PipeTransform {
   /**
@@ -20,10 +20,12 @@ export class TruncateTextPipe implements PipeTransform {
    * @returns {string}
    */
   transform(value: string, limit: number): string {
-    if (limit >= value.length - 1) { return value; }
+    if (limit >= value.length - 1) {
+      return value;
+    }
 
-    const isSpecialChar: RegExp = /[\?.,:;_\-]/;
-    const isSpace: RegExp = /\s/;
+    const isSpecialChar = /[\?.,:;_\-]/;
+    const isSpace = /\s/;
     const position: number = limit - 1;
 
     if (isSpace.test(value.charAt(position))) {
@@ -34,7 +36,9 @@ export class TruncateTextPipe implements PipeTransform {
       return `${value.substring(0, position)}...`;
     } else {
       const spaceIndex = value.indexOf(' ', position);
-      if (spaceIndex === -1) { return value; }
+      if (spaceIndex === -1) {
+        return value;
+      }
 
       if (isSpecialChar.test(value.charAt(spaceIndex - 1))) {
         return value.substring(0, spaceIndex);

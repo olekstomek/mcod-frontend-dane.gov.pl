@@ -1,5 +1,15 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LatLngBounds, Layer, LayerGroup, Map, Marker } from 'leaflet';
@@ -16,14 +26,10 @@ import { UserLocationData } from '@app/services/models/user-location-data';
 import { MapOptionsComponent } from '@app/shared/map/map-options/map-options.component';
 
 @Component({
-    selector: 'app-map',
-    templateUrl: './map.component.html',
-    standalone: true,
-    imports: [
-        TooltipDirective,
-        MapOptionsComponent_1,
-        TranslatePipe,
-    ],
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  standalone: true,
+  imports: [TooltipDirective, MapOptionsComponent_1, TranslatePipe],
 })
 export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
   /**
@@ -162,7 +168,7 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
   rxjsWrapperForMapEvent = {
     observable: function (types) {
       const subject = new Subject();
-      this.on(types, event => subject.next(event));
+      this.on(types, (event) => subject.next(event));
       return subject;
     },
   };
@@ -207,15 +213,17 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.filter$ = this.datasetService.resourceFilterChanged$.pipe(distinctUntilChanged());
 
-    this.resourceFilterSubscription = this.filter$.subscribe(filterQuery => {
+    this.resourceFilterSubscription = this.filter$.subscribe((filterQuery) => {
       this.router.navigate([], { queryParams: { q: filterQuery }, replaceUrl: true });
     });
 
     this.activatedRoute.queryParamMap
       .pipe(switchMap(() => this.datasetService.getGeoData(this.resourceId, { noData: 'true' })))
-      .subscribe(response => {
+      .subscribe((response) => {
         const bounds =
-          response.meta.aggregations && response.meta.aggregations.bounds ? response.meta.aggregations.bounds : this.polandBounds;
+          response.meta.aggregations && response.meta.aggregations.bounds
+            ? response.meta.aggregations.bounds
+            : this.polandBounds;
 
         this.mapBounds = this.leafletService.latLngBounds(
           [bounds['bottom_right'][1], bounds['top_left'][0]],
@@ -249,7 +257,7 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
           });
         }),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         this.prepareNewDataAndMap(response);
       });
   }
@@ -262,7 +270,9 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
       return;
     }
     this.aggregationsGrid = data.meta.aggregations.tiles;
-    this.linesAndPolygonsShapes = data.data.filter(element => element.attributes.shape.type !== 'Point').map(element => element.attributes);
+    this.linesAndPolygonsShapes = data.data
+      .filter((element) => element.attributes.shape.type !== 'Point')
+      .map((element) => element.attributes);
     this.clearMapView();
     this.markPointUserLocation();
     this.displayData();
@@ -290,7 +300,9 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
       this.clearMapView();
     }
     if (!event && this.userSettings) {
-      this.datasetService.getGeoData(this.resourceId, this.buildParamsObject()).subscribe(response => this.prepareNewDataAndMap(response));
+      this.datasetService
+        .getGeoData(this.resourceId, this.buildParamsObject())
+        .subscribe((response) => this.prepareNewDataAndMap(response));
       this.userSettings = null;
       this.toggleMapOptions();
       return;
@@ -350,7 +362,9 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
     }
     this.map.removeLayer(this.userLocation.getCircleMarker());
     this.userLocation = null;
-    this.datasetService.getGeoData(this.resourceId, this.buildParamsObject()).subscribe(response => this.prepareNewDataAndMap(response));
+    this.datasetService
+      .getGeoData(this.resourceId, this.buildParamsObject())
+      .subscribe((response) => this.prepareNewDataAndMap(response));
     this.toggleClickEventOnMap(true);
   }
 
@@ -388,7 +402,7 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
       return;
     }
 
-    this.aggregationsGrid.map(aggreration => {
+    this.aggregationsGrid.map((aggreration) => {
       if (aggreration.shapes.length < this.aggregationThreshold) {
         this.displayGeoJson(aggreration.shapes);
       } else {
@@ -407,7 +421,10 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
         });
 
         this.geoJsonsLayerGroup.addLayer(geoJsonLayer);
-        const displayedObjectInfo = this.setObjectInfoForShape(element, this.geoJsonsLayerGroup.getLayerId(geoJsonLayer));
+        const displayedObjectInfo = this.setObjectInfoForShape(
+          element,
+          this.geoJsonsLayerGroup.getLayerId(geoJsonLayer),
+        );
 
         this.bindEventsToDisplayedObject(geoJsonLayer, displayedObjectInfo);
 
@@ -419,7 +436,10 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private displayAggregationCircles(aggregation: IAggregation) {
     this.circleStyle.radius = this.calculateCircleRadius(aggregation.doc_count);
-    const aggregationCircle = this.leafletService.circleMarker([aggregation.centroid[1], aggregation.centroid[0]], this.circleStyle);
+    const aggregationCircle = this.leafletService.circleMarker(
+      [aggregation.centroid[1], aggregation.centroid[0]],
+      this.circleStyle,
+    );
     aggregationCircle.bindTooltip(`${aggregation.doc_count}`, {
       permanent: true,
       direction: 'center',
@@ -457,19 +477,21 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private clearMapView() {
     const allCircles = Array.from(this.document.querySelectorAll('.clusterCircle.leaflet-interactive'));
-    allCircles.map(path => {
+    allCircles.map((path) => {
       path.parentNode.removeChild(path);
     });
     const allLabels = Array.from(this.document.querySelectorAll('.clusterText'));
-    allLabels.map(path => {
+    allLabels.map((path) => {
       path.parentNode.removeChild(path);
     });
     const allMarkers = Array.from(this.document.querySelectorAll('.leaflet-marker-icon'));
-    allMarkers.map(path => {
+    allMarkers.map((path) => {
       path.parentNode.removeChild(path);
     });
     const allObjects = Array.from(this.document.querySelectorAll('.leaflet-interactive'));
-    allObjects.filter(element => !element.classList.contains('distanceCircle')).map(element => element.parentNode.removeChild(element));
+    allObjects
+      .filter((element) => !element.classList.contains('distanceCircle'))
+      .map((element) => element.parentNode.removeChild(element));
   }
 
   private setMapBoundsString(): string {
@@ -520,7 +542,7 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private bindEventsToDisplayedObject(layer: Layer, element) {
-    layer.on('click', event => {
+    layer.on('click', (event) => {
       // @ts-ignore
       const id = event.layer._leaflet_id + 1;
 
@@ -580,10 +602,10 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy {
   private removeSelectedClass() {
     const bigPins = Array.from(this.document.querySelectorAll('.bigPin'));
     const selectedObjects = Array.from(this.document.querySelectorAll('.lineSelected'));
-    bigPins.map(el => {
+    bigPins.map((el) => {
       el.classList.remove('bigPin');
     });
-    selectedObjects.map(el => {
+    selectedObjects.map((el) => {
       el.classList.remove('lineSelected');
     });
   }

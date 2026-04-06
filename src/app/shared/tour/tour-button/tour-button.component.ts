@@ -1,5 +1,14 @@
 import { isPlatformServer, NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, Optional, PLATFORM_ID, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Optional,
+  PLATFORM_ID,
+  ViewChild,
+} from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 import { LocalStorageService } from 'ngx-localstorage';
@@ -16,15 +25,10 @@ import { TourService } from '@app/shared/tour/tour.service';
  * Tour button component
  */
 @Component({
-    selector: 'app-tour-button',
-    templateUrl: './tour-button.component.html',
-    standalone: true,
-    imports: [
-        TooltipDirective_1,
-        NgIf,
-        TooltipWithTitleComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-tour-button',
+  templateUrl: './tour-button.component.html',
+  standalone: true,
+  imports: [TooltipDirective_1, NgIf, TooltipWithTitleComponent, TranslatePipe],
 })
 export class TourButtonComponent implements OnInit, OnDestroy {
   /**
@@ -50,13 +54,13 @@ export class TourButtonComponent implements OnInit, OnDestroy {
    * Determine if button is active
    * @type {boolean}
    */
-  isButtonActive: boolean = true;
+  isButtonActive = true;
 
   /**
    * Determine if tooltip is visible
    * @type {boolean}
    */
-  isTooltipVisible: boolean = true;
+  isTooltipVisible = true;
   /**
    * Subscription cleanup subject
    * @type {Subject<void>}
@@ -88,7 +92,7 @@ export class TourButtonComponent implements OnInit, OnDestroy {
     this.tourService
       .getCurrentTour()
       .pipe(take(1))
-      .subscribe(tour => {
+      .subscribe((tour) => {
         this.tourService.startTour(tour);
         if (this.tooltipRef && this.tooltipRef.isOpen) {
           this.tooltipRef.hide();
@@ -107,17 +111,16 @@ export class TourButtonComponent implements OnInit, OnDestroy {
       this.tourService
         .getButtonVisibilityForCurrentRoute()
         .pipe(takeUntil(this.destroy$))
-        .subscribe(isButtonVisible => {
+        .subscribe((isButtonVisible) => {
           this.isButtonVisible = isButtonVisible;
           this.changeDetectorRef.detectChanges();
         });
 
-      this.tourService.isButtonActive.pipe(takeUntil(this.destroy$)).subscribe(isButtonActive => {
+      this.tourService.isButtonActive.pipe(takeUntil(this.destroy$)).subscribe((isButtonActive) => {
         this.isButtonActive = isButtonActive;
-        this.isTooltipVisible = !!!this.localStorageService.get('tourComplete');
+        this.isTooltipVisible = !this.localStorageService.get('tourComplete');
         this.changeDetectorRef.detectChanges();
       });
     }
-
   }
 }

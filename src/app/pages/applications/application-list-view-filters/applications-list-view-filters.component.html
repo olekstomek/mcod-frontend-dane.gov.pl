@@ -14,8 +14,7 @@
     [ariaLabel]="'category-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.SHOWCASE_CATEGORY, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'category'"
-  >
+    [filterName]="'category'">
   </app-expandable-multiselect>
 
   <!-- Types -->
@@ -29,8 +28,7 @@
     [ariaLabel]="'type-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.SHOWCASE_TYPE, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'type'"
-  >
+    [filterName]="'type'">
   </app-expandable-multiselect>
 
   <!-- Platforms -->
@@ -44,7 +42,6 @@
     [ariaLabel]="'platform-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.SHOWCASE_PLATFORMS, $event)"
     (applyFilter)="applyFilter()"
-    [filterName]="'platform'"
-  >
+    [filterName]="'platform'">
   </app-expandable-multiselect>
 </section>

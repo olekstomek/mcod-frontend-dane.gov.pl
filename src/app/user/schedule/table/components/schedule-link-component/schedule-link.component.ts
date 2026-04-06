@@ -9,56 +9,54 @@ import { ScheduleTableAction } from '@app/user/schedule/table/domain/schedule-ta
  * Schedule Link Component
  */
 @Component({
-    selector: 'app-schedule-link',
-    templateUrl: './schedule-link.component.html',
-    standalone: true,
-    imports: [RouterLink, TranslatePipe],
+  selector: 'app-schedule-link',
+  templateUrl: './schedule-link.component.html',
+  standalone: true,
+  imports: [RouterLink, TranslatePipe],
 })
 export class ScheduleLinkComponent implements ScheduleTableAction, OnInit {
+  /**
+   * Url
+   * @type {string}
+   */
+  @Input()
+  url: string;
 
-    /**
-     * Url
-     * @type {string}
-     */
-    @Input()
-    url: string;
+  /**
+   * Icon Name
+   * @type {string}
+   */
+  @Input()
+  iconName: string;
 
-    /**
-     * Icon Name
-     * @type {string}
-     */
-    @Input()
-    iconName: string;
+  /**
+   * Title
+   * @type {string}
+   */
+  @Input()
+  titleTranslationKey: string;
 
-    /**
-     * Title
-     * @type {string}
-     */
-    @Input()
-    titleTranslationKey: string;
+  /**
+   * Class name
+   * @type {string}
+   */
+  @Input()
+  className: string;
 
-    /**
-     * Class name
-     * @type {string}
-     */
-    @Input()
-    className: string;
+  /**
+   * Unique id
+   */
+  generatedId = StringHelper.generateRandomHex();
 
-    /**
-     * Unique id
-     */
-    generatedId = StringHelper.generateRandomHex();
+  /**
+   * @ignore
+   */
+  constructor(private readonly router: Router) {}
 
-    /**
-     * @ignore
-     */
-    constructor(private readonly router: Router) {
-    }
-
-    /**
-     * Setups url
-     */
-    ngOnInit() {
-        this.url = this.router.url + this.url;
-    }
+  /**
+   * Setups url
+   */
+  ngOnInit() {
+    this.url = this.router.url + this.url;
+  }
 }

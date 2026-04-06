@@ -18,13 +18,9 @@ describe('InstitutionItemResultsComponent', () => {
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
         SharedModule,
-        InstitutionItemResultsComponent
+        InstitutionItemResultsComponent,
       ],
-      providers: [
-        provideNgxLocalstorage(),
-        provideRouter([]),
-        provideHttpClientTesting()
-      ]
+      providers: [provideNgxLocalstorage(), provideRouter([]), provideHttpClientTesting()],
     });
   });
 

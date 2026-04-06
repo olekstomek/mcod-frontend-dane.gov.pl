@@ -30,8 +30,13 @@ describe('EmbeddedComponent', () => {
         NotificationsService,
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { paramMap: convertToParamMap({ resourceId: '1' }), queryParamMap: convertToParamMap({ lang: 'pl' }) } },
-        }
+          useValue: {
+            snapshot: {
+              paramMap: convertToParamMap({ resourceId: '1' }),
+              queryParamMap: convertToParamMap({ lang: 'pl' }),
+            },
+          },
+        },
       ],
     }).compileComponents();
 
@@ -47,9 +52,9 @@ describe('EmbeddedComponent', () => {
   });
 
   it('should get params from route', async () => {
-    jest.spyOn(service, 'getResourceById').mockReturnValue(
-      of({ attributes: { title: 'test' }, relationships: { geo_data: false, chart: false } }),
-    );
+    jest
+      .spyOn(service, 'getResourceById')
+      .mockReturnValue(of({ attributes: { title: 'test' }, relationships: { geo_data: false, chart: false } }));
     component.ngOnInit();
     expect(component.resourceId).toEqual('1');
     expect(component.hasGeoData).toBeFalsy();

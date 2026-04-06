@@ -28,6 +28,6 @@ export const breadcrumbsKnowledgeBaseDataResolver = (route: ActivatedRouteSnapsh
       cmsService.displayCmsErrorMessage(url, err.message);
       router.navigate(['/']).then();
       return EMPTY;
-    })
+    }),
   );
 };

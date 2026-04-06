@@ -1,4 +1,4 @@
-<div class="container " *ngIf="logingovplQueryCode">
+<div class="container" *ngIf="logingovplQueryCode">
   <div class="row" [ngSwitch]="logingovplQueryCode">
     <div class="col-12 p-md-0">
       <div [class]="styleClass">
@@ -62,11 +62,8 @@
 
 <ng-template #loginError>
   <div [ngClass]="['dashboard-info-container', 'dashboard-info-error', contrastMode]">
-    <div class="font-weight-bold mb-1" innerHTML="{{ 'MyDashboard.Announcements.LoginErrorHeader' | translate }}">
-    </div>
-    <div innerHTML="{{ 'MyDashboard.Announcements.LoginErrorLine1' | translate }}">
-    </div>
-    <div innerHTML="{{ 'MyDashboard.Announcements.LoginErrorLine2' | translate }}">
-    </div>
+    <div class="font-weight-bold mb-1" innerHTML="{{ 'MyDashboard.Announcements.LoginErrorHeader' | translate }}"></div>
+    <div innerHTML="{{ 'MyDashboard.Announcements.LoginErrorLine1' | translate }}"></div>
+    <div innerHTML="{{ 'MyDashboard.Announcements.LoginErrorLine2' | translate }}"></div>
   </div>
 </ng-template>

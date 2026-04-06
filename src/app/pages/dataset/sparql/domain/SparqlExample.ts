@@ -1,4 +1,4 @@
 export interface SparqlExample {
-  displayName: { [key: string]: string };
+  displayName: Record<string, string>;
   codeSnippet: string;
 }

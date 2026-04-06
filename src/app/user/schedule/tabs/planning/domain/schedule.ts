@@ -2,7 +2,7 @@ import { ScheduleTableDataSource } from '@app/user/schedule/table/domain/Schedul
 
 export interface Schedule {
   id: number;
-  data: Array<ScheduleTableDataSource>;
+  data: ScheduleTableDataSource[];
   planningEndDate: string;
   newPlanningEndDate: string;
   startDate: string;

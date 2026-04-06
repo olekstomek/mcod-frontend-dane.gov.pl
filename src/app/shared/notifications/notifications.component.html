@@ -3,6 +3,5 @@
   <li
     class="list-group-item list-group-item-{{ alert.type }} text-left"
     *ngFor="let alert of alerts"
-    [innerHTML]="alert.msg | sanitizeHtml"
-  ></li>
+    [innerHTML]="alert.msg"></li>
 </ul>

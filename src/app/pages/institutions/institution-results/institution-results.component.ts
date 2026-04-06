@@ -8,14 +8,14 @@ import { DetailsResultItemComponent } from '@app/shared/result-list/right-column
  * Component which displays results for providers using list
  */
 @Component({
-    selector: 'app-institution-results',
-    templateUrl: './institution-results.component.html',
-    standalone: true,
-    imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent]
+  selector: 'app-institution-results',
+  templateUrl: './institution-results.component.html',
+  standalone: true,
+  imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent],
 })
 export class InstitutionResultsComponent {
-    /**
-     * data to display
-     */
-    @Input() items: any[];
+  /**
+   * data to display
+   */
+  @Input() items: any[];
 }

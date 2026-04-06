@@ -31,14 +31,14 @@ describe('NewsletterComponent', () => {
         ReactiveFormsModule,
         NoopAnimationsModule,
         SharedModule,
-        NewsletterComponent
+        NewsletterComponent,
       ],
       providers: [
         { provide: SeoService, useClass: SeoServiceStub },
         FormBuilder,
         NotificationsService,
         NewsletterService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
   });
@@ -55,9 +55,9 @@ describe('NewsletterComponent', () => {
   });
 
   it('should create a form with 3 controls and all should be required', () => {
-    jest.spyOn(service, 'getNewsletterRegulations').mockReturnValue(
-      of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
-    );
+    jest
+      .spyOn(service, 'getNewsletterRegulations')
+      .mockReturnValue(of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }));
     component.ngOnInit();
     expect(component.newsletterForm.get('email').setValue('')).toBeFalsy();
     expect(component.newsletterForm.get('personal_data_processing').setValue('')).toBeFalsy();
@@ -75,9 +75,9 @@ describe('NewsletterComponent', () => {
   });
 
   it('should fill required fields and the form should be valid', () => {
-    jest.spyOn(service, 'addNewsletterSubscription').mockReturnValue(
-      of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
-    );
+    jest
+      .spyOn(service, 'addNewsletterSubscription')
+      .mockReturnValue(of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }));
     component.newsletterForm.setValue({
       email: 'user@example.com',
       personal_data_processing: true,

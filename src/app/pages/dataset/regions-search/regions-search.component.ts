@@ -12,14 +12,10 @@ import { SearchSuggestRegionListboxOption } from '@app/shared/search-suggest/sea
 import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 
 @Component({
-    selector: 'app-regions-search',
-    templateUrl: './regions-search.component.html',
-    standalone: true,
-    imports: [
-        SearchSuggestComponent,
-        NgIf,
-        TranslatePipe,
-    ],
+  selector: 'app-regions-search',
+  templateUrl: './regions-search.component.html',
+  standalone: true,
+  imports: [SearchSuggestComponent, NgIf, TranslatePipe],
 })
 export class RegionsSearchComponent extends ListViewFilterPageAbstractComponent implements OnInit {
   /**

@@ -16,19 +16,9 @@ describe('NewsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        SharedModule,
-        HomeModule,
-        NewsComponent
-      ],
-      providers: [
-        CmsService,
-        NotificationsService,
-        importProvidersFrom(AppTestingModule)
-      ],
-      teardown: {destroyAfterEach: false}
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), SharedModule, HomeModule, NewsComponent],
+      providers: [CmsService, NotificationsService, importProvidersFrom(AppTestingModule)],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -42,7 +32,7 @@ describe('NewsComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should unsubscribe when component is destroyed', fakeAsync( () => {
+  it('should unsubscribe when component is destroyed', fakeAsync(() => {
     const unsubscriptionSpy = jest.spyOn(component.articlesSubstription, 'unsubscribe');
     component.ngOnDestroy();
     expect(unsubscriptionSpy).toHaveBeenCalled();

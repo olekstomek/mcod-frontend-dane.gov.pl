@@ -12,7 +12,11 @@ import { ApiModel } from '@app/services/api/api-model';
 import { InstitutionsService } from '@app/services/institutions.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
-import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
+import {
+  AggregationFilterNames,
+  AggregationOptionType,
+  IListViewFilterAggregationsOptions,
+} from '@app/services/models/filters';
 import { IInstitutionSource, InstitutionSourceType } from '@app/services/models/institution';
 import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filters/institution-filters';
 import { SearchService } from '@app/services/search.service';
@@ -30,27 +34,26 @@ import { SearchSuggestComponent } from '@app/shared/search-suggest/search-sugges
  * Institution Component
  */
 @Component({
-    selector: 'app-institution',
-    templateUrl: './institution.component.html',
-    animations: [toggle, toggleVertically],
-    standalone: true,
-    imports: [
-        SearchSuggestComponent,
-        InstitutionListViewFiltersComponent,
-        InstitutionSelectedFiltersComponent,
-        NgIf,
-        FoundResultsCountersAndSortComponent,
-        NotificationsServerComponent,
-        InstitutionResultsComponent,
-        NoResultsFoundComponent,
-        ItemsPerPageComponent,
-        PaginationComponent,
-        ApiSourceLinkComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-institution',
+  templateUrl: './institution.component.html',
+  animations: [toggle, toggleVertically],
+  standalone: true,
+  imports: [
+    SearchSuggestComponent,
+    InstitutionListViewFiltersComponent,
+    InstitutionSelectedFiltersComponent,
+    NgIf,
+    FoundResultsCountersAndSortComponent,
+    NotificationsServerComponent,
+    InstitutionResultsComponent,
+    NoResultsFoundComponent,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    ApiSourceLinkComponent,
+    TranslatePipe,
+  ],
 })
 export class InstitutionComponent extends ListViewFilterPageAbstractComponent implements OnInit {
-
   constructor(
     protected filterService: ListViewFiltersService,
     protected activatedRoute: ActivatedRoute,
@@ -108,21 +111,25 @@ export class InstitutionComponent extends ListViewFilterPageAbstractComponent im
         this.setSelectedFilters(qParams);
       }
 
-      this.searchService.getFilters(ApiConfig.search, this.Facets).subscribe((allFilters: IListViewFilterAggregationsOptions) => {
-        this.filters = allFilters;
-        this.setSelectedFilters(this.params);
-      });
+      this.searchService
+        .getFilters(ApiConfig.search, this.Facets)
+        .subscribe((allFilters: IListViewFilterAggregationsOptions) => {
+          this.filters = allFilters;
+          this.setSelectedFilters(this.params);
+        });
 
       this.getData();
     });
   }
 
   protected getData() {
-    this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
-      this.items = response.results.map(item => {
+    this.searchService.getData(ApiConfig.search, this.params).subscribe((response) => {
+      this.items = response.results.map((item) => {
         item['source'] =
           item.attributes.sources &&
-          item.attributes.sources.find((source: IInstitutionSource) => source.source_type === InstitutionSourceType.CKAN);
+          item.attributes.sources.find(
+            (source: IInstitutionSource) => source.source_type === InstitutionSourceType.CKAN,
+          );
         return item;
       });
       this.count = response.count;

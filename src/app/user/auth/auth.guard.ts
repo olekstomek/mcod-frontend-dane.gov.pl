@@ -10,7 +10,7 @@ import { UserService } from '@app/services/user.service';
  * Auth Guard
  */
 @Injectable()
-export class AuthGuard  {
+export class AuthGuard {
   /**
    * @ignore
    */
@@ -27,7 +27,10 @@ export class AuthGuard  {
    * @param {RouterStateSnapshot} state
    * @returns {Observable<boolean>} activate
    */
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ): Observable<boolean> | Promise<boolean> | boolean {
     this.userStateService.getCurrentUser();
     return this.checkLogin(state.url);
   }
@@ -42,11 +45,13 @@ export class AuthGuard  {
     this.userService.redirectUrl = url;
 
     // Navigate to the login page with extras
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.userStateService.getCurrentUser().subscribe(
-        data => {
+        (data) => {
           if (!data) {
-            this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [], { queryParams: { redirect: url } });
+            this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [], {
+              queryParams: { redirect: url },
+            });
             observer.next(false);
           } else {
             observer.next(true);
@@ -54,7 +59,9 @@ export class AuthGuard  {
           observer.complete();
         },
         () => {
-          this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [], { queryParams: { redirect: url } });
+          this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [], {
+            queryParams: { redirect: url },
+          });
           observer.next(false);
         },
       );

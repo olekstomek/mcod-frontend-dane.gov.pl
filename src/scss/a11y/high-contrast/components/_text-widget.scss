@@ -1,17 +1,17 @@
 .hc-Cms-Text {
-    background-color: $hcSecondary;
-    color: $hcPrimary;
+  background-color: $hcSecondary;
+  color: $hcPrimary;
 }
 
 .cms-text {
-    &-black,
-    &-white,
-    &-grey,
-    &-grey-light,
-    &-blue,
-    &-red,
-    &-yellow,
-    &-green {
-        color: $hcPrimary;
-    }
+  &-black,
+  &-white,
+  &-grey,
+  &-grey-light,
+  &-blue,
+  &-red,
+  &-yellow,
+  &-green {
+    color: $hcPrimary;
+  }
 }

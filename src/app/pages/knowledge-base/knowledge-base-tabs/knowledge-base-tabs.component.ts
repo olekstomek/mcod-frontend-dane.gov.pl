@@ -17,13 +17,7 @@ import { SeoService } from '@app/services/seo.service';
   selector: 'app-knowledge-base-tabs',
   templateUrl: './knowledge-base-tabs.component.html',
   standalone: true,
-  imports: [
-    NgFor,
-    RouterLinkActive,
-    RouterLink,
-    RouterOutlet,
-    TranslatePipe,
-  ],
+  imports: [NgFor, RouterLinkActive, RouterLink, RouterOutlet, TranslatePipe],
 })
 export class KnowledgeBaseTabsComponent {
   /**
@@ -49,8 +43,9 @@ export class KnowledgeBaseTabsComponent {
     this.router.events
       .pipe(
         startWith(new NavigationEnd(0, this.router.url, this.router.url)),
-        filter(event => event instanceof NavigationEnd),
-        takeUntilDestroyed())
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
       .subscribe(() => this.setActiveTab());
   }
 
@@ -59,7 +54,7 @@ export class KnowledgeBaseTabsComponent {
    */
   setActiveTab() {
     this.tabs = this.activatedRoute.snapshot.data['post'].meta.children;
-    let currentTab = this.tabs.find(tab => this.router.url.includes(tab.meta.slug));
+    let currentTab = this.tabs.find((tab) => this.router.url.includes(tab.meta.slug));
 
     if (!currentTab) {
       currentTab = this.tabs[0];

@@ -21,23 +21,23 @@ import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component'
  * Register Component
  */
 @Component({
-    templateUrl: './register.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        RouterLink,
-        FormsModule,
-        ReactiveFormsModule,
-        NotificationsServerComponent,
-        NgClass,
-        VisualPasswordValidatorComponent,
-        RodoModalComponent,
-        UpperCasePipe,
-        LowerCasePipe,
-        LocalizeRouterPipe,
-        TranslatePipe,
-    ],
+  templateUrl: './register.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    NgIf,
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    NotificationsServerComponent,
+    NgClass,
+    VisualPasswordValidatorComponent,
+    RodoModalComponent,
+    UpperCasePipe,
+    LowerCasePipe,
+    LocalizeRouterPipe,
+    TranslatePipe,
+  ],
 })
 export class RegisterComponent implements OnInit {
   /**
@@ -87,14 +87,17 @@ export class RegisterComponent implements OnInit {
     this.seoService.setPageTitleByTranslationKey(['Action.Register']);
 
     this.passwordMinLength = this.userService.passwordMinLength;
-    const customValidators = this.userService.passwordCustomValidators.map(validator => {
+    const customValidators = this.userService.passwordCustomValidators.map((validator) => {
       return CustomFormControlValidators.checkString(validator[0], validator[1]);
     });
 
     this.registrationForm = this.formBuilder.group(
       {
         email: ['', [Validators.required, Validators.email]],
-        password1: ['', [Validators.required, Validators.minLength(this.userService.passwordMinLength), ...customValidators]],
+        password1: [
+          '',
+          [Validators.required, Validators.minLength(this.userService.passwordMinLength), ...customValidators],
+        ],
         password2: ['', Validators.required],
         rodoConsent: [false, Validators.requiredTrue],
         regulationsConsent: [false, Validators.requiredTrue],
@@ -134,6 +137,6 @@ export class RegisterComponent implements OnInit {
 
   onRodoModalClose() {
     this.rodoModalRef.hide();
-    (<HTMLButtonElement>this.rodoModalTrigger.nativeElement).focus();
+    (this.rodoModalTrigger.nativeElement as HTMLButtonElement).focus();
   }
 }

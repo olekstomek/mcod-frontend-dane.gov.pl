@@ -14,14 +14,8 @@ import { ObserveService } from '@app/services/observe.service';
   selector: 'app-activity-notifications',
   templateUrl: './activity-notifications.component.html',
   animations: [toggleVertically],
-  imports: [
-    TranslatePipe,
-    LowerCasePipe,
-    NgIf,
-    RouterLink,
-    LocalizeRouterPipe
-  ],
-  standalone: true
+  imports: [TranslatePipe, LowerCasePipe, NgIf, RouterLink, LocalizeRouterPipe],
+  standalone: true,
 })
 export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
   /**
@@ -32,12 +26,12 @@ export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
   /**
    * Datasets count of activity notifications component
    */
-  datasetsCount: number = 0;
+  datasetsCount = 0;
 
   /**
    * Search results count of activity notifications component
    */
-  searchResultsCount: number = 0;
+  searchResultsCount = 0;
 
   /**
    * Total count of activity notifications component
@@ -62,7 +56,10 @@ export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
   /**
    * @ignore
    */
-  constructor(private renderer: Renderer2, private observeService: ObserveService) {}
+  constructor(
+    private renderer: Renderer2,
+    private observeService: ObserveService,
+  ) {}
 
   /**
    * Initializes component data
@@ -76,17 +73,17 @@ export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
   }
 
   private getNewNotifications() {
-    this.observeService.getNewNotifications().subscribe(response => {
+    this.observeService.getNewNotifications().subscribe((response) => {
       this.resetCounters();
 
       if (response.meta['notifications']) {
         const changes = response.meta['notifications'];
 
         if (changes['datasets']) {
-          (this.datasetsCount = changes['datasets']['new']);
+          this.datasetsCount = changes['datasets']['new'];
         }
         if (changes['queries']) {
-          (this.searchResultsCount = changes['queries']['new']);
+          this.searchResultsCount = changes['queries']['new'];
         }
 
         this.countTotal();
@@ -124,7 +121,9 @@ export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
    * @param event
    */
   clickOutside(event) {
-    if (!this.activityNotificationsRef) { return; }
+    if (!this.activityNotificationsRef) {
+      return;
+    }
 
     const targetElement = event.target as HTMLElement;
     const parentElement = this.activityNotificationsRef.nativeElement as HTMLElement;
@@ -168,6 +167,6 @@ export class ActivityNotificationsComponent implements OnInit, AfterViewInit {
    * Sets focus on popup trigger on popup blur
    */
   onPopupBlur() {
-    ((<HTMLElement>this.activityNotificationsRef.nativeElement).children[0] as HTMLButtonElement).focus();
+    ((this.activityNotificationsRef.nativeElement as HTMLElement).children[0] as HTMLButtonElement).focus();
   }
 }

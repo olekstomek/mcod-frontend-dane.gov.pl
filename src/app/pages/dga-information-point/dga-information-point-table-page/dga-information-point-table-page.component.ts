@@ -29,11 +29,10 @@ import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-
     RouterOutlet,
     DatasetRestrictionsComponent,
     CmsBlock2Component,
-    UpperCasePipe
-  ]
+    UpperCasePipe,
+  ],
 })
 export class DgaInformationPointTablePageComponent implements OnInit {
-
   collapsed = true;
   showAnimation = false;
   parentUrlPath: string;
@@ -47,7 +46,11 @@ export class DgaInformationPointTablePageComponent implements OnInit {
   resource: any;
   pageData: IPageCms;
   downloadFilesList: IDatasetFile[];
-  constructor(private route: ActivatedRoute, private translate: TranslateService, private seoService: SeoService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private translate: TranslateService,
+    private seoService: SeoService,
+  ) {}
 
   ngOnInit(): void {
     this.resource = this.route.snapshot.data['post']?.resource;
@@ -79,5 +82,4 @@ export class DgaInformationPointTablePageComponent implements OnInit {
   downloadResource(title: string, url: string) {
     LinkHelper.downloadResource({ title, url });
   }
-
 }

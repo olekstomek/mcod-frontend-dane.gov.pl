@@ -12,7 +12,11 @@ import { ApiModel } from '@app/services/api/api-model';
 import { ApplicationsService } from '@app/services/applications.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
-import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
+import {
+  AggregationFilterNames,
+  AggregationOptionType,
+  IListViewFilterAggregationsOptions,
+} from '@app/services/models/filters';
 import { IListViewApplicationsFiltersModel } from '@app/services/models/page-filters/applications-filters';
 import { BasicPageParams } from '@app/services/models/page-params';
 import { SearchService } from '@app/services/search.service';
@@ -30,25 +34,25 @@ import { SearchSuggestComponent } from '@app/shared/search-suggest/search-sugges
  * Application Component
  */
 @Component({
-    selector: 'app-application',
-    templateUrl: './application.component.html',
-    standalone: true,
-    imports: [
-        RouterLink,
-        SearchSuggestComponent,
-        ApplicationsListViewFiltersComponent,
-        DatasetSelectedFiltersComponent,
-        NgIf,
-        FoundResultsCountersAndSortComponent,
-        NotificationsServerComponent,
-        NoResultsFoundComponent,
-        ApplicationResultsComponent,
-        ItemsPerPageComponent,
-        PaginationComponent,
-        NewDataContactComponent,
-        LocalizeRouterPipe,
-        TranslatePipe,
-    ],
+  selector: 'app-application',
+  templateUrl: './application.component.html',
+  standalone: true,
+  imports: [
+    RouterLink,
+    SearchSuggestComponent,
+    ApplicationsListViewFiltersComponent,
+    DatasetSelectedFiltersComponent,
+    NgIf,
+    FoundResultsCountersAndSortComponent,
+    NotificationsServerComponent,
+    NoResultsFoundComponent,
+    ApplicationResultsComponent,
+    ItemsPerPageComponent,
+    PaginationComponent,
+    NewDataContactComponent,
+    LocalizeRouterPipe,
+    TranslatePipe,
+  ],
 })
 export class ApplicationComponent extends ListViewFilterPageAbstractComponent implements OnInit {
   /**
@@ -103,7 +107,11 @@ export class ApplicationComponent extends ListViewFilterPageAbstractComponent im
   ) {
     super(filterService, activatedRoute, selectedFiltersService);
 
-    this.Facets = [AggregationOptionType.SHOWCASE_CATEGORY, AggregationOptionType.SHOWCASE_TYPE, AggregationOptionType.SHOWCASE_PLATFORMS];
+    this.Facets = [
+      AggregationOptionType.SHOWCASE_CATEGORY,
+      AggregationOptionType.SHOWCASE_TYPE,
+      AggregationOptionType.SHOWCASE_PLATFORMS,
+    ];
   }
 
   /**
@@ -149,7 +157,7 @@ export class ApplicationComponent extends ListViewFilterPageAbstractComponent im
    * Gets list of applications
    */
   protected getData() {
-    this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
+    this.searchService.getData(ApiConfig.search, this.params).subscribe((response) => {
       this.items = response.results;
       this.count = response.count;
     });
@@ -185,5 +193,4 @@ export class ApplicationComponent extends ListViewFilterPageAbstractComponent im
   moveToSearchResult() {
     document.getElementById('search-counters-label').focus();
   }
-
 }

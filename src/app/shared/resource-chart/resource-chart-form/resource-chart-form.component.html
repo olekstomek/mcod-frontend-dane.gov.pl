@@ -8,7 +8,10 @@
     </label>
 
     <div class="row">
-      <div class="col-4 col-md-2 pb-md-2 text-center" [ngClass]="{ 'pb-4': i < 3 }" *ngFor="let chart of chartTypes; let i = index">
+      <div
+        class="col-4 col-md-2 pb-md-2 text-center"
+        [ngClass]="{ 'pb-4': i < 3 }"
+        *ngFor="let chart of chartTypes; let i = index">
         <div class="d-inline">
           <input
             type="radio"
@@ -19,8 +22,7 @@
             [value]="chart"
             (change)="onChartTypeChange(chart)"
             [attr.aria-describedby]="'chart_type_required_error'"
-            [attr.aria-invalid]="chartForm.get('chart_type').errors"
-          />
+            [attr.aria-invalid]="chartForm.get('chart_type').errors" />
 
           <!-- svg label -->
           <label attr.for="chart-type-{{ i }}" title="{{ 'Chart.' + (chart | titlecase) | translate }}" role="button">
@@ -40,8 +42,7 @@
       class="form-text text-danger small"
       id="chart_type_required_error"
       *ngIf="chartForm.get('chart_type').errors && chartForm.get('chart_type').touched"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Validation.VarRequired' | translate: { param: 'Chart.Type' | translate } }}
     </p>
   </div>
@@ -69,8 +70,7 @@
       class="mb-0 pb-1 small form-text text-danger"
       id="labels_required_error"
       *ngIf="!chartForm.get('labels').valid && chartForm.get('labels').dirty"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Validation.VarRequired' | translate: { param: 'Chart.XaxisFormLabel' | translate } }}
     </p>
   </div>
@@ -98,8 +98,7 @@
       class="mb-0 pb-1 small form-text text-danger"
       id="labels_required_error"
       *ngIf="!chartForm.get('labels').valid && chartForm.get('labels').dirty"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Validation.VarRequired' | translate: { param: 'Chart.XaxisFormLabelValue' | translate } }}
     </p>
 
@@ -108,8 +107,7 @@
       class="mb-0 pb-1 form-text text-danger small"
       id="labels_value_exists_error"
       *ngIf="this.chartForm.errors && this.chartForm.errors['valueInArray']"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Chart.SelectedValueExists' | translate }}
     </p>
   </div>
@@ -118,14 +116,16 @@
   <div
     class="form-group"
     [formArrayName]="'datasets'"
-    [ngClass]="{ 'form-group-invalid': chartForm.get('datasets').errors && !chartForm.get('datasets').valid }"
-  >
+    [ngClass]="{ 'form-group-invalid': chartForm.get('datasets').errors && !chartForm.get('datasets').valid }">
     <label id="y-axis" class="font-weight-bold">
       {{ 'Chart.YaxisFormLabel' | translate }}
       <small> ({{ 'Validation.RequiredField' | translate | lowercase }}) </small>
     </label>
 
-    <div class="input-group pb-1" *ngFor="let d of chartForm.get('datasets')['controls']; let i = index" @toggleVertically>
+    <div
+      class="input-group pb-1"
+      *ngFor="let d of chartForm.get('datasets')['controls']; let i = index"
+      @toggleVertically>
       <!-- data column - y axis -->
       <select class="form-select" [formControlName]="i" id="dataset-{{ i }}" (change)="onColumnChange()">
         <option [ngValue]="null">
@@ -143,8 +143,7 @@
         type="button"
         class="btn btn-outline-danger"
         *ngIf="chartForm.get('datasets')['controls'].length > 1"
-        (click)="onRemoveDataColumn(i)"
-      >
+        (click)="onRemoveDataColumn(i)">
         <span aria-hidden="true">x</span>
         <span class="visually-hidden">
           {{ 'Action.Remove' | translate }}
@@ -158,8 +157,7 @@
       class="mb-0 pb-1 form-text text-danger small"
       id="datasets_required_error"
       *ngIf="!chartForm.get('datasets').errors && !chartForm.get('datasets').valid && chartForm.get('datasets').dirty"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Validation.VarRequired' | translate: { param: 'Chart.YaxisFormLabel' | translate } }}
     </p>
 
@@ -168,8 +166,7 @@
       class="mb-0 pb-1 form-text text-danger small"
       id="datasets_duplicates_error"
       *ngIf="chartForm.get('datasets').errors && chartForm.get('datasets').errors['duplicatesInArray']"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Chart.DuplicatesEncountered' | translate }}
     </p>
 
@@ -178,8 +175,7 @@
       class="mb-0 pb-1 form-text text-danger small"
       id="datasets_more_than_one_error"
       *ngIf="chartForm.get('datasets').errors && chartForm.get('datasets').errors['moreThanOneElementInArray']"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Chart.YaxisOnlyOneColumnAllowed' | translate }}
     </p>
 
@@ -191,19 +187,19 @@
           type="button"
           class="btn btn-sm btn-outline-primary"
           (click)="onAppendDataColumn()"
-          *ngIf="chartForm.get('datasets')['controls'].length < numericColumnList.length - 1"
-        >
+          *ngIf="chartForm.get('datasets')['controls'].length < numericColumnList.length - 1">
           {{ 'Chart.YaxisNewColumn' | translate }}
         </button>
 
         <!-- max numeric column reached -->
-        <ng-container @toggleVertically *ngIf="chartForm.get('datasets')['controls'].length === numericColumnList.length - 1">
+        <ng-container
+          @toggleVertically
+          *ngIf="chartForm.get('datasets')['controls'].length === numericColumnList.length - 1">
           <button
             type="button"
             class="btn btn-sm btn-outline-secondary"
             [attr.aria-disabled]="true"
-            title="{{ 'Chart.MaxColumnReached' | translate }}"
-          >
+            title="{{ 'Chart.MaxColumnReached' | translate }}">
             {{ 'Chart.YaxisNewColumn' | translate }}
           </button>
         </ng-container>
@@ -215,19 +211,19 @@
           type="button"
           class="btn btn-sm btn-outline-primary"
           (click)="onAppendDataColumn()"
-          *ngIf="chartForm.get('datasets')['controls'].length < numericColumnList.length"
-        >
+          *ngIf="chartForm.get('datasets')['controls'].length < numericColumnList.length">
           {{ 'Chart.YaxisNewColumn' | translate }}
         </button>
 
         <!-- max numeric column reached -->
-        <ng-container @toggleVertically *ngIf="chartForm.get('datasets')['controls'].length === numericColumnList.length">
+        <ng-container
+          @toggleVertically
+          *ngIf="chartForm.get('datasets')['controls'].length === numericColumnList.length">
           <button
             type="button"
             class="btn btn-sm btn-outline-secondary"
             [attr.aria-disabled]="true"
-            title="{{ 'Chart.MaxColumnReached' | translate }}"
-          >
+            title="{{ 'Chart.MaxColumnReached' | translate }}">
             {{ 'Chart.YaxisNewColumn' | translate }}
           </button>
         </ng-container>
@@ -240,8 +236,7 @@
       class="btn btn-sm btn-outline-secondary"
       [attr.aria-disabled]="true"
       title="{{ 'Chart.YaxisNewColumnStatus' | translate }}"
-      *ngIf="isCircularChart"
-    >
+      *ngIf="isCircularChart">
       {{ 'Chart.YaxisNewColumn' | translate }}
     </button>
   </div>
@@ -259,13 +254,19 @@
 
       <ng-container *ngFor="let column of allSelectedColumns; let i = index">
         <option [value]="column.name">{{ column.description }} - {{ 'Sort.Ascending' | translate | lowercase }}</option>
-        <option [value]="'-' + column.name">{{ column.description }} - {{ 'Sort.Descending' | translate | lowercase }}</option>
+        <option [value]="'-' + column.name">
+          {{ column.description }} - {{ 'Sort.Descending' | translate | lowercase }}
+        </option>
       </ng-container>
     </select>
   </div>
 
   <!-- before save message -->
-  <p class="alert alert-warning" aria-live="polite" *ngIf="!isEmbeddedView && !isUserLoggedIn && chartBlueprint" @toggleVertically>
+  <p
+    class="alert alert-warning"
+    aria-live="polite"
+    *ngIf="!isEmbeddedView && !isUserLoggedIn && chartBlueprint"
+    @toggleVertically>
     {{ 'Chart.BeforeSaveMessage' | translate }}
     <a [routerLink]="['/' | localize, 'user', 'register']">
       {{ 'Action.Register' | translate | lowercase }}
@@ -280,8 +281,7 @@
   <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
     <div
       appInfoTooltip="{{ 'Tour.Tooltip.DataResource.ShowChart.text' | translate }}"
-      tooltipTitle="{{ 'Tour.Tooltip.DataResource.ShowChart.title' | translate }}"
-    >
+      tooltipTitle="{{ 'Tour.Tooltip.DataResource.ShowChart.title' | translate }}">
       <!-- Preview -->
       <button class="btn btn-primary" type="button" *ngIf="chartForm.valid" (click)="onPreviewChart()">
         {{ 'Action.Preview' | translate }}
@@ -294,8 +294,7 @@
         type="button"
         aria-describedby="backend_notifications chart_type_required_error datasets_required_error datasets_duplicates_error datasets_more_than_one_error labels_required_error labels_value_exists_error"
         *ngIf="!chartForm.valid"
-        [attr.aria-disabled]="true"
-      >
+        [attr.aria-disabled]="true">
         {{ 'Action.Preview' | translate }}
         {{ 'Chart.Self' | translate | lowercase }}
       </button>
@@ -308,8 +307,7 @@
         <!-- toggle name form -->
         <span
           appInfoTooltip="{{ 'Tour.Tooltip.DataResource.SaveChart.text' | translate }}"
-          tooltipTitle="{{ 'Tour.Tooltip.DataResource.SaveChart.title' | translate }}"
-        >
+          tooltipTitle="{{ 'Tour.Tooltip.DataResource.SaveChart.title' | translate }}">
           <!-- Save -->
           <button
             type="button"
@@ -317,8 +315,7 @@
             *ngIf="isSaveAvailable"
             attr.aria-controls="chart-name-form-wrapper"
             [attr.aria-pressed]="isNameFormVisible"
-            (click)="isNameFormVisible = !isNameFormVisible"
-          >
+            (click)="isNameFormVisible = !isNameFormVisible">
             {{ 'Action.Remember' | translate }}
             {{ 'Chart.Self' | translate | lowercase }}
           </button>
@@ -331,7 +328,11 @@
         </span>
 
         <!-- Revoke chart settings -->
-        <button type="button" class="btn btn-outline-danger ml-1" *ngIf="savedChartId && isSaveAvailable" (click)="onRevokeChartSettings()">
+        <button
+          type="button"
+          class="btn btn-outline-danger ml-1"
+          *ngIf="savedChartId && isSaveAvailable"
+          (click)="onRevokeChartSettings()">
           Przywróć parametry wykresu
         </button>
         <button type="button" class="btn btn-outline-secondary ml-1" *ngIf="!savedChartId || !isSaveAvailable">
@@ -344,8 +345,7 @@
         <!-- save form action -->
         <span
           appInfoTooltip="{{ 'Tour.Tooltip.DataResource.SaveChart.text' | translate }}"
-          tooltipTitle="{{ 'Tour.Tooltip.DataResource.SaveChart.title' | translate }}"
-        >
+          tooltipTitle="{{ 'Tour.Tooltip.DataResource.SaveChart.title' | translate }}">
           <!-- Save -->
           <button type="button" class="btn btn-primary" *ngIf="isSaveAvailable" (click)="onSaveChart()">
             {{ 'Action.Remember' | translate }}
@@ -376,6 +376,7 @@
 
   <!-- Save Name Form -->
   <div id="chart-name-form-wrapper" *ngIf="isNameFormVisible" @toggleVertically>
-    <app-resource-chart-name-form [name]="savedChartName" (formSaved)="onChartNameSaved($event)"> </app-resource-chart-name-form>
+    <app-resource-chart-name-form [name]="savedChartName" (formSaved)="onChartNameSaved($event)">
+    </app-resource-chart-name-form>
   </div>
 </form>

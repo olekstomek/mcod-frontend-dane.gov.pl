@@ -1,5 +1,5 @@
 export interface IBackgroundImage {
-    color: string;
-    image: {[key: string]: string};
-    paralax: boolean;
+  color: string;
+  image: Record<string, string>;
+  paralax: boolean;
 }

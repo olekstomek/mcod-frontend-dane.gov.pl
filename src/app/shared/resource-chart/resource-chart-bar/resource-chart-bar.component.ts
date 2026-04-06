@@ -54,9 +54,9 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
    * @param newDataset
    * @returns {[[Array<number>], any]}
    */
-  mapNullableDatasets(newDataset: any): [[Array<number>], any] {
+  mapNullableDatasets(newDataset: any): [[number[]], any] {
     // @ts-ignore
-    const arr: [[Array<number>], any] = [];
+    const arr: [[number[]], any] = [];
     newDataset.forEach((dataset, index) => {
       arr[index] = this.mapNullableDataset(dataset, index);
     });
@@ -70,7 +70,7 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
    * @param smallest
    * @returns {[any[], any]}
    */
-  mapNullableDataset(newDataset: any, index: number): [Array<number>, any] {
+  mapNullableDataset(newDataset: any, index: number): [number[], any] {
     const bgs = [];
     const borders = [];
     const nullIndexes = [];
@@ -107,7 +107,7 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
    * @returns {any[]}
    */
   generateLabels(chart: Chart): LegendItem[] {
-    const defaultLabels = chart.data.datasets.map(d => d.label);
+    const defaultLabels = chart.data.datasets.map((d) => d.label);
 
     const labelsWithoutSpecialCharacterColor: LegendItem[] = [];
 
@@ -116,17 +116,16 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
         const specialCharacterBgColor = 'rgb(255,0,0)';
         if (item.backgroundColor[0] === specialCharacterBgColor) {
           let fitsNonSpecialCharacterBg;
-          for (let i = 0; !!!fitsNonSpecialCharacterBg || i < item.backgroundColor.length; i++) {
+          for (let i = 0; !fitsNonSpecialCharacterBg || i < item.backgroundColor.length; i++) {
             const bgColor = item.backgroundColor[i];
             if (bgColor !== specialCharacterBgColor) {
               fitsNonSpecialCharacterBg = bgColor;
             }
           }
-          if (!!fitsNonSpecialCharacterBg) {
+          if (fitsNonSpecialCharacterBg) {
             labelsWithoutSpecialCharacterColor.push({
               text: defaultLabels[index],
               fillStyle: fitsNonSpecialCharacterBg,
-
             });
           } else {
             labelsWithoutSpecialCharacterColor.push({
@@ -139,7 +138,6 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
             text: defaultLabels[index],
             fillStyle: this.chartColors[index].backgroundColor,
             lineWidth: 0,
-
           });
         }
       }
@@ -153,7 +151,7 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
    */
   private setupChartValues() {
     const nullValues = this.mapNullableDatasets(this.chartData);
-    this.chartData = nullValues.map(values => Object.assign({}, values[1]));
+    this.chartData = nullValues.map((values) => Object.assign({}, values[1]));
     this.chartOptions = {
       responsive: true,
       maintainAspectRatio: true,
@@ -162,7 +160,6 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
           position: 'nearest',
           callbacks: {
             title(context): string {
-
               let title = context[0]['label'];
               const datasetIndex = context[0].dataIndex;
               const fullDataLabels = context[0].dataset['fullDataLabels'][datasetIndex];
@@ -176,7 +173,6 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
               }
 
               return title;
-
             },
             label: (context): string => {
               const datasetIndex = context.dataIndex;
@@ -200,5 +196,3 @@ export class ResourceChartBarComponent implements OnInit, OnChanges {
     };
   }
 }
-
-

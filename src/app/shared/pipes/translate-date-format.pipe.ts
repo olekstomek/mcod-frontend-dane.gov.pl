@@ -13,9 +13,9 @@ import { APP_CONFIG } from '@app/app.config';
  * {{ item.attributes.created | translateDateFormat | async }}
  */
 @Pipe({
-    name: 'translateDateFormat',
-    pure: true,
-    standalone: true,
+  name: 'translateDateFormat',
+  pure: true,
+  standalone: true,
 })
 export class TranslateDateFormatPipe implements PipeTransform {
   /**

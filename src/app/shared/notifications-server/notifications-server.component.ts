@@ -11,10 +11,10 @@ import { NotificationsService } from '@app/services/notifications.service';
  */
 
 @Component({
-    selector: 'app-notifications',
-    templateUrl: './notifications-server.component.html',
-    standalone: true,
-    imports: [NotificationsComponent],
+  selector: 'app-notifications',
+  templateUrl: './notifications-server.component.html',
+  standalone: true,
+  imports: [NotificationsComponent],
 })
 export class NotificationsServerComponent implements OnInit, OnDestroy {
   /**
@@ -35,7 +35,9 @@ export class NotificationsServerComponent implements OnInit, OnDestroy {
    * Subscribe to notification service
    */
   ngOnInit() {
-    this.notificationsSubscription = this.notificationsService.getAlerts().subscribe(alerts => (this.alerts = alerts));
+    this.notificationsSubscription = this.notificationsService
+      .getAlerts()
+      .subscribe((alerts) => (this.alerts = alerts));
   }
 
   /**

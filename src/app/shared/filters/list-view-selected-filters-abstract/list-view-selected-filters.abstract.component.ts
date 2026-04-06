@@ -9,8 +9,8 @@ import { IListViewInstitutionFiltersModel } from '@app/services/models/page-filt
  * Abstract Component for List View selected filters
  */
 @Component({
-    template: '',
-    standalone: true
+  template: '',
+  standalone: true,
 })
 export class ListViewSelectedFiltersAbstractComponent {
   /**
@@ -25,7 +25,11 @@ export class ListViewSelectedFiltersAbstractComponent {
   /**
    * map of selected filters
    */
-  @Input() selectedIds: IListViewDatasetFiltersModel | IListViewInstitutionFiltersModel | IListViewApplicationsFiltersModel | {};
+  @Input() selectedIds:
+    | IListViewDatasetFiltersModel
+    | IListViewInstitutionFiltersModel
+    | IListViewApplicationsFiltersModel
+    | {};
 
   /**
    * clear all filters event

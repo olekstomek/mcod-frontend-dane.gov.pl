@@ -1,4 +1,3 @@
-/* tslint:disable:max-line-length */
 import { Role } from '@app/shared/user-permissions/Role';
 
 export class SchedulePermissionPerRole {

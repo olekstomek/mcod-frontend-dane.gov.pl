@@ -11,24 +11,22 @@ import { ResourceChartModule } from '@app/shared/resource-chart/resource-chart.m
 import { ResourceFilterModule } from '@app/shared/resource-filters/resource-filter.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-
 @NgModule({
-    imports: [
-        CommonModule,
-        EmbeddedRoutingModule,
-        SharedModule,
-        MapModule,
-        ResourceChartModule,
-        DatepickerModule,
-        ResourceFilterModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            }
-        }),
-        EmbeddedComponent,
-    ]
+  imports: [
+    CommonModule,
+    EmbeddedRoutingModule,
+    SharedModule,
+    MapModule,
+    ResourceChartModule,
+    DatepickerModule,
+    ResourceFilterModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    EmbeddedComponent,
+  ],
 })
-export class EmbeddedModule {
-}
+export class EmbeddedModule {}

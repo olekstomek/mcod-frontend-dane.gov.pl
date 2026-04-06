@@ -4,8 +4,7 @@
     [banner]="widget"
     [isFooterLogos]="isFooterLogos"
     (imageHasLoaded)="this.contentHasLoaded = $event"
-    *ngIf="widget.type === widgetType.BANNER || widget.type === widgetType.IMAGE || widget.type === widgetType.SVG"
-  >
+    *ngIf="widget.type === widgetType.BANNER || widget.type === widgetType.IMAGE || widget.type === widgetType.SVG">
   </cms-image>
 
   <!-- link (with tooltip) -->
@@ -14,18 +13,16 @@
     <a
       [href]="widget.settings.url"
       [title]="widget.settings.title || ''"
-      [innerHTML]="widget.settings.text | sanitizeHtml"
-      *ngIf="widget.settings.isExternalUrl"
-    >
+      [innerHTML]="widget.settings.text"
+      *ngIf="widget.settings.isExternalUrl">
     </a>
 
     <!-- internal -->
     <a
       [routerLink]="widget.settings.url"
       [title]="widget.settings.title || ''"
-      [innerHTML]="widget.settings.text | sanitizeHtml"
-      *ngIf="!widget.settings.isExternalUrl"
-    >
+      [innerHTML]="widget.settings.text"
+      *ngIf="!widget.settings.isExternalUrl">
     </a>
   </ng-container>
 
@@ -35,15 +32,17 @@
     [rawText]="widget"
     [isFullWidth]="isFullWidth"
     (rawTextHasLoaded)="this.contentHasLoaded = $event"
-    *ngIf="widget.type === widgetType.RAW_TEXT || widget.type === widgetType.TEXT"
-  >
+    *ngIf="widget.type === widgetType.RAW_TEXT || widget.type === widgetType.TEXT">
   </cms-raw-text>
 
   <!-- video -->
   <cms-video [video]="widget" *ngIf="widget.type === widgetType.VIDEO"></cms-video>
 
   <!-- call 2 action -->
-  <cms-call-to-action [cta]="widget" (ctaHasLoaded)="this.contentHasLoaded = $event" *ngIf="widget.type === widgetType.CTA">
+  <cms-call-to-action
+    [cta]="widget"
+    (ctaHasLoaded)="this.contentHasLoaded = $event"
+    *ngIf="widget.type === widgetType.CTA">
   </cms-call-to-action>
 
   <!-- heading -->

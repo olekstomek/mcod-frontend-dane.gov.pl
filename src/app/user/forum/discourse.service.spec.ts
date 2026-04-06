@@ -41,10 +41,10 @@ describe('DiscourseService', () => {
 
   it('should sets discourse credentials', () => {
     jest.spyOn(userService, 'getTokenData').mockReturnValue({
-      user: {discourse_api_key: 'apiKey', discourse_user_name: 'userName', session_key: '', email: '', roles: []},
+      user: { discourse_api_key: 'apiKey', discourse_user_name: 'userName', session_key: '', email: '', roles: [] },
       iat: 0,
       exp: 0,
-      nbf: 0
+      nbf: 0,
     });
     service.setDiscourseCredentials();
     expect(service.apiKey).toEqual('apiKey');
@@ -52,7 +52,7 @@ describe('DiscourseService', () => {
   });
 
   it('should gets badges', () => {
-    service.getBadges().subscribe(value => {
+    service.getBadges().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
     const req = httpMock.expectOne({ method: 'GET' });
@@ -60,7 +60,7 @@ describe('DiscourseService', () => {
   });
 
   it('should gets notifications', () => {
-    service.getNotifications().subscribe(value => {
+    service.getNotifications().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
     const req = httpMock.expectOne({ method: 'GET' });
@@ -68,13 +68,13 @@ describe('DiscourseService', () => {
   });
 
   it('should gets notifications with badges', () => {
-    service.getNotificationsWithBadges().subscribe(value => {
+    service.getNotificationsWithBadges().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should gets latest topics', () => {
-    service.getLatestTopics().subscribe(value => {
+    service.getLatestTopics().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
     const req = httpMock.expectOne({ method: 'GET' });
@@ -82,13 +82,13 @@ describe('DiscourseService', () => {
   });
 
   it('should gets latest topics with categories', () => {
-    service.getLatestTopicsWithCategories().subscribe(value => {
+    service.getLatestTopicsWithCategories().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });
 
   it('should gets categories', () => {
-    service.getCategories().subscribe(value => {
+    service.getCategories().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
     const req = httpMock.expectOne({ method: 'GET' });
@@ -96,7 +96,7 @@ describe('DiscourseService', () => {
   });
 
   it('should marks notifications as read', () => {
-    service.markNotificationsAsRead().subscribe(value => {
+    service.markNotificationsAsRead().subscribe((value) => {
       expect(value).toBeGreaterThan(0);
     });
   });

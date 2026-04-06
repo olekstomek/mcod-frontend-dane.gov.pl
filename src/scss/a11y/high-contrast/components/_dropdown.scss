@@ -1,24 +1,23 @@
-
 .dropdown {
-    padding-right: 0;
-    padding-left: 0;
+  padding-right: 0;
+  padding-left: 0;
 
-    &-toggle {
-        color: currentColor;
-        border-color: currentColor;
-        background-color: transparent;
-    }
+  &-toggle {
+    color: currentColor;
+    border-color: currentColor;
+    background-color: transparent;
+  }
 
-    &-menu {
-        border: 1px solid currentColor;
-    }
+  &-menu {
+    border: 1px solid currentColor;
+  }
 
-    .dropdown-item {
-        &:hover,
-        &:focus,
-        &.active {
-            color: $hcSecondary;
-            background-color: $hcPrimary;
-        }
+  .dropdown-item {
+    &:hover,
+    &:focus,
+    &.active {
+      color: $hcSecondary;
+      background-color: $hcPrimary;
     }
+  }
 }

@@ -1,17 +1,19 @@
 .logo-eu {
   img {
-    display: none
+    display: none;
   }
 
   .contrast-normal {
-    display: block
+    display: block;
   }
 }
 
-.black-yellow, .black-white, .yellow-black {
+.black-yellow,
+.black-white,
+.yellow-black {
   .logo-eu {
     img {
-      display: none
+      display: none;
     }
   }
 }
@@ -19,7 +21,7 @@
 .black-yellow {
   .logo-eu {
     img.contrast-black-yellow {
-      display: block
+      display: block;
     }
   }
 }
@@ -27,7 +29,7 @@
 .black-white {
   .logo-eu {
     img.contrast-black-white {
-      display: block
+      display: block;
     }
   }
 }
@@ -35,7 +37,7 @@
 .yellow-black {
   .logo-eu {
     img.contrast-yellow-black {
-      display: block
+      display: block;
     }
   }
 }

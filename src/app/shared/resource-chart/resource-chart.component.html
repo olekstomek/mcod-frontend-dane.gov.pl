@@ -18,15 +18,13 @@
     [selectedChartIndex]="selectedChartIndex"
     (chartSelected)="onChartSelected($event)"
     (chartRemoved)="deleteChart($event)"
-    (newChart)="onAddNewChart($event)"
-  >
+    (newChart)="onAddNewChart($event)">
   </app-resource-chart-selector>
 
   <!-- toggle chart form popup -->
   <div
     class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-2"
-    *ngIf="(!isEditorPreview && !this.isChartCreationBlocked) || (isEditorPreview && hasAccessToEditorPreview)"
-  >
+    *ngIf="(!isEditorPreview && !this.isChartCreationBlocked) || (isEditorPreview && hasAccessToEditorPreview)">
     <span class="font-weight-bold">
       <!-- editor preview -->
       <span class="text-danger" *ngIf="isEditorPreview">
@@ -39,8 +37,7 @@
 
     <div
       appInfoTooltip="{{ 'Tour.Tooltip.DataResource.Parameters.text' | translate }}"
-      tooltipTitle="{{ 'Tour.Tooltip.DataResource.Parameters.title' | translate }}"
-    >
+      tooltipTitle="{{ 'Tour.Tooltip.DataResource.Parameters.title' | translate }}">
       <!-- toggle form -->
       <button
         class="btn btn-primary btn-sm"
@@ -48,8 +45,7 @@
         [attr.aria-pressed]="isChartFormVisible"
         [attr.aria-expanded]="isChartFormVisible"
         (click)="isChartFormVisible = !isChartFormVisible"
-        *ngIf="isFormToggleActive"
-      >
+        *ngIf="isFormToggleActive">
         {{ (isChartFormVisible ? 'Action.Hide' : 'Action.Show') | translate }}
         {{ 'Chart.Params' | translate | lowercase }}
       </button>
@@ -60,8 +56,7 @@
         aria-controls="chart-params-popup"
         [attr.aria-pressed]="isChartFormVisible"
         [attr.aria-expanded]="isChartFormVisible"
-        *ngIf="!isFormToggleActive"
-      >
+        *ngIf="!isFormToggleActive">
         {{ (isChartFormVisible ? 'Action.Hide' : 'Action.Show') | translate }}
         {{ 'Chart.Params' | translate | lowercase }}
       </button>
@@ -71,9 +66,11 @@
   <!-- chart form popup -->
   <div
     id="chart-params-popup"
-    *ngIf="isChartFormVisible && ((!isEditorPreview && !this.isChartCreationBlocked) || (isEditorPreview && hasAccessToEditorPreview))"
-    @toggleVertically
-  >
+    *ngIf="
+      isChartFormVisible &&
+      ((!isEditorPreview && !this.isChartCreationBlocked) || (isEditorPreview && hasAccessToEditorPreview))
+    "
+    @toggleVertically>
     <app-resource-chart-form
       [isNamedChartMode]="isNamedChartMode"
       [savedChartName]="savedCharts[selectedChartIndex]?.attributes.name || ''"
@@ -83,8 +80,7 @@
       (chartBlueprintCreated)="onChartBlueprintCreated($event)"
       (save)="saveChart()"
       (delete)="deleteChart()"
-      (revoke)="onRevokeChart()"
-    >
+      (revoke)="onRevokeChart()">
     </app-resource-chart-form>
   </div>
 
@@ -113,8 +109,11 @@
   <div class="row" *appShellNoRender>
     <div
       class="col-12"
-      *ngIf="!isCircularChart && isChartPreviewAvailable && (!isEditorPreview || (isEditorPreview && hasAccessToEditorPreview))"
-    >
+      *ngIf="
+        !isCircularChart &&
+        isChartPreviewAvailable &&
+        (!isEditorPreview || (isEditorPreview && hasAccessToEditorPreview))
+      ">
       <!-- count limit info -->
       <p class="alert alert-info mt-4" *ngIf="currentChartType && count > countLimit">
         {{ 'Resources.VarChartRowsLimited' | translate: { param: countLimit, param1: count } }}
@@ -129,7 +128,10 @@
       </app-resource-chart-bar>
 
       <!-- scatter -->
-      <app-resource-chart-scatter *ngIf="currentChartType === 'scatter'" [labels]="chartLabels" [datasets]="chartDatasets">
+      <app-resource-chart-scatter
+        *ngIf="currentChartType === 'scatter'"
+        [labels]="chartLabels"
+        [datasets]="chartDatasets">
       </app-resource-chart-scatter>
 
       <!-- axis label -->
@@ -141,9 +143,16 @@
     <!-- Circular - pie, donought, polarArea -->
     <div
       class="col-12"
-      *ngIf="isCircularChart && isChartPreviewAvailable && (!isEditorPreview || (isEditorPreview && hasAccessToEditorPreview))"
-    >
-      <app-resource-chart-circle [type]="currentChartType" [labels]="chartLabels" [fullLabels]="fullLabels" [datasets]="chartDatasets">
+      *ngIf="
+        isCircularChart &&
+        isChartPreviewAvailable &&
+        (!isEditorPreview || (isEditorPreview && hasAccessToEditorPreview))
+      ">
+      <app-resource-chart-circle
+        [type]="currentChartType"
+        [labels]="chartLabels"
+        [fullLabels]="fullLabels"
+        [datasets]="chartDatasets">
       </app-resource-chart-circle>
     </div>
   </div>
@@ -155,22 +164,19 @@
     [chartLabels]="chartLabels"
     [fullLabels]="fullLabels"
     [chartDatasets]="chartDatasetsRepr"
-    [xAxisLabel]="xAxisLabel"
-  >
+    [xAxisLabel]="xAxisLabel">
   </app-resource-chart-table>
 
   <!-- ITEMS PER PAGE and PAGINATION -->
   <div
     class="d-flex justify-content-between align-items-center"
     id="resource-pagination"
-    *ngIf="!isCircularChart && chartBlueprint && isChartPreviewAvailable"
-  >
+    *ngIf="!isCircularChart && chartBlueprint && isChartPreviewAvailable">
     <!-- items per page -->
     <app-items-per-page
       [options]="isCircularChart ? itemsPerPageCircular : itemsPerPage"
       [selected]="params?.per_page"
-      (selectedChange)="updateParams({ per_page: $event })"
-    >
+      (selectedChange)="updateParams({ per_page: $event })">
     </app-items-per-page>
 
     <!-- pagination -->
@@ -180,8 +186,7 @@
       [totalItems]="count >= countLimit ? countLimit : count"
       [(page)]="params.page"
       (numPages)="numPages = $event"
-      (pageChange)="updateParams({ page: $event })"
-    >
+      (pageChange)="updateParams({ page: $event })">
     </app-pagination>
   </div>
 </ng-container>

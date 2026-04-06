@@ -9,9 +9,9 @@ import moment from 'moment/min/moment-with-locales';
  * {{ item.attributes.modified | timespan }}
  */
 @Pipe({
-    name: 'timespan',
-    pure: true,
-    standalone: true,
+  name: 'timespan',
+  pure: true,
+  standalone: true,
 })
 export class TimespanPipe implements PipeTransform {
   /**

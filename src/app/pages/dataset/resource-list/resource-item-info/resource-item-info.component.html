@@ -4,8 +4,7 @@
     <a
       *ngIf="urlNavigation"
       [routerLink]="[urlNavigation, item.id + (item.attributes.slug ? ',' + item.attributes.slug : '')]"
-      [innerHTML]="item.attributes.title | stripHtmlTagsExceptHighlight | sanitizeHtml"
-    >
+      [innerHTML]="item.attributes.title | stripHtmlTagsExceptHighlight">
     </a>
     <!-- high value data icon -->
     <img
@@ -16,7 +15,8 @@
       title="{{ 'Tour.Tooltip.DatasetItem.HighValueData.title' | translate }}"
       alt="ikona_dane_wysokiej_wartosci"
       tabindex="0"
-      height="20" width="20"/>
+      height="20"
+      width="20" />
     <!-- high value data from EC icon -->
     <img
       *ngIf="item.attributes.has_high_value_data_from_ec_list"
@@ -25,8 +25,7 @@
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.title' | translate }}"
       alt="ikona_dane_wysokiej_wartosci_ke"
-      tabindex="0"
-    />
+      tabindex="0" />
     <!-- high value data from EC icon -->
     <img
       *ngIf="item.attributes.has_high_value_data_from_ec_list"
@@ -35,8 +34,7 @@
       appTooltip="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.text' | translate }}"
       title="{{ 'Tour.Tooltip.DatasetItem.HighValueDataFromEC.title' | translate }}"
       alt="ikona_dane_wysokiej_wartosci_ke"
-      tabindex="0"
-    />
+      tabindex="0" />
     <!-- dynamic data icon-->
     <img
       *ngIf="item.attributes.has_dynamic_data"
@@ -46,7 +44,8 @@
       title="{{ 'Tour.Tooltip.DatasetItem.DynamicData.title' | translate }}"
       alt="ikona_dane_dynamiczne"
       tabindex="0"
-      height="24" width="24"/>
+      height="24"
+      width="24" />
     <!-- research data icon-->
     <img
       *ngIf="item.attributes.has_research_data"
@@ -56,7 +55,8 @@
       title="{{ 'Tour.Tooltip.DatasetItem.ResearchData.title' | translate }}"
       alt="ikona_dane_badawcze"
       tabindex="0"
-      height="24" width="24"/>
+      height="24"
+      width="24" />
     <img
       *ngIf="item.attributes.contains_protected_data"
       class="ml-2"
@@ -65,7 +65,8 @@
       title="{{ 'Tour.Tooltip.DatasetItem.ProtectedData.title' | translate }}"
       alt="ikona_dane_chronione"
       tabindex="0"
-      height="20" width="20"/>
+      height="20"
+      width="20" />
   </h2>
 
   <!-- availability (created) date-->
@@ -88,8 +89,7 @@
         *ngIf="item.attributes.visualization_types.includes('database')"
         class="icon ml-2"
         [appTooltip]="'Resources.Single' | translate"
-        [placement]="'bottom'"
-      >
+        [placement]="'bottom'">
         <use href="/assets/icomoon/sprite/sprite.svg#icon-database"></use>
       </svg>
 
@@ -98,8 +98,7 @@
         *ngIf="item.attributes.visualization_types.includes('chart')"
         class="icon ml-2"
         [appTooltip]="'Resources.ChartView' | translate"
-        [placement]="'bottom'"
-      >
+        [placement]="'bottom'">
         <use href="/assets/icomoon/sprite/sprite.svg#icon-chart"></use>
       </svg>
 
@@ -108,8 +107,7 @@
         *ngIf="item.attributes.visualization_types.includes('map')"
         class="icon ml-2"
         [appTooltip]="'Resources.MapView' | translate"
-        [placement]="'bottom'"
-      >
+        [placement]="'bottom'">
         <use href="/assets/icomoon/sprite/sprite.svg#icon-map"></use>
       </svg>
 
@@ -118,8 +116,7 @@
         *ngIf="item.attributes.visualization_types.includes('table')"
         class="icon ml-2"
         [appTooltip]="'Resources.TableView' | translate"
-        [placement]="'bottom'"
-      >
+        [placement]="'bottom'">
         <use href="/assets/icomoon/sprite/sprite.svg#icon-table"></use>
       </svg>
     </span>

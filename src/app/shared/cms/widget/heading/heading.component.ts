@@ -7,22 +7,21 @@ import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.component';
 
 @Component({
-    selector: 'cms-heading',
-    templateUrl: './heading.component.html',
-    standalone: true,
-    imports: [NgStyle]
+  selector: 'cms-heading',
+  templateUrl: './heading.component.html',
+  standalone: true,
+  imports: [NgStyle],
 })
 export class HeadingComponent extends WidgetAbstractComponent implements OnInit {
+  @Input() heading: IWidget;
 
-    @Input() heading: IWidget;
+  style: any;
 
-    style: any;
+  constructor(cmsService: CmsService, sanitizer: DomSanitizer) {
+    super(cmsService, sanitizer);
+  }
 
-    constructor(cmsService: CmsService, sanitizer: DomSanitizer) {
-        super(cmsService, sanitizer);
-    }
-
-    ngOnInit() {
-        this.style = this.cmsService.addStyle(this.heading);
-    }
+  ngOnInit() {
+    this.style = this.cmsService.addStyle(this.heading);
+  }
 }

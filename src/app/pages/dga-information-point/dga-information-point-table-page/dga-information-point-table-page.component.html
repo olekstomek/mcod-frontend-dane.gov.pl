@@ -1,41 +1,40 @@
 <section class="item-view__body vertical-spacing">
   <div class="container">
     <h1 class="heading heading--md">
-      {{pageTitle}}
+      {{ pageTitle }}
     </h1>
 
     <ul class="list-unstyled mt-4 mb-4">
       <li>
-        <strong>{{'Attribute.ViewsCount' | translate}}: </strong> {{viewsCount}}
+        <strong>{{ 'Attribute.ViewsCount' | translate }}: </strong> {{ viewsCount }}
       </li>
       <li>
-        <strong>{{'Attribute.DownloadCount' | translate}}: </strong> {{downloadsCount}}
+        <strong>{{ 'Attribute.DownloadCount' | translate }}: </strong> {{ downloadsCount }}
       </li>
     </ul>
 
     <div class="item-view__actions">
-        <div class="d-flex flex-column flex-lg-row align-items-center">
-          <div class="d-flex flex-column">
-            <div class="d-flex align-items-center flex-wrap">
-              <div class="d-flex align-items-baseline" *ngIf="downloadFilesList.length > 0; else noFiles">
-                <span class="font-weight-bold" style="min-width: 85px"> {{ 'Action.Download' | translate }}: </span>
-                <!-- download file -->
-                <div *ngFor="let dataFiles of downloadFilesList">
-                  <app-download-link
-                    [fileSize]="dataFiles.file_size"
-                    [fileUrl]="dataFiles.download_url"
-                    [format]="dataFiles.format"
-                    [title]="resource.attributes.title"
-                    [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
-                    [opennessScore]="dataFiles.openness_score"
-                    (click)="downloadResource(resource.attributes.title, dataFiles.download_url)"
-                  >
-                  </app-download-link>
-                </div>
+      <div class="d-flex flex-column flex-lg-row align-items-center">
+        <div class="d-flex flex-column">
+          <div class="d-flex align-items-center flex-wrap">
+            <div class="d-flex align-items-baseline" *ngIf="downloadFilesList.length > 0; else noFiles">
+              <span class="font-weight-bold" style="min-width: 85px"> {{ 'Action.Download' | translate }}: </span>
+              <!-- download file -->
+              <div *ngFor="let dataFiles of downloadFilesList">
+                <app-download-link
+                  [fileSize]="dataFiles.file_size"
+                  [fileUrl]="dataFiles.download_url"
+                  [format]="dataFiles.format"
+                  [title]="resource.attributes.title"
+                  [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
+                  [opennessScore]="dataFiles.openness_score"
+                  (click)="downloadResource(resource.attributes.title, dataFiles.download_url)">
+                </app-download-link>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
 
     <div class="pb-3">
@@ -55,8 +54,7 @@
               [routerLink]="['table']"
               #tabLinkTableView="routerLinkActive"
               [attr.aria-selected]="tabLinkTableView.isActive ? true : null"
-              routerLinkActive="tab-list__link--active"
-            >
+              routerLinkActive="tab-list__link--active">
               {{ 'Resources.TableView' | translate }}
             </a>
           </li>
@@ -66,17 +64,20 @@
         <router-outlet></router-outlet>
       </div>
     </div>
-    <hr/>
+    <hr />
     <div>
-      <strong>{{'DatasetRestrictions.Self' | translate}}</strong>:
-      <span class="btn-link dga-tiles" (click)="toggleCollapsed()">{{collapsed ? ('Action.Expand' | translate) : ('Action.Collapse' | translate)}}</span>
+      <strong>{{ 'DatasetRestrictions.Self' | translate }}</strong
+      >:
+      <span class="btn-link dga-tiles" (click)="toggleCollapsed()">{{
+        collapsed ? ('Action.Expand' | translate) : ('Action.Collapse' | translate)
+      }}</span>
       <div class="dga-collapse-container" [class.animate]="showAnimation" *ngIf="!collapsed">
         <div>
           <app-dataset-restrictions [dataset]="dataset"></app-dataset-restrictions>
         </div>
       </div>
     </div>
-    <hr/>
+    <hr />
     <div class="item-view__body vertical-spacing">
       <div *ngFor="let section of pageData.body">
         <cms-block2 class="w-100" [oneWidget]="section"></cms-block2>

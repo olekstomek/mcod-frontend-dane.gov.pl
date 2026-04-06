@@ -10,17 +10,17 @@ import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRo
  * Schedule Component
  */
 @Component({
-    selector: 'app-schedule',
-    templateUrl: './schedule.component.html',
-    standalone: true,
-    imports: [
-        PermissionDirective,
-        ScheduleNotificationsSwitch,
-        RouterLinkActive,
-        RouterLink,
-        RouterOutlet,
-        TranslatePipe,
-    ],
+  selector: 'app-schedule',
+  templateUrl: './schedule.component.html',
+  standalone: true,
+  imports: [
+    PermissionDirective,
+    ScheduleNotificationsSwitch,
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    TranslatePipe,
+  ],
 })
 export class ScheduleComponent {
   /**

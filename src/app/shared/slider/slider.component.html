@@ -8,6 +8,7 @@
   step="1"
   value="{{ radius }}"
   (input)="onRadiusChange($event)"
-  (change)="onRadiusChange($event)"
-/>
-<p id="sliderLabel" [ngStyle]="{ left: (280 / sliderValueMapping.length) * radius - 10 + 'px' }">{{ sliderValueMapping[radius] }} km</p>
+  (change)="onRadiusChange($event)" />
+<p id="sliderLabel" [ngStyle]="{ left: (280 / sliderValueMapping.length) * radius - 10 + 'px' }">
+  {{ sliderValueMapping[radius] }} km
+</p>

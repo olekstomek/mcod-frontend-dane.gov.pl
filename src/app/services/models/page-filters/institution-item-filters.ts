@@ -47,5 +47,5 @@ export const InstitutionItemListViewFilterNames = [
   AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC,
   AggregationFilterNames.DYNAMIC_DATA,
   AggregationFilterNames.RESEARCH_DATA,
-  AggregationFilterNames.PROTECTED_DATA
+  AggregationFilterNames.PROTECTED_DATA,
 ];

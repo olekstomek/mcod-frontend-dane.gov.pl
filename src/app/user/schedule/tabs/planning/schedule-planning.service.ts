@@ -33,7 +33,7 @@ export class SchedulePlanningService extends RestService {
     const apiEndpoint = id === 'current' ? ApiConfig.userSchedules : ApiConfig.scheduleAgents;
     const params = new HttpParams().append('include', 'schedule,user_schedule,user_schedule_item');
     return this.get(`${apiEndpoint}/${id}`, params, true).pipe(
-      map(res => this.mapResponseToUserSchedule(res)),
+      map((res) => this.mapResponseToUserSchedule(res)),
       catchError(this.getScheduleForEmptyCurrentUserSchedule(id)),
     );
   }
@@ -45,7 +45,7 @@ export class SchedulePlanningService extends RestService {
   getRepresentativesSchedules(): Observable<Schedule> {
     const params = new HttpParams().append('include', 'agent');
     return this.get(ApiConfig.schedules + '/current', params, true).pipe(
-      map(res => this.mapResponseToSchedule(res)),
+      map((res) => this.mapResponseToSchedule(res)),
       this.catch404(),
     );
   }
@@ -54,9 +54,9 @@ export class SchedulePlanningService extends RestService {
    * Gets schedules per representative
    * @returns {Observable<Schedule>}
    */
-  getSchedules(): Observable<Array<ScheduleTableDataSource>> {
+  getSchedules(): Observable<ScheduleTableDataSource[]> {
     return this.get(ApiConfig.schedules, null, true).pipe(
-      map(response => response['data']),
+      map((response) => response['data']),
       catchError((err: HttpCustomErrorResponse) => {
         if (err.status === 404) {
           return of(null);
@@ -133,7 +133,7 @@ export class SchedulePlanningService extends RestService {
       `${ApiConfig.userScheduleItems}/${userScheduleId}`,
       new HttpParams().append('include', 'user,user_schedule,schedule'),
     ).pipe(
-      map(response => {
+      map((response) => {
         const formBlueprint = {
           id: response.data.id,
           user_id: response.data.relationships.user.data.id,
@@ -141,10 +141,11 @@ export class SchedulePlanningService extends RestService {
           ...response.data.attributes,
         } as PlanningFormBlueprint;
         if (response.included) {
-          const userSchedule = response.included.find(item => item.type === 'user_schedule');
-          formBlueprint.email = response.included.find(item => item.type === 'user')?.attributes.email;
+          const userSchedule = response.included.find((item) => item.type === 'user_schedule');
+          formBlueprint.email = response.included.find((item) => item.type === 'user')?.attributes.email;
           formBlueprint.is_ready = userSchedule?.attributes.is_ready || null;
-          formBlueprint.is_schedule_blocked = response.included.find(item => item.type === 'schedule')?.attributes.is_blocked || null;
+          formBlueprint.is_schedule_blocked =
+            response.included.find((item) => item.type === 'schedule')?.attributes.is_blocked || null;
           formBlueprint.is_user_schedule_blocked = userSchedule?.attributes.is_blocked || null;
         }
 
@@ -214,8 +215,8 @@ export class SchedulePlanningService extends RestService {
    */
   getUserInstitutions(userId?: string): Observable<{ id: string; title: string }[]> {
     return this.get(`${ApiConfig.userScheduleInstitutions}/${userId ? userId : ''}`).pipe(
-      map(response => {
-        return response.data.map(institution => {
+      map((response) => {
+        return response.data.map((institution) => {
           return {
             id: institution.id,
             title: institution.attributes.title,
@@ -235,7 +236,7 @@ export class SchedulePlanningService extends RestService {
     userEmail: string,
   ): Observable<{ email: string; institutions: { id: string; title: string }[] }> {
     return this.getUserInstitutions(userId).pipe(
-      map(institutions => {
+      map((institutions) => {
         return {
           email: userEmail,
           institutions: institutions,
@@ -249,10 +250,12 @@ export class SchedulePlanningService extends RestService {
    * @param {string} scheduleId
    * @returns {Observable<{id: string, title: string}[]>}
    */
-  getUserInstitutionsForScheduleItem(scheduleId: string): Observable<{ email: string; institutions: { id: string; title: string }[] }> {
+  getUserInstitutionsForScheduleItem(
+    scheduleId: string,
+  ): Observable<{ email: string; institutions: { id: string; title: string }[] }> {
     return this.get(`${ApiConfig.scheduleAgents}/${scheduleId}`).pipe(
-      map(response => response.data),
-      switchMap(response => this.getUserEmailAndInstitutions(response.id, response.attributes.email)),
+      map((response) => response.data),
+      switchMap((response) => this.getUserEmailAndInstitutions(response.id, response.attributes.email)),
     );
   }
 
@@ -261,9 +264,13 @@ export class SchedulePlanningService extends RestService {
    * @param {string} scheduleId
    * @returns {Observable<{id: string, title: string}[]>}
    */
-  getUserInstitutionsForScheduleItemId(scheduleId: string): Observable<{ email: string; institutions: { id: string; title: string }[] }> {
+  getUserInstitutionsForScheduleItemId(
+    scheduleId: string,
+  ): Observable<{ email: string; institutions: { id: string; title: string }[] }> {
     return this.get(`${ApiConfig.userSchedules}/${scheduleId}`, new HttpParams().append('include', 'user')).pipe(
-      switchMap(response => this.getUserEmailAndInstitutions(response.included[0].id, response.included[0].attributes.email)),
+      switchMap((response) =>
+        this.getUserEmailAndInstitutions(response.included[0].id, response.included[0].attributes.email),
+      ),
     );
   }
 
@@ -272,11 +279,11 @@ export class SchedulePlanningService extends RestService {
    */
   openNewSchedule(): Observable<Schedule> {
     return this.post(ApiConfig.schedules).pipe(
-      map(res => this.mapResponseToSchedule(res)),
+      map((res) => this.mapResponseToSchedule(res)),
       catchError((err: HttpCustomErrorResponse) => {
         if (err.status === 403) {
           this.notificationService.clearAlerts();
-          err.error.errors.forEach(error => this.notificationService.addError(error.title));
+          err.error.errors.forEach((error) => this.notificationService.addError(error.title));
         }
         return throwError(err);
       }),
@@ -306,7 +313,7 @@ export class SchedulePlanningService extends RestService {
    */
   getScheduleItemComments(scheduleItemId: string): Observable<ScheduleItemComment[]> {
     const url = TemplateHelper.parseUrl(ApiConfig.userScheduleItemComments, { id: scheduleItemId });
-    return this.get(url).pipe(map(response => response['data']));
+    return this.get(url).pipe(map((response) => response['data']));
   }
 
   /**
@@ -319,11 +326,11 @@ export class SchedulePlanningService extends RestService {
   saveComment(scheduleItemId: string, text: string, commentId?: string): Observable<ScheduleItemComment> {
     if (commentId) {
       const url = TemplateHelper.parseUrl(ApiConfig.userScheduleItemCommentUpdate, { id: commentId });
-      return this.patch(url, text).pipe(map(response => response['data']));
+      return this.patch(url, text).pipe(map((response) => response['data']));
     }
 
     const url = TemplateHelper.parseUrl(ApiConfig.userScheduleItemComments, { id: scheduleItemId });
-    return this.post(url, text).pipe(map(response => response['data']));
+    return this.post(url, text).pipe(map((response) => response['data']));
   }
 
   /**
@@ -332,7 +339,7 @@ export class SchedulePlanningService extends RestService {
    * @returns {(err) => (Observable<Schedule>)}
    */
   private getScheduleForEmptyCurrentUserSchedule(id: number | string): (err) => Observable<Schedule> {
-    return err => {
+    return (err) => {
       if (err.status === 404) {
         if (id === 'current') {
           return this.getRepresentativesSchedules();
@@ -376,7 +383,7 @@ export class SchedulePlanningService extends RestService {
       data: !included
         ? []
         : included
-            .map(data => {
+            .map((data) => {
               return {
                 id: Number(data.id),
                 representative: data.attributes.email,
@@ -399,7 +406,7 @@ export class SchedulePlanningService extends RestService {
     const { data, included } = response;
     let userSchedule = data;
     let rawSchedule;
-    const rawUserSchedulesItems: Array<any> = [];
+    const rawUserSchedulesItems: any[] = [];
     for (let i = 0; i < included.length; i++) {
       const item = included[i];
       if (item.type === 'schedule') {
@@ -423,7 +430,7 @@ export class SchedulePlanningService extends RestService {
       data: !rawUserSchedulesItems
         ? []
         : rawUserSchedulesItems
-            .map(item => {
+            .map((item) => {
               return {
                 id: Number(item.id),
                 institution: item.attributes.institution,

@@ -5,7 +5,10 @@ import { catchError } from 'rxjs/operators';
 
 import { CmsService } from '@app/services/cms.service';
 
-export const breadcrumbsDgaInformationPointDataResolverService = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const breadcrumbsDgaInformationPointDataResolverService = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
   const cmsService = inject(CmsService);
   const router = inject(Router);
 
@@ -19,6 +22,6 @@ export const breadcrumbsDgaInformationPointDataResolverService = (route: Activat
       cmsService.displayCmsErrorMessage(url, err.message);
       router.navigate(['/']).then();
       return EMPTY;
-    })
+    }),
   );
 };

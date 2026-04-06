@@ -11,19 +11,21 @@ import { AppBootstrapModule } from '@app/app-bootstrap/app-bootstrap.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ArticlesRoutingModule,
-        AppBootstrapModule,
-        TranslateModule.forChild({ parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser
-            } }),
-        FormsModule,
-        SharedModule,
-        ReactiveFormsModule,
-        ArticleItemComponent, ArticleComponent
-    ]
+  imports: [
+    CommonModule,
+    ArticlesRoutingModule,
+    AppBootstrapModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
+    ArticleItemComponent,
+    ArticleComponent,
+  ],
 })
-
 export class ArticlesModule {}

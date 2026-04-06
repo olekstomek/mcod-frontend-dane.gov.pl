@@ -8,7 +8,10 @@ import { Observable, of } from 'rxjs';
  * Translate Browser Loader
  */
 export class TranslateBrowserLoaderService implements TranslateLoader {
-  constructor(private http: HttpClient, private transferState: TransferState) {}
+  constructor(
+    private http: HttpClient,
+    private transferState: TransferState,
+  ) {}
 
   /**
    * Gets the translations from the server

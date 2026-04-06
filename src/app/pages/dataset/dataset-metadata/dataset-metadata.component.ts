@@ -9,12 +9,7 @@ import { FeatureFlagDirective } from '@app/shared/feature-flags/feature-flag.dir
   selector: 'app-dataset-metadata',
   templateUrl: './dataset-metadata.component.html',
   standalone: true,
-  imports: [
-    TranslatePipe,
-    LowerCasePipe,
-    NgIf,
-    FeatureFlagDirective
-  ]
+  imports: [TranslatePipe, LowerCasePipe, NgIf, FeatureFlagDirective],
 })
 export class DatasetMetadataComponent implements OnInit {
   constructor(private readonly translateService: TranslateService) {}

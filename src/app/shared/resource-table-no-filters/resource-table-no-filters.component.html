@@ -12,7 +12,8 @@
     <div class="container mt-4" id="resource-pagination-top">
       <div class="row no-gutters justified-between">
         <!-- items per page -->
-        <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+        <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+        </app-items-per-page>
 
         <!-- TABLE ACTIONS -->
         <div class="mt-1 mt-md-0">
@@ -21,8 +22,7 @@
             class="btn btn--xs-100 ml-sm-1 d-none"
             [ngClass]="isTableFullWidth ? 'btn-outline-primary' : 'btn-primary'"
             (click)="isTableFullWidth = !isTableFullWidth"
-            [attr.aria-pressed]="isTableFullWidth || false"
-          >
+            [attr.aria-pressed]="isTableFullWidth || false">
             <span class="visually-hidden">
               {{ 'Action.SwitchViewTo' | translate }}
             </span>
@@ -52,11 +52,10 @@
                   params.sort.indexOf(column.name) === 0
                     ? ('Sort.Ascending' | translate)
                     : params.sort.indexOf(column.name) === 1
-                    ? ('Sort.Descending' | translate)
-                    : null
+                      ? ('Sort.Descending' | translate)
+                      : null
                 "
-                *ngFor="let column of columns"
-              >
+                *ngFor="let column of columns">
                 <!-- sort order -->
                 <a
                   class="datagrid__sort-column"
@@ -64,10 +63,9 @@
                   [attr.aria-label]="('Sort.By' | translate) + ' ' + column.description"
                   [ngClass]="{
                     ascending: params.sort.indexOf(column.name) === 0,
-                    descending: params.sort.indexOf(column.name) === 1
+                    descending: params.sort.indexOf(column.name) === 1,
                   }"
-                  (click)="sortByColumn(column.name)"
-                >
+                  (click)="sortByColumn(column.name)">
                   {{ column.description }}
                 </a>
               </th>
@@ -81,12 +79,8 @@
               (mouseenter)="onMouseEnter(rowIndex)"
               (mouseleave)="onMouseLeave()"
               [ngClass]="hoveredRowIndex === rowIndex ? 'hovered' : ''"
-              *ngFor="let item of items; let rowIndex = index"
-            >
-              <td
-                class="datagrid__cell"
-                *ngFor="let column of columns"
-              >
+              *ngFor="let item of items; let rowIndex = index">
+              <td class="datagrid__cell" *ngFor="let column of columns">
                 {{ item[column.name] | resourceColumnData: 'repr' }}
               </td>
             </tr>
@@ -99,7 +93,8 @@
     <div class="container" id="resource-pagination">
       <div class="d-flex justify-content-between align-items-center">
         <!-- items per page -->
-        <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+        <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+        </app-items-per-page>
 
         <!-- pagination -->
         <app-pagination
@@ -107,8 +102,7 @@
           [totalItems]="count >= countLimit ? countLimit : count"
           [(page)]="params.page"
           (numPages)="numPages = $event"
-          (pageChange)="updateParams({ page: $event })"
-        >
+          (pageChange)="updateParams({ page: $event })">
         </app-pagination>
       </div>
     </div>

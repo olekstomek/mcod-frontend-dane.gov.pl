@@ -12,17 +12,17 @@ import { SubscribeButtonComponent } from '@app/shared/subscribe-button/subscribe
  * Component to show dataset results
  */
 @Component({
-    selector: 'app-dataset-results',
-    templateUrl: './dataset-results.component.html',
-    standalone: true,
-    imports: [
-        ResultListComponent,
-        DefaultResultItemComponent,
-        DetailsResultItemComponent,
-        NgIf,
-        SubscribeButtonComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-dataset-results',
+  templateUrl: './dataset-results.component.html',
+  standalone: true,
+  imports: [
+    ResultListComponent,
+    DefaultResultItemComponent,
+    DetailsResultItemComponent,
+    NgIf,
+    SubscribeButtonComponent,
+    TranslatePipe,
+  ],
 })
 export class DatasetResultsComponent {
   /**

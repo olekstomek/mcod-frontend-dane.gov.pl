@@ -12,16 +12,14 @@
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.CATEGORIES]"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.CATEGORIES, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.CATEGORIES, $event)">
   </app-selected-filters>
 
   <!-- Formats -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.FORMAT]"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.FORMAT, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.FORMAT, $event)">
   </app-selected-filters>
 
   <!-- Openness score -->
@@ -29,40 +27,35 @@
     [items]="selectedIds[AggregationFilterNames.OPENNESS_SCORE]"
     [isStarsType]="true"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.OPENNESS_SCORE, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.OPENNESS_SCORE, $event)">
   </app-selected-filters>
 
   <!-- Visualization type -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.VISUALIZATION_TYPE]"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.VISUALIZATION_TYPE, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.VISUALIZATION_TYPE, $event)">
   </app-selected-filters>
 
   <!-- Licenses -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.LICENSES]"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.LICENSES, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.LICENSES, $event)">
   </app-selected-filters>
 
   <!-- Update frequency -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.UPDATE_FREQUENCY]"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.UPDATE_FREQUENCY, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.UPDATE_FREQUENCY, $event)">
   </app-selected-filters>
 
   <!-- Resource type -->
   <app-selected-filters
     [items]="selectedIds[AggregationFilterNames.TYPES]"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.TYPES, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.TYPES, $event)">
   </app-selected-filters>
 
   <!-- High value data -->
@@ -71,8 +64,7 @@
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.HighValueData'"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA, $event)">
   </app-selected-filters>
 
   <!-- High value data from EC -->
@@ -81,8 +73,7 @@
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.HighValueDataFromEC'"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.HIGH_VALUE_DATA_FROM_EC, $event)">
   </app-selected-filters>
 
   <!-- Dynamic data -->
@@ -91,8 +82,7 @@
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.DynamicData'"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.DYNAMIC_DATA, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.DYNAMIC_DATA, $event)">
   </app-selected-filters>
 
   <!-- Research data -->
@@ -101,8 +91,7 @@
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.ResearchData'"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.RESEARCH_DATA, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.RESEARCH_DATA, $event)">
   </app-selected-filters>
 
   <!--Protected data-->
@@ -111,19 +100,19 @@
     [isCustomFilterName]="true"
     [customFiltersName]="'Attribute.ProtectedData'"
     @toggle
-    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.PROTECTED_DATA, $event)"
-  >
+    (removeSelectedFilter)="onClearFilter(AggregationFilterNames.PROTECTED_DATA, $event)">
   </app-selected-filters>
 
   <!-- Date range -->
   <app-selected-filters
     [items]="{
       startDate: selectedIds[AggregationFilterNames.DATE_FROM],
-      endDate: selectedIds[AggregationFilterNames.DATE_TO]
+      endDate: selectedIds[AggregationFilterNames.DATE_TO],
     }"
     [isDateType]="true"
     @toggle
-    (removeSelectedFilter)="onClearFilter([AggregationFilterNames.DATE_FROM, AggregationFilterNames.DATE_TO], $event, true)"
-  >
+    (removeSelectedFilter)="
+      onClearFilter([AggregationFilterNames.DATE_FROM, AggregationFilterNames.DATE_TO], $event, true)
+    ">
   </app-selected-filters>
 </div>

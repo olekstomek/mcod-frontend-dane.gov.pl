@@ -16,7 +16,7 @@ export class LicensesService extends RestService {
    */
   getLicense(licenseName: string): Observable<ZeroLicense | LicenseWithRules> {
     return this.get(ApiConfig.licenses + `${StringHelper.trimEndAndRemoveSpaces(licenseName, 4)}`).pipe(
-      map(response => response['data']['attributes']),
+      map((response) => response['data']['attributes']),
     );
   }
 }

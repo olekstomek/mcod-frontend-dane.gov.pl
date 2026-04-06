@@ -142,7 +142,11 @@ export class ResourceChartFormComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private formBuilder: UntypedFormBuilder, private userService: UserService, private router: Router) {}
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private userService: UserService,
+    private router: Router,
+  ) {}
 
   /**
    * Checks whether there is alredy stored chart blueprint.
@@ -156,7 +160,10 @@ export class ResourceChartFormComponent implements OnInit {
     this.chartForm = this.formBuilder.group(
       {
         chart_type: [null, Validators.required],
-        datasets: this.formBuilder.array([this.formBuilder.control(null, Validators.required)], uniqueValuesInArrayValidator),
+        datasets: this.formBuilder.array(
+          [this.formBuilder.control(null, Validators.required)],
+          uniqueValuesInArrayValidator,
+        ),
         labels: [null, Validators.required],
         sort: null,
       },
@@ -171,7 +178,7 @@ export class ResourceChartFormComponent implements OnInit {
           return JSON.stringify(prevValue) === JSON.stringify(newValue);
         }),
       )
-      .subscribe(formValue => {
+      .subscribe((formValue) => {
         if (this.chartBlueprint && JSON.stringify(this.chartBlueprint) === JSON.stringify(formValue)) {
           this.isSaveAvailable = true;
         } else {
@@ -179,8 +186,8 @@ export class ResourceChartFormComponent implements OnInit {
         }
       });
 
-    this.numericColumnList = this.chartColumns.filter(item => item.type === 'integer' || item.type === 'number');
-    this.nonNumericColumnList = this.chartColumns.filter(item => item.type !== 'integer' && item.type !== 'number');
+    this.numericColumnList = this.chartColumns.filter((item) => item.type === 'integer' || item.type === 'number');
+    this.nonNumericColumnList = this.chartColumns.filter((item) => item.type !== 'integer' && item.type !== 'number');
     this.isUserLoggedIn = !!this.userService.token;
   }
 
@@ -207,7 +214,7 @@ export class ResourceChartFormComponent implements OnInit {
     const datasetsControl = this.chartForm.get('datasets');
     datasetsControl.clearValidators();
 
-    if (this.circularChartTypes.some(item => item === chartType)) {
+    if (this.circularChartTypes.some((item) => item === chartType)) {
       this.isCircularChart = true;
 
       if (this.datasetsArray.controls.length > 1) {
@@ -301,8 +308,8 @@ export class ResourceChartFormComponent implements OnInit {
       ...this.getLabelsArray(chartFormValue['labels']),
     ]);
 
-    this.allSelectedColumns = allSelectedColumnNames.map(columnName => {
-      return this.chartColumns.find(item => item.name === columnName);
+    this.allSelectedColumns = allSelectedColumnNames.map((columnName) => {
+      return this.chartColumns.find((item) => item.name === columnName);
     });
   }
 
@@ -338,7 +345,7 @@ export class ResourceChartFormComponent implements OnInit {
    * @returns {FormArray}
    */
   get datasetsArray(): UntypedFormArray {
-    return <UntypedFormArray>this.chartForm.get('datasets');
+    return this.chartForm.get('datasets') as UntypedFormArray;
   }
 
   private getLabelsArray(labels: string | string[]): string[] {

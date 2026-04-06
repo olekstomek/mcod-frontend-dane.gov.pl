@@ -38,7 +38,7 @@ export enum AggregationOptionType {
   RESEARCH_DATA = 'by_has_research_data',
   REGIONS = 'by_regions',
   LANGUAGE = 'by_language',
-  PROTECTED_DATA = 'by_contains_protected_data'
+  PROTECTED_DATA = 'by_contains_protected_data',
 }
 
 export enum AggregationFilterNames {
@@ -62,7 +62,7 @@ export enum AggregationFilterNames {
   DYNAMIC_DATA = 'has_dynamic_data',
   RESEARCH_DATA = 'has_research_data',
   LANGUAGE = 'language',
-  PROTECTED_DATA = 'contains_protected_data'
+  PROTECTED_DATA = 'contains_protected_data',
 }
 
 export interface IListViewFilterAggregationsOptions {
@@ -101,44 +101,28 @@ export interface IDatasetListViewFilterAggregationsOptions {
   [AggregationOptionType.PROTECTED_DATA]?: IAggregationProperties[];
 }
 
-export interface MultiselectOption {
-  [key: string]: IAggregationProperties;
-}
+export type MultiselectOption = Record<string, IAggregationProperties>;
 
-export interface SingleselectOptionForRegions {
-  [key: string]: IAggregationPropertiesForRegions;
-}
+export type SingleselectOptionForRegions = Record<string, IAggregationPropertiesForRegions>;
 
 export interface DaterangeFilterUpdated {
   name: string;
   value: Date;
 }
 
-export interface DaterangeFilterModel {
-  [name: string]: Date;
-}
+export type DaterangeFilterModel = Record<string, Date>;
 
-export interface FiltersToSend {
-  [name: string]: string | number | Date;
-}
+export type FiltersToSend = Record<string, string | number | Date>;
 
-export interface FilterName {
-  [name: string]: any;
-}
+export type FilterName = Record<string, any>;
 
 export type FilterModelValue = MultiselectOption & Date;
 
-export interface FilterModel {
-  [name: string]: FilterModelValue;
-}
+export type FilterModel = Record<string, FilterModelValue>;
 
-export interface DaterangeFilterAvailability {
-  [name: string]: boolean;
-}
+export type DaterangeFilterAvailability = Record<string, boolean>;
 
-export interface AvailabilityFilterMap {
-  [key: string]: boolean;
-}
+export type AvailabilityFilterMap = Record<string, boolean>;
 
 export interface SelectedFilter {
   names: string | string[];

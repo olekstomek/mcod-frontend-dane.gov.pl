@@ -14,7 +14,7 @@ export class SparqlService extends RestService {
    * Gets Examples
    * @returns Array<SparqlExample>}
    */
-  getExamples(type: string): Array<SparqlExample> {
+  getExamples(type: string): SparqlExample[] {
     if (type === 'dane') {
       return this.getExamplesForDane();
     } else {
@@ -22,7 +22,7 @@ export class SparqlService extends RestService {
     }
   }
 
-  getExamplesForDane(): Array<SparqlExample> {
+  getExamplesForDane(): SparqlExample[] {
     return [
       {
         displayName: {
@@ -63,7 +63,7 @@ export class SparqlService extends RestService {
     ];
   }
 
-  getExamplesForKronika(): Array<SparqlExample> {
+  getExamplesForKronika(): SparqlExample[] {
     return [
       {
         displayName: {

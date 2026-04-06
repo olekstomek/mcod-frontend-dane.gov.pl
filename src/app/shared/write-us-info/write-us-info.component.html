@@ -3,8 +3,7 @@
   class="btn btn-{{ buttonLook }} btn-{{ buttonSize }} write-us-info"
   [ngClass]="{ 'inherit-look': inheritLook }"
   (click)="openWriteUsModal(modalTemplate)"
-  #modalTrigger
->
+  #modalTrigger>
   <ng-container *ngIf="hasButtonLook">
     {{ uppercase ? (buttonLabel | translate | uppercase) : (buttonLabel | translate) }}
   </ng-container>
@@ -45,7 +44,11 @@
     <!-- modal footer -->
     <div class="modal-footer">
       <div class="form-group text-right">
-        <button type="button" id="footer-close" class="btn btn-outline-primary focus-trap-last" (click)="onWriteUsModalClose()">
+        <button
+          type="button"
+          id="footer-close"
+          class="btn btn-outline-primary focus-trap-last"
+          (click)="onWriteUsModalClose()">
           {{ 'Action.Close' | translate }}
           <span class="visually-hidden">
             {{ 'Modal' | translate | lowercase }}

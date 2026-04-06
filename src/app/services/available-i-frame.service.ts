@@ -7,7 +7,7 @@ import { ElementRef, Injectable } from '@angular/core';
  * Available IFrame Service handles available iframe
  */
 export class AvailableIFrameService {
-  private iFrames: Array<ElementRef<HTMLIFrameElement>> = [];
+  private iFrames: ElementRef<HTMLIFrameElement>[] = [];
 
   /**
    * Appends visible iframe to array
@@ -30,7 +30,7 @@ export class AvailableIFrameService {
    * Returns visible iFrames
    * @returns {ElementRef<HTMLIFrameElement>[]}
    */
-  getAvailable(): Array<ElementRef<HTMLIFrameElement>> {
+  getAvailable(): ElementRef<HTMLIFrameElement>[] {
     return [...this.iFrames];
   }
 }

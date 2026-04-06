@@ -11,28 +11,19 @@ import { MeetingListItem } from '@app/user/meetings/MeetingListItem';
  * Meeting List Item Component
  */
 @Component({
-    selector: 'app-meeting-list-item',
-    templateUrl: './meeting-list-item.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        CollapsibleTextComponent,
-        PermissionDirective,
-        NgFor,
-        NgClass,
-        TitleCasePipe,
-        TranslatePipe,
-    ],
+  selector: 'app-meeting-list-item',
+  templateUrl: './meeting-list-item.component.html',
+  standalone: true,
+  imports: [NgIf, CollapsibleTextComponent, PermissionDirective, NgFor, NgClass, TitleCasePipe, TranslatePipe],
 })
 export class MeetingListItemComponent {
+  /**
+   * MeetingListItem
+   */
+  @Input() meeting: MeetingListItem;
 
-    /**
-     * MeetingListItem
-     */
-    @Input() meeting: MeetingListItem;
-
-    /**
-     * @ignore
-     */
-    PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
+  /**
+   * @ignore
+   */
+  PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
 }

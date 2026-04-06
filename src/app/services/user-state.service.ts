@@ -23,7 +23,7 @@ export class UserStateService {
    * Determines if data is fetching
    * @type {boolean}
    */
-  private isFetching: boolean = false;
+  private isFetching = false;
 
   /**
    * Current user
@@ -34,7 +34,10 @@ export class UserStateService {
   /**
    * @ignore
    */
-  constructor(private readonly userService: UserService, private readonly discourseService: DiscourseService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly discourseService: DiscourseService,
+  ) {}
 
   /**
    * Gets current user from API when state is empty or needs revalidate
@@ -52,7 +55,7 @@ export class UserStateService {
           .getCurrentUser()
           .pipe(take(1))
           .subscribe(
-            user => {
+            (user) => {
               this.isFetching = false;
               this.setCurrentUser(user);
             },
@@ -62,7 +65,7 @@ export class UserStateService {
             },
           );
       }
-      return this.currentUser$.asObservable().pipe(filter(user => user !== null));
+      return this.currentUser$.asObservable().pipe(filter((user) => user !== null));
     });
   }
 

@@ -6,7 +6,7 @@
   }
 }
 
-@media screen and (min-width: 420px){
+@media screen and (min-width: 420px) {
   .institution-clipboard-text {
     width: max-content;
   }
@@ -19,7 +19,9 @@
 }
 
 @media screen and (min-width: 768px) {
-  .font-size-125, .font-size-150, .font-size-200 {
+  .font-size-125,
+  .font-size-150,
+  .font-size-200 {
     .institution-clipboard-text {
       left: -40px;
     }
@@ -67,11 +69,14 @@
   .institution-clipboard-copied-text {
     align-content: center;
   }
-  &.black-white, &.black-yellow, &.yellow-black {
+  &.black-white,
+  &.black-yellow,
+  &.yellow-black {
     color: currentColor;
     border-color: currentColor;
   }
-  &.black-white, &.black-yellow {
+  &.black-white,
+  &.black-yellow {
     background-color: black;
   }
   &.yellow-black {
@@ -82,7 +87,8 @@
   stroke: none;
 }
 
-.font-size-200, .font-size-150 {
+.font-size-200,
+.font-size-150 {
   .institution-contact-info-container {
     margin-top: 10px;
     min-width: min-content;

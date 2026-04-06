@@ -55,13 +55,13 @@ describe('CmsFormComponent', () => {
         ReactiveFormsModule,
         NoopAnimationsModule,
         SharedModule,
-        CmsFormComponent
+        CmsFormComponent,
       ],
       providers: [
         { provide: SeoService, useClass: SeoServiceStub },
         NotificationsService,
         CmsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
   });

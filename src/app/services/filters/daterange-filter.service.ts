@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment';
 
-import { DaterangeFilterAvailability, DaterangeFilterModel, DaterangeFilterUpdated } from '@app/services/models/filters';
+import {
+  DaterangeFilterAvailability,
+  DaterangeFilterModel,
+  DaterangeFilterUpdated,
+} from '@app/services/models/filters';
 
 @Injectable({
   providedIn: 'root',

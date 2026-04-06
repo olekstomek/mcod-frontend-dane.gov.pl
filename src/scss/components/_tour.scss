@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   background: #000;
-  opacity: .5;
+  opacity: 0.5;
   z-index: 100000;
   position: fixed;
   top: 0;
@@ -14,10 +14,10 @@
     z-index: 100002;
 
     .shepherd-arrow:before {
-      box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     }
 
-    &.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
+    &.shepherd-has-title[data-popper-placement^='bottom'] > .shepherd-arrow:before {
       background-color: #fff;
     }
   }
@@ -38,7 +38,6 @@
     margin-bottom: 0;
     flex: 1;
   }
-
 
   .shepherd-button {
     &.prev-btn {
@@ -61,12 +60,11 @@
     }
 
     background: unset;
-    @extend .btn-sm
+    @extend .btn-sm;
   }
 }
 
 .tour-progress-wrapper {
-
   .tour-progress {
     z-index: 15;
     display: flex;
@@ -80,14 +78,12 @@
       height: 10px;
       margin: 0 4px;
       border-radius: 50%;
-      background: #C4C4C4;
+      background: #c4c4c4;
       cursor: pointer;
 
       &--active {
         background: $color-blue-light;
       }
-
     }
   }
-
 }

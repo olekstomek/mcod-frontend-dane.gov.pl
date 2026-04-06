@@ -703,7 +703,7 @@
       "UnlinkSuccess": "Logowanie przez login.gov.pl zostało usunięte.",
       "UnlinkError": "Logowanie przez login.gov.pl nie zostało usunięte.",
       "SwitchError": "Wystąpił błąd i nie udało się przełączyć konta. Spróbuj ponownie później.",
-      "LoginErrorHeader":  "Nie możesz się zalogować przez login.gov.pl ",
+      "LoginErrorHeader": "Nie możesz się zalogować przez login.gov.pl ",
       "LoginErrorLine1": "Jeśli <b>masz konto</b> w portalu dane.gov.pl, zaloguj się e-mailem i hasłem. Następnie dodaj logowanie przez login.gov.pl w zakładce <b>Mój pulpit</b>.",
       "LoginErrorLine2": "Jeśli <b>nie masz konta</b> w dane.gov.pl, zarejestruj się. "
     },
@@ -1267,7 +1267,7 @@
     "NewPasswordCreationDescription1of3": "Na podany adres e-mail zostanie wysłany link ze zmianą hasła. Jeżeli nie będzie działał skorzystaj z",
     "NewPasswordCreationDescription2of3": "formularza zmiany hasła",
     "NewPasswordCreationDescription3of3": "i podaj kod, który otrzymałeś w wiadomości",
-    "NewPasswordCreationLinkSent": "Na Twój adres email został wysłany link do formularza utworzenia nowego hasła. Proszę sprawdzić również folder SPAM.",
+    "NewPasswordCreationLinkSent": "Jeśli podany adres e-mail jest powiązany z kontem w portalu dane.gov.pl, wyślemy Ci link do zmiany hasła. Wiadomość może trafić do folderu ze spamem.",
     "RodoCheckboxText": "Potwierdzam zapoznanie się z udostępnioną na portalu dane.gov.pl polityką prywatności i RODO",
     "RegulationsCheckboxText": "Potwierdzam zapoznanie się z regulaminem udostępnionym na portalu dane.gov.pl",
     "Login": "Logowanie",
@@ -1282,7 +1282,7 @@
     "PasswordChange": "Zmiana hasła",
     "PasswordChanged": "Twoje hasło zostało pomyślnie zmienione",
     "Congratulations": "Gratulacje!",
-    "ActivationEmailSent": "Na Twój adres email został wysłany link aktywacyjny. Proszę sprawdzić również folder SPAM. Link aktywacyjny ważny jest przez 72 godziny.",
+    "ActivationEmailSent": "Na podany adres e-mail wyślemy Ci link do dokończenia rejestracji. Będzie on ważny przez 72 godziny. Wiadomość może trafić do folderu ze spamem.",
     "SearchHistory": "Historia wyszukiwania",
     "Followed": "Obserwowane",
     "FollowedList": "Lista obserwowanych obiektów",
@@ -1291,7 +1291,8 @@
     "FollowedDatasetActivity": "Aktywność obserwowanych zbiorów",
     "AccountActivated": "Twoje konto zostało aktywowane. Możesz się teraz zalogować.",
     "Unregistered": "Nie masz jeszcze konta?",
-    "LogInToFollow": "Jeśli chcesz obserwować zbiory zaloguj się lub zarejestruj. Obserwowanie zbiorów jest dostępne dla użytkowników posiadających konto na portalu."
+    "LogInToFollow": "Jeśli chcesz obserwować zbiory zaloguj się lub zarejestruj. Obserwowanie zbiorów jest dostępne dla użytkowników posiadających konto na portalu.",
+    "ActivationEmailExpired": "Link do zmiany hasła wygasł. Wpisz swój adres e-mail, aby otrzymać nowy link."
   },
   "Validation": {
     "Self": "Walidacja",

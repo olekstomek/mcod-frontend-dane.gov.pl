@@ -53,13 +53,13 @@ describe('UserService', () => {
 
   describe('#registerUser', () => {
     it('should return an Observable<T>', () => {
-      const newUser: IRegistration = <IRegistration>{
+      const newUser: IRegistration = {
         email: 'user@example.com',
         password1: 'Demo#123',
         password2: 'Demo#123',
-      };
+      } as IRegistration;
 
-      service.registerUser(newUser).subscribe(data => {
+      service.registerUser(newUser).subscribe((data) => {
         const req = httpMock.expectOne(service.base_url + ApiConfig.userRegistration);
         expect(req.request.method).toBe('POST');
         req.flush(userResponse);
@@ -68,16 +68,16 @@ describe('UserService', () => {
       });
     });
     it('should throw an error if trying to register without password', () => {
-      const newUser: IRegistration = <IRegistration>{
+      const newUser: IRegistration = {
         email: 'user@example.com',
-      };
+      } as IRegistration;
       service.registerUser(newUser).subscribe(
-        next => {
+        (next) => {
           const req = httpMock.expectOne(service.base_url + ApiConfig.userRegistration);
           expect(req.request.method).toBe('POST');
           req.flush({}, { status: 422, statusText: 'Missing password' });
         },
-        err => {
+        (err) => {
           expect(err.statusText).toBe('Missing password');
         },
       );
@@ -89,7 +89,7 @@ describe('UserService', () => {
       const email = 'user@example.com';
       const requestModel = service.prepareAuthParameters({ email });
 
-      service.resendConfirmationEmail(email).subscribe(data => {
+      service.resendConfirmationEmail(email).subscribe((data) => {
         const req = httpMock.expectOne(service.base_url + ApiConfig.userResendEmail);
         expect(req.request.method).toBe('POST');
         expect(req.request.body).toEqual(requestModel);
@@ -103,7 +103,7 @@ describe('UserService', () => {
     it('should send GET with verification token', () => {
       const resetToken = 'lorem-ipsum';
 
-      service.verifyEmail(resetToken).subscribe(data => {
+      service.verifyEmail(resetToken).subscribe((data) => {
         const req = httpMock.expectOne(service.base_url + ApiConfig.userVerifyEmail + '/' + resetToken);
         expect(req.request.method).toBe('GET');
         req.flush('');
@@ -117,7 +117,7 @@ describe('UserService', () => {
       const model = { email: 'user@example.com' };
       const requestModel = service.prepareAuthParameters(model);
 
-      service.forgotPass(model).subscribe(data => {
+      service.forgotPass(model).subscribe((data) => {
         const req = httpMock.expectOne(service.base_url + ApiConfig.userResetPass);
         expect(req.request.method).toBe('POST');
         expect(req.request.body).toEqual(requestModel);
@@ -132,7 +132,7 @@ describe('UserService', () => {
       const model = { new_password1: 'demo123', new_password2: 'demo123' };
       const requestModel = service.prepareAuthParameters(model);
 
-      service.resetPass(resetToken, model).subscribe(data => {
+      service.resetPass(resetToken, model).subscribe((data) => {
         const req = httpMock.expectOne(service.base_url + ApiConfig.userResetPass + '/' + resetToken);
         expect(req.request.method).toBe('POST');
         expect(req.request.body).toEqual(requestModel);
@@ -146,7 +146,7 @@ describe('UserService', () => {
     it('should send POST request with user credentials', () => {
       const login = 'demo@mc.gov.pl';
       const pass = 'demo123';
-      service.login(login, pass).subscribe(data => {
+      service.login(login, pass).subscribe((data) => {
         const req = httpMock.expectOne(service.base_url + ApiConfig.userLogin);
         expect(req.request.method).toBe('POST');
         expect(req.request.body).toEqual({
@@ -165,7 +165,7 @@ describe('UserService', () => {
 
     it('should throw error for login with incorrect credentials', () => {
       service.login('', '').subscribe(
-        data => {
+        (data) => {
           const req = httpMock.expectOne(service.base_url + ApiConfig.userLogin);
           expect(req.request.method).toBe('POST');
           expect(req.request.body).toEqual({
@@ -182,7 +182,7 @@ describe('UserService', () => {
               message: '',
             }),
           );
-          return fail('should have failed with the network error')
+          return fail('should have failed with the network error');
         },
         (errorResponse: HttpCustomErrorResponse) => {
           expect(errorResponse.error).toBeTruthy();
@@ -193,8 +193,10 @@ describe('UserService', () => {
 
   describe('#getCurrentUser', () => {
     it('get currently logged user details', () => {
-      service.getCurrentUser().subscribe(data => {
-        const req = httpMock.expectOne(service.base_url + ApiConfig.userProfile + '?include=institution,agent_institution');
+      service.getCurrentUser().subscribe((data) => {
+        const req = httpMock.expectOne(
+          service.base_url + ApiConfig.userProfile + '?include=institution,agent_institution',
+        );
         expect(req.request.method).toBe('GET');
         expect(req.request.body).toEqual(null);
         const resetToken = 'licksum';
@@ -207,8 +209,10 @@ describe('UserService', () => {
     });
     it('should throw error if there is no user logged in', () => {
       service.getCurrentUser().subscribe(
-        data => {
-          const req = httpMock.expectOne(service.base_url + ApiConfig.userProfile + '?include=institution,agent_institution');
+        (data) => {
+          const req = httpMock.expectOne(
+            service.base_url + ApiConfig.userProfile + '?include=institution,agent_institution',
+          );
           expect(req.request.method).toBe('GET');
           expect(req.request.body).toEqual(null);
           req.error(
@@ -228,7 +232,7 @@ describe('UserService', () => {
 
   describe('#logout', () => {
     it('should send POST request', () => {
-      service.logout().subscribe(data => {
+      service.logout().subscribe((data) => {
         const req = httpMock.expectOne(service.base_url + ApiConfig.userLogout);
         expect(req.request.method).toBe('POST');
         req.flush('');
@@ -248,10 +252,10 @@ describe('UserService', () => {
 
     it('should return true when user is ADMIN and required roles is ADMIN', () => {
       jest.spyOn(service, 'getTokenData').mockReturnValue({
-        user: {roles: ['admin'], email: 'user@email.com', session_key: ''},
+        user: { roles: ['admin'], email: 'user@email.com', session_key: '' },
         iat: 0,
         exp: 0,
-        nbf: 0
+        nbf: 0,
       });
 
       expect(service.hasRequiredRole([Role.ADMIN])).toBe(true);
@@ -259,10 +263,10 @@ describe('UserService', () => {
 
     it('should return false when user is EDITOR and required role is ADMIN or OFFICIAL', () => {
       jest.spyOn(service, 'getTokenData').mockReturnValue({
-        user: {roles: ['editor'], email: 'user@email.com', session_key: ''},
+        user: { roles: ['editor'], email: 'user@email.com', session_key: '' },
         iat: 0,
         exp: 0,
-        nbf: 0
+        nbf: 0,
       });
 
       expect(service.hasRequiredRole([Role.ADMIN, Role.OFFICIAL])).toBe(false);
@@ -270,10 +274,10 @@ describe('UserService', () => {
 
     it('should return true when user is ADMIN and EDITOR and only EDITOR role is required', () => {
       jest.spyOn(service, 'getTokenData').mockReturnValue({
-        user: {roles: ['editor', 'admin'], email: 'user@email.com', session_key: ''},
+        user: { roles: ['editor', 'admin'], email: 'user@email.com', session_key: '' },
         iat: 0,
         exp: 0,
-        nbf: 0
+        nbf: 0,
       });
 
       expect(service.hasRequiredRole([Role.EDITOR, Role.REPRESENTATIVE])).toBe(true);
@@ -281,23 +285,30 @@ describe('UserService', () => {
 
     it('should return true when user is EDITOR and REPRESENTATIVE and only EDITOR role is required', () => {
       jest.spyOn(service, 'getTokenData').mockReturnValue({
-        user: {roles: ['editor', 'representative'], email: 'user@email.com', session_key: ''},
+        user: { roles: ['editor', 'representative'], email: 'user@email.com', session_key: '' },
         iat: 0,
         exp: 0,
-        nbf: 0
+        nbf: 0,
       });
 
-      expect(service.hasRequiredRole([Role.OFFICIAL, Role.EDITOR, Role.ADMIN_AOD, Role.ADMIN_LOD, Role.PORTAL_ADMIN, Role.ADMIN])).toBe(
-        true,
-      );
+      expect(
+        service.hasRequiredRole([
+          Role.OFFICIAL,
+          Role.EDITOR,
+          Role.ADMIN_AOD,
+          Role.ADMIN_LOD,
+          Role.PORTAL_ADMIN,
+          Role.ADMIN,
+        ]),
+      ).toBe(true);
     });
 
     it('should return true when user is ADMIN and EDITOR and both ADMIN and EDITOR role is required', () => {
       jest.spyOn(service, 'getTokenData').mockReturnValue({
-        user: {roles: ['editor', 'admin'], email: 'user@email.com', session_key: ''},
+        user: { roles: ['editor', 'admin'], email: 'user@email.com', session_key: '' },
         iat: 0,
         exp: 0,
-        nbf: 0
+        nbf: 0,
       });
 
       expect(service.hasRequiredRole([Role.EDITOR, Role.ADMIN])).toBe(true);
@@ -308,7 +319,9 @@ describe('UserService', () => {
     });
 
     it('should pick REPRESENTATIVE when user is OFFICIAL, REPRESENTATIVE and EDITOR', () => {
-      expect(service.getRoleWithHighestPriority([Role.OFFICIAL, Role.REPRESENTATIVE, Role.EDITOR])).toBe(Role.REPRESENTATIVE);
+      expect(service.getRoleWithHighestPriority([Role.OFFICIAL, Role.REPRESENTATIVE, Role.EDITOR])).toBe(
+        Role.REPRESENTATIVE,
+      );
     });
 
     it('should return true when more then one role is duplicated', () => {

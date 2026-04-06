@@ -13,7 +13,6 @@
   }
   @include media-breakpoint-up(sm) {
     padding: 20px 5px;
-
   }
   @include media-breakpoint-up(md) {
     padding: 20px;
@@ -29,7 +28,7 @@
     align-items: center;
     background: #ffffff;
     justify-content: center;
-    border: #E6E9EC solid 2px;
+    border: #e6e9ec solid 2px;
     &.black-white {
       background: black;
       color: white;
@@ -53,12 +52,12 @@
         border-bottom: 3px solid black;
       }
     }
-    &:hover{
-      border-bottom-color: #0865c9 ;
+    &:hover {
+      border-bottom-color: #0865c9;
     }
-    hr{
-      color:#E6E9EC;
-      background-color: #E6E9EC;
+    hr {
+      color: #e6e9ec;
+      background-color: #e6e9ec;
       border: 0 none;
       height: 2px;
       &.black-yellow {

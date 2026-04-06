@@ -5,7 +5,7 @@
   width: 75px;
   height: 75px;
   z-index: 100001;
- 
+
   .tour-button {
     display: flex;
     align-items: center;
@@ -14,7 +14,7 @@
     height: 100%;
     padding: 6px 12px;
     border-radius: 50%;
-    background-color: #00AEEF;
+    background-color: #00aeef;
     color: #fff;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
@@ -31,8 +31,7 @@
     }
   }
 }
-@media only screen and (hover: none) and (pointer: coarse){
-    
+@media only screen and (hover: none) and (pointer: coarse) {
   .tour-button-wrapper {
     position: fixed;
     right: 32px;
@@ -40,5 +39,5 @@
     width: 75px;
     height: 75px;
     z-index: 100001;
-  } 
+  }
 }

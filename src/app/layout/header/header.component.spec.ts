@@ -34,12 +34,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        SharedModule,
-        HeaderComponent
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), SharedModule, HeaderComponent],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
         { provide: NotificationsService, useClass: NotificationsServiceStub },
@@ -47,9 +42,9 @@ describe('HeaderComponent', () => {
         LanguageBootstrapService,
         BsLocaleService,
         LocalizeRouterService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
-      teardown: {destroyAfterEach: false}
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
     cmsService = TestBed.inject(CmsService);
     userService = TestBed.inject(UserService);
@@ -70,14 +65,14 @@ describe('HeaderComponent', () => {
     expect(spyFunction).toHaveBeenCalled();
   });
 
-  it('should change language for the entire app', fakeAsync (() => {
+  it('should change language for the entire app', fakeAsync(() => {
     const language = 'en';
     component.useLanguage(language);
 
     expect(component.currentLang).toEqual('en');
   }));
 
-  it('should set language for the entire app to PL', fakeAsync( () => {
+  it('should set language for the entire app to PL', fakeAsync(() => {
     const language = 'pl';
     component.useLanguage(language);
 

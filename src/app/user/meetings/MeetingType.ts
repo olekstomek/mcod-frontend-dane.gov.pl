@@ -4,7 +4,7 @@ export class MeetingType extends UserDashboardListViewFilterType {
   static PLANNED = new MeetingType('planned', 'ProxiesMeetings.Planned');
   static FINISHED = new MeetingType('finished', 'ProxiesMeetings.Finished');
 
-  public static getTypes(): Array<MeetingType> {
+  public static getTypes(): MeetingType[] {
     return [MeetingType.PLANNED, MeetingType.FINISHED];
   }
 }

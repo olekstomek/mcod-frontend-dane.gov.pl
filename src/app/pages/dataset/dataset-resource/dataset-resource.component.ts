@@ -1,8 +1,16 @@
-import { AsyncPipe, DOCUMENT, LowerCasePipe, NgForOf, NgIf, NgOptimizedImage, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import {
+  AsyncPipe,
+  DOCUMENT,
+  LowerCasePipe,
+  NgForOf,
+  NgIf,
+  NgOptimizedImage,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -68,11 +76,9 @@ import { selectTarget } from '@app/shared/util';
     LocalizeRouterPipe,
     FeedbackFormComponent,
     FocusTrapDirective,
-    SanitizeHtmlPipe
-  ]
+  ],
 })
 export class DatasetResourceComponent implements OnInit, OnDestroy {
-
   /**
    * @ignore
    */
@@ -214,19 +220,20 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
    * Checks availability of related data (tabs).
    */
   ngOnInit() {
-    this.resourcesSubscription = this.activatedRoute.url.subscribe(res => {
+    this.resourcesSubscription = this.activatedRoute.url.subscribe((res) => {
       this.relatedResources = [];
       this.resource = this.activatedRoute.snapshot.data['post'];
       this.relatedDataset = this.activatedRoute.parent.snapshot.data['post'].data;
-      this.frameUrl = this.document.location.protocol + '//' + this.document.location.host + '/embed/resource/' + this.resource['id'];
+      this.frameUrl =
+        this.document.location.protocol + '//' + this.document.location.host + '/embed/resource/' + this.resource['id'];
       this.selfApi = this.resource.links.self;
       this.downloadFilesList = this.resource.attributes?.files;
       this.hasGeoData = this.resource.relationships.hasOwnProperty('geo_data');
       this.hasChart = this.resource.relationships.hasOwnProperty('chart');
       this.hasTabularData = this.hasGeoData || this.resource.relationships.hasOwnProperty('tabular_data');
       this.seoService.setPageTitle(this.resource.attributes.title);
-      this.regionsList = this.resource.attributes.regions.filter(region => region.is_additional === false);
-      this.isNotRegionPoland = this.regionsList.filter(region => region.region_id !== '85633723').length > 0;
+      this.regionsList = this.resource.attributes.regions.filter((region) => region.is_additional === false);
+      this.isNotRegionPoland = this.regionsList.filter((region) => region.region_id !== '85633723').length > 0;
 
       zip(
         this.schemaDataService.getResourceStructuredData(this.relatedDataset.id, this.resource.id),
@@ -236,14 +243,17 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
         const isEditorPreview = ActivatedRouteHelper.getRouteData(this.activatedRoute, 'editorPreview');
 
         if (this.resource.attributes.hasOwnProperty('is_chart_creation_blocked')) {
-          this.isChartTabHidden = this.resource.attributes['is_chart_creation_blocked'] && !chartResponse.data.length && !isEditorPreview;
+          this.isChartTabHidden =
+            this.resource.attributes['is_chart_creation_blocked'] && !chartResponse.data.length && !isEditorPreview;
         }
       });
       if (this.resource.relationships.related_resource) {
         const slug = this.resource.relationships.related_resource.links.related.split(',')[1];
-        this.datasetService.getResourceById(this.resource.relationships.related_resource.data.id).subscribe(response => {
-          this.relatedResources = this.extendViewDetails([response], slug, response.attributes.description);
-        });
+        this.datasetService
+          .getResourceById(this.resource.relationships.related_resource.data.id)
+          .subscribe((response) => {
+            this.relatedResources = this.extendViewDetails([response], slug, response.attributes.description);
+          });
       }
     });
   }
@@ -256,7 +266,7 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
    * @return {ISearchResult[]}
    */
   extendViewDetails(relatedResource: ISearchResult[], slug: string, description: string): ISearchResult[] {
-    relatedResource.map(item => {
+    relatedResource.map((item) => {
       item.url = `../${this.routerEndpoints.RESOURCES}/${item.id},${slug}`;
       item.titleTranslationKey = 'Resources.Single';
       item.attributes.notes = description;
@@ -308,7 +318,9 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
                 }
             }`;
 
-      this.datasetService.sendResourceFeedback(this.resource['id'], JSON.parse(payload)).subscribe(() => (this.feedbackSent = true));
+      this.datasetService
+        .sendResourceFeedback(this.resource['id'], JSON.parse(payload))
+        .subscribe(() => (this.feedbackSent = true));
     }
   }
 

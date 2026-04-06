@@ -6,11 +6,14 @@ import { UserService } from '@app/services/user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard  {
+export class RoleGuard {
   /**
    * @ignore
    */
-  constructor(private readonly userService: UserService, private readonly router: Router) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly router: Router,
+  ) {}
 
   /**
    * Checks if current user role is allowed to activate route

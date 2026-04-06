@@ -9,14 +9,10 @@ import { DataProposalListComponent } from '../list/data-proposal-list.component'
  * Data Proposal Tab Component
  */
 @Component({
-    selector: 'app-data-proposal-tab',
-    templateUrl: './data-proposal-tab.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        DataProposalListComponent,
-        RouterOutlet,
-    ],
+  selector: 'app-data-proposal-tab',
+  templateUrl: './data-proposal-tab.component.html',
+  standalone: true,
+  imports: [NgIf, DataProposalListComponent, RouterOutlet],
 })
 export class DataProposalTabComponent implements OnDestroy {
   /**
@@ -32,7 +28,10 @@ export class DataProposalTabComponent implements OnDestroy {
 
   private routerEvents$: Subscription;
 
-  constructor(public readonly activeRoute: ActivatedRoute, private readonly router: Router) {
+  constructor(
+    public readonly activeRoute: ActivatedRoute,
+    private readonly router: Router,
+  ) {
     this.routerEvents$ = this.router.events.subscribe((event) => {
       this.hasChildRoute = this.activeRoute.children.length > 0;
     });

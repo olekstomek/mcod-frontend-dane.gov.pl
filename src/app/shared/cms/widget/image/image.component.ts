@@ -16,15 +16,10 @@ import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.
  * <cms-image></cms-image>
  */
 @Component({
-    selector: 'cms-image',
-    templateUrl: './image.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgClass,
-        NgStyle,
-        TranslatePipe,
-    ],
+  selector: 'cms-image',
+  templateUrl: './image.component.html',
+  standalone: true,
+  imports: [NgIf, NgClass, NgStyle, TranslatePipe],
 })
 export class ImageComponent extends WidgetAbstractComponent implements OnInit {
   @Input() banner: IBanner | any;
@@ -51,7 +46,11 @@ export class ImageComponent extends WidgetAbstractComponent implements OnInit {
    */
   readonly widgetType = WidgetType;
 
-  constructor(private featureFlagService: FeatureFlagService, protected cmsService: CmsService, protected sanitizer: DomSanitizer) {
+  constructor(
+    private featureFlagService: FeatureFlagService,
+    protected cmsService: CmsService,
+    protected sanitizer: DomSanitizer,
+  ) {
     super(cmsService, sanitizer);
   }
 

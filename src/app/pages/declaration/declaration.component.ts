@@ -9,15 +9,12 @@ import { CmsStaticPageComponent } from '@app/shared/cms/cms-static-page/cms-stat
 @Component({
   selector: 'app-declaration',
   templateUrl: './declaration.component.html',
-  imports: [
-    CmsStaticPageComponent
-  ],
-  standalone: true
+  imports: [CmsStaticPageComponent],
+  standalone: true,
 })
 export class DeclarationComponent {
-
-    /**
-    * CMS static page slugs
-    */
-    readonly cmsHardcodedPages = CmsHardcodedPages;
+  /**
+   * CMS static page slugs
+   */
+  readonly cmsHardcodedPages = CmsHardcodedPages;
 }

@@ -11,14 +11,20 @@
   <tbody>
     <!-- day of week -->
     <tr>
-      <td class="text-center font-weight-bold" *ngFor="let schedule of scheduleByMonth.value" title="{{ schedule.date }}">
+      <td
+        class="text-center font-weight-bold"
+        *ngFor="let schedule of scheduleByMonth.value"
+        title="{{ schedule.date }}">
         {{ schedule.date | translateDateFormat: 'dd' | async }}
       </td>
     </tr>
 
     <!-- day of month -->
     <tr>
-      <td class="text-center" *ngFor="let schedule of scheduleByMonth.value" title="{{ schedule.type_name + ', ' + schedule.date }}">
+      <td
+        class="text-center"
+        *ngFor="let schedule of scheduleByMonth.value"
+        title="{{ schedule.type_name + ', ' + schedule.date }}">
         <span class="aod-circle aod-circle--{{ schedule.type }}">
           {{ schedule.date | date: 'd' }}
         </span>
@@ -27,7 +33,9 @@
 
     <!-- session number -->
     <tr>
-      <td class="text-center" *ngFor="let schedule of scheduleByMonth.value" title="{{ schedule.type_name }}">S{{ schedule.session }}</td>
+      <td class="text-center" *ngFor="let schedule of scheduleByMonth.value" title="{{ schedule.type_name }}">
+        S{{ schedule.session }}
+      </td>
     </tr>
   </tbody>
 </table>

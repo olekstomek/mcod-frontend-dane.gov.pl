@@ -6,8 +6,7 @@
       [columns]="columns"
       [config]="config"
       [dataSource]="dataSource"
-      [itemToDelete]="itemToDelete"
-    >
+      [itemToDelete]="itemToDelete">
       <!--  Table header -->
       <div class="schedule-header font-weight-bold mt-4" *ngIf="dataSource">
         <p *ngIf="dataSource.totalAgentsCount && !isRepresentativeView" class="d-inline-block">
@@ -34,16 +33,14 @@
             (scheduleStatusChanged)="changeScheduleStatus($event)"
             *hasPermission="[Role.REPRESENTATIVE]"
             [disabled]="dataSource.isBlocked"
-            [completed]="dataSource.completed"
-          ></app-schedule-status-switcher>
+            [completed]="dataSource.completed"></app-schedule-status-switcher>
         </ng-container>
         <ng-container *ngIf="!isRepresentativeView">
           <app-schedule-status-switcher
             (scheduleStatusChanged)="blockSchedule($event)"
             *hasPermission="[Role.ADMIN]"
             [text]="'Hod.LockSchedule' | translate"
-            [completed]="dataSource.isBlocked"
-          ></app-schedule-status-switcher>
+            [completed]="dataSource.isBlocked"></app-schedule-status-switcher>
         </ng-container>
         <ng-container *ngIf="isRepresentativeView">
           <app-schedule-status *hasPermission="[Role.ADMIN]" [isCompleted]="dataSource.completed"></app-schedule-status>
@@ -58,8 +55,7 @@
     [maxResultsPerModel]="3"
     [searchQuery]="data.data[data.columnID]"
     [elementToExcludeId]="data.data.id"
-    [useTriggers]="true"
-  >
+    [useTriggers]="true">
   </app-schedule-search-suggest>
 </ng-template>
 
@@ -68,5 +64,4 @@
   (closeDialog)="closeDialog()"
   (selectedItemId)="openNewSchedule()"
   message="Czy na pewno chcesz otworzyć nowy okres?"
-  *ngIf="isStartNewPeriodConfirmationDialogVisible"
-></app-confirmation-modal>
+  *ngIf="isStartNewPeriodConfirmationDialogVisible"></app-confirmation-modal>

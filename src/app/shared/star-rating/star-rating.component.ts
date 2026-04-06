@@ -8,10 +8,10 @@ import { Component, Input, OnInit } from '@angular/core';
  * // Outputs: ★ ★ ★ ☆ ☆
  */
 @Component({
-    selector: 'app-star-rating',
-    templateUrl: './star-rating.component.html',
-    standalone: true,
-    imports: [NgFor, NgClass],
+  selector: 'app-star-rating',
+  templateUrl: './star-rating.component.html',
+  standalone: true,
+  imports: [NgFor, NgClass],
 })
 export class StarRatingComponent implements OnInit {
   /**
@@ -22,7 +22,7 @@ export class StarRatingComponent implements OnInit {
   /**
    * **Optional**. Maximum possible rating (default: 5)
    */
-  @Input() max: number = 5;
+  @Input() max = 5;
 
   /**
    * @ignore

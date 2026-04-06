@@ -41,7 +41,7 @@ describe('Schedule Table Component', () => {
         provideNgxLocalstorage({ prefix: 'mcod' }),
         provideRouter([]),
         provideHttpClientTesting(),
-        provideHttpClient()
+        provideHttpClient(),
       ],
     }).compileComponents();
   });
@@ -104,7 +104,7 @@ describe('Schedule Table Component', () => {
     const scheduleTableComponent = fixture.componentInstance;
     fixture.detectChanges();
     let emittedItemToDeleteId;
-    scheduleTableComponent.deleteItemEmitter.subscribe(itemId => (emittedItemToDeleteId = itemId));
+    scheduleTableComponent.deleteItemEmitter.subscribe((itemId) => (emittedItemToDeleteId = itemId));
 
     scheduleTableComponent.deleteItem('1');
 

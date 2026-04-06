@@ -99,7 +99,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
   /**
    * Aggregated data for circular charts
    */
-  chartAggregatedColumn: Object;
+  chartAggregatedColumn: object;
 
   /**
    * Datasets displayed in a chart
@@ -265,7 +265,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
 
     const filter$ = this.datasetService.resourceFilterChanged$.pipe(distinctUntilChanged());
 
-    this.resourceFilterSubscription = filter$.subscribe(filterQuery => {
+    this.resourceFilterSubscription = filter$.subscribe((filterQuery) => {
       this.updateParams({ page: 1, q: filterQuery });
     });
 
@@ -297,7 +297,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
 
         // filter out user defined charts in editor preview
         this.savedCharts = this.isEditorPreview
-          ? chartResponse['data'].filter(chart => chart.attributes.is_default)
+          ? chartResponse['data'].filter((chart) => chart.attributes.is_default)
           : chartResponse['data'];
 
         if (this.isNamedChartMode && !this.isUserLoggedIn) {
@@ -316,12 +316,12 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.items = tableDataResponse['data'].map(item => item['attributes']);
+        this.items = tableDataResponse['data'].map((item) => item['attributes']);
         this.count = tableMeta['count'];
 
         const columns = ResourceHelper.getTableColumns(tableDataResponse);
         this.columns = [...columns.sort((a, b) => (a.description > b.description ? 1 : -1))];
-        this.numericColumnsExist = columns.some(item => item.type === 'integer' || item.type === 'number');
+        this.numericColumnsExist = columns.some((item) => item.type === 'integer' || item.type === 'number');
 
         // sum for circular charts
         if (tableMeta['aggregations'] && tableMeta['aggregations']['sum']) {
@@ -357,12 +357,12 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
       }
 
       if (this.userService.isEditor()) {
-        this.userStateService.getCurrentUser().subscribe(currentUser => {
+        this.userStateService.getCurrentUser().subscribe((currentUser) => {
           const resourceInstitutionId = this.getResourceInstitutionId();
           const userInstitutionIds = ObjectHelper.getNested(currentUser, ['institutions']);
 
           if (userInstitutionIds && resourceInstitutionId) {
-            this.hasAccessToEditorPreview = userInstitutionIds.some(item => item.id === resourceInstitutionId);
+            this.hasAccessToEditorPreview = userInstitutionIds.some((item) => item.id === resourceInstitutionId);
           }
         });
       }
@@ -382,7 +382,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
    * Loads appropriate chart based on API response and other conditions
    * @param chartResponse
    */
-  loadChart(chartResponse: Object[]) {
+  loadChart(chartResponse: object[]) {
     let userChart: IChartBlueprint;
     let userChartId: string;
     let defaultChart: IChartBlueprint;
@@ -391,7 +391,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
     this.checkStorage();
 
     if (chartResponse && chartResponse.length) {
-      chartResponse.forEach(chart => {
+      chartResponse.forEach((chart) => {
         if (!chart['attributes']) {
           return;
         }
@@ -408,7 +408,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
       });
 
       if (this.isNamedChartMode && chartResponse.length === 1) {
-        this.selectedChartIndex = this.savedCharts.findIndex(chart => chart.id === chartResponse[0]['id']);
+        this.selectedChartIndex = this.savedCharts.findIndex((chart) => chart.id === chartResponse[0]['id']);
       }
     }
 
@@ -454,7 +454,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
    * Updates query params on every user interaction
    * @param {Object} params
    */
-  updateParams(params: Object) {
+  updateParams(params: object) {
     if (!('page' in params)) {
       params['page'] = 1;
     }
@@ -472,12 +472,12 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
    * @param {Object} chartBlueprint
    * @param {boolean} [isPreview]
    */
-  onChartBlueprintCreated(chartBlueprint: IChartBlueprint, isPreview: boolean = true) {
+  onChartBlueprintCreated(chartBlueprint: IChartBlueprint, isPreview = true) {
     this.isChartPreviewAvailable = true;
     this.chartBlueprint = chartBlueprint;
     this.isChartPreview = isPreview;
 
-    const isCircularChart = this.circularCharts.indexOf(<ChartType>this.chartBlueprint['chart_type']) !== -1;
+    const isCircularChart = this.circularCharts.indexOf(this.chartBlueprint['chart_type'] as ChartType) !== -1;
     const updatedParams = {};
 
     if (isCircularChart) {
@@ -515,7 +515,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
    */
   createChartFromBlueprint() {
     const labelColumn = this.getColumnByName(this.chartBlueprint['labels']);
-    const datasets = this.chartBlueprint['datasets'].map(columnName => this.getColumnByName(columnName));
+    const datasets = this.chartBlueprint['datasets'].map((columnName) => this.getColumnByName(columnName));
 
     // clear values
     this.chartLabels = [];
@@ -559,7 +559,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
    * @returns {ResourceTableColumn}
    */
   getColumnByName(columnName: string): ResourceTableColumn {
-    return this.columns.find(item => item['name'] === columnName);
+    return this.columns.find((item) => item['name'] === columnName);
   }
 
   /**
@@ -579,7 +579,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
     }
 
     if (this.chartDatasets && this.chartDatasets.length) {
-      const isDataExists = this.chartDatasets.findIndex(item => item.label === column.description);
+      const isDataExists = this.chartDatasets.findIndex((item) => item.label === column.description);
       if (isDataExists === -1) {
         this.chartDatasets.push(newDataset);
         this.chartDatasetsRepr.push(newDatasetRepr);
@@ -687,8 +687,14 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
     if (this.isNamedChartMode) {
       if (this.chartId) {
         this.datasetService
-          .updateResourceChart(this.resourceId, this.chartId, this.chartBlueprint, this.isEditorPreview, this.isNamedChartMode)
-          .subscribe(saved => {
+          .updateResourceChart(
+            this.resourceId,
+            this.chartId,
+            this.chartBlueprint,
+            this.isEditorPreview,
+            this.isNamedChartMode,
+          )
+          .subscribe((saved) => {
             this.chartId = saved['data']['id'];
             this.isChartPreview = false;
             this.changeAfterTime('isChartSaved');
@@ -700,7 +706,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
       } else {
         this.datasetService
           .saveResourceChart(this.resourceId, this.chartBlueprint, this.isEditorPreview, this.isNamedChartMode)
-          .subscribe(saved => {
+          .subscribe((saved) => {
             this.chartId = saved['data']['id'];
             this.isChartPreview = false;
             this.isCurrentChartDefault = this.isEditorPreview;
@@ -721,7 +727,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
     } else {
       this.datasetService
         .saveResourceChart(this.resourceId, this.chartBlueprint, this.isEditorPreview, this.isNamedChartMode)
-        .subscribe(saved => {
+        .subscribe((saved) => {
           this.chartId = saved['data']['id'];
           this.isChartPreview = false;
           this.isCurrentChartDefault = this.isEditorPreview;
@@ -797,7 +803,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
       this.updateStatus();
 
       if (this.isNamedChartMode) {
-        this.savedCharts = this.savedCharts.filter(chart => chart.id !== (chartId || this.chartId));
+        this.savedCharts = this.savedCharts.filter((chart) => chart.id !== (chartId || this.chartId));
 
         if (!this.savedCharts.length) {
           this.onAddNewChart();
@@ -818,7 +824,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
    * @param {string} property
    * @param {number} [time]
    */
-  private changeAfterTime(property: string, milliseconds: number = 3000) {
+  private changeAfterTime(property: string, milliseconds = 3000) {
     this[property] = true;
 
     setTimeout(() => {
@@ -908,7 +914,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
         delete chartBlueprint.name;
 
         this.savedCharts = [
-          ...this.savedCharts.filter(item => item.attributes.is_default),
+          ...this.savedCharts.filter((item) => item.attributes.is_default),
           {
             id: this.chartId,
             type: 'chart',
@@ -920,7 +926,7 @@ export class ResourceChartComponent implements OnInit, OnDestroy {
           },
         ];
       } else {
-        this.savedCharts = [...this.savedCharts.filter(item => item.attributes.is_default)];
+        this.savedCharts = [...this.savedCharts.filter((item) => item.attributes.is_default)];
       }
     }
   }

@@ -15,7 +15,6 @@ import { SeoService } from '@app/services/seo.service';
 import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TextToLinksPipe } from '@app/shared/pipes/text-to-links.pipe';
 
 class SeoServiceStub {
@@ -46,7 +45,6 @@ describe('SuggestApplicationComponent', () => {
         MathCaptchaComponent,
         NotificationsComponent,
         NotificationsServerComponent,
-        SanitizeHtmlPipe,
         TextToLinksPipe,
         ImageUploadComponent,
       ],
@@ -54,7 +52,7 @@ describe('SuggestApplicationComponent', () => {
         ApplicationsService,
         { provide: SeoService, useClass: SeoServiceStub },
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
 
@@ -127,7 +125,7 @@ describe('SuggestApplicationComponent', () => {
     component.onAppendDatasetRow();
     const mockElement = document.createElement('input');
     const event = {
-      target: mockElement
+      target: mockElement,
     };
 
     component.onCheckIfItemIsSelected(event, 0);
@@ -147,7 +145,7 @@ describe('SuggestApplicationComponent', () => {
       const captchaDe = fixture.debugElement.query(By.css('.captcha'));
       const equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
       const equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
-      equationSum = equationArr.map(item => +item).reduce((acc, item) => acc + item);
+      equationSum = equationArr.map((item) => +item).reduce((acc, item) => acc + item);
     });
 
     it('should fill required fields and the form should be valid', () => {

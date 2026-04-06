@@ -10,11 +10,11 @@ import { UserDashboardListViewConfig } from '@app/user/list-view/UserDashboardLi
  * Lab List Component
  */
 @Component({
-    selector: 'app-lab-list',
-    templateUrl: './lab-list.component.html',
-    providers: [{ provide: API_URL, useValue: ApiConfig.lab }],
-    standalone: true,
-    imports: [UserDashboardListViewComponent],
+  selector: 'app-lab-list',
+  templateUrl: './lab-list.component.html',
+  providers: [{ provide: API_URL, useValue: ApiConfig.lab }],
+  standalone: true,
+  imports: [UserDashboardListViewComponent],
 })
 export class LabListComponent implements OnInit {
   /**

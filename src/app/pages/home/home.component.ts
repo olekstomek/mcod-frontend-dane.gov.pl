@@ -27,23 +27,23 @@ import { SearchSuggestComponent } from '@app/shared/search-suggest/search-sugges
  * Home Component
  */
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    providers: [NotificationsService],
-    standalone: true,
-    imports: [
-        SearchSuggestComponent,
-        NgIf,
-        NotificationsServerComponent,
-        ServiceAlertComponent,
-        CmsBlock2Component,
-        CategoriesComponent,
-        StatsComponent,
-        InstitutionsComponent,
-        ApplicationsComponent,
-        NewsComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  providers: [NotificationsService],
+  standalone: true,
+  imports: [
+    SearchSuggestComponent,
+    NgIf,
+    NotificationsServerComponent,
+    ServiceAlertComponent,
+    CmsBlock2Component,
+    CategoriesComponent,
+    StatsComponent,
+    InstitutionsComponent,
+    ApplicationsComponent,
+    NewsComponent,
+    TranslatePipe,
+  ],
 })
 export class HomeComponent implements OnInit {
   /**
@@ -85,14 +85,15 @@ export class HomeComponent implements OnInit {
     this.seoService.setInitialMetaDescription();
 
     this.statsSubscription = this.api.getRequest(ApiConfig.stats).subscribe(
-      data => {
-        const { datasets_by_categories, datasets_by_institution, documents_by_type, resources_by_type } = data['meta']['aggs'];
+      (data) => {
+        const { datasets_by_categories, datasets_by_institution, documents_by_type, resources_by_type } =
+          data['meta']['aggs'];
 
         let stats = documents_by_type.reduce((object, item) => {
           object[item.id] = item;
           return object;
         }, {});
-        stats['api'] = resources_by_type.find((item: { [key: string]: string | number }) => item['key'] === 'api');
+        stats['api'] = resources_by_type.find((item: Record<string, string | number>) => item['key'] === 'api');
 
         if (Object.keys(stats).length < 3) {
           stats = null;
@@ -103,7 +104,7 @@ export class HomeComponent implements OnInit {
         this.stats = stats;
         this.apiError = false;
       },
-      error => (this.apiError = true),
+      (error) => (this.apiError = true),
     );
 
     this.getApplications();
@@ -119,7 +120,7 @@ export class HomeComponent implements OnInit {
       has_image_thumb: true,
     };
 
-    return this.applicationsService.getAll(params, { key: 'sort', value: '-modified' }).subscribe(response => {
+    return this.applicationsService.getAll(params, { key: 'sort', value: '-modified' }).subscribe((response) => {
       this.applications = response.results;
     });
   }
@@ -127,8 +128,8 @@ export class HomeComponent implements OnInit {
   private assignCmsSection() {
     this.cmsService.getHomePageWidgets().subscribe((response: IHome) => {
       const home = response;
-      this.cmsSectionOverLatestNewsCb.next(<IWidget[]>home.over_latest_news_cb);
-      this.cmsSectionOverSearchFieldCb.next(<IWidget[]>home.over_search_field_cb);
+      this.cmsSectionOverLatestNewsCb.next(home.over_latest_news_cb as IWidget[]);
+      this.cmsSectionOverSearchFieldCb.next(home.over_search_field_cb as IWidget[]);
     });
   }
 }

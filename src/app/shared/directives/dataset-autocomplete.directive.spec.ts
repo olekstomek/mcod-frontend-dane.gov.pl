@@ -26,7 +26,7 @@ describe('DatasetAutocompleteDirective', () => {
         DatasetAutocompleteDirective,
         SearchService,
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).createComponent(TestComponent);
 

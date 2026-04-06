@@ -8,15 +8,15 @@ import { ResourceFiltersComponent } from '@app/shared/resource-filters/resource-
 import { TooltipModule } from '@app/shared/tooltip/tooltip.module';
 
 @NgModule({
-    imports: [
-      CommonModule,
-      FormsModule,
-      ReactiveFormsModule,
-      DatepickerModule,
-      TooltipModule,
-      TranslateModule.forChild(),
-      ResourceFiltersComponent
-    ],
-    exports: [ResourceFiltersComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DatepickerModule,
+    TooltipModule,
+    TranslateModule.forChild(),
+    ResourceFiltersComponent,
+  ],
+  exports: [ResourceFiltersComponent],
 })
 export class ResourceFilterModule {}

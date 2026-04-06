@@ -4,7 +4,6 @@ import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '@app/app.testing.module';
 import { RESPONSE, ResponseService } from '@app/ssr/response.service';
 
-
 class MockResponse {
   status(code: number) {}
 }
@@ -17,7 +16,7 @@ describe('Response service', () => {
       providers: [
         importProvidersFrom(AppTestingModule),
         { provide: RESPONSE, useClass: MockResponse },
-        ResponseService
+        ResponseService,
       ],
     });
     service = TestBed.inject(ResponseService);

@@ -18,8 +18,8 @@ import {
  * Abstract Component for List View filters
  */
 @Component({
-    template: '',
-    standalone: true
+  template: '',
+  standalone: true,
 })
 export class ListViewFilterAbstractComponent {
   /**
@@ -90,7 +90,10 @@ export class ListViewFilterAbstractComponent {
         this.selectedData[name],
         selectedOption as IAggregationProperties,
       ) as any;
-      shouldEnable = this.manageFiltersService.checkIfMultiselectChanged(this.selectedData[name], this.originalSelectedData[name]);
+      shouldEnable = this.manageFiltersService.checkIfMultiselectChanged(
+        this.selectedData[name],
+        this.originalSelectedData[name],
+      );
     }
     this.availabilityFilterMap = { ...this.availabilityFilterMap, ...{ [name]: shouldEnable } };
   }

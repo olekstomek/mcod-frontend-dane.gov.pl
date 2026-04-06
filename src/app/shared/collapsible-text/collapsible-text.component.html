@@ -4,14 +4,13 @@
     <div
       id="text-{{ generatedId }}"
       aria-live="polite"
-      [innerHTML]="(isCollapsed ? (text | truncateText: maxTextLength) : text) | sanitizeHtml"
-    ></div>
+      [innerHTML]="isCollapsed ? (text | truncateText: maxTextLength) : text"></div>
 
     <!--keywords-->
     <p class="mt-4" *ngIf="tags && (text.length <= maxTextLength || !isCollapsed)">
       <strong>{{ 'Attribute.Tags' | translate }}</strong
       >:
-      <span [innerHtml]="tags | sanitizeHtml"></span>
+      <span [innerHtml]="tags"></span>
     </p>
 
     <!--collapse / expand button-->
@@ -21,8 +20,7 @@
       attr.aria-controls="{{ 'text-' + generatedId }}"
       [attr.aria-pressed]="!isCollapsed"
       class="btn btn-link pl-0"
-      type="button"
-    >
+      type="button">
       {{ (isCollapsed ? 'Action.ExpandDescription' : 'Action.CollapseDescription') | translate }}
     </button>
   </div>
@@ -37,17 +35,16 @@
         class="btn btn-link py-0"
         [attr.aria-controls]="isCollapsedNotes ? 'notes-container' : null"
         [attr.aria-pressed]="isCollapsedNotes"
-        (click)="isCollapsedNotes = !isCollapsedNotes"
-      >
+        (click)="isCollapsedNotes = !isCollapsedNotes">
         {{ (isCollapsedNotes ? 'Action.Collapse' : 'Action.Expand') | translate }}
       </button>
       <div *ngIf="isCollapsedNotes" @toggleVertically class="pt-3" id="notes-container">
-        <div [innerHTML]="text | sanitizeHtml"></div>
+        <div [innerHTML]="text"></div>
       </div>
     </ng-container>
 
     <ng-template #shortNotes>
-      <div [innerHTML]="text | sanitizeHtml"></div>
+      <div [innerHTML]="text"></div>
     </ng-template>
   </div>
 
@@ -55,6 +52,6 @@
   <p class="mt-4" *ngIf="tags && tags.length <= maxTextLength">
     <strong>{{ 'Attribute.Tags' | translate }}</strong
     >:
-    <span [innerHtml]="tags | sanitizeHtml">{{ tags }}</span>
+    <span [innerHtml]="tags">{{ tags }}</span>
   </p>
 </ng-template>

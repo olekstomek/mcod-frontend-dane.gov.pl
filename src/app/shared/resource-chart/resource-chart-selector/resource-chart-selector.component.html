@@ -6,15 +6,20 @@
       <button
         type="button"
         (click)="onChartClick(index)"
-        class="btn btn-sm {{ index === selectedChartIndex ? 'btn-primary' : 'btn-outline-primary' }} btn--multiline"
-      >
+        class="btn btn-sm {{ index === selectedChartIndex ? 'btn-primary' : 'btn-outline-primary' }} btn--multiline">
         <span>
           {{ chart.attributes.name || ('Chart.StatusDefault' | translate) }}
         </span>
       </button>
 
       <!-- remove chart (in edit mode) -->
-      <button type="button" class="btn btn-sm btn-outline-danger" (click)="onRemoveChart(chart.id)" *ngIf="isEditorPreview">X</button>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-danger"
+        (click)="onRemoveChart(chart.id)"
+        *ngIf="isEditorPreview">
+        X
+      </button>
     </ng-container>
 
     <!-- CREATED BY USER -->
@@ -23,8 +28,7 @@
       <button
         type="button"
         class="btn btn-sm {{ index === selectedChartIndex ? 'btn-primary' : 'btn-outline-primary' }} btn--multiline"
-        (click)="onChartClick(index)"
-      >
+        (click)="onChartClick(index)">
         {{ chart.attributes.name || ('Chart.StatusUserLoggedIn' | translate) }}
       </button>
 
@@ -43,7 +47,8 @@
   </ng-container>
 
   <!-- is User -->
-  <ng-container *ngIf="!isEditorPreview && !isUserChartDefined && isEditorChartDefined && !isChartCreationBlockedForUser">
+  <ng-container
+    *ngIf="!isEditorPreview && !isUserChartDefined && isEditorChartDefined && !isChartCreationBlockedForUser">
     <button type="button" class="btn btn-sm btn-primary mb-2" (click)="onAddNewChart()">
       {{ 'Action.Add' | translate }}
       {{ 'Chart.Self' | translate | lowercase }}

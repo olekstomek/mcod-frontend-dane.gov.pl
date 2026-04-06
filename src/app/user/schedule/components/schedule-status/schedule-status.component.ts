@@ -5,10 +5,10 @@ import { Component, Input } from '@angular/core';
  * Schedule Status Component
  */
 @Component({
-    selector: 'app-schedule-status',
-    templateUrl: './schedule-status.component.html',
-    standalone: true,
-    imports: [NgIf],
+  selector: 'app-schedule-status',
+  templateUrl: './schedule-status.component.html',
+  standalone: true,
+  imports: [NgIf],
 })
 export class ScheduleStatusComponent {
   /**

@@ -41,7 +41,10 @@
               >{{ 'MyDashboard.AodMenu' | translate }}
             </a>
           </li>
-          <li *hasPermission="PermissionPerRoles.BROWSE_NEW_DATA_PROPOSAL" class="vertical-menu__item" routerLinkActive="active">
+          <li
+            *hasPermission="PermissionPerRoles.BROWSE_NEW_DATA_PROPOSAL"
+            class="vertical-menu__item"
+            routerLinkActive="active">
             <a [routerLink]="['/', '!user', '!dashboard', '!data-proposal'] | localize">
               <svg class="icon icon-new-data-proposal" aria-hidden="true">
                 <use href="/assets/icomoon/sprite/sprite.svg#icon-new-data-proposal"></use></svg
@@ -57,7 +60,10 @@
           </li>
 
           <!-- schedule -->
-          <li class="vertical-menu__item" routerLinkActive="active" *hasPermission="PermissionPerRoles.SCHEDULE.HAS_ACCESS">
+          <li
+            class="vertical-menu__item"
+            routerLinkActive="active"
+            *hasPermission="PermissionPerRoles.SCHEDULE.HAS_ACCESS">
             <a [routerLink]="['/', '!user', '!dashboard', '!schedule'] | localize">
               <svg class="icon icon-meetings" aria-hidden="true">
                 <use href="/assets/icomoon/sprite/sprite.svg#icon-schedule"></use></svg
@@ -83,7 +89,10 @@
       <div class="collapsible-sidebar-view__main">
         <div class="mb-4">
           <!-- hide/show sidebar -->
-          <button type="button" class="btn btn-outline-primary btn-sm d-none d-xl-inline" (click)="sidebarVisible = !sidebarVisible">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm d-none d-xl-inline"
+            (click)="sidebarVisible = !sidebarVisible">
             <svg class="icon icon-magnifying-glass" *ngIf="sidebarVisible">
               <use href="/assets/icomoon/sprite/sprite.svg#icon-arrow-left2"></use>
             </svg>

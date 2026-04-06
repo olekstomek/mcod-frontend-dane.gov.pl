@@ -2,11 +2,12 @@
   <ng-template let-item>
     <app-default-result-item
       [item]="item"
-      [detailsUrl]="('/' | localize) + '/dataset/' + item.id + ',' + item.attributes.slug"
-    ></app-default-result-item>
+      [detailsUrl]="('/' | localize) + '/dataset/' + item.id + ',' + item.attributes.slug"></app-default-result-item>
   </ng-template>
 
   <ng-template let-item>
-    <app-details-result-item [detailsData]="item.detailsData" [titleTranslationKey]="item.titleTranslationKey"></app-details-result-item>
+    <app-details-result-item
+      [detailsData]="item.detailsData"
+      [titleTranslationKey]="item.titleTranslationKey"></app-details-result-item>
   </ng-template>
 </app-result-list>

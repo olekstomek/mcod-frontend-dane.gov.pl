@@ -1,7 +1,10 @@
 export class UserDashboardListViewFilterType {
-  constructor(public readonly value: string, public readonly description: string) {}
+  constructor(
+    public readonly value: string,
+    public readonly description: string,
+  ) {}
 
-  public static getTypes(): Array<UserDashboardListViewFilterType> {
+  public static getTypes(): UserDashboardListViewFilterType[] {
     return [];
   }
 

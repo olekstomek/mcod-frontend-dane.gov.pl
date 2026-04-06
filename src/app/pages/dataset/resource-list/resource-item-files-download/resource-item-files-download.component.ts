@@ -10,12 +10,7 @@ import { DownloadLinkComponent } from '@app/shared/download-link/download-link.c
   selector: 'app-resource-item-files-download',
   templateUrl: './resource-item-files-download.component.html',
   standalone: true,
-  imports: [
-    TranslatePipe,
-    NgIf,
-    NgForOf,
-    DownloadLinkComponent
-  ]
+  imports: [TranslatePipe, NgIf, NgForOf, DownloadLinkComponent],
 })
 export class ResourceItemFilesDownloadComponent implements OnInit {
   /**

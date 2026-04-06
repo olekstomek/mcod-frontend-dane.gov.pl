@@ -8,11 +8,11 @@ import { toggleVertically } from '@app/animations/toggle-vertically';
  * No Results Found Component
  */
 @Component({
-    selector: 'app-no-results-found',
-    templateUrl: './no-results-found.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [NgIf, TranslatePipe],
+  selector: 'app-no-results-found',
+  templateUrl: './no-results-found.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgIf, TranslatePipe],
 })
 export class NoResultsFoundComponent implements OnChanges {
   /**

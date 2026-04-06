@@ -48,9 +48,9 @@ import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
     ClickOutsideDirective,
     UpperCasePipe,
     BreadcrumbsComponent,
-    ActivityNotificationsComponent
+    ActivityNotificationsComponent,
   ],
-  standalone: true
+  standalone: true,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   /**
@@ -89,7 +89,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   singleCmsWidget: IWidget;
   isListOpen = false;
   highContrastMode: HighContrastModeEnum;
-  destroy$: Subject<boolean> = new Subject();
+  destroy$ = new Subject<boolean>();
 
   /**
    * @ignore
@@ -120,20 +120,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.previousLang = this.translate.currentLang;
     this.currentLang = this.translate.currentLang;
 
-    this.loginService.loggedIn.subscribe(isLoggedIn => {
+    this.loginService.loggedIn.subscribe((isLoggedIn) => {
       this.loggedIn = isLoggedIn;
     });
     this.highContrastService.init(this.renderer);
-    this.highContrastService.getCurrentContrastMode()
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe((mode) => this.highContrastMode = mode);
-
+    this.highContrastService
+      .getCurrentContrastMode()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((mode) => (this.highContrastMode = mode));
 
     // auto close menu in mobile mode
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => !this.isMenuCollapsed && (this.isMenuCollapsed = !this.isMenuCollapsed));
 
     this.assignCmsSection();

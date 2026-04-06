@@ -14,24 +14,24 @@ import { SuggestApplicationComponent } from '@app/pages/applications/suggest-app
 import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ApplicationsRoutingModule,
-        AppBootstrapModule,
-        TranslateModule.forChild({
-            parser: {
-                provide: TranslateParser,
-                useClass: TranslateICUParser,
-            },
-        }),
-        FormsModule,
-        SharedModule,
-        ReactiveFormsModule,
-        ApplicationComponent,
-        ApplicationItemComponent,
-        SuggestApplicationComponent,
-        ImageUploadComponent,
-        ApplicationsListViewFiltersComponent,
-    ],
+  imports: [
+    CommonModule,
+    ApplicationsRoutingModule,
+    AppBootstrapModule,
+    TranslateModule.forChild({
+      parser: {
+        provide: TranslateParser,
+        useClass: TranslateICUParser,
+      },
+    }),
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
+    ApplicationComponent,
+    ApplicationItemComponent,
+    SuggestApplicationComponent,
+    ImageUploadComponent,
+    ApplicationsListViewFiltersComponent,
+  ],
 })
 export class ApplicationsModule {}

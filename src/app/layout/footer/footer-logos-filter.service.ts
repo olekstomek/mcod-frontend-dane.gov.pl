@@ -7,19 +7,15 @@ import { IWidgetSvg } from '@app/services/models/cms/widgets/widget-svg';
 
 @Injectable()
 export class FooterLogosFilterService {
+  static readonly TAGS_TO_STRIP: string[] = Object.values(HighContrastModeEnum).map((e) => `[${e.toLowerCase()}]`);
 
-  static readonly TAGS_TO_STRIP: string[] = Object.values(HighContrastModeEnum).map(e => `[${e.toLowerCase()}]`);
-
-  constructor(private highContrastService: HighContrastService) {
-  }
+  constructor(private highContrastService: HighContrastService) {}
 
   static removeTags(elements: IWidgetSvg[]): IWidgetSvg[] {
-
-    return elements.map(element => {
-
+    return elements.map((element) => {
       let newTitle: string = element.value.title;
 
-      FooterLogosFilterService.TAGS_TO_STRIP.forEach(tagToStrip => {
+      FooterLogosFilterService.TAGS_TO_STRIP.forEach((tagToStrip) => {
         newTitle = newTitle.replace(tagToStrip, '').trim();
       });
       // Remap element to avoid changing source data
@@ -27,20 +23,18 @@ export class FooterLogosFilterService {
         ...element,
         value: {
           ...element.value,
-          title: newTitle
-        }
+          title: newTitle,
+        },
       };
     });
   }
 
   public filter(elements: IWidgetSvg[]): Observable<IWidgetSvg[]> {
-
     return this.highContrastService.getCurrentContrastMode().pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(contrastMode => {
-
-        const filteredElements = elements.filter(element => {
+      map((contrastMode) => {
+        const filteredElements = elements.filter((element) => {
           return element.value.title.includes(`[${contrastMode.toLowerCase()}]`);
         });
 
@@ -48,9 +42,9 @@ export class FooterLogosFilterService {
           return FooterLogosFilterService.removeTags(filteredElements);
         }
 
-        const defaultElements: IWidgetSvg[] = elements.filter(element => {
-          let hasHighContrastTag: boolean = false;
-          FooterLogosFilterService.TAGS_TO_STRIP.forEach(tagToStrip => {
+        const defaultElements: IWidgetSvg[] = elements.filter((element) => {
+          let hasHighContrastTag = false;
+          FooterLogosFilterService.TAGS_TO_STRIP.forEach((tagToStrip) => {
             if (element.value.title.toLowerCase().includes(tagToStrip.toLowerCase())) {
               hasHighContrastTag = true;
             }

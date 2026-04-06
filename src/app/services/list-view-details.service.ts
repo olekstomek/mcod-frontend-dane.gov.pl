@@ -22,7 +22,7 @@ export class ListViewDetailsService {
    * @return {ISearchResult[]}
    */
   extendViewDetails(items: ISearchResult[]): ISearchResult[] {
-    items.map(item => {
+    items.map((item) => {
       item.id = item.id.split('-').pop();
       switch (item.attributes.model) {
         case ApiModel.RESOURCE:
@@ -86,7 +86,9 @@ export class ListViewDetailsService {
   private extendShowcase(item: ISearchResult) {
     item.url = `../${this.routerEndpoints.SHOWCASE}/${item.id},${item.attributes.slug}`;
     item.titleTranslationKey = 'Menu.Showcases';
-    item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
+    item.detailsData = [
+      { titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true },
+    ];
   }
 
   /**
@@ -106,7 +108,9 @@ export class ListViewDetailsService {
   private extendNews(item: ISearchResult) {
     item.url = `../${this.routerEndpoints.ARTICLES}/${item.attributes.slug}`;
     item.titleTranslationKey = 'KnowledgeBase.News';
-    item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
+    item.detailsData = [
+      { titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true },
+    ];
   }
 
   /**
@@ -115,7 +119,9 @@ export class ListViewDetailsService {
    */
   private extendKnowledgeBase(item: ISearchResult) {
     item.titleTranslationKey = 'KnowledgeBase.Self';
-    item.detailsData = [{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true }];
+    item.detailsData = [
+      { titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes.created, isDate: true },
+    ];
     item.url = `../${this.routerEndpoints.KNOWLEDGE_BASE}/${this.routerEndpoints.USEFUL_MATERIALS}/${item.attributes.slug}/`;
   }
 

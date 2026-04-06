@@ -11,17 +11,10 @@ import { TimespanPipe } from '@app/shared/pipes/timespan.pipe';
  * <app-history-entry item="${item}"></app-history-entry/>
  */
 @Component({
-    selector: 'app-history-entry',
-    templateUrl: './history-entry.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        LowerCasePipe,
-        TranslatePipe,
-        TimespanPipe,
-        TranslateDateFormatPipe,
-    ],
+  selector: 'app-history-entry',
+  templateUrl: './history-entry.component.html',
+  standalone: true,
+  imports: [NgIf, AsyncPipe, LowerCasePipe, TranslatePipe, TimespanPipe, TranslateDateFormatPipe],
 })
 export class HistoryEntryComponent implements OnInit {
   /**

@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { NotificationsService } from './notifications.service';
 
 class TranslateServiceStub {
-  get = jest.fn().mockImplementation((key: string | Array<string>, interpolateParams?: Object) => of(''));
+  get = jest.fn().mockImplementation((key: string | string[], interpolateParams?: object) => of(''));
 }
 
 describe('NotificationsService', () => {
@@ -63,7 +63,7 @@ describe('NotificationsService', () => {
   });
 
   it('getAlerts - Observable should add value', async () => {
-    service.getAlerts().subscribe(value => {
+    service.getAlerts().subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

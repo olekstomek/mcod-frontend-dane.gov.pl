@@ -8,11 +8,11 @@ import { CmsService } from '@app/services/cms.service';
 /**
  * Breadcrumbs Resolver for /articles page
  */
-  /**
-   * Resolve data in routing data parameters
-   * @param {ActivatedRouteSnapshot} route
-   * @returns {any}
-   */
+/**
+ * Resolve data in routing data parameters
+ * @param {ActivatedRouteSnapshot} route
+ * @returns {any}
+ */
 
 export const breadcrumbsArticleResolver = (route: ActivatedRouteSnapshot): any => {
   const cmsService = inject(CmsService);

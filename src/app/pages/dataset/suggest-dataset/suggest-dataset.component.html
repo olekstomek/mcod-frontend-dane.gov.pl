@@ -29,8 +29,9 @@
         <!-- title -->
         <div
           class="form-group"
-          [ngClass]="{ 'form-group-invalid': datasetForm.controls.title.invalid && datasetForm.controls.title.touched }"
-        >
+          [ngClass]="{
+            'form-group-invalid': datasetForm.controls.title.invalid && datasetForm.controls.title.touched,
+          }">
           <label for="title">
             {{ 'DatasetForm.Title' | translate }}
             <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
@@ -46,16 +47,14 @@
               datasetForm.controls.title.invalid && datasetForm.controls.title.touched ? 'title_required_error' : null
             "
             [attr.aria-invalid]="datasetForm.controls.title.invalid && datasetForm.controls.title.touched"
-            (keydown.enter)="$event.preventDefault()"
-          />
+            (keydown.enter)="$event.preventDefault()" />
 
           <!-- title - required error -->
           <small
             class="form-text text-err"
             id="title_required_error"
             *ngIf="datasetForm.controls.title.invalid && datasetForm.controls.title.touched"
-            @toggleVertically
-          >
+            @toggleVertically>
             {{ 'Validation.VarRequired' | translate: { param: 'DatasetForm.Title' | translate } }}
           </small>
         </div>
@@ -63,8 +62,9 @@
         <!-- notes -->
         <div
           class="form-group"
-          [ngClass]="{ 'form-group-invalid': datasetForm.controls.notes.invalid && datasetForm.controls.notes.touched }"
-        >
+          [ngClass]="{
+            'form-group-invalid': datasetForm.controls.notes.invalid && datasetForm.controls.notes.touched,
+          }">
           <label for="notes">
             {{ 'DatasetForm.Notes' | translate }}
             <small>
@@ -82,10 +82,11 @@
             placeholder="{{ 'Action.Enter' | translate }} {{ 'DatasetForm.Notes' | translate | lowercase }}"
             formControlName="notes"
             [attr.aria-describedby]="
-              datasetForm.controls.notes.invalid && datasetForm.controls.notes.touched ? 'notes_required_error notes_maxlength_error' : null
+              datasetForm.controls.notes.invalid && datasetForm.controls.notes.touched
+                ? 'notes_required_error notes_maxlength_error'
+                : null
             "
-            [attr.aria-invalid]="datasetForm.controls.notes.invalid && datasetForm.controls.notes.touched"
-          >
+            [attr.aria-invalid]="datasetForm.controls.notes.invalid && datasetForm.controls.notes.touched">
           </textarea>
 
           <!-- notes validation error -->
@@ -96,8 +97,7 @@
               role="alert"
               id="notes_required_error"
               *ngIf="datasetForm.get('notes').errors['required']"
-              @toggleVertically
-            >
+              @toggleVertically>
               {{ 'Validation.VarRequired' | translate: { param: 'DatasetForm.Notes' | translate } }}
             </small>
 
@@ -107,11 +107,11 @@
               role="alert"
               id="notes_maxlength_error"
               *ngIf="datasetForm.get('notes').errors['maxlength']"
-              @toggleVertically
-            >
+              @toggleVertically>
               {{
                 'Validation.VarMaxFieldLengthExceeded'
-                  | translate: { param: datasetForm.get('notes').errors['maxlength']['actualLength'] - maxDescriptionLength }
+                  | translate
+                    : { param: datasetForm.get('notes').errors['maxlength']['actualLength'] - maxDescriptionLength }
               }}
             </small>
           </ng-container>
@@ -121,9 +121,9 @@
         <div
           class="form-group"
           [ngClass]="{
-            'form-group-invalid': datasetForm.controls.organization_name.invalid && datasetForm.controls.organization_name.touched
-          }"
-        >
+            'form-group-invalid':
+              datasetForm.controls.organization_name.invalid && datasetForm.controls.organization_name.touched,
+          }">
           <label for="organization_name">
             {{ 'DatasetForm.OrganizationName' | translate }}
           </label>
@@ -134,16 +134,18 @@
             id="organization_name"
             placeholder="{{ 'Action.Enter' | translate }} {{ 'DatasetForm.OrganizationNamePlaceholder' | translate }}"
             formControlName="organization_name"
-            [attr.aria-invalid]="datasetForm.controls.organization_name.invalid && datasetForm.controls.organization_name.touched"
-            (keydown.enter)="$event.preventDefault()"
-          />
+            [attr.aria-invalid]="
+              datasetForm.controls.organization_name.invalid && datasetForm.controls.organization_name.touched
+            "
+            (keydown.enter)="$event.preventDefault()" />
         </div>
 
         <!-- data_link -->
         <div
           class="form-group"
-          [ngClass]="{ 'form-group-invalid': datasetForm.controls.data_link.invalid && datasetForm.controls.data_link.touched }"
-        >
+          [ngClass]="{
+            'form-group-invalid': datasetForm.controls.data_link.invalid && datasetForm.controls.data_link.touched,
+          }">
           <label for="data_link">
             {{ 'DatasetForm.DataLink' | translate }}
           </label>
@@ -155,11 +157,12 @@
             placeholder="{{ 'Action.Enter' | translate }} {{ 'DatasetForm.DataLinkPlaceholder' | translate }}"
             formControlName="data_link"
             [attr.aria-describedby]="
-              datasetForm.controls.data_link.invalid && datasetForm.controls.data_link.touched ? 'data_link_invalid_error' : null
+              datasetForm.controls.data_link.invalid && datasetForm.controls.data_link.touched
+                ? 'data_link_invalid_error'
+                : null
             "
             [attr.aria-invalid]="datasetForm.controls.data_link.invalid && datasetForm.controls.data_link.touched"
-            (keydown.enter)="$event.preventDefault()"
-          />
+            (keydown.enter)="$event.preventDefault()" />
 
           <!-- data_link errors -->
           <ng-container *ngIf="datasetForm.controls.data_link.invalid && datasetForm.controls.data_link.touched">
@@ -169,9 +172,8 @@
               role="alert"
               id="data_link_invalid_error"
               *ngIf="datasetForm.get('data_link').errors['pattern']"
-              @toggleVertically
-            >
-            {{ 'Validation.InvalidUrl' | translate }}
+              @toggleVertically>
+              {{ 'Validation.InvalidUrl' | translate }}
             </small>
           </ng-container>
         </div>
@@ -181,9 +183,9 @@
           class="form-group"
           [ngClass]="{
             'form-group-invalid':
-              datasetForm.controls.potential_possibilities.invalid && datasetForm.controls.potential_possibilities.touched
-          }"
-        >
+              datasetForm.controls.potential_possibilities.invalid &&
+              datasetForm.controls.potential_possibilities.touched,
+          }">
           <label for="potential_possibilities">
             {{ 'DatasetForm.PotentialPossibilities' | translate }}
           </label>
@@ -192,13 +194,15 @@
             type="text"
             class="form-control"
             id="potential_possibilities"
-            placeholder="{{ 'Action.Enter' | translate }} {{ 'DatasetForm.PotentialPossibilitiesPlaceholder' | translate }}"
+            placeholder="{{ 'Action.Enter' | translate }} {{
+              'DatasetForm.PotentialPossibilitiesPlaceholder' | translate
+            }}"
             formControlName="potential_possibilities"
             [attr.aria-invalid]="
-              datasetForm.controls.potential_possibilities.invalid && datasetForm.controls.potential_possibilities.touched
+              datasetForm.controls.potential_possibilities.invalid &&
+              datasetForm.controls.potential_possibilities.touched
             "
-            (keydown.enter)="$event.preventDefault()"
-          />
+            (keydown.enter)="$event.preventDefault()" />
         </div>
 
         <!-- captcha -->
@@ -211,8 +215,7 @@
             type="button"
             class="btn btn-secondary"
             aria-describedby="backend_notifications title_required_error notes_required_error notes_maxlength_error data_link_invalid_error"
-            *ngIf="!datasetForm.valid"
-          >
+            *ngIf="!datasetForm.valid">
             {{ 'Action.Send' | translate }}
           </button>
 

@@ -18,8 +18,7 @@
         [formControl]="control"
         [attr.aria-describedby]="'captcha_required_error captcha_number_error'"
         [attr.aria-invalid]="control.invalid"
-        (keydown.enter)="$event.preventDefault()"
-      />
+        (keydown.enter)="$event.preventDefault()" />
     </span>
   </label>
 
@@ -32,8 +31,7 @@
       aria-live="polite"
       id="captcha_required_error"
       *ngIf="control.errors['required'] && (!control.dirty || (control.dirty && !control.value))"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Validation.VarRequired' | translate: { param: 'Captcha.Label' | translate } }}
     </small>
 
@@ -44,8 +42,7 @@
       aria-live="polite"
       id="captcha_number_error"
       *ngIf="control.errors['invalidNumber'] && control.dirty && control.value"
-      @toggleVertically
-    >
+      @toggleVertically>
       {{ 'Validation.InvalidNumber' | translate }}
     </small>
   </ng-container>

@@ -2,8 +2,7 @@
   <h2
     class="heading heading--md heading--separator heading--centered"
     appInfoTooltip="{{ 'Tour.Tooltip.HomePage.Institution.text' | translate }}"
-    tooltipTitle="{{ 'Tour.Tooltip.HomePage.Institution.title' | translate }}"
-  >
+    tooltipTitle="{{ 'Tour.Tooltip.HomePage.Institution.title' | translate }}">
     {{ 'Home.Organizations.Title' | translate }}
   </h2>
 
@@ -13,8 +12,7 @@
       <li class="category-list__item col-12 col-sm-6 col-md-6 col-xl-3" *ngFor="let item of items">
         <a class="category-list__item-wrapper" [routerLink]="['/!institution' | localize, item?.id + ',' + item.slug]">
           <div class="category-list__item-content">
-            <span class="category-list__item-heading heading heading--sm" [innerHtml]="item?.title | sanitizeHtml">
-            </span>
+            <span class="category-list__item-heading heading heading--sm" [innerHtml]="item?.title"> </span>
             <span class="category-list__item-info m-0"> {{ 'Datasets.Count' | translate }}: {{ item?.count }} </span>
           </div>
         </a>

@@ -56,10 +56,7 @@ describe('VideoComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), VideoComponent],
-      providers: [
-        CmsService,
-        importProvidersFrom(AppTestingModule)
-      ],
+      providers: [CmsService, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);

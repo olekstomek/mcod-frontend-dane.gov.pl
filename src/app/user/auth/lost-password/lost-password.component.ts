@@ -1,7 +1,8 @@
 import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { toggleVertically } from '@app/animations';
@@ -14,21 +15,15 @@ import { NotificationsServerComponent } from '@app/shared/notifications-server/n
  * Lost Password Component
  */
 @Component({
-    selector: 'app-lost-password',
-    templateUrl: './lost-password.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        FormsModule,
-        NgIf,
-        NotificationsServerComponent,
-        NgClass,
-        UpperCasePipe,
-        LowerCasePipe,
-        TranslatePipe,
-    ],
+  selector: 'app-lost-password',
+  templateUrl: './lost-password.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [FormsModule, NgIf, NotificationsServerComponent, NgClass, UpperCasePipe, LowerCasePipe, TranslatePipe],
 })
 export class LostPasswordComponent implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
   /**
    * Forgotten password subscription of lost password component
    */
@@ -47,13 +42,21 @@ export class LostPasswordComponent implements OnInit, OnDestroy {
   /**
    * @ignore
    */
-  constructor(private notificationsService: NotificationsService, private userService: UserService, private seoService: SeoService) {}
+  constructor(
+    private notificationsService: NotificationsService,
+    private userService: UserService,
+    private seoService: SeoService,
+  ) {}
 
   /**
    * Sets META tags (title).
    */
   ngOnInit() {
     this.seoService.setPageTitleByTranslationKey(['User.NewPasswordCreation']);
+    const currentState = this.router.lastSuccessfulNavigation?.extras.state;
+    if (currentState?.showErrorMessage) {
+      this.notificationsService.addError(this.translate.instant('User.ActivationEmailExpired'));
+    }
   }
 
   /**

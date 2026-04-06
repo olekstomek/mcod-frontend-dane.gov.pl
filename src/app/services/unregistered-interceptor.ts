@@ -44,8 +44,8 @@ export class UnregisteredInterceptor implements HttpInterceptor {
     this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [], {
       queryParams: {
         redirect: redirect,
-        logingovpl: logingovpl
-      }
+        logingovpl: logingovpl,
+      },
     });
 
     return throwError(err);

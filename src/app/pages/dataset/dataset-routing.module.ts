@@ -21,7 +21,7 @@ import { Role } from '@app/shared/user-permissions/Role';
 
 const routes: Routes = [
   { path: '', component: DatasetComponent },
-  { path: '!sparql', loadChildren: () => import('./sparql/sparql.module').then(m => m.SparqlModule) },
+  { path: '!sparql', loadChildren: () => import('./sparql/sparql.module').then((m) => m.SparqlModule) },
   { path: '!submissions', component: SuggestDatasetComponent },
   { path: '!submissions/!accepted', component: SubmissionListComponent },
   {

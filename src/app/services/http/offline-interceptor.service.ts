@@ -49,6 +49,8 @@ export class OfflineInterceptorService implements HttpInterceptor {
       return;
     }
     this.notificationsService.clearAlerts();
-    this.notificationsService.addError('Nie udało się pobrać danych z serwera, upewnij się że masz połączenie z internetem.');
+    this.notificationsService.addError(
+      'Nie udało się pobrać danych z serwera, upewnij się że masz połączenie z internetem.',
+    );
   }
 }

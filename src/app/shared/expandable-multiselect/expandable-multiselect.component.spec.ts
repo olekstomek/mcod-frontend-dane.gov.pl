@@ -14,15 +14,8 @@ describe('ExpandableMultiselectComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        NoopAnimationsModule,
-        SharedModule,
-        ExpandableMultiselectComponent
-      ],
-      providers: [
-        importProvidersFrom(AppTestingModule)
-      ]
+      imports: [TranslateModule.forRoot(), NoopAnimationsModule, SharedModule, ExpandableMultiselectComponent],
+      providers: [importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExpandableMultiselectComponent);

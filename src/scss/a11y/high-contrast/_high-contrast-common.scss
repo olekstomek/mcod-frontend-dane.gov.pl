@@ -1,4 +1,3 @@
-
 /* COMMON
 *********************/
 main,
@@ -14,9 +13,9 @@ header,
 footer,
 form,
 option,
-.external-logos{
-    color: currentColor;
-    background: $hcSecondary;
+.external-logos {
+  color: currentColor;
+  background: $hcSecondary;
 }
 
 h1,
@@ -27,7 +26,7 @@ h5,
 h6,
 p,
 a:not(.btn-primary) {
-    color: currentColor;
+  color: currentColor;
 }
 
 // a:not(.btn) {
@@ -38,152 +37,137 @@ a:not(.btn-primary) {
 svg.icon:not(.non-hc) svg *,
 svg.icon:not(.non-hc) *,
 svg.brand-img * {
-    fill: $hcPrimary;
+  fill: $hcPrimary;
 }
 
 .tab-list__link--active.black-white svg.icon:not(.non-hc) svg * {
-  fill: $hcSecondary
+  fill: $hcSecondary;
 }
 .tab-list__link--active svg.icon:not(.non-hc) * {
-  fill: $hcSecondary
+  fill: $hcSecondary;
 }
 .tab-list__link--active svg.brand-img * {
-  fill: $hcSecondary
+  fill: $hcSecondary;
 }
 
-input[type=checkbox] {
+input[type='checkbox'] {
   accent-color: $hcPrimary;
 }
 
-input[type=radio] {
+input[type='radio'] {
   accent-color: $hcSecondary;
 }
 
 :focus {
-    outline: 2px dotted $hcPrimary;
-    outline-offset: initial;
+  outline: 2px dotted $hcPrimary;
+  outline-offset: initial;
 }
 
 .border-custom,
 .icon-rounded-wrapper {
-    border-color: $hcPrimary;
+  border-color: $hcPrimary;
 }
 
 .text-primary {
   color: $hcPrimary !important;
 }
 
+@import 'bootstrap-overwrite/bootstrap-utilities-text';
 
-@import "bootstrap-overwrite/bootstrap-utilities-text";
+@import 'bootstrap-overwrite/form';
 
-@import "bootstrap-overwrite/form";
+@import 'bootstrap-overwrite/btn';
 
+@import 'components/dropdown';
 
-@import "bootstrap-overwrite/btn";
+@import 'base/typography';
 
+@import 'layout/top-bar';
 
-@import "components/dropdown";
+@import 'layout/header';
 
+@import 'layout/footer';
 
-@import "base/typography";
+@import 'components/category-list';
 
+@import 'components/search-and-filters';
 
-@import "layout/top-bar";
+@import 'components/breadcrumbs';
 
+@import 'components/pager';
 
-@import "layout/header";
+@import 'pages/home';
 
+@import 'views/list-view';
 
-@import "layout/footer";
+@import 'views/resource-list';
 
+@import 'views/resource-chart-table';
 
-@import "components/category-list";
+@import 'components/datagrid';
 
+@import 'components/datepicker';
 
-@import "components/search-and-filters";
+@import 'components/language-switcher';
 
+@import 'components/tabpanel';
 
-@import "components/breadcrumbs";
+@import 'components/tour';
 
+@import 'components/tour-button';
 
-@import "components/pager";
+@import 'views/tabs';
 
+@import 'views/collapsible-sidebar-view';
 
-@import "pages/home";
+@import 'pages/auth';
 
+@import 'pages/map';
 
-@import "views/list-view";
+@import 'pages/search';
 
+@import 'pages/stats';
 
-@import "views/resource-list";
+@import 'bootstrap-overwrite/modal';
 
-@import "views/resource-chart-table";
+@import 'bootstrap-overwrite/badge';
 
-@import "components/datagrid";
+@import 'components/notifications';
 
-@import "components/datepicker";
+@import 'components/cta-widget';
 
-@import "components/language-switcher";
+@import 'views/custom-form';
 
-@import "components/tabpanel";
+@import 'bootstrap-overwrite/carousel';
 
-@import "components/tour";
+@import 'components/text-widget';
 
-@import "components/tour-button";
+@import 'components/search-suggest';
 
+@import 'views/common';
 
-@import "views/tabs";
+@import 'components/survey';
 
-@import "views/collapsible-sidebar-view";
+@import 'components/tooltip';
 
-@import "pages/auth";
+@import 'components/link';
 
-@import "pages/map";
+@import 'components/sparql';
 
-@import "pages/search";
+@import 'components/subscribe-button-light';
 
-@import "pages/stats";
+@import 'views/aod';
 
-@import "bootstrap-overwrite/modal";
+@import 'views/schedule';
 
-@import "bootstrap-overwrite/badge";
-
-@import "components/notifications";
-
-@import "components/cta-widget";
-
-@import "views/custom-form";
-
-@import "bootstrap-overwrite/carousel";
-
-@import "components/text-widget";
-
-@import "components/search-suggest";
-
-@import "views/common";
-
-@import "components/survey";
-
-@import "components/tooltip";
-
-@import "components/link";
-
-@import "components/sparql";
-
-@import "components/subscribe-button-light";
-
-@import "views/aod";
-
-@import "views/schedule";
-
-@import "views/dashboard-filtered-list";
+@import 'views/dashboard-filtered-list';
 
 // cms
 
-@import "views/cms-tiles";
+@import 'views/cms-tiles';
 
-@import "views/dga-tiles";
+@import 'views/dga-tiles';
 
-@import "views/footer";
+@import 'views/footer';
 
-@import "views/header";
+@import 'views/header';

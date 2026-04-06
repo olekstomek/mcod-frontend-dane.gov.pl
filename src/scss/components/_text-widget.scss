@@ -1,53 +1,53 @@
 .cms-text {
-    &-black {
-        color: $color-black;
+  &-black {
+    color: $color-black;
+  }
+  &-white {
+    color: $color-white;
+  }
+  &-grey {
+    color: $color-heading;
+  }
+  &-grey-light {
+    color: $color-text;
+  }
+  &-blue {
+    color: $color-blue-dark;
+  }
+  &-red {
+    color: #ff0018;
+  }
+  &-yellow {
+    color: $color-special-alert;
+  }
+  &-green {
+    color: #28a745;
+  }
+
+  &-size {
+    &-16 {
+      font-size: 1rem;
     }
-    &-white {
-        color: $color-white;
+    &-18 {
+      font-size: 1.125rem;
     }
-    &-grey {
-        color: $color-heading;
+    &-20 {
+      font-size: 1.25rem;
     }
-    &-grey-light {
-        color: $color-text;
+    &-22 {
+      font-size: 1.375rem;
     }
-    &-blue {
-        color: $color-blue-dark;
+    &-24 {
+      font-size: 1.5rem;
     }
-    &-red {
-        color: #ff0018;
+    &-26 {
+      font-size: 1.625rem;
     }
-    &-yellow {
-        color: $color-special-alert;
+    &-28 {
+      font-size: 1.75rem;
     }
-    &-green {
-        color: #28a745;
+    &-30 {
+      font-size: 1.875rem;
     }
-    
-    &-size {
-        &-16 {
-            font-size: 1rem;
-        }
-        &-18 {
-            font-size: 1.125rem;
-        }
-        &-20 {
-            font-size: 1.25rem;
-        }
-        &-22 {
-            font-size: 1.375rem;
-        }
-        &-24 {
-            font-size: 1.5rem;
-        }
-        &-26 {
-            font-size: 1.625rem;
-        }
-        &-28 {
-            font-size: 1.75rem;
-        }
-        &-30 {
-            font-size: 1.875rem;
-        }
-    }
+  }
 }

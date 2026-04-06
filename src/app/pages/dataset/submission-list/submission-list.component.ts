@@ -13,7 +13,6 @@ import { NewDataContactComponent } from '@app/shared/new-data-contact/new-data-c
 import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { ResultListComponent } from '@app/shared/result-list/result-list.component';
 
@@ -29,13 +28,12 @@ import { ResultListComponent } from '@app/shared/result-list/result-list.compone
     NoResultsFoundComponent,
     ResultListComponent,
     RouterLink,
-    SanitizeHtmlPipe,
     TranslateDateFormatPipe,
     AsyncPipe,
     ItemsPerPageComponent,
     PaginationComponent,
-    NewDataContactComponent
-  ]
+    NewDataContactComponent,
+  ],
 })
 export class SubmissionListComponent implements OnInit {
   /**
@@ -103,7 +101,7 @@ export class SubmissionListComponent implements OnInit {
   private handleActivatedRouteParams() {
     this.activatedRoute.queryParamMap
       .pipe(
-        switchMap(qParamMap => {
+        switchMap((qParamMap) => {
           this.params = {
             page: +qParamMap.get('page') || this.basicParams['page'],
             per_page: +qParamMap.get('per_page') || this.basicParams['per_page'],
@@ -113,7 +111,7 @@ export class SubmissionListComponent implements OnInit {
           return this.datasetService.getSubmissions(this.params);
         }),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         this.items = response.results;
         this.count = response.count;
       });

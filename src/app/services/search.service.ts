@@ -34,7 +34,17 @@ export class SearchService extends RestService {
     @Inject(DOCUMENT) public document: any,
     @Inject(PLATFORM_ID) public platformId: string,
   ) {
-    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+    super(
+      http,
+      translate,
+      router,
+      notificationService,
+      storageService,
+      cookieService,
+      loginService,
+      document,
+      platformId,
+    );
   }
 
   /**
@@ -57,7 +67,7 @@ export class SearchService extends RestService {
     const httpParams = new HttpParams({ fromObject: params, encoder: new SearchHttpParamEncoder() });
 
     return this.get(url, httpParams).pipe(
-      map(response => {
+      map((response) => {
         return new ApiResponse(response);
       }),
       publishReplay(1),
@@ -72,10 +82,14 @@ export class SearchService extends RestService {
    * @param {{ key: string, value: any }[]} customParams
    * @returns {Observable<IListViewFilterAggregationsOptions>}
    */
-  getFilters(url: string, facets: string[], customParams?: { key: string; value: any }[]): Observable<IListViewFilterAggregationsOptions> {
+  getFilters(
+    url: string,
+    facets: string[],
+    customParams?: { key: string; value: any }[],
+  ): Observable<IListViewFilterAggregationsOptions> {
     let httpParams = new HttpParams();
     if (customParams) {
-      customParams.forEach(param => {
+      customParams.forEach((param) => {
         httpParams = httpParams.append(param.key, param.value);
       });
     }
@@ -83,7 +97,7 @@ export class SearchService extends RestService {
     httpParams = httpParams.append(ApiParametersConfig.FACET_WITH_TERMS, facets.join(','));
 
     return this.get(url, httpParams).pipe(
-      map(response => {
+      map((response) => {
         const filters = response['meta']['aggregations'];
         return this.filterService.prepareFilters(filters);
       }),

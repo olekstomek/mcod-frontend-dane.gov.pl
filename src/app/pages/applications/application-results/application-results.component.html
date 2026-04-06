@@ -5,10 +5,11 @@
 
   <ng-template let-item>
     <app-details-result-item
-      [detailsData]="[{ titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes?.created, isDate: true }]"
+      [detailsData]="[
+        { titleTranslationKey: 'Attribute.AvailabilityDate', data: item.attributes?.created, isDate: true },
+      ]"
       [isShowcaseView]="true"
       [showcaseCategoryName]="item.attributes?.showcase_category_name"
-      [showcaseCategoryKey]="item.attributes?.showcase_category"
-    ></app-details-result-item>
+      [showcaseCategoryKey]="item.attributes?.showcase_category"></app-details-result-item>
   </ng-template>
 </app-result-list>

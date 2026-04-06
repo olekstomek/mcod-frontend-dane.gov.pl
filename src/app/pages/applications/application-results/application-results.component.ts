@@ -5,14 +5,14 @@ import { ResultListComponent } from '@app/shared/result-list/result-list.compone
 import { DetailsResultItemComponent } from '@app/shared/result-list/right-column/details-result-item/details-result-item.component';
 
 @Component({
-    selector: 'app-application-results',
-    templateUrl: './application-results.component.html',
-    standalone: true,
-    imports: [ResultListComponent, ResultItemImageComponent, DetailsResultItemComponent]
+  selector: 'app-application-results',
+  templateUrl: './application-results.component.html',
+  standalone: true,
+  imports: [ResultListComponent, ResultItemImageComponent, DetailsResultItemComponent],
 })
 export class ApplicationResultsComponent {
-    /**
-     * List of application items to display
-     */
-    @Input() items: any;
+  /**
+   * List of application items to display
+   */
+  @Input() items: any;
 }

@@ -1,32 +1,30 @@
 mark {
-    background-color: $hcPrimary;
-    color: $hcSecondary;
+  background-color: $hcPrimary;
+  color: $hcSecondary;
 }
 
 .triangle {
+  &--up {
+    border-bottom-color: $hcPrimary;
+  }
 
-    &--up {
-        border-bottom-color: $hcPrimary;
-    }
-
-    &--down {
-        border-top-color: $hcPrimary;
-    }
+  &--down {
+    border-top-color: $hcPrimary;
+  }
 }
 
 .disabled {
-    color: currentColor;
+  color: currentColor;
 }
-
 
 .bg-custom,
 .bg-custom-light {
-    background-color: $hcSecondary;
+  background-color: $hcSecondary;
 }
 
 // temp
 .forum {
-    &__type {
-        display: none;
-    }
+  &__type {
+    display: none;
+  }
 }

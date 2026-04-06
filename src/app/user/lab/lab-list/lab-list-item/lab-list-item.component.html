@@ -12,7 +12,10 @@
         <span class="font-weight-bold d-block"> {{ 'Lod.Description' | translate }}: </span>
 
         <!-- keywords -->
-        <collapsible-text *ngIf="listItem.attributes.notes" [tags]="listItem.attributes.keywords" [text]="listItem.attributes.notes">
+        <collapsible-text
+          *ngIf="listItem.attributes.notes"
+          [tags]="listItem.attributes.keywords"
+          [text]="listItem.attributes.notes">
         </collapsible-text>
       </div>
     </div>
@@ -24,7 +27,12 @@
             {{ 'Lod.ExecutionDate' | translate }}
           </span>
           <span class="d-block font-weight-bold">
-            <svg attr.aria-labelledby="{{ 'icon-clock-title-' + listItem.id }}" class="icon" role="img" width="19" height="19">
+            <svg
+              attr.aria-labelledby="{{ 'icon-clock-title-' + listItem.id }}"
+              class="icon"
+              role="img"
+              width="19"
+              height="19">
               <title id="{{ 'icon-clock-title-' + listItem.id }}">
                 {{ 'MyDashboard.Clock' | translate }}
               </title>
@@ -36,7 +44,8 @@
 
         <!-- reports -->
         <li [class]="isFirst ? 'pt-4' : 'pt-2'" *ngFor="let report of listItem.attributes.reports; let isFirst = first">
-          <app-lab-list-report-button [report]="report" [showFilesCount]="isMoreThenOneFileReport"> </app-lab-list-report-button>
+          <app-lab-list-report-button [report]="report" [showFilesCount]="isMoreThenOneFileReport">
+          </app-lab-list-report-button>
         </li>
       </ul>
     </div>

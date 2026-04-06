@@ -8,20 +8,16 @@ import { provideNgxLocalstorage } from 'ngx-localstorage';
 
 import { FooterLogosFilterService } from '@app/layout/footer/footer-logos-filter.service';
 
-
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   providers: [
     BsModalService,
     FooterLogosFilterService,
     provideHttpClient(),
     provideHttpClientTesting(),
     provideRouter([]),
-    provideNgxLocalstorage({prefix: 'mcod'})
-  ]
+    provideNgxLocalstorage({ prefix: 'mcod' }),
+  ],
 })
-export class AppTestingModule { }
+export class AppTestingModule {}

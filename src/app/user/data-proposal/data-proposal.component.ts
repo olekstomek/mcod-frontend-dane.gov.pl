@@ -11,17 +11,15 @@ import { API_URL } from '@app/user/list-view/API_URL';
  * Data Proposal Component
  */
 @Component({
-    selector: 'app-data-proposal',
-    templateUrl: './data-proposal.component.html',
-    providers: [
-        { provide: API_URL, useValue: ApiConfig.dataProposal }
-    ],
-    standalone: true,
-    imports: [RouterLinkActive, RouterLink, PermissionDirective, RouterOutlet, TranslatePipe]
+  selector: 'app-data-proposal',
+  templateUrl: './data-proposal.component.html',
+  providers: [{ provide: API_URL, useValue: ApiConfig.dataProposal }],
+  standalone: true,
+  imports: [RouterLinkActive, RouterLink, PermissionDirective, RouterOutlet, TranslatePipe],
 })
 export class DataProposalComponent {
-    /**
-     * @ignore
-     */
-    PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
+  /**
+   * @ignore
+   */
+  PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
 }

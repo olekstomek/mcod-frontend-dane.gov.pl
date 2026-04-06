@@ -11,15 +11,10 @@ import unique from 'unique-selector';
 import { TooltipDirective } from '../../tooltip/tooltip.directive';
 
 @Component({
-    selector: 'app-tour-picker',
-    templateUrl: 'tour-picker.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        FormsModule,
-        TooltipDirective,
-        FaIconComponent,
-    ],
+  selector: 'app-tour-picker',
+  templateUrl: 'tour-picker.component.html',
+  standalone: true,
+  imports: [NgIf, FormsModule, TooltipDirective, FaIconComponent],
 })
 /**
  * Tour picker component
@@ -64,7 +59,7 @@ export class TourPickerComponent implements OnDestroy {
    * Determines if picker is in finder mode
    * @type {boolean}
    */
-  isInFinderMode: boolean = false;
+  isInFinderMode = false;
   /**
    * Determines if picker is visible
    * @type {boolean}
@@ -158,7 +153,7 @@ export class TourPickerComponent implements OnDestroy {
   private showPickerOnNavigationEndWhenEnabled(): void {
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
@@ -198,7 +193,7 @@ export class TourPickerComponent implements OnDestroy {
    * Listens to context menu click
    */
   private listenToContextMenuClick(): void {
-    this.contextMenuListener = this.renderer.listen(this.document.body, 'contextmenu', e => {
+    this.contextMenuListener = this.renderer.listen(this.document.body, 'contextmenu', (e) => {
       return false;
     });
   }
@@ -207,7 +202,7 @@ export class TourPickerComponent implements OnDestroy {
    * Listens to mouse click event
    */
   private listenToMouseClickEvent(): void {
-    this.mouseClickListener = this.renderer.listen(this.document.body, 'mousedown', e => {
+    this.mouseClickListener = this.renderer.listen(this.document.body, 'mousedown', (e) => {
       if (e.button !== 2) {
         return;
       }
@@ -226,7 +221,7 @@ export class TourPickerComponent implements OnDestroy {
    * Listens to mouse out event
    */
   private listenToMouseOutEvent(): void {
-    this.mouseOutListener = this.renderer.listen(document.body, 'mouseout', e => {
+    this.mouseOutListener = this.renderer.listen(document.body, 'mouseout', (e) => {
       const { target } = e;
       if (this.isHoverInsidePicker(target)) {
         return;
@@ -239,7 +234,7 @@ export class TourPickerComponent implements OnDestroy {
    * Listens to mouse out event
    */
   private listenToMouseOverEvent(): void {
-    this.mouseOverListener = this.renderer.listen(document.body, 'mouseover', e => {
+    this.mouseOverListener = this.renderer.listen(document.body, 'mouseover', (e) => {
       const { target } = e;
       if (this.isHoverInsidePicker(target)) {
         return;

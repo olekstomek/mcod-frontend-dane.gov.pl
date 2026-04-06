@@ -7,10 +7,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: '[app-footer-nav-link-external]',
   templateUrl: './footer-nav-link-external.component.html',
-  imports: [
-    TranslatePipe
-  ],
-  standalone: true
+  imports: [TranslatePipe],
+  standalone: true,
 })
 export class FooterNavLinkExternalComponent {
   /**

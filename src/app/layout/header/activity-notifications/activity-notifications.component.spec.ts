@@ -40,10 +40,7 @@ describe('ActivityNotificationsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), ActivityNotificationsComponent],
-      providers: [
-        { provide: ObserveService, useValue: observeServiceStub },
-        importProvidersFrom(AppTestingModule)
-      ],
+      providers: [{ provide: ObserveService, useValue: observeServiceStub }, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ActivityNotificationsComponent);

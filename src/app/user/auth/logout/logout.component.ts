@@ -6,16 +6,20 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { UserService } from '@app/services/user.service';
 
 @Component({
-    selector: 'app-logout',
-    templateUrl: './logout.component.html',
-    standalone: true,
-    imports: [TranslatePipe],
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
+  standalone: true,
+  imports: [TranslatePipe],
 })
 export class LogoutComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private userService: UserService, private localizeRouterService: LocalizeRouterService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private localizeRouterService: LocalizeRouterService,
+    private router: Router,
+  ) {}
 
   /**
    * Logs out user and redirects to login page

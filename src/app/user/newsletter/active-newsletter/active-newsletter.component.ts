@@ -12,48 +12,44 @@ import { LinkButtonComponent } from '@app/shared/buttons/link-button/link-button
 @Component({
   selector: 'app-verify-newsletter',
   templateUrl: './active-newsletter.component.html',
-  imports: [
-    TranslatePipe,
-    LinkButtonComponent,
-    LocalizeRouterPipe
-  ],
-  standalone: true
+  imports: [TranslatePipe, LinkButtonComponent, LocalizeRouterPipe],
+  standalone: true,
 })
 export class ActiveNewsletterComponent implements OnInit, OnDestroy {
+  subscription: Subscription;
+  successMessage: string;
+  errorMessage: string;
+  DOT = '.';
 
-    subscription: Subscription;
-    successMessage: string;
-    errorMessage: string;
-    DOT = '.';
+  constructor(
+    private route: ActivatedRoute,
+    private newsletterService: NewsletterService,
+    @Inject(PLATFORM_ID) private platformId: string,
+  ) {}
 
-    constructor(private route: ActivatedRoute,
-                private newsletterService: NewsletterService,
-                @Inject(PLATFORM_ID) private platformId: string) {
+  ngOnInit() {
+    const token = this.route.snapshot.paramMap.get('token');
+    if (!token) {
+      return;
     }
-
-    ngOnInit() {
-        const token = this.route.snapshot.paramMap.get('token');
-        if (!token) {
-            return;
-        }
-        if (isPlatformBrowser(this.platformId)) {
-
-            this.subscription = this.newsletterService.confirmNewsletterSubscription(token)
-                .subscribe((response) => {
-                    this.successMessage = response.data.attributes.newsletter_subscription_info;
-                }, (customError: HttpCustomErrorResponse) => {
-                    this.errorMessage = this.newsletterService.getNewsletterError(customError);
-                });
-        }
+    if (isPlatformBrowser(this.platformId)) {
+      this.subscription = this.newsletterService.confirmNewsletterSubscription(token).subscribe(
+        (response) => {
+          this.successMessage = response.data.attributes.newsletter_subscription_info;
+        },
+        (customError: HttpCustomErrorResponse) => {
+          this.errorMessage = this.newsletterService.getNewsletterError(customError);
+        },
+      );
     }
+  }
 
-    /**
-     * Unsubscribes from existing subscriptions
-     */
-    ngOnDestroy() {
-        if (isPlatformBrowser(this.platformId)) {
-          this.subscription.unsubscribe();
-        }
+  /**
+   * Unsubscribes from existing subscriptions
+   */
+  ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.subscription.unsubscribe();
     }
-
+  }
 }

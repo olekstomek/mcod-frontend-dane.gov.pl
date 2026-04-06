@@ -42,13 +42,13 @@ describe('ScheduleNotificationsService', () => {
       type: 'type',
     };
 
-    service.sendNotification(notification).subscribe(value => {
+    service.sendNotification(notification).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('should removeById function return value', () => {
-    service.removeById(1).subscribe(value => {
+    service.removeById(1).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

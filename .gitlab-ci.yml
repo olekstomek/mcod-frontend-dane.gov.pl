@@ -56,7 +56,6 @@ build-images:
       --target dependencies 
       --tag ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
       .
-    - docker push ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
   tags:
     - docker
 # endregion
@@ -66,7 +65,7 @@ test: &test-job
   image: ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
   stage: test
   before_script:
-    - cp -r /usr/src/mcod/node_modules ./node_modules # PWD in gitlab it not the same as WORKDIR
+    - cp -r /usr/src/mcod/node_modules ./node_modules # PWD in gitlab is not the same as WORKDIR
   script:
     - npm run test
   tags:
@@ -81,9 +80,9 @@ test: &test-job
     # do not run on merge requests during release: develop -> master or develop -> pre-develop
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == 'develop'
       when: never
-    # do not run on schedule
-    - if: $CI_PIPELINE_SOURCE == 'schedule'
-      when: never
+    # run on push to other branches if there's no MR yet
+    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_OPEN_MERGE_REQUESTS == null
+      when: on_success
     # run on merge requests
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: on_success
@@ -193,10 +192,12 @@ release-prod:
 # region publish code
 publish-code:
   <<: *release-job
+  variables:
+    CODE_DIR: /gluster/mcod/code
   script:
-    - cd /gluster/mcod/code
-    - git archive --output frontend_$PACKAGE_VERSION.zip -9 HEAD
-    - ln -sf frontend_$PACKAGE_VERSION.zip frontend_latest.zip
+    - git archive --output ${CODE_DIR}/frontend_${PACKAGE_VERSION}.zip -9 HEAD
+    - cd ${CODE_DIR}
+    - ln -sf frontend_${PACKAGE_VERSION}.zip frontend_latest.zip
   rules:
     # run on master, but ask for confirmation
     - if: $CI_COMMIT_BRANCH == 'master'

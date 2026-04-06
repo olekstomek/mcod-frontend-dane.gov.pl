@@ -8,10 +8,7 @@ import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directiv
   selector: 'app-dataset-resource-map',
   templateUrl: './dataset-resource-map.component.html',
   standalone: true,
-  imports: [
-    MapComponent,
-    AppShellNoRenderDirective
-  ]
+  imports: [MapComponent, AppShellNoRenderDirective],
 })
 export class DatasetResourceMapComponent implements OnInit {
   /**

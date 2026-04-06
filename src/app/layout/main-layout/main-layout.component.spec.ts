@@ -18,20 +18,15 @@ describe('MainLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        SharedModule,
-        MainLayoutComponent
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), SharedModule, MainLayoutComponent],
       providers: [
-        provideNgxLocalstorage({prefix: 'mcod'}),
+        provideNgxLocalstorage({ prefix: 'mcod' }),
         importProvidersFrom(AppTestingModule),
         UserService,
         NotificationsService,
         LanguageBootstrapService,
-        TourDataService
-      ]
+        TourDataService,
+      ],
     });
     fixture = TestBed.createComponent(MainLayoutComponent);
     component = fixture.componentInstance;

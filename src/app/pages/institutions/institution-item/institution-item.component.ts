@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { unescape } from 'underscore';
 import { InstitutionItemListViewFiltersComponent } from '../institution-item-list-view-filters/institution-item-list-view-filters.component';
 import { InstitutionItemResultsComponent } from '../institution-item-results/institution-item-results.component';
 import { InstitutionItemSelectedFiltersComponent } from '../institution-item-selected-filters/institution-item-selected-filters.component';
@@ -18,7 +19,11 @@ import { InstitutionsService } from '@app/services/institutions.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { ListViewSelectedFilterService } from '@app/services/list-view-selected-filter.service';
-import { AggregationFilterNames, AggregationOptionType, IListViewFilterAggregationsOptions } from '@app/services/models/filters';
+import {
+  AggregationFilterNames,
+  AggregationOptionType,
+  IListViewFilterAggregationsOptions,
+} from '@app/services/models/filters';
 import { IInstitution } from '@app/services/models/institution';
 import {
   IListViewInstitutionItemCategoryFiltersModel,
@@ -35,7 +40,6 @@ import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page
 import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
 import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.component';
@@ -44,10 +48,10 @@ import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.co
  * Institution Item Component
  */
 @Component({
-    selector: 'app-institution-item',
-    templateUrl: './institution-item.component.html',
-    animations: [toggle, toggleVertically],
-    standalone: true,
+  selector: 'app-institution-item',
+  templateUrl: './institution-item.component.html',
+  animations: [toggle, toggleVertically],
+  standalone: true,
   imports: [
     NgIf,
     CdkCopyToClipboard,
@@ -67,7 +71,6 @@ import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.co
     AsyncPipe,
     TranslatePipe,
     TranslateDateFormatPipe,
-    SanitizeHtmlPipe,
   ],
 })
 export class InstitutionItemComponent extends ListViewFilterPageAbstractComponent implements OnInit, OnDestroy {
@@ -103,7 +106,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
   clipboardClicked = false;
 
   highContrastMode: HighContrastModeEnum;
-  destroy$: Subject<boolean> = new Subject();
+  destroy$ = new Subject<boolean>();
 
   /**
    * @ignore
@@ -118,7 +121,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     protected selectedFiltersService: ListViewSelectedFilterService,
     private listViewDetailsService: ListViewDetailsService,
     private searchService: SearchService,
-    private highContrastService: HighContrastService
+    private highContrastService: HighContrastService,
   ) {
     super(filterService, activatedRoute, selectedFiltersService);
     this.Facets = [
@@ -134,7 +137,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       AggregationOptionType.DYNAMIC_DATA,
       AggregationOptionType.UPDATE_FREQUENCY,
       AggregationOptionType.RESEARCH_DATA,
-      AggregationOptionType.PROTECTED_DATA
+      AggregationOptionType.PROTECTED_DATA,
     ];
   }
 
@@ -147,13 +150,12 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
   ngOnInit() {
     this.institution = this.activatedRoute.snapshot.data['post'];
     this.institution.count = this.institution.relationships ? this.institution.relationships.datasets.meta.count : 0;
-    this.seoService.setPageTitle(this.institution.attributes.title);
+    this.seoService.setPageTitle(unescape(this.institution.attributes.title));
     this.seoService.setDescriptionFromText(this.institution.attributes.description);
-    this.highContrastService.getCurrentContrastMode()
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(mode => this.highContrastMode = mode);
+    this.highContrastService
+      .getCurrentContrastMode()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((mode) => (this.highContrastMode = mode));
 
     const newModel = this.getFiltersModel();
     this.selectedFilters = { ...newModel };
@@ -200,12 +202,14 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
    * Gets list of related datasets
    */
   protected getData() {
-    this.searchService.getData(TemplateHelper.parseUrl(ApiConfig.search, { id: this.institution.id }), this.params).subscribe(data => {
-      this.counters = data.aggregations.counters;
-      this.items = this.listViewDetailsService.extendViewDetails(data.results);
-      this.count = data.count;
-      this.selfApi = data.links.self;
-    });
+    this.searchService
+      .getData(TemplateHelper.parseUrl(ApiConfig.search, { id: this.institution.id }), this.params)
+      .subscribe((data) => {
+        this.counters = data.aggregations.counters;
+        this.items = this.listViewDetailsService.extendViewDetails(data.results);
+        this.count = data.count;
+        this.selfApi = data.links.self;
+      });
   }
 
   /**
@@ -228,7 +232,7 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       [AggregationFilterNames.DATE_FROM]: null,
       [AggregationFilterNames.DATE_TO]: null,
       [AggregationFilterNames.RESEARCH_DATA]: {},
-      [AggregationFilterNames.PROTECTED_DATA]: {}
+      [AggregationFilterNames.PROTECTED_DATA]: {},
     };
   }
 
@@ -250,7 +254,10 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.DYNAMIC_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.PROTECTED_DATA]) +
-      (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
+      (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] ||
+      this.backupSelectedFilters[AggregationFilterNames.DATE_TO]
+        ? 1
+        : 0)
     );
   }
 
@@ -258,12 +265,11 @@ export class InstitutionItemComponent extends ListViewFilterPageAbstractComponen
     this.clipboardClicked = true;
     setTimeout(() => {
       this.clipboardClicked = false;
-      }, 4000);
+    }, 4000);
   }
 
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
-
 }

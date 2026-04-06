@@ -8,7 +8,8 @@
 
       <!-- RIGHT -->
       <div *ngIf="rightTemplate" class="result-item__right col-lg-4 col-xl-3 col-xxl-2 px-3">
-        <ng-template [ngTemplateOutlet]="rightTemplate" [ngTemplateOutletContext]="{ $implicit: item, index: index }"> </ng-template>
+        <ng-template [ngTemplateOutlet]="rightTemplate" [ngTemplateOutletContext]="{ $implicit: item, index: index }">
+        </ng-template>
       </div>
     </div>
   </div>

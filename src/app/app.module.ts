@@ -19,9 +19,7 @@ import { APP_CONFIG } from '@app/app.config';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { CmsFormComponent } from '@app/shared/cms/cms-forms/cms-form/cms-form.component';
 import { CmsStaticPageComponent } from '@app/shared/cms/cms-static-page/cms-static-page.component';
-import {
-  FoundResultsCountersAndSortComponent
-} from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
 import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
 import { LoaderComponent } from '@app/shared/loader/loader.component';
 import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
@@ -62,7 +60,7 @@ Sentry.init({
     FooterNavLinkInternalComponent,
     FooterNavLinkExternalComponent,
     DeclarationComponent,
-    CmsFormComponent
+    CmsFormComponent,
   ],
   // bootstrap: [AppComponent], imports: [
   //   // Add .withServerTransition() to support Universal rendering.
@@ -100,7 +98,11 @@ Sentry.init({
   // ],
 })
 export class AppModule {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, @Inject(APP_ID) private appId: string, trace: Sentry.TraceService) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    @Inject(APP_ID) private appId: string,
+    trace: Sentry.TraceService,
+  ) {
     const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
     //console.log(`Running ${platform} with appId=${appId}`);
   }
@@ -110,7 +112,7 @@ export function HttpLoaderFactory(http: HttpClient, transferState: TransferState
   return new TranslateBrowserLoaderService(http, transferState);
 }
 
-export function matomoConfigFactory(platformId: Object) {
+export function matomoConfigFactory(platformId: object) {
   let matomoSiteId: string;
   if (isPlatformBrowser(platformId)) {
     switch (document.location.hostname) {

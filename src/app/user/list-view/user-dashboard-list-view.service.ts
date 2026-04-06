@@ -32,7 +32,17 @@ export class UserDashboardListViewService extends RestService {
     @Inject(PLATFORM_ID) platformId: string,
     @Optional() @Inject(API_URL) private readonly apiURL: string,
   ) {
-    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+    super(
+      http,
+      translate,
+      router,
+      notificationService,
+      storageService,
+      cookieService,
+      loginService,
+      document,
+      platformId,
+    );
   }
 
   /**
@@ -44,7 +54,7 @@ export class UserDashboardListViewService extends RestService {
     const httpParams = new HttpParams({ fromObject: params });
 
     return this.get(this.apiURL, httpParams).pipe(
-      map(response => {
+      map((response) => {
         return new ApiResponse(response);
       }),
     );
@@ -57,7 +67,7 @@ export class UserDashboardListViewService extends RestService {
    */
   getOne(id: string) {
     return this.get(this.apiURL + '/' + id).pipe(
-      map(response => response['data']),
+      map((response) => response['data']),
       publishReplay(1),
       refCount(),
     );

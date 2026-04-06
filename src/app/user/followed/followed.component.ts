@@ -10,40 +10,31 @@ import { UserService } from '@app/services/user.service';
  * Followed Component
  */
 @Component({
-    selector: 'app-followed',
-    templateUrl: './followed.component.html',
-    standalone: true,
-    imports: [
-        RouterLinkActive,
-        RouterLink,
-        RouterOutlet,
-        TranslatePipe,
-    ],
+  selector: 'app-followed',
+  templateUrl: './followed.component.html',
+  standalone: true,
+  imports: [RouterLinkActive, RouterLink, RouterOutlet, TranslatePipe],
 })
-
 export class FollowedComponent implements OnInit {
+  userId: number;
 
-    userId: number;
+  permitEmailNotifications: boolean;
 
-    permitEmailNotifications: boolean;
+  /**
+   * @ignore
+   */
+  constructor(
+    private userService: UserService,
+    private userStateService: UserStateService,
+  ) {}
 
-    /**
-     * @ignore
-     */
-    constructor(
-        private userService: UserService,
-        private userStateService: UserStateService
-    ) { }
-
-    /**
-    * Get userId and set permitEmailNotifications flag
-    */
-    ngOnInit(): void {
-        this.userStateService.getCurrentUser().subscribe(
-            (user: User) => {
-                this.permitEmailNotifications = user.attributes.subscriptions_report_opt_in;
-                this.userId = user.id;
-            }
-        );
-    }
+  /**
+   * Get userId and set permitEmailNotifications flag
+   */
+  ngOnInit(): void {
+    this.userStateService.getCurrentUser().subscribe((user: User) => {
+      this.permitEmailNotifications = user.attributes.subscriptions_report_opt_in;
+      this.userId = user.id;
+    });
+  }
 }

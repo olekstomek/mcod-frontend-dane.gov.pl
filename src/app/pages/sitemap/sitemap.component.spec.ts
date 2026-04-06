@@ -22,16 +22,11 @@ describe('SitemapComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        SharedModule,
-        SitemapComponent
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), SharedModule, SitemapComponent],
       providers: [
         { provide: SeoService, useClass: SeoServiceStub },
-        { provide: BsModalService, useClass: BsModalServiceStub},
-        importProvidersFrom(AppTestingModule)
+        { provide: BsModalService, useClass: BsModalServiceStub },
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
 

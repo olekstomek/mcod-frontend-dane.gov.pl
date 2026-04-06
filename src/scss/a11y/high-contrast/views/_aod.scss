@@ -1,28 +1,28 @@
 .aod {
-    &-course {
-        &--planned, 
-        &--current,
-        &--finished {
-            border: 0;
+  &-course {
+    &--planned,
+    &--current,
+    &--finished {
+      border: 0;
 
-            .aod-course__state {
-                background: $hcPrimary;
-                color: $hcSecondary;
-            }
-        }
+      .aod-course__state {
+        background: $hcPrimary;
+        color: $hcSecondary;
+      }
     }
+  }
 
-    &-point {
-        &::before {
-            background: $hcSecondary;
-        }
+  &-point {
+    &::before {
+      background: $hcSecondary;
     }
+  }
 
-    &-circle {
-        color: $hcPrimary;
-    
-        &::before {
-            border: 0;
-        }
+  &-circle {
+    color: $hcPrimary;
+
+    &::before {
+      border: 0;
     }
+  }
 }

@@ -13,11 +13,7 @@ describe('DateRangePickerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), DateRangePickerComponent],
-      providers: [
-        importProvidersFrom(AppTestingModule),
-        DateAdapter,
-        provideNativeDateAdapter()
-      ]
+      providers: [importProvidersFrom(AppTestingModule), DateAdapter, provideNativeDateAdapter()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DateRangePickerComponent);

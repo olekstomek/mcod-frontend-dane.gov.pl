@@ -16,9 +16,5 @@ export const breadcrumbsResourceResolver = (route: ActivatedRouteSnapshot) => {
    * @param {ActivatedRouteSnapshot} route
    * @returns {any}
    */
-  return datasetService
-    .getResourceById(route.paramMap.get('resourceId'))
-    .pipe(
-      catchError(() => of())
-    );
+  return datasetService.getResourceById(route.paramMap.get('resourceId')).pipe(catchError(() => of()));
 };

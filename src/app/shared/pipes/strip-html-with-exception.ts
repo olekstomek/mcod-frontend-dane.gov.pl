@@ -7,8 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  * {{ item.description | stripHtmlTagsExceptHighlight:'em' }}
  */
 @Pipe({
-    name: 'stripHtmlTagsExceptHighlight',
-    standalone: true,
+  name: 'stripHtmlTagsExceptHighlight',
+  standalone: true,
 })
 export class StripHtmlWithExceptionPipe implements PipeTransform {
   /**
@@ -17,7 +17,7 @@ export class StripHtmlWithExceptionPipe implements PipeTransform {
    * @param exception
    * @returns {string}
    */
-  transform(value: string, exception: string = 'mark'): string {
+  transform(value: string, exception = 'mark'): string {
     const re = new RegExp(`<\/*?(?![^>]*?\\b(?:${exception})\\b)[^>]*?>`, 'ig');
     return value.replace(re, '');
   }

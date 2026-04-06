@@ -30,7 +30,7 @@
       </h3>
 
       <!-- notes -->
-      <div [innerHTML]="item.attributes.notes | sanitizeHtml"></div>
+      <div [innerHTML]="item.attributes.notes"></div>
     </ng-template>
 
     <!-- RIGHT -->
@@ -48,7 +48,8 @@
   <footer class="results-footer pt-5" *ngIf="items?.length">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <!-- results per page -->
-      <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+      <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+      </app-items-per-page>
 
       <!-- pagination -->
       <app-pagination
@@ -56,8 +57,7 @@
         [totalItems]="count"
         [(page)]="params.page"
         (numPages)="numPages = $event"
-        (pageChange)="updateParams({ page: $event })"
-      >
+        (pageChange)="updateParams({ page: $event })">
       </app-pagination>
     </div>
 
@@ -66,8 +66,7 @@
       class="w-100"
       [titleTranslationKey]="'LookingForDifferentData'"
       [routerLink]="'../'"
-      [buttonTranslationKey]="'WriteUs.Self'"
-    >
+      [buttonTranslationKey]="'WriteUs.Self'">
     </app-new-data-contact>
   </footer>
 </div>

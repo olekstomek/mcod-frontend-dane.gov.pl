@@ -12,9 +12,7 @@ import { ISearchCounters, ISearchResponse } from '@app/services/models/search';
 import { NotificationsService } from '@app/services/notifications.service';
 import { SearchService } from '@app/services/search.service';
 import { SeoService } from '@app/services/seo.service';
-import {
-  FoundResultsCountersAndSortComponent
-} from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
 import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
 import { LoaderComponent } from '@app/shared/loader/loader.component';
 import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
@@ -36,9 +34,9 @@ import { SearchSuggestComponent } from '@app/shared/search-suggest/search-sugges
     SearchResultsViewComponent,
     NoResultsFoundComponent,
     ItemsPerPageComponent,
-    PaginationComponent
+    PaginationComponent,
   ],
-  standalone: true
+  standalone: true,
 })
 export class SearchResultsComponent implements OnInit {
   /**
@@ -100,7 +98,7 @@ export class SearchResultsComponent implements OnInit {
 
     this.basicParams = { ...this.basicParams, ...this.activatedRoute.snapshot.queryParams };
 
-    this.searchService.search(this.basicParams).subscribe(resp => this.setCounterAndResults(resp));
+    this.searchService.search(this.basicParams).subscribe((resp) => this.setCounterAndResults(resp));
 
     this.activatedRoute.queryParamMap
       .pipe(
@@ -116,7 +114,7 @@ export class SearchResultsComponent implements OnInit {
       )
       .subscribe(
         (resp: ISearchResponse) => this.setCounterAndResults(resp),
-        error => {
+        (error) => {
           if (error.message) {
             this.notificationsService.addError(error.message);
           }
@@ -133,7 +131,7 @@ export class SearchResultsComponent implements OnInit {
     this.totalCount = resp.meta.count;
     this.results = this.listViewDetailsService
       .extendViewDetails(resp.data)
-      .filter(data => data.attributes.model !== 'application' && data.attributes.model !== 'article');
+      .filter((data) => data.attributes.model !== 'application' && data.attributes.model !== 'article');
   }
 
   /**

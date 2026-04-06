@@ -15,7 +15,6 @@ import { NotificationsService } from '@app/services/notifications.service';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { NotificationsComponent } from '@app/shared/notifications/notifications.component';
 import { PaginationComponent } from '@app/shared/pagination/pagination.component';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 const translations = {
   Sparql: {
@@ -61,7 +60,6 @@ describe('Sparql Component', () => {
         NotificationsComponent,
         NotificationsServerComponent,
         PaginationComponent,
-        SanitizeHtmlPipe,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: FakeLoader },
         }),
@@ -72,7 +70,7 @@ describe('Sparql Component', () => {
         { provide: FeatureFlagService, useClass: MockkFeatureFlagService },
         SparqlService,
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
 
@@ -166,7 +164,9 @@ describe('Sparql Component', () => {
     const fixture = TestBed.createComponent(SparqlComponent);
     fixture.detectChanges();
     setTimeout(() => {
-      fixture.componentInstance.updateEditorContent('SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}');
+      fixture.componentInstance.updateEditorContent(
+        'SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}',
+      );
     });
     fixture.detectChanges();
     jest.spyOn(sparqlService, 'search').mockImplementation(() => {
@@ -182,7 +182,9 @@ describe('Sparql Component', () => {
     const fixture = TestBed.createComponent(SparqlComponent);
     fixture.detectChanges();
     setTimeout(() => {
-      fixture.componentInstance.updateEditorContent('SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}');
+      fixture.componentInstance.updateEditorContent(
+        'SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}',
+      );
     });
     fixture.detectChanges();
     jest.spyOn(sparqlService, 'search').mockImplementation(() => {
@@ -210,7 +212,9 @@ describe('Sparql Component', () => {
     const fixture = TestBed.createComponent(SparqlComponent);
     fixture.detectChanges();
     setTimeout(() => {
-      fixture.componentInstance.updateEditorContent('SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}');
+      fixture.componentInstance.updateEditorContent(
+        'SELECT (count(?s) AS ?count)\n' + 'WHERE\n' + '{\n' + '   ?s a dcat:Dataset\n' + '}',
+      );
     });
     fixture.detectChanges();
     jest.spyOn(sparqlService, 'search').mockImplementation(() => {

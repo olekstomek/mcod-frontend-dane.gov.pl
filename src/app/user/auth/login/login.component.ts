@@ -23,23 +23,23 @@ import { NotificationsServerComponent } from '@app/shared/notifications-server/n
  * Login Component
  */
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        LogingovplNotificationComponent,
-        NgIf,
-        NgClass,
-        RouterLink,
-        FormsModule,
-        NotificationsServerComponent,
-        NotificationsFrontComponent,
-        UpperCasePipe,
-        LowerCasePipe,
-        LocalizeRouterPipe,
-        TranslatePipe,
-    ],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    LogingovplNotificationComponent,
+    NgIf,
+    NgClass,
+    RouterLink,
+    FormsModule,
+    NotificationsServerComponent,
+    NotificationsFrontComponent,
+    UpperCasePipe,
+    LowerCasePipe,
+    LocalizeRouterPipe,
+    TranslatePipe,
+  ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   /**
@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private localizeRouterService: LocalizeRouterService,
     public featureFlagsService: FeatureFlagService,
     private highContrastService: HighContrastService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   /**
@@ -88,9 +88,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.seoService.setPageTitleByTranslationKey(['Action.Login']);
     this.redirectUrl = this.activeRoute.snapshot.queryParamMap.get('redirect');
     this.userService.getCsrfToken().subscribe();
-    this.highContrastService.getCurrentContrastMode()
+    this.highContrastService
+      .getCurrentContrastMode()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(mode => this.highContrastMode = mode);
+      .subscribe((mode) => (this.highContrastMode = mode));
   }
 
   /**

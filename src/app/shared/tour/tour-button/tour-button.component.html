@@ -2,8 +2,7 @@
   class="tour-button-wrapper"
   placement="left"
   appTooltip="{{ isButtonVisible && isButtonActive ? ('Tour.Button.TooltipText' | translate) : '' }}"
-  title="{{ 'Tour.Button.TooltipTitle' | translate }}"
->
+  title="{{ 'Tour.Button.TooltipTitle' | translate }}">
   <button *ngIf="isButtonVisible" (click)="showTour()" [disabled]="!isButtonActive" class="btn tour-button">
     <svg class="icon icon-tour-button" role="img">
       <title>{{ 'Tour.Button.NewIconLabel' | translate }}</title>
@@ -13,6 +12,8 @@
 </div>
 
 <ng-template #tooltipTemplate>
-  <app-tooltip-with-title text="{{ 'Tour.Button.TooltipText' | translate }}" title="{{ 'Tour.Button.TooltipTitle' | translate }}">
+  <app-tooltip-with-title
+    text="{{ 'Tour.Button.TooltipText' | translate }}"
+    title="{{ 'Tour.Button.TooltipTitle' | translate }}">
   </app-tooltip-with-title>
 </ng-template>

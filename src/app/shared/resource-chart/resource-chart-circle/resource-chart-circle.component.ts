@@ -42,11 +42,10 @@ export class ResourceChartCircleComponent implements OnChanges {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-
       tooltip: {
         position: 'nearest', // auto position tooltip
         callbacks: {
-          title: (context): string | void | string[]  => {
+          title: (context): string | void | string[] => {
             let title = context[0]['label'];
             const datasetIndex = context[0].dataIndex;
             const fullDataLabels = this.chartFullLabels[datasetIndex];
@@ -59,7 +58,7 @@ export class ResourceChartCircleComponent implements OnChanges {
             }
             return title;
           },
-          label: (context): string | void | string[]  => {
+          label: (context): string | void | string[] => {
             const datasetIndex = context.dataIndex;
             return context.dataset.data[datasetIndex].toLocaleString();
           },
@@ -74,8 +73,7 @@ export class ResourceChartCircleComponent implements OnChanges {
   /**
    * @ignore
    */
-  constructor(private changeDetection: ChangeDetectorRef) {
-  }
+  constructor(private changeDetection: ChangeDetectorRef) {}
 
   /**
    * Updates labels and data
@@ -92,17 +90,16 @@ export class ResourceChartCircleComponent implements OnChanges {
         datasets: [
           {
             data: tempDatasets[0]['data'],
-            backgroundColor: this.chartColors?.length ? this.chartColors.map(c => c.backgroundColor) : [],
-          }
-        ]
-      }
+            backgroundColor: this.chartColors?.length ? this.chartColors.map((c) => c.backgroundColor) : [],
+          },
+        ],
+      },
     ];
 
     if (changes['chartType']) {
       this.chartType = 'radar'; // correct, but not used - forces change detection to run
       this.changeDetection.detectChanges();
       this.chartType = changes['chartType'].currentValue;
-
     }
   }
 
@@ -116,7 +113,7 @@ export class ResourceChartCircleComponent implements OnChanges {
       colorList[chartDataLength - 1] = transparentColors[transparentColors.length - 1];
     }
 
-    this.chartColors = colorList.map(c => {
+    this.chartColors = colorList.map((c) => {
       return {
         backgroundColor: c,
         borderColor: '#fff',

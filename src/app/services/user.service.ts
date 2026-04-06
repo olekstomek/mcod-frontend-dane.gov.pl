@@ -110,15 +110,15 @@ export class UserService extends RestService {
    * @param {boolean} remember
    * @returns {Observable<User>}
    */
-  public login(email: string, password: string, remember: boolean = true): Observable<User> {
+  public login(email: string, password: string, remember = true): Observable<User> {
     this.headers = new HttpHeaders();
     const requestData = this.prepareAuthParameters({ email, password });
 
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.post(ApiConfig.userLogin, requestData)
-        .pipe(map(response => response.data))
+        .pipe(map((response) => response.data))
         .subscribe(
-          data => {
+          (data) => {
             this.loginService.next(true);
             this.userId = data.id;
             this.setToken(data.attributes.token, remember);
@@ -126,7 +126,7 @@ export class UserService extends RestService {
             observer.next(data as User);
             observer.complete();
           },
-          error => observer.error(error),
+          (error) => observer.error(error),
         );
     });
   }
@@ -136,11 +136,20 @@ export class UserService extends RestService {
    * @returns {Observable<any>}
    * @param model
    */
-  public changePassword(model: { old_password: string; new_password1: string; new_password2: string }): Observable<any> {
+  public changePassword(model: {
+    old_password: string;
+    new_password1: string;
+    new_password2: string;
+  }): Observable<any> {
     this.setupHeaders(this.token, true);
     const requestData = this.prepareAuthParameters({ ...model });
 
     return this.post(ApiConfig.userChangePass, requestData);
+  }
+
+  public verifyToken(token: string): Observable<any> {
+    const url = ApiConfig.userVerifyToken + `/${token}`;
+    return this.get(url);
   }
 
   /**
@@ -164,10 +173,10 @@ export class UserService extends RestService {
     let httpParams = new HttpParams();
     httpParams = httpParams.append('include', 'institution,agent_institution');
 
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.get(ApiConfig.userProfile, httpParams)
         .pipe(
-          map(response => {
+          map((response) => {
             const user = {
               id: response.data.id,
               attributes: response.data.attributes,
@@ -178,10 +187,10 @@ export class UserService extends RestService {
               let institutionsArr = [];
 
               const { institutions, agent_institutions } = response.data.relationships;
-              if (!!agent_institutions) {
+              if (agent_institutions) {
                 agentInstitutions = agent_institutions.data;
               }
-              if (!!institutions) {
+              if (institutions) {
                 institutionsArr = institutions.data;
               }
 
@@ -194,13 +203,13 @@ export class UserService extends RestService {
           }),
         )
         .subscribe(
-          data => {
+          (data) => {
             this.userId = data.id;
             this.loginService.next(true);
             observer.next(data);
             observer.complete();
           },
-          error => {
+          (error) => {
             this.loginService.next(false);
             observer.error(error);
           },
@@ -227,15 +236,14 @@ export class UserService extends RestService {
   }
 
   public getWKData(token: string): Observable<any> {
-    return this.http.get(ApiConfig.logingovpl, {params: {token}}).pipe(
+    return this.http.get(ApiConfig.logingovpl, { params: { token } }).pipe(
       map(() => {
         return;
       }),
       catchError(() => {
         return of(null);
-      })
+      }),
     );
-
   }
 
   /**
@@ -244,7 +252,7 @@ export class UserService extends RestService {
    */
   public getUserDashboardData(): Observable<UserDashboardData> {
     return this.get(ApiConfig.userDashboard).pipe(
-      map(response => {
+      map((response) => {
         return response.meta.aggregations as UserDashboardData;
       }),
     );
@@ -255,8 +263,8 @@ export class UserService extends RestService {
    */
   getFormats() {
     return this.get(ApiConfig.userFormats).pipe(
-      map(response => {
-        return response.data.map(format => {
+      map((response) => {
+        return response.data.map((format) => {
           return {
             id: format.id,
             title: format.attributes.name,
@@ -273,10 +281,10 @@ export class UserService extends RestService {
    * @returns {Observable<any>}
    */
   getFollowedObjectsActivity(objectType: string, params: BasicPageParams): Observable<any> {
-    return new Observable<any>(subscriber => {
+    return new Observable<any>((subscriber) => {
       params['object_name'] = objectType;
 
-      this.get(ApiConfig.activityNotifications, new HttpParams({ fromObject: params })).subscribe(history => {
+      this.get(ApiConfig.activityNotifications, new HttpParams({ fromObject: params })).subscribe((history) => {
         subscriber.next(history);
         subscriber.complete();
       });
@@ -300,7 +308,7 @@ export class UserService extends RestService {
   toggleEmailNotificationConsent(payload: object): Observable<any> {
     const requestData = this.prepareAuthParameters({ ...payload });
 
-    return this.put(ApiConfig.userProfile, requestData).pipe(map(resp => resp.data));
+    return this.put(ApiConfig.userProfile, requestData).pipe(map((resp) => resp.data));
   }
 
   /**
@@ -317,7 +325,7 @@ export class UserService extends RestService {
    * @deprecated since 'editor' and 'admin' role. Related to 'new_user_system_roles.be' flag
    */
   isStaff(): boolean {
-    return this.isLoggedIn() && !!this.getTokenData().user.roles.find(role => role === 'staff');
+    return this.isLoggedIn() && !!this.getTokenData().user.roles.find((role) => role === 'staff');
   }
 
   /**
@@ -325,7 +333,7 @@ export class UserService extends RestService {
    * @returns {boolean} true if valid
    */
   isOfficial(): boolean {
-    return this.isLoggedIn() && !!this.getTokenData().user.roles.find(role => role === 'official');
+    return this.isLoggedIn() && !!this.getTokenData().user.roles.find((role) => role === 'official');
   }
 
   /**
@@ -333,7 +341,7 @@ export class UserService extends RestService {
    * @returns {boolean} true if valid
    */
   isAdmin(): boolean {
-    return (this.isLoggedIn() && !!this.getTokenData().user.roles.find(role => role === 'admin')) || this.isStaff();
+    return (this.isLoggedIn() && !!this.getTokenData().user.roles.find((role) => role === 'admin')) || this.isStaff();
   }
 
   /**
@@ -341,7 +349,7 @@ export class UserService extends RestService {
    * @returns {boolean} true if valid
    */
   isEditor(): boolean {
-    return (this.isLoggedIn() && !!this.getTokenData().user.roles.find(role => role === 'editor')) || this.isStaff();
+    return (this.isLoggedIn() && !!this.getTokenData().user.roles.find((role) => role === 'editor')) || this.isStaff();
   }
 
   /**
@@ -349,7 +357,7 @@ export class UserService extends RestService {
    * @param requiredRoles
    * @returns {boolean}
    */
-  hasRequiredRole(requiredRoles: Array<Role>): boolean {
+  hasRequiredRole(requiredRoles: Role[]): boolean {
     if (requiredRoles.indexOf(Role.LOGGED_IN) !== -1) {
       return this.isLoggedIn();
     }
@@ -380,7 +388,7 @@ export class UserService extends RestService {
    * @param roles
    * @returns {Role | null}
    */
-  getRoleWithHighestPriority(roles: Array<Role>): Role | null {
+  getRoleWithHighestPriority(roles: Role[]): Role | null {
     const rolesPriority = [Role.ADMIN, Role.REPRESENTATIVE, Role.EDITOR, Role.OFFICIAL];
     const rolesMap = this.convertRolesToMap(roles);
     for (let i = 0; i < rolesPriority.length; i++) {
@@ -398,7 +406,7 @@ export class UserService extends RestService {
    * @param requiredRoles
    * @returns {boolean}
    */
-  isMoreThenOneDuplicatedRoles(userRoles: Array<Role>, requiredRoles: Array<Role>): boolean {
+  isMoreThenOneDuplicatedRoles(userRoles: Role[], requiredRoles: Role[]): boolean {
     return ArrayHelper.checkIfMoreThenOneDuplicate(userRoles, requiredRoles);
   }
 
@@ -407,7 +415,7 @@ export class UserService extends RestService {
    * @param userRoles
    * @param requiredRoles
    */
-  validateMultipleRoles(userRoles: Array<Role>, requiredRoles: Array<Role>) {
+  validateMultipleRoles(userRoles: Role[], requiredRoles: Role[]) {
     const currentUserRolesMap = this.convertRolesToMap(userRoles);
     for (let i = 0; i < requiredRoles.length; i++) {
       const role = currentUserRolesMap[requiredRoles[i]];
@@ -423,7 +431,7 @@ export class UserService extends RestService {
    * @param {string} token
    * @param {boolean} isJSON
    */
-  protected setupHeaders(token: string, isJSON: boolean = false) {
+  protected setupHeaders(token: string, isJSON = false) {
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', 'Bearer ' + token);
     if (!isJSON) {
@@ -441,8 +449,8 @@ export class UserService extends RestService {
    * @returns {(institution) => {id: any, title: any}}
    */
   private mapUserInstitutions(response) {
-    return institution => {
-      const includedInstitution = response.included.find(item => item.id === institution.id);
+    return (institution) => {
+      const includedInstitution = response.included.find((item) => item.id === institution.id);
 
       return {
         id: institution.id,
@@ -457,8 +465,8 @@ export class UserService extends RestService {
    * @param requiredRoles
    * @private
    */
-  private validateRequiredRole(requiredRoles: Array<Role>): boolean {
-    const userRoles: Array<Role> = this.getTokenData().user.roles as Array<Role>;
+  private validateRequiredRole(requiredRoles: Role[]): boolean {
+    const userRoles: Role[] = this.getTokenData().user.roles as Role[];
 
     if (userRoles.length === 1) {
       return requiredRoles.indexOf(userRoles[0] as Role) !== -1;
@@ -476,9 +484,9 @@ export class UserService extends RestService {
    * @param roles
    * @returns {{}}
    */
-  private convertRolesToMap(roles: Array<string>): { [key: string]: Role } {
+  private convertRolesToMap(roles: string[]): Record<string, Role> {
     const userRolesMap = {};
-    roles.forEach(userRole => (userRolesMap[userRole] = userRole));
+    roles.forEach((userRole) => (userRolesMap[userRole] = userRole));
     return userRolesMap;
   }
 }

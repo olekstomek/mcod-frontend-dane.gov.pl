@@ -27,7 +27,10 @@ import {
   IListViewFilterAggregationsOptions,
 } from '@app/services/models/filters';
 import { IAggregationArray } from '@app/services/models/map';
-import { IListViewDatasetCategoryFiltersModel, IListViewDatasetFiltersModel } from '@app/services/models/page-filters/dataset-filters';
+import {
+  IListViewDatasetCategoryFiltersModel,
+  IListViewDatasetFiltersModel,
+} from '@app/services/models/page-filters/dataset-filters';
 import { NotificationsService } from '@app/services/notifications.service';
 import { ObserveService } from '@app/services/observe.service';
 import { SearchService } from '@app/services/search.service';
@@ -35,9 +38,7 @@ import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
 import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
 import { ListViewFilterPageAbstractComponent } from '@app/shared/filters/list-view-filter-page/list-view-filter-page.abstract.component';
-import {
-  FoundResultsCountersAndSortComponent
-} from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
+import { FoundResultsCountersAndSortComponent } from '@app/shared/found-results-counters-and-sort/found-results-counters-and-sort.component';
 import { ItemsPerPageComponent } from '@app/shared/items-per-page/items-per-page.component';
 import { NewDataContactComponent } from '@app/shared/new-data-contact/new-data-contact.component';
 import { NoResultsFoundComponent } from '@app/shared/no-results-found/no-results-found.component';
@@ -75,8 +76,8 @@ import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
     ItemsPerPageComponent,
     PaginationComponent,
     ApiSourceLinkComponent,
-    NewDataContactComponent
-  ]
+    NewDataContactComponent,
+  ],
 })
 export class DatasetComponent extends ListViewFilterPageAbstractComponent implements OnInit {
   /**
@@ -189,7 +190,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       AggregationOptionType.UPDATE_FREQUENCY,
       AggregationOptionType.RESEARCH_DATA,
       AggregationOptionType.LANGUAGE,
-      AggregationOptionType.PROTECTED_DATA
+      AggregationOptionType.PROTECTED_DATA,
     ];
   }
 
@@ -251,8 +252,10 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
 
       if (
         qParams['regions[id][terms]'] &&
-        !customParams.find(elem => elem.key === 'filtered_facet[by_regions]') &&
-        !this.selectedFilters[AggregationFilterNames.REGIONS][Object.keys(this.selectedFilters[AggregationFilterNames.REGIONS])[0]]
+        !customParams.find((elem) => elem.key === 'filtered_facet[by_regions]') &&
+        !this.selectedFilters[AggregationFilterNames.REGIONS][
+          Object.keys(this.selectedFilters[AggregationFilterNames.REGIONS])[0]
+        ]
       ) {
         customParams = [...customParams, { key: 'filtered_facet[by_regions]', value: qParams['regions[id][terms]'] }];
       }
@@ -278,7 +281,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
    * Back to search input for screen reader
    */
   backToSearchControl(): void {
-    const elem = <HTMLElement>document.getElementsByClassName('search-suggest__input')[0];
+    const elem = document.getElementsByClassName('search-suggest__input')[0] as HTMLElement;
     elem.focus();
   }
 
@@ -290,7 +293,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.preparedParamsForDefaultLocation();
     }
 
-    this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
+    this.searchService.getData(ApiConfig.search, this.params).subscribe((response) => {
       this.setData(response);
       this.mapAggregations = response.aggregations;
       this.mapMetaParamsRegions = response.params.regions;
@@ -334,7 +337,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       } else {
         this.preparedParamsForDefaultLocation();
 
-        this.searchService.getData(ApiConfig.search, this.params).subscribe(resp => {
+        this.searchService.getData(ApiConfig.search, this.params).subscribe((resp) => {
           this.mapAggregations = resp.aggregations;
           this.setParamsForMap(true);
         });
@@ -347,12 +350,13 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
   onHideMap(event): void {
     this.showMap = !event;
     if (this.params['regions[bbox][geo_shape]']) {
-      this.params['regions[bbox][geo_shape]'] = '9.360087936473064,55.825973254619015,30.431865280223064,47.69497434186282,6';
+      this.params['regions[bbox][geo_shape]'] =
+        '9.360087936473064,55.825973254619015,30.431865280223064,47.69497434186282,6';
       this.updateSelectedFiltersForMap(14.122885, 54.836417, 24.145783, 49.002047);
       this.mapBounds = undefined;
       this.refreshMap.next({ ref: true, changeBbox: true });
     }
-    this.searchService.getData(ApiConfig.search, this.params).subscribe(response => {
+    this.searchService.getData(ApiConfig.search, this.params).subscribe((response) => {
       this.setData(response);
     });
   }
@@ -366,7 +370,8 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     this.items = this.listViewDetailsService.extendViewDetails(results);
     this.count = response.count;
     this.selfApi = response.links.self;
-    this.isQueryFormVisible = this.count && ((this.params && this.params.q && this.params.q.length) || this.selectedFiltersCount);
+    this.isQueryFormVisible =
+      this.count && ((this.params && this.params.q && this.params.q.length) || this.selectedFiltersCount);
     this.isQueryFormSubmitted = false;
     this.isQueryFormError = false;
     this.isQuerySubscribed = !!response.subscription_url;
@@ -395,7 +400,7 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       [AggregationFilterNames.DYNAMIC_DATA]: {},
       [AggregationFilterNames.RESEARCH_DATA]: {},
       [AggregationFilterNames.LANGUAGE]: {},
-      [AggregationFilterNames.PROTECTED_DATA]: {}
+      [AggregationFilterNames.PROTECTED_DATA]: {},
     };
   }
 
@@ -424,7 +429,10 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.RESEARCH_DATA]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.LANGUAGE]) +
       this.getSelectedFilterCount(this.backupSelectedFilters[AggregationFilterNames.PROTECTED_DATA]) +
-      (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] || this.backupSelectedFilters[AggregationFilterNames.DATE_TO] ? 1 : 0)
+      (this.backupSelectedFilters[AggregationFilterNames.DATE_FROM] ||
+      this.backupSelectedFilters[AggregationFilterNames.DATE_TO]
+        ? 1
+        : 0)
     );
   }
 
@@ -438,10 +446,10 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
     let institutionLinkRelated;
     let lastCommaIndex;
 
-    return results.map(dataset => {
+    return results.map((dataset) => {
       if (dataset.relationships) {
         institutionData = dataset.relationships.institution;
-        dataset.institution = this.filters[AggregationOptionType.INSTITUTION].find(institution => {
+        dataset.institution = this.filters[AggregationOptionType.INSTITUTION].find((institution) => {
           return institutionData.data.type === this.apiModel.INSTITUTION && institutionData.data.id === institution.id;
         });
 
@@ -508,5 +516,4 @@ export class DatasetComponent extends ListViewFilterPageAbstractComponent implem
       }
     }
   }
-
 }

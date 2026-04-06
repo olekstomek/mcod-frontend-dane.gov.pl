@@ -23,17 +23,14 @@ describe('AuthGuard', () => {
   const dummyRoute = {} as ActivatedRouteSnapshot;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([])],
       providers: [
         AuthGuard,
         UserService,
         LocalizeRouterService,
         UserStateService,
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
 
@@ -52,7 +49,7 @@ describe('AuthGuard', () => {
 
   it('should checks login for specified url and redirects user', async () => {
     jest.spyOn(userStateService, 'getCurrentUser').mockReturnValue(of());
-    guard.checkLogin('https://dev.dane.gov.pl/pl/user/dashboard/desktop').subscribe(value => {
+    guard.checkLogin('https://dev.dane.gov.pl/pl/user/dashboard/desktop').subscribe((value) => {
       expect(value).toBeTruthy();
     });
   });

@@ -22,7 +22,7 @@ describe('UnsubcribeNewsletterComponent', () => {
         TranslateModule.forRoot(),
         LocalizeRouterModule.forRoot([]),
         SharedModule,
-        UnsubcribeNewsletterComponent
+        UnsubcribeNewsletterComponent,
       ],
       providers: [
         importProvidersFrom(AppTestingModule),
@@ -49,9 +49,9 @@ describe('UnsubcribeNewsletterComponent', () => {
   });
 
   it('should add success message', () => {
-    jest.spyOn(service, 'removeNewsletterSubscription').mockReturnValue(
-      of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }),
-    );
+    jest
+      .spyOn(service, 'removeNewsletterSubscription')
+      .mockReturnValue(of({ data: { attributes: { newsletter_subscription_info: 'treść testowa' } } }));
     component.ngOnInit();
     expect(component.successMessage).toEqual('treść testowa');
   });

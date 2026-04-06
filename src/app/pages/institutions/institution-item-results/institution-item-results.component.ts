@@ -7,17 +7,16 @@ import { ResultListComponent } from '@app/shared/result-list/result-list.compone
 import { DetailsResultItemComponent } from '@app/shared/result-list/right-column/details-result-item/details-result-item.component';
 
 @Component({
-    selector: 'app-institution-item-results',
-    templateUrl: './institution-item-results.component.html',
-    standalone: true,
-    imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent, LocalizeRouterPipe]
+  selector: 'app-institution-item-results',
+  templateUrl: './institution-item-results.component.html',
+  standalone: true,
+  imports: [ResultListComponent, DefaultResultItemComponent, DetailsResultItemComponent, LocalizeRouterPipe],
 })
 export class InstitutionItemResultsComponent {
+  /**
+   * API model
+   */
+  apiModel = ApiModel;
 
-    /**
-     * API model
-     */
-    apiModel = ApiModel;
-
-    @Input() items: any;
+  @Input() items: any;
 }

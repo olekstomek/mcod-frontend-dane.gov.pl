@@ -12,8 +12,7 @@
             placeholder="{{ 'Action.SearchFor' | translate }}..."
             [attr.aria-label]="'Action.SearchFor' | translate"
             [ngModel]="searchQuery"
-            name="searchInput"
-          />
+            name="searchInput" />
 
           <!-- clear search field -->
           <button type="button" class="btn search__clear" (click)="generateQuery('')" *ngIf="searchQuery?.length">
@@ -28,8 +27,7 @@
             class="search__info"
             appInfoTooltip="{{ 'Tour.Tooltip.DataResource.Search.text' | translate }}"
             tooltipTitle="{{ 'Tour.Tooltip.DataResource.Search.title' | translate }}"
-            withoutMargin
-          >
+            withoutMargin>
           </span>
         </div>
 
@@ -45,15 +43,13 @@
     <!-- toggle filters -->
     <div
       appInfoTooltip="{{ 'Tour.Tooltip.DataResource.Filters.text' | translate }}"
-      tooltipTitle="{{ 'Tour.Tooltip.DataResource.Filters.title' | translate }}"
-    >
+      tooltipTitle="{{ 'Tour.Tooltip.DataResource.Filters.title' | translate }}">
       <button
         class="btn btn-link"
         type="button"
         [attr.aria-controls]="areFiltersVisible ? 'filters' : null"
         [attr.aria-pressed]="areFiltersVisible"
-        (click)="areFiltersVisible = !areFiltersVisible"
-      >
+        (click)="areFiltersVisible = !areFiltersVisible">
         <span class="font-weight-bold">
           {{ (areFiltersVisible ? 'Filters.HideFilters' : 'Filters.ShowFilters') | translate }}
         </span>
@@ -69,8 +65,7 @@
       [attr.aria-expanded]="!areFiltersVisible"
       [attr.aria-hidden]="areFiltersVisible"
       *ngIf="areFiltersVisible"
-      @toggleVertically
-    >
+      @toggleVertically>
       <form (ngSubmit)="onApplyFilter(filtersForm)" #filtersForm="ngForm">
         <!-- column (dropdown) -->
         <div class="form-group">
@@ -84,8 +79,7 @@
             name="column"
             #column="ngModel"
             required
-            (change)="onFilterColumnChange(column.value)"
-          >
+            (change)="onFilterColumnChange(column.value)">
             <option [ngValue]="null" disabled>
               {{ 'Filters.Choose' | translate }}
             </option>
@@ -109,9 +103,10 @@
                 readonly
                 aria-readonly="true"
                 value="{{
-                  filtersForm.value['column'] ? ('ResourceFilter.DataType.' + filtersForm.value['column']['type'] | translate) : ''
-                }}"
-              />
+                  filtersForm.value['column']
+                    ? ('ResourceFilter.DataType.' + filtersForm.value['column']['type'] | translate)
+                    : ''
+                }}" />
             </div>
           </div>
 
@@ -129,8 +124,7 @@
                 id="operator"
                 readonly
                 aria-readonly="true"
-                value=""
-              />
+                value="" />
 
               <select
                 class="form-select"
@@ -140,8 +134,7 @@
                 #operator="ngModel"
                 required
                 [ngModel]="null"
-                (change)="onFilterOperatorChange(operator.value)"
-              >
+                (change)="onFilterOperatorChange(operator.value)">
                 <option [value]="null" disabled>
                   {{ 'Filters.ChooseOperation' | translate }}
                 </option>
@@ -155,9 +148,10 @@
           <!-- filter value -->
           <div
             class="col-12 {{
-              filtersForm.value['column'] && !isDateTimeType(filtersForm.value['column']['type']) ? 'col-md-6' : 'col-md-3'
-            }}"
-          >
+              filtersForm.value['column'] && !isDateTimeType(filtersForm.value['column']['type'])
+                ? 'col-md-6'
+                : 'col-md-3'
+            }}">
             <div class="form-group">
               <label for="phrase" class="font-weight-bold" style="font-size: 85%">
                 {{ 'ResourceFilter.Phrase' | translate }}
@@ -176,8 +170,7 @@
                 [isDisabled]="!isPhraseFieldAccessible"
                 [isReadonly]="!isPhraseFieldAccessible"
                 [isRequired]="isPhraseFieldAccessible"
-                label="{{ 'Attribute.Date' | translate }} {{ 'Attribute.From' | translate | lowercase }}"
-              >
+                label="{{ 'Attribute.Date' | translate }} {{ 'Attribute.From' | translate | lowercase }}">
               </app-datepicker>
 
               <!-- number, text -->
@@ -192,12 +185,13 @@
                 #phrase="ngModel"
                 placeholder="{{ 'Filters.Value' | translate }}..."
                 [readonly]="!isPhraseFieldAccessible"
-                [required]="isPhraseFieldAccessible"
-              />
+                [required]="isPhraseFieldAccessible" />
             </div>
           </div>
 
-          <div class="col-12 col-md-3" *ngIf="filtersForm.value['column'] && isDateTimeType(filtersForm.value['column']['type'])">
+          <div
+            class="col-12 col-md-3"
+            *ngIf="filtersForm.value['column'] && isDateTimeType(filtersForm.value['column']['type'])">
             <div class="form-group">
               <timepicker
                 ngModel
@@ -207,8 +201,7 @@
                 [disabled]="!isPhraseFieldAccessible"
                 [readonlyInput]="!isPhraseFieldAccessible"
                 [showMeridian]="false"
-                [minuteStep]="1"
-              >
+                [minuteStep]="1">
               </timepicker>
             </div>
           </div>

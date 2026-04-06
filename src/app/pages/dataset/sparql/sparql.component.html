@@ -4,7 +4,8 @@
     <div class="container">
       <h1 class="heading">{{ 'Sparql.SearchBy' | translate }} SPARQL</h1>
       <p>
-        {{ 'Sparql.Description' | translate }} <a href="https://www.w3.org/TR/sparql11-query/"> {{ 'Sparql.W3CPage' | translate }}</a>
+        {{ 'Sparql.Description' | translate }}
+        <a href="https://www.w3.org/TR/sparql11-query/"> {{ 'Sparql.W3CPage' | translate }}</a>
       </p>
     </div>
   </header>
@@ -26,9 +27,11 @@
                 formControlName="searchOption"
                 name="searchOption"
                 value="dane"
-                (keydown.enter)="$event.preventDefault()"
-              />
-              <label class="pl-1" for="isDane" [attr.aria-label]="('Sparql.SearchResultFor' | translate) + 'dane.gov.pl'"
+                (keydown.enter)="$event.preventDefault()" />
+              <label
+                class="pl-1"
+                for="isDane"
+                [attr.aria-label]="('Sparql.SearchResultFor' | translate) + 'dane.gov.pl'"
                 >dane.gov.pl</label
               >
             </div>
@@ -39,9 +42,10 @@
                 formControlName="searchOption"
                 name="searchOption"
                 value="kronika"
-                (keydown.enter)="$event.preventDefault()"
-              />
-              <label class="pl-1" for="isKronika" [attr.aria-label]="('Sparql.SearchResultFor' | translate) + 'Kronika'">Kronik&#64;</label>
+                (keydown.enter)="$event.preventDefault()" />
+              <label class="pl-1" for="isKronika" [attr.aria-label]="('Sparql.SearchResultFor' | translate) + 'Kronika'"
+                >Kronik&#64;</label
+              >
             </div>
           </div>
         </fieldset>
@@ -62,8 +66,7 @@
                   <button
                     type="button"
                     (click)="updateEditorContent(example.codeSnippet)"
-                    class="btn btn-link text-left w-100 p-2 sparql--example"
-                  >
+                    class="btn btn-link text-left w-100 p-2 sparql--example">
                     {{ example.displayName[currentLang] }}
                   </button>
                 </li>
@@ -78,8 +81,7 @@
                   <button
                     type="button"
                     (click)="updateEditorContent(example.codeSnippet)"
-                    class="btn btn-link text-left w-100 p-2 sparql--example"
-                  >
+                    class="btn btn-link text-left w-100 p-2 sparql--example">
                     {{ example.displayName[currentLang] }}
                   </button>
                 </li>
@@ -92,7 +94,9 @@
         <div class="row">
           <div class="col">
             <div class="form-group d-md-inline-block sparql-editor--select-container mr-md-2">
-              <label class="heading heading--xs sparql--format-label" for="formatSelect">{{ 'Sparql.Format' | translate }}</label>
+              <label class="heading heading--xs sparql--format-label" for="formatSelect">{{
+                'Sparql.Format' | translate
+              }}</label>
               <select [formControlName]="'format'" id="formatSelect" class="form-select sort-order">
                 <option value="application/rdf+xml">RDF/XML</option>
                 <option value="application/sparql-results+xml">XML</option>
@@ -128,7 +132,11 @@
                 {{ 'Action.Download' | translate }}
               </button>
               <div class="ml-auto" *ngIf="resultCount > 0">
-                <app-pagination [itemsPerPage]="100" [totalItems]="resultCount" [(page)]="currentPage" (pageChange)="updatePage($event)">
+                <app-pagination
+                  [itemsPerPage]="100"
+                  [totalItems]="resultCount"
+                  [(page)]="currentPage"
+                  (pageChange)="updatePage($event)">
                 </app-pagination>
               </div>
             </div>

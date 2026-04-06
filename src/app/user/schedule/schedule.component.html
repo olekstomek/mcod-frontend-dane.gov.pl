@@ -4,7 +4,8 @@
 
 <!-- settings and notifications -->
 <!-- //TODO - attach appropriate roles -->
-<app-schedule-notifications-switch *hasPermission="PermissionPerRoles.PREVIEW_UNPUBLISHED_APPLICATION"></app-schedule-notifications-switch>
+<app-schedule-notifications-switch
+  *hasPermission="PermissionPerRoles.PREVIEW_UNPUBLISHED_APPLICATION"></app-schedule-notifications-switch>
 
 <!-- TABS: ANCHORS -->
 <div class="tabs">
@@ -18,8 +19,7 @@
         [routerLink]="['planning']"
         routerLinkActive="tab-list__link--active"
         #planningActive="routerLinkActive"
-        [attr.aria-selected]="planningActive.isActive ? true : null"
-      >
+        [attr.aria-selected]="planningActive.isActive ? true : null">
         {{ 'Hod.Planning' | translate }}
       </a>
     </li>
@@ -33,8 +33,7 @@
         [routerLink]="['in-progress']"
         routerLinkActive="tab-list__link--active"
         #inProgressActive="routerLinkActive"
-        [attr.aria-selected]="inProgressActive.isActive ? true : null"
-      >
+        [attr.aria-selected]="inProgressActive.isActive ? true : null">
         {{ 'Hod.Realization' | translate }}
       </a>
     </li>
@@ -48,8 +47,7 @@
         [routerLink]="['archive']"
         routerLinkActive="tab-list__link--active"
         #archiveActive="routerLinkActive"
-        [attr.aria-selected]="archiveActive.isActive ? true : null"
-      >
+        [attr.aria-selected]="archiveActive.isActive ? true : null">
         {{ 'Hod.Archives' | translate }}
       </a>
     </li>

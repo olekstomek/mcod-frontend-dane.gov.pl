@@ -37,7 +37,7 @@ describe('ScheduleSettingsService', () => {
       link: 'link',
     };
 
-    service.updateScheduleSettings(settings, true).subscribe(value => {
+    service.updateScheduleSettings(settings, true).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

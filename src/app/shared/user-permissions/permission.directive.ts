@@ -6,15 +6,19 @@ import { Role } from '@app/shared/user-permissions/Role';
  * Adds the template content to the DOM when user has required permissions.
  */
 @Directive({
-    selector: '[hasPermission]',
-    standalone: true
+  selector: '[hasPermission]',
+  standalone: true,
 })
 export class PermissionDirective {
   private hasView = false;
 
-  constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef, private userService: UserService) {}
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef,
+    private userService: UserService,
+  ) {}
 
-  @Input() set hasPermission(roles: Array<Role>) {
+  @Input() set hasPermission(roles: Role[]) {
     if (roles.length === 0 || (!this.hasView && this.userService.hasRequiredRole(roles))) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.hasView = true;

@@ -8,8 +8,7 @@
     [attr.aria-expanded]="isPopupVisible"
     aria-haspopup="true"
     (click)="isPopupVisible = !isPopupVisible"
-    (keydown)="onPopupTriggerKeyDown($event)"
-  >
+    (keydown)="onPopupTriggerKeyDown($event)">
     <!-- icon -->
     <svg class="icon icon-bell" aria-hidden="true">
       <use href="/assets/icomoon/sprite/sprite.svg#icon-bell"></use>
@@ -55,8 +54,7 @@
           <ng-container *ngIf="datasetsCount">
             <a
               [routerLink]="['/' | localize, 'user', 'dashboard', 'my', 'followed', 'dataset', 'activity']"
-              (click)="isPopupVisible = false"
-            >
+              (click)="isPopupVisible = false">
               {{ 'Datasets.Self' | translate }}
             </a>
             <span class="badge badge-danger">
@@ -80,7 +78,9 @@
             </span>
           </ng-container>
           <ng-container *ngIf="searchResultsCount">
-            <a [routerLink]="['/' | localize, 'user', 'dashboard', 'my', 'followed', 'query', 'activity']" (click)="isPopupVisible = false">
+            <a
+              [routerLink]="['/' | localize, 'user', 'dashboard', 'my', 'followed', 'query', 'activity']"
+              (click)="isPopupVisible = false">
               {{ 'Search.Results' | translate }}
             </a>
             <span class="badge badge-danger">
@@ -93,7 +93,11 @@
         </li>
       </ul>
 
-      <button class="btn btn-primary mt-2" style="white-space: pre-line" (click)="onMarkAllAsRead()" (blur)="onPopupBlur()">
+      <button
+        class="btn btn-primary mt-2"
+        style="white-space: pre-line"
+        (click)="onMarkAllAsRead()"
+        (blur)="onPopupBlur()">
         {{ 'Changes.MarkAllNotifications' | translate }}
       </button>
     </ng-container>

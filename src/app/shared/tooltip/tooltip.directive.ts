@@ -1,6 +1,15 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { Directive, ElementRef, HostListener, Injector, Input, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Injector,
+  Input,
+  OnInit,
+  Renderer2,
+  ViewContainerRef,
+} from '@angular/core';
 
 import { TooltipWithTitleComponent } from '@app/shared/large-tooltip/tooltip-with-title.component';
 import { TOOLTIP_DATA } from '@app/shared/tooltip/TooltipData';
@@ -10,15 +19,15 @@ import { TooltipPlacement } from '@app/shared/tooltip/tooltipPlacement';
  * Tooltip Directive
  */
 @Directive({
-    selector: '[appTooltip]',
-    standalone: true,
+  selector: '[appTooltip]',
+  standalone: true,
 })
 export class TooltipDirective implements OnInit {
   /**
    * Tooltip position variants
    * @type {{[p: string]: ConnectedPosition}}
    */
-  private static positions: { [key: string]: ConnectedPosition } = {
+  private static positions: Record<string, ConnectedPosition> = {
     bottom: {
       originX: 'center',
       originY: 'bottom',
@@ -77,7 +86,7 @@ export class TooltipDirective implements OnInit {
    * @type {"bottom" | "top" | "left" | "right"}
    */
   @Input()
-  placement: TooltipPlacement | Array<TooltipPlacement> = 'bottom';
+  placement: TooltipPlacement | TooltipPlacement[] = 'bottom';
 
   /**
    * Tooltip container class
@@ -159,10 +168,10 @@ export class TooltipDirective implements OnInit {
 
     this.overlayRef.attach(userProfilePortal);
     this.renderer.setAttribute(this.elementRef.nativeElement, 'aria-describedby', 'app-tooltip');
-    this.overlayRef.hostElement.addEventListener('mouseenter', e => {
+    this.overlayRef.hostElement.addEventListener('mouseenter', (e) => {
       this.isIn = true;
     });
-    this.overlayRef.hostElement.addEventListener('mouseleave', e => {
+    this.overlayRef.hostElement.addEventListener('mouseleave', (e) => {
       this.isIn = false;
       this.hide();
     });
@@ -196,7 +205,7 @@ export class TooltipDirective implements OnInit {
    */
   private getConnectedPosition(): ConnectedPosition[] {
     if (Array.isArray(this.placement)) {
-      return this.placement.map(placement => {
+      return this.placement.map((placement) => {
         return TooltipDirective.positions[placement];
       });
     }

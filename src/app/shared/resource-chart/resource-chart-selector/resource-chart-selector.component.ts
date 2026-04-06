@@ -66,8 +66,8 @@ export class ResourceChartSelectorComponent implements OnChanges {
       const charts = changes['savedCharts'].currentValue;
 
       if (!this.isEditorPreview && charts instanceof Array) {
-        this.isUserChartDefined = charts.some(chart => chart.attributes.is_default === false);
-        this.isEditorChartDefined = charts.some(chart => chart.attributes.is_default === true);
+        this.isUserChartDefined = charts.some((chart) => chart.attributes.is_default === false);
+        this.isEditorChartDefined = charts.some((chart) => chart.attributes.is_default === true);
       }
     }
   }

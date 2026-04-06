@@ -23,7 +23,10 @@ import {
   providedIn: 'root',
 })
 export class ListViewManageFiltersService {
-  constructor(private daterangeFilterService: DaterangeFilterService, private multiselectFilterService: MultiselectFilterService) {}
+  constructor(
+    private daterangeFilterService: DaterangeFilterService,
+    private multiselectFilterService: MultiselectFilterService,
+  ) {}
 
   /**
    * builds availibility model for all filters
@@ -32,7 +35,7 @@ export class ListViewManageFiltersService {
    */
   buildAvailibilityMap(keys: string[]): AvailabilityFilterMap {
     const newSelectedMap: AvailabilityFilterMap = {};
-    Object.keys(keys).forEach(key => {
+    Object.keys(keys).forEach((key) => {
       newSelectedMap[key] = false;
     });
 
@@ -57,7 +60,7 @@ export class ListViewManageFiltersService {
         }
       }
       if (ids && ids.length > 0) {
-        filtersToSend[name] = ids.map(item => item[0]).join(',');
+        filtersToSend[name] = ids.map((item) => item[0]).join(',');
       }
     });
 

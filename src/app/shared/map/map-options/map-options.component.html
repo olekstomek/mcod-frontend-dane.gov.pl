@@ -10,14 +10,18 @@
           name="mapOptionsRadio"
           id="allPointsRadio"
           (change)="toggleCustomLocalization()"
-          checked
-        />
+          checked />
         <label class="form-check-label clickable" for="allPointsRadio">
           {{ 'Map.AllPoints' | translate }}
         </label>
       </div>
       <div class="form-check mb-3">
-        <input class="form-check-input" type="radio" name="mapOptionsRadio" id="addressesRadio" (change)="toggleCustomLocalization()" />
+        <input
+          class="form-check-input"
+          type="radio"
+          name="mapOptionsRadio"
+          id="addressesRadio"
+          (change)="toggleCustomLocalization()" />
         <label class="form-check-label clickable" for="addressesRadio">
           {{ 'Map.UserLocation' | translate }}
         </label>
@@ -37,8 +41,7 @@
               (keyup)="resetErrorFields()"
               [value]="userSettings?.address ? userSettings.address : ''"
               [attr.aria-label]="'Map.AddressInput' | translate"
-              aria-describedby="searching-description"
-            />
+              aria-describedby="searching-description" />
             <!-- clear search field -->
             <button type="button" class="btn clearBtn" *ngIf="addressText.value.length > 0" (click)="clearAddress()">
               <span class="visually-hidden">
@@ -73,8 +76,7 @@
           *ngFor="let element of labelsList; let i = index"
           id="{{ element.id }}"
           (click)="markObject(element)"
-          [ngClass]="element.id === selectedListItem.id ? 'points__selected' : 'points__unselected'"
-        >
+          [ngClass]="element.id === selectedListItem.id ? 'points__selected' : 'points__unselected'">
           {{ element.label ? element.label : ('Map.Point' | translate) }}
         </p>
       </div>

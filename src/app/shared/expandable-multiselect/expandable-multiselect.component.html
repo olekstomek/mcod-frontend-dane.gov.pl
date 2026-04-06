@@ -4,8 +4,7 @@
     <h3
       class="h6 d-flex align-items-center m-0"
       appInfoTooltip="{{ 'Tour.Tooltip.Filters.' + titleTranslationKey + '.text' | translate }}"
-      tooltipTitle="{{ 'Tour.Tooltip.Filters.' + titleTranslationKey + '.title' | translate }}"
-    >
+      tooltipTitle="{{ 'Tour.Tooltip.Filters.' + titleTranslationKey + '.title' | translate }}">
       <span class="font-weight-bold" id="{{ ariaLabel }}">
         {{ titleTranslationKey | translate }}
       </span>
@@ -16,8 +15,7 @@
         class="btn btn-link d-inline-block d-lg-none ml-auto"
         *ngIf="titleTranslationKey"
         [attr.aria-pressed]="isCollapsed"
-        (click)="isCollapsed = !isCollapsed"
-      >
+        (click)="isCollapsed = !isCollapsed">
         {{ (isCollapsed ? 'Action.Collapse' : 'Action.Expand') | translate }}
       </button>
     </h3>
@@ -27,15 +25,13 @@
   <div
     *ngIf="isGeodataSearch; else WithCheckboxList"
     class="aggregation-filters__item-body-custom"
-    [ngClass]="{ 'visibility-animated': isCollapsed }"
-  >
+    [ngClass]="{ 'visibility-animated': isCollapsed }">
     <div class="dropdown">
       <!-- search with suggestion -->
       <app-regions-search
         (selectedChange)="selectItem($event)"
         (enableApply)="enableApply = $event"
-        [initialValue]="initialValue"
-      ></app-regions-search>
+        [initialValue]="initialValue"></app-regions-search>
 
       <!-- additional actions - apply -->
       <app-list-view-filters-action-buttons
@@ -43,8 +39,7 @@
         [srTranslationKey]="titleTranslationKey"
         [enableApply]="enableApply"
         [selectedCount]="selectedCount"
-        (triggerApplyChange)="triggerApply()"
-      >
+        (triggerApplyChange)="triggerApply()">
       </app-list-view-filters-action-buttons>
     </div>
   </div>
@@ -58,8 +53,7 @@
           [attr.aria-hidden]="!showSearchInput"
           [placeholderTranslationKey]="placeholderTranslationKey"
           [maxLength]="maxLength"
-          (inputChanged)="searchChanged($event)"
-        >
+          (inputChanged)="searchChanged($event)">
         </app-expandable-multiselect-input>
 
         <!-- list of items (filters) -->
@@ -70,8 +64,7 @@
           [showSearchInput]="showSearchInput"
           [selectedIds]="selectedData"
           (selectedChange)="selectItem($event)"
-          [filterName]="filterName"
-        >
+          [filterName]="filterName">
         </app-expandable-multiselect-list>
 
         <!-- additional actions - show/hide, apply -->
@@ -82,8 +75,7 @@
           [enableApply]="enableApply"
           [selectedCount]="selectedCount"
           (expandOptions)="isExpanded = !isExpanded"
-          (triggerApplyChange)="triggerApply()"
-        >
+          (triggerApplyChange)="triggerApply()">
         </app-list-view-filters-action-buttons>
       </div>
     </div>

@@ -26,7 +26,7 @@ describe('FooterComponent', () => {
         { provide: BsModalService, useValue: BsModalServiceMock },
         CmsService,
         FooterLogosFilterService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
 

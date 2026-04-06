@@ -19,7 +19,7 @@ describe('ListViewFilterAbstractComponent', () => {
         ListViewManageFiltersService,
         provideNgxLocalstorage(),
         provideRouter([]),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

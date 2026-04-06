@@ -43,139 +43,169 @@ import { SearchHistoryComponent } from '@app/user/search-history/search-history.
 import { DashboardStatsComponent } from '@app/user/stats/dashboard-stats.component';
 
 const routes: Routes = [
-    {path: '!login', component: LoginComponent},
-    {path: '!logingovpl-error', component: LogingovplErrorPageComponent},
-    {path: '!logout', component: LogoutComponent, canActivate: [AuthGuard]},
-    {path: '!lost-password', component: LostPasswordComponent},
-    {path: '!reset-password/!:token', component: ResetPasswordComponent},
-    {path: '!reset-password', component: ResetPasswordComponent},
-    {path: '!verify-email/!:token', component: VerifyEmailComponent},
-    {path: '!register', component: RegisterComponent},
-    {
-        path: '!dashboard', component: DashboardComponent,
-        canActivate: [AuthGuard],
+  { path: '!login', component: LoginComponent },
+  { path: '!logingovpl-error', component: LogingovplErrorPageComponent },
+  { path: '!logout', component: LogoutComponent, canActivate: [AuthGuard] },
+  { path: '!lost-password', component: LostPasswordComponent },
+  { path: '!reset-password/!:token', component: ResetPasswordComponent },
+  { path: '!reset-password', component: ResetPasswordComponent },
+  { path: '!verify-email/!:token', component: VerifyEmailComponent },
+  { path: '!register', component: RegisterComponent },
+  {
+    path: '!dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: '!desktop', pathMatch: 'full' },
+      { path: '!change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
+      {
+        path: '!academy',
+        component: AcademyComponent,
+        canActivate: [RoleGuard],
+        data: { roles: PermissionPerRoles.BROWSE_AOD },
         children: [
-            {path: '', redirectTo: '!desktop', pathMatch: 'full'},
-            {path: '!change-password', component: ChangePasswordComponent, canActivate: [AuthGuard]},
-            {
-                path: '!academy', component: AcademyComponent, canActivate: [RoleGuard],
-                data: {roles: PermissionPerRoles.BROWSE_AOD},
+          { path: '', redirectTo: '!courses', pathMatch: 'full' },
+          { path: '!info', component: AcademyInfoComponent },
+          { path: '!courses', component: AcademyCoursesComponent },
+        ],
+      },
+      { path: '!desktop', component: MyDashboardComponent },
+      {
+        path: '!my',
+        component: MyFollowedComponent,
+        children: [
+          { path: '', redirectTo: '!followed', pathMatch: 'full' },
+          { path: '!search-history', component: SearchHistoryComponent },
+          {
+            path: '!followed',
+            component: FollowedComponent,
+            children: [
+              { path: '', redirectTo: '!dataset', pathMatch: 'full' },
+              {
+                path: '!dataset',
+                component: FollowedObjectTabsComponent,
                 children: [
-                    {path: '', redirectTo: '!courses', pathMatch: 'full'},
-                    {path: '!info', component: AcademyInfoComponent},
-                    {path: '!courses', component: AcademyCoursesComponent}
-                ]
-            },
-            {path: '!desktop', component: MyDashboardComponent},
-            {
-                path: '!my', component: MyFollowedComponent, children: [
-                    {path: '', redirectTo: '!followed', pathMatch: 'full'},
-                    {path: '!search-history', component: SearchHistoryComponent},
-                    {
-                        path: '!followed', component: FollowedComponent, children: [
-                            {path: '', redirectTo: '!dataset', pathMatch: 'full'},
-                            {
-                                path: '!dataset', component: FollowedObjectTabsComponent, children: [
-                                    {path: '', redirectTo: '!list', pathMatch: 'full'},
-                                    {path: '!list', component: FollowedDatasetsComponent},
-                                    {path: '!activity', component: FollowedObjectActivityComponent, data: {type: 'dataset'}}
-                                ],
-                                data: {labelledBy: 'tabFollowedDatasets'}
-                            },
-                            {
-                                path: '!query', component: FollowedObjectTabsComponent, children: [
-                                    {path: '', redirectTo: '!list', pathMatch: 'full'},
-                                    {path: '!list', component: FollowedQueryComponent},
-                                    {path: '!activity', component: FollowedObjectActivityComponent, data: {type: 'query'}}
-                                ],
-                                data: {labelledBy: 'tabFollowedQueries'}
-                            },
-                            {path: '**', redirectTo: 'dataset'}]
-                    },
-                    {path: '**', redirectTo: 'followed'}
-                ]
-            },
-            {path: '!stats', component: DashboardStatsComponent},
-            {
-                path: '!lab', component: LabComponent, children: [
-                    {path: '', redirectTo: '!analyses', pathMatch: 'full'},
-                    {path: '!info', component: LabInfoComponent},
-                    {path: '!analyses', component: LabAnalysesComponent},
-                    {path: '!researches', component: LabResearchesComponent}
-                ]
-            },
-            {
-                path: '!data-proposal', component: DataProposalComponent,
-                canActivate: [RoleGuard],
-                data: {roles: PermissionPerRoles.BROWSE_NEW_DATA_PROPOSAL},
+                  { path: '', redirectTo: '!list', pathMatch: 'full' },
+                  { path: '!list', component: FollowedDatasetsComponent },
+                  { path: '!activity', component: FollowedObjectActivityComponent, data: { type: 'dataset' } },
+                ],
+                data: { labelledBy: 'tabFollowedDatasets' },
+              },
+              {
+                path: '!query',
+                component: FollowedObjectTabsComponent,
                 children: [
-                    {path: '', redirectTo: '!active', pathMatch: 'full'},
-                    {
-                        path: '!active', component: ActiveDataProposalComponent, children: [
-                            {path: '!details/!:id', component: DataProposalDetailsComponent}
-                        ]
-                    },
-                    {
-                        path: '!inactive', component: InactiveDataProposalComponent, children: [
-                            {path: '!details/!:id', component: DataProposalDetailsComponent}
-                        ]
-                    }
-                ]
-            },
-            {
-                path: '!meetings',
-                component: MeetingsComponent,
-                canActivate: [RoleGuard],
-                data: {roles: PermissionPerRoles.BROWSE_MEETINGS}
-            },
-            {
-                path: '!schedule',
-                component: ScheduleComponent,
-                children: [
-                    {path: '', redirectTo: '!planning', pathMatch: 'full'},
-                    {
-                        path: '!planning', component: SchedulePlanningComponent,
-                        children: [
-                            {path: '!add-new', component: SchedulePlanningFormComponent},
-                            {path: '!:userScheduleId', component: SchedulePlanningFormComponent},
-                            {path: '!representative/!:representativeId', component: SchedulePlanningComponent},
-                            {path: '!representative/!:representativeId/!add-new', component: SchedulePlanningFormComponent},
-                            {path: '!representative/!:representativeId/!edit/!:userScheduleId', component: SchedulePlanningFormComponent}
-                        ]
-                    },
-                    {path: '!in-progress', component: ScheduleInProgressComponent, children: [
-                            {path: '!:id', component: ScheduleInProgressComponent},
-                            {path: '!:id/!representative/!:representativeId', component: ScheduleInProgressComponent},
-                            {path: '!:id/!edit/!:userScheduleId', component: SchedulePlanningFormComponent},
-                            {path: '!:id/!representative/!:representativeId/!add-new', component: SchedulePlanningFormComponent},
-                            {path: '!:id/!representative/!:representativeId/!edit/!:userScheduleId', component: SchedulePlanningFormComponent}
-                        ]},
-                    {path: '!archive', component: ScheduleArchiveComponent, children: [
-                            {path: '!:id', component: ScheduleArchiveComponent},
-                            {path: '!:id/!representative/!:representativeId', component: ScheduleArchiveComponent},
-                            {path: '!:id/!edit/!:userScheduleId', component: SchedulePlanningFormComponent},
-                            {path: '!:id/!representative/!:representativeId/!edit/!:userScheduleId', component: SchedulePlanningFormComponent}
-                        ]}
-                ]
-            },
-            {
-                path: '!forum-regulations',
-                component: ForumRegulationsComponent,
-                canActivate: [AuthGuard]
-            },
-            {path: '**', redirectTo: 'followed'}
-        ]
-    }];
+                  { path: '', redirectTo: '!list', pathMatch: 'full' },
+                  { path: '!list', component: FollowedQueryComponent },
+                  { path: '!activity', component: FollowedObjectActivityComponent, data: { type: 'query' } },
+                ],
+                data: { labelledBy: 'tabFollowedQueries' },
+              },
+              { path: '**', redirectTo: 'dataset' },
+            ],
+          },
+          { path: '**', redirectTo: 'followed' },
+        ],
+      },
+      { path: '!stats', component: DashboardStatsComponent },
+      {
+        path: '!lab',
+        component: LabComponent,
+        children: [
+          { path: '', redirectTo: '!analyses', pathMatch: 'full' },
+          { path: '!info', component: LabInfoComponent },
+          { path: '!analyses', component: LabAnalysesComponent },
+          { path: '!researches', component: LabResearchesComponent },
+        ],
+      },
+      {
+        path: '!data-proposal',
+        component: DataProposalComponent,
+        canActivate: [RoleGuard],
+        data: { roles: PermissionPerRoles.BROWSE_NEW_DATA_PROPOSAL },
+        children: [
+          { path: '', redirectTo: '!active', pathMatch: 'full' },
+          {
+            path: '!active',
+            component: ActiveDataProposalComponent,
+            children: [{ path: '!details/!:id', component: DataProposalDetailsComponent }],
+          },
+          {
+            path: '!inactive',
+            component: InactiveDataProposalComponent,
+            children: [{ path: '!details/!:id', component: DataProposalDetailsComponent }],
+          },
+        ],
+      },
+      {
+        path: '!meetings',
+        component: MeetingsComponent,
+        canActivate: [RoleGuard],
+        data: { roles: PermissionPerRoles.BROWSE_MEETINGS },
+      },
+      {
+        path: '!schedule',
+        component: ScheduleComponent,
+        children: [
+          { path: '', redirectTo: '!planning', pathMatch: 'full' },
+          {
+            path: '!planning',
+            component: SchedulePlanningComponent,
+            children: [
+              { path: '!add-new', component: SchedulePlanningFormComponent },
+              { path: '!:userScheduleId', component: SchedulePlanningFormComponent },
+              { path: '!representative/!:representativeId', component: SchedulePlanningComponent },
+              { path: '!representative/!:representativeId/!add-new', component: SchedulePlanningFormComponent },
+              {
+                path: '!representative/!:representativeId/!edit/!:userScheduleId',
+                component: SchedulePlanningFormComponent,
+              },
+            ],
+          },
+          {
+            path: '!in-progress',
+            component: ScheduleInProgressComponent,
+            children: [
+              { path: '!:id', component: ScheduleInProgressComponent },
+              { path: '!:id/!representative/!:representativeId', component: ScheduleInProgressComponent },
+              { path: '!:id/!edit/!:userScheduleId', component: SchedulePlanningFormComponent },
+              { path: '!:id/!representative/!:representativeId/!add-new', component: SchedulePlanningFormComponent },
+              {
+                path: '!:id/!representative/!:representativeId/!edit/!:userScheduleId',
+                component: SchedulePlanningFormComponent,
+              },
+            ],
+          },
+          {
+            path: '!archive',
+            component: ScheduleArchiveComponent,
+            children: [
+              { path: '!:id', component: ScheduleArchiveComponent },
+              { path: '!:id/!representative/!:representativeId', component: ScheduleArchiveComponent },
+              { path: '!:id/!edit/!:userScheduleId', component: SchedulePlanningFormComponent },
+              {
+                path: '!:id/!representative/!:representativeId/!edit/!:userScheduleId',
+                component: SchedulePlanningFormComponent,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: '!forum-regulations',
+        component: ForumRegulationsComponent,
+        canActivate: [AuthGuard],
+      },
+      { path: '**', redirectTo: 'followed' },
+    ],
+  },
+];
 
 /**
  * @ignore
  */
 @NgModule({
-    imports: [
-        RouterModule.forChild(routes),
-        LocalizeRouterModule.forChild(routes),
-    ],
-    exports: [RouterModule, LocalizeRouterModule]
+  imports: [RouterModule.forChild(routes), LocalizeRouterModule.forChild(routes)],
+  exports: [RouterModule, LocalizeRouterModule],
 })
-export class UserRoutingModule {
-}
+export class UserRoutingModule {}

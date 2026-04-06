@@ -32,21 +32,21 @@ import { ScheduleService } from '@app/user/schedule/tabs/schedule.service';
  * Schedule Planning Component
  */
 @Component({
-    selector: 'app-schedule-planning',
-    templateUrl: './schedule-planning.component.html',
-    styles: [],
-    standalone: true,
-    imports: [
-        ScheduleTabComponent,
-        NgIf,
-        ScheduleTableComponent,
-        PermissionDirective,
-        ScheduleStatusSwitcherComponent,
-        ScheduleStatusComponent,
-        ScheduleSearchSuggestComponent,
-        ConfirmationModalComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-schedule-planning',
+  templateUrl: './schedule-planning.component.html',
+  styles: [],
+  standalone: true,
+  imports: [
+    ScheduleTabComponent,
+    NgIf,
+    ScheduleTableComponent,
+    PermissionDirective,
+    ScheduleStatusSwitcherComponent,
+    ScheduleStatusComponent,
+    ScheduleSearchSuggestComponent,
+    ConfirmationModalComponent,
+    TranslatePipe,
+  ],
 })
 export class SchedulePlanningComponent implements OnInit, OnDestroy {
   /**
@@ -60,7 +60,7 @@ export class SchedulePlanningComponent implements OnInit, OnDestroy {
    * Columns definition
    * @type {Array<ColumnDefinition>}
    */
-  columns: Array<ColumnDefinition>;
+  columns: ColumnDefinition[];
 
   /**
    * Table config
@@ -173,10 +173,12 @@ export class SchedulePlanningComponent implements OnInit, OnDestroy {
    * @param status
    */
   changeScheduleStatus(status: boolean) {
-    this.schedulePlanningService.updateScheduleStatus((this.dataSource as UserSchedule).userScheduleId, status).subscribe(() => {
-      this.dataSource = Object.assign(this.dataSource, { completed: !(this.dataSource as UserSchedule).completed });
-      this.config = this.getRepresentativeScheduleViewConfig();
-    });
+    this.schedulePlanningService
+      .updateScheduleStatus((this.dataSource as UserSchedule).userScheduleId, status)
+      .subscribe(() => {
+        this.dataSource = Object.assign(this.dataSource, { completed: !(this.dataSource as UserSchedule).completed });
+        this.config = this.getRepresentativeScheduleViewConfig();
+      });
   }
 
   /**
@@ -198,7 +200,9 @@ export class SchedulePlanningComponent implements OnInit, OnDestroy {
       this.itemToDelete = '';
       this.notificationsFrontService.clearAlerts();
       this.notificationsFrontService.addSuccess('Zmiany zostały zapisane');
-      this.dataSource = Object.assign({}, this.dataSource, { data: this.dataSource.data.filter(item => item.id !== id) });
+      this.dataSource = Object.assign({}, this.dataSource, {
+        data: this.dataSource.data.filter((item) => item.id !== id),
+      });
     });
   }
 
@@ -206,7 +210,7 @@ export class SchedulePlanningComponent implements OnInit, OnDestroy {
    * Opens new schedule
    */
   openNewSchedule() {
-    this.schedulePlanningService.openNewSchedule().subscribe(schedule => {
+    this.schedulePlanningService.openNewSchedule().subscribe((schedule) => {
       this.dataSource = schedule;
       this.isStartNewPeriodConfirmationDialogVisible = false;
     });
@@ -238,10 +242,10 @@ export class SchedulePlanningComponent implements OnInit, OnDestroy {
       new ColumnDefinition('isReady', 'Gotowe', [Role.ADMIN]),
       new ColumnDefinition('recommendations', 'Rekomendacje'),
     ];
-    this.schedulePlanningService.getRepresentativesSchedules().subscribe(schedules => {
+    this.schedulePlanningService.getRepresentativesSchedules().subscribe((schedules) => {
       this.dataSource = schedules;
 
-      const isDataEmpty = !!!this.dataSource?.data.length;
+      const isDataEmpty = !this.dataSource?.data.length;
       this.config = new ScheduleTableConfig.builder()
         .default()
         .withLeftButton(new ButtonConfig('Otwórz nowy okres', undefined, this.startNewPeriod()))
@@ -281,8 +285,10 @@ export class SchedulePlanningComponent implements OnInit, OnDestroy {
     ];
 
     this.schedulePlanningService
-      .getSchedulesItemForCurrentSchedule(this.isAdmin ? Number(this.activatedRoute.snapshot.paramMap.get('representativeId')) : undefined)
-      .subscribe(schedule => {
+      .getSchedulesItemForCurrentSchedule(
+        this.isAdmin ? Number(this.activatedRoute.snapshot.paramMap.get('representativeId')) : undefined,
+      )
+      .subscribe((schedule) => {
         this.dataSource = schedule;
         this.config = this.getRepresentativeScheduleViewConfig();
         this.isReady = true;
@@ -295,12 +301,14 @@ export class SchedulePlanningComponent implements OnInit, OnDestroy {
    */
   private getRepresentativeScheduleViewConfig() {
     const isCompleted = (this.dataSource as UserSchedule)?.completed;
-    const isDataEmpty = !!!this.dataSource?.data.length;
+    const isDataEmpty = !this.dataSource?.data.length;
     const isBlocked = this.dataSource?.isBlocked;
     return new ScheduleTableConfig.builder()
       .default()
       .withLeftButton(
-        this.isAdmin || (!isCompleted && !isBlocked && !this.isAdmin) ? new ButtonConfig('Dodaj zgłoszenie', ['add-new']) : undefined,
+        this.isAdmin || (!isCompleted && !isBlocked && !this.isAdmin)
+          ? new ButtonConfig('Dodaj zgłoszenie', ['add-new'])
+          : undefined,
       )
       .withActions(
         this.isAdmin || (!isCompleted && !this.isAdmin && !isBlocked && !this.isAdmin)

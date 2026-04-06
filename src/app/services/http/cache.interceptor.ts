@@ -1,18 +1,17 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {Observable, of} from 'rxjs';
-import {finalize, shareReplay, tap} from 'rxjs/operators';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { finalize, shareReplay, tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CacheInterceptor implements HttpInterceptor {
+  cache = new Map<string, HttpEvent<unknown>>();
+  queue = new Map<string, Observable<HttpEvent<unknown>>>();
 
-  cache: Map<string, HttpEvent<unknown>> = new Map();
-  queue: Map<string, Observable<HttpEvent<unknown>>> = new Map();
-
-  currentUrl: string = '';
+  currentUrl = '';
 
   constructor(private router: Router) {}
 
@@ -39,13 +38,13 @@ export class CacheInterceptor implements HttpInterceptor {
     }
 
     const shared = next.handle(req).pipe(
-      tap(event => {
+      tap((event) => {
         if (event instanceof HttpResponse) {
           this.cache.set(req.urlWithParams, event.clone());
         }
       }),
       finalize(() => this.queue.delete(req.urlWithParams)),
-      shareReplay()
+      shareReplay(),
     );
 
     this.queue.set(req.urlWithParams, shared);

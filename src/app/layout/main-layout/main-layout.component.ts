@@ -25,12 +25,12 @@ import { TourPickerComponent } from '@app/shared/tour/tour-picker/tour-picker.co
     HeaderComponent,
     FooterComponent,
     NgProgressHttp,
-    NgProgressRouter
+    NgProgressRouter,
   ],
   standalone: true,
   host: {
-    class: 'main-layout'
-  }
+    class: 'main-layout',
+  },
 })
 export class MainLayoutComponent {
   isHomepage: boolean;
@@ -40,12 +40,15 @@ export class MainLayoutComponent {
    * @param router
    * @param localize
    */
-  constructor(private router: Router, private localize: LocalizeRouterService) {
+  constructor(
+    private router: Router,
+    private localize: LocalizeRouterService,
+  ) {
     this.localize.hooks.initialized.pipe(take(1)).subscribe(() => {
       this.isHomepage = RoutingHelper.isHomePage(router.url);
     });
 
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       this.isHomepage = RoutingHelper.isHomePage(event.url);
     });
   }

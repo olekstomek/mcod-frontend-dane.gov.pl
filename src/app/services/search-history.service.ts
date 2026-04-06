@@ -19,8 +19,10 @@ export class SearchHistoryService extends RestService {
    * @param {number} [page]
    * @returns {Observable<GroupedSearchHistory>}
    */
-  getGroupedSearchHistory(page: number = 1): Observable<GroupedSearchHistory> {
-    return this.get(ApiConfig.searchHistory, { per_page: 100, page: page, sort: '-modified' }).pipe(map(data => this.groupByDate(data)));
+  getGroupedSearchHistory(page = 1): Observable<GroupedSearchHistory> {
+    return this.get(ApiConfig.searchHistory, { per_page: 100, page: page, sort: '-modified' }).pipe(
+      map((data) => this.groupByDate(data)),
+    );
   }
 
   /**
@@ -55,9 +57,7 @@ export class SearchHistoryService extends RestService {
   }
 }
 
-export interface GroupedSearchHistory {
-  [key: string]: SearchHistoryQuery[];
-}
+export type GroupedSearchHistory = Record<string, SearchHistoryQuery[]>;
 
 export interface SearchHistoryQuery {
   params: BasicPageParams;

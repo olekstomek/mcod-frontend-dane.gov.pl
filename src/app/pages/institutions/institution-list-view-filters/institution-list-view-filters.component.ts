@@ -10,27 +10,17 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
  * Institution filter wrapper for all components
  */
 @Component({
-    selector: 'app-institution-list-view-filters',
-    templateUrl: './institution-list-view-filters.component.html',
-    standalone: true,
-    imports: [
-        InfoTooltipDirective,
-        ExpandableMultiselectComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-institution-list-view-filters',
+  templateUrl: './institution-list-view-filters.component.html',
+  standalone: true,
+  imports: [InfoTooltipDirective, ExpandableMultiselectComponent, TranslatePipe],
 })
 export class InstitutionListViewFiltersComponent extends ListViewFilterAbstractComponent {
   /**
    * invokes applyFilter from extended component with institution filter names
    */
 
-  institutionsSortingOrder: string[] = [
-    'state',
-    'local',
-    'private',
-    'developer',
-    'other',
-  ];
+  institutionsSortingOrder: string[] = ['state', 'local', 'private', 'developer', 'other'];
   applyFilter() {
     super.applyFilter(InstitutionListViewFilterNames);
   }

@@ -12,10 +12,10 @@ import { UserDashboardListViewBaseComponent } from '@app/user/list-view/user-das
  * Academy Courses List Component
  */
 @Component({
-    selector: 'app-academy-courses-list-container',
-    templateUrl: './academy-courses-list-container.component.html',
-    standalone: true,
-    imports: [NgFor, AcademyCourseComponent],
+  selector: 'app-academy-courses-list-container',
+  templateUrl: './academy-courses-list-container.component.html',
+  standalone: true,
+  imports: [NgFor, AcademyCourseComponent],
 })
 export class AcademyCoursesListContainerComponent extends UserDashboardListViewBaseComponent implements OnInit {
   /**
@@ -37,12 +37,12 @@ export class AcademyCoursesListContainerComponent extends UserDashboardListViewB
   /**
    * AOD Courses schedules grouped by month,  related to all the courses
    */
-  schedulesByMonth: { [key: string]: AodCourseScheduleDay[] }[] = [];
+  schedulesByMonth: Record<string, AodCourseScheduleDay[]>[] = [];
 
   /**
    * AOD Courses schedules grouped by type without duplicates,  related to all the courses
    */
-  schedulesByType: { [key: string]: string }[] = [];
+  schedulesByType: Record<string, string>[] = [];
 
   /**
    * Sets date's locale.
@@ -61,7 +61,7 @@ export class AcademyCoursesListContainerComponent extends UserDashboardListViewB
     this.schedulesByMonth = [];
     this.schedulesByType = [];
 
-    items.forEach(item => {
+    items.forEach((item) => {
       const schedule = this.createSchedule(item);
       const scheduleGroup = this.groupSchedulesByMonth(schedule);
       const schedulesByType = this.groupSchedulesByType(schedule);
@@ -81,7 +81,11 @@ export class AcademyCoursesListContainerComponent extends UserDashboardListViewB
    * @param {string} date
    * @returns
    */
-  private createAodCourseScheduleDay(session: AodCourseSession, sessionCounter: number, date: string): AodCourseScheduleDay {
+  private createAodCourseScheduleDay(
+    session: AodCourseSession,
+    sessionCounter: number,
+    date: string,
+  ): AodCourseScheduleDay {
     const momentDate: moment.Moment = moment(date);
 
     return {

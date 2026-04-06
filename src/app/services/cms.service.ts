@@ -52,9 +52,10 @@ export class CmsService {
     if (!environment.production) {
       this.base_hostname = ApiCmsConfig.CMS_PREFIX;
     } else {
-      this.base_hostname = this.document.location.protocol + '//cms.' + this.document.location.hostname.replace('www.', '');
+      this.base_hostname =
+        this.document.location.protocol + '//cms.' + this.document.location.hostname.replace('www.', '');
     }
-    this.elementFooterNavIsExist.subscribe(value => {
+    this.elementFooterNavIsExist.subscribe((value) => {
       this.isElementFooterNavExist = value;
     });
 
@@ -88,9 +89,9 @@ export class CmsService {
   getAllNewsWidgets(params: INewsPageParams): Observable<any> {
     const url = `${this.base_hostname}${ApiCmsConfig.BASE_URL}${CmsHardcodedPages.NEWS}/`;
     return this.http.get(url, { ...this.getCredentials(), params: params }).pipe(
-      map(resp => {
+      map((resp) => {
         return {
-          data: resp['meta'].children.map(child => {
+          data: resp['meta'].children.map((child) => {
             return {
               attributes: {
                 author: child.author,
@@ -118,7 +119,7 @@ export class CmsService {
   getNewsWidgets(id: string): Observable<any> {
     const url = `${this.base_hostname}${ApiCmsConfig.BASE_URL}${CmsHardcodedPages.NEWS}/${id}/`;
     return this.http.get(url, this.getCredentials()).pipe(
-      map(resp => {
+      map((resp) => {
         return {
           attributes: {
             author: resp['author'],
@@ -160,7 +161,7 @@ export class CmsService {
    */
   getImage(url: string) {
     return this.http.get(this.base_hostname + url, { ...this.getCredentials(), responseType: 'blob' }).pipe(
-      map(response => {
+      map((response) => {
         return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response));
       }),
     );
@@ -180,7 +181,7 @@ export class CmsService {
    * @return {IRawTextDocumentMetadata}
    */
   getDocumentMetadata(id: string): IRawTextDocumentMetadata {
-    const foundDocument = this.cmsDocumentsList.items.find(element => element.id.toString() === id);
+    const foundDocument = this.cmsDocumentsList.items.find((element) => element.id.toString() === id);
 
     if (!foundDocument) {
       return { id: null, href: null };
@@ -209,7 +210,11 @@ export class CmsService {
    * @param {string} revision
    * @return {Observable<any>}
    */
-  getLandingPage(relativeUrl: string, lang: string = this.translate.currentLang, revision?: string): Observable<IPageCms> {
+  getLandingPage(
+    relativeUrl: string,
+    lang: string = this.translate.currentLang,
+    revision?: string,
+  ): Observable<IPageCms> {
     const landingPageUrl = this.getUrl(relativeUrl);
     const params = this.createParamsObj(lang, revision);
 
@@ -218,7 +223,7 @@ export class CmsService {
     }
 
     return this.http.get<IPageCms>(landingPageUrl, { ...this.getCredentials(), params: params }).pipe(
-      map(page => {
+      map((page) => {
         return {
           ...page,
           type: WidgetType.TEXT,
@@ -239,7 +244,7 @@ export class CmsService {
     const params = this.createParamsObj(lang, revision);
 
     return this.http.get<IPageCms>(simplePageUrl, { ...this.getCredentials(), params: params }).pipe(
-      map(page => {
+      map((page) => {
         return {
           ...page,
           type: WidgetType.TEXT,
@@ -268,7 +273,7 @@ export class CmsService {
    * @param {FormData} payload
    * @return {Observable<any>}
    */
-  sendForm(url: string, payload: { [key: string]: any }): Observable<any> {
+  sendForm(url: string, payload: Record<string, any>): Observable<any> {
     return this.http.post(url, payload);
   }
 
@@ -320,7 +325,7 @@ export class CmsService {
    * Gets credentials based on current environment
    * @returns {{withCredentials: boolean}}
    */
-  getCredentials(): { [key: string]: boolean } {
+  getCredentials(): Record<string, boolean> {
     let hasCredentials: boolean;
     switch (this.document.location.hostname) {
       case 'localhost':

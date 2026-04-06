@@ -16,7 +16,6 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { LocalizeRouterPipe, LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
@@ -60,10 +59,10 @@ import { ObjectHelper } from '@app/shared/helpers';
     </app-search-suggest>
  */
 @Component({
-    selector: 'app-search-suggest',
-    templateUrl: './search-suggest.component.html',
-    animations: [toggleVertically],
-    standalone: true,
+  selector: 'app-search-suggest',
+  templateUrl: './search-suggest.component.html',
+  animations: [toggleVertically],
+  standalone: true,
   imports: [
     NgIf,
     FormsModule,
@@ -76,7 +75,6 @@ import { ObjectHelper } from '@app/shared/helpers';
     TranslatePipe,
     LocalizeRouterPipe,
     KeyvalueOrderPipe,
-    SanitizeHtmlPipe,
   ],
 })
 export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
@@ -98,7 +96,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
   /**
    * Search query placeholder and aria label text
    */
-  @Input('placeholderTranslationKey') placeholderTranslationKey = 'Home.Search.PlaceholderText';
+  @Input() placeholderTranslationKey = 'Home.Search.PlaceholderText';
 
   /**
    * Search query
@@ -182,12 +180,12 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
   /**
    * Emits new value on search
    */
-  @Output() searchTrigger = new EventEmitter<{ [key: string]: string }>();
+  @Output() searchTrigger = new EventEmitter<Record<string, string>>();
 
   /**
    * Emits new value on clear
    */
-  @Output() clearTrigger = new EventEmitter<{ [key: string]: string }>();
+  @Output() clearTrigger = new EventEmitter<Record<string, string>>();
 
   /**
    * Emits click event to move into search results for screen reader
@@ -292,7 +290,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
           return this.searchSuggestionsService.getSuggestions(changedPhrase, this.apiModels, this.maxResultsPerModel);
         }),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         if (!response || response['data'].length === 0) {
           if (this.apiModels[0] === 'region') {
             this.regionListboxOption.emit(null);
@@ -331,9 +329,9 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * Sets focus after search input is cleared
    */
   ngAfterViewInit() {
-    this.searchTextCleared.subscribe(isSearchTextEmpty => {
+    this.searchTextCleared.subscribe((isSearchTextEmpty) => {
       if (isSearchTextEmpty) {
-        (<HTMLInputElement>this.queryInputRef.nativeElement).focus();
+        (this.queryInputRef.nativeElement as HTMLInputElement).focus();
       }
     });
   }
@@ -377,7 +375,12 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
         break;
       case ApiModel.RESOURCE:
         const relatedType: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'data', 'type']);
-        const relatedTypeApiUrl: string = ObjectHelper.getNested(item, ['relationships', 'dataset', 'links', 'related']);
+        const relatedTypeApiUrl: string = ObjectHelper.getNested(item, [
+          'relationships',
+          'dataset',
+          'links',
+          'related',
+        ]);
         if (relatedType && relatedTypeApiUrl) {
           const relatedTypeApiUrlArray = relatedTypeApiUrl.split('/');
           const relatedTypeUrlPart = relatedTypeApiUrlArray[relatedTypeApiUrlArray.length - 1];
@@ -424,7 +427,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * @returns {SearchSuggestListboxOption[]} listbox options
    */
   prepareListboxOptions(responseData: any[]) {
-    return responseData.map(item => {
+    return responseData.map((item) => {
       return this.createListboxOptionFromItem(item);
     });
   }
@@ -465,7 +468,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
   onClear() {
     this.searchText = '';
     this.activeSetting = this.searchAdvancedSettings.ANY;
-    (<HTMLInputElement>this.queryInputRef.nativeElement).focus();
+    (this.queryInputRef.nativeElement as HTMLInputElement).focus();
 
     const queryParams = this.prepareQueryParams({ q: '' });
 
@@ -481,7 +484,7 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * @param {[key: string]: string} queryParams
    * @returns {[key: string]: string}
    */
-  prepareQueryParams(queryParams: { [key: string]: string }): { [key: string]: string } {
+  prepareQueryParams(queryParams: Record<string, string>): Record<string, string> {
     if (this.showAdvancedSettings) {
       queryParams['advanced'] = this.activeSetting !== SearchAdvancedSettings.ANY ? this.activeSetting : null;
     }
@@ -496,8 +499,8 @@ export class SearchSuggestComponent implements OnInit, OnChanges, AfterViewInit,
    * @param {string} url
    * @param {[key: string]: string} queryParams
    */
-  updateParamsOrRedirect(url: string, queryParams: { [key: string]: string }) {
-    const localizedURL: Array<string> = url !== '.' ? (this.localize.translateRoute([url]) as Array<string>) : [url];
+  updateParamsOrRedirect(url: string, queryParams: Record<string, string>) {
+    const localizedURL: string[] = url !== '.' ? (this.localize.translateRoute([url]) as string[]) : [url];
     this.router.navigate(localizedURL, {
       queryParams: queryParams,
       queryParamsHandling: 'merge',

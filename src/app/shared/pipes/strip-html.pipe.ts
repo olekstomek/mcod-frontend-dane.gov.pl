@@ -7,8 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  * {{ item.description | stripHtml }}
  */
 @Pipe({
-    name: 'stripHtml',
-    standalone: true,
+  name: 'stripHtml',
+  standalone: true,
 })
 export class StripHtmlPipe implements PipeTransform {
   /**

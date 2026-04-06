@@ -3,7 +3,8 @@ import {
   ApplicationRef,
   ComponentFactoryResolver,
   ComponentRef,
-  EmbeddedViewRef, inject,
+  EmbeddedViewRef,
+  inject,
   Inject,
   Injectable,
   Injector,
@@ -29,7 +30,7 @@ import { TourItemTreeNode } from '@app/shared/tour/TourItemTreeNode';
  * Tour service
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TourService implements OnDestroy {
   /**
@@ -119,7 +120,7 @@ export class TourService implements OnDestroy {
    * Visible steps without optional
    * @type {Array<TourItem>}
    */
-  private visibleStepsWithoutOptional: Array<TourItem>;
+  private visibleStepsWithoutOptional: TourItem[];
 
   /**
    * Tour items tree
@@ -174,7 +175,7 @@ export class TourService implements OnDestroy {
     this.shepherdService.confirmCancel = false;
     this.tree = TourItemTreeNode.fromArray(tour.items, document);
     this.visibleStepsWithoutOptional = this.tree.findVisibleItems();
-    const steps: Array<ShepardStep> = this.visibleStepsWithoutOptional.map((tourItem, index) => ({
+    const steps: ShepardStep[] = this.visibleStepsWithoutOptional.map((tourItem, index) => ({
       title: tourItem.name,
       text: tourItem.content,
       attachTo: {
@@ -199,9 +200,9 @@ export class TourService implements OnDestroy {
           const content = currentStepElement.querySelector('.shepherd-content');
           this.changeStepClickListener$ = this.tourProgressComponentRef.instance.changeStep
             .pipe(take(1))
-            .subscribe(id => shepherd.show(id));
+            .subscribe((id) => shepherd.show(id));
           const domElem = (this.tourProgressComponentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-          this.tourProgressComponentRef.instance.steps = shepherd.steps.map(step => {
+          this.tourProgressComponentRef.instance.steps = shepherd.steps.map((step) => {
             return shepherd.getCurrentStep().id === step.id;
           });
           content.appendChild(domElem);
@@ -226,7 +227,8 @@ export class TourService implements OnDestroy {
           progress: {
             tourId: tour.id,
             currentStepIndex: currentStepId,
-            currentStepRoute: TourService.removeLanguagePrefixFromRoute(this.router.url.split('?')[0])}
+            currentStepRoute: TourService.removeLanguagePrefixFromRoute(this.router.url.split('?')[0]),
+          },
         }),
       );
       this.removeProgressBar();
@@ -240,7 +242,8 @@ export class TourService implements OnDestroy {
       this.tourSavedProgress$.next({
         tourId: tour.id,
         currentStepIndex: 0,
-        currentStepRoute: tour.items[0].route});
+        currentStepRoute: tour.items[0].route,
+      });
       this.removeProgressBar();
       this.navigationStart$.unsubscribe();
       this.localStorageService.set('tourComplete', true);
@@ -270,10 +273,10 @@ export class TourService implements OnDestroy {
    */
   getCurrentTour(): Observable<Tour> {
     return this.tourSavedProgress$.pipe(
-      switchMap(tourProgress => {
+      switchMap((tourProgress) => {
         return this.tourDataService
           .getTourById(tourProgress.tourId)
-          .pipe(map(tour => Object.assign(tour, { progress: tourProgress })));
+          .pipe(map((tour) => Object.assign(tour, { progress: tourProgress })));
       }),
     );
   }
@@ -303,11 +306,14 @@ export class TourService implements OnDestroy {
    * @param index
    * @returns {() => (Promise<void>)}
    */
-  private clickOnClickableStepBeforeShowNextStep(tourItems: Array<TourItem>, shepard: any, index: number): () => Promise<void> {
+  private clickOnClickableStepBeforeShowNextStep(
+    tourItems: TourItem[],
+    shepard: any,
+    index: number,
+  ): () => Promise<void> {
     return () => {
-      // tslint:disable-next-line:no-unused-expression
       this.changeStepClickListener$ && this.changeStepClickListener$.unsubscribe();
-      return new Promise<void>(async resolve => {
+      return new Promise<void>(async (resolve) => {
         await this.clickClickableParentBeforeStepChangeWhenNecessary(tourItems, shepard, index, resolve);
       });
     };
@@ -321,7 +327,7 @@ export class TourService implements OnDestroy {
    * @param cb
    */
   private async clickClickableParentBeforeStepChangeWhenNecessary(
-    tourItems: Array<TourItem>,
+    tourItems: TourItem[],
     shepherd: any,
     id: number,
     cb: () => void,
@@ -333,7 +339,7 @@ export class TourService implements OnDestroy {
     }
 
     for (const itemToClick of itemsToClick) {
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         if (itemToClick.is_clickable) {
           this.clickOnClickableStep(itemToClick, resolve as () => void);
         } else {
@@ -359,11 +365,11 @@ export class TourService implements OnDestroy {
     this.lastClickedElementCSSSelector = item.css_selector;
     this.appRef.isStable
       .pipe(
-        filter(res => res),
+        filter((res) => res),
         take(1),
       )
       .subscribe(() => {
-        if (!!this.overlay) {
+        if (this.overlay) {
           this.renderer2.removeChild(this.document.body, this.overlay);
           this.overlay = null;
         }
@@ -378,21 +384,22 @@ export class TourService implements OnDestroy {
    * @param cb
    */
   private clickOnExpendableElement(tourItem: TourItem, cb: (value?: any) => void = () => {}): void {
-    const isAlreadyExpandedFromOutsideTour = document.querySelector(tourItem.css_selector)?.getAttribute('aria-pressed') === 'true';
+    const isAlreadyExpandedFromOutsideTour =
+      document.querySelector(tourItem.css_selector)?.getAttribute('aria-pressed') === 'true';
     if (
       isAlreadyExpandedFromOutsideTour ||
-      this.visibleStepsWithoutOptional.find(item => item.css_selector === tourItem.css_selector).expanded === true
+      this.visibleStepsWithoutOptional.find((item) => item.css_selector === tourItem.css_selector).expanded === true
     ) {
       return cb();
     }
     this.document.querySelector<HTMLButtonElement>(tourItem.css_selector)?.click();
     this.appRef.isStable
       .pipe(
-        filter(res => res),
+        filter((res) => res),
         take(1),
       )
       .subscribe(() => {
-        this.visibleStepsWithoutOptional = this.visibleStepsWithoutOptional.map(item => {
+        this.visibleStepsWithoutOptional = this.visibleStepsWithoutOptional.map((item) => {
           if (item.css_selector === tourItem.css_selector) {
             return Object.assign({}, tourItem, { expanded: true });
           }
@@ -406,7 +413,7 @@ export class TourService implements OnDestroy {
    * Creates temporary overlay
    */
   private createOverlay(): void {
-    if (!!this.overlay) {
+    if (this.overlay) {
       return;
     }
     this.overlay = this.document.createElement('div');
@@ -420,7 +427,7 @@ export class TourService implements OnDestroy {
   private subscribeForRouteChanges(): void {
     this.navigationStart$ = this.router.events
       .pipe(
-        filter(event => event instanceof NavigationStart),
+        filter((event) => event instanceof NavigationStart),
         filter(() => !this.isNavigationFromClickableElement),
         filter((event: NavigationStart) => event.url.split('?')[0] !== this.currentRouteUrl),
         take(1),
@@ -438,7 +445,7 @@ export class TourService implements OnDestroy {
    * @param stepsCount
    * @returns {any[]}
    */
-  private getStepButtons(stepIndex: number, stepsCount: number): Array<any> {
+  private getStepButtons(stepIndex: number, stepsCount: number): any[] {
     const buttons = [];
     const pauseButton = {
       classes: 'btn btn-outline-primary btn-sm prev-btn',
@@ -483,12 +490,12 @@ export class TourService implements OnDestroy {
     const currentRoute = TourService.removeLanguagePrefixFromRoute(event.url.split('?')[0]);
     const tourExists = this.tourDataService.getTourForRoute(currentRoute);
     return this.tourSavedProgress$.pipe(
-      switchMap(currentTour => {
+      switchMap((currentTour) => {
         return zip(this.tourDataService.getTourById(currentTour.tourId), tourExists);
       }),
       map(([tour, isTour]) => {
         const requiredElements = [];
-        tour.items.forEach(step => {
+        tour.items.forEach((step) => {
           if (!step.is_optional) {
             requiredElements.push({ selector: step.css_selector });
           }
@@ -516,7 +523,7 @@ export class TourService implements OnDestroy {
     let isAppStable$: Subscription;
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         tap(() => {
           this.isButtonShouldBeVisibleForCurrentRoute$.next(false);
           if (isAppStable$) {
@@ -529,16 +536,19 @@ export class TourService implements OnDestroy {
         this.currentRouteUrl = event.url.split('?')[0];
         isAppStable$ = this.appRef.isStable
           .pipe(
-            filter(res => res),
+            filter((res) => res),
             take(1),
             switchMap(() => {
-              return zip(this.isButtonShouldBeVisibleForCurrentRoute(event), this.isRequiredElementsOnScreen(event)).pipe(
-                takeUntil(this.destroy$),
-              );
+              return zip(
+                this.isButtonShouldBeVisibleForCurrentRoute(event),
+                this.isRequiredElementsOnScreen(event),
+              ).pipe(takeUntil(this.destroy$));
             }),
           )
           .subscribe(([isButtonShouldBeVisibleForCurrentRoute, isRequiredElementsOnScreen]: [boolean, boolean]) => {
-            this.isButtonShouldBeVisibleForCurrentRoute$.next(isButtonShouldBeVisibleForCurrentRoute && isRequiredElementsOnScreen);
+            this.isButtonShouldBeVisibleForCurrentRoute$.next(
+              isButtonShouldBeVisibleForCurrentRoute && isRequiredElementsOnScreen,
+            );
           });
       });
   }
@@ -555,23 +565,26 @@ export class TourService implements OnDestroy {
   private validateButtonVisibilityForCurrentRoute(event: NavigationEnd): Observable<boolean> {
     const currentRoute = TourService.removeLanguagePrefixFromRoute(event.url.split('?')[0]);
     return this.tourDataService.getTourForRoute(currentRoute).pipe(
-      map(tour => {
+      map((tour) => {
         if (!tour) {
           return false;
         }
         const modifiedRoute = tour.items[0].route.replace('?', '');
         const isTourStartsOnCurrentRoute = pathToRegexp(modifiedRoute).regexp.test(currentRoute);
         const pausedTour = this.getPausedTour();
-        if (isTourStartsOnCurrentRoute &&
-          (!pausedTour || (pausedTour && !pathToRegexp(pausedTour.currentStepRoute).regexp.test(currentRoute)))) {
+        if (
+          isTourStartsOnCurrentRoute &&
+          (!pausedTour || (pausedTour && !pathToRegexp(pausedTour.currentStepRoute).regexp.test(currentRoute)))
+        ) {
           this.tourSavedProgress$.next({
             tourId: tour.id,
             currentStepIndex: 0,
-            currentStepRoute: tour.items[0].route});
+            currentStepRoute: tour.items[0].route,
+          });
           return true;
         }
 
-        if (!!pausedTour) {
+        if (pausedTour) {
           this.tourSavedProgress$.next(pausedTour);
         }
 

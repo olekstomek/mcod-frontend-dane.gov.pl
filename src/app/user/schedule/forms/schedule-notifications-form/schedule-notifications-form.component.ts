@@ -9,19 +9,11 @@ import { ScheduleNotificationRecipientType } from '@app/user/schedule/services/s
 import { ScheduleNotificationsService } from '@app/user/schedule/services/schedule-notifications.service';
 
 @Component({
-    selector: 'app-schedule-notifications-form',
-    templateUrl: './schedule-notifications-form.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        NotificationsServerComponent,
-        NgClass,
-        NgFor,
-        TranslatePipe,
-    ],
+  selector: 'app-schedule-notifications-form',
+  templateUrl: './schedule-notifications-form.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [NgIf, FormsModule, ReactiveFormsModule, NotificationsServerComponent, NgClass, NgFor, TranslatePipe],
 })
 export class ScheduleNotificationsFormComponent implements OnInit {
   /**
@@ -88,7 +80,7 @@ export class ScheduleNotificationsFormComponent implements OnInit {
       return false;
     }
 
-    this.scheduleNotificationsService.sendNotification(this.notificationForm.value).subscribe(response => {
+    this.scheduleNotificationsService.sendNotification(this.notificationForm.value).subscribe((response) => {
       this.notificationSentMessage = response.data.attributes.result;
       this.notificationForm.reset();
     });

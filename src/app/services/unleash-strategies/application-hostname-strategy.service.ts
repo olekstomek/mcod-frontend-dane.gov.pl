@@ -21,6 +21,6 @@ export class ApplicationHostnameStrategyService {
    */
   validateStrategy(hostNames: string): boolean {
     const names = hostNames.toLowerCase().split(',');
-    return names.findIndex(el => el === this.hostname) >= 0;
+    return names.findIndex((el) => el === this.hostname) >= 0;
   }
 }

@@ -14,7 +14,7 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, SearchComponent],
-      providers: [importProvidersFrom(AppTestingModule)]
+      providers: [importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchComponent);
@@ -29,25 +29,25 @@ describe('SearchComponent', () => {
   });
 
   it('should redirects to dataset lists page to display results', () => {
-    const testForm = <NgForm>{
+    const testForm = {
       value: {
         name: 'Hello',
         category: 'World',
       },
-    };
+    } as NgForm;
     const navigateSpy = jest.spyOn(router, 'navigate');
     component.search(testForm);
     expect(navigateSpy).toHaveBeenCalledWith(['/dataset']);
   });
 
   it('should redirects to dataset lists page to display query results', () => {
-    const testForm = <NgForm>{
+    const testForm = {
       value: {
         name: 'Hello',
         category: 'World',
         query: 'test',
       },
-    };
+    } as NgForm;
     const navigateSpy = jest.spyOn(router, 'navigate');
     component.search(testForm);
     expect(navigateSpy).toHaveBeenCalledWith(['/dataset'], { queryParams: { q: 'test' } });

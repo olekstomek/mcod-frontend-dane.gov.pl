@@ -1,8 +1,7 @@
 <app-logingovpl-notification
   [styleClass]="'mt-30'"
   [hideAfter]="30000"
-  [contrastMode]="highContrastMode"
-></app-logingovpl-notification>
+  [contrastMode]="highContrastMode"></app-logingovpl-notification>
 
 <ng-container *ngIf="!isEmailLoginChoose">
   <div class="container vertical-spacing">
@@ -10,11 +9,10 @@
       <div class="col-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1">
         <h1 class="heading heading--md heading--separator">{{ 'Login.ChooseMethod' | translate }}</h1>
         <div class="login-start-container">
-
-          <div [ngClass]="['login-start-tile',highContrastMode]">
+          <div [ngClass]="['login-start-tile', highContrastMode]">
             <div class="login-start-image login-start-image__wk">
               <svg class="icon icon-login" aria-hidden="true" role="img">
-                <ng-container *ngIf="highContrastMode==='normal' else contrastTheme">
+                <ng-container *ngIf="highContrastMode === 'normal'; else contrastTheme">
                   <use href="/assets/icomoon/SVG/logo-login.svg#logo_login"></use>
                 </ng-container>
                 <ng-template #contrastTheme>
@@ -24,11 +22,13 @@
             </div>
             <div [ngClass]="['login-start-header', highContrastMode]">{{ 'Login.LoginGovPl.Header' | translate }}</div>
             <div class="login-start-text">{{ 'Login.LoginGovPl.Desc' | translate }}</div>
-            <hr [ngClass]=[highContrastMode] />
-            <a class="btn btn-primary login-start-button login-start-button__wk" (click)="loginViaWk()">{{ 'Login.Choose' | translate }}</a>
+            <hr [ngClass]="[highContrastMode]" />
+            <a class="btn btn-primary login-start-button login-start-button__wk" (click)="loginViaWk()">{{
+              'Login.Choose' | translate
+            }}</a>
           </div>
 
-          <div [ngClass]="['login-start-tile',highContrastMode]">
+          <div [ngClass]="['login-start-tile', highContrastMode]">
             <div class="login-start-image login-start-image__form">
               <svg class="icon icon-form" aria-hidden="true" role="img">
                 <use href="/assets/icomoon/SVG/form_icon.svg#form_icon"></use>
@@ -36,25 +36,31 @@
             </div>
             <div [ngClass]="['login-start-header', highContrastMode]">{{ 'Login.Email.Header' | translate }}</div>
             <div class="login-start-text">{{ 'Login.Email.Desc' | translate }}</div>
-            <hr [ngClass]=[highContrastMode] />
-            <a class="btn btn-outline-primary login-start-button login-start-button__form" id='email-button'
-               (click)="chooseEmailLogin()">{{ 'Login.Choose' | translate }}</a>
+            <hr [ngClass]="[highContrastMode]" />
+            <a
+              class="btn btn-outline-primary login-start-button login-start-button__form"
+              id="email-button"
+              (click)="chooseEmailLogin()"
+              >{{ 'Login.Choose' | translate }}</a
+            >
           </div>
-
         </div>
-        <div >{{ 'Login.NoAccount' | translate }}<a [routerLink]="['/', '!user', '!register'] | localize">
-          {{ 'Login.Register' | translate }}
-        </a></div>
+        <div>
+          {{ 'Login.NoAccount' | translate
+          }}<a [routerLink]="['/', '!user', '!register'] | localize">
+            {{ 'Login.Register' | translate }}
+          </a>
+        </div>
       </div>
     </div>
-
   </div>
 </ng-container>
 <ng-container *ngIf="isEmailLoginChoose">
   <section>
     <div class="container vertical-spacing">
       <div class="row">
-        <div class="btn prev-btn login-start-back" (click)="returnToLoginMethod()">&lsaquo; {{ 'Login.BackToLogin' | translate }}
+        <div class="btn prev-btn login-start-back" (click)="returnToLoginMethod()">
+          &lsaquo; {{ 'Login.BackToLogin' | translate }}
         </div>
       </div>
       <div class="row">
@@ -83,8 +89,7 @@
                 required
                 email
                 #email="ngModel"
-                [attr.aria-invalid]="!email.valid && email.touched"
-              />
+                [attr.aria-invalid]="!email.valid && email.touched" />
 
               <!-- email field validation error -->
               <small
@@ -94,15 +99,13 @@
                 id="email_error"
                 aria-live="polite"
                 *ngIf="!email.valid && email.touched"
-                @toggleVertically
-              >
+                @toggleVertically>
                 {{ 'Validation.RequiredEmail' | translate }}
               </small>
             </div>
 
             <!-- PASSWORD -->
-            <div class="form-group"
-                 [ngClass]="{ 'form-group-invalid': !password.valid && password.touched }">
+            <div class="form-group" [ngClass]="{ 'form-group-invalid': !password.valid && password.touched }">
               <label for="password">
                 {{ 'User.Password' | translate }}
                 <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
@@ -116,8 +119,7 @@
                 name="password"
                 required
                 #password="ngModel"
-                [attr.aria-invalid]="!password.valid && password.touched"
-              />
+                [attr.aria-invalid]="!password.valid && password.touched" />
 
               <!-- password field validation error -->
               <small
@@ -127,8 +129,7 @@
                 id="password_error"
                 aria-live="polite"
                 *ngIf="!password.valid && password.touched"
-                @toggleVertically
-              >
+                @toggleVertically>
                 "{{ 'User.Password' | translate }}"
                 {{ 'Validation.IsRequired' | translate }}
               </small>
@@ -144,8 +145,7 @@
                 name="rememberCheck"
                 #rememberCheck="ngModel"
                 [checked]="f.value.rememberCheck || false"
-                [attr.aria-checked]="f.value.rememberCheck || false"
-              />
+                [attr.aria-checked]="f.value.rememberCheck || false" />
 
               <label class="form-check-label" for="rememberCheck">
                 {{ 'Action.RememberMe' | translate | uppercase }}
@@ -156,9 +156,10 @@
                 type="button"
                 class="btn btn-secondary disabled"
                 *ngIf="!f.valid"
-                [attr.aria-label]="'Validation.InvalidEmailOrPassword' | translate: { param: 'Action.Login' | translate }"
-                [attr.aria-disabled]="true"
-              >
+                [attr.aria-label]="
+                  'Validation.InvalidEmailOrPassword' | translate: { param: 'Action.Login' | translate }
+                "
+                [attr.aria-disabled]="true">
                 {{ 'Action.Login' | translate | uppercase }}
               </button>
 
@@ -170,8 +171,9 @@
 
             <!-- FORGOTTEN PASSWORD -->
             <p class="forgotten">
-              <a [routerLink]="['/!user', '!lost-password'] | localize"> {{ 'User.ForgottenPassword' | translate }}
-                &raquo; </a>
+              <a [routerLink]="['/!user', '!lost-password'] | localize">
+                {{ 'User.ForgottenPassword' | translate }} &raquo;
+              </a>
             </p>
 
             <p>

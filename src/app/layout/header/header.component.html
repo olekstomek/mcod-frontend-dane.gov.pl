@@ -34,8 +34,7 @@
     <a
       class="btn btn-primary govpl__panel-login"
       target="_blank"
-      href="https://www.gov.pl/web/gov/klauzula-przetwarzania-danych-osobowych-udostepnionych-droga-elektroniczna"
-    >
+      href="https://www.gov.pl/web/gov/klauzula-przetwarzania-danych-osobowych-udostepnionych-droga-elektroniczna">
       <span class="visually-hidden">Logowanie do panelu</span>
       <!-- icon -->
       <svg class="icon icon-gov-user" aria-hidden="true" role="img">
@@ -51,23 +50,19 @@
       <img
         class="govpl__eu-logo contrast-normal"
         src="assets/eu-logo/eu-center-pl.svg"
-        alt="Logotyp Unii Europejskiej"
-      />
+        alt="Logotyp Unii Europejskiej" />
       <img
         class="govpl__eu-logo contrast-black-white"
         src="assets/eu-logo/eu-center-pl-black-white.svg"
-        alt="Logotyp Unii Europejskiej"
-      />
+        alt="Logotyp Unii Europejskiej" />
       <img
         class="govpl__eu-logo contrast-black-yellow"
         src="assets/eu-logo/eu-center-pl-black-yellow.svg"
-        alt="Logotyp Unii Europejskiej"
-      />
+        alt="Logotyp Unii Europejskiej" />
       <img
         class="govpl__eu-logo contrast-yellow-black"
         src="assets/eu-logo/eu-center-pl-yellow-black.svg"
-        alt="Logotyp Unii Europejskiej"
-      />
+        alt="Logotyp Unii Europejskiej" />
     </span>
   </div>
 
@@ -163,8 +158,7 @@
                 (click)="useLanguage('pl')"
                 [ngClass]="{ active: currentLang === 'pl' }"
                 [attr.aria-current]="currentLang === 'pl'"
-                lang="pl"
-              >
+                lang="pl">
                 <span aria-hidden="true">PL</span>
                 <span class="visually-hidden">
                   {{ currentLang === 'pl' ? 'polski' : 'Zmień język na polski' }}
@@ -179,8 +173,7 @@
                 (click)="useLanguage('en')"
                 [ngClass]="{ active: currentLang === 'en' }"
                 [attr.aria-current]="currentLang === 'en'"
-                lang="en"
-              >
+                lang="en">
                 <span aria-hidden="true">EN</span>
                 <span class="visually-hidden">
                   {{ currentLang === 'en' ? 'english' : 'Change language to english' }}
@@ -202,8 +195,7 @@
               [routerLink]="['/!user', '!register'] | localize"
               routerLinkActive="active"
               #registerLink="routerLinkActive"
-              [attr.aria-current]="registerLink.isActive ? true : null"
-            >
+              [attr.aria-current]="registerLink.isActive ? true : null">
               {{ 'Action.Register' | translate }}
             </a>
             /
@@ -213,8 +205,7 @@
               [routerLink]="['/!user', '!login'] | localize"
               routerLinkActive="active"
               #loginLink="routerLinkActive"
-              [attr.aria-current]="loginLink.isActive ? true : null"
-            >
+              [attr.aria-current]="loginLink.isActive ? true : null">
               {{ 'Action.Login' | translate }}
             </a>
           </div>
@@ -230,8 +221,7 @@
               title="{{ 'Tour.Tooltip.Header.MyDashboard.title' | translate }}"
               placement="bottom"
               [routerLink]="['/!user', '!dashboard'] | localize"
-              role="button"
-            >
+              role="button">
               <span class="visually-hidden">
                 {{ 'GoTo' | translate }}
               </span>
@@ -240,11 +230,16 @@
 
             <!-- user list-->
             <ng-container *ngIf="user$ | async; let user">
-              <div [ngClass]="[highContrastMode, 'user-related__email-container']" appClickOutside (clickOutside)="clickedOutside()" (click)="checkIfLinkedAccounts(user?.attributes.connected_gov_users)" >
+              <div
+                [ngClass]="[highContrastMode, 'user-related__email-container']"
+                appClickOutside
+                (clickOutside)="clickedOutside()"
+                (click)="checkIfLinkedAccounts(user?.attributes.connected_gov_users)">
                 <div class="user-related__email" (click)="toggleList()">
-                  <ng-container *ngIf="checkIfLinkedAccounts(user?.attributes.connected_gov_users) else emailWithoutLink">
+                  <ng-container
+                    *ngIf="checkIfLinkedAccounts(user?.attributes.connected_gov_users); else emailWithoutLink">
                     <a [routerLink]="[]">{{ user?.attributes.email }}</a>
-                    <ng-container *ngIf="isListOpen else listClosed">
+                    <ng-container *ngIf="isListOpen; else listClosed">
                       <svg class="icon user-related__email-toggle">
                         <use href="/assets/icomoon/SVG/up.svg#up"></use>
                       </svg>
@@ -260,9 +255,7 @@
                   </ng-template>
                 </div>
                 <div [ngClass]="[highContrastMode, 'user-related__email-list']" *ngIf="isListOpen">
-                  <div [ngClass]="[highContrastMode, 'user-related__email-list-switch']">
-                    Przełącz konto
-                  </div>
+                  <div [ngClass]="[highContrastMode, 'user-related__email-list-switch']">Przełącz konto</div>
                   <div [ngClass]="[highContrastMode, 'user-related__email-list-user']">
                     <a [routerLink]="[]">
                       {{ user?.attributes.email }}
@@ -310,8 +303,7 @@
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 150 50"
             preserveAspectRatio="xMinYMid meet"
-            aria-labelledby="logo-header-title"
-          >
+            aria-labelledby="logo-header-title">
             <title id="logo-header-title">Otwarte Dane</title>
             <text class="brand-img__text" x="0" y="0">
               <tspan x="75" y="25">OTWARTE</tspan>
@@ -322,8 +314,7 @@
               <path
                 d="M25.7-0.2C25.7-0.2,25.6-0.2,25.7-0.2c-13.8,0-25,11.2-25,25s11.2,25,25,25s25-11.2,25-25l0,0
                                 C50.6,10.9,39.5-0.2,25.7-0.2L25.7-0.2L25.7-0.2z M28.4,40.5H13.6V10.9h14.8c0.1,0,0.3,0,0.5,0c8.2,0,14.8,6.6,14.8,14.8
-                                s-6.6,14.8-14.8,14.8C28.7,40.5,28.6,40.5,28.4,40.5L28.4,40.5L28.4,40.5z"
-              />
+                                s-6.6,14.8-14.8,14.8C28.7,40.5,28.6,40.5,28.4,40.5L28.4,40.5L28.4,40.5z" />
             </g>
           </svg>
         </a>
@@ -334,8 +325,7 @@
           class="navbar-toggler collapsed border-0"
           aria-controls="main-menu"
           [attr.aria-pressed]="!isMenuCollapsed"
-          (click)="isMenuCollapsed = !isMenuCollapsed"
-        >
+          (click)="isMenuCollapsed = !isMenuCollapsed">
           {{ (isMenuCollapsed ? 'Menu.Open' : 'Menu.Close') | translate | uppercase }}
         </button>
 
@@ -351,8 +341,7 @@
                 routerLinkActive="active"
                 #menuLinkHome="routerLinkActive"
                 [attr.aria-current]="menuLinkHome.isActive ? true : null"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
+                [routerLinkActiveOptions]="{ exact: true }">
                 {{ 'Menu.Home' | translate }}
               </a>
             </li>
@@ -365,8 +354,7 @@
                 [routerLink]="['/!dataset'] | localize"
                 routerLinkActive="active"
                 #menuLinkDatasets="routerLinkActive"
-                [attr.aria-current]="menuLinkDatasets.isActive ? true : null"
-              >
+                [attr.aria-current]="menuLinkDatasets.isActive ? true : null">
                 {{ 'Menu.Datasets' | translate }}
               </a>
             </li>
@@ -379,8 +367,7 @@
                 [routerLink]="['/!institution' | localize]"
                 routerLinkActive="active"
                 #menuLinkInstitutions="routerLinkActive"
-                [attr.aria-current]="menuLinkInstitutions.isActive ? true : null"
-              >
+                [attr.aria-current]="menuLinkInstitutions.isActive ? true : null">
                 {{ 'Menu.Institutions' | translate }}
               </a>
             </li>
@@ -393,8 +380,7 @@
                 [routerLink]="['/!showcase' | localize]"
                 routerLinkActive="active"
                 #menuLinkApplications="routerLinkActive"
-                [attr.aria-current]="menuLinkApplications.isActive ? true : null"
-              >
+                [attr.aria-current]="menuLinkApplications.isActive ? true : null">
                 {{ 'Menu.Showcases' | translate }}
               </a>
             </li>
@@ -409,8 +395,7 @@
                 [routerLink]="['/!article' | localize]"
                 routerLinkActive="active"
                 #menuLinkArticles="routerLinkActive"
-                [attr.aria-current]="menuLinkArticles.isActive ? true : null"
-              >
+                [attr.aria-current]="menuLinkArticles.isActive ? true : null">
                 {{ 'Menu.News' | translate }}
               </a>
             </li>
@@ -420,30 +405,30 @@
               <a
                 class="nav-link"
                 role="menuitem"
-                [routerLink]="['/!' + routerEndpoints.KNOWLEDGE_BASE + '/!' + routerEndpoints.USEFUL_MATERIALS] | localize"
+                [routerLink]="
+                  ['/!' + routerEndpoints.KNOWLEDGE_BASE + '/!' + routerEndpoints.USEFUL_MATERIALS] | localize
+                "
                 routerLinkActive="active"
                 #menuLinkKnowledgeBase="routerLinkActive"
-                [attr.aria-current]="menuLinkKnowledgeBase.isActive ? true : null"
-              >
+                [attr.aria-current]="menuLinkKnowledgeBase.isActive ? true : null">
                 {{ 'Menu.KnowledgeBase' | translate }}
               </a>
             </li>
 
-          <!-- dga information point -->
-          <li class="nav-item" role="presentation">
-            <a
-              class="nav-link"
-              role="menuitem"
-              [routerLink]="['/!' + routerEndpoints.DGA] | localize"
-              routerLinkActive="active"
-              #menuLinkDGAInformationPoint="routerLinkActive"
-              [attr.aria-current]="menuLinkDGAInformationPoint.isActive ? true : null"
-            >
-              {{ 'Menu.DGAInformationPoint' | translate }}
-            </a>
-          </li>
+            <!-- dga information point -->
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link"
+                role="menuitem"
+                [routerLink]="['/!' + routerEndpoints.DGA] | localize"
+                routerLinkActive="active"
+                #menuLinkDGAInformationPoint="routerLinkActive"
+                [attr.aria-current]="menuLinkDGAInformationPoint.isActive ? true : null">
+                {{ 'Menu.DGAInformationPoint' | translate }}
+              </a>
+            </li>
 
-          <!--  broken links        -->
+            <!--  broken links        -->
             <li class="nav-item expanded-section" role="presentation">
               <a
                 class="nav-link"
@@ -451,55 +436,54 @@
                 [routerLink]="['/!brokenlinks' | localize]"
                 routerLinkActive="active"
                 #menuBrokenLinks="routerLinkActive"
-                [attr.aria-current]="menuBrokenLinks.isActive ? true : null"
-              >
-                {{"BrokenLinks.Self" | translate}}
+                [attr.aria-current]="menuBrokenLinks.isActive ? true : null">
+                {{ 'BrokenLinks.Self' | translate }}
               </a>
             </li>
-          <!--   dropdown more         -->
-          <li class="nav-item expandable-menu" role="presentation">
-            <div class="dropdown">
+            <!--   dropdown more         -->
+            <li class="nav-item expandable-menu" role="presentation">
+              <div class="dropdown">
                 <a
                   class="nav-link dropdown-button"
                   [ngClass]="isMorePagesActive()"
                   type="button"
                   id="dropdownMenuLink"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {{'Menu.More' | translate}}
+                  aria-expanded="false">
+                  {{ 'Menu.More' | translate }}
                   <svg class="icon dropdown-menu-toggle">
                     <use href="/assets/icomoon/SVG/up.svg#up"></use>
                   </svg>
                 </a>
-            <ul [ngClass]="[highContrastMode,'dropdown-menu','dropdown-menu-end','pt-2','pb-2']" aria-labelledby="dropdownMenuLink" style="width: max-content">
-              <li>
-                <a
-                  class="dropdown-item"
-                  role="menuitem"
-                  [routerLink]="['/!article' | localize]"
-                  routerLinkActive="active"
-                  #menuLinkArticles="routerLinkActive"
-                  [attr.aria-current]="menuLinkArticles.isActive ? true : null"
-                >
-                  {{ 'Menu.News' | translate }}
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  role="menuitem"
-                  [routerLink]="['/!brokenlinks' | localize]"
-                  routerLinkActive="active"
-                  #menuBrokenLinks="routerLinkActive"
-                  [attr.aria-current]="menuBrokenLinks.isActive ? true : null"
-                >
-                  {{ 'BrokenLinks.Self' | translate}}
-                </a>
-              </li>
-            </ul>
-            </div>
-          </li>
+                <ul
+                  [ngClass]="[highContrastMode, 'dropdown-menu', 'dropdown-menu-end', 'pt-2', 'pb-2']"
+                  aria-labelledby="dropdownMenuLink"
+                  style="width: max-content">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      role="menuitem"
+                      [routerLink]="['/!article' | localize]"
+                      routerLinkActive="active"
+                      #menuLinkArticles="routerLinkActive"
+                      [attr.aria-current]="menuLinkArticles.isActive ? true : null">
+                      {{ 'Menu.News' | translate }}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      role="menuitem"
+                      [routerLink]="['/!brokenlinks' | localize]"
+                      routerLinkActive="active"
+                      #menuBrokenLinks="routerLinkActive"
+                      [attr.aria-current]="menuBrokenLinks.isActive ? true : null">
+                      {{ 'BrokenLinks.Self' | translate }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </nav>
       </div>

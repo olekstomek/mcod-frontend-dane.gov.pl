@@ -33,9 +33,7 @@ describe('Page Not Found Component', () => {
             useDefaultLang: true,
           }),
         ],
-        providers: [
-          importProvidersFrom(AppTestingModule)
-        ]
+        providers: [importProvidersFrom(AppTestingModule)],
       }).compileComponents();
     });
 
@@ -77,8 +75,8 @@ describe('Page Not Found Component', () => {
         providers: [
           provideHttpClientTesting(),
           provideHttpClient(),
-          provideRouter([{ path: 'pl', component: PageNotFoundComponent }])
-        ]
+          provideRouter([{ path: 'pl', component: PageNotFoundComponent }]),
+        ],
       }).compileComponents();
     });
 
@@ -114,7 +112,7 @@ describe('Page Not Found Component', () => {
           { provide: ResponseService, useClass: MockResponseService },
           provideHttpClientTesting(),
           provideHttpClient(),
-          provideRouter([{ path: 'pl', component: PageNotFoundComponent }])
+          provideRouter([{ path: 'pl', component: PageNotFoundComponent }]),
         ],
       }).compileComponents();
     });

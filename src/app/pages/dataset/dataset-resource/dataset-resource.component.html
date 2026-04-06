@@ -1,11 +1,13 @@
 <!-- RESOURCE DETAILS -->
 <section class="item-view__body vertical-spacing">
   <div class="container">
-    <h1 class="heading heading--md" [innerHtml]="resource?.attributes?.title | sanitizeHtml">
-    </h1>
+    <h1 class="heading heading--md" [innerHtml]="resource?.attributes?.title"></h1>
 
     <!-- description -->
-    <collapsible-text *ngIf="resource?.attributes?.description" [text]="resource.attributes.description" [isCollapsedDown]="true">
+    <collapsible-text
+      *ngIf="resource?.attributes?.description"
+      [text]="resource.attributes.description"
+      [isCollapsedDown]="true">
     </collapsible-text>
 
     <!-- OPENNESS SCORE and DATEs -->
@@ -24,13 +26,17 @@
       <!--dynamic data-->
       <li *ngIf="resource?.attributes?.has_dynamic_data">
         <strong> {{ 'Attribute.DynamicData' | translate }}: </strong>
-        <img ngSrc="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" height="24" width="24"/>{{ 'Yes' | translate }}
+        <img ngSrc="assets/icomoon/SVG/ic-dane-dynamiczne.svg" alt="" class="mr-1" height="24" width="24" />{{
+          'Yes' | translate
+        }}
       </li>
 
       <!--high value data-->
       <li *ngIf="resource?.attributes?.has_high_value_data">
         <strong> {{ 'Attribute.HighValueData' | translate }}: </strong>
-        <img ngSrc="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" height="20" width="20"/>{{ 'Yes' | translate }}
+        <img ngSrc="assets/icomoon/SVG/high-value-data.svg" alt="" class="mr-1" height="20" width="20" />{{
+          'Yes' | translate
+        }}
       </li>
 
       <!--high value data-->
@@ -48,13 +54,15 @@
       <!--research data-->
       <li *ngIf="resource?.attributes?.has_research_data">
         <strong> {{ 'Attribute.ResearchData' | translate }}: </strong>
-        <img ngSrc="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" height="24" width="24"/>{{ 'Yes' | translate }}
+        <img ngSrc="assets/icomoon/SVG/ic-research-data.svg" alt="" class="mr-1" height="24" width="24" />{{
+          'Yes' | translate
+        }}
       </li>
 
       <!--protected dga data-->
       <li *ngIf="resource?.attributes?.contains_protected_data">
         <strong> {{ 'Attribute.ContainsProtectedData' | translate }}: </strong>
-        <img ngSrc="assets/icomoon/SVG/key.svg" alt="" class="mr-1" height="20" width="20"/>{{ 'Yes' | translate }}
+        <img ngSrc="assets/icomoon/SVG/key.svg" alt="" class="mr-1" height="20" width="20" />{{ 'Yes' | translate }}
       </li>
 
       <!-- dates info -->
@@ -99,8 +107,7 @@
           class="btn btn-link py-0"
           [attr.aria-controls]="isSpecialSignsExpanded ? 'special-signs-container' : null"
           [attr.aria-pressed]="isSpecialSignsExpanded"
-          (click)="isSpecialSignsExpanded = !isSpecialSignsExpanded"
-        >
+          (click)="isSpecialSignsExpanded = !isSpecialSignsExpanded">
           {{ (isSpecialSignsExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
           <span class="visually-hidden">
             {{ 'Resources.SpecialSigns' | translate }}
@@ -125,7 +132,10 @@
     <div>
       <hr />
       <strong> {{ 'DatasetRestrictions.Self' | translate }}: </strong>
-      <app-dataset-restrictions [dataset]="relatedDataset" [isCollapsible]="true" [isForDataset]="false"></app-dataset-restrictions>
+      <app-dataset-restrictions
+        [dataset]="relatedDataset"
+        [isCollapsible]="true"
+        [isForDataset]="false"></app-dataset-restrictions>
     </div>
 
     <!-- regions -->
@@ -140,8 +150,7 @@
         class="btn btn-link py-0"
         [attr.aria-controls]="isRegionsExpanded ? 'regions-container' : null"
         [attr.aria-pressed]="isRegionsExpanded"
-        (click)="isRegionsExpanded = !isRegionsExpanded"
-      >
+        (click)="isRegionsExpanded = !isRegionsExpanded">
         {{ (isRegionsExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
       </button>
       <div *ngIf="isRegionsExpanded" @toggleVertically class="pt-3" id="regions-container">
@@ -165,15 +174,16 @@
         class="btn btn-link py-0"
         [attr.aria-controls]="isSupplementExpanded ? 'supplements-container' : null"
         [attr.aria-pressed]="isSupplementExpanded"
-        (click)="isSupplementExpanded = !isSupplementExpanded"
-      >
+        (click)="isSupplementExpanded = !isSupplementExpanded">
         {{ (isSupplementExpanded ? 'Action.Collapse' : 'Action.Expand') | translate }}
       </button>
       <div *ngIf="isSupplementExpanded" @toggleVertically class="pt-3" id="supplements-container">
         <ul class="list-unstyled">
           <li *ngFor="let supplement of resource.attributes.supplements" class="d-inline-flex mr-5">
             <span class="visually-hidden">{{ 'Action.Download' | translate }}</span>
-            <a href="{{ supplement.file_url }}">{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a>
+            <a href="{{ supplement.file_url }}"
+              >{{ supplement.name }} ({{ supplement.file_size }}) ({{ supplement.language }}) >></a
+            >
           </li>
         </ul>
       </div>
@@ -195,8 +205,7 @@
               class="btn btn-primary btn-sm pr-1"
               target="_blank"
               href="{{ resource?.attributes?.link }}"
-              *ngIf="resource?.attributes?.media_type === 'api' && resource?.attributes?.link"
-            >
+              *ngIf="resource?.attributes?.media_type === 'api' && resource?.attributes?.link">
               {{ 'Action.GoTo' | translate | uppercase }} API
               <span class="visually-hidden">
                 {{ 'SkipTo.NewWindow' | translate }}
@@ -208,8 +217,7 @@
               class="btn btn-primary btn-sm pr-1"
               target="_blank"
               href="{{ resource?.attributes?.link }}"
-              *ngIf="resource?.attributes?.media_type === 'website' && resource?.attributes?.link"
-            >
+              *ngIf="resource?.attributes?.media_type === 'website' && resource?.attributes?.link">
               {{ 'Action.GoToSource' | translate | uppercase }}
 
               <span class="visually-hidden">
@@ -230,8 +238,7 @@
                     [title]="resource.attributes.title"
                     [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
                     [opennessScore]="dataFiles.openness_score"
-                    (click)="downloadResource(resource.attributes.title, dataFiles.download_url)"
-                  >
+                    (click)="downloadResource(resource.attributes.title, dataFiles.download_url)">
                   </app-download-link>
                 </div>
               </div>
@@ -278,7 +285,10 @@
           </button>
 
           <!-- //TODO embed on your page -->
-          <button class="btn btn-primary btn-sm mb-1 mb-lg-0 ml-0 ml-lg-1" (click)="openModal(embedModalTemplate)" *ngIf="hasTabularData">
+          <button
+            class="btn btn-primary btn-sm mb-1 mb-lg-0 ml-0 ml-lg-1"
+            (click)="openModal(embedModalTemplate)"
+            *ngIf="hasTabularData">
             {{ 'Embed.Self' | translate | uppercase }}
           </button>
         </span>
@@ -287,7 +297,9 @@
   </div>
 
   <!-- SEPARATED SEARCH and FILTERS -->
-  <div class="container mb-5" *ngIf="resource.attributes.visualization_types?.length && (hasTabularData || hasChart || hasGeoData)">
+  <div
+    class="container mb-5"
+    *ngIf="resource.attributes.visualization_types?.length && (hasTabularData || hasChart || hasGeoData)">
     <app-resource-filters></app-resource-filters>
   </div>
 
@@ -314,8 +326,7 @@
             [routerLink]="['table']"
             #tabLinkTableView="routerLinkActive"
             [attr.aria-selected]="tabLinkTableView.isActive ? true : null"
-            routerLinkActive="tab-list__link--active"
-          >
+            routerLinkActive="tab-list__link--active">
             {{ 'Resources.TableView' | translate }}
           </a>
         </li>
@@ -332,8 +343,7 @@
             [routerLink]="['chart']"
             #tabLinkChartView="routerLinkActive"
             [attr.aria-selected]="tabLinkChartView.isActive ? true : null"
-            routerLinkActive="tab-list__link--active"
-          >
+            routerLinkActive="tab-list__link--active">
             {{ 'Resources.ChartView' | translate }}
           </a>
         </li>
@@ -350,8 +360,7 @@
             [routerLink]="['map']"
             #tabLinkMapView="routerLinkActive"
             [attr.aria-selected]="tabLinkMapView.isActive ? true : null"
-            routerLinkActive="tab-list__link--active"
-          >
+            routerLinkActive="tab-list__link--active">
             {{ 'Resources.MapView' | translate }}
           </a>
         </li>
@@ -425,7 +434,13 @@
         <label class="control-label" for="code">
           {{ 'Embed.Code' | translate }}
         </label>
-        <textarea id="code" name="code" rows="3" (focus)="selectTarget($event)" (click)="selectTarget($event)" class="form-control">
+        <textarea
+          id="code"
+          name="code"
+          rows="3"
+          (focus)="selectTarget($event)"
+          (click)="selectTarget($event)"
+          class="form-control">
 &lt;iframe width=&quot;{{ frameWidth }}&quot; height=&quot;{{ frameHeight }}&quot; src=&quot;{{
             frameUrl
           }}&quot; frameBorder=&quot;0&quot;&gt;&lt;/iframe&gt;</textarea
@@ -457,7 +472,11 @@
       </h1>
 
       <!-- close modal -->
-      <button type="button" id="header-close" class="btn-close pull-right focus-trap-first" (click)="feedbackModalRef.hide()">
+      <button
+        type="button"
+        id="header-close"
+        class="btn-close pull-right focus-trap-first"
+        (click)="feedbackModalRef.hide()">
         <span class="visually-hidden">
           {{ 'Action.Close' | translate }}
           {{ 'Modal' | translate | lowercase }}
@@ -474,7 +493,11 @@
     <!-- feedback modal footer -->
     <div class="modal-footer">
       <div class="text-right">
-        <button type="button" id="footer-close" class="btn btn-outline-primary focus-trap-last" (click)="onFeedbackModalClose()">
+        <button
+          type="button"
+          id="footer-close"
+          class="btn btn-outline-primary focus-trap-last"
+          (click)="onFeedbackModalClose()">
           {{ 'Action.Close' | translate }}
           <span class="visually-hidden">
             {{ 'Modal' | translate | lowercase }}

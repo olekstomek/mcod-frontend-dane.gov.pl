@@ -8,8 +8,7 @@
           class="page-link page-link--as-icon"
           (click)="changePage(page - 1)"
           [attr.tabindex]="page <= 1 ? -1 : null"
-          [attr.aria-hidden]="page <= 1 ? true : null"
-        >
+          [attr.aria-hidden]="page <= 1 ? true : null">
           <span aria-hidden="true"> &lsaquo; </span>
           <span class="visually-hidden">
             {{ 'Pagination.Prev' | translate }}
@@ -25,8 +24,7 @@
           [routerLink]="[]"
           class="page-link"
           (click)="changePage(pageNumber)"
-          [attr.aria-current]="page === pageNumber ? true : null"
-        >
+          [attr.aria-current]="page === pageNumber ? true : null">
           <span class="visually-hidden">
             {{ 'Pagination.Page' | translate }}
           </span>
@@ -45,8 +43,7 @@
           class="page-link page-link--as-icon"
           (click)="changePage(page + 1)"
           [attr.tabindex]="page >= totalPages ? -1 : null"
-          [attr.aria-hidden]="page >= totalPages ? true : null"
-        >
+          [attr.aria-hidden]="page >= totalPages ? true : null">
           <span aria-hidden="true"> &rsaquo; </span>
           <span class="visually-hidden">
             {{ 'Pagination.Next' | translate }}

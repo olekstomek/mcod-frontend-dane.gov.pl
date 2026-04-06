@@ -32,8 +32,9 @@
           <!-- categories -->
           <div
             class="form-group"
-            [ngClass]="{ 'form-group-invalid': applicationForm.controls.title.invalid && applicationForm.controls.title.touched }"
-          >
+            [ngClass]="{
+              'form-group-invalid': applicationForm.controls.title.invalid && applicationForm.controls.title.touched,
+            }">
             <span class="dropdown-label pr-2" id="categories-label">
               {{ 'Attribute.Category' | translate }}:
               <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
@@ -43,8 +44,7 @@
               formControlName="category"
               class="form-select"
               (change)="onChangeCategory(getValue($event))"
-              aria-labelledby="categories-label"
-            >
+              aria-labelledby="categories-label">
               <option [ngValue]="null" selected hidden>
                 {{ 'Action.ChooseCategory' | translate }}
               </option>
@@ -58,8 +58,9 @@
             <!-- title -->
             <div
               class="form-group"
-              [ngClass]="{ 'form-group-invalid': applicationForm.controls.title.invalid && applicationForm.controls.title.touched }"
-            >
+              [ngClass]="{
+                'form-group-invalid': applicationForm.controls.title.invalid && applicationForm.controls.title.touched,
+              }">
               <label for="title">
                 {{ 'ApplicationForm.Name' | translate }}
                 <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
@@ -72,19 +73,19 @@
                 placeholder="{{ 'ApplicationForm.EnterName' | translate }}"
                 formControlName="title"
                 [attr.aria-describedby]="
-                  applicationForm.controls.title.invalid && applicationForm.controls.title.touched ? 'title_required_error' : null
+                  applicationForm.controls.title.invalid && applicationForm.controls.title.touched
+                    ? 'title_required_error'
+                    : null
                 "
                 [attr.aria-invalid]="applicationForm.controls.title.invalid && applicationForm.controls.title.touched"
-                (keydown.enter)="$event.preventDefault()"
-              />
+                (keydown.enter)="$event.preventDefault()" />
 
               <!-- title - required error -->
               <small
                 class="form-text text-err"
                 id="title_required_error"
                 *ngIf="applicationForm.controls.title.invalid && applicationForm.controls.title.touched"
-                @toggleVertically
-              >
+                @toggleVertically>
                 {{ 'Validation.VarRequired' | translate: { param: 'ApplicationForm.Name' | translate } }}
               </small>
             </div>
@@ -92,8 +93,9 @@
             <!-- url -->
             <div
               class="form-group"
-              [ngClass]="{ 'form-group-invalid': applicationForm.controls.url.invalid && applicationForm.controls.url.touched }"
-            >
+              [ngClass]="{
+                'form-group-invalid': applicationForm.controls.url.invalid && applicationForm.controls.url.touched,
+              }">
               <label for="url">
                 {{ 'Applications.Link' | translate }}/{{ 'ApplicationForm.Website' | translate }}
                 <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
@@ -111,8 +113,7 @@
                     : null
                 "
                 [attr.aria-invalid]="applicationForm.controls.url.invalid && applicationForm.controls.url.touched"
-                (keydown.enter)="$event.preventDefault()"
-              />
+                (keydown.enter)="$event.preventDefault()" />
 
               <!-- url errors -->
               <ng-container *ngIf="applicationForm.controls.url.invalid && applicationForm.controls.url.touched">
@@ -122,8 +123,7 @@
                   role="alert"
                   id="url_required_error"
                   *ngIf="applicationForm.get('url').errors['required']"
-                  @toggleVertically
-                >
+                  @toggleVertically>
                   {{ 'Validation.VarRequired' | translate: { param: 'Applications.Link' | translate } }}
                 </small>
 
@@ -133,8 +133,7 @@
                   role="alert"
                   id="url_invalid_error"
                   *ngIf="applicationForm.get('url').errors['pattern']"
-                  @toggleVertically
-                >
+                  @toggleVertically>
                   {{ 'Validation.InvalidUrl' | translate }}
                 </small>
               </ng-container>
@@ -153,12 +152,13 @@
                     id="chk-0"
                     formControlName="is_mobile_app"
                     (click)="selectedCategoryChange('mobileType')"
-                    (keyup.enter)="selectedCategoryChange('mobileType')"
-                  />
+                    (keyup.enter)="selectedCategoryChange('mobileType')" />
 
                   <label for="chk-0" class="dropdown-item__content">
                     <span class="dropdown-item__content-wrapper" title="{{ 'ApplicationForm.MobileType' | translate }}">
-                      <span class="dropdown-item__content-title font-weight-normal">{{ 'ApplicationForm.MobileType' | translate }}</span>
+                      <span class="dropdown-item__content-title font-weight-normal">{{
+                        'ApplicationForm.MobileType' | translate
+                      }}</span>
                       <small class="dropdown-item__content-hint" *ngIf="selectedMobileType">
                         ({{ 'ApplicationForm.ApplicationTypeHint' | translate | lowercase }})
                       </small>
@@ -170,25 +170,25 @@
                     [ngClass]="{
                       'form-group-invalid':
                         applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull &&
-                        applicationForm.controls.myMobileUrlGroup.touched
-                    }"
-                  >
+                        applicationForm.controls.myMobileUrlGroup.touched,
+                    }">
                     <!--iOS application url-->
                     <div
                       class="form-group form-inline mb-4"
                       [ngClass]="{
                         'form-group-invalid':
                           applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').invalid &&
-                          applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').touched
-                      }"
-                    >
-                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-apple.svg" alt="" height="17" width="14"/>
+                          applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').touched,
+                      }">
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-apple.svg" alt="" height="17" width="14" />
                       <label for="iosApp" class="not-bold-label">{{ 'ApplicationForm.iOSLinkText' | translate }}</label>
                       <input
                         type="text"
                         class="form-control flex-fill iw-custom-1"
                         id="iosApp"
-                        placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
+                        placeholder="{{ 'Action.Enter' | translate }} {{
+                          'ApplicationForm.Link' | translate | lowercase
+                        }}"
                         formControlName="mobile_apple_url"
                         [attr.aria-describedby]="
                           applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').invalid &&
@@ -202,9 +202,9 @@
                         "
                         (keydown.enter)="$event.preventDefault()"
                         [ngClass]="{
-                          'input-invalid-empty-text': applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull
-                        }"
-                      />
+                          'input-invalid-empty-text':
+                            applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull,
+                        }" />
 
                       <!-- invalid pattern url error -->
                       <small
@@ -215,8 +215,7 @@
                           applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').invalid &&
                           applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').touched
                         "
-                        @toggleVertically
-                      >
+                        @toggleVertically>
                         {{ 'Validation.InvalidUrl' | translate }}
                       </small>
                     </div>
@@ -227,16 +226,19 @@
                       [ngClass]="{
                         'form-group-invalid':
                           applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').invalid &&
-                          applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').touched
-                      }"
-                    >
-                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-android.svg" alt="" height="17" width="14"/>
-                      <label for="androidApp" class="not-bold-label">{{ 'ApplicationForm.AndroidLinkText' | translate }}</label>
+                          applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').touched,
+                      }">
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-android.svg" alt="" height="17" width="14" />
+                      <label for="androidApp" class="not-bold-label">{{
+                        'ApplicationForm.AndroidLinkText' | translate
+                      }}</label>
                       <input
                         type="text"
                         class="form-control flex-fill iw-custom-2"
                         id="androidApp"
-                        placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
+                        placeholder="{{ 'Action.Enter' | translate }} {{
+                          'ApplicationForm.Link' | translate | lowercase
+                        }}"
                         formControlName="mobile_google_url"
                         [attr.aria-describedby]="
                           applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').invalid &&
@@ -250,9 +252,9 @@
                         "
                         (keydown.enter)="$event.preventDefault()"
                         [ngClass]="{
-                          'input-invalid-empty-text': applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull
-                        }"
-                      />
+                          'input-invalid-empty-text':
+                            applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull,
+                        }" />
 
                       <!-- invalid pattern url error -->
                       <small
@@ -263,8 +265,7 @@
                           applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').invalid &&
                           applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').touched
                         "
-                        @toggleVertically
-                      >
+                        @toggleVertically>
                         {{ 'Validation.InvalidUrl' | translate }}
                       </small>
                     </div>
@@ -277,8 +278,7 @@
                         applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull &&
                         applicationForm.controls.myMobileUrlGroup.touched
                       "
-                      @toggleVertically
-                    >
+                      @toggleVertically>
                       {{ 'Validation.RequireOneUrl' | translate }}
                     </small>
                   </div>
@@ -290,12 +290,15 @@
                     id="chk-1"
                     formControlName="is_desktop_app"
                     (click)="selectedCategoryChange('desktopType')"
-                    (keyup.enter)="selectedCategoryChange('desktopType')"
-                  />
+                    (keyup.enter)="selectedCategoryChange('desktopType')" />
 
                   <label for="chk-1" class="dropdown-item__content">
-                    <span class="dropdown-item__content-wrapper" title="{{ 'ApplicationForm.DesktopType' | translate }}">
-                      <span class="dropdown-item__content-title font-weight-normal">{{ 'ApplicationForm.DesktopType' | translate }}</span>
+                    <span
+                      class="dropdown-item__content-wrapper"
+                      title="{{ 'ApplicationForm.DesktopType' | translate }}">
+                      <span class="dropdown-item__content-title font-weight-normal">{{
+                        'ApplicationForm.DesktopType' | translate
+                      }}</span>
                       <small class="dropdown-item__content-hint" *ngIf="selectedDesktopType">
                         ({{ 'ApplicationForm.ApplicationTypeHint' | translate | lowercase }})
                       </small>
@@ -307,25 +310,25 @@
                     [ngClass]="{
                       'form-group-invalid':
                         applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull &&
-                        applicationForm.controls.myDesktopUrlGroup.touched
-                    }"
-                  >
+                        applicationForm.controls.myDesktopUrlGroup.touched,
+                    }">
                     <!--Windows application url-->
                     <div
                       class="form-group form-inline mb-4"
                       [ngClass]="{
                         'form-group-invalid':
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').invalid &&
-                          applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').touched
-                      }"
-                    >
-                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-windows.svg" alt="" height="14" width="14"/>
+                          applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').touched,
+                      }">
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-windows.svg" alt="" height="14" width="14" />
                       <label for="winApp" class="not-bold-label">{{ 'ApplicationForm.WinLinkText' | translate }}</label>
                       <input
                         type="text"
                         class="form-control flex-fill iw-custom-3"
                         id="winApp"
-                        placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
+                        placeholder="{{ 'Action.Enter' | translate }} {{
+                          'ApplicationForm.Link' | translate | lowercase
+                        }}"
                         formControlName="desktop_windows_url"
                         [attr.aria-describedby]="
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').invalid &&
@@ -339,9 +342,9 @@
                         "
                         (keydown.enter)="$event.preventDefault()"
                         [ngClass]="{
-                          'input-invalid-empty-text': applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull
-                        }"
-                      />
+                          'input-invalid-empty-text':
+                            applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull,
+                        }" />
 
                       <!-- invalid pattern url error -->
                       <small
@@ -352,8 +355,7 @@
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').invalid &&
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').touched
                         "
-                        @toggleVertically
-                      >
+                        @toggleVertically>
                         {{ 'Validation.InvalidUrl' | translate }}
                       </small>
                     </div>
@@ -363,16 +365,17 @@
                       [ngClass]="{
                         'form-group-invalid':
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').invalid &&
-                          applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').touched
-                      }"
-                    >
-                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-linux.svg" alt="" height="14" width="14"/>
+                          applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').touched,
+                      }">
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-linux.svg" alt="" height="14" width="14" />
                       <label for="linApp" class="not-bold-label">{{ 'ApplicationForm.LinLinkText' | translate }}</label>
                       <input
                         type="text"
                         class="form-control flex-fill iw-custom-4"
                         id="linApp"
-                        placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
+                        placeholder="{{ 'Action.Enter' | translate }} {{
+                          'ApplicationForm.Link' | translate | lowercase
+                        }}"
                         formControlName="desktop_linux_url"
                         [attr.aria-describedby]="
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').invalid &&
@@ -386,9 +389,9 @@
                         "
                         (keydown.enter)="$event.preventDefault()"
                         [ngClass]="{
-                          'input-invalid-empty-text': applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull
-                        }"
-                      />
+                          'input-invalid-empty-text':
+                            applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull,
+                        }" />
 
                       <!-- invalid pattern url error -->
                       <small
@@ -399,8 +402,7 @@
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').invalid &&
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').touched
                         "
-                        @toggleVertically
-                      >
+                        @toggleVertically>
                         {{ 'Validation.InvalidUrl' | translate }}
                       </small>
                     </div>
@@ -410,16 +412,17 @@
                       [ngClass]="{
                         'form-group-invalid':
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').invalid &&
-                          applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').touched
-                      }"
-                    >
-                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-apple.svg" alt="" height="17" width="14"/>
+                          applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').touched,
+                      }">
+                      <img class="ml-4 mr-2" ngSrc="assets/icomoon/SVG/ic-apple.svg" alt="" height="17" width="14" />
                       <label for="macApp" class="not-bold-label">{{ 'ApplicationForm.MacLinkText' | translate }}</label>
                       <input
                         type="text"
                         class="form-control flex-fill iw-custom-5"
                         id="macApp"
-                        placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
+                        placeholder="{{ 'Action.Enter' | translate }} {{
+                          'ApplicationForm.Link' | translate | lowercase
+                        }}"
                         formControlName="desktop_macos_url"
                         [attr.aria-describedby]="
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').invalid &&
@@ -433,9 +436,9 @@
                         "
                         (keydown.enter)="$event.preventDefault()"
                         [ngClass]="{
-                          'input-invalid-empty-text': applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull
-                        }"
-                      />
+                          'input-invalid-empty-text':
+                            applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull,
+                        }" />
 
                       <!-- invalid pattern url error -->
                       <small
@@ -446,8 +449,7 @@
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').invalid &&
                           applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').touched
                         "
-                        @toggleVertically
-                      >
+                        @toggleVertically>
                         {{ 'Validation.InvalidUrl' | translate }}
                       </small>
                     </div>
@@ -460,8 +462,7 @@
                         applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull &&
                         applicationForm.controls.myDesktopUrlGroup.touched
                       "
-                      @toggleVertically
-                    >
+                      @toggleVertically>
                       {{ 'Validation.RequireOneUrl' | translate }}
                     </small>
                   </div>
@@ -474,21 +475,31 @@
               *ngIf="selected !== 'other'"
               class="form-group"
               [ngClass]="{
-                'form-group-invalid': applicationForm.controls.license_type.invalid && applicationForm.controls.license_type.touched
-              }"
-            >
+                'form-group-invalid':
+                  applicationForm.controls.license_type.invalid && applicationForm.controls.license_type.touched,
+              }">
               <label tabindex="0">
                 {{ 'ApplicationForm.LicenceType' | translate }}
                 <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
               </label>
               <div class="form-check">
-                <input class="form-check-input" type="radio" id="freeRadio" formControlName="license_type" value="free" />
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="freeRadio"
+                  formControlName="license_type"
+                  value="free" />
                 <label class="form-check-label clickable" for="freeRadio">
                   {{ 'ApplicationForm.FreeLicence' | translate }}
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" id="paidRadio" formControlName="license_type" value="commercial" />
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="paidRadio"
+                  formControlName="license_type"
+                  value="commercial" />
                 <label class="form-check-label clickable" for="paidRadio">
                   {{ 'ApplicationForm.PaidLicence' | translate }}
                 </label>
@@ -498,8 +509,9 @@
             <!-- notes -->
             <div
               class="form-group"
-              [ngClass]="{ 'form-group-invalid': applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched }"
-            >
+              [ngClass]="{
+                'form-group-invalid': applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched,
+              }">
               <label for="notes">
                 {{ 'Applications.Description' | translate }}
                 <small
@@ -521,8 +533,7 @@
                     ? 'notes_required_error notes_maxlength_error'
                     : null
                 "
-                [attr.aria-invalid]="applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched"
-              >
+                [attr.aria-invalid]="applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched">
               </textarea>
 
               <!-- notes validation error -->
@@ -533,8 +544,7 @@
                   role="alert"
                   id="notes_required_error"
                   *ngIf="applicationForm.get('notes').errors['required']"
-                  @toggleVertically
-                >
+                  @toggleVertically>
                   {{ 'Validation.VarRequired' | translate: { param: 'Applications.Description' | translate } }}
                 </small>
 
@@ -544,11 +554,14 @@
                   role="alert"
                   id="notes_maxlength_error"
                   *ngIf="applicationForm.get('notes').errors['maxlength']"
-                  @toggleVertically
-                >
+                  @toggleVertically>
                   {{
                     'Validation.VarMaxFieldLengthExceeded'
-                      | translate: { param: applicationForm.get('notes').errors['maxlength']['actualLength'] - maxDescriptionLength }
+                      | translate
+                        : {
+                            param:
+                              applicationForm.get('notes').errors['maxlength']['actualLength'] - maxDescriptionLength,
+                          }
                   }}
                 </small>
               </ng-container>
@@ -568,16 +581,17 @@
                 id="keywords"
                 rows="2"
                 placeholder="{{ 'Action.Enter' | translate }} {{ 'Attribute.Tags' | translate | lowercase }}"
-                formControlName="keywords"
-              >
+                formControlName="keywords">
               </textarea>
             </div>
 
             <!-- author -->
             <div
               class="form-group"
-              [ngClass]="{ 'form-group-invalid': applicationForm.controls.author.invalid && applicationForm.controls.author.touched }"
-            >
+              [ngClass]="{
+                'form-group-invalid':
+                  applicationForm.controls.author.invalid && applicationForm.controls.author.touched,
+              }">
               <label for="author">
                 {{ 'ApplicationForm.Author' | translate }}
                 <small>({{ 'Validation.RequiredField' | translate | lowercase }})</small>
@@ -590,19 +604,19 @@
                 placeholder="{{ 'ApplicationForm.EnterAuthor' | translate }}"
                 formControlName="author"
                 [attr.aria-describedby]="
-                  applicationForm.controls.author.invalid && applicationForm.controls.author.touched ? 'author_required_error' : null
+                  applicationForm.controls.author.invalid && applicationForm.controls.author.touched
+                    ? 'author_required_error'
+                    : null
                 "
                 [attr.aria-invalid]="applicationForm.controls.author.invalid && applicationForm.controls.author.touched"
-                (keydown.enter)="$event.preventDefault()"
-              />
+                (keydown.enter)="$event.preventDefault()" />
 
               <!-- author - required error -->
               <small
                 class="form-text text-err"
                 id="author_required_error"
                 *ngIf="applicationForm.controls.author.invalid && applicationForm.controls.author.touched"
-                @toggleVertically
-              >
+                @toggleVertically>
                 {{ 'Validation.VarRequired' | translate: { param: 'ApplicationForm.Author' | translate } }}
               </small>
             </div>
@@ -615,8 +629,7 @@
               maxWidth="400"
               [labelTranslationKey]="'ApplicationForm.Logo'"
               [labelTranslationKeyHint]="'ApplicationForm.LogoHint'"
-              (imageDataChanged)="onFileChange('image' + tempFieldSuffix, $event)"
-            >
+              (imageDataChanged)="onFileChange('image' + tempFieldSuffix, $event)">
             </app-image-upload>
 
             <hr />
@@ -626,8 +639,7 @@
               [formControlName]="'illustrative_graphics' + tempFieldSuffix"
               [labelTranslationKey]="'ApplicationForm.Graphics'"
               [labelTranslationKeyHint]="'ApplicationForm.GraphicsHint'"
-              (imageDataChanged)="onFileChange('illustrative_graphics' + tempFieldSuffix, $event)"
-            >
+              (imageDataChanged)="onFileChange('illustrative_graphics' + tempFieldSuffix, $event)">
             </app-image-upload>
 
             <hr />
@@ -644,8 +656,7 @@
                 *ngFor="let datasetControl of applicationForm.get('datasets')['controls']; let i = index"
                 [formGroupName]="i"
                 @toggleVertically
-                [ngClass]="{ 'form-group-invalid': applicationForm.get('datasets')?.invalid }"
-              >
+                [ngClass]="{ 'form-group-invalid': applicationForm.get('datasets')?.invalid }">
                 <!-- dataset autocomplete -->
                 <input
                   #datasetInput
@@ -658,11 +669,8 @@
                   (datasetSelected)="onDatasetSelected($event, i)"
                   (keydown.enter)="$event.preventDefault()"
                   (change)="onCheckIfItemIsSelected($event, i)"
-                  [attr.aria-describedby]="
-                    applicationForm.get('datasets')?.invalid ? 'dataset_invalid_error' : null
-                  "
-                  [attr.aria-invalid]="applicationForm.get('datasets')?.invalid"
-                />
+                  [attr.aria-describedby]="applicationForm.get('datasets')?.invalid ? 'dataset_invalid_error' : null"
+                  [attr.aria-invalid]="applicationForm.get('datasets')?.invalid" />
 
                 <!-- remove dataset -->
                 <button type="button" class="btn btn-outline-danger" (click)="onRemoveDatasetRow(i)">
@@ -679,9 +687,10 @@
                     class="form-text text-err w-100"
                     role="alert"
                     id="dataset_invalid_error"
-                    *ngIf="applicationForm.get('datasets')?.errors && applicationForm.get('datasets')?.errors['invalid']"
-                    @toggleVertically
-                  >
+                    *ngIf="
+                      applicationForm.get('datasets')?.errors && applicationForm.get('datasets')?.errors['invalid']
+                    "
+                    @toggleVertically>
                     {{ 'Validation.RequireDataFromList' | translate }}
                   </small>
                 </ng-container>
@@ -691,7 +700,12 @@
               <div class="clearfix">
                 <!-- dataset limit reached -->
                 <ng-container *ngIf="applicationForm.get('datasets')['controls'].length >= maxDatasetsNumber">
-                  <p class="alert alert-danger" role="alert" aria-live="polite" id="dataset-limit-alert" @toggleVertically>
+                  <p
+                    class="alert alert-danger"
+                    role="alert"
+                    aria-live="polite"
+                    id="dataset-limit-alert"
+                    @toggleVertically>
                     {{ 'ApplicationForm.RelatedDatasetsLimitAlert' | translate: { param: maxDatasetsNumber } }}
                   </p>
 
@@ -706,8 +720,7 @@
                   type="button"
                   class="btn btn-sm btn-outline-primary float-none"
                   (click)="onAppendDatasetRow()"
-                  *ngIf="applicationForm.get('datasets')['controls'].length < maxDatasetsNumber"
-                >
+                  *ngIf="applicationForm.get('datasets')['controls'].length < maxDatasetsNumber">
                   {{ 'Action.Add' | translate }}
                   {{ 'Datasets.Single' | translate | lowercase }}
                 </button>
@@ -727,8 +740,7 @@
                 class="input-group mb-2"
                 *ngFor="let datasetControl of applicationForm.get('external_datasets')['controls']; let i = index"
                 [formGroupName]="i"
-                @toggleVertically
-              >
+                @toggleVertically>
                 <!-- title -->
                 <input
                   type="text"
@@ -737,8 +749,7 @@
                   placeholder="{{ 'ApplicationForm.EnterName' | translate }}"
                   [formControlName]="'title'"
                   #externalDatasetTitleInput
-                  (keydown.enter)="$event.preventDefault()"
-                />
+                  (keydown.enter)="$event.preventDefault()" />
 
                 <!-- url -->
                 <input
@@ -747,12 +758,13 @@
                   [ngClass]="{ 'is-invalid': applicationForm.get('external_datasets')['controls'][i].invalid }"
                   aria-label="url"
                   [attr.aria-describedby]="
-                    applicationForm.get('external_datasets')['controls'][i].invalid ? 'external_datasets_url_error' : null
+                    applicationForm.get('external_datasets')['controls'][i].invalid
+                      ? 'external_datasets_url_error'
+                      : null
                   "
                   placeholder="{{ 'Action.Enter' | translate }} {{ 'ApplicationForm.Link' | translate | lowercase }}"
                   [formControlName]="'url'"
-                  (keydown.enter)="$event.preventDefault()"
-                />
+                  (keydown.enter)="$event.preventDefault()" />
 
                 <!-- remove dataset -->
                 <button type="button" class="btn btn-outline-danger" (click)="onRemoveExternalDatasetRow(i)">
@@ -770,9 +782,11 @@
                 <small
                   class="form-text text-err pb-2"
                   id="external_datasets_url_error"
-                  *ngIf="applicationForm.controls.external_datasets.invalid && applicationForm.controls.external_datasets.touched"
-                  @toggleVertically
-                >
+                  *ngIf="
+                    applicationForm.controls.external_datasets.invalid &&
+                    applicationForm.controls.external_datasets.touched
+                  "
+                  @toggleVertically>
                   {{ 'Validation.InvalidUrl' | translate }}
                 </small>
               </p>
@@ -781,7 +795,12 @@
               <div class="clearfix">
                 <!-- dataset limit reached -->
                 <ng-container *ngIf="applicationForm.get('external_datasets')['controls'].length >= maxDatasetsNumber">
-                  <p class="alert alert-danger" role="alert" aria-live="polite" id="dataset-limit-alert-ext" @toggleVertically>
+                  <p
+                    class="alert alert-danger"
+                    role="alert"
+                    aria-live="polite"
+                    id="dataset-limit-alert-ext"
+                    @toggleVertically>
                     {{ 'ApplicationForm.RelatedDatasetsLimitAlert' | translate: { param: maxDatasetsNumber } }}
                   </p>
 
@@ -796,8 +815,7 @@
                   type="button"
                   class="btn btn-sm btn-outline-primary float-none"
                   (click)="onAppendExternalDatasetRow()"
-                  *ngIf="applicationForm.get('external_datasets')['controls'].length < maxDatasetsNumber"
-                >
+                  *ngIf="applicationForm.get('external_datasets')['controls'].length < maxDatasetsNumber">
                   {{ 'Action.Add' | translate }}
                   {{ 'Datasets.Single' | translate | lowercase }}
                 </button>
@@ -810,9 +828,9 @@
             <div
               class="form-group"
               [ngClass]="{
-                'form-group-invalid': applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched
-              }"
-            >
+                'form-group-invalid':
+                  applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched,
+              }">
               <label for="applicant_email">
                 {{ 'ApplicationForm.ApplicantEmail' | translate }}
                 <small> ({{ 'Validation.RequiredField' | translate | lowercase }}) </small>
@@ -832,17 +850,19 @@
                     ? 'applicant_email_error'
                     : null
                 "
-                [attr.aria-invalid]="applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched"
-                (keydown.enter)="$event.preventDefault()"
-              />
+                [attr.aria-invalid]="
+                  applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched
+                "
+                (keydown.enter)="$event.preventDefault()" />
 
               <!-- Email - required error -->
               <small
                 class="form-text text-err"
                 id="applicant_email_error"
-                *ngIf="applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched"
-                @toggleVertically
-              >
+                *ngIf="
+                  applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched
+                "
+                @toggleVertically>
                 {{ 'Validation.RequiredEmail' | translate }}
               </small>
             </div>
@@ -853,9 +873,8 @@
               [ngClass]="{
                 'form-group-invalid':
                   applicationForm.controls.is_personal_data_processing_accepted.invalid &&
-                  applicationForm.controls.is_personal_data_processing_accepted.touched
-              }"
-            >
+                  applicationForm.controls.is_personal_data_processing_accepted.touched,
+              }">
               <div>
                 <input
                   type="checkbox"
@@ -874,8 +893,7 @@
                     applicationForm.controls.is_personal_data_processing_accepted.touched
                   "
                   (change)="onCheckPersonalDataProcessingAccepted($event)"
-                  (keydown.enter)="$event.preventDefault()"
-                />
+                  (keydown.enter)="$event.preventDefault()" />
 
                 <label class="form-check-label" for="is_personal_data_processing_accepted">
                   <span class="font-weight-normal d-block"> {{ 'ApplicationForm.DataProcessing' | translate }}: </span>
@@ -885,9 +903,8 @@
                 <div
                   class="cms-consent-list ml-3"
                   style="font-size: 85%"
-                  [innerHTML]="cmsPageInfo | textToLinks | sanitizeHtml"
-                  *ngIf="cmsPageInfo"
-                ></div>
+                  [innerHTML]="cmsPageInfo | textToLinks"
+                  *ngIf="cmsPageInfo"></div>
               </div>
 
               <!-- is_personal_data_processing_accepted - required error -->
@@ -898,8 +915,7 @@
                   applicationForm.controls.is_personal_data_processing_accepted.invalid &&
                   applicationForm.controls.is_personal_data_processing_accepted.touched
                 "
-                @toggleVertically
-              >
+                @toggleVertically>
                 {{ 'Validation.RequiredField' | translate }}
               </small>
             </div>
@@ -910,9 +926,8 @@
               [ngClass]="{
                 'form-group-invalid':
                   applicationForm.controls.is_terms_of_service_accepted.invalid &&
-                  applicationForm.controls.is_terms_of_service_accepted.touched
-              }"
-            >
+                  applicationForm.controls.is_terms_of_service_accepted.touched,
+              }">
               <div>
                 <input
                   type="checkbox"
@@ -930,12 +945,14 @@
                     applicationForm.controls.is_terms_of_service_accepted.touched
                   "
                   (change)="onCheckIsTermsOfServiceAccepted($event)"
-                  (keydown.enter)="$event.preventDefault()"
-                />
+                  (keydown.enter)="$event.preventDefault()" />
 
                 <label class="form-check-label" for="is_terms_of_service_accepted">
                   <!-- personal data use consent -->
-                  <span class="font-weight-normal pt-1" [innerHTML]="cmsPageConsent | textToLinks | sanitizeHtml" *ngIf="cmsPageConsent">
+                  <span
+                    class="font-weight-normal pt-1"
+                    [innerHTML]="cmsPageConsent | textToLinks"
+                    *ngIf="cmsPageConsent">
                   </span>
                 </label>
               </div>
@@ -948,8 +965,7 @@
                   applicationForm.controls.is_terms_of_service_accepted.invalid &&
                   applicationForm.controls.is_terms_of_service_accepted.touched
                 "
-                @toggleVertically
-              >
+                @toggleVertically>
                 {{ 'Validation.RequiredField' | translate }}
               </small>
             </div>
@@ -965,30 +981,83 @@
               @let alerts = notificationAlerts$ | async;
               @let ariaDescribedby =
                 (alerts.length ? 'backend_notifications ' : '') +
-                (applicationForm.controls.title.invalid && applicationForm.controls.title.touched ? 'title_required_error ' : '') +
-                (applicationForm.controls.url.invalid && applicationForm.controls.url.touched && applicationForm.controls.url.errors['required'] ? 'url_required_error ' : '') +
-                (applicationForm.controls.url.invalid && applicationForm.controls.url.touched && applicationForm.controls.url.errors['pattern'] ? 'url_invalid_error ' : '') +
-                (applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').invalid && applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').touched ? 'mobile_apple_url_invalid_error ' : '') +
-                (applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').invalid && applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').touched ? 'mobile_google_url_invalid_error ' : '') +
-                (applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull && applicationForm.controls.myMobileUrlGroup.touched ? 'is_mobile_app_required_error ' : '') +
-                (applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').invalid && applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').touched ? 'desktop_windows_url_invalid_error ' : '') +
-                (applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').invalid && applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').touched ? 'desktop_linux_url_invalid_error ' : '') +
-                (applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').invalid && applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').touched ? 'desktop_macos_url_invalid_error ' : '') +
-                (applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull && applicationForm.controls.myDesktopUrlGroup.touched ? 'is_desktop_app_required_error ' : '') +
-                (applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched && applicationForm.controls.notes.errors['required'] ? 'notes_required_error ' : '') +
-                (applicationForm.controls.notes.invalid && applicationForm.controls.notes.touched && applicationForm.controls.notes.errors['maxlength'] ? 'notes_maxlength_error ' : '') +
-                (applicationForm.controls.author.invalid && applicationForm.controls.author.touched ? 'author_required_error ' : '') +
-                (applicationForm.get('datasets')?.errors && applicationForm.get('datasets')?.errors['invalid'] ? 'dataset_invalid_error ' : '') +
-                (applicationForm.controls.external_datasets.invalid && applicationForm.controls.external_datasets.touched ? 'external_datasets_url_error ' : '') +
-                (applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched ? 'applicant_email_error ' : '') +
-                (applicationForm.controls.is_personal_data_processing_accepted.invalid && applicationForm.controls.is_personal_data_processing_accepted.touched ? 'is_personal_data_processing_accepted_error ' : '') +
-                (applicationForm.controls.is_terms_of_service_accepted.invalid && applicationForm.controls.is_terms_of_service_accepted.touched ? 'is_terms_of_service_accepted_error ' : '');
+                (applicationForm.controls.title.invalid && applicationForm.controls.title.touched
+                  ? 'title_required_error '
+                  : '') +
+                (applicationForm.controls.url.invalid &&
+                applicationForm.controls.url.touched &&
+                applicationForm.controls.url.errors['required']
+                  ? 'url_required_error '
+                  : '') +
+                (applicationForm.controls.url.invalid &&
+                applicationForm.controls.url.touched &&
+                applicationForm.controls.url.errors['pattern']
+                  ? 'url_invalid_error '
+                  : '') +
+                (applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').invalid &&
+                applicationForm.controls.myMobileUrlGroup.get('mobile_apple_url').touched
+                  ? 'mobile_apple_url_invalid_error '
+                  : '') +
+                (applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').invalid &&
+                applicationForm.controls.myMobileUrlGroup.get('mobile_google_url').touched
+                  ? 'mobile_google_url_invalid_error '
+                  : '') +
+                (applicationForm.controls.myMobileUrlGroup.errors?.requireOneToBeNotNull &&
+                applicationForm.controls.myMobileUrlGroup.touched
+                  ? 'is_mobile_app_required_error '
+                  : '') +
+                (applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').invalid &&
+                applicationForm.controls.myDesktopUrlGroup.get('desktop_windows_url').touched
+                  ? 'desktop_windows_url_invalid_error '
+                  : '') +
+                (applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').invalid &&
+                applicationForm.controls.myDesktopUrlGroup.get('desktop_linux_url').touched
+                  ? 'desktop_linux_url_invalid_error '
+                  : '') +
+                (applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').invalid &&
+                applicationForm.controls.myDesktopUrlGroup.get('desktop_macos_url').touched
+                  ? 'desktop_macos_url_invalid_error '
+                  : '') +
+                (applicationForm.controls.myDesktopUrlGroup.errors?.requireOneToBeNotNull &&
+                applicationForm.controls.myDesktopUrlGroup.touched
+                  ? 'is_desktop_app_required_error '
+                  : '') +
+                (applicationForm.controls.notes.invalid &&
+                applicationForm.controls.notes.touched &&
+                applicationForm.controls.notes.errors['required']
+                  ? 'notes_required_error '
+                  : '') +
+                (applicationForm.controls.notes.invalid &&
+                applicationForm.controls.notes.touched &&
+                applicationForm.controls.notes.errors['maxlength']
+                  ? 'notes_maxlength_error '
+                  : '') +
+                (applicationForm.controls.author.invalid && applicationForm.controls.author.touched
+                  ? 'author_required_error '
+                  : '') +
+                (applicationForm.get('datasets')?.errors && applicationForm.get('datasets')?.errors['invalid']
+                  ? 'dataset_invalid_error '
+                  : '') +
+                (applicationForm.controls.external_datasets.invalid &&
+                applicationForm.controls.external_datasets.touched
+                  ? 'external_datasets_url_error '
+                  : '') +
+                (applicationForm.controls.applicant_email.invalid && applicationForm.controls.applicant_email.touched
+                  ? 'applicant_email_error '
+                  : '') +
+                (applicationForm.controls.is_personal_data_processing_accepted.invalid &&
+                applicationForm.controls.is_personal_data_processing_accepted.touched
+                  ? 'is_personal_data_processing_accepted_error '
+                  : '') +
+                (applicationForm.controls.is_terms_of_service_accepted.invalid &&
+                applicationForm.controls.is_terms_of_service_accepted.touched
+                  ? 'is_terms_of_service_accepted_error '
+                  : '');
               <button
                 type="button"
                 class="btn btn-secondary"
                 [attr.aria-describedby]="ariaDescribedby"
-                *ngIf="!applicationForm.valid"
-              >
+                *ngIf="!applicationForm.valid">
                 {{ 'Action.Send' | translate }}
               </button>
 

@@ -20,10 +20,10 @@ import { DatasetService } from '@app/services/dataset.service';
  * Resource Filters Component
  */
 @Component({
-    selector: 'app-resource-filters',
-    templateUrl: './resource-filters.component.html',
-    animations: [toggleVertically],
-    standalone: true,
+  selector: 'app-resource-filters',
+  templateUrl: './resource-filters.component.html',
+  animations: [toggleVertically],
+  standalone: true,
   imports: [
     FormsModule,
     NgIf,
@@ -93,7 +93,10 @@ export class ResourceFiltersComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private datasetService: DatasetService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private datasetService: DatasetService,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   /**
    * Initializes form data
@@ -103,7 +106,7 @@ export class ResourceFiltersComponent implements OnInit {
       this.resourceId = ActivatedRouteHelper.getParamFromCurrentOrParentRoute(this.activatedRoute, 'resourceId');
     }
 
-    this.datasetService.getResourceData(this.resourceId, {}).subscribe(response => {
+    this.datasetService.getResourceData(this.resourceId, {}).subscribe((response) => {
       if (!response['meta']['headers_map']) {
         return;
       }
@@ -115,7 +118,7 @@ export class ResourceFiltersComponent implements OnInit {
       let q = this.activatedRoute.snapshot.queryParams.q as string;
       const qArray = q.split('AND');
 
-      if (!!qArray.length) {
+      if (qArray.length) {
         q = qArray[0];
       }
 
@@ -143,7 +146,7 @@ export class ResourceFiltersComponent implements OnInit {
       if (esQuery) {
         esQuery += andOperator;
       }
-      esQuery += this.selectedFilters.map(filter => filter.query).join(andOperator);
+      esQuery += this.selectedFilters.map((filter) => filter.query).join(andOperator);
     }
 
     this.datasetService.resourceFilterChanged.next(esQuery);
@@ -159,7 +162,8 @@ export class ResourceFiltersComponent implements OnInit {
     }
 
     this.currentFilter.phrase = this.isPhraseFieldAccessible ? form.controls['phrase'].value : '';
-    this.currentFilter.phraseTime = this.isPhraseFieldAccessible && form.controls['phraseTime'] ? form.controls['phraseTime'].value : '';
+    this.currentFilter.phraseTime =
+      this.isPhraseFieldAccessible && form.controls['phraseTime'] ? form.controls['phraseTime'].value : '';
     this.currentFilter.query = this.transformCurrentFilterIntoQuery();
 
     this.selectedFilters.push(this.currentFilter);
@@ -360,7 +364,10 @@ export class ResourceFiltersComponent implements OnInit {
    * @return {boolean} true if valid
    */
   isDateType(dataType: string): boolean {
-    return (dataType as ResourceDataType) === ResourceDataType.date || (dataType as ResourceDataType) === ResourceDataType.datetime;
+    return (
+      (dataType as ResourceDataType) === ResourceDataType.date ||
+      (dataType as ResourceDataType) === ResourceDataType.datetime
+    );
   }
 
   /**

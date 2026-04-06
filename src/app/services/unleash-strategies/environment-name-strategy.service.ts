@@ -17,6 +17,6 @@ export class EnvironmentNameStrategyService {
    */
   validateStrategy(envNames: string): boolean {
     const envs = envNames.toLowerCase().split(',');
-    return envs.findIndex(el => el === this.envName) >= 0;
+    return envs.findIndex((el) => el === this.envName) >= 0;
   }
 }

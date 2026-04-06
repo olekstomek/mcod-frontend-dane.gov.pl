@@ -14,49 +14,50 @@ import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRo
  * Dashboard Component
  */
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    standalone: true,
-    imports: [
-        NgClass,
-        FixedSidebarDirective,
-        RouterLinkActive,
-        RouterLink,
-        PermissionDirective,
-        NgIf,
-        RouterOutlet,
-        LowerCasePipe,
-        LocalizeRouterPipe,
-        TranslatePipe,
-    ],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  standalone: true,
+  imports: [
+    NgClass,
+    FixedSidebarDirective,
+    RouterLinkActive,
+    RouterLink,
+    PermissionDirective,
+    NgIf,
+    RouterOutlet,
+    LowerCasePipe,
+    LocalizeRouterPipe,
+    TranslatePipe,
+  ],
 })
 export class DashboardComponent implements OnInit {
-    /**
-     * Is sidebar visible
-     */
-    sidebarVisible = true;
+  /**
+   * Is sidebar visible
+   */
+  sidebarVisible = true;
 
-    /**
-     * Discourse forum url
-     */
-    forumUrl: string;
+  /**
+   * Discourse forum url
+   */
+  forumUrl: string;
 
-    /**
-     * @ignore
-     */
-    PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
+  /**
+   * @ignore
+   */
+  PermissionPerRoles: typeof PermissionPerRoles = PermissionPerRoles;
 
-    /**
-     * @ignore
-     */
-    constructor(@Inject(DOCUMENT) private document: Document) {
-    }
+  /**
+   * @ignore
+   */
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
-    /**
-     * Initializes forum url
-     */
-    ngOnInit() {
-        const {protocol, hostname} = this.document.location;
-        this.forumUrl = !environment.production ? APP_CONFIG.urls.forumInt : protocol + '//forum.' + hostname.replace('www.', '');
-    }
+  /**
+   * Initializes forum url
+   */
+  ngOnInit() {
+    const { protocol, hostname } = this.document.location;
+    this.forumUrl = !environment.production
+      ? APP_CONFIG.urls.forumInt
+      : protocol + '//forum.' + hostname.replace('www.', '');
+  }
 }

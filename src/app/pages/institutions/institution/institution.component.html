@@ -13,8 +13,7 @@
       [maxResultsPerModel]="3"
       [useTriggers]="true"
       (searchTrigger)="performSearch({ q: $event.q, sort: 'relevance' })"
-      (clearTrigger)="updateParams({ q: '', sort: 'title' })"
-    >
+      (clearTrigger)="updateParams({ q: '', sort: 'title' })">
     </app-search-suggest>
   </div>
 </header>
@@ -28,8 +27,7 @@
         [maxLength]="maxLength"
         [originalSelectedData]="backupSelectedFilters"
         [data]="selectedFilters"
-        (applyFilters)="updateParams($event, null, true)"
-      >
+        (applyFilters)="updateParams($event, null, true)">
       </app-institution-list-view-filters>
     </aside>
 
@@ -42,8 +40,7 @@
             [selectedIds]="backupSelectedFilters"
             [selectedFiltersCount]="selectedFiltersCount"
             (clearAllFilters)="clearSelectedFilters()"
-            (clearSingleFilter)="clearSelectedFilter($event)"
-          >
+            (clearSingleFilter)="clearSelectedFilter($event)">
           </app-institution-selected-filters>
 
           <!-- counters and sort -->
@@ -55,9 +52,8 @@
             [sortOptions]="[
               { label: 'Sort.Default' | translate, value: 'relevance' },
               { label: 'Attribute.NameAsc' | translate, value: 'title' },
-              { label: 'Attribute.NameDesc' | translate, value: '-title' }
-            ]"
-          >
+              { label: 'Attribute.NameDesc' | translate, value: '-title' },
+            ]">
           </app-found-results-counters-and-sort>
 
           <!-- api notifications -->
@@ -73,7 +69,8 @@
           <footer class="results-footer pt-5" *ngIf="items && items.length">
             <div class="d-flex justify-content-between align-items-center">
               <!-- results per page -->
-              <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+              <app-items-per-page [selected]="params?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+              </app-items-per-page>
 
               <!-- pagination -->
               <app-pagination
@@ -81,8 +78,7 @@
                 [totalItems]="count"
                 [(page)]="params.page"
                 (numPages)="numPages = $event"
-                (pageChange)="updateParams({ page: $event })"
-              >
+                (pageChange)="updateParams({ page: $event })">
               </app-pagination>
             </div>
 

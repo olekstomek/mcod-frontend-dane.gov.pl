@@ -23,7 +23,7 @@ describe('AbstractService', () => {
   });
 
   it('Observable should return value', async () => {
-    service.getRequest('https://test.url.pl').subscribe(value => {
+    service.getRequest('https://test.url.pl').subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });

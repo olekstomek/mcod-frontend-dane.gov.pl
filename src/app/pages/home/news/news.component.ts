@@ -1,7 +1,6 @@
 import { AsyncPipe, NgFor } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -18,10 +17,10 @@ import { TruncateTextPipe } from '@app/shared/pipes/truncate-text.pipe';
  * News Component
  */
 @Component({
-    selector: 'home-news',
-    templateUrl: './news.component.html',
-    providers: [NotificationsService],
-    standalone: true,
+  selector: 'home-news',
+  templateUrl: './news.component.html',
+  providers: [NotificationsService],
+  standalone: true,
   imports: [
     NotificationsServerComponent,
     NgFor,
@@ -33,7 +32,6 @@ import { TruncateTextPipe } from '@app/shared/pipes/truncate-text.pipe';
     TruncateTextPipe,
     TranslateDateFormatPipe,
     LocalizeRouterPipe,
-    SanitizeHtmlPipe,
   ],
 })
 export class NewsComponent implements OnInit, OnDestroy {
@@ -50,7 +48,10 @@ export class NewsComponent implements OnInit, OnDestroy {
   /**
    * @ignore
    */
-  constructor(private notificationsService: NotificationsService, private cmsService: CmsService) {}
+  constructor(
+    private notificationsService: NotificationsService,
+    private cmsService: CmsService,
+  ) {}
 
   /**
    * Initializes list of items (articles from one category - news).
@@ -63,7 +64,7 @@ export class NewsComponent implements OnInit, OnDestroy {
         children_sort: '-first_published_at',
         children_extra_fields: 'body,author,tags',
       })
-      .subscribe(news => (this.items = news.data));
+      .subscribe((news) => (this.items = news.data));
   }
 
   /**

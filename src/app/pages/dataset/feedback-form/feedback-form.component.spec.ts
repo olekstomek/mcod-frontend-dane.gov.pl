@@ -19,16 +19,11 @@ describe('FeedbackFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        FeedbackFormComponent,
-        MathCaptchaComponent
-      ],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, FeedbackFormComponent, MathCaptchaComponent],
       providers: [
         { provide: DatasetService, useClass: DatasetService },
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
 
@@ -74,7 +69,7 @@ describe('FeedbackFormComponent', () => {
       const captchaDe = fixture.debugElement.query(By.css('.captcha'));
       const equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
       const equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
-      equationSum = equationArr.map(item => +item).reduce((acc, item) => acc + item);
+      equationSum = equationArr.map((item) => +item).reduce((acc, item) => acc + item);
     });
 
     it('should fill required fields and the form should be valid', () => {

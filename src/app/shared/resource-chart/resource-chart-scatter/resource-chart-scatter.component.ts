@@ -67,7 +67,4 @@ export class ResourceChartScatterComponent implements OnChanges {
     // this.chartData = [...chartData];
     this.chartData = [...chartData];
   }
-
-
-
 }

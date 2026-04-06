@@ -67,10 +67,7 @@ describe('ImageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), ImageComponent],
-      providers: [
-        CmsService,
-        importProvidersFrom(AppTestingModule)
-      ],
+      providers: [CmsService, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
 
     service = TestBed.inject(CmsService);

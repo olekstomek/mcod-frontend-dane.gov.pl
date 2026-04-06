@@ -5,10 +5,10 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angu
  * Tour progress component
  */
 @Component({
-    selector: 'app-tour-progress',
-    templateUrl: './tour-progress.component.html',
-    standalone: true,
-    imports: [NgFor],
+  selector: 'app-tour-progress',
+  templateUrl: './tour-progress.component.html',
+  standalone: true,
+  imports: [NgFor],
 })
 export class TourProgressComponent {
   /**
@@ -21,7 +21,7 @@ export class TourProgressComponent {
    * @type {Array<boolean>}
    */
   @Input()
-  steps: Array<boolean>;
+  steps: boolean[];
 
   /**
    * Change step

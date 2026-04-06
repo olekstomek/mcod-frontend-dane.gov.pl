@@ -36,7 +36,7 @@ export class ListViewSelectedFilterService {
   ): PageParams {
     const updatedQueryParams: PageParams = Object.assign({}, queryParams);
     if (names instanceof Array) {
-      names.forEach(name => {
+      names.forEach((name) => {
         delete selectedIds[name];
         delete updatedQueryParams[name];
       });
@@ -65,7 +65,9 @@ export class ListViewSelectedFilterService {
    */
   private removeSingleParam(updatedQueryParams: PageParams, nameWithSuffix: string, idToRemove: string): string[] {
     const id = Number.isNaN(+idToRemove) ? idToRemove : +idToRemove;
-    const paramValues = updatedQueryParams[nameWithSuffix].split(',').map(value => (Number.isNaN(+value) ? value : +value));
+    const paramValues = updatedQueryParams[nameWithSuffix]
+      .split(',')
+      .map((value) => (Number.isNaN(+value) ? value : +value));
     paramValues.splice(paramValues.indexOf(id), 1);
 
     return paramValues;

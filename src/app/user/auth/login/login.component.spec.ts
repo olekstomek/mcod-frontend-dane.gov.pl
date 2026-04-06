@@ -53,14 +53,14 @@ describe('LoginComponent', () => {
         LoginComponent,
         NotificationsComponent,
         NotificationsFrontComponent,
-        NotificationsServerComponent
+        NotificationsServerComponent,
       ],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
         { provide: SeoService, useClass: SeoServiceStub },
         NotificationsFrontService,
         { provide: NotificationsService, useClass: NotificationsServiceStub },
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
 
@@ -162,43 +162,45 @@ describe('LoginComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should log in user (call the service) on submit', fakeAsync( inject([Router], async (router: Router) => {
-    component.redirectUrl = 'user/dashboard';
-    fixture.detectChanges();
-
-    const spy = jest.spyOn(service, 'login').mockImplementation();
-    const routerNavigationSpy = jest.spyOn(router, 'navigateByUrl');
-    const emailButton: HTMLLinkElement = fixture.nativeElement.querySelector('#email-button');
-    emailButton.click();
-    fixture.detectChanges();
-    tick(10);
-
-    fixture.whenStable().then(() => {
-      const emailInput: HTMLInputElement = fixture.nativeElement.querySelector('#email');
-      const passwordInput: HTMLInputElement = fixture.nativeElement.querySelector('#password');
-      const rememberCheck: HTMLInputElement = fixture.nativeElement.querySelector('#rememberCheck');
-      let submitBtn: HTMLButtonElement;
-
-      emailInput.value = credentials.email;
-      passwordInput.value = credentials.password;
-      rememberCheck.checked = false;
-
-      emailInput.dispatchEvent(new Event('input'));
-      passwordInput.dispatchEvent(new Event('input'));
-      rememberCheck.dispatchEvent(new Event('change'));
+  it('should log in user (call the service) on submit', fakeAsync(
+    inject([Router], async (router: Router) => {
+      component.redirectUrl = 'user/dashboard';
       fixture.detectChanges();
 
-      submitBtn = fixture.nativeElement.querySelector('#submit-button');
-      submitBtn.click();
+      const spy = jest.spyOn(service, 'login').mockImplementation();
+      const routerNavigationSpy = jest.spyOn(router, 'navigateByUrl');
+      const emailButton: HTMLLinkElement = fixture.nativeElement.querySelector('#email-button');
+      emailButton.click();
       fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith(credentials.email, credentials.password, false);
-      // TODO fix test
-      // expect(routerNavigationSpy).toHaveBeenCalled();
-    });
-  })));
+      tick(10);
+
+      fixture.whenStable().then(() => {
+        const emailInput: HTMLInputElement = fixture.nativeElement.querySelector('#email');
+        const passwordInput: HTMLInputElement = fixture.nativeElement.querySelector('#password');
+        const rememberCheck: HTMLInputElement = fixture.nativeElement.querySelector('#rememberCheck');
+        let submitBtn: HTMLButtonElement;
+
+        emailInput.value = credentials.email;
+        passwordInput.value = credentials.password;
+        rememberCheck.checked = false;
+
+        emailInput.dispatchEvent(new Event('input'));
+        passwordInput.dispatchEvent(new Event('input'));
+        rememberCheck.dispatchEvent(new Event('change'));
+        fixture.detectChanges();
+
+        submitBtn = fixture.nativeElement.querySelector('#submit-button');
+        submitBtn.click();
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalledWith(credentials.email, credentials.password, false);
+        // TODO fix test
+        // expect(routerNavigationSpy).toHaveBeenCalled();
+      });
+    }),
+  ));
 
   it('should NOT submit (not call the service) when the form is invalid', () => {
-    const testForm = <NgForm>{ invalid: true };
+    const testForm = { invalid: true } as NgForm;
 
     const spy = jest.spyOn(service, 'login');
     component.onSubmit(testForm);

@@ -38,14 +38,14 @@ describe('LostPasswordComponent', () => {
         LostPasswordComponent,
         NotificationsComponent,
         NotificationsFrontComponent,
-        NotificationsServerComponent
+        NotificationsServerComponent,
       ],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
         { provide: SeoService, useClass: SeoServiceStub },
         NotificationsFrontService,
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
   }));

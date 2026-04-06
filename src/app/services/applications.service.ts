@@ -25,7 +25,7 @@ export class ApplicationsService extends RestService {
       httpParams = httpParams.append(additionalParameter.key, additionalParameter.value);
     }
     return this.get(ApiConfig.showcases, httpParams).pipe(
-      map(response => {
+      map((response) => {
         return new ApiResponse(response);
       }),
     );
@@ -38,7 +38,7 @@ export class ApplicationsService extends RestService {
    */
   getOne(id: string): Observable<any> {
     return this.get(ApiConfig.showcases + '/' + id).pipe(
-      map(response => response['data']),
+      map((response) => response['data']),
       publishReplay(1),
       refCount(),
     );
@@ -53,7 +53,7 @@ export class ApplicationsService extends RestService {
   getDatasets(id: string, params = {}): Observable<ApiResponse> {
     const url = TemplateHelper.parseUrl(ApiConfig.showcasesDatasets, { id: id });
     const httpParams = new HttpParams({ fromObject: params });
-    return this.get(url, httpParams).pipe(map(response => new ApiResponse(response)));
+    return this.get(url, httpParams).pipe(map((response) => new ApiResponse(response)));
   }
 
   /**
@@ -61,7 +61,7 @@ export class ApplicationsService extends RestService {
    * @param {[key: string]: string} application
    * @returns {Observable<ApiResponse>}
    */
-  suggest(application: { [key: string]: string }): Observable<ApiResponse> {
+  suggest(application: Record<string, string>): Observable<ApiResponse> {
     const payload = `{
             "data": {
                 "type": "application",

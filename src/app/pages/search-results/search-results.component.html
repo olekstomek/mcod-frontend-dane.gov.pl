@@ -16,9 +16,8 @@
             apiModel.DATASET,
             apiModel.INSTITUTION,
             apiModel.KNOWLEDGE_BASE,
-            apiModel.RESOURCE
-          ]"
-        >
+            apiModel.RESOURCE,
+          ]">
         </app-search-suggest>
       </div>
     </div>
@@ -45,46 +44,45 @@
         label: 'Datasets.Self' | translate,
         count: counters.datasets,
         url: '../' + routerEndpoints.DATASETS,
-        param: { q: basicParams.q }
+        param: { q: basicParams.q },
       },
       {
         label: 'Resources.Self' | translate,
         count: counters.resources,
         url: '../' + routerEndpoints.DATASETS,
-        param: { q: basicParams.q }
+        param: { q: basicParams.q },
       },
       {
         label: 'Institutions.Self' | translate,
         count: counters.institutions,
         url: '../' + routerEndpoints.PROVIDERS,
-        param: { q: basicParams.q }
+        param: { q: basicParams.q },
       },
       {
         label: 'ApplicationForm.Self' | translate,
         count: counters.showcases,
         url: '../' + routerEndpoints.SHOWCASE,
-        param: { q: basicParams.q }
+        param: { q: basicParams.q },
       },
       {
         label: 'KnowledgeBase.Self' | translate,
         count: counters.knowledge_base,
         url: '../' + routerEndpoints.KNOWLEDGE_BASE + '/' + routerEndpoints.USEFUL_MATERIALS,
-        param: { q: basicParams.q }
+        param: { q: basicParams.q },
       },
       {
         label: 'KnowledgeBase.News' | translate,
         count: counters.news,
         url: '../' + routerEndpoints.NEWS,
-        param: { q: basicParams.q }
-      }
+        param: { q: basicParams.q },
+      },
     ]"
     [sortOptions]="[
       { label: 'Sort.Default' | translate, value: 'relevance' },
       { label: 'Attribute.NameAsc' | translate, value: 'title' },
       { label: 'Attribute.NameDesc' | translate, value: '-title' },
-      { label: 'Attribute.Date' | translate, value: '-date' }
-    ]"
-  >
+      { label: 'Attribute.Date' | translate, value: '-date' },
+    ]">
   </app-found-results-counters-and-sort>
 
   <!-- RESULTS SECTION -->
@@ -95,13 +93,16 @@
     <app-search-results-view [items]="results" *ngIf="results?.length"></app-search-results-view>
 
     <!-- no results found -->
-    <app-no-results-found [q]="basicParams.q" *ngIf="basicParams.q && results && !results.length"></app-no-results-found>
+    <app-no-results-found
+      [q]="basicParams.q"
+      *ngIf="basicParams.q && results && !results.length"></app-no-results-found>
 
     <!-- RESULTS FOOTER -->
     <footer class="results-footer pt-5" *ngIf="results?.length">
       <div class="d-flex justify-content-between align-items-center">
         <!-- results per page -->
-        <app-items-per-page [selected]="basicParams?.per_page" (selectedChange)="updateParams({ per_page: $event })"> </app-items-per-page>
+        <app-items-per-page [selected]="basicParams?.per_page" (selectedChange)="updateParams({ per_page: $event })">
+        </app-items-per-page>
 
         <!-- pagination -->
         <app-pagination
@@ -109,8 +110,7 @@
           [totalItems]="totalCount"
           [(page)]="basicParams.page"
           (numPages)="numPages = $event"
-          (pageChange)="updateParams({ page: $event })"
-        >
+          (pageChange)="updateParams({ page: $event })">
         </app-pagination>
       </div>
     </footer>

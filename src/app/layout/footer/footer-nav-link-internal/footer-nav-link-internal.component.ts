@@ -10,14 +10,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: '[app-footer-nav-link-internal]',
   templateUrl: './footer-nav-link-internal.component.html',
-  imports: [
-    NgIf,
-    RouterLink,
-    LocalizeRouterPipe,
-    RouterLinkActive,
-    TranslatePipe
-  ],
-  standalone: true
+  imports: [NgIf, RouterLink, LocalizeRouterPipe, RouterLinkActive, TranslatePipe],
+  standalone: true,
 })
 export class FooterNavLinkInternalComponent {
   /**

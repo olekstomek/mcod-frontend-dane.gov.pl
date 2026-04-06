@@ -9,8 +9,7 @@
     [attr.aria-expanded]="isExpanded"
     [attr.aria-labelledby]="labelId ? labelId : null"
     (click)="toggleDropdown()"
-    #toggler
-  >
+    #toggler>
     <ng-container *ngIf="!selected.length"> {{ 'Action.Choose' | translate }}... </ng-container>
     <ng-container *ngIf="selected.length">
       {{ 'Filters.VarSelected' | translate: { param: selected.length } }}
@@ -26,8 +25,7 @@
     [attr.aria-controls]="generatedId"
     [attr.aria-expanded]="isExpanded"
     [attr.aria-labelledby]="labelId ? labelId : null"
-    (click)="toggleDropdown($event)"
-  >
+    (click)="toggleDropdown($event)">
     <ng-container *ngIf="!selected">{{ 'Action.Choose' | translate }}...</ng-container>
     <ng-container *ngIf="selected">{{ selected[displayValue] }}</ng-container>
   </button>
@@ -39,8 +37,7 @@
     [attr.aria-hidden]="!isExpanded"
     [ngClass]="{ show: isExpanded }"
     *ngIf="isExpanded"
-    @toggleVertically
-  >
+    @toggleVertically>
     <!-- animation -->
 
     <!-- search through the list -->
@@ -51,8 +48,7 @@
         #inputFilter
         [(ngModel)]="searchText"
         placeholder="{{ 'Action.Search' | translate }}..."
-        [attr.aria-label]="'Action.Search' | translate"
-      />
+        [attr.aria-label]="'Action.Search' | translate" />
 
       <!-- realtime search info -->
       <p role="status" aria-live="polite" aria-atomic="true" class="visually-hidden">
@@ -69,11 +65,10 @@
           id="chk-{{ itemIndex }}"
           [checked]="isItemSelected(item)"
           (click)="selectItem(item)"
-          (keyup.enter)="selectItem(item)"
-        />
+          (keyup.enter)="selectItem(item)" />
 
         <label for="chk-{{ itemIndex }}" class="dropdown-item__text">
-          <span aria-hidden="true" [innerHtml]="item[displayValue] || item | sanitizeHtml"></span>
+          <span aria-hidden="true" [innerHtml]="item[displayValue] || item"></span>
           <span class="visually-hidden" *ngIf="item.titleTranslationKey">
             {{ item.titleTranslationKey | translate }}
             {{ item.key }}
@@ -93,8 +88,7 @@
           [checked]="isItemSelected(item)"
           [attr.aria-label]="item"
           (click)="selectItem(item)"
-          (keyup.enter)="selectItem(item)"
-        />
+          (keyup.enter)="selectItem(item)" />
 
         <label for="radio-{{ itemIndex }}" class="dropdown-item__text">
           {{ item[displayValue] || item }}

@@ -28,9 +28,9 @@ describe('RegionsSearchComponent', () => {
       imports: [TranslateModule.forRoot(), SharedModule, ServicesModule, RegionsSearchComponent],
       providers: [
         { provide: SeoService, useClass: SeoServiceStub },
-        {provide: LocalizeRouterService, useClass: LocalizeRouterServiceStub},
+        { provide: LocalizeRouterService, useClass: LocalizeRouterServiceStub },
         ListViewFiltersService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
 

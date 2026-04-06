@@ -1,15 +1,17 @@
 <section class="item-view__body vertical-spacing">
   <div class="container">
-    <h1 class="heading heading--md">{{title()}}</h1>
+    <h1 class="heading heading--md">{{ title() }}</h1>
     @for (section of cmsData().body; track section) {
       <cms-block2 class="w-100" [oneWidget]="section"></cms-block2>
     }
     <ul class="list-unstyled mb-4">
       <li>
-        <strong>{{'BrokenLinks.UpdateInfo' | translate }}: {{apiData().attributes?.update_date | dateFormat}}</strong>
+        <strong
+          >{{ 'BrokenLinks.UpdateInfo' | translate }}: {{ apiData().attributes?.update_date | dateFormat }}</strong
+        >
       </li>
       <li>
-        <strong>{{"BrokenLinks.NumberOfBrokenLinks" | translate}}: {{ apiData().attributes?.rows_count }}</strong>
+        <strong>{{ 'BrokenLinks.NumberOfBrokenLinks' | translate }}: {{ apiData().attributes?.rows_count }}</strong>
       </li>
     </ul>
     <div class="item-view__actions">
@@ -25,8 +27,7 @@
                   [format]="dataFiles.format"
                   [customCssClass]="'btn btn-primary btn-sm mb-1 mr-1'"
                   [opennessScore]="dataFiles.openness_score"
-                  (click)="downloadResource(dataFiles.download_url)"
-                >
+                  (click)="downloadResource(dataFiles.download_url)">
                 </app-download-link>
               }
             </div>
@@ -48,14 +49,13 @@
                   placeholder="{{ 'Action.SearchFor' | translate }}..."
                   [attr.aria-label]="'Action.SearchFor' | translate"
                   [ngModel]="searchQuery"
-                  name="searchInput"
-                />
+                  name="searchInput" />
 
                 <!-- clear search field -->
                 <button type="button" class="btn search__clear" (click)="generateQuery('')" *ngIf="searchQuery?.length">
-                <span class="visually-hidden">
-                  {{ 'Search.ClearInput' | translate }}
-                </span>
+                  <span class="visually-hidden">
+                    {{ 'Search.ClearInput' | translate }}
+                  </span>
                   <span aria-hidden="true">&times;</span>
                 </button>
 
@@ -64,9 +64,8 @@
                   class="search__info"
                   appInfoTooltip="{{ 'BrokenLinks.Tooltip' | translate }}"
                   tooltipTitle="{{ 'BrokenLinks.Search' | translate }}"
-                  withoutMargin
-                >
-              </span>
+                  withoutMargin>
+                </span>
               </div>
 
               <!-- perform search -->
@@ -93,8 +92,7 @@
               [routerLink]="['table']"
               #tabLinkTableView="routerLinkActive"
               [attr.aria-selected]="tabLinkTableView.isActive ? true : null"
-              routerLinkActive="tab-list__link--active"
-            >
+              routerLinkActive="tab-list__link--active">
               {{ 'Resources.TableView' | translate }}
             </a>
           </li>

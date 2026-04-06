@@ -4,7 +4,7 @@
  * @param {number} [wordsInLine]
  * @returns {string}
  */
-export function breakLongText(longText: string, wordsInLine: number = 5): string {
+export function breakLongText(longText: string, wordsInLine = 5): string {
   return longText.split(' ').reduce((textLine: string, word: string, index: number, textArray: string[]) => {
     if (wordsInLine <= 1) {
       wordsInLine = 2;

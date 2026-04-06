@@ -5,10 +5,10 @@ import { SeoService } from '@app/services/seo.service';
 import { CmsStaticPageComponent } from '@app/shared/cms/cms-static-page/cms-static-page.component';
 
 @Component({
-    selector: 'app-academy-info',
-    templateUrl: './academy-info.component.html',
-    standalone: true,
-    imports: [CmsStaticPageComponent],
+  selector: 'app-academy-info',
+  templateUrl: './academy-info.component.html',
+  standalone: true,
+  imports: [CmsStaticPageComponent],
 })
 export class AcademyInfoComponent implements OnInit {
   /**

@@ -27,13 +27,13 @@ describe('SuggestDatasetComponent', () => {
         SuggestDatasetComponent,
         MathCaptchaComponent,
         NotificationsComponent,
-        NotificationsServerComponent
+        NotificationsServerComponent,
       ],
       providers: [
         { provide: DatasetService, useClass: DatasetService },
         NotificationsService,
         SeoService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
 
@@ -84,7 +84,7 @@ describe('SuggestDatasetComponent', () => {
       const captchaDe = fixture.debugElement.query(By.css('.captcha'));
       const equation = (captchaDe.nativeElement as HTMLDivElement).querySelector('.captcha__equation').textContent;
       const equationArr = equation.replace(/ /g, '').replace('=', '').split('+');
-      equationSum = equationArr.map(item => +item).reduce((acc, item) => acc + item);
+      equationSum = equationArr.map((item) => +item).reduce((acc, item) => acc + item);
     });
 
     it('should fill required fields and the form should be valid', () => {

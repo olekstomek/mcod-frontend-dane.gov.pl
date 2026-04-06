@@ -7,10 +7,10 @@ import { SeoService } from '@app/services/seo.service';
  * Active Data Proposal Component
  */
 @Component({
-    selector: 'app-active-data-proposal',
-    templateUrl: './active-data-proposal.component.html',
-    standalone: true,
-    imports: [DataProposalTabComponent],
+  selector: 'app-active-data-proposal',
+  templateUrl: './active-data-proposal.component.html',
+  standalone: true,
+  imports: [DataProposalTabComponent],
 })
 export class ActiveDataProposalComponent implements OnInit {
   /**

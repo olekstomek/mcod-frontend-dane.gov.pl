@@ -4,8 +4,7 @@
       class="btn btn-primary mapOptionsBtn"
       [attr.aria-pressed]="isMapOptionsVisible"
       appTooltip="{{ 'Tour.Tooltip.DataResource.MapSettings.text' | translate }}"
-      (click)="toggleMapOptions()"
-    >
+      (click)="toggleMapOptions()">
       {{ 'Map.Options' | translate }}
     </button>
   </div>
@@ -17,12 +16,16 @@
     (selectLabel)="highlightObjectOnMap($event)"
     (clearForm)="clearForm()"
     [labels]="labels"
-    [userSettings]="userSettings"
-  ></app-map-options>
+    [userSettings]="userSettings"></app-map-options>
 </div>
 
 <div class="d-flex flex-nowrap">
   <div class="resource-map">
-    <div #mapRef class="resource-map" id="resourceMap" role="application" [attr.aria-label]="'Resources.MapDescription' | translate"></div>
+    <div
+      #mapRef
+      class="resource-map"
+      id="resourceMap"
+      role="application"
+      [attr.aria-label]="'Resources.MapDescription' | translate"></div>
   </div>
 </div>

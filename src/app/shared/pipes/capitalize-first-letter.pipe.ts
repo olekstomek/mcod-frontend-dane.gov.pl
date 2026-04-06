@@ -6,8 +6,8 @@ import { StringHelper } from '../helpers/string.helper';
  * Capitalizes first letter of a string
  */
 @Pipe({
-    name: 'capitalizeFirstLetter',
-    standalone: true,
+  name: 'capitalizeFirstLetter',
+  standalone: true,
 })
 export class CapitalizeFirstLetterPipe implements PipeTransform {
   /**

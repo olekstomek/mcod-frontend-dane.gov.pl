@@ -10,14 +10,10 @@ import { SelectedFiltersComponent } from '@app/shared/filters/list-view-selected
  * Dataset selected filter wrapper for all selected filters
  */
 @Component({
-    selector: 'app-dataset-selected-filters',
-    templateUrl: './dataset-selected-filters.component.html',
-    animations: [toggle],
-    standalone: true,
-    imports: [
-        NgIf,
-        SelectedFiltersComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-dataset-selected-filters',
+  templateUrl: './dataset-selected-filters.component.html',
+  animations: [toggle],
+  standalone: true,
+  imports: [NgIf, SelectedFiltersComponent, TranslatePipe],
 })
 export class DatasetSelectedFiltersComponent extends ListViewSelectedFiltersAbstractComponent {}

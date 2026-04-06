@@ -9,15 +9,15 @@ import { UserDashboardListViewBaseComponent } from '@app/user/list-view/user-das
  * Data Proposal List Container Component
  */
 @Component({
-    selector: 'app-data-proposal-list-container',
-    templateUrl: './data-proposal-list-container.component.html',
-    standalone: true,
-    imports: [NgFor, DataProposalListItemComponent],
+  selector: 'app-data-proposal-list-container',
+  templateUrl: './data-proposal-list-container.component.html',
+  standalone: true,
+  imports: [NgFor, DataProposalListItemComponent],
 })
 export class DataProposalListContainerComponent extends UserDashboardListViewBaseComponent {
   /**
    * Type of data proposal items
    */
   @Input()
-  items: Array<DataProposalListItem>;
+  items: DataProposalListItem[];
 }

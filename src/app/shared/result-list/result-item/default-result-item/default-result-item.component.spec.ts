@@ -14,15 +14,8 @@ describe('DefaultResultItemComponent ', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LocalizeRouterModule.forRoot([]),
-        DefaultResultItemComponent
-      ],
-      providers: [
-        MapParamsToTranslationKeysService,
-        importProvidersFrom(AppTestingModule)
-      ],
+      imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), DefaultResultItemComponent],
+      providers: [MapParamsToTranslationKeysService, importProvidersFrom(AppTestingModule)],
     });
   });
 

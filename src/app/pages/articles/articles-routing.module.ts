@@ -9,7 +9,7 @@ import { breadcrumbsArticleResolver } from '@app/shared/breadcrumbs/resolvers/br
 const routes: Routes = [
   {
     path: '',
-    component: ArticleComponent
+    component: ArticleComponent,
   },
   {
     path: '!:id',

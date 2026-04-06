@@ -7,8 +7,8 @@ import { KeyValueDiffers, Pipe, PipeTransform } from '@angular/core';
  * <div *ngFor="let item of items | keyvalueOrder">{{ item.key }}: {{ item.value }}</div>
  */
 @Pipe({
-    name: 'keyvalueOrder',
-    standalone: true,
+  name: 'keyvalueOrder',
+  standalone: true,
 })
 export class KeyvalueOrderPipe implements PipeTransform {
   /**
@@ -21,7 +21,7 @@ export class KeyvalueOrderPipe implements PipeTransform {
    * @param {any} object
    * @returns {Array<any>}
    */
-  transform(object: any): Array<any> {
+  transform(object: any): any[] {
     const pipe = new KeyValuePipe(this.differs);
     return pipe.transform(object, (a, b) => 0);
   }

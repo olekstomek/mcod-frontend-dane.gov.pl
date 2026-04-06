@@ -40,7 +40,7 @@ describe('UserDashboardListViewService', () => {
       q: '',
       page: 1,
     };
-    service.getAll(params).subscribe(value => {
+    service.getAll(params).subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value).toBeGreaterThan(0);
@@ -48,11 +48,10 @@ describe('UserDashboardListViewService', () => {
   });
 
   it('should getOne function return value', () => {
-    service.getOne('1').subscribe(value => {
+    service.getOne('1').subscribe((value) => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
       expect(value).toBeGreaterThan(0);
     });
-
   });
 });

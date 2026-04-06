@@ -85,7 +85,17 @@ export class DiscourseService extends RestService {
     @Inject(PLATFORM_ID) public platformId: string,
     private readonly userService: UserService,
   ) {
-    super(http, translate, router, notificationService, storageService, cookieService, loginService, document, platformId);
+    super(
+      http,
+      translate,
+      router,
+      notificationService,
+      storageService,
+      cookieService,
+      loginService,
+      document,
+      platformId,
+    );
   }
 
   /**
@@ -119,7 +129,7 @@ export class DiscourseService extends RestService {
     // https://forum.szkolenia.dane.gov.pl/badges.json
     return this.http
       .get(this.buildUrl(ForumResourceType.BADGES), this.httpCredentials)
-      .pipe(map(badgesResponse => badgesResponse[ForumResourceType.BADGES]));
+      .pipe(map((badgesResponse) => badgesResponse[ForumResourceType.BADGES]));
   }
 
   /**
@@ -129,7 +139,7 @@ export class DiscourseService extends RestService {
    */
   private updateBadges(badges: ForumBadge[]): ForumBadge[] {
     return badges
-      .map(badge => {
+      .map((badge) => {
         const iconArray = badge.icon.split('-');
         iconArray[0] = 'fa';
 
@@ -154,7 +164,7 @@ export class DiscourseService extends RestService {
 
     return this.http
       .get(this.buildUrl(ForumResourceType.NOTIFICATIONS), httpOptions)
-      .pipe(map(forumNotificationsResponse => forumNotificationsResponse[ForumResourceType.NOTIFICATIONS]));
+      .pipe(map((forumNotificationsResponse) => forumNotificationsResponse[ForumResourceType.NOTIFICATIONS]));
   }
 
   /**
@@ -166,12 +176,12 @@ export class DiscourseService extends RestService {
       map(([badges, notifications]) => {
         const updatedBadges = this.updateBadges(badges);
 
-        return notifications.map(notification => {
+        return notifications.map((notification) => {
           const badgeId = notification.data?.badge_id ? notification.data?.badge_id : notification.notification_type;
 
           return {
             ...notification,
-            badge: updatedBadges.find(badge => badge.id === badgeId),
+            badge: updatedBadges.find((badge) => badge.id === badgeId),
           };
         });
       }),
@@ -186,7 +196,7 @@ export class DiscourseService extends RestService {
     // https://forum.dev.dane.gov.pl/categories.json
     return this.http
       .get(this.buildUrl(ForumResourceType.CATEGORIES), this.httpCredentials)
-      .pipe(map(categoriesResponse => categoriesResponse['category_list'][ForumResourceType.CATEGORIES]));
+      .pipe(map((categoriesResponse) => categoriesResponse['category_list'][ForumResourceType.CATEGORIES]));
   }
 
   /**
@@ -198,7 +208,7 @@ export class DiscourseService extends RestService {
     // https://forum.dev.dane.gov.pl/latest.json
     return this.http
       .get(this.buildUrl(ForumResourceType.LATEST), this.httpCredentials)
-      .pipe(map(latestTopicsResponse => latestTopicsResponse['topic_list']['topics'].slice(0, offset)));
+      .pipe(map((latestTopicsResponse) => latestTopicsResponse['topic_list']['topics'].slice(0, offset)));
   }
 
   /**
@@ -209,10 +219,10 @@ export class DiscourseService extends RestService {
   getLatestTopicsWithCategories(offset?: number): Observable<ForumTopicWithCategory[]> {
     return combineLatest([this.getCategories(), this.getLatestTopics(offset)]).pipe(
       map(([categories, latestTopics]) => {
-        return latestTopics.map(topic => {
+        return latestTopics.map((topic) => {
           return {
             ...topic,
-            category: categories.find(category => category.id === topic.category_id),
+            category: categories.find((category) => category.id === topic.category_id),
           };
         });
       }),
@@ -223,7 +233,11 @@ export class DiscourseService extends RestService {
    * Marks notifications as read
    */
   markNotificationsAsRead() {
-    return this.http.put(this.buildUrl(ForumResourceType.NOTIFICATIONS + '/' + ForumResourceType.MARK_READ), {}, this.httpCredentials);
+    return this.http.put(
+      this.buildUrl(ForumResourceType.NOTIFICATIONS + '/' + ForumResourceType.MARK_READ),
+      {},
+      this.httpCredentials,
+    );
   }
 
   /**

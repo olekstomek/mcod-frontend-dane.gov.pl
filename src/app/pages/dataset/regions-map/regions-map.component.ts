@@ -27,10 +27,7 @@ import { IAggregation, IAggregationArray } from '@app/services/models/map';
   selector: 'app-regions-map',
   templateUrl: './regions-map.component.html',
   standalone: true,
-  imports: [
-    TranslatePipe,
-    NgIf
-  ]
+  imports: [TranslatePipe, NgIf],
 })
 export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   /**
@@ -105,7 +102,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
   rxjsWrapperForMapEvent = {
     observable: function (types) {
       const subject = new Subject();
-      this.on(types, event => subject.next(event));
+      this.on(types, (event) => subject.next(event));
       return subject;
     },
   };
@@ -179,7 +176,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
   }
 
   ngOnChanges(): void {
-    this.refresh.pipe(debounceTime(500), first()).subscribe(resp => {
+    this.refresh.pipe(debounceTime(500), first()).subscribe((resp) => {
       if (resp.ref) {
         this.changeBbox = resp.changeBbox;
         if (this.mapEvent) {
@@ -205,7 +202,9 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     this.setBBoxAndMarker();
     this.map.addLayer(this.clustersLayer);
     this.actualZoom = this.map.getZoom();
-    this.leafletService.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', this.mapOptions).addTo(this.map);
+    this.leafletService
+      .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', this.mapOptions)
+      .addTo(this.map);
     this.prepareDataForMap(this.aggregations);
     this.leafletService.eventedInclude(this.rxjsWrapperForMapEvent);
     this.setMapEvent();
@@ -237,7 +236,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
             }
           }),
         )
-        .subscribe(response => {
+        .subscribe((response) => {
           this.setMapData(response, false);
         });
     } else {
@@ -266,12 +265,14 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     const convert = Object.entries(this.item);
     const filters = convert.filter(([key, value]) => key !== 'regions' && value);
     if (filters.length > 0) {
-      this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ, filters).subscribe(resp => {
-        this.setMapData(resp, false);
-        this.setDataFromBBox();
-      });
+      this.datasetService
+        .getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ, filters)
+        .subscribe((resp) => {
+          this.setMapData(resp, false);
+          this.setDataFromBBox();
+        });
     } else {
-      this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ).subscribe(resp => {
+      this.datasetService.getDataFromBBox(this.mapBoundsString, this.sortOption, this.paramQ).subscribe((resp) => {
         this.setMapData(resp, true);
         this.setDataFromBBox();
       });
@@ -328,7 +329,7 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
     this.aggregationsGrid = aggregations.map_by_regions;
 
     if (this.aggregationsGrid) {
-      this.aggregationsGrid.map(aggregation => {
+      this.aggregationsGrid.map((aggregation) => {
         this.displayAggregationCircles(aggregation);
       });
     }
@@ -391,11 +392,11 @@ export class RegionsMapComponent implements OnInit, AfterViewInit, OnDestroy, On
 
   private clearMapView(): void {
     const allCircles = Array.from(this.document.querySelectorAll('.clusterCircle.leaflet-interactive'));
-    allCircles.map(path => {
+    allCircles.map((path) => {
       path.parentNode.removeChild(path);
     });
     const allLabels = Array.from(this.document.querySelectorAll('.clusterText'));
-    allLabels.map(path => {
+    allLabels.map((path) => {
       path.parentNode.removeChild(path);
     });
     /*const allMarkers = Array.from(this.document.querySelectorAll('.leaflet-marker-icon'));

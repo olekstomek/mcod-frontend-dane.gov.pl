@@ -5,7 +5,7 @@ export class AodCourseType extends UserDashboardListViewFilterType {
   static CURRENT = new AodCourseType('current', 'Aod.Current');
   static FINISHED = new AodCourseType('finished', 'Aod.Finished');
 
-  static getTypes(): Array<AodCourseType> {
+  static getTypes(): AodCourseType[] {
     return [AodCourseType.PLANNED, AodCourseType.CURRENT, AodCourseType.FINISHED];
   }
 }

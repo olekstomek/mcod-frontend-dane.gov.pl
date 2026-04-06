@@ -38,12 +38,9 @@ describe('HomeComponent', () => {
         NewsComponent,
         ServiceAlertComponent,
         ApplicationsComponent,
-        FooterComponent
+        FooterComponent,
       ],
-      providers: [
-        CookieService,
-        importProvidersFrom(AppTestingModule)
-      ],
+      providers: [CookieService, importProvidersFrom(AppTestingModule)],
     }).compileComponents();
   }));
 

@@ -10,14 +10,10 @@ import { SelectedFiltersComponent } from '@app/shared/filters/list-view-selected
  * Institution item selected filter wrapper for all selected filters
  */
 @Component({
-    selector: 'app-institution-item-selected-filters',
-    templateUrl: './institution-item-selected-filters.component.html',
-    animations: [toggle],
-    standalone: true,
-    imports: [
-        NgIf,
-        SelectedFiltersComponent,
-        TranslatePipe,
-    ],
+  selector: 'app-institution-item-selected-filters',
+  templateUrl: './institution-item-selected-filters.component.html',
+  animations: [toggle],
+  standalone: true,
+  imports: [NgIf, SelectedFiltersComponent, TranslatePipe],
 })
 export class InstitutionItemSelectedFiltersComponent extends ListViewSelectedFiltersAbstractComponent {}

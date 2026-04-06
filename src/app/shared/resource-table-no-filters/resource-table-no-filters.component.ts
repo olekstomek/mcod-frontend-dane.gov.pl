@@ -20,21 +20,21 @@ import { DatasetService } from '@app/services/dataset.service';
  * Resource Table No Filters Component
  */
 @Component({
-    selector: 'app-resource-table-no-filters',
-    templateUrl: './resource-table-no-filters.component.html',
-    animations: [toggleVertically],
-    standalone: true,
-    imports: [
-        NgIf,
-        ItemsPerPageComponent,
-        NgClass,
-        NgFor,
-        RouterLink,
-        PaginationComponent,
-        NoResultsFoundComponent,
-        TranslatePipe,
-        ResourceColumnDataPipe,
-    ],
+  selector: 'app-resource-table-no-filters',
+  templateUrl: './resource-table-no-filters.component.html',
+  animations: [toggleVertically],
+  standalone: true,
+  imports: [
+    NgIf,
+    ItemsPerPageComponent,
+    NgClass,
+    NgFor,
+    RouterLink,
+    PaginationComponent,
+    NoResultsFoundComponent,
+    TranslatePipe,
+    ResourceColumnDataPipe,
+  ],
 })
 export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
   /**
@@ -112,7 +112,11 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
   /**
    * @ignore
    */
-  constructor(private datasetService: DatasetService, private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private datasetService: DatasetService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   /**
    * Initializes and updates table data on every queryParam and resource filter change.
@@ -129,7 +133,7 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
 
     const filter$ = this.datasetService.resourceFilterChanged$.pipe(distinctUntilChanged());
 
-    this.resourceFilterSubscription = filter$.subscribe(filterQuery => {
+    this.resourceFilterSubscription = filter$.subscribe((filterQuery) => {
       this.updateParams({ page: 1, q: filterQuery });
     });
 
@@ -150,7 +154,7 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
           });
         }),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         if (!response['meta']['headers_map']) {
           this.hasTableView = false;
           return;
@@ -163,7 +167,7 @@ export class ResourceTableNoFiltersComponent implements OnInit, OnDestroy {
         }
 
         this.columns = ResourceHelper.getTableColumns(response);
-        this.items = response['data'].map(item => item['attributes']);
+        this.items = response['data'].map((item) => item['attributes']);
         this.count = response['meta']['count'];
       });
   }

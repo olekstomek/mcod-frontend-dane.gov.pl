@@ -11,16 +11,10 @@ import { CmsBlock2Component } from '@app/shared/cms/cms-block2/cms-block2.compon
  * Preview component for cms details
  */
 @Component({
-    selector: 'app-knowledge-base-item-details',
-    templateUrl: './knowledge-base-item-details.component.html',
-    standalone: true,
-    imports: [
-        RouterLink,
-        NgIf,
-        NgFor,
-        CmsBlock2Component,
-        TranslatePipe,
-    ],
+  selector: 'app-knowledge-base-item-details',
+  templateUrl: './knowledge-base-item-details.component.html',
+  standalone: true,
+  imports: [RouterLink, NgIf, NgFor, CmsBlock2Component, TranslatePipe],
 })
 export class KnowledgeBaseItemDetailsComponent implements OnInit {
   /**
@@ -36,7 +30,10 @@ export class KnowledgeBaseItemDetailsComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private seoService: SeoService, private route: ActivatedRoute) {}
+  constructor(
+    private seoService: SeoService,
+    private route: ActivatedRoute,
+  ) {}
 
   /**
    * Sets page data from resolved request

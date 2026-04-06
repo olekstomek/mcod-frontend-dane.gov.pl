@@ -17,9 +17,7 @@
       }
     }
 
-
     .bk-btn {
-
       &.bk-btn-default {
         color: $hcPrimary;
         background-color: $hcSecondary;
@@ -36,7 +34,8 @@
     .table {
       color: $hcPrimary;
 
-      tbody, thead {
+      tbody,
+      thead {
         th {
           border: 1px solid $hcPrimary;
         }
@@ -67,7 +66,7 @@
 
     .dropdown-menu {
       &.inner {
-        background: $hcPrimary;;
+        background: $hcPrimary;
       }
     }
 

@@ -15,17 +15,20 @@ import { MeetingType } from '@app/user/meetings/MeetingType';
  * Meetings Component
  */
 @Component({
-    selector: 'app-meetings',
-    templateUrl: './meetings.component.html',
-    providers: [{ provide: API_URL, useValue: ApiConfig.meetings }],
-    standalone: true,
-    imports: [UserDashboardListViewComponent, TranslatePipe],
+  selector: 'app-meetings',
+  templateUrl: './meetings.component.html',
+  providers: [{ provide: API_URL, useValue: ApiConfig.meetings }],
+  standalone: true,
+  imports: [UserDashboardListViewComponent, TranslatePipe],
 })
 export class MeetingsComponent implements OnInit {
   /**
    * @ignore
    */
-  constructor(private seoService: SeoService, private readonly userService: UserService) {}
+  constructor(
+    private seoService: SeoService,
+    private readonly userService: UserService,
+  ) {}
 
   /**
    * List container component

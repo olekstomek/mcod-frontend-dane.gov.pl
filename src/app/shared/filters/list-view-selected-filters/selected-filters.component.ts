@@ -12,19 +12,19 @@ import { StartEndDateRange } from '@app/services/models/startEndDateRange';
  * Custom view Component for all selected filters
  */
 @Component({
-    selector: 'app-selected-filters',
-    templateUrl: './selected-filters.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        RemoveButtonComponent,
-        NgFor,
-        StarRatingComponent,
-        AsyncPipe,
-        KeyValuePipe,
-        TranslatePipe,
-        TranslateDateFormatPipe,
-    ],
+  selector: 'app-selected-filters',
+  templateUrl: './selected-filters.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    RemoveButtonComponent,
+    NgFor,
+    StarRatingComponent,
+    AsyncPipe,
+    KeyValuePipe,
+    TranslatePipe,
+    TranslateDateFormatPipe,
+  ],
 })
 export class SelectedFiltersComponent {
   /**

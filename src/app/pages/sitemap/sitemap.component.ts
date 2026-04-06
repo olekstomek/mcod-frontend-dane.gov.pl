@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -13,29 +13,24 @@ import { WriteUsInfoComponent } from '@app/shared/write-us-info/write-us-info.co
 @Component({
   selector: 'app-sitemap',
   templateUrl: './sitemap.component.html',
-  imports: [
-    TranslatePipe,
-    RouterLink,
-    LocalizeRouterPipe,
-    WriteUsInfoComponent
-  ],
-  standalone: true
+  imports: [TranslatePipe, RouterLink, LocalizeRouterPipe, WriteUsInfoComponent],
+  standalone: true,
 })
 export class SitemapComponent implements OnInit {
-    /**
-     * Router endpoints
-     */
-    readonly routerEndpoints = RouterEndpoints;
+  /**
+   * Router endpoints
+   */
+  readonly routerEndpoints = RouterEndpoints;
 
-    /**
-     * @ignore
-     */
-    constructor(private seoService: SeoService) {}
+  /**
+   * @ignore
+   */
+  constructor(private seoService: SeoService) {}
 
-    /**
-     * Sets title in a browser
-     */
-    ngOnInit(): void {
-        this.seoService.setPageTitleByTranslationKey(['Menu.Sitemap']);
-    }
+  /**
+   * Sets title in a browser
+   */
+  ngOnInit(): void {
+    this.seoService.setPageTitleByTranslationKey(['Menu.Sitemap']);
+  }
 }

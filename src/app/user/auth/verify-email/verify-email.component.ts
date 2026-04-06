@@ -13,16 +13,10 @@ import { UserService } from '@app/services/user.service';
  * Verify Email Component
  */
 @Component({
-    selector: 'app-verify-email',
-    templateUrl: './verify-email.component.html',
-    standalone: true,
-    imports: [
-        NgIf,
-        RouterLink,
-        NotificationsServerComponent,
-        LocalizeRouterPipe,
-        TranslatePipe,
-    ],
+  selector: 'app-verify-email',
+  templateUrl: './verify-email.component.html',
+  standalone: true,
+  imports: [NgIf, RouterLink, NotificationsServerComponent, LocalizeRouterPipe, TranslatePipe],
 })
 export class VerifyEmailComponent implements OnInit, OnDestroy {
   /**
@@ -34,7 +28,11 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   /**
    * @ignore
    */
-  constructor(private route: ActivatedRoute, private seoService: SeoService, private userService: UserService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private seoService: SeoService,
+    private userService: UserService,
+  ) {}
 
   /**
    * Sets META tags (title).
@@ -44,7 +42,9 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     this.seoService.setPageTitleByTranslationKey(['Action.Register']);
     const token = this.route.snapshot.paramMap.get('token');
 
-    if (!token) { return; }
+    if (!token) {
+      return;
+    }
 
     this.userSubscription = this.userService.verifyEmail(token).subscribe(() => {
       this.isVerified = true;

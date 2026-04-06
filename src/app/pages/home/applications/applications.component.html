@@ -3,8 +3,7 @@
     <h2
       class="heading heading--md heading--centered heading--separator"
       appInfoTooltip="{{ 'Tour.Tooltip.HomePage.Applications.text' | translate }}"
-      tooltipTitle="{{ 'Tour.Tooltip.HomePage.Applications.title' | translate }}"
-    >
+      tooltipTitle="{{ 'Tour.Tooltip.HomePage.Applications.title' | translate }}">
       {{ 'Menu.Showcases' | translate }} - {{ 'Applications.Self' | translate }}
     </h2>
 
@@ -14,21 +13,18 @@
         <li class="category-list__item col-12 col-sm-6 col-md-6 col-xl-3" *ngFor="let application of applications">
           <a
             class="category-list__item-wrapper"
-            [routerLink]="['/!showcase' | localize, application?.id + ',' + application.attributes.slug]"
-          >
+            [routerLink]="['/!showcase' | localize, application?.id + ',' + application.attributes.slug]">
             <div class="category-list__item-content">
               <div class="category-list__image-wrapper">
                 <img
                   *ngIf="application.attributes.image_thumb_url"
                   class="category-list__item-image"
                   src="{{ application.attributes.image_thumb_url }}"
-                  alt="{{ 'Applications.Logo' | translate }}"
-                />
+                  alt="{{ 'Applications.Logo' | translate }}" />
               </div>
               <span
                 class="category-list__item-heading category-list__item-heading--dark"
-                [innerHtml]="application.attributes.title | sanitizeHtml"
-              >
+                [innerHtml]="application.attributes.title">
               </span>
             </div>
           </a>

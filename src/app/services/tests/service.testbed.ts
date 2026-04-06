@@ -17,11 +17,11 @@ export class ServiceTestbed {
         NotificationsService,
         CookieService,
         provideNgxLocalstorage({
-          prefix: 'mcod'
+          prefix: 'mcod',
         }),
         provideHttpClientTesting(),
         provideRouter([]),
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     };
   }

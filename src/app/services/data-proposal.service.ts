@@ -11,29 +11,28 @@ import { UserDashboardListViewService } from '@app/user/list-view/user-dashboard
  */
 @Injectable()
 export class DataProposalService extends UserDashboardListViewService {
+  /**
+   * Sends update rating request to API
+   * @param action
+   * @param id
+   * @returns {Observable<ApiResponse>}
+   */
+  updateRating(action: Feedback, id: number): Observable<any> {
+    return this.post(ApiConfig.dataProposal + '/' + id + ApiConfig.dataProposalFeedback, {
+      data: {
+        type: 'feedback',
+        attributes: { opinion: action },
+      },
+    }).pipe(map((response) => response['data']));
+  }
 
-    /**
-     * Sends update rating request to API
-     * @param action
-     * @param id
-     * @returns {Observable<ApiResponse>}
-     */
-    updateRating(action: Feedback, id: number): Observable<any> {
-        return this.post(ApiConfig.dataProposal + '/' + id + ApiConfig.dataProposalFeedback, {
-            data: {
-                type: 'feedback', attributes: {opinion: action}
-            }
-        })
-            .pipe(map(response => response['data']));
-    }
-
-    /**
-     * Removes selected rating
-     * @param action
-     * @param id
-     * @returns {Observable<any>}
-     */
-    removeRating(action: Feedback, id: number): Observable<void> {
-        return this.delete(ApiConfig.dataProposal + '/' + id + ApiConfig.dataProposalFeedback);
-    }
+  /**
+   * Removes selected rating
+   * @param action
+   * @param id
+   * @returns {Observable<any>}
+   */
+  removeRating(action: Feedback, id: number): Observable<void> {
+    return this.delete(ApiConfig.dataProposal + '/' + id + ApiConfig.dataProposalFeedback);
+  }
 }

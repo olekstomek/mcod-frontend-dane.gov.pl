@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 
 import { AppTestingModule } from '@app/app.testing.module';
@@ -23,6 +23,9 @@ class SeoServiceStub {
 class UserServiceStub {
   passwordCustomValidators: string[] = [];
   resetPass() {}
+  verifyToken(token: string) {
+    return { subscribe: () => {} };
+  }
 }
 
 describe('ResetPasswordComponent', () => {
@@ -40,7 +43,7 @@ describe('ResetPasswordComponent', () => {
         ResetPasswordComponent,
         NotificationsComponent,
         NotificationsFrontComponent,
-        NotificationsServerComponent
+        NotificationsServerComponent,
       ],
       providers: [
         { provide: UserService, useClass: UserServiceStub },
@@ -48,7 +51,7 @@ describe('ResetPasswordComponent', () => {
         { provide: FormBuilder, useClass: FormBuilder },
         NotificationsFrontService,
         NotificationsService,
-        importProvidersFrom(AppTestingModule)
+        importProvidersFrom(AppTestingModule),
       ],
     });
   });
@@ -89,11 +92,11 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should stores token of token form submit', () => {
-    const testForm = <NgForm>{
+    const testForm = {
       value: {
         code: '45tghj',
       },
-    };
+    } as NgForm;
     component.onSubmitTokenForm(testForm);
     expect(component.token).toEqual('45tghj');
   });

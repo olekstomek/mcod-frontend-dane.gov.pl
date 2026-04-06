@@ -4,10 +4,8 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-embed-layout',
   templateUrl: './embed-layout.component.html',
-  imports: [
-    RouterOutlet
-  ],
-  standalone: true
+  imports: [RouterOutlet],
+  standalone: true,
 })
 export class EmbedLayoutComponent {
   /**

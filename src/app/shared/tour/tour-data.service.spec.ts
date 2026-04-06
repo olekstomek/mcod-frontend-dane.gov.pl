@@ -34,19 +34,19 @@ describe('TourDataService', () => {
   });
 
   it('should fetches tours from api', () => {
-    service.getTourById('1').subscribe(value => {
+    service.getTourById('1').subscribe((value) => {
       expect(value).toBe([{ name: '', id: '1', items: [] }]);
     });
   });
 
   it('should gets tour for route', () => {
-    service.getTourForRoute('').subscribe(value => {
+    service.getTourForRoute('').subscribe((value) => {
       expect(value).toBe([{ name: '', id: '', items: [] }]);
     });
   });
 
   it('should gets routes where tour button should be visible', () => {
-    service.getRoutesWhereTourShouldButtonVisible().subscribe(value => {
+    service.getRoutesWhereTourShouldButtonVisible().subscribe((value) => {
       expect(value).toBe({});
     });
   });

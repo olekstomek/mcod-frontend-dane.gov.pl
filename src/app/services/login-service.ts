@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class LoginService {
-  private isLoggedIn: boolean = false;
+  private isLoggedIn = false;
   private loginSource = new BehaviorSubject<boolean>(!!this.isLoggedIn);
   public readonly loggedIn = this.loginSource.asObservable();
 

@@ -25,12 +25,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest",
-              {
-                "glob": "stats.js",
-                "input": "src/",
-                "output": "/assets/"
-              }
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -107,7 +102,9 @@
             },
             "local": {
               "buildTarget": "frontend:build:development",
-              "proxyConfig": "proxy.local.conf.json"
+              "proxyConfig": "proxy.local.conf.json",
+              "allowedHosts": ["mcod.local"],
+              "host": "0.0.0.0"
             }
           },
           "defaultConfiguration": "dev"

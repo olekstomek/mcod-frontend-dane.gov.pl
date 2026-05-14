@@ -28,12 +28,5 @@
     "pathRewrite": {
       "^/cms": ""
     }
-  },
-  "/pn-apps": {
-    "target": "http://mcod.local",
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true,
-    "ws": true
   }
 }

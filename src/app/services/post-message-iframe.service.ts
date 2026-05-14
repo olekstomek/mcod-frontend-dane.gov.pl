@@ -23,7 +23,7 @@ export class PostMessageIframeService {
 
   getMessages(): Observable<any> {
     return fromEvent<MessageEvent>(window, 'message').pipe(
-      filter((e) => e.origin.includes('dane.gov.pl')),
+      filter((e) => e.origin === window.location.origin),
       map((e) => e.data),
     );
   }

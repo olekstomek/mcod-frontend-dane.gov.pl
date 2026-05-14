@@ -99,7 +99,10 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit,
       this.text = this.embedRawTextService.extractTextFromElement(this.rawText.settings.text);
     }
     if (this.rawText.general?.classes) {
-      this.classes = this.rawText.general.classes;
+      this.classes = `${this.rawText.general.classes} raw-text-container position-relative`;
+      if (!this.rawText.general.classes.includes('page-footer__nav')) {
+        this.classes = `${this.classes} text-justify`;
+      }
       this.IsListFooterNav(this.rawText.general.classes);
     }
   }

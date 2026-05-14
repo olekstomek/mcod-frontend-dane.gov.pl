@@ -1,7 +1,6 @@
 import { NgIf } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { environment } from '@env/environment';
 import { TranslatePipe } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
@@ -61,12 +60,7 @@ export class DashboardStatsComponent implements OnInit, AfterViewInit, OnDestroy
    */
   ngOnInit() {
     this.seoService.setPageTitleByTranslationKey(['MyDashboard.Stats']);
-
-    if (environment.production) {
-      this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(APP_CONFIG.urls.stats);
-    } else {
-      this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://dev.dane.gov.pl${APP_CONFIG.urls.stats}`);
-    }
+    this.statsURL = this.sanitizer.bypassSecurityTrustResourceUrl(APP_CONFIG.urls.stats);
   }
 
   /**

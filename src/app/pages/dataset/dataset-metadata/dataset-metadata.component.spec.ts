@@ -36,8 +36,8 @@ describe('DatasetMetadataComponent', () => {
   });
 
   it('should sets metadata urls when datasetId is exists', () => {
-    component.selfLink = 'https://dev.dane.gov.pl/pl';
-    component.datasetId = '1';
+    fixture.componentRef.setInput('selfLink', 'https://dev.dane.gov.pl/pl');
+    fixture.componentRef.setInput('datasetId', '1');
     fixture.detectChanges();
     component.setMetadataUrls();
     expect(component.selfApiRdf).toBe('1.rdf');
@@ -46,7 +46,7 @@ describe('DatasetMetadataComponent', () => {
   });
 
   it('should sets metadata urls when datasetId is not exists', () => {
-    component.selfLink = 'https://dev.dane.gov.pl/pl/1.4';
+    fixture.componentRef.setInput('selfLink', 'https://dev.dane.gov.pl/pl/1.4');
     fixture.detectChanges();
     component.setMetadataUrls();
     expect(component.selfApiRdf).toBe('https://dev.dane.gov.pl/pl/1.4/catalog.rdf');

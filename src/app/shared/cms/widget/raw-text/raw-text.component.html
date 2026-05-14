@@ -1,6 +1,5 @@
 <div
   *ngIf="rawText.type === widgetType.TEXT"
-  class="text-justify raw-text-container position-relative"
   [ngClass]="classes ? classes + ' ' + { container: !isFullWidth } : { container: !isFullWidth }">
   <div *ngFor="let el of rawTextObjects">
     <div

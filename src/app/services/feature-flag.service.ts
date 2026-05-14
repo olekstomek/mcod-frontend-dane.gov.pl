@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { AsyncSubject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import { StrategiesEnum } from '@app/services/unleash-strategies/strategies-enum
 export class FeatureFlagService {
   featureFlags = new AsyncSubject();
 
-  featureFlagsList: IFeatureFlag[] = null;
+  featureFlagsList: WritableSignal<IFeatureFlag[] | null> = signal(null);
 
   /**
    * @Ignore
@@ -28,12 +28,12 @@ export class FeatureFlagService {
   /**
    * Initialize service: register client and load flags. Flags are loaded asynchronously only once at application start.
    */
-  initialize(): Promise<any> {
+  initialize(): Promise<IFeatureFlag[]> {
     return this.apiFlagsService
       .registerClient(this.featureFlags)
       .pipe(
         switchMap(() => this.featureFlags),
-        tap((flags: IFeatureFlag[]) => (this.featureFlagsList = flags)),
+        tap((flags: IFeatureFlag[]) => this.featureFlagsList.set(flags)),
       )
       .toPromise();
   }
@@ -46,7 +46,7 @@ export class FeatureFlagService {
    */
   validateFlag(flagName: string, flagList: IFeatureFlag[]): boolean {
     const flag = flagList.find((f) => f.name === flagName);
-    return flag && flag.enabled && this.checkStrategies(flag);
+    return !!flag?.enabled && this.checkStrategies(flag);
   }
 
   /**
@@ -55,8 +55,8 @@ export class FeatureFlagService {
    * @return {boolean}
    */
   validateFlagSync(flagName: string): boolean {
-    const flag = this.featureFlagsList?.find((f) => f.name === flagName);
-    return flag && flag.enabled && this.checkStrategies(flag);
+    const flag = this.featureFlagsList()?.find((f) => f.name === flagName);
+    return !!flag?.enabled && this.checkStrategies(flag);
   }
 
   /**
@@ -65,8 +65,7 @@ export class FeatureFlagService {
    * @return {boolean}
    */
   private checkStrategies(flag: IFeatureFlag): boolean {
-    for (let i = 0; i < flag.strategies.length; i++) {
-      const strategy = flag.strategies[i];
+    for (const strategy of flag.strategies) {
       let fulfillStrategy;
       if (strategy.name === StrategiesEnum.defaultStrategy) {
         fulfillStrategy = true;

@@ -1,0 +1,743 @@
+<ng-container formGroupName="poCoToFields">
+  <fieldset>
+    <div class="form-field">
+      @let isCategoryFieldInvalid =
+        poCoToFieldsGroup.controls.category.touched && poCoToFieldsGroup.controls.category.invalid;
+      <label for="category" class="form-label">
+        {{ 'Forms.PoCoToSection.CategorySelect.Label' | translate }}
+        <small> ({{ 'Forms.General.RequiredHint' | translate }})</small>
+      </label>
+      <div class="input-wrapper" [class.is-invalid]="isCategoryFieldInvalid">
+        <select
+          id="category"
+          formControlName="category"
+          class="form-select"
+          [class.is-invalid]="isCategoryFieldInvalid"
+          [class.value-selected]="poCoToFieldsGroup.value.category">
+          <option [value]="null" selected hidden>
+            {{ 'Forms.PoCoToSection.CategorySelect.Placeholder' | translate }}
+          </option>
+          @for (item of categoryOptions; track item) {
+            <option [value]="item.value">
+              {{ item.label | translate }}
+            </option>
+          }
+        </select>
+        @if (poCoToFieldsGroup.value.category) {
+          <button
+            type="button"
+            class="input-clear"
+            aria-label="Wyczyść"
+            (click)="poCoToFieldsGroup.controls.category.reset()"></button>
+        }
+      </div>
+      <div class="invalid-feedback">
+        @if (poCoToFieldsGroup.hasError('required', 'category')) {
+          {{ 'Forms.PoCoToSection.CategorySelect.ValidatorRequired' | translate }}
+        }
+      </div>
+    </div>
+
+    @if (poCoToFieldsGroup.value.category) {
+      <div class="form-field">
+        @let isNameFieldInvalid = poCoToFieldsGroup.controls.name.touched && poCoToFieldsGroup.controls.name.invalid;
+        <label for="title" class="form-label">
+          {{ 'Forms.PoCoToSection.NameInput.Label' | translate }}
+          <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+        </label>
+        <div class="input-wrapper" [class.is-invalid]="isNameFieldInvalid">
+          <input
+            id="title"
+            formControlName="name"
+            class="form-control"
+            [placeholder]="'Forms.PoCoToSection.NameInput.Placeholder' | translate"
+            [class.is-invalid]="isNameFieldInvalid" />
+          @if (poCoToFieldsGroup.value.name) {
+            <button
+              type="button"
+              class="input-clear"
+              aria-label="Wyczyść"
+              (click)="poCoToFieldsGroup.controls.name.reset()"></button>
+          }
+        </div>
+        <div class="invalid-feedback">
+          @if (poCoToFieldsGroup.hasError('required', 'name')) {
+            {{ 'Forms.PoCoToSection.NameInput.ValidatorRequired' | translate }}
+          } @else if (poCoToFieldsGroup.hasError('maxlength', 'name')) {
+            {{
+              'Forms.Validators.ValidatorMaxLength'
+                | translate: { length: poCoToFieldsGroup.getError('maxlength', 'name').requiredLength }
+            }}
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        @let isUrlFieldInvalid = poCoToFieldsGroup.controls.url.touched && poCoToFieldsGroup.controls.url.invalid;
+        <label for="url" class="form-label">
+          {{ 'Forms.PoCoToSection.ApplicationLinkInput.Label' | translate }}
+          <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+        </label>
+        <div class="input-wrapper" [class.is-invalid]="isUrlFieldInvalid">
+          <input
+            id="url"
+            formControlName="url"
+            class="form-control"
+            [placeholder]="'Forms.PoCoToSection.ApplicationLinkInput.Placeholder' | translate"
+            [class.is-invalid]="isUrlFieldInvalid" />
+          @if (poCoToFieldsGroup.value.url) {
+            <button
+              type="button"
+              class="input-clear"
+              aria-label="Wyczyść"
+              (click)="poCoToFieldsGroup.controls.url.reset()"></button>
+          }
+        </div>
+        <div class="invalid-feedback">
+          @if (poCoToFieldsGroup.hasError('required', 'url')) {
+            {{ 'Forms.PoCoToSection.ApplicationLinkInput.ValidatorRequired' | translate }}
+          } @else if (poCoToFieldsGroup.hasError('maxlength', 'url')) {
+            {{
+              'Forms.Validators.ValidatorMaxLength'
+                | translate: { length: poCoToFieldsGroup.getError('maxlength', 'url').requiredLength }
+            }}
+          } @else if (poCoToFieldsGroup.hasError('pattern', 'url')) {
+            {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+          }
+        </div>
+      </div>
+
+      @if (poCoToFieldsGroup.value.category === PoCoToCategory.App) {
+        <fieldset class="form-field form-field--check">
+          <legend class="form-label">
+            {{ 'Forms.PoCoToSection.ApplicationTypeCheckbox.Label' | translate }}
+          </legend>
+
+          <ng-container formGroupName="mobileAppGroup">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="mobile" formControlName="isMobileApp" />
+              <label class="form-check-label" for="mobile">
+                {{ 'Forms.PoCoToSection.ApplicationTypeCheckbox.Option1' | translate }}
+                @if (poCoToFieldsGroup.value.mobileAppGroup.isMobileApp) {
+                  <small>({{ 'Forms.PoCoToSection.ApplicationTypeCheckbox.LabelHint' | translate }})</small>
+                }
+              </label>
+            </div>
+
+            @if (poCoToFieldsGroup.value.mobileAppGroup.isMobileApp) {
+              <div class="form-field-icon-wrapper">
+                <span class="form-field-icon form-field-icon--android" aria-hidden="true"></span>
+                <div class="form-field">
+                  @let isAndroidLinkFieldInvalid =
+                    poCoToFieldsGroup.controls.mobileAppGroup.controls.androidLink.touched &&
+                    (poCoToFieldsGroup.controls.mobileAppGroup.controls.androidLink.invalid ||
+                      poCoToFieldsGroup.hasError('requireOneValue', 'mobileAppGroup'));
+                  <label for="android-link" class="form-label">
+                    {{ 'Forms.PoCoToSection.ApplicationTypeAndroidInput.Label' | translate }}
+                  </label>
+                  <div class="input-wrapper" [class.is-invalid]="isAndroidLinkFieldInvalid">
+                    <input
+                      id="android-link"
+                      formControlName="androidLink"
+                      class="form-control"
+                      [placeholder]="'Forms.PoCoToSection.ApplicationTypeAndroidInput.Placeholder' | translate"
+                      [class.is-invalid]="isAndroidLinkFieldInvalid" />
+                    @if (poCoToFieldsGroup.value.mobileAppGroup.androidLink) {
+                      <button
+                        type="button"
+                        class="input-clear"
+                        aria-label="Wyczyść"
+                        (click)="poCoToFieldsGroup.controls.mobileAppGroup.controls.androidLink.reset()"></button>
+                    }
+                  </div>
+                  <div class="invalid-feedback">
+                    @if (poCoToFieldsGroup.hasError('requireOneValue', 'mobileAppGroup')) {
+                      {{ 'Forms.PoCoToSection.ApplicationTypeAndroidInput.ValidatorRequired' | translate }}
+                    } @else if (poCoToFieldsGroup.hasError('maxlength', 'mobileAppGroup.androidLink')) {
+                      {{
+                        'Forms.Validators.ValidatorMaxLength'
+                          | translate
+                            : {
+                                length: poCoToFieldsGroup.getError('maxlength', 'mobileAppGroup.androidLink')
+                                  .requiredLength,
+                              }
+                      }}
+                    } @else if (poCoToFieldsGroup.hasError('pattern', 'mobileAppGroup.androidLink')) {
+                      {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-field-icon-wrapper">
+                <span class="form-field-icon form-field-icon--apple" aria-hidden="true"></span>
+                <div class="form-field">
+                  @let isAppleLinkFieldInvalid =
+                    poCoToFieldsGroup.controls.mobileAppGroup.controls.appleLink.touched &&
+                    (poCoToFieldsGroup.controls.mobileAppGroup.controls.appleLink.invalid ||
+                      poCoToFieldsGroup.hasError('requireOneValue', 'mobileAppGroup'));
+                  <label for="apple-link" class="form-label">
+                    {{ 'Forms.PoCoToSection.ApplicationTypeIOSInput.Label' | translate }}
+                  </label>
+                  <div class="input-wrapper" [class.is-invalid]="isAppleLinkFieldInvalid">
+                    <input
+                      id="apple-link"
+                      formControlName="appleLink"
+                      class="form-control"
+                      [placeholder]="'Forms.PoCoToSection.ApplicationTypeIOSInput.Placeholder' | translate"
+                      [class.is-invalid]="isAppleLinkFieldInvalid" />
+                    @if (poCoToFieldsGroup.value.mobileAppGroup.appleLink) {
+                      <button
+                        type="button"
+                        class="input-clear"
+                        aria-label="Wyczyść"
+                        (click)="poCoToFieldsGroup.controls.mobileAppGroup.controls.appleLink.reset()"></button>
+                    }
+                  </div>
+                  <div class="invalid-feedback">
+                    @if (poCoToFieldsGroup.hasError('requireOneValue', 'mobileAppGroup')) {
+                      {{ 'Forms.PoCoToSection.ApplicationTypeIOSInput.ValidatorRequired' | translate }}
+                    } @else if (poCoToFieldsGroup.hasError('maxlength', 'mobileAppGroup.appleLink')) {
+                      {{
+                        'Forms.Validators.ValidatorMaxLength'
+                          | translate
+                            : {
+                                length: poCoToFieldsGroup.getError('maxlength', 'mobileAppGroup.appleLink')
+                                  .requiredLength,
+                              }
+                      }}
+                    } @else if (poCoToFieldsGroup.hasError('pattern', 'mobileAppGroup.appleLink')) {
+                      {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </ng-container>
+
+          <ng-container formGroupName="desktopAppGroup">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="desktop" formControlName="isDesktopApp" />
+              <label class="form-check-label" for="desktop">
+                {{ 'Forms.PoCoToSection.ApplicationTypeCheckbox.Option2' | translate }}
+                @if (poCoToFieldsGroup.value.desktopAppGroup.isDesktopApp) {
+                  <small>({{ 'Forms.PoCoToSection.ApplicationTypeCheckbox.LabelHint' | translate }})</small>
+                }
+              </label>
+            </div>
+
+            @if (poCoToFieldsGroup.value.desktopAppGroup.isDesktopApp) {
+              <div class="form-field-icon-wrapper">
+                <span class="form-field-icon form-field-icon--windows" aria-hidden="true"></span>
+                <div class="form-field">
+                  @let isWindowsLinkFieldInvalid =
+                    poCoToFieldsGroup.controls.desktopAppGroup.controls.windowsLink.touched &&
+                    (poCoToFieldsGroup.controls.desktopAppGroup.controls.windowsLink.invalid ||
+                      poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup'));
+                  <label for="windows-link" class="form-label">
+                    {{ 'Forms.PoCoToSection.ApplicationTypeWindowsInput.Label' | translate }}
+                  </label>
+                  <div class="input-wrapper" [class.is-invalid]="isWindowsLinkFieldInvalid">
+                    <input
+                      id="windows-link"
+                      formControlName="windowsLink"
+                      class="form-control"
+                      [placeholder]="'Forms.PoCoToSection.ApplicationTypeWindowsInput.Placeholder' | translate"
+                      [class.is-invalid]="isWindowsLinkFieldInvalid" />
+                    @if (poCoToFieldsGroup.value.desktopAppGroup.windowsLink) {
+                      <button
+                        type="button"
+                        class="input-clear"
+                        aria-label="Wyczyść"
+                        (click)="poCoToFieldsGroup.controls.desktopAppGroup.controls.windowsLink.reset()"></button>
+                    }
+                  </div>
+                  <div class="invalid-feedback">
+                    @if (poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup')) {
+                      {{ 'Forms.PoCoToSection.ApplicationTypeWindowsInput.ValidatorRequired' | translate }}
+                    } @else if (poCoToFieldsGroup.hasError('maxlength', 'desktopAppGroup.windowsLink')) {
+                      {{
+                        'Forms.Validators.ValidatorMaxLength'
+                          | translate
+                            : {
+                                length: poCoToFieldsGroup.getError('maxlength', 'desktopAppGroup.windowsLink')
+                                  .requiredLength,
+                              }
+                      }}
+                    } @else if (poCoToFieldsGroup.hasError('pattern', 'desktopAppGroup.windowsLink')) {
+                      {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-field-icon-wrapper">
+                <span class="form-field-icon form-field-icon--linux" aria-hidden="true"></span>
+                <div class="form-field">
+                  @let isLinuxLinkFieldInvalid =
+                    poCoToFieldsGroup.controls.desktopAppGroup.controls.linuxLink.touched &&
+                    (poCoToFieldsGroup.controls.desktopAppGroup.controls.linuxLink.invalid ||
+                      poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup'));
+                  <label for="linux-link" class="form-label">
+                    {{ 'Forms.PoCoToSection.ApplicationTypeLinuxInput.Label' | translate }}
+                  </label>
+                  <div class="input-wrapper" [class.is-invalid]="isLinuxLinkFieldInvalid">
+                    <input
+                      id="linux-link"
+                      formControlName="linuxLink"
+                      class="form-control"
+                      [placeholder]="'Forms.PoCoToSection.ApplicationTypeLinuxInput.Placeholder' | translate"
+                      [class.is-invalid]="isLinuxLinkFieldInvalid" />
+                    @if (poCoToFieldsGroup.value.desktopAppGroup.linuxLink) {
+                      <button
+                        type="button"
+                        class="input-clear"
+                        aria-label="Wyczyść"
+                        (click)="poCoToFieldsGroup.controls.desktopAppGroup.controls.linuxLink.reset()"></button>
+                    }
+                  </div>
+                  <div class="invalid-feedback">
+                    @if (poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup')) {
+                      {{ 'Forms.PoCoToSection.ApplicationTypeLinuxInput.ValidatorRequired' | translate }}
+                    } @else if (poCoToFieldsGroup.hasError('maxlength', 'desktopAppGroup.linuxLink')) {
+                      {{
+                        'Forms.Validators.ValidatorMaxLength'
+                          | translate
+                            : {
+                                length: poCoToFieldsGroup.getError('maxlength', 'desktopAppGroup.linuxLink')
+                                  .requiredLength,
+                              }
+                      }}
+                    } @else if (poCoToFieldsGroup.hasError('pattern', 'desktopAppGroup.linuxLink')) {
+                      {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-field-icon-wrapper">
+                <span class="form-field-icon form-field-icon--apple" aria-hidden="true"></span>
+                <div class="form-field">
+                  @let isMacLinkFieldInvalid =
+                    poCoToFieldsGroup.controls.desktopAppGroup.controls.macLink.touched &&
+                    (poCoToFieldsGroup.controls.desktopAppGroup.controls.macLink.invalid ||
+                      poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup'));
+                  <label for="mac-link" class="form-label">
+                    {{ 'Forms.PoCoToSection.ApplicationTypeMacOSInput.Label' | translate }}
+                  </label>
+                  <div class="input-wrapper" [class.is-invalid]="isMacLinkFieldInvalid">
+                    <input
+                      id="mac-link"
+                      formControlName="macLink"
+                      class="form-control"
+                      [placeholder]="'Forms.PoCoToSection.ApplicationTypeMacOSInput.Placeholder' | translate"
+                      [class.is-invalid]="isMacLinkFieldInvalid" />
+                    @if (poCoToFieldsGroup.value.desktopAppGroup.macLink) {
+                      <button
+                        type="button"
+                        class="input-clear"
+                        aria-label="Wyczyść"
+                        (click)="poCoToFieldsGroup.controls.desktopAppGroup.controls.macLink.reset()"></button>
+                    }
+                  </div>
+                  <div class="invalid-feedback">
+                    @if (poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup')) {
+                      {{ 'Forms.PoCoToSection.ApplicationTypeMacOSInput.ValidatorRequired' | translate }}
+                    } @else if (poCoToFieldsGroup.hasError('maxlength', 'desktopAppGroup.macLink')) {
+                      {{
+                        'Forms.Validators.ValidatorMaxLength'
+                          | translate
+                            : {
+                                length: poCoToFieldsGroup.getError('maxlength', 'desktopAppGroup.macLink')
+                                  .requiredLength,
+                              }
+                      }}
+                    } @else if (poCoToFieldsGroup.hasError('pattern', 'desktopAppGroup.macLink')) {
+                      {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </ng-container>
+        </fieldset>
+      }
+
+      @if (
+        poCoToFieldsGroup.value.category === PoCoToCategory.App ||
+        poCoToFieldsGroup.value.category === PoCoToCategory.Www
+      ) {
+        <fieldset class="form-field form-field--check">
+          @let isLicenseFieldInvalid =
+            poCoToFieldsGroup.controls.licenseType.touched && poCoToFieldsGroup.controls.licenseType.invalid;
+          <legend class="form-label" [class.is-invalid]="isLicenseFieldInvalid">
+            {{ 'Forms.PoCoToSection.LicenseTypeRadio.Label' | translate }}
+            <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+          </legend>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="license-free"
+              formControlName="licenseType"
+              [value]="licenseTypeOptions[0].value"
+              [class.is-invalid]="isLicenseFieldInvalid" />
+            <label class="form-check-label" for="license-free">
+              {{ licenseTypeOptions[0].label | translate }}
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="license-paid"
+              formControlName="licenseType"
+              [value]="licenseTypeOptions[1].value"
+              [class.is-invalid]="isLicenseFieldInvalid" />
+            <label class="form-check-label" for="license-paid">
+              {{ licenseTypeOptions[1].label | translate }}
+            </label>
+          </div>
+
+          <div class="invalid-feedback">
+            @if (poCoToFieldsGroup.hasError('required', 'licenseType')) {
+              {{ 'Forms.PoCoToSection.LicenseTypeRadio.ValidatorRequired' | translate }}
+            }
+          </div>
+        </fieldset>
+      }
+
+      <div class="form-field">
+        @let isDescriptionFieldInvalid =
+          poCoToFieldsGroup.controls.description.touched && poCoToFieldsGroup.controls.description.invalid;
+        <label for="description" class="form-label">
+          {{ 'Forms.PoCoToSection.DescriptionTextarea.Label' | translate }}
+          <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+        </label>
+        <div class="input-wrapper" [class.is-invalid]="isDescriptionFieldInvalid" appScrollbarWidth>
+          <textarea
+            id="description"
+            formControlName="description"
+            class="form-control"
+            [placeholder]="'Forms.PoCoToSection.DescriptionTextarea.Placeholder' | translate"
+            rows="5"
+            [class.is-invalid]="isDescriptionFieldInvalid"></textarea>
+          @if (poCoToFieldsGroup.value.description) {
+            <button
+              type="button"
+              class="input-clear input-clear--textarea"
+              aria-label="Wyczyść"
+              (click)="poCoToFieldsGroup.controls.description.reset()"></button>
+          }
+        </div>
+        @if (!isDescriptionFieldInvalid) {
+          <div class="field-hint">{{ 'Forms.PoCoToSection.DescriptionTextarea.Hint' | translate }}</div>
+        }
+        <div class="invalid-feedback">
+          @let lengthError = poCoToFieldsGroup.getError('maxlength', 'description');
+          @if (poCoToFieldsGroup.hasError('required', 'description')) {
+            {{ 'Forms.PoCoToSection.DescriptionTextarea.ValidatorRequired' | translate }}
+          } @else if (poCoToFieldsGroup.hasError('maxlength', 'description')) {
+            {{ 'Forms.Validators.ValidatorMaxLength' | translate: { length: lengthError.requiredLength } }}
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        @let isKeywordsFieldInvalid =
+          poCoToFieldsGroup.controls.keywords.touched && poCoToFieldsGroup.controls.keywords.invalid;
+        <label for="keywords" class="form-label">
+          {{ 'Forms.PoCoToSection.KeywordsInput.Label' | translate }}
+        </label>
+        <div class="input-wrapper" [class.is-invalid]="isKeywordsFieldInvalid">
+          <input
+            id="keywords"
+            formControlName="keywords"
+            class="form-control"
+            [placeholder]="'Forms.PoCoToSection.KeywordsInput.Placeholder' | translate"
+            [class.is-invalid]="isKeywordsFieldInvalid" />
+          @if (poCoToFieldsGroup.value.keywords) {
+            <button
+              type="button"
+              class="input-clear"
+              aria-label="Wyczyść"
+              (click)="poCoToFieldsGroup.controls.keywords.reset()"></button>
+          }
+        </div>
+        <div class="invalid-feedback">
+          @if (poCoToFieldsGroup.hasError('maxItemLength', 'keywords')) {
+            {{
+              'Forms.PoCoToSection.KeywordsInput.ValidatorMaxLength'
+                | translate: { length: poCoToFieldsGroup.getError('maxItemLength', 'keywords').requiredLength }
+            }}
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        @let isAuthorFieldInvalid =
+          poCoToFieldsGroup.controls.author.touched && poCoToFieldsGroup.controls.author.invalid;
+        <label for="author" class="form-label">
+          {{ 'Forms.PoCoToSection.AuthorInput.Label' | translate }}
+          <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+        </label>
+        <div class="input-wrapper" [class.is-invalid]="isAuthorFieldInvalid">
+          <input
+            id="author"
+            formControlName="author"
+            class="form-control"
+            [placeholder]="'Forms.PoCoToSection.AuthorInput.Placeholder' | translate"
+            [class.is-invalid]="isAuthorFieldInvalid" />
+          @if (poCoToFieldsGroup.value.author) {
+            <button
+              type="button"
+              class="input-clear"
+              aria-label="Wyczyść"
+              (click)="poCoToFieldsGroup.controls.author.reset()"></button>
+          }
+        </div>
+        <div class="invalid-feedback">
+          @if (poCoToFieldsGroup.hasError('required', 'author')) {
+            {{ 'Forms.PoCoToSection.AuthorInput.ValidatorRequired' | translate }}
+          } @else if (poCoToFieldsGroup.hasError('maxlength', 'author')) {
+            {{
+              'Forms.Validators.ValidatorMaxLength'
+                | translate: { length: poCoToFieldsGroup.getError('maxlength', 'author').requiredLength }
+            }}
+          }
+        </div>
+      </div>
+
+      <div class="form-field form-field--large-space">
+        @let isLogoInvalid =
+          poCoToFieldsGroup.controls.logoImage.touched && poCoToFieldsGroup.controls.logoImage.invalid;
+        @let logoFileTypeInvalid = poCoToFieldsGroup.hasError('fileType', 'logoImage');
+        @let logoFileSizeInvalid = poCoToFieldsGroup.hasError('maxFileSize', 'logoImage');
+        @let logoFileDimensionsInvalid = poCoToFieldsGroup.hasError('maxDimensions', 'logoImage');
+
+        <app-image-upload
+          formControlName="logoImage"
+          [maxWidth]="logoMaxWidth"
+          [maxHeight]="logoMaxHeight"
+          labelTranslationKey="Forms.PoCoToSection.LogoUploader.Label"
+          labelTranslationKeyHint="Forms.PoCoToSection.LogoUploader.Description">
+          <ng-container ngProjectAs="error-container">
+            @if (isLogoInvalid) {
+              <p class="alert alert-danger" role="alert" aria-live="polite">
+                @if (logoFileTypeInvalid) {
+                  {{ 'Forms.PoCoToSection.LogoUploader.ValidatorFileType' | translate }}
+                } @else if (logoFileSizeInvalid) {
+                  {{ 'Forms.PoCoToSection.LogoUploader.ValidatorFileSize' | translate }}
+                } @else if (logoFileDimensionsInvalid) {
+                  @let logoError = poCoToFieldsGroup.getError('maxDimensions', 'logoImage');
+                  {{
+                    'Forms.ImageUpload.ValidatorFileDimensions'
+                      | translate: { width: logoError.maxWidth, height: logoError.maxHeight }
+                  }}
+                }
+              </p>
+            }
+          </ng-container>
+        </app-image-upload>
+      </div>
+
+      <div class="form-field form-field--large-space">
+        @let isIllustrativeGraphicsInvalid =
+          poCoToFieldsGroup.controls.illustrativeGraphics.touched &&
+          poCoToFieldsGroup.controls.illustrativeGraphics.invalid;
+        @let illustrativeGraphicsFileTypeInvalid = poCoToFieldsGroup.hasError('fileType', 'illustrativeGraphics');
+        @let illustrativeGraphicsFileSizeInvalid = poCoToFieldsGroup.hasError('maxFileSize', 'illustrativeGraphics');
+        @let illustrativeGraphicsFileDimensionsInvalid =
+          poCoToFieldsGroup.hasError('maxDimensions', 'illustrativeGraphics');
+
+        <app-image-upload
+          formControlName="illustrativeGraphics"
+          [maxWidth]="illustrativeGraphicsMaxWidth"
+          [maxHeight]="illustrativeGraphicsMaxHeight"
+          labelTranslationKey="Forms.PoCoToSection.IllustrativeGraphicsUploader.Label"
+          labelTranslationKeyHint="Forms.PoCoToSection.IllustrativeGraphicsUploader.Description">
+          <ng-container ngProjectAs="error-container">
+            @if (isIllustrativeGraphicsInvalid) {
+              <p class="alert alert-danger" role="alert" aria-live="polite">
+                @if (illustrativeGraphicsFileTypeInvalid) {
+                  {{ 'Forms.PoCoToSection.IllustrativeGraphicsUploader.ValidatorFileType' | translate }}
+                } @else if (illustrativeGraphicsFileSizeInvalid) {
+                  {{ 'Forms.PoCoToSection.IllustrativeGraphicsUploader.ValidatorFileSize' | translate }}
+                } @else if (illustrativeGraphicsFileDimensionsInvalid) {
+                  @let illustrativeGraphicsError = poCoToFieldsGroup.getError('maxDimensions', 'illustrativeGraphics');
+                  {{
+                    'Forms.ImageUpload.ValidatorFileDimensions'
+                      | translate
+                        : { width: illustrativeGraphicsError.maxWidth, height: illustrativeGraphicsError.maxHeight }
+                  }}
+                }
+              </p>
+            }
+          </ng-container>
+        </app-image-upload>
+      </div>
+
+      <div class="form-field-group form-field-group--large-space form-group" formArrayName="datasets">
+        <label class="form-label" id="datasets">
+          {{ 'Forms.PoCoToSection.DatasetMultiselect.Label' | translate }}
+          <small>{{ 'Forms.PoCoToSection.DatasetMultiselect.Paragraph' | translate }}</small>
+        </label>
+
+        @for (datasetControl of poCoToFieldsGroup.controls.datasets.controls; track $index) {
+          <div class="input-group has-validation" [formGroup]="datasetControl">
+            <input
+              type="text"
+              [class.form-control]="!datasetControl.value.id"
+              [class.form-control-plaintext]="datasetControl.value.id"
+              aria-labelledby="datasets"
+              [placeholder]="'Forms.PoCoToSection.DatasetMultiselect.Placeholder' | translate"
+              appDatasetAutocomplete
+              formControlName="dataset"
+              [readonly]="datasetControl.value.id"
+              (datasetSelected)="onDatasetSelected($event, datasetControl)"
+              [class.is-invalid]="datasetControl.controls.dataset.touched && datasetControl.controls.id.invalid" />
+            <button type="button" class="btn btn-outline-danger" (click)="onRemoveDatasetRow($index)">
+              <span aria-hidden="true">x</span>
+              <span class="visually-hidden">
+                {{ 'Forms.General.RemoveDataset' | translate }}
+                {{ $index }}
+              </span>
+            </button>
+            <div class="invalid-feedback">
+              {{ 'Forms.PoCoToSection.DatasetMultiselect.ValidatorRequired' | translate }}
+            </div>
+          </div>
+        }
+
+        <div>
+          <button type="button" class="btn btn-sm btn-outline-primary" (click)="onAppendDatasetRow()">
+            {{ 'Forms.PoCoToSection.DatasetMultiselect.Button' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-field-group form-group" formArrayName="externalDatasets">
+        <label class="form-label" id="external-datasets">
+          {{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Label' | translate }}
+          <small>{{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Paragraph' | translate }}</small>
+        </label>
+
+        @for (externalDatasetControl of poCoToFieldsGroup.controls.externalDatasets.controls; track $index) {
+          <div class="input-group has-validation" [formGroup]="externalDatasetControl">
+            @let isTitleFieldInvalid =
+              externalDatasetControl.controls.title.touched && externalDatasetControl.controls.title.invalid;
+            <input
+              type="text"
+              class="form-control"
+              aria-label="title"
+              [placeholder]="'Forms.PoCoToSection.ExternalDatasetLinkNameInput.Placeholder' | translate"
+              formControlName="title"
+              [class.is-invalid]="isTitleFieldInvalid"
+              (keydown.enter)="$event.preventDefault()" />
+            @let isUrlFieldInvalid =
+              externalDatasetControl.controls.url.touched && externalDatasetControl.controls.url.invalid;
+            <input
+              type="text"
+              class="form-control"
+              aria-label="url"
+              [placeholder]="'Forms.PoCoToSection.ExternalDatasetLinkInput.Placeholder' | translate"
+              formControlName="url"
+              [class.is-invalid]="isUrlFieldInvalid"
+              (keydown.enter)="$event.preventDefault()" />
+
+            <button type="button" class="btn btn-outline-danger" (click)="onRemoveExternalDatasetRow($index)">
+              <span aria-hidden="true">x</span>
+              <span class="visually-hidden">
+                {{ 'Forms.General.RemoveDataset' | translate }}
+                {{ $index }}
+              </span>
+            </button>
+            <div class="invalid-feedback">
+              @let titleMaxLengthError = externalDatasetControl.getError('maxlength', 'title');
+              @let titleRequiredError = externalDatasetControl.getError('required', 'title');
+              @let urlRequiredError = externalDatasetControl.getError('required', 'url');
+              @let urlMaxLengthError = externalDatasetControl.getError('maxlength', 'url');
+              @let urlPatternError = externalDatasetControl.getError('pattern', 'url');
+              @if (isTitleFieldInvalid && titleRequiredError) {
+                {{ 'Forms.PoCoToSection.ExternalDatasetLinkNameInput.ValidatorRequired' | translate }}
+              } @else if (isUrlFieldInvalid && urlRequiredError) {
+                {{ 'Forms.PoCoToSection.ExternalDatasetLinkInput.ValidatorRequired' | translate }}
+              } @else if (isTitleFieldInvalid && titleMaxLengthError) {
+                {{ 'Forms.Validators.ValidatorMaxLength' | translate: { length: titleMaxLengthError.requiredLength } }}
+              } @else if (isUrlFieldInvalid && urlMaxLengthError) {
+                {{ 'Forms.Validators.ValidatorMaxLength' | translate: { length: urlMaxLengthError.requiredLength } }}
+              } @else if (isUrlFieldInvalid && urlPatternError) {
+                {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+              }
+            </div>
+          </div>
+        }
+
+        <div>
+          <button type="button" class="btn btn-sm btn-outline-primary" (click)="onAppendExternalDatasetRow()">
+            {{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Button' | translate }}
+          </button>
+        </div>
+      </div>
+    }
+  </fieldset>
+  <div class="fieldset-header">
+    <h2>{{ 'Forms.ConsentsSection.SectionTitle' | translate }}</h2>
+  </div>
+  <fieldset class="form-field form-field--check">
+    <div class="form-check">
+      @let isPersonalDataAcceptedFieldInvalid =
+        poCoToFieldsGroup.controls.personalDataAccepted.invalid &&
+        poCoToFieldsGroup.controls.personalDataAccepted.touched;
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="personalDataAccepted"
+        formControlName="personalDataAccepted"
+        [class.is-invalid]="isPersonalDataAcceptedFieldInvalid" />
+      <label class="form-check-label" for="personalDataAccepted">
+        {{ 'Forms.ConsentsSection.DataProcessing' | translate }}
+      </label>
+      @if (cmsPageInfo$ | async; as cmsPageInfo) {
+        <div
+          class="cms-consent-list"
+          [class.cms-consent-list--invalid]="isPersonalDataAcceptedFieldInvalid"
+          [innerHTML]="cmsPageInfo | textToLinks"></div>
+      }
+      <div class="invalid-feedback">
+        @if (poCoToFieldsGroup.hasError('required', 'personalDataAccepted')) {
+          {{ 'Forms.ConsentsSection.ValidatorRequired' | translate }}
+        }
+      </div>
+    </div>
+
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="tosAccepted"
+        formControlName="tosAccepted"
+        [class.is-invalid]="
+          poCoToFieldsGroup.controls.tosAccepted.invalid && poCoToFieldsGroup.controls.tosAccepted.touched
+        " />
+      <label class="form-check-label" for="tosAccepted">
+        @if (cmsPageConsent$ | async; as cmsPageConsent) {
+          <span class="font-weight-normal pt-1" [innerHTML]="cmsPageConsent | textToLinks"></span>
+        }
+      </label>
+      <div class="invalid-feedback">
+        @if (poCoToFieldsGroup.hasError('required', 'tosAccepted')) {
+          {{ 'Forms.ConsentsSection.ValidatorRequired' | translate }}
+        }
+      </div>
+    </div>
+  </fieldset>
+  <app-math-captcha
+    class="form-field"
+    formControlName="captcha"
+    newStyle
+    [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
+    [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
+</ng-container>

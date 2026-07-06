@@ -212,9 +212,9 @@
                 </span>
               </a>
 
-              <button type="button" class="btn btn-link pl-0 pt-0" (click)="onRodoModalOpen($event)" #rodoModalTrigger>
+              <a [routerLink]="['/!privacy-policy'] | localize" class="btn btn-link pl-0 pt-0" target="_blank">
                 {{ 'Rodo.Title' | translate }}
-              </button>
+              </a>
             </div>
 
             <!-- fake button to indicate 'disabled' state -->
@@ -238,8 +238,4 @@
       </div>
     </div>
   </div>
-
-  <ng-template #rodoModalTemplate>
-    <app-rodo-modal (isModalClosed)="onRodoModalClose()"></app-rodo-modal>
-  </ng-template>
 </section>

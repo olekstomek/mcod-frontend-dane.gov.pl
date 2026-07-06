@@ -6,4 +6,5 @@ export interface Breadcrumb {
   params?: Params;
   url?: string;
   segments: string[];
+  showFullBreadcrumb?: boolean;
 }

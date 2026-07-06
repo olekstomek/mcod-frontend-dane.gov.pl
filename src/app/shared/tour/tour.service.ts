@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ShepherdService } from 'angular-shepherd';
 import { LocalStorageService } from 'ngx-localstorage';
 import { pathToRegexp } from 'path-to-regexp';
-import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
+import { Observable, ReplaySubject, Subject, Subscription, of, zip } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { FeatureFlagService } from '@app/services/feature-flag.service';
@@ -33,6 +33,11 @@ import { TourItemTreeNode } from '@app/shared/tour/TourItemTreeNode';
   providedIn: 'root',
 })
 export class TourService implements OnDestroy {
+  private static readonly TOUR_DISABLED_ROUTE_PATTERNS: RegExp[] = [
+    /^\/dataset\/submissions\/?$/,
+    /^\/datasets\/submissions\/?$/,
+  ];
+
   /**
    * Determine is button should be active
    * @type {Observable<boolean>}
@@ -225,7 +230,7 @@ export class TourService implements OnDestroy {
       this.pauseTour(
         Object.assign(tour, {
           progress: {
-            tourId: tour.id,
+            tourId: String(tour.id),
             currentStepIndex: currentStepId,
             currentStepRoute: TourService.removeLanguagePrefixFromRoute(this.router.url.split('?')[0]),
           },
@@ -240,7 +245,7 @@ export class TourService implements OnDestroy {
     this.shepherdService.tourObject.on('complete', () => {
       this.localStorageService.remove('tour');
       this.tourSavedProgress$.next({
-        tourId: tour.id,
+        tourId: String(tour.id),
         currentStepIndex: 0,
         currentStepRoute: tour.items[0].route,
       });
@@ -564,6 +569,10 @@ export class TourService implements OnDestroy {
    */
   private validateButtonVisibilityForCurrentRoute(event: NavigationEnd): Observable<boolean> {
     const currentRoute = TourService.removeLanguagePrefixFromRoute(event.url.split('?')[0]);
+    if (TourService.TOUR_DISABLED_ROUTE_PATTERNS.some((pattern) => pattern.test(currentRoute))) {
+      return of(false);
+    }
+
     return this.tourDataService.getTourForRoute(currentRoute).pipe(
       map((tour) => {
         if (!tour) {
@@ -577,7 +586,7 @@ export class TourService implements OnDestroy {
           (!pausedTour || (pausedTour && !pathToRegexp(pausedTour.currentStepRoute).regexp.test(currentRoute)))
         ) {
           this.tourSavedProgress$.next({
-            tourId: tour.id,
+            tourId: String(tour.id),
             currentStepIndex: 0,
             currentStepRoute: tour.items[0].route,
           });
@@ -588,7 +597,7 @@ export class TourService implements OnDestroy {
           this.tourSavedProgress$.next(pausedTour);
         }
 
-        return pausedTour && pausedTour.tourId === tour.id && pausedTour.currentStepRoute === currentRoute;
+        return pausedTour && pausedTour.tourId === String(tour.id) && pausedTour.currentStepRoute === currentRoute;
       }),
     );
   }
@@ -598,7 +607,15 @@ export class TourService implements OnDestroy {
    * @returns {any}
    */
   private getPausedTour(): TourProgress | null | undefined {
-    return this.localStorageService.get<TourProgress>('tour');
+    const pausedTour = this.localStorageService.get<(TourProgress & { tourId: string | number }) | null>('tour');
+    if (!pausedTour) {
+      return pausedTour;
+    }
+
+    return {
+      ...pausedTour,
+      tourId: String(pausedTour.tourId),
+    };
   }
 
   /**

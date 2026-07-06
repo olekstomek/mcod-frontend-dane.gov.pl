@@ -131,6 +131,57 @@ mark {
 .captcha {
   background-color: $color-white;
   padding: 0.75rem;
+
+  &.new-captcha {
+    padding: 1.25rem;
+    margin: 0;
+
+    &.form-group-invalid label {
+      --bs-border-color: #a91e2c;
+      color: #a91e2c !important;
+    }
+
+    .form-control {
+      background-image: none;
+    }
+
+    .text-danger {
+      color: #a91e2c !important;
+    }
+
+    body.black-white & {
+      &.form-group-invalid label {
+        --bs-border-color: #{$color-white};
+        color: $color-white !important;
+      }
+
+      .text-danger {
+        color: $color-white !important;
+      }
+    }
+
+    body.black-yellow & {
+      &.form-group-invalid label {
+        --bs-border-color: #{$color-yellow};
+        color: $color-yellow !important;
+      }
+
+      .text-danger {
+        color: $color-yellow !important;
+      }
+    }
+
+    body.yellow-black & {
+      &.form-group-invalid label {
+        --bs-border-color: #{$color-black};
+        color: $color-black !important;
+      }
+
+      .text-danger {
+        color: $color-black !important;
+      }
+    }
+  }
 }
 
 .triangle {

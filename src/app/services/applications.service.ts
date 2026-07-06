@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PocoToFormPayload } from '@app/shared/forms/form-pages/po-co-to-form/po-co-to-form-models';
 import { Observable } from 'rxjs';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 
@@ -61,7 +62,7 @@ export class ApplicationsService extends RestService {
    * @param {[key: string]: string} application
    * @returns {Observable<ApiResponse>}
    */
-  suggest(application: Record<string, string>): Observable<ApiResponse> {
+  suggest(application: PocoToFormPayload): Observable<ApiResponse> {
     const payload = `{
             "data": {
                 "type": "application",

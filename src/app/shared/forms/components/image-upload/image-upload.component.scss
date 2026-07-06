@@ -1,0 +1,64 @@
+@use 'base/variables';
+@use '../../bootstrap-overrides';
+
+.image-upload {
+  &__label {
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  &__hint {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 400;
+
+    &:first-of-type {
+      margin-top: 0.3125rem;
+    }
+  }
+
+  &__preview-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__preview {
+    max-height: 200px;
+    overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  &__filename,
+  &__filesize {
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.625rem;
+    flex-wrap: wrap;
+  }
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+}

@@ -9,11 +9,9 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { environment } from '@env/environment';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { LocalStorageService } from 'ngx-localstorage';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 
@@ -28,8 +26,9 @@ import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { CmsBlock2Component } from '@app/shared/cms/cms-block2/cms-block2.component';
 import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
 import { FocusTrapDirective } from '@app/shared/directives/focus-trap/focus-trap.directive';
-import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
 import packageJson from '../../../../package.json';
+import { LocalStorageService } from 'ngx-localstorage';
+import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
 
 @Component({
   selector: 'app-footer',
@@ -37,11 +36,11 @@ import packageJson from '../../../../package.json';
   imports: [
     CmsLandingPageComponent,
     CmsBlock2Component,
-    RodoModalComponent,
     FocusTrapDirective,
     TranslatePipe,
     LowerCasePipe,
     AsyncPipe,
+    RodoModalComponent,
   ],
   standalone: true,
 })
@@ -50,10 +49,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * Router endpoints
    */
   readonly routerEndpoints = RouterEndpoints;
-
-  /**
-   * Acquinted With RODO status
-   */
   isAcquintedWithRodo: boolean;
 
   /**
@@ -65,7 +60,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * write us modal reference
    */
-  @ViewChild('writeUsModalTemplate', { static: false }) writeUsModalTemplate: TemplateRef<any>;
+  @ViewChild('writeUsModalTemplate', { static: false }) writeUsModalTemplate: TemplateRef<unknown>;
   writeUsModalRef: BsModalRef;
 
   /**
@@ -108,7 +103,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private modalService: BsModalService,
     private localStorage: LocalStorageService,
-    private route: ActivatedRoute,
     public cmsService: CmsService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
@@ -123,23 +117,13 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.assignCmsSection();
     this.cmsService.elementFooterNavIsExist.pipe(take(1)).subscribe(() => {
       const writeUsLinkElem = this.document.querySelector('a.page-footer__list-item.btn-write-us');
-      const rodoLinkElem = this.document.querySelector('a.page-footer__list-item.btn-link-rodo');
-
       writeUsLinkElem.addEventListener('click', (e) => {
         e.preventDefault();
         this.writeUsModalRef = this.modalService.show(this.writeUsModalTemplate);
       });
-
-      rodoLinkElem.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.rodoModalOpen();
-      });
     });
   }
 
-  /**
-   * Shows RODO Modal if user doesn't accepted it before
-   */
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.isAcquintedWithRodo = !!this.localStorage.get('isAcquintedWithRodo', { prefix: this.storagePrefix });
@@ -159,16 +143,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /**
-   * Closes RODO modal
-   */
-  rodoModalClose() {
-    this.rodoModalRef.hide();
-  }
-
-  /**
-   * Unsubscribes from RODO modal hide subscription
-   */
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId && this.rodoModalHideSubscription)) {
       this.rodoModalHideSubscription.unsubscribe();
@@ -180,11 +154,12 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.writeUsModalRef = null;
   }
 
-  /**
-   * Opens RODO modal
-   */
   private rodoModalOpen() {
     this.rodoModalRef = this.modalService.show(this.rodoModalTemplate, { class: 'modal-lg' });
+  }
+
+  rodoModalClose() {
+    this.rodoModalRef.hide();
   }
 
   /**

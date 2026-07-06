@@ -6,7 +6,6 @@ import { DatasetComponent } from './dataset-page/dataset.component';
 import { DatasetResourceComponent } from './dataset-resource/dataset-resource.component';
 import { SubmissionItemComponent } from './submission-item/submission-item.component';
 import { SubmissionListComponent } from './submission-list/submission-list.component';
-import { SuggestDatasetComponent } from './suggest-dataset/suggest-dataset.component';
 
 import { DatasetParentComponent } from '@app/pages/dataset/dataset-parent/dataset-parent.component';
 import { DatasetResourceMapComponent } from '@app/pages/dataset/dataset-resource-map/dataset-resource-map.component';
@@ -22,7 +21,14 @@ import { Role } from '@app/shared/user-permissions/Role';
 const routes: Routes = [
   { path: '', component: DatasetComponent },
   { path: '!sparql', loadChildren: () => import('./sparql/sparql.module').then((m) => m.SparqlModule) },
-  { path: '!submissions', component: SuggestDatasetComponent },
+  {
+    path: '!submissions',
+    loadComponent: () =>
+      import('../../shared/forms/form-pages/suggest-dataset-form/suggest-dataset-form.component').then(
+        (c) => c.SuggestDatasetFormComponent,
+      ),
+    data: { breadcrumbs: { translationKey: 'Forms.PageHeader.Heading.NewData', showFullBreadcrumb: true } },
+  },
   { path: '!submissions/!accepted', component: SubmissionListComponent },
   {
     path: '!submissions/!accepted/!:id',
@@ -33,6 +39,14 @@ const routes: Routes = [
     resolve: {
       post: breadcrumbsSubmissionResolver,
     },
+  },
+  {
+    path: '!feedback',
+    loadComponent: () =>
+      import('../../shared/forms/form-pages/feedback-form/feedback-form.component').then(
+        (c) => c.FeedbackFormComponent,
+      ),
+    data: { breadcrumbs: { translationKey: 'Forms.PageHeader.Heading.Feedback', showFullBreadcrumb: true } },
   },
   {
     path: '!:id',

@@ -1,0 +1,82 @@
+@use 'base/variables';
+
+.btn-primary {
+  background-color: variables.$color-form-blue;
+  border-color: variables.$color-form-blue;
+  padding: 11px 24px;
+  border-radius: 10px;
+}
+
+.btn-outline-primary {
+  color: variables.$color-form-blue;
+  border-color: variables.$color-form-blue;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: variables.$color-white;
+    background-color: variables.$color-form-blue;
+  }
+}
+
+.btn-outline-danger {
+  color: variables.$color-darker-red;
+  border-color: variables.$color-darker-red;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: variables.$color-white;
+    background-color: variables.$color-darker-red;
+  }
+}
+
+.input-group > .form-control-plaintext {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+
+.alert {
+  --bs-alert-margin-bottom: 18px;
+  --bs-alert-border-radius: 10px;
+}
+
+:host-context(.black-white) {
+  --contrast-primary: #{variables.$color-white};
+  --contrast-secondary: #{variables.$color-black};
+}
+
+:host-context(.black-yellow) {
+  --contrast-primary: #{variables.$color-yellow};
+  --contrast-secondary: #{variables.$color-black};
+}
+
+:host-context(.yellow-black) {
+  --contrast-primary: #{variables.$color-black};
+  --contrast-secondary: #{variables.$color-yellow};
+}
+
+:host-context(.black-white),
+:host-context(.black-yellow),
+:host-context(.yellow-black) {
+  .btn-outline-primary,
+  .btn-outline-danger {
+    background-color: var(--contrast-secondary);
+  }
+
+  .dropdown-item {
+    --bs-dropdown-link-color: var(--contrast-primary);
+
+    &:hover,
+    &:focus {
+      color: var(--contrast-secondary);
+      background-color: var(--contrast-primary);
+    }
+  }
+
+  .alert {
+    border: 1px solid var(--contrast-primary);
+  }
+}

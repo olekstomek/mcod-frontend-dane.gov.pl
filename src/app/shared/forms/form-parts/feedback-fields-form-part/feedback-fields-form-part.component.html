@@ -1,0 +1,65 @@
+<ng-container formGroupName="feedbackFields">
+  <fieldset>
+    <div class="form-field">
+      @let isLinkFieldInvalid = feedbackFieldsGroup.controls.link.touched && feedbackFieldsGroup.controls.link.invalid;
+      <label for="link" class="form-label">
+        {{ 'Forms.TopicSection.DatasetLinkInput.Label' | translate }}
+        <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+      </label>
+      <div class="input-wrapper" [class.is-invalid]="isLinkFieldInvalid">
+        <input
+          id="link"
+          formControlName="link"
+          class="form-control"
+          readonly
+          [placeholder]="'Forms.TopicSection.DatasetLinkInput.Placeholder' | translate"
+          [class.is-invalid]="isLinkFieldInvalid" />
+      </div>
+      <div class="invalid-feedback">
+        @if (feedbackFieldsGroup.hasError('required', 'link')) {
+          {{ 'Forms.TopicSection.DatasetLinkInput.ValidatorRequired' | translate }}
+        } @else if (feedbackFieldsGroup.hasError('maxlength', 'link')) {
+          {{
+            'Forms.Validators.ValidatorMaxLength'
+              | translate: { length: feedbackFieldsGroup.getError('maxlength', 'link').requiredLength }
+          }}
+        } @else if (feedbackFieldsGroup.hasError('pattern', 'link')) {
+          {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      @let isDescriptionFieldInvalid =
+        feedbackFieldsGroup.controls.description.touched && feedbackFieldsGroup.controls.description.invalid;
+      <label for="description" class="form-label">
+        {{ 'Forms.TopicSection.FeedbackTextarea.Label' | translate }}
+        <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+      </label>
+      <div class="input-wrapper" [class.is-invalid]="isDescriptionFieldInvalid" appScrollbarWidth>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="form-control"
+          [placeholder]="'Forms.TopicSection.FeedbackTextarea.Placeholder' | translate"
+          rows="5"
+          [class.is-invalid]="isDescriptionFieldInvalid"></textarea>
+        @if (feedbackFieldsGroup.value.description) {
+          <button
+            type="button"
+            class="input-clear input-clear--textarea"
+            aria-label="Wyczyść"
+            (click)="feedbackFieldsGroup.controls.description.reset()"></button>
+        }
+      </div>
+      <div class="invalid-feedback">
+        @let descriptionMaxLengthError = feedbackFieldsGroup.getError('maxlength', 'description');
+        @if (feedbackFieldsGroup.hasError('required', 'description')) {
+          {{ 'Forms.TopicSection.FeedbackTextarea.ValidatorRequired' | translate }}
+        } @else if (feedbackFieldsGroup.hasError('maxlength', 'description')) {
+          {{ 'Forms.Validators.ValidatorMaxLength' | translate: { length: descriptionMaxLengthError.requiredLength } }}
+        }
+      </div>
+    </div>
+  </fieldset>
+</ng-container>

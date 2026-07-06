@@ -1,18 +1,15 @@
-import { AsyncPipe, LowerCasePipe, NgClass, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgForm, ReactiveFormsModule } from '@angular/forms';
+import { AsyncPipe, LowerCasePipe, NgClass, NgForOf, NgIf, NgOptimizedImage, DOCUMENT } from '@angular/common';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, QueryParamsHandling, Router, RouterLink } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
 import { toggleHorizontally, toggleVertically } from '@app/animations';
 import { DatasetItemResultsComponent } from '@app/pages/dataset/dataset-item-results/dataset-item-results.component';
 import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
 import { DatasetRestrictionsComponent } from '@app/pages/dataset/dataset-restrictions/dataset-restrictions.component';
-import { FeedbackFormComponent } from '@app/pages/dataset/feedback-form/feedback-form.component';
 import { ResourceListComponent } from '@app/pages/dataset/resource-list/resource-list.component';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
@@ -27,7 +24,6 @@ import { SeoService } from '@app/services/seo.service';
 import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
 import { CollapsibleTextComponent } from '@app/shared/collapsible-text/collapsible-text.component';
 import { FixedSidebarDirective } from '@app/shared/directives/fixed-sidebar.directive';
-import { FocusTrapDirective } from '@app/shared/directives/focus-trap/focus-trap.directive';
 import { LinkHelper } from '@app/shared/helpers';
 import { HistoryEntryComponent } from '@app/shared/history-entry/history-entry.component';
 import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.directive';
@@ -72,8 +68,6 @@ import { getEventValue } from '@app/shared/util';
     HistoryEntryComponent,
     ApiSourceLinkComponent,
     DatasetItemResultsComponent,
-    FeedbackFormComponent,
-    FocusTrapDirective,
   ],
 })
 export class DatasetItemComponent implements OnInit, OnDestroy {
@@ -88,8 +82,8 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     private seoService: SeoService,
     private schemaService: SchemaService,
     private schemaDataService: SchemaDataService,
-    private modalService: BsModalService,
     private listViewDetailsService: ListViewDetailsService,
+    @Inject(DOCUMENT) private readonly document: Document,
   ) {}
   /**
    * API model
@@ -105,21 +99,6 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
    * Self api of dataset item component
    */
   selfApi: string;
-
-  /**
-   * Modal template reference
-   */
-  @ViewChild('feedbackModalTemplate', { static: true }) modalTemplate: TemplateRef<any>;
-
-  /**
-   * Feedback modal service reference
-   */
-  feedbackModalRef: BsModalRef;
-
-  /**
-   * Feedback sent indicator
-   */
-  feedbackSent = false;
 
   /**
    * Basic params of dataset item component
@@ -242,6 +221,8 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
    * Show container if exist regions without Poland
    */
   isNotRegionPoland: boolean;
+
+  currentUrl = this.document.location.href;
 
   protected readonly getValue = getEventValue;
 
@@ -393,45 +374,6 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
    */
   downloadResource(file: IDownloadFile) {
     LinkHelper.downloadResource(file);
-  }
-
-  /**
-   * Sends feedback on feedback form submits
-   * @param feedbackForm
-   */
-  sendFeedback(feedbackForm: NgForm) {
-    if (feedbackForm.valid && feedbackForm.value.feedback) {
-      const payload = `{
-                "data": {
-                    "type": "comment",
-                    "attributes": {
-                        "comment": ${JSON.stringify(feedbackForm.value.feedback)}
-                    }
-                }
-            }`;
-
-      this.datasetService
-        .sendDatasetFeedback(this.dataset['id'], JSON.parse(payload))
-        .subscribe(() => (this.feedbackSent = true));
-    }
-  }
-
-  /**
-   * Opens feedback modal
-   * @param template
-   */
-  openFeedbackModal(template: TemplateRef<any>) {
-    this.feedbackSent = false;
-    this.feedbackModalRef = this.modalService.show(template);
-  }
-
-  /**
-   * Closes feedback modal
-   */
-  onFeedbackModalClose() {
-    this.feedbackModalRef.hide();
-    this.feedbackModalRef = null;
-    this.feedbackSent = false;
   }
 
   /**

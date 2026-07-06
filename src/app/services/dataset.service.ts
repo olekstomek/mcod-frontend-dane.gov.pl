@@ -20,6 +20,8 @@ import { PageParams } from '@app/services/models/page-params';
 import { NotificationsService } from '@app/services/notifications.service';
 import { RestService } from '@app/services/rest.service';
 import { TemplateHelper } from '@app/shared/helpers';
+import { SuggestDatasetPayload } from '@app/shared/forms/form-pages/suggest-dataset-form/suggest-dataset-form-model';
+import { FeedbackPayload } from '@app/shared/forms/form-pages/feedback-form/feedback-form-models';
 
 /**
  *  Dataset services that handles communication with Dataset API `\/datasets`
@@ -153,12 +155,18 @@ export class DatasetService extends RestService {
   /**
    * Send feedback message to dataset owner
    * @param {string} id
-   * @param {string} feedback
+   * @param {FeedbackPayload} feedback
    * @returns {Observable<any>}
    */
-  sendDatasetFeedback(id: string, feedback: string) {
+  sendDatasetFeedback(id: string, feedback: FeedbackPayload) {
+    const payload = {
+      data: {
+        type: 'comment',
+        attributes: feedback,
+      },
+    };
     const url = TemplateHelper.parseUrl(ApiConfig.datasetFeedback, { id: id });
-    return this.post(url, feedback);
+    return this.post(url, payload);
   }
 
   getDatasetsStats(datasetId: string, datasetSlug: string) {
@@ -173,12 +181,18 @@ export class DatasetService extends RestService {
   /**
    * Send feedback message to dataset owner
    * @param {string} id
-   * @param {string} feedback
+   * @param {FeedbackPayload} feedback
    * @returns {Observable<any>}
    */
-  sendResourceFeedback(id: string, feedback: string) {
+  sendResourceFeedback(id: string, feedback: FeedbackPayload) {
+    const payload = {
+      data: {
+        type: 'comment',
+        attributes: feedback,
+      },
+    };
     const url = TemplateHelper.parseUrl(ApiConfig.resourceFeedback, { resourceId: id });
-    return this.post(url, feedback);
+    return this.post(url, payload);
   }
 
   /**
@@ -186,8 +200,14 @@ export class DatasetService extends RestService {
    * @param {string} submission
    * @returns {Observable<any>}
    */
-  sendSubmission(submission: string) {
-    return this.post(ApiConfig.submissions, submission);
+  sendSubmission(submission: SuggestDatasetPayload): Observable<ApiResponse> {
+    const payload = {
+      data: {
+        type: 'submission',
+        attributes: submission,
+      },
+    };
+    return this.post(ApiConfig.submissions, payload);
   }
 
   /**

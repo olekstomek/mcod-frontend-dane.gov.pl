@@ -258,7 +258,10 @@
             [item]="dataset"></app-subscribe-button>
 
           <!-- feedback -->
-          <button class="btn btn-danger btn-sm ml-auto" (click)="openFeedbackModal(modalTemplate)">
+          <a
+            class="btn btn-danger btn-sm ml-auto"
+            [routerLink]="['/!dataset', '!feedback'] | localize"
+            [queryParams]="{ datasetUrl: currentUrl }">
             {{ 'Datasets.SendFeedback' | translate }}
             <span class="visually-hidden">
               {{ dataset.attributes.title }}
@@ -266,7 +269,7 @@
             <svg class="icon icon-chevrons-right" role="img" aria-hidden="true">
               <use href="/assets/icomoon/sprite/sprite.svg#icon-chevrons-right"></use>
             </svg>
-          </button>
+          </a>
         </div>
 
         <!-- TABS: ANCHORS -->
@@ -487,53 +490,3 @@
     </div>
   </div>
 </div>
-
-<!-- FEEDBACK MODAL TEMPLATE -->
-<ng-template #feedbackModalTemplate>
-  <div app-focus-trap>
-    <!-- FEEDBACK MODAL HEADER -->
-    <div class="modal-header">
-      <h1 class="modal-title pull-left">
-        {{ 'Datasets.SendFeedback' | translate }}
-        <span class="visually-hidden">
-          {{ dataset.attributes.title }}
-        </span>
-      </h1>
-
-      <!-- close modal -->
-      <button
-        type="button"
-        id="header-close"
-        class="btn-close pull-right focus-trap-first"
-        (click)="feedbackModalRef.hide()">
-        <span class="visually-hidden">
-          {{ 'Action.Close' | translate }}
-          {{ 'Modal' | translate | lowercase }}
-          "{{ 'Datasets.SendFeedback' | translate }}"
-        </span>
-      </button>
-    </div>
-
-    <!-- FEEDBACK MODAL BODY -->
-    <div class="modal-body">
-      <app-feedback-form [id]="dataset.id"></app-feedback-form>
-    </div>
-
-    <!-- feedback modal footer -->
-    <div class="modal-footer">
-      <div class="text-right">
-        <button
-          type="button"
-          id="footer-close"
-          class="btn btn-outline-primary focus-trap-last"
-          (click)="onFeedbackModalClose()">
-          {{ 'Action.Close' | translate }}
-          <span class="visually-hidden">
-            {{ 'Modal' | translate | lowercase }}
-            "{{ 'Datasets.SendFeedback' | translate }}"
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-</ng-template>

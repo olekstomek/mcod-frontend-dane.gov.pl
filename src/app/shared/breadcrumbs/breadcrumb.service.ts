@@ -70,6 +70,7 @@ export class BreadcrumbService {
           lastChild: true,
           segments: segments,
           params: params,
+          showFullBreadcrumb: route.routeConfig?.data?.['breadcrumbs']?.showFullBreadcrumb ?? false,
         };
 
         const newBreadcrumbs = breadcrumb ? [...breadcrumbs, breadcrumb] : [...breadcrumbs];
@@ -81,7 +82,14 @@ export class BreadcrumbService {
           newBreadcrumbs[newBreadcrumbs.length - 1].lastChild = true;
         }
 
-        return of(newBreadcrumbs.map(({ label, lastChild, segments }) => ({ label, lastChild, segments })));
+        return of(
+          newBreadcrumbs.map(({ label, lastChild, segments, showFullBreadcrumb }) => ({
+            label,
+            lastChild,
+            segments,
+            showFullBreadcrumb,
+          })),
+        );
       }),
     );
   }

@@ -46,7 +46,6 @@ import { TruncateTextPipe } from './pipes/truncate-text.pipe';
 import { ResourceChartTableComponent } from './resource-chart-table/resource-chart-table.component';
 import { ResourceTableNoFiltersComponent } from './resource-table-no-filters/resource-table-no-filters.component';
 import { SearchResultsViewComponent } from './result-list/results/search-results-view/search-results-view.component';
-import { RodoModalComponent } from './rodo-modal/rodo-modal.component';
 import { SearchSuggestComponent } from './search-suggest/search-suggest.component';
 import { SingleselectComponent } from './singleselect/singleselect.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
@@ -106,6 +105,7 @@ import { DetailsResultItemComponent } from '@app/shared/result-list/right-column
 import { PermissionDirective } from '@app/shared/user-permissions/permission.directive';
 import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directive';
 import { AppShellRenderDirective } from '@app/ssr/app-shell-render.directive';
+import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -149,9 +149,9 @@ import { AppShellRenderDirective } from '@app/ssr/app-shell-render.directive';
     TranslateDateFormatPipe,
     ApiSourceLinkComponent,
     SubscribeButtonComponent,
-    RodoModalComponent,
     LinkButtonComponent,
     WidgetAbstractComponent,
+    RodoModalComponent,
     ImageComponent,
     CmsBlockComponent,
     CmsStaticPageComponent,
@@ -246,9 +246,9 @@ import { AppShellRenderDirective } from '@app/ssr/app-shell-render.directive';
     HistoryEntryComponent,
     DatasetAutocompleteDirective,
     TranslateDateFormatPipe,
+    RodoModalComponent,
     ApiSourceLinkComponent,
     SubscribeButtonComponent,
-    RodoModalComponent,
     LinkButtonComponent,
     CmsBlockComponent,
     RawTextEmbedComponent,

@@ -115,6 +115,8 @@ export class ImageUploadComponent implements OnInit, ControlValueAccessor {
    */
   @Output() imageDataChanged = new EventEmitter<string>();
 
+  constructor(private controlContainer: ControlContainer) {}
+
   /**
    * Initalizaes acces to the related form control
    */
@@ -159,7 +161,6 @@ export class ImageUploadComponent implements OnInit, ControlValueAccessor {
   /**
    * @ignore
    */
-  constructor(private controlContainer: ControlContainer) {}
 
   /**
    * Writes a new value to the element (input)

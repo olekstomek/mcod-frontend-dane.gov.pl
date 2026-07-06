@@ -1,5 +1,5 @@
-import { LowerCasePipe, NgClass, NgIf } from '@angular/common';
-import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
+import { LowerCasePipe, NgIf } from '@angular/common';
+import { Component, forwardRef, Input, OnInit, ViewChild, input, booleanAttribute } from '@angular/core';
 import {
   AbstractControl,
   ControlContainer,
@@ -36,7 +36,7 @@ import { toggleVertically } from '@app/animations/toggle-vertically';
   ],
   animations: [toggleVertically],
   standalone: true,
-  imports: [NgClass, FormsModule, ReactiveFormsModule, NgIf, LowerCasePipe, TranslatePipe],
+  imports: [FormsModule, ReactiveFormsModule, NgIf, LowerCasePipe, TranslatePipe],
 })
 export class MathCaptchaComponent implements OnInit, ControlValueAccessor {
   /**
@@ -58,6 +58,10 @@ export class MathCaptchaComponent implements OnInit, ControlValueAccessor {
    * Equation numbers count
    */
   @Input() numbersCount = 2;
+
+  newStyle = input(false, { transform: booleanAttribute });
+  validationRequiredText = input('');
+  validationInvalidNumberText = input('');
 
   /**
    * Equation result

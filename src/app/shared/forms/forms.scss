@@ -1,0 +1,440 @@
+@use 'base/variables';
+@use './bootstrap-overrides';
+
+.container {
+  padding-top: 30px;
+}
+
+.form-header {
+  color: variables.$color-heading;
+  margin-bottom: 18px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.form-wrapper {
+  padding: 32px 0 64px;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldset-header {
+  margin: 2.5rem 0 1.25rem;
+
+  &--compact {
+    margin-top: 0;
+  }
+
+  h2 {
+    margin-bottom: 0.625rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.form-field-icon-wrapper {
+  display: flex;
+  gap: 10px;
+
+  .form-field-icon {
+    margin-top: 1.875rem;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 2.5rem;
+      height: 2.5rem;
+      background-color: var(--form-platform-icon-color, #555555);
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+    }
+
+    &--android::after {
+      mask-image: url('/assets/icomoon/SVG/android.svg');
+    }
+    &--apple::after {
+      mask-image: url('/assets/icomoon/SVG/apple.svg');
+    }
+    &--windows::after {
+      mask-image: url('/assets/icomoon/SVG/windows.svg');
+    }
+    &--linux::after {
+      mask-image: url('/assets/icomoon/SVG/linux.svg');
+    }
+  }
+
+  .form-field {
+    flex: 1;
+  }
+}
+
+.form-field {
+  display: block;
+  margin-bottom: 1.25rem;
+  --bs-form-invalid-color: #{variables.$color-darker-red};
+  --bs-form-invalid-border-color: #{variables.$color-darker-red};
+  --bs-border-color: #8a8b8d;
+
+  > .form-label {
+    font-weight: 700;
+    line-height: 1.3125;
+    margin-bottom: 0.3125rem;
+
+    &.is-invalid,
+    &:has(+ .is-invalid) {
+      color: var(--bs-form-invalid-color);
+    }
+
+    small {
+      font-size: 0.765625rem;
+      line-height: 1.3125rem;
+      vertical-align: middle;
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .form-control {
+    &.is-invalid {
+      background-image: none;
+    }
+
+    &::placeholder {
+      color: #8a8b8d;
+    }
+
+    &:disabled,
+    &:read-only {
+      --bs-border-color: #d6dadf;
+      background-color: #e9ecef;
+      cursor: default;
+    }
+  }
+
+  .form-select {
+    padding: 0.75rem 5.25rem 0.75rem 1rem;
+    background-size: 1.5rem 1.5rem;
+    background-position: right 1rem center;
+    --bs-form-select-bg-img: var(--form-chevron-img, url('/assets/icomoon/SVG/chevron.svg'));
+    color: #8a8b8d;
+
+    &.is-invalid {
+      --bs-form-select-bg-icon: none;
+    }
+
+    &.value-selected {
+      --bs-border-color: #{variables.$color-black};
+      color: variables.$color-black;
+    }
+
+    option {
+      color: variables.$color-black;
+    }
+  }
+
+  .form-check {
+    margin-bottom: 1.25rem;
+
+    .form-check-input {
+      &[type='checkbox'] {
+        border-radius: 0.125rem;
+      }
+
+      &:checked[type='checkbox'] {
+        --bs-form-check-bg-image: url('/assets/icomoon/SVG/checkbox-check.svg');
+        background-size: 0.5rem 0.375rem;
+        background-color: variables.$color-form-blue;
+        border-color: variables.$color-form-blue;
+      }
+
+      &:checked[type='radio'] {
+        --bs-form-check-bg-image: url('/assets/icomoon/SVG/dot.svg');
+        background-size: 0.625rem 0.625rem;
+        background-color: variables.$color-white;
+        border-color: variables.$color-form-blue;
+      }
+    }
+
+    .form-check-label {
+      margin: 0;
+    }
+  }
+
+  & input.form-control,
+  & select {
+    height: 3rem;
+  }
+
+  .form-control {
+    padding: 0.75rem 3.125rem 0.75rem 1rem;
+
+    &:not(.is-invalid):not(:placeholder-shown):not(:disabled):not(:read-only) {
+      --bs-border-color: #{variables.$color-black};
+    }
+  }
+
+  .input-clear {
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 1.5rem;
+      height: 1.5rem;
+      background-color: var(--form-close-color, #555555);
+      mask-image: url('/assets/icomoon/SVG/close.svg');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+    }
+
+    &--textarea {
+      right: calc(1rem + var(--scrollbar-width, 0px));
+    }
+  }
+
+  .form-select ~ .input-clear {
+    right: 3.125rem;
+  }
+
+  > .field-hint {
+    margin-top: 0.3125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  > .invalid-feedback {
+    margin-top: 0.3125rem;
+  }
+
+  &--large-space {
+    margin-bottom: 2rem;
+  }
+
+  &--check {
+    margin-bottom: 0;
+    --bs-border-color: #{variables.$color-form-blue};
+
+    > .form-label {
+      color: variables.$color-black;
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+
+      small {
+        color: variables.$color-text;
+      }
+
+      &.is-invalid small {
+        color: var(--bs-form-invalid-color);
+      }
+    }
+
+    > .invalid-feedback {
+      margin-top: 0;
+      margin-bottom: 1.25rem;
+    }
+  }
+}
+
+.form-field-group {
+  margin-bottom: 1.25rem;
+  --bs-form-invalid-color: #{variables.$color-darker-red};
+  --bs-form-invalid-border-color: #{variables.$color-darker-red};
+  --bs-border-color: #8a8b8d;
+
+  > .form-label {
+    font-weight: 700;
+    line-height: 1.3125;
+    margin-bottom: 1.25rem;
+
+    small {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.3125rem;
+
+      &:first-of-type {
+        margin-top: 0.3125rem;
+      }
+    }
+  }
+
+  .input-group {
+    margin-bottom: 0.625rem;
+
+    &:not(:has(~ .input-group)) {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .form-control {
+    padding: 0.375rem 0.75rem;
+
+    &.is-invalid {
+      background-image: none;
+    }
+
+    &::placeholder {
+      color: #8a8b8d;
+    }
+
+    &:disabled,
+    &:read-only {
+      --bs-border-color: #d6dadf;
+      background-color: #e9ecef;
+      cursor: default;
+    }
+  }
+
+  &--large-space {
+    margin-bottom: 2rem;
+  }
+}
+
+.cms-consent-list {
+  margin-left: 1rem;
+
+  &--invalid {
+    color: var(--bs-form-invalid-color, #{variables.$color-darker-red});
+  }
+}
+
+:host-context(.black-white) {
+  --contrast-primary: #{variables.$color-white};
+  --contrast-secondary: #{variables.$color-black};
+  --contrast-placeholder: #d6dadf;
+  --contrast-checkbox-img: url('/assets/icomoon/SVG/checkbox-check-black.svg');
+  --contrast-dot-img: url('/assets/icomoon/SVG/dot-white.svg');
+  --form-chevron-img: url('/assets/icomoon/SVG/chevron-white.svg');
+}
+
+:host-context(.black-yellow) {
+  --contrast-primary: #{variables.$color-yellow};
+  --contrast-secondary: #{variables.$color-black};
+  --contrast-placeholder: #{variables.$color-yellow};
+  --contrast-checkbox-img: url('/assets/icomoon/SVG/checkbox-check-black.svg');
+  --contrast-dot-img: url('/assets/icomoon/SVG/dot-yellow.svg');
+  --form-chevron-img: url('/assets/icomoon/SVG/chevron-yellow.svg');
+}
+
+:host-context(.yellow-black) {
+  --contrast-primary: #{variables.$color-black};
+  --contrast-secondary: #{variables.$color-yellow};
+  --contrast-placeholder: #{variables.$color-black};
+  --contrast-checkbox-img: url('/assets/icomoon/SVG/checkbox-check-yellow.svg');
+  --contrast-dot-img: url('/assets/icomoon/SVG/dot-black.svg');
+  --form-chevron-img: url('/assets/icomoon/SVG/chevron-black.svg');
+}
+
+:host-context(.black-white),
+:host-context(.black-yellow),
+:host-context(.yellow-black) {
+  .form-header {
+    color: unset;
+  }
+
+  .form-field-icon-wrapper .form-field-icon {
+    --form-platform-icon-color: var(--contrast-primary);
+  }
+
+  .form-field {
+    --bs-form-invalid-color: var(--contrast-primary);
+    --form-close-color: var(--contrast-primary);
+
+    .form-select {
+      border-color: var(--contrast-primary);
+      color: var(--contrast-primary);
+
+      &.value-selected {
+        --bs-border-color: unset;
+        color: unset;
+      }
+
+      option {
+        color: unset;
+      }
+    }
+
+    &--check {
+      --bs-border-color: var(--contrast-primary);
+
+      > .form-label {
+        color: unset;
+
+        small {
+          color: unset;
+        }
+      }
+    }
+
+    .form-check .form-check-input {
+      &[type='checkbox'] {
+        --bs-form-check-bg: var(--contrast-secondary);
+        --bs-border-color: var(--contrast-primary);
+      }
+
+      &[type='radio'] {
+        --bs-body-bg: var(--contrast-secondary);
+        --bs-border-color: var(--contrast-primary);
+      }
+
+      &:checked[type='checkbox'] {
+        --bs-form-check-bg-image: var(--contrast-checkbox-img);
+        background-color: var(--contrast-primary);
+        border-color: var(--contrast-primary);
+      }
+
+      &:checked[type='radio'] {
+        --bs-form-check-bg-image: var(--contrast-dot-img);
+        background-color: var(--contrast-secondary);
+        border-color: var(--contrast-primary);
+      }
+    }
+  }
+
+  .form-field,
+  .form-field-group {
+    --bs-form-invalid-border-color: var(--contrast-primary);
+
+    .form-control {
+      &::placeholder {
+        color: var(--contrast-placeholder);
+        opacity: 1;
+      }
+
+      &:disabled,
+      &:read-only {
+        --bs-border-color: unset;
+        background-color: unset;
+        border-style: dashed;
+        border-width: 2px;
+      }
+    }
+  }
+}

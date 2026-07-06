@@ -12,6 +12,7 @@ import { AppBootstrapModule } from '@app/app-bootstrap/app-bootstrap.module';
 import { ApplicationsListViewFiltersComponent } from '@app/pages/applications/application-list-view-filters/applications-list-view-filters.component';
 import { SuggestApplicationComponent } from '@app/pages/applications/suggest-application/suggest-application.component';
 import { SharedModule } from '@app/shared/shared.module';
+import { PoCoToFormComponent } from '@app/shared/forms/form-pages/po-co-to-form/po-co-to-form.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { SharedModule } from '@app/shared/shared.module';
     SuggestApplicationComponent,
     ImageUploadComponent,
     ApplicationsListViewFiltersComponent,
+    PoCoToFormComponent,
   ],
 })
 export class ApplicationsModule {}

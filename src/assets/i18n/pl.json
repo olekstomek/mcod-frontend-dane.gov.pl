@@ -109,6 +109,7 @@
     "Author": "Autor",
     "Logo": "Logo",
     "LogoHint": "(logo, które będzie wyświetlane podczas przeglądania)",
+    "LogoLabelHint": "Logo będzie widoczne na liście przykładów ponownego wykorzystania danych.",
     "Graphics": "Grafika ilustracyjna",
     "GraphicsHint": "(grafika będzie wyświetlana w szczegółach aplikacji)",
     "InternalDatasets": "Wyszukaj zbiór danych na portalu",
@@ -124,7 +125,7 @@
     "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji",
     "Url": "https://",
     "ApplicationType": "Rodzaj aplikacji",
-    "ApplicationTypeHint": "Wymagane jest uzupełnienie przynajmniej jednego linku",
+    "ApplicationTypeHint": "(wymagane jest uzupełnienie przynajmniej jednego linku)",
     "MobileType": "Aplikacja mobilna",
     "DesktopType": "Aplikacja desktopowa",
     "LicenceType": "Rodzaj licencji",
@@ -258,7 +259,7 @@
     "InstitutionModule": "Dostawcy",
     "InstitutionComponent": "",
     "InstitutionItemComponent": "",
-    "SuggestApplicationComponent": "Zaproponuj",
+    "SuggestApplicationComponent": "Zaproponuj przykład ponownego wykorzystania danych",
     "ArticleModule": "Aktualności",
     "LoginComponent": "Logowanie",
     "RegisterComponent": "Rejestracja",
@@ -281,7 +282,8 @@
     "SurveyComponent": "Ankieta",
     "NewsletterComponent": "Zamów newsletter",
     "DeclarationComponent": "Deklaracja dostępności",
-    "ShowcasesComponent": "PoCoTo"
+    "ShowcasesComponent": "PoCoTo",
+    "PrivacyPolicy": "Polityka prywatności i RODO"
   },
   "BrokenLinks": {
     "Self": "Uszkodzone linki",
@@ -516,6 +518,265 @@
     "Self": "Czcionka",
     "Default": "Czcionka standardowa",
     "Increased": "Czcionka powiększona"
+  },
+  "Forms": {
+    "General": {
+      "RequiredHint": "pole wymagane",
+      "ErrorToast": "Wystąpił błąd podczas wysyłania formularza.",
+      "RemoveDataset": "Usuń zbiór danych"
+    },
+    "Validators": {
+      "ValidatorMaxLength": "Przekroczono limit znaków: {length}.",
+      "ValidatorPatternLink": "Niepoprawny adres strony."
+    },
+    "Buttons": {
+      "Send": "Wyślij",
+      "GoToHomePage": "Przejdź do strony głównej",
+      "GoToPoCoToPage": "Przejdź do zakładki PoCoTo",
+      "GoToDataPage": "Przejdź do zakładki Dane",
+      "GoToPreviousPage": "Wróć do poprzedniej strony"
+    },
+    "ImageUpload": {
+      "FileSizeExtension": "Rozmiar pliku: {width}px x {height}px, Dopuszczalne typy plików: jpg, gif, png",
+      "ValidatorFileDimensions": "Niewłaściwe wymiary grafiki. Dodaj obrazek o maksymalnych wymiarach {width}px x {height}px.",
+      "Buttons": {
+        "Add": "Dodaj obraz",
+        "Change": "Zmień obraz",
+        "Remove": "Usuń obraz"
+      }
+    },
+    "PageHeader": {
+      "Heading": {
+        "Contact": "Kontakt",
+        "PoCoTo": "Zaproponuj przykład ponownego wykorzystania danych",
+        "NewData": "Zaproponuj dane do udostępnienia w portalu",
+        "Feedback": "Zgłoś uwagi do danych udostępnianych w portalu",
+        "Success": "Twój formularz został wysłany"
+      },
+      "Paragraph": {
+        "NeedHelp": "Potrzebujesz pomocy w korzystaniu z portalu lub udostępnianiu w nim danych? Sprawdź informacje w naszej bazie wiedzy.",
+        "CantFindAnswerContact": "Jeśli nie znajdziesz odpowiedzi na swoje pytanie, skontaktuj się z nami przez poniższy formularz. Możesz też wysłać wiadomość na adres e-mail kontakt@dane.gov.pl",
+        "ContactForm": "Skontaktuj się z nami przez formularz. Możesz też wysłać wiadomość na adres e-mail kontakt@dane.gov.pl",
+        "ThankContacting": "Dziękujemy za kontakt."
+      }
+    },
+    "TopicSection": {
+      "SectionTitle": "Temat wiadomości",
+      "TopicSelect": {
+        "Label": "Temat",
+        "Placeholder": "Wybierz",
+        "ValidatorRequired": "Wybierz jedną z opcji.",
+        "Option1": "Dane",
+        "Option2": "Portal dane.gov.pl",
+        "Option3": "Ochrona danych osobowych w portalu",
+        "Option4": "Regulacje prawne dotyczące otwartości danych",
+        "Option5": "Inne"
+      },
+      "CategorySelect": {
+        "Label": "Kategoria",
+        "Placeholder": "Wybierz",
+        "ValidatorRequired": "Wybierz jedną z opcji.",
+        "Option1": "Funkcjonalności portalu",
+        "Option2": "Zakładanie profili dostawców",
+        "Option3": "Nadawanie uprawnień",
+        "Option4": "Błędy w działaniu portalu",
+        "Option5": "Inne",
+        "Option6": "Udostępnianie danych w portalu",
+        "Option7": "Zaproponuj dane do udostępnienia w portalu",
+        "Option8": "Zaproponuj przykład ponownego wykorzystania danych",
+        "Option9": "Zgłoś uwagi do danych udostępnianych w portalu",
+        "Option10": "Standardy otwartości danych",
+        "Option11": "Dane o wysokiej wartości (HVD)",
+        "Option12": "Chronione dane (DGA)",
+        "Option13": "Inne"
+      },
+      "NameInput": {
+        "Label": "Imię i nazwisko zgłaszającego",
+        "Placeholder": "Wprowadź imię i nazwisko",
+        "ValidatorRequired": "Wpisz imię i nazwisko zgłaszającego."
+      },
+      "EmailInput": {
+        "Label": "Adres e-mail zgłaszającego",
+        "Placeholder": "Wprowadź adres",
+        "Hint": "Wpisz, jeśli chcesz otrzymać odpowiedź.",
+        "ValidatorRequired": "Wpisz adres e-mail.",
+        "ValidatorEmail": "Niepoprawny adres e-mail."
+      },
+      "CorrespondenceDetailsTextArea": {
+        "Label": "Treść korespondencji",
+        "Placeholder": "Wprowadź treść",
+        "ValidatorRequired": "Wpisz treść korespondencji."
+      },
+      "DatasetLinkInput": {
+        "Label": "Link do zbioru danych lub danych",
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Wpisz link do zbioru danych lub danych."
+      },
+      "FeedbackTextarea": {
+        "Label": "Uwagi",
+        "Placeholder": "Wprowadź uwagi",
+        "ValidatorRequired": "Pole \"Uwagi\" jest wymagane."
+      },
+      "AttachmentUploader": {
+        "Label": "Załącznik do korespondencji",
+        "ParagraphAddFile": "Dodaj plik lub przeciągnij go na to pole.",
+        "ParagraphFormats": "Dopuszczalny format pliku: PNG, JPEG, DOC, DOCX, PDF, XLS, XLSX, CSV, XML, ZIP",
+        "ParagraphSize": "Maksymalny łączny rozmiar plików: 30 MB.",
+        "ParagraphNumberOfFiles": "Maksymalna liczba plików: 3",
+        "ValidatorMaxLength": "Przekroczono limit znaków w nazwie pliku: 300.",
+        "ValidatorFileType": "Niepoprawny format pliku.",
+        "ValidatorFileSize": "Pliki są za duże. Dodaj pliki, których łączny rozmiar wynosi 30 MB.",
+        "ValidatorNumberOfFiles": "Przekroczono liczbę dodanych plików. Dodaj maksymalnie 3 pliki."
+      }
+    },
+    "NewDataSection": {
+      "SectionTitle": "Informacje o danych",
+      "SectionParagraph": "Te informacje pojawią się w portalu, jeśli zaakceptujemy Twoją propozycję.",
+      "NameTypeFieldOfDataInput": {
+        "Label": "Nazwa, rodzaj, dziedzina proponowanych danych",
+        "Placeholder": "Wprowadź nazwę",
+        "ValidatorRequired": "Pole \"Nazwa, rodzaj, dziedzina proponowanych danych\" jest wymagane."
+      },
+      "DataDescriptionTextarea": {
+        "Label": "Opis danych",
+        "Placeholder": "Wprowadź opis danych",
+        "Hint": "Wpisz maksymalnie 3000 znaków.",
+        "ValidatorRequired": "Wpisz opis danych."
+      },
+      "OrganizationNameInput": {
+        "Label": "Nazwa instytucji odpowiedzialnej za dane",
+        "Placeholder": "Wprowadź nazwę instytucji"
+      },
+      "DataLinkInput": {
+        "Label": "Czy znalazłeś te dane w innym miejscu? Jeśli tak, podaj link",
+        "Placeholder": "Wprowadź link"
+      },
+      "PotentialUsesInput": {
+        "Label": "Potencjalne możliwości wykorzystania danych",
+        "Placeholder": "Wprowadź potencjalne możliwości"
+      }
+    },
+    "PoCoToSection": {
+      "SectionTitle": "Informacje o przykładzie ponownego wykorzystania danych",
+      "SectionParagraph": "Te informacje będą widoczne w zakładce PoCoTo.",
+      "CategorySelect": {
+        "Label": "Kategoria",
+        "Placeholder": "Wybierz",
+        "ValidatorRequired": "Wybierz jedną z opcji.",
+        "Option1": "Aplikacja",
+        "Option2": "Serwis WWW",
+        "Option3": "Inne"
+      },
+      "NameInput": {
+        "Label": "Nazwa",
+        "Placeholder": "Wprowadź nazwę",
+        "ValidatorRequired": "Pole \"Nazwa\" jest wymagane."
+      },
+      "ApplicationLinkInput": {
+        "Label": "Link do aplikacji / Adres strony z informacją",
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Pole \"Link do aplikacji\" jest wymagane."
+      },
+      "ApplicationTypeCheckbox": {
+        "Label": "Rodzaj aplikacji",
+        "LabelHint": "wymagane uzupełnienie przynajmniej jednego linku",
+        "Option1": "Aplikacja mobilna",
+        "Option2": "Aplikacja desktopowa"
+      },
+      "ApplicationTypeAndroidInput": {
+        "Label": "Link do wersji Android",
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Wpisz link do aplikacji."
+      },
+      "ApplicationTypeIOSInput": {
+        "Label": "Link do wersji iOS",
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Wpisz link do aplikacji."
+      },
+      "ApplicationTypeWindowsInput": {
+        "Label": "Link do wersji Windows",
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Wpisz link do aplikacji."
+      },
+      "ApplicationTypeLinuxInput": {
+        "Label": "Link do wersji Linux",
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Wpisz link do aplikacji."
+      },
+      "ApplicationTypeMacOSInput": {
+        "Label": "Link do wersji MacOS",
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Wpisz link do aplikacji."
+      },
+      "LicenseTypeRadio": {
+        "Label": "Rodzaj licencji",
+        "ValidatorRequired": "Zaznacz jedną z opcji.",
+        "Option1": "Darmowa aplikacja",
+        "Option2": "Płatna aplikacja"
+      },
+      "DescriptionTextarea": {
+        "Label": "Opis",
+        "Placeholder": "Wprowadź opis",
+        "Hint": "Wpisz maksymalnie 3000 znaków. Opisz przykład ponownego wykorzystania danych – np. cel rozwiązania, jego funkcjonalności oraz do kogo jest skierowane.",
+        "ValidatorRequired": "Wpisz opis."
+      },
+      "KeywordsInput": {
+        "Label": "Słowa kluczowe",
+        "Placeholder": "Wprowadź słowa kluczowe, oddziel je przecinkami",
+        "ValidatorMaxLength": "Przekroczono limit znaków jednego słowa kluczowego: {length}."
+      },
+      "AuthorInput": {
+        "Label": "Autor",
+        "Placeholder": "Wprowadź imię i nazwisko lub nazwę",
+        "ValidatorRequired": "Pole \"Autor\" jest wymagane."
+      },
+      "LogoUploader": {
+        "Label": "Logo",
+        "Description": "Logo będzie widoczne na liście przykładów ponownego wykorzystania danych.",
+        "ValidatorFileType": "Niepoprawny format pliku.",
+        "ValidatorFileSize": "Plik jest za duży. Dodaj plik, który ma maksymalnie 2 MB."
+      },
+      "IllustrativeGraphicsUploader": {
+        "Label": "Grafika ilustracyjna",
+        "Description": "Grafika będzie widoczna obok pełnego opisu rozwiązania.",
+        "ValidatorFileType": "Niepoprawny format pliku.",
+        "ValidatorFileSize": "Plik jest za duży. Dodaj plik, który ma maksymalnie 2 MB."
+      },
+      "DatasetMultiselect": {
+        "Label": "Wyszukaj zbiór danych na portalu",
+        "Paragraph": "Wskaż dane, które zostały wykorzystane do budowy aplikacji.",
+        "Button": "Dodaj zbiór danych",
+        "Placeholder": "Wyszukaj zbiór danych…",
+        "ValidatorRequired": "Wymagany jest wybór zbioru danych z listy."
+      },
+      "ExternalDatasetMultiselect": {
+        "Label": "Jeśli wykorzystałeś dane publiczne spoza portalu",
+        "Paragraph": "Wprowadź nazwę zbioru i podaj link do zbioru.",
+        "Button": "Dodaj zbiór danych"
+      },
+      "ExternalDatasetLinkNameInput": {
+        "Placeholder": "Wprowadź nazwę",
+        "ValidatorRequired": "Wpisz nazwę zbioru danych."
+      },
+      "ExternalDatasetLinkInput": {
+        "Placeholder": "Wprowadź link",
+        "ValidatorRequired": "Wpisz link do zbioru danych."
+      }
+    },
+    "ConsentsSection": {
+      "SectionTitle": "Zgody",
+      "SectionParagraph": {
+        "text": "Informacja dotycząca przetwarzania danych osobowych znajduje się w",
+        "link": "polityce prywatności portalu."
+      },
+      "ValidatorRequired": "To pole jest wymagane.",
+      "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji:"
+    },
+    "CaptchaSection": {
+      "Description": "W celu utrudnienia rozsyłania spamu przez automaty, proszę rozwiązać proste zadanie matematyczne",
+      "ValidatorRequired": "Pole \"Zadanie matematyczne\" jest wymagane.",
+      "ValidatorInvalidNumber": "Niepoprawna liczba."
+    }
   },
   "Found": {
     "Self": "Znaleziono",

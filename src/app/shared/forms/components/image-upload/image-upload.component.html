@@ -1,0 +1,53 @@
+<div class="image-upload">
+  <p class="image-upload__label">
+    {{ labelTranslationKey() | translate }}
+    @if (labelTranslationKeyHint()) {
+      <small class="image-upload__hint">{{ labelTranslationKeyHint() | translate }}</small>
+    }
+    <small class="image-upload__hint">
+      {{ 'Forms.ImageUpload.FileSizeExtension' | translate: { width: maxWidth(), height: maxHeight() } }}
+    </small>
+  </p>
+
+  <ng-content select="error-container" />
+
+  @let uploadedFileValue = uploadedFile();
+  @if (uploadedFileValue) {
+    <div class="image-upload__preview-row">
+      <div class="image-upload__preview">
+        @if (uploadedImagePreview()) {
+          <img [src]="uploadedImagePreview()" [alt]="uploadedFileValue.name" class="image-upload__img" />
+        }
+      </div>
+      <div class="image-upload__meta">
+        <p class="image-upload__filename">
+          <span class="visually-hidden">{{ 'Attribute.Name' | translate }}</span>
+          {{ uploadedFileValue.name }}
+        </p>
+        <p class="image-upload__filesize">
+          <span class="visually-hidden">{{ 'File.Size' | translate }}</span>
+          <app-file-size [fileSize]="uploadedFileValue.size" />
+        </p>
+      </div>
+    </div>
+  }
+
+  <div class="image-upload__actions">
+    @if (uploadedFileValue) {
+      <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="isDisabled()" (click)="onImageRemove()">
+        {{ 'Forms.ImageUpload.Buttons.Remove' | translate }}
+        <span class="visually-hidden">{{ uploadedFileValue.name }}</span>
+      </button>
+    }
+
+    <button type="button" class="btn btn-sm btn-outline-primary" [disabled]="isDisabled()" (click)="triggerFileInput()">
+      @if (uploadedFileValue) {
+        {{ 'Forms.ImageUpload.Buttons.Change' | translate }}
+      } @else {
+        {{ 'Forms.ImageUpload.Buttons.Add' | translate }}
+      }
+    </button>
+
+    <input #imageInput type="file" accept="image/*" class="image-upload__input" aria-hidden="true" tabindex="-1" />
+  </div>
+</div>

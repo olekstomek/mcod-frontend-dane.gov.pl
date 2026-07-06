@@ -1,18 +1,22 @@
 <!-- captcha -->
-<div class="form-group captcha" [ngClass]="{ 'form-group-invalid': control.invalid && control.touched }">
-  <label for="captcha">
-    <span class="font-weight-normal d-block">
+<div
+  class="form-group captcha"
+  [class.form-group-invalid]="control.invalid && control.touched"
+  [class.new-captcha]="newStyle()">
+  <label for="captcha" class="d-block" [class.m-0]="newStyle()">
+    <span class="font-weight-normal d-block" [class.mb-2]="newStyle()">
       {{ 'Captcha.Description' | translate }}
       <small class="visually-hidden">({{ 'Validation.RequiredField' | translate | lowercase }})</small>
     </span>
 
-    <span class="font-weight-bold d-inline-block">
+    <span class="d-inline-block" [class.font-weight-bold]="!newStyle()">
       {{ 'Captcha.Label' | translate }}:
-      <span class="captcha__equation"> {{ equationLabel }} = </span>
+      <span class="captcha__equation" [class.mr-1]="newStyle()"> {{ equationLabel }} = </span>
       <input
         type="text"
         class="form-control d-inline-block"
         id="captcha"
+        [class.scroll-invalid]="newStyle() && control.invalid && control.touched"
         style="width: 45px"
         autocomplete="off"
         [formControl]="control"
@@ -26,24 +30,26 @@
   <ng-container *ngIf="control.invalid && control.touched && control.errors">
     <!-- required error -->
     <small
-      class="form-text text-danger"
+      class="d-block form-text text-danger"
+      [class.mt-2]="newStyle()"
       role="alert"
       aria-live="polite"
       id="captcha_required_error"
       *ngIf="control.errors['required'] && (!control.dirty || (control.dirty && !control.value))"
       @toggleVertically>
-      {{ 'Validation.VarRequired' | translate: { param: 'Captcha.Label' | translate } }}
+      {{ validationRequiredText() || ('Validation.VarRequired' | translate: { param: 'Captcha.Label' | translate }) }}
     </small>
 
     <!-- invalid number error -->
     <small
-      class="form-text text-danger"
+      class="d-block form-text text-danger"
+      [class.mt-2]="newStyle()"
       role="alert"
       aria-live="polite"
       id="captcha_number_error"
       *ngIf="control.errors['invalidNumber'] && control.dirty && control.value"
       @toggleVertically>
-      {{ 'Validation.InvalidNumber' | translate }}
+      {{ validationInvalidNumberText() || ('Validation.InvalidNumber' | translate) }}
     </small>
   </ng-container>
 </div>

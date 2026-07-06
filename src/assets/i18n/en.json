@@ -109,6 +109,7 @@
     "Author": "Author",
     "Logo": "Logo",
     "LogoHint": "(logo displayed when browsing)",
+    "LogoLabelHint": "(logo displayed when browsing)",
     "Graphics": "Illustrative graphics",
     "GraphicsHint": "(graphics displayed in application details)",
     "InternalDatasets": "Search for the dataset on the portal",
@@ -124,7 +125,7 @@
     "DataProcessing": "I hereby confirm that I have taken note of the following information",
     "Url": "https://",
     "ApplicationType": "Application type",
-    "ApplicationTypeHint": "At least one link is required to be completed",
+    "ApplicationTypeHint": "(at least one link is required to be completed)",
     "MobileType": "Mobile application",
     "DesktopType": "Desktop application",
     "LicenceType": "Licence type",
@@ -281,7 +282,8 @@
     "SurveyComponent": "Survey",
     "NewsletterComponent": "Newsletter",
     "DeclarationComponent": "Declaration of accessibility",
-    "ShowcasesComponent": "PoCoTo"
+    "ShowcasesComponent": "PoCoTo",
+    "PrivacyPolicy": "Privacy Policy and GDPR"
   },
   "BrokenLinks": {
     "Self": "Broken links",
@@ -516,6 +518,265 @@
     "Self": "Font",
     "Default": "Default font",
     "Increased": "Increased font"
+  },
+  "Forms": {
+    "General": {
+      "RequiredHint": "required field",
+      "ErrorToast": "An error occurred while submitting the form.",
+      "RemoveDataset": "Remove dataset"
+    },
+    "Validators": {
+      "ValidatorMaxLength": "Exceeded the {length}-character limit.",
+      "ValidatorPatternLink": "Invalid website url."
+    },
+    "Buttons": {
+      "Send": "Send",
+      "GoToHomePage": "Go to the homepage",
+      "GoToPoCoToPage": "Go to the PoCoTo tab",
+      "GoToDataPage": "Go to the Data tab",
+      "GoToPreviousPage": "Go back to the previous page"
+    },
+    "ImageUpload": {
+      "FileSizeExtension": "File size: {width}px x {height}px, Accepted file types: jpg, gif, png",
+      "ValidatorFileDimensions": "Incorrect graphic dimensions. Please upload an image with maximum dimensions of {width}px x {height}px.",
+      "Buttons": {
+        "Add": "Add image",
+        "Change": "Change image",
+        "Remove": "Remove image"
+      }
+    },
+    "PageHeader": {
+      "Heading": {
+        "Contact": "Contact",
+        "PoCoTo": "Suggest an example of data reuse",
+        "NewData": "Suggest data to be shared on the portal",
+        "Feedback": "Send feedback on the data shared in the portal",
+        "Success": "Your form has been submitted"
+      },
+      "Paragraph": {
+        "NeedHelp": "Do you need help using the portal or sharing your data? Check our knowledge base.",
+        "CantFindAnswerContact": "If you can't find the answer to your question, please contact us using the form below. You can also send an email to kontakt@dane.gov.pl.",
+        "ContactForm": "Contact us using the form below. You can also send an email to kontakt@dane.gov.pl",
+        "ThankContacting": "Thank you for contacting us."
+      }
+    },
+    "TopicSection": {
+      "SectionTitle": "Subject of Your Message",
+      "TopicSelect": {
+        "Label": "Subject",
+        "Placeholder": "Select subject",
+        "ValidatorRequired": "Select one option.",
+        "Option1": "Data",
+        "Option2": "Dane.gov.pl portal",
+        "Option3": "Protection of personal data on the portal",
+        "Option4": "Legal regulations on data openness",
+        "Option5": "Others"
+      },
+      "CategorySelect": {
+        "Label": "Category",
+        "Placeholder": "Select category",
+        "ValidatorRequired": "Select one option.",
+        "Option1": "Portal features",
+        "Option2": "Creating publisher profiles",
+        "Option3": "Granting permissions",
+        "Option4": "Portal errors",
+        "Option5": "Others",
+        "Option6": "Sharing data on the portal",
+        "Option7": "Suggest data to be shared on the portal",
+        "Option8": "Suggest an example of data reuse",
+        "Option9": "Send feedback on the data shared in the portal",
+        "Option10": "Data openness standards",
+        "Option11": "High value data (HVD)",
+        "Option12": "Protected data (DGA)",
+        "Option13": "Others"
+      },
+      "NameInput": {
+        "Label": "Full name of the submitter",
+        "Placeholder": "Enter full name of the submitter",
+        "ValidatorRequired": "Enter full name of the submitter."
+      },
+      "EmailInput": {
+        "Label": "Submitter e-mail",
+        "Placeholder": "Enter address",
+        "Hint": "Enter to receive feedback.",
+        "ValidatorRequired": "Enter email.",
+        "ValidatorEmail": "Invalid email address."
+      },
+      "CorrespondenceDetailsTextArea": {
+        "Label": "Correspondence details",
+        "Placeholder": "Enter details",
+        "ValidatorRequired": "Enter your message."
+      },
+      "DatasetLinkInput": {
+        "Label": "Link to the dataset or data",
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "Enter a link to the dataset or data."
+      },
+      "FeedbackTextarea": {
+        "Label": "Feedback",
+        "Placeholder": "Enter feedback",
+        "ValidatorRequired": "\"Feedback\" field is required."
+      },
+      "AttachmentUploader": {
+        "Label": "Attachment",
+        "ParagraphAddFile": "Add a file or drag it here.",
+        "ParagraphFormats": "Accepted file formats: PNG, JPEG, DOC, DOCX, PDF, XLS, XLSX, CSV, XML, ZIP",
+        "ParagraphSize": "Maximum total size of all files: 30 MB.",
+        "ParagraphNumberOfFiles": "Maximum number of files: 3.",
+        "ValidatorMaxLength": "The file name is too long (maximum 300 characters).",
+        "ValidatorFileType": "Invalid file format.",
+        "ValidatorFileSize": "Files are too large. Please add files with a total size of up to 30 MB.",
+        "ValidatorNumberOfFiles": "Maximum number of files exceeded. Please add up to 3 files."
+      }
+    },
+    "NewDataSection": {
+      "SectionTitle": "Data information",
+      "SectionParagraph": "This information will appear on the portal if we accept your proposal.",
+      "NameTypeFieldOfDataInput": {
+        "Label": "Name, type, field of proposed data",
+        "Placeholder": "Enter name",
+        "ValidatorRequired": "\"Name, type, field of proposed data\" field is required."
+      },
+      "DataDescriptionTextarea": {
+        "Label": "Data description",
+        "Placeholder": "Enter data description",
+        "Hint": "Please enter a maximum of 3000 characters.",
+        "ValidatorRequired": "Enter data description."
+      },
+      "OrganizationNameInput": {
+        "Label": "Name of the organization responsible for the data",
+        "Placeholder": "Enter organization"
+      },
+      "DataLinkInput": {
+        "Label": "Did you find this data elsewhere? if so, please provide the link",
+        "Placeholder": "Enter link"
+      },
+      "PotentialUsesInput": {
+        "Label": "Potential uses of the data",
+        "Placeholder": "Enter potential use"
+      }
+    },
+    "PoCoToSection": {
+      "SectionTitle": "Information on data reuse example",
+      "SectionParagraph": "This information will be visible in the PoCoTo tab",
+      "CategorySelect": {
+        "Label": "Category",
+        "Placeholder": "Select category",
+        "ValidatorRequired": "Select one option.",
+        "Option1": "Application",
+        "Option2": "Website",
+        "Option3": "Others"
+      },
+      "NameInput": {
+        "Label": "Name",
+        "Placeholder": "Enter name",
+        "ValidatorRequired": "\"Name\" field is required."
+      },
+      "ApplicationLinkInput": {
+        "Label": "Link to the application/Website URL with information",
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "\"Link to the application\" field is required."
+      },
+      "ApplicationTypeCheckbox": {
+        "Label": "Application type",
+        "LabelHint": "at least one link is required to be completed",
+        "Option1": "Mobile application",
+        "Option2": "Desktop application"
+      },
+      "ApplicationTypeAndroidInput": {
+        "Label": "Link to Android version",
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "At least one link is required to be completed."
+      },
+      "ApplicationTypeIOSInput": {
+        "Label": "Link to iOS version",
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "At least one link is required to be completed."
+      },
+      "ApplicationTypeWindowsInput": {
+        "Label": "Link to Windows version",
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "At least one link is required to be completed."
+      },
+      "ApplicationTypeLinuxInput": {
+        "Label": "Link to Linux version",
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "At least one link is required to be completed."
+      },
+      "ApplicationTypeMacOSInput": {
+        "Label": "Link to MacOS version",
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "At least one link is required to be completed."
+      },
+      "LicenseTypeRadio": {
+        "Label": "Licence type",
+        "ValidatorRequired": "Select one option.",
+        "Option1": "Free application",
+        "Option2": "Paid application"
+      },
+      "DescriptionTextarea": {
+        "Label": "Description",
+        "Placeholder": "Enter description",
+        "Hint": "Enter a maximum of 3000 characters. Describe an example of data reuse – e.g., the purpose of the solution, its features, and target audience.",
+        "ValidatorRequired": "\"Description\" field is required."
+      },
+      "KeywordsInput": {
+        "Label": "Tags",
+        "Placeholder": "Enter tags, separated by commas",
+        "ValidatorMaxLength": "Exceeded the {length}-character limit for a single keyword."
+      },
+      "AuthorInput": {
+        "Label": "Author",
+        "Placeholder": "Enter full name or organization name",
+        "ValidatorRequired": "\"Author\" field is required."
+      },
+      "LogoUploader": {
+        "Label": "Logo",
+        "Description": "The logo will be visible in the list of data reuse examples.",
+        "ValidatorFileType": "Invalid file format.",
+        "ValidatorFileSize": "The file is too large. Please upload a file up to 2 MB."
+      },
+      "IllustrativeGraphicsUploader": {
+        "Label": "Illustrative graphics",
+        "Description": "The graphic will be visible next to the full description of the data reuse example.",
+        "ValidatorFileType": "Invalid file format.",
+        "ValidatorFileSize": "The file is too large. Please upload a file up to 2 MB."
+      },
+      "DatasetMultiselect": {
+        "Label": "Search for the dataset on the portal",
+        "Paragraph": "Select the data used to build the application.",
+        "Button": "Add dataset",
+        "Placeholder": "Search for dataset…",
+        "ValidatorRequired": "A dataset must be selected from the list."
+      },
+      "ExternalDatasetMultiselect": {
+        "Label": "If you used public data which is not available on the portal",
+        "Paragraph": "Enter the dataset name and provide the link to the dataset.",
+        "Button": "Add dataset"
+      },
+      "ExternalDatasetLinkNameInput": {
+        "Placeholder": "Enter a name",
+        "ValidatorRequired": "Enter a name for the dataset."
+      },
+      "ExternalDatasetLinkInput": {
+        "Placeholder": "Enter link",
+        "ValidatorRequired": "Enter a link to the dataset."
+      }
+    },
+    "ConsentsSection": {
+      "SectionTitle": "Consents",
+      "SectionParagraph": {
+        "text": "Information regarding the processing of personal data can be found in the ",
+        "link": "portal privacy policy."
+      },
+      "ValidatorRequired": "This field is required.",
+      "DataProcessing": "I hereby confirm that I have taken note of the following information:"
+    },
+    "CaptchaSection": {
+      "Description": "To prevent spam, please solve this simple math problem below",
+      "ValidatorRequired": "\"Math problem\" field is required.",
+      "ValidatorInvalidNumber": "Invalid number"
+    }
   },
   "Found": {
     "Self": "Found",

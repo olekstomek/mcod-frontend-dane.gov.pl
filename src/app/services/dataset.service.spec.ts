@@ -4,6 +4,24 @@ import { DatasetService } from './dataset.service';
 
 import { ApiResponse } from '@app/services/api';
 import { ServiceTestbed } from '@app/services/tests/service.testbed';
+import { SuggestDatasetPayload } from '@app/shared/forms/form-pages/suggest-dataset-form/suggest-dataset-form-model';
+import { FeedbackPayload } from '@app/shared/forms/form-pages/feedback-form/feedback-form-models';
+
+const testMock: SuggestDatasetPayload = {
+  applicant_email: '',
+  applicant_full_name: '',
+  data_link: '',
+  notes: '',
+  organization_name: '',
+  potential_possibilities: '',
+  title: '',
+};
+
+const mockFeedbackPayload: FeedbackPayload = {
+  comment: 'test',
+  applicant_email: null,
+  applicant_full_name: null,
+};
 
 describe('DatasetService', () => {
   let service: DatasetService;
@@ -41,15 +59,15 @@ describe('DatasetService', () => {
   });
 
   it('should call sendDatasetFeedback function', () => {
-    expect(service.sendDatasetFeedback('1', 'test')).toBeTruthy();
+    expect(service.sendDatasetFeedback('1', mockFeedbackPayload)).toBeTruthy();
   });
 
   it('should call sendResourceFeedback function', () => {
-    expect(service.sendResourceFeedback('1', 'test')).toBeTruthy();
+    expect(service.sendResourceFeedback('1', mockFeedbackPayload)).toBeTruthy();
   });
 
   it('should call sendSubmission function', () => {
-    expect(service.sendSubmission('test')).toBeTruthy();
+    expect(service.sendSubmission(testMock)).toBeTruthy();
   });
 
   it('should call getSubmissions function', () => {
@@ -149,20 +167,20 @@ describe('DatasetService', () => {
   });
 
   it('sendDatasetFeedback - Observable should return value', async () => {
-    service.sendDatasetFeedback('1', 'test').subscribe((value) => {
+    service.sendDatasetFeedback('1', mockFeedbackPayload).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('sendResourceFeedback - Observable should return value', async () => {
-    service.sendResourceFeedback('1', 'test').subscribe((value) => {
+    service.sendResourceFeedback('1', mockFeedbackPayload).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
   });
 
   it('sendSubmission - Observable should return value', async () => {
-    service.sendSubmission('test').subscribe((value) => {
-      expect(value.length).toBeGreaterThan(0);
+    service.sendSubmission(testMock).subscribe((value) => {
+      expect(value.count).toBeGreaterThan(0);
     });
   });
 
@@ -284,7 +302,7 @@ describe('DatasetService', () => {
       q: '',
       page: 1,
     };
-    service.getAll(params).subscribe((value) => {
+    service.getAll(params).subscribe(() => {
       const req = httpMock.expectOne({ method: 'GET' });
       req.flush('Get');
     });

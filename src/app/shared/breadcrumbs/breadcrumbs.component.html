@@ -21,7 +21,9 @@
               @if (breadcrumb.lastChild || (i + 1 === breadcrumbs.length - 1 && breadcrumbs[i + 1].label === '')) {
                 <span
                   [innerHtml]="
-                    breadcrumb.label.length > 32 ? (breadcrumb.label | slice: 0 : 32) + '...' : breadcrumb.label
+                    breadcrumb.showFullBreadcrumb || breadcrumb.label.length <= 32
+                      ? breadcrumb.label
+                      : (breadcrumb.label | slice: 0 : 32) + '...'
                   "></span>
               }
               <!-- breadcrumb as text (last breadcrumb) -->

@@ -1,0 +1,46 @@
+<section class="container">
+  @if (shouldShowErrorAlert()) {
+    @for (error of errorMessages(); track error) {
+      <div class="alert alert-danger">{{ error }}</div>
+    } @empty {
+      <div class="alert alert-danger">{{ 'Forms.General.ErrorToast' | translate }}</div>
+    }
+  }
+  @if (!isFormSent()) {
+    <h1 class="form-header">{{ 'Forms.PageHeader.Heading.NewData' | translate }}</h1>
+    <div class="form-wrapper col-md-10 col-lg-8">
+      <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
+        <app-name-email-form-part hideNameControl hideEmailControl />
+        <div class="fieldset-header fieldset-header--compact">
+          <h2>{{ 'Forms.NewDataSection.SectionTitle' | translate }}</h2>
+          <p>{{ 'Forms.NewDataSection.SectionParagraph' | translate }}</p>
+        </div>
+        <app-suggest-dataset-form-part />
+        <div class="fieldset-header">
+          @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
+          <p>
+            {{ sectionParagraph.text }}
+            <a [routerLink]="['/!privacy-policy'] | localize" target="_blank">{{ sectionParagraph.link }}</a>
+          </p>
+        </div>
+        <app-math-captcha
+          class="form-field"
+          formControlName="captcha"
+          newStyle
+          [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
+          [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
+        <button type="submit" class="btn btn-primary">
+          {{ 'Forms.Buttons.Send' | translate }}
+        </button>
+      </form>
+    </div>
+  } @else {
+    <app-form-sent-info>
+      <ng-container ngProjectAs="button">
+        <a [routerLink]="['/dataset']" class="btn btn-primary" role="button">
+          {{ 'Forms.Buttons.GoToDataPage' | translate }}
+        </a>
+      </ng-container>
+    </app-form-sent-info>
+  }
+</section>

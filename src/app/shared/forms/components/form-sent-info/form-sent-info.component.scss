@@ -1,0 +1,25 @@
+@use 'base/variables';
+@use '../../bootstrap-overrides';
+
+.form-sent {
+  margin-bottom: 200px;
+
+  &__header {
+    color: variables.$color-heading;
+    margin-bottom: 28px;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  &__content {
+    margin-bottom: 42px;
+  }
+}
+
+:host-context(.black-white),
+:host-context(.black-yellow),
+:host-context(.yellow-black) {
+  .form-sent__header {
+    color: unset;
+  }
+}

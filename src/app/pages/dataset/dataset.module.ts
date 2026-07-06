@@ -12,13 +12,11 @@ import { DatasetResourceMapComponent } from './dataset-resource-map/dataset-reso
 import { DatasetResourceComponent } from './dataset-resource/dataset-resource.component';
 import { DatasetRestrictionsComponent } from './dataset-restrictions/dataset-restrictions.component';
 import { DatasetRoutingModule } from './dataset-routing.module';
-import { FeedbackFormComponent } from './feedback-form/feedback-form.component';
 import { ResourceItemFilesDownloadComponent } from './resource-list/resource-item-files-download/resource-item-files-download.component';
 import { ResourceItemInfoComponent } from './resource-list/resource-item-info/resource-item-info.component';
 import { ResourceListComponent } from './resource-list/resource-list.component';
 import { SubmissionItemComponent } from './submission-item/submission-item.component';
 import { SubmissionListComponent } from './submission-list/submission-list.component';
-import { SuggestDatasetComponent } from './suggest-dataset/suggest-dataset.component';
 
 import { AppBootstrapModule } from '@app/app-bootstrap/app-bootstrap.module';
 import { DatasetItemResultsComponent } from '@app/pages/dataset/dataset-item-results/dataset-item-results.component';
@@ -31,6 +29,7 @@ import { MapModule } from '@app/shared/map/map.module';
 import { ResourceChartModule } from '@app/shared/resource-chart/resource-chart.module';
 import { ResourceFilterModule } from '@app/shared/resource-filters/resource-filter.module';
 import { SharedModule } from '@app/shared/shared.module';
+import { FeedbackFormComponent as NewFormsFeedbackFormComponent } from '@app/shared/forms/form-pages/feedback-form/feedback-form.component';
 
 @NgModule({
   imports: [
@@ -57,10 +56,7 @@ import { SharedModule } from '@app/shared/shared.module';
     DatasetItemComponent,
     DatasetResourceComponent,
     DatasetParentComponent,
-    SuggestDatasetComponent,
     DatasetResourceMapComponent,
-    SuggestDatasetComponent,
-    FeedbackFormComponent,
     DatasetRestrictionsComponent,
     DatasetListViewFiltersComponent,
     ResourceListComponent,
@@ -71,6 +67,7 @@ import { SharedModule } from '@app/shared/shared.module';
     DatasetMetadataComponent,
     RegionsMapComponent,
     DatasetItemResultsComponent,
+    NewFormsFeedbackFormComponent,
   ],
   providers: [DatasetService],
   exports: [DatasetRestrictionsComponent],

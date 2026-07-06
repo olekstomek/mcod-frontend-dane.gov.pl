@@ -1,0 +1,75 @@
+@if (!hideNameControl() || !hideEmailControl()) {
+  <fieldset formGroupName="nameEmail">
+    @if (!hideNameControl()) {
+      <div class="form-field">
+        @let isNameFieldInvalid = nameEmailGroup.controls.name.touched && nameEmailGroup.controls.name.invalid;
+        <label for="name" class="form-label">{{ 'Forms.TopicSection.NameInput.Label' | translate }}</label>
+        <div class="input-wrapper" [class.is-invalid]="isNameFieldInvalid">
+          <input
+            id="name"
+            formControlName="name"
+            class="form-control"
+            [placeholder]="'Forms.TopicSection.NameInput.Placeholder' | translate"
+            [class.is-invalid]="isNameFieldInvalid" />
+          @if (nameEmailGroup.value.name) {
+            <button
+              type="button"
+              class="input-clear"
+              aria-label="Wyczyść"
+              (click)="nameEmailGroup.controls.name.reset()"></button>
+          }
+        </div>
+        <div class="invalid-feedback">
+          @if (nameEmailGroup.hasError('maxlength', 'name')) {
+            {{
+              'Forms.Validators.ValidatorMaxLength'
+                | translate: { length: nameEmailGroup.getError('maxlength', 'name').requiredLength }
+            }}
+          }
+        </div>
+      </div>
+    }
+    @if (!hideEmailControl()) {
+      <div class="form-field">
+        @let isEmailFieldInvalid = nameEmailGroup.controls.email.touched && nameEmailGroup.controls.email.invalid;
+        <label for="email" class="form-label">
+          {{ 'Forms.TopicSection.EmailInput.Label' | translate }}
+          @if (requiredEmail()) {
+            <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+          }
+        </label>
+        <div class="input-wrapper" [class.is-invalid]="isEmailFieldInvalid">
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [placeholder]="'Forms.TopicSection.EmailInput.Placeholder' | translate"
+            [class.is-invalid]="isEmailFieldInvalid" />
+          @if (nameEmailGroup.value.email) {
+            <button
+              type="button"
+              class="input-clear"
+              aria-label="Wyczyść"
+              (click)="nameEmailGroup.controls.email.reset()"></button>
+          }
+        </div>
+        @if (!requiredEmail() && !isEmailFieldInvalid) {
+          <div class="field-hint">{{ 'Forms.TopicSection.EmailInput.Hint' | translate }}</div>
+        }
+        <div class="invalid-feedback">
+          @if (nameEmailGroup.hasError('required', 'email')) {
+            {{ 'Forms.TopicSection.EmailInput.ValidatorRequired' | translate }}
+          } @else if (nameEmailGroup.hasError('maxlength', 'email')) {
+            {{
+              'Forms.Validators.ValidatorMaxLength'
+                | translate: { length: nameEmailGroup.getError('maxlength', 'email').requiredLength }
+            }}
+          } @else if (nameEmailGroup.hasError('email', 'email')) {
+            {{ 'Forms.TopicSection.EmailInput.ValidatorEmail' | translate }}
+          }
+        </div>
+      </div>
+    }
+  </fieldset>
+}

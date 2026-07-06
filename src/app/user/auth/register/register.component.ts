@@ -1,10 +1,9 @@
 import { LowerCasePipe, NgClass, NgIf, UpperCasePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { equalValueValidator } from '../equal-value-validator';
 import { VisualPasswordValidatorComponent } from '../visual-password-validator/visual-password-validator.component';
 
@@ -15,7 +14,6 @@ import { SeoService } from '@app/services/seo.service';
 import { UserService } from '@app/services/user.service';
 import { CustomFormControlValidators } from '@app/shared/form-validators/string.validators';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
-import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
 
 /**
  * Register Component
@@ -32,7 +30,6 @@ import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component'
     NotificationsServerComponent,
     NgClass,
     VisualPasswordValidatorComponent,
-    RodoModalComponent,
     UpperCasePipe,
     LowerCasePipe,
     LocalizeRouterPipe,
@@ -60,14 +57,6 @@ export class RegisterComponent implements OnInit {
    */
   showPasswordHint = false;
 
-  rodoModalRef: BsModalRef;
-  @ViewChild('rodoModalTemplate') modalTemplate: TemplateRef<any>;
-
-  /**
-   * Rodo modal trigger (button) reference
-   */
-  @ViewChild('rodoModalTrigger', { static: false }) rodoModalTrigger: ElementRef;
-
   /**
    * @ignore
    */
@@ -76,7 +65,6 @@ export class RegisterComponent implements OnInit {
     private seoService: SeoService,
     private userService: UserService,
     private notificationsService: NotificationsService,
-    private modalService: BsModalService,
   ) {}
 
   /**
@@ -128,15 +116,5 @@ export class RegisterComponent implements OnInit {
       .subscribe(() => {
         this.isRegistered = true;
       });
-  }
-
-  onRodoModalOpen(event) {
-    event.preventDefault();
-    this.rodoModalRef = this.modalService.show(this.modalTemplate, { class: 'modal-lg' });
-  }
-
-  onRodoModalClose() {
-    this.rodoModalRef.hide();
-    (this.rodoModalTrigger.nativeElement as HTMLButtonElement).focus();
   }
 }

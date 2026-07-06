@@ -8,21 +8,18 @@ import {
   TitleCasePipe,
   UpperCasePipe,
 } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription, zip } from 'rxjs';
-
 import { toggleVertically } from '@app/animations';
 import { DatasetRestrictionsComponent } from '@app/pages/dataset/dataset-restrictions/dataset-restrictions.component';
 import { DatasetResultsComponent } from '@app/pages/dataset/dataset-results/dataset-results.component';
-import { FeedbackFormComponent } from '@app/pages/dataset/feedback-form/feedback-form.component';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IDatasetFile, IDatasetRegionsList } from '@app/services/models/dataset-resource';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { ISearchResult } from '@app/services/models/search';
@@ -31,7 +28,6 @@ import { SchemaService } from '@app/services/schema.service';
 import { SeoService } from '@app/services/seo.service';
 import { ApiSourceLinkComponent } from '@app/shared/api-source-link/api-source-link.component';
 import { CollapsibleTextComponent } from '@app/shared/collapsible-text/collapsible-text.component';
-import { FocusTrapDirective } from '@app/shared/directives/focus-trap/focus-trap.directive';
 import { DownloadLinkComponent } from '@app/shared/download-link/download-link.component';
 import { LinkHelper } from '@app/shared/helpers';
 import { ActivatedRouteHelper } from '@app/shared/helpers/activated-route.helper';
@@ -74,8 +70,6 @@ import { selectTarget } from '@app/shared/util';
     DatasetResultsComponent,
     FormsModule,
     LocalizeRouterPipe,
-    FeedbackFormComponent,
-    FocusTrapDirective,
   ],
 })
 export class DatasetResourceComponent implements OnInit, OnDestroy {
@@ -89,7 +83,6 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
     private schemaService: SchemaService,
     private schemaDataService: SchemaDataService,
     private modalService: BsModalService,
-    private featureFlagService: FeatureFlagService,
     @Inject(DOCUMENT) private readonly document: Document,
   ) {}
   /**
@@ -111,21 +104,6 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
    * Self api of dataset resource component
    */
   selfApi: string;
-
-  /**
-   * Modal template reference
-   */
-  @ViewChild('feedbackModalTemplate') modalTemplate: TemplateRef<any>;
-
-  /**
-   * Feedback modal service reference
-   */
-  feedbackModalRef: BsModalRef;
-
-  /**
-   * Feedback sent indicator
-   */
-  feedbackSent = false;
 
   /**
    * Modal including iIframe
@@ -211,6 +189,8 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
    * Router endpoints
    */
   readonly routerEndpoints = RouterEndpoints;
+
+  currentUrl = this.document.location.href;
 
   protected readonly selectTarget = selectTarget;
 
@@ -301,45 +281,6 @@ export class DatasetResourceComponent implements OnInit, OnDestroy {
    */
   downloadResource(title: string, url: string) {
     LinkHelper.downloadResource({ title, url });
-  }
-
-  /**
-   * Sends feedback on feedback form submits
-   * @param feedbackForm
-   */
-  sendFeedback(feedbackForm: NgForm) {
-    if (feedbackForm.valid && feedbackForm.value.feedback) {
-      const payload = `{
-                "data": {
-                    "type": "comment",
-                    "attributes": {
-                        "comment": ${JSON.stringify(feedbackForm.value.feedback)}
-                    }
-                }
-            }`;
-
-      this.datasetService
-        .sendResourceFeedback(this.resource['id'], JSON.parse(payload))
-        .subscribe(() => (this.feedbackSent = true));
-    }
-  }
-
-  /**
-   * Opens feedback modal
-   * @param template
-   */
-  openFeedbackModal(template: TemplateRef<any>) {
-    this.feedbackSent = false;
-    this.feedbackModalRef = this.modalService.show(template);
-  }
-
-  /**
-   * Closes feedback modal
-   */
-  onFeedbackModalClose() {
-    this.feedbackModalRef.hide();
-    this.feedbackModalRef = null;
-    this.feedbackSent = false;
   }
 
   /**

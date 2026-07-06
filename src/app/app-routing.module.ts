@@ -1,5 +1,4 @@
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
@@ -12,6 +11,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { DeclarationComponent } from './pages/declaration/declaration.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { SitemapComponent } from './pages/sitemap/sitemap.component';
 
 import { APP_CONFIG } from '@app/app.config';
@@ -30,7 +30,6 @@ export function localizeLoaderFactory(
   translate: TranslateService,
   location: Location,
   settings: LocalizeRouterSettings,
-  http: HttpClient,
 ) {
   return new ManualParserLoader(translate, location, settings, APP_CONFIG.availableLanguages, 'ROUTES.', '!');
 }
@@ -131,6 +130,11 @@ const routes: Routes = [
         ],
       },
       { path: '!declaration-of-accessibility', component: DeclarationComponent },
+      {
+        path: '!privacy-policy',
+        component: PrivacyPolicyComponent,
+        data: { breadcrumbs: { translationKey: 'Breadcrumbs.PrivacyPolicy' } },
+      },
       {
         path: '!forms',
         children: [

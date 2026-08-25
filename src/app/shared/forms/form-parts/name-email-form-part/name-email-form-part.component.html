@@ -1,5 +1,5 @@
 @if (!hideNameControl() || !hideEmailControl()) {
-  <fieldset formGroupName="nameEmail">
+  <div class="form-part" formGroupName="nameEmail">
     @if (!hideNameControl()) {
       <div class="form-field">
         @let isNameFieldInvalid = nameEmailGroup.controls.name.touched && nameEmailGroup.controls.name.invalid;
@@ -71,5 +71,5 @@
         </div>
       </div>
     }
-  </fieldset>
+  </div>
 }

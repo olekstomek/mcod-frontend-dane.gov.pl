@@ -1,0 +1,122 @@
+<section class="container">
+  @if (shouldShowErrorAlert()) {
+    @for (error of errorMessages(); track error) {
+      <div class="alert alert-danger">{{ error }}</div>
+    } @empty {
+      <div class="alert alert-danger">{{ 'Forms.General.ErrorToast' | translate }}</div>
+    }
+  }
+  @if (!isFormSent()) {
+    <h1 class="form-header">{{ 'Forms.PageHeader.Heading.Contact' | translate }}</h1>
+    <div class="col-md-10 col-lg-8">
+      <div class="form-description">
+        @let needHelp = 'Forms.PageHeader.Paragraph.NeedHelp' | translate;
+        <p>
+          {{ needHelp.text }}
+          <a [routerLink]="['/!knowledgebase', '!useful-materials'] | localize">{{ needHelp.link }}</a>
+        </p>
+        @let cantFindAnswer = 'Forms.PageHeader.Paragraph.CantFindAnswerContact' | translate;
+        <p>
+          {{ cantFindAnswer.text }}
+          <a [href]="'mailto:' + cantFindAnswer.email">{{ cantFindAnswer.email }}</a
+          >{{ cantFindAnswer.dot }}
+        </p>
+      </div>
+      <div class="form-wrapper">
+        <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
+          <fieldset class="form-part">
+            <legend class="fieldset-header fieldset-header--compact">
+              <h2>{{ 'Forms.TopicSection.SectionTitle' | translate }}</h2>
+            </legend>
+            <div class="form-field">
+              @let isTopicInvalid = mainForm.controls.topic.touched && mainForm.controls.topic.invalid;
+              <label for="topic" class="form-label">
+                {{ 'Forms.TopicSection.TopicSelect.Label' | translate }}
+                <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+              </label>
+              <div class="input-wrapper" [class.is-invalid]="isTopicInvalid">
+                <select
+                  id="topic"
+                  formControlName="topic"
+                  class="form-select"
+                  [class.is-invalid]="isTopicInvalid"
+                  [class.value-selected]="mainForm.value.topic">
+                  <option [value]="null" selected hidden>
+                    {{ 'Forms.TopicSection.TopicSelect.Placeholder' | translate }}
+                  </option>
+                  @for (item of topicOptions; track item.value) {
+                    <option [value]="item.value">
+                      {{ item.label | translate }}
+                    </option>
+                  }
+                </select>
+                @if (mainForm.value.topic) {
+                  <button
+                    type="button"
+                    class="input-clear"
+                    aria-label="Wyczyść"
+                    (click)="mainForm.controls.topic.reset()"></button>
+                }
+              </div>
+              <div class="invalid-feedback">
+                @if (mainForm.hasError('required', 'topic')) {
+                  {{ 'Forms.TopicSection.TopicSelect.ValidatorRequired' | translate }}
+                }
+              </div>
+            </div>
+
+            @if (showCategoryField()) {
+              <div class="form-field">
+                @let isCategoryInvalid = mainForm.controls.category.touched && mainForm.controls.category.invalid;
+                <label for="category" class="form-label" [class.text-muted]="mainForm.controls.category.disabled">
+                  {{ 'Forms.TopicSection.CategorySelect.Label' | translate }}
+                  <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+                </label>
+                <div class="input-wrapper" [class.is-invalid]="isCategoryInvalid">
+                  <select
+                    id="category"
+                    formControlName="category"
+                    class="form-select"
+                    [class.is-invalid]="isCategoryInvalid"
+                    [class.value-selected]="mainForm.value.category">
+                    <option [value]="null" selected hidden>
+                      {{ 'Forms.TopicSection.CategorySelect.Placeholder' | translate }}
+                    </option>
+                    @for (item of filteredCategoryOptions(); track item.value) {
+                      <option [value]="item.value">
+                        {{ item.label | translate }}
+                      </option>
+                    }
+                  </select>
+                  @if (mainForm.value.category) {
+                    <button
+                      type="button"
+                      class="input-clear"
+                      aria-label="Wyczyść"
+                      (click)="mainForm.controls.category.reset()"></button>
+                  }
+                </div>
+                <div class="invalid-feedback">
+                  @if (mainForm.hasError('required', 'category')) {
+                    {{ 'Forms.TopicSection.CategorySelect.ValidatorRequired' | translate }}
+                  }
+                </div>
+              </div>
+            }
+          </fieldset>
+          <button type="submit" class="btn btn-primary">
+            {{ 'Forms.Buttons.Send' | translate }}
+          </button>
+        </form>
+      </div>
+    </div>
+  } @else {
+    <app-form-sent-info>
+      <ng-container ngProjectAs="button">
+        <a [routerLink]="['/'] | localize" class="btn btn-primary" role="button">
+          {{ 'Forms.Buttons.GoToHomePage' | translate }}
+        </a>
+      </ng-container>
+    </app-form-sent-info>
+  }
+</section>

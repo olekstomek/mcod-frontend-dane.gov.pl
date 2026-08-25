@@ -43,7 +43,7 @@ export class FeedbackFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly formErrorService = inject(FormErrorService);
 
-  datasetUrl = toSignal(
+  readonly datasetUrl = toSignal(
     this.route.queryParamMap.pipe(
       map((params) => {
         const raw = params.get('datasetUrl');
@@ -53,12 +53,12 @@ export class FeedbackFormComponent implements OnInit {
     { initialValue: null },
   );
 
-  isFormSent = signal(false);
-  isErrorOnSubmit = signal(false);
-  errorMessages = this.formErrorService.errorMessages;
-  shouldShowErrorAlert = computed(() => this.isErrorOnSubmit() && !this.isFormSent());
+  readonly isFormSent = signal(false);
+  readonly isErrorOnSubmit = signal(false);
+  readonly errorMessages = this.formErrorService.errorMessages;
+  readonly shouldShowErrorAlert = computed(() => this.isErrorOnSubmit() && !this.isFormSent());
 
-  mainForm = new FormGroup<FeedbackForm>({
+  readonly mainForm = new FormGroup<FeedbackForm>({
     captcha: new FormControl(null, Validators.required),
   });
 

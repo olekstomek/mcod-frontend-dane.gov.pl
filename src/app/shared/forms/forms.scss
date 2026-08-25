@@ -12,13 +12,29 @@
   font-weight: 700;
 }
 
+.form-description {
+  padding: 10px 0;
+
+  p {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
 .form-wrapper {
   padding: 32px 0 64px;
 }
 
-fieldset {
+.form-part {
   display: flex;
   flex-direction: column;
+}
+
+legend {
+  font-size: unset;
 }
 
 .fieldset-header {
@@ -29,9 +45,13 @@ fieldset {
   }
 
   h2 {
-    margin-bottom: 0.625rem;
     font-size: 1.25rem;
     font-weight: 700;
+    margin: 0;
+
+    &:not(:last-child) {
+      margin-bottom: 0.625rem;
+    }
   }
 
   p {
@@ -81,7 +101,7 @@ fieldset {
   margin-bottom: 1.25rem;
   --bs-form-invalid-color: #{variables.$color-darker-red};
   --bs-form-invalid-border-color: #{variables.$color-darker-red};
-  --bs-border-color: #8a8b8d;
+  --bs-border-color: #{variables.$color-form-grey-2};
 
   > .form-label {
     font-weight: 700;
@@ -110,7 +130,7 @@ fieldset {
     }
 
     &::placeholder {
-      color: #8a8b8d;
+      color: variables.$color-form-grey-2;
     }
 
     &:disabled,
@@ -126,15 +146,20 @@ fieldset {
     background-size: 1.5rem 1.5rem;
     background-position: right 1rem center;
     --bs-form-select-bg-img: var(--form-chevron-img, url('/assets/icomoon/SVG/chevron.svg'));
-    color: #8a8b8d;
+    color: variables.$color-form-grey-2;
 
     &.is-invalid {
       --bs-form-select-bg-icon: none;
     }
 
     &.value-selected {
-      --bs-border-color: #{variables.$color-black};
+      border-color: variables.$color-black;
       color: variables.$color-black;
+    }
+
+    &:disabled {
+      border-color: #e9ecef;
+      background-color: #e9ecef;
     }
 
     option {
@@ -179,7 +204,7 @@ fieldset {
     padding: 0.75rem 3.125rem 0.75rem 1rem;
 
     &:not(.is-invalid):not(:placeholder-shown):not(:disabled):not(:read-only) {
-      --bs-border-color: #{variables.$color-black};
+      border-color: variables.$color-black;
     }
   }
 
@@ -266,7 +291,7 @@ fieldset {
   margin-bottom: 1.25rem;
   --bs-form-invalid-color: #{variables.$color-darker-red};
   --bs-form-invalid-border-color: #{variables.$color-darker-red};
-  --bs-border-color: #8a8b8d;
+  --bs-border-color: #{variables.$color-form-grey-2};
 
   > .form-label {
     font-weight: 700;
@@ -301,7 +326,7 @@ fieldset {
     }
 
     &::placeholder {
-      color: #8a8b8d;
+      color: variables.$color-form-grey-2;
     }
 
     &:disabled,

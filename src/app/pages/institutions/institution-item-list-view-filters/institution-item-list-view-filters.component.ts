@@ -17,6 +17,17 @@ import { InfoTooltipDirective } from '@app/shared/info-tooltip/info-tooltip.dire
   imports: [InfoTooltipDirective, ExpandableMultiselectComponent, DateRangePickerComponent, TranslatePipe],
 })
 export class InstitutionItemListViewFiltersComponent extends ListViewFilterAbstractComponent {
+  updateFrequencySortingOrder: string[] = [
+    'daily',
+    'weekly',
+    'monthly',
+    'quarterly',
+    'everyHalfYear',
+    'yearly',
+    'irregular',
+    'notPlanned',
+    'notApplicable',
+  ];
   /**
    * invokes applyFilter from extended component with institution item filter names
    */

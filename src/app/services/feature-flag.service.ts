@@ -65,20 +65,17 @@ export class FeatureFlagService {
    * @return {boolean}
    */
   private checkStrategies(flag: IFeatureFlag): boolean {
-    for (const strategy of flag.strategies) {
-      let fulfillStrategy;
-      if (strategy.name === StrategiesEnum.defaultStrategy) {
-        fulfillStrategy = true;
-      } else if (strategy.name === StrategiesEnum.envName) {
-        fulfillStrategy = this.environmentNameStrategyService.validateStrategy(strategy.parameters.envNames);
-      } else if (strategy.name === StrategiesEnum.hostName) {
-        fulfillStrategy = this.applicationHostnameStrategyService.validateStrategy(strategy.parameters.hostNames);
+    return flag.strategies.every((strategy) => {
+      switch (strategy.name) {
+        case StrategiesEnum.defaultStrategy:
+          return true;
+        case StrategiesEnum.envName:
+          return this.environmentNameStrategyService.validateStrategy(strategy.parameters.envNames);
+        case StrategiesEnum.hostName:
+          return this.applicationHostnameStrategyService.validateStrategy(strategy.parameters.hostNames);
+        default:
+          return false;
       }
-
-      if (!fulfillStrategy) {
-        return false;
-      }
-    }
-    return true;
+    });
   }
 }

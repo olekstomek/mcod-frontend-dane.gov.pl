@@ -1,173 +1,173 @@
-<ng-container formGroupName="suggestDatasetFields">
-  <fieldset>
-    <div class="form-field">
-      @let isNameOfDataFieldInvalid =
-        suggestDatasetFieldsGroup.controls.nameOfData.touched && suggestDatasetFieldsGroup.controls.nameOfData.invalid;
-      <label for="nameOfData" class="form-label">
-        {{ 'Forms.NewDataSection.NameTypeFieldOfDataInput.Label' | translate }}
-        <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
-      </label>
-      <div class="input-wrapper" [class.is-invalid]="isNameOfDataFieldInvalid">
-        <input
-          id="nameOfData"
-          formControlName="nameOfData"
-          class="form-control"
-          [placeholder]="'Forms.NewDataSection.NameTypeFieldOfDataInput.Placeholder' | translate"
-          [class.is-invalid]="isNameOfDataFieldInvalid" />
-        @if (suggestDatasetFieldsGroup.value.nameOfData) {
-          <button
-            type="button"
-            class="input-clear"
-            aria-label="Wyczyść"
-            (click)="suggestDatasetFieldsGroup.controls.nameOfData.reset()"></button>
-        }
-      </div>
-      <div class="invalid-feedback">
-        @if (suggestDatasetFieldsGroup.hasError('required', 'nameOfData')) {
-          {{ 'Forms.NewDataSection.NameTypeFieldOfDataInput.ValidatorRequired' | translate }}
-        } @else if (suggestDatasetFieldsGroup.hasError('maxlength', 'nameOfData')) {
-          {{
-            'Forms.Validators.ValidatorMaxLength'
-              | translate
-                : {
-                    length: suggestDatasetFieldsGroup.getError('maxlength', 'nameOfData').requiredLength,
-                  }
-          }}
-        }
-      </div>
+<fieldset class="form-part" formGroupName="suggestDatasetFields">
+  <legend class="fieldset-header fieldset-header--compact">
+    <h2>{{ 'Forms.NewDataSection.SectionTitle' | translate }}</h2>
+    <p>{{ 'Forms.NewDataSection.SectionParagraph' | translate }}</p>
+  </legend>
+  <div class="form-field">
+    @let isNameOfDataFieldInvalid =
+      suggestDatasetFieldsGroup.controls.nameOfData.touched && suggestDatasetFieldsGroup.controls.nameOfData.invalid;
+    <label for="nameOfData" class="form-label">
+      {{ 'Forms.NewDataSection.NameTypeFieldOfDataInput.Label' | translate }}
+      <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+    </label>
+    <div class="input-wrapper" [class.is-invalid]="isNameOfDataFieldInvalid">
+      <input
+        id="nameOfData"
+        formControlName="nameOfData"
+        class="form-control"
+        [placeholder]="'Forms.NewDataSection.NameTypeFieldOfDataInput.Placeholder' | translate"
+        [class.is-invalid]="isNameOfDataFieldInvalid" />
+      @if (suggestDatasetFieldsGroup.value.nameOfData) {
+        <button
+          type="button"
+          class="input-clear"
+          aria-label="Wyczyść"
+          (click)="suggestDatasetFieldsGroup.controls.nameOfData.reset()"></button>
+      }
     </div>
-    <div class="form-field">
-      @let isDescriptionFieldInvalid =
-        suggestDatasetFieldsGroup.controls.description.touched &&
-        suggestDatasetFieldsGroup.controls.description.invalid;
-      <label for="description" class="form-label">
-        {{ 'Forms.NewDataSection.DataDescriptionTextarea.Label' | translate }}
-        <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
-      </label>
-      <div class="input-wrapper" [class.is-invalid]="isDescriptionFieldInvalid" appScrollbarWidth>
-        <textarea
-          id="description"
-          formControlName="description"
-          class="form-control"
-          [placeholder]="'Forms.NewDataSection.DataDescriptionTextarea.Placeholder' | translate"
-          rows="5"
-          [class.is-invalid]="isDescriptionFieldInvalid"></textarea>
-        @if (suggestDatasetFieldsGroup.value.description) {
-          <button
-            type="button"
-            class="input-clear input-clear--textarea"
-            aria-label="Wyczyść"
-            (click)="suggestDatasetFieldsGroup.controls.description.reset()"></button>
-        }
-      </div>
-      <div class="field-hint">{{ 'Forms.NewDataSection.DataDescriptionTextarea.Hint' | translate }}</div>
-      <div class="invalid-feedback">
-        @if (suggestDatasetFieldsGroup.hasError('required', 'description')) {
-          {{ 'Forms.NewDataSection.DataDescriptionTextarea.ValidatorRequired' | translate }}
-        } @else if (suggestDatasetFieldsGroup.hasError('maxlength', 'description')) {
-          {{
-            'Forms.Validators.ValidatorMaxLength'
-              | translate
-                : {
-                    length: suggestDatasetFieldsGroup.getError('maxlength', 'description').requiredLength,
-                  }
-          }}
-        }
-      </div>
+    <div class="invalid-feedback">
+      @if (suggestDatasetFieldsGroup.hasError('required', 'nameOfData')) {
+        {{ 'Forms.NewDataSection.NameTypeFieldOfDataInput.ValidatorRequired' | translate }}
+      } @else if (suggestDatasetFieldsGroup.hasError('maxlength', 'nameOfData')) {
+        {{
+          'Forms.Validators.ValidatorMaxLength'
+            | translate
+              : {
+                  length: suggestDatasetFieldsGroup.getError('maxlength', 'nameOfData').requiredLength,
+                }
+        }}
+      }
     </div>
-    <div class="form-field">
-      @let isInstitutionFieldInvalid =
-        suggestDatasetFieldsGroup.controls.institution.touched &&
-        suggestDatasetFieldsGroup.controls.institution.invalid;
-      <label for="institution" [class.is-invalid]="isInstitutionFieldInvalid">
-        {{ 'Forms.NewDataSection.OrganizationNameInput.Label' | translate }}
-      </label>
-      <div class="input-wrapper" [class.is-invalid]="isInstitutionFieldInvalid">
-        <input
-          id="institution"
-          formControlName="institution"
-          class="form-control"
-          [placeholder]="'Forms.NewDataSection.OrganizationNameInput.Placeholder' | translate"
-          [class.is-invalid]="isInstitutionFieldInvalid" />
-        @if (suggestDatasetFieldsGroup.value.institution) {
-          <button
-            type="button"
-            class="input-clear"
-            aria-label="Wyczyść"
-            (click)="suggestDatasetFieldsGroup.controls.institution.reset()"></button>
-        }
-      </div>
-      <div class="invalid-feedback">
-        @if (suggestDatasetFieldsGroup.hasError('maxlength', 'institution')) {
-          {{
-            'Forms.Validators.ValidatorMaxLength'
-              | translate: { length: suggestDatasetFieldsGroup.getError('maxlength', 'institution').requiredLength }
-          }}
-        }
-      </div>
+  </div>
+  <div class="form-field">
+    @let isDescriptionFieldInvalid =
+      suggestDatasetFieldsGroup.controls.description.touched && suggestDatasetFieldsGroup.controls.description.invalid;
+    <label for="description" class="form-label">
+      {{ 'Forms.NewDataSection.DataDescriptionTextarea.Label' | translate }}
+      <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+    </label>
+    <div class="input-wrapper" [class.is-invalid]="isDescriptionFieldInvalid" appScrollbarWidth>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        [placeholder]="'Forms.NewDataSection.DataDescriptionTextarea.Placeholder' | translate"
+        rows="5"
+        [class.is-invalid]="isDescriptionFieldInvalid"></textarea>
+      @if (suggestDatasetFieldsGroup.value.description) {
+        <button
+          type="button"
+          class="input-clear input-clear--textarea"
+          aria-label="Wyczyść"
+          (click)="suggestDatasetFieldsGroup.controls.description.reset()"></button>
+      }
     </div>
-    <div class="form-field">
-      @let isFoundLinkFieldInvalid =
-        suggestDatasetFieldsGroup.controls.foundLink.touched && suggestDatasetFieldsGroup.controls.foundLink.invalid;
-      <label for="foundLink" [class.is-invalid]="isFoundLinkFieldInvalid">
-        {{ 'Forms.NewDataSection.DataLinkInput.Label' | translate }}
-      </label>
-      <div class="input-wrapper" [class.is-invalid]="isFoundLinkFieldInvalid">
-        <input
-          id="foundLink"
-          formControlName="foundLink"
-          class="form-control"
-          [placeholder]="'Forms.NewDataSection.DataLinkInput.Placeholder' | translate"
-          [class.is-invalid]="isFoundLinkFieldInvalid" />
-        @if (suggestDatasetFieldsGroup.value.foundLink) {
-          <button
-            type="button"
-            class="input-clear"
-            aria-label="Wyczyść"
-            (click)="suggestDatasetFieldsGroup.controls.foundLink.reset()"></button>
-        }
-      </div>
-      <div class="invalid-feedback">
-        @if (suggestDatasetFieldsGroup.hasError('maxlength', 'foundLink')) {
-          {{
-            'Forms.Validators.ValidatorMaxLength'
-              | translate: { length: suggestDatasetFieldsGroup.getError('maxlength', 'foundLink').requiredLength }
-          }}
-        } @else if (suggestDatasetFieldsGroup.hasError('pattern', 'foundLink')) {
-          {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
-        }
-      </div>
+    <div class="field-hint">{{ 'Forms.NewDataSection.DataDescriptionTextarea.Hint' | translate }}</div>
+    <div class="invalid-feedback">
+      @if (suggestDatasetFieldsGroup.hasError('required', 'description')) {
+        {{ 'Forms.NewDataSection.DataDescriptionTextarea.ValidatorRequired' | translate }}
+      } @else if (suggestDatasetFieldsGroup.hasError('maxlength', 'description')) {
+        {{
+          'Forms.Validators.ValidatorMaxLength'
+            | translate
+              : {
+                  length: suggestDatasetFieldsGroup.getError('maxlength', 'description').requiredLength,
+                }
+        }}
+      }
     </div>
-    <div class="form-field">
-      @let isPotentialUsesFieldInvalid =
-        suggestDatasetFieldsGroup.controls.potentialUses.touched &&
-        suggestDatasetFieldsGroup.controls.potentialUses.invalid;
-      <label for="potentialUses" [class.is-invalid]="isPotentialUsesFieldInvalid">
-        {{ 'Forms.NewDataSection.PotentialUsesInput.Label' | translate }}
-      </label>
-      <div class="input-wrapper" [class.is-invalid]="isPotentialUsesFieldInvalid">
-        <input
-          id="potentialUses"
-          formControlName="potentialUses"
-          class="form-control"
-          [placeholder]="'Forms.NewDataSection.PotentialUsesInput.Placeholder' | translate"
-          [class.is-invalid]="isPotentialUsesFieldInvalid" />
-        @if (suggestDatasetFieldsGroup.value.potentialUses) {
-          <button
-            type="button"
-            class="input-clear"
-            aria-label="Wyczyść"
-            (click)="suggestDatasetFieldsGroup.controls.potentialUses.reset()"></button>
-        }
-      </div>
-      <div class="invalid-feedback">
-        @if (suggestDatasetFieldsGroup.hasError('maxlength', 'potentialUses')) {
-          {{
-            'Forms.Validators.ValidatorMaxLength'
-              | translate: { length: suggestDatasetFieldsGroup.getError('maxlength', 'potentialUses').requiredLength }
-          }}
-        }
-      </div>
+  </div>
+  <div class="form-field">
+    @let isInstitutionFieldInvalid =
+      suggestDatasetFieldsGroup.controls.institution.touched && suggestDatasetFieldsGroup.controls.institution.invalid;
+    <label for="institution" [class.is-invalid]="isInstitutionFieldInvalid">
+      {{ 'Forms.NewDataSection.OrganizationNameInput.Label' | translate }}
+    </label>
+    <div class="input-wrapper" [class.is-invalid]="isInstitutionFieldInvalid">
+      <input
+        id="institution"
+        formControlName="institution"
+        class="form-control"
+        [placeholder]="'Forms.NewDataSection.OrganizationNameInput.Placeholder' | translate"
+        [class.is-invalid]="isInstitutionFieldInvalid" />
+      @if (suggestDatasetFieldsGroup.value.institution) {
+        <button
+          type="button"
+          class="input-clear"
+          aria-label="Wyczyść"
+          (click)="suggestDatasetFieldsGroup.controls.institution.reset()"></button>
+      }
     </div>
-  </fieldset>
-</ng-container>
+    <div class="invalid-feedback">
+      @if (suggestDatasetFieldsGroup.hasError('maxlength', 'institution')) {
+        {{
+          'Forms.Validators.ValidatorMaxLength'
+            | translate: { length: suggestDatasetFieldsGroup.getError('maxlength', 'institution').requiredLength }
+        }}
+      }
+    </div>
+  </div>
+  <div class="form-field">
+    @let isFoundLinkFieldInvalid =
+      suggestDatasetFieldsGroup.controls.foundLink.touched && suggestDatasetFieldsGroup.controls.foundLink.invalid;
+    <label for="foundLink" [class.is-invalid]="isFoundLinkFieldInvalid">
+      {{ 'Forms.NewDataSection.DataLinkInput.Label' | translate }}
+    </label>
+    <div class="input-wrapper" [class.is-invalid]="isFoundLinkFieldInvalid">
+      <input
+        id="foundLink"
+        formControlName="foundLink"
+        class="form-control"
+        [placeholder]="'Forms.NewDataSection.DataLinkInput.Placeholder' | translate"
+        [class.is-invalid]="isFoundLinkFieldInvalid" />
+      @if (suggestDatasetFieldsGroup.value.foundLink) {
+        <button
+          type="button"
+          class="input-clear"
+          aria-label="Wyczyść"
+          (click)="suggestDatasetFieldsGroup.controls.foundLink.reset()"></button>
+      }
+    </div>
+    <div class="invalid-feedback">
+      @if (suggestDatasetFieldsGroup.hasError('maxlength', 'foundLink')) {
+        {{
+          'Forms.Validators.ValidatorMaxLength'
+            | translate: { length: suggestDatasetFieldsGroup.getError('maxlength', 'foundLink').requiredLength }
+        }}
+      } @else if (suggestDatasetFieldsGroup.hasError('pattern', 'foundLink')) {
+        {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+      }
+    </div>
+  </div>
+  <div class="form-field">
+    @let isPotentialUsesFieldInvalid =
+      suggestDatasetFieldsGroup.controls.potentialUses.touched &&
+      suggestDatasetFieldsGroup.controls.potentialUses.invalid;
+    <label for="potentialUses" [class.is-invalid]="isPotentialUsesFieldInvalid">
+      {{ 'Forms.NewDataSection.PotentialUsesInput.Label' | translate }}
+    </label>
+    <div class="input-wrapper" [class.is-invalid]="isPotentialUsesFieldInvalid">
+      <input
+        id="potentialUses"
+        formControlName="potentialUses"
+        class="form-control"
+        [placeholder]="'Forms.NewDataSection.PotentialUsesInput.Placeholder' | translate"
+        [class.is-invalid]="isPotentialUsesFieldInvalid" />
+      @if (suggestDatasetFieldsGroup.value.potentialUses) {
+        <button
+          type="button"
+          class="input-clear"
+          aria-label="Wyczyść"
+          (click)="suggestDatasetFieldsGroup.controls.potentialUses.reset()"></button>
+      }
+    </div>
+    <div class="invalid-feedback">
+      @if (suggestDatasetFieldsGroup.hasError('maxlength', 'potentialUses')) {
+        {{
+          'Forms.Validators.ValidatorMaxLength'
+            | translate: { length: suggestDatasetFieldsGroup.getError('maxlength', 'potentialUses').requiredLength }
+        }}
+      }
+    </div>
+  </div>
+</fieldset>

@@ -1,4 +1,7 @@
 .cms-raw-text {
+  a, .btn-link {
+    text-decoration: underline;
+  }
   .page-footer__nav ul[role='menu'] {
     padding-left: 0;
     list-style: none;

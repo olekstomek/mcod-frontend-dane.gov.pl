@@ -30,13 +30,13 @@ import { NameEmailForm } from '@app/shared/forms/form-parts/name-email-form-part
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NameEmailFormPartComponent implements OnInit, OnDestroy {
-  private parentFormDirective = inject(FormGroupDirective);
+  private readonly parentFormDirective = inject(FormGroupDirective);
 
-  requiredEmail = input(false, { transform: booleanAttribute });
+  readonly requiredEmail = input(false, { transform: booleanAttribute });
   hideNameControl = input(false, { transform: booleanAttribute });
   hideEmailControl = input(false, { transform: booleanAttribute });
 
-  requiredEmailEffect = effect(() => {
+  private readonly requiredEmailEffect = effect(() => {
     const emailControl = this.nameEmailGroup.controls.email;
     if (this.requiredEmail()) {
       emailControl.addValidators(Validators.required);
@@ -46,7 +46,7 @@ export class NameEmailFormPartComponent implements OnInit, OnDestroy {
     emailControl.updateValueAndValidity();
   });
 
-  nameEmailGroup = new FormGroup<NameEmailForm>({
+  readonly nameEmailGroup = new FormGroup<NameEmailForm>({
     name: new FormControl<string | null>('', [Validators.maxLength(standardInputLength)]),
     email: new FormControl<string | null>('', [Validators.email, Validators.maxLength(emailInputLength)]),
   });

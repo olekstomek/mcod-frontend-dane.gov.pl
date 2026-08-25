@@ -22,7 +22,7 @@ export class UserService extends RestService {
   /**
    * Determines password min length
    */
-  readonly passwordMinLength = 8;
+  readonly passwordMinLength = 14;
   /**
    * Custom Validators - string helper name, error name returned by specified validator
    * Used also by Visual Password Validator

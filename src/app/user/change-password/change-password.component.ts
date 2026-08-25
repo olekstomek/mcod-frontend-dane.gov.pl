@@ -44,7 +44,7 @@ export class ChangePasswordComponent implements OnInit {
   /**
    * Determines password min length
    */
-  passwordMinLength = 8;
+  passwordMinLength = 14;
 
   /**
    * Determines whether to show password hint

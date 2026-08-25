@@ -554,8 +554,15 @@
         "Success": "Your form has been submitted"
       },
       "Paragraph": {
-        "NeedHelp": "Do you need help using the portal or sharing your data? Check our knowledge base.",
-        "CantFindAnswerContact": "If you can't find the answer to your question, please contact us using the form below. You can also send an email to kontakt@dane.gov.pl.",
+        "NeedHelp": {
+          "text": "Do you need help using the portal or sharing your data? Check our",
+          "link": "knowledge base."
+        },
+        "CantFindAnswerContact": {
+          "text": "If you can't find the answer to your question, please contact us using the form below. You can also send an email to",
+          "email": "kontakt@dane.gov.pl",
+          "dot": "."
+        },
         "ContactForm": "Contact us using the form below. You can also send an email to kontakt@dane.gov.pl",
         "ThankContacting": "Thank you for contacting us."
       }
@@ -1570,7 +1577,7 @@
     "AtLeastOneOption": "Please select at least one option",
     "RequiredPassword": "\"Password\" field is required",
     "RequiredPasswordConfirmation": "\"Retype password\" field is required and its content must match password entered before",
-    "PasswordPolicy": "Password should be at least 8 characters long including one uppercase letter, one lowercase letter, number and one special character",
+    "PasswordPolicy": "Password should be at least 14 characters long including one uppercase letter, one lowercase letter, number and one special character",
     "VarPasswordPolicy": "Password should be at least {param, plural, =1 {1 character} other {{param} characters}} long including one uppercase letter, one lowercase letter, number and one special character",
     "PasswordStrength": "Password strength",
     "NotAcceptedFileType": "Not accepted file type",

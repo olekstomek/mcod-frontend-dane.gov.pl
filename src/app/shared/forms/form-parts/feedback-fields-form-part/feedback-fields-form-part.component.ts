@@ -26,18 +26,18 @@ import { datasetOrResourceLinkValidator } from '@app/shared/forms/form-validator
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedbackFieldsFormPartComponent implements OnInit, OnDestroy {
-  private parentFormDirective = inject(FormGroupDirective);
-  private route = inject(ActivatedRoute);
+  private readonly parentFormDirective = inject(FormGroupDirective);
+  private readonly route = inject(ActivatedRoute);
 
-  datasetUrl = toSignal(this.route.queryParamMap.pipe(map((params) => params.get('datasetUrl') ?? '')), {
+  readonly datasetUrl = toSignal(this.route.queryParamMap.pipe(map((params) => params.get('datasetUrl') ?? '')), {
     initialValue: '',
   });
 
-  datasetUrlEffect = effect(() => {
+  private readonly datasetUrlEffect = effect(() => {
     this.feedbackFieldsGroup.patchValue({ link: this.datasetUrl() });
   });
 
-  feedbackFieldsGroup = new FormGroup<FeedbackFieldsForm>({
+  readonly feedbackFieldsGroup = new FormGroup<FeedbackFieldsForm>({
     link: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required, Validators.maxLength(linkInputLength), datasetOrResourceLinkValidator],

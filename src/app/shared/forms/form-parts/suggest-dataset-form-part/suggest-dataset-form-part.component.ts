@@ -27,9 +27,9 @@ import { TranslatePipe } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormSuggestDatasetFieldsComponent implements OnInit, OnDestroy {
-  private parentFormDirective = inject(FormGroupDirective);
+  private readonly parentFormDirective = inject(FormGroupDirective);
 
-  suggestDatasetFieldsGroup = new FormGroup<SuggestDatasetFieldsForm>({
+  readonly suggestDatasetFieldsGroup = new FormGroup<SuggestDatasetFieldsForm>({
     nameOfData: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.maxLength(standardInputLength)],

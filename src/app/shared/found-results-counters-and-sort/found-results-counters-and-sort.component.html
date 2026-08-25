@@ -36,14 +36,12 @@
           </button>
 
           <!-- selected counter -->
-          <span class="" *ngIf="!counter.url && selectedModel === counter.value">
-            <img
-              *ngIf="counter.value !== 'dataset,resource'"
-              [src]="'assets/icomoon/SVG/' + counter.value + 'Black.svg'"
-              alt=""
-              style="vertical-align: top" />
-            {{ counter.label }} ({{ counter.count }})</span
-          >
+          <span class="fw-bold" *ngIf="!counter.url && selectedModel === counter.value">
+            <svg class="icon" style="stroke: none" *ngIf="counter.value !== 'dataset,resource'">
+              <use [attr.href]="'assets/icomoon/SVG/' + counter.value + '.svg#' + counter.value"></use>
+            </svg>
+            {{ counter.label }} ({{ counter.count }})
+          </span>
 
           <!-- comma separator -->
           <ng-container *ngIf="!isLastCounter">,</ng-container>

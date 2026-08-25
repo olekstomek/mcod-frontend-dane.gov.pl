@@ -87,6 +87,12 @@
           &.active {
             background-color: $color-blue-light;
           }
+
+          &:focus,
+          &:focus-visible {
+            outline: 3px solid $color-form-blue;
+            box-shadow: none;
+          }
         }
 
         // < LG
@@ -230,6 +236,12 @@
             &.active {
               font-weight: bold;
               border-bottom-color: map-get($theme-colors, 'primary');
+            }
+
+            &:focus,
+            &:focus-visible {
+              outline: 3px solid $color-form-blue;
+              box-shadow: none;
             }
           }
         }

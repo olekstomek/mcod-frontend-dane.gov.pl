@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { SeoService } from '@app/services/seo.service';
 import { FormErrorService } from '@app/shared/forms/services/form-error.service';
 import { ScrollToFirstErrorDirective } from '@app/shared/forms/directives/scroll-to-first-error.directive';
+import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 
 @Component({
   selector: 'app-po-co-to-form',
@@ -22,6 +23,7 @@ import { ScrollToFirstErrorDirective } from '@app/shared/forms/directives/scroll
     FormSentInfoComponent,
     RouterLink,
     ScrollToFirstErrorDirective,
+    LocalizeRouterPipe,
   ],
   templateUrl: './po-co-to-form.component.html',
   styleUrl: '../../forms.scss',
@@ -33,12 +35,12 @@ export class PoCoToFormComponent implements OnInit {
   private readonly seoService = inject(SeoService);
   private readonly formErrorService = inject(FormErrorService);
 
-  isFormSent = signal(false);
-  isErrorOnSubmit = signal(false);
-  errorMessages = this.formErrorService.errorMessages;
-  shouldShowErrorAlert = computed(() => this.isErrorOnSubmit() && !this.isFormSent());
+  readonly isFormSent = signal(false);
+  readonly isErrorOnSubmit = signal(false);
+  readonly errorMessages = this.formErrorService.errorMessages;
+  readonly shouldShowErrorAlert = computed(() => this.isErrorOnSubmit() && !this.isFormSent());
 
-  mainForm = new FormGroup<PoCoToForm>({});
+  readonly mainForm = new FormGroup<PoCoToForm>({});
 
   ngOnInit() {
     this.seoService.setPageTitleByTranslationKey(['Forms.PageHeader.Heading.PoCoTo']);

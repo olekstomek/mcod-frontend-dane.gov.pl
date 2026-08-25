@@ -69,7 +69,7 @@ interface IComponentOptions<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PoCoToFieldsFormPartComponent implements OnInit {
-  private parentFormDirective = inject(FormGroupDirective);
+  private readonly parentFormDirective = inject(FormGroupDirective);
   private readonly cmsService = inject(CmsService);
 
   protected readonly PoCoToCategory = PoCoToCategory;
@@ -78,25 +78,25 @@ export class PoCoToFieldsFormPartComponent implements OnInit {
   protected readonly illustrativeGraphicsMaxWidth = illustrativeGraphicsMaxWidth;
   protected readonly illustrativeGraphicsMaxHeight = illustrativeGraphicsMaxHeight;
 
-  cmsPageInfo$ = this.cmsService
+  readonly cmsPageInfo$ = this.cmsService
     .getSimplePage(CmsHardcodedPages.APPLICATION_DATA_PROCESSING_INFO)
     .pipe(map((content) => content.body));
-  cmsPageConsent$ = this.cmsService
+  readonly cmsPageConsent$ = this.cmsService
     .getSimplePage(CmsHardcodedPages.APPLICATION_DATA_PROCESSING_CONSENT)
     .pipe(map((content) => content.body));
 
-  categoryOptions: IComponentOptions<PoCoToCategory>[] = [
+  readonly categoryOptions: IComponentOptions<PoCoToCategory>[] = [
     { label: 'Forms.PoCoToSection.CategorySelect.Option1', value: PoCoToCategory.App },
     { label: 'Forms.PoCoToSection.CategorySelect.Option2', value: PoCoToCategory.Www },
     { label: 'Forms.PoCoToSection.CategorySelect.Option3', value: PoCoToCategory.Other },
   ];
 
-  licenseTypeOptions: IComponentOptions<PoCoToLicenseType>[] = [
+  readonly licenseTypeOptions: IComponentOptions<PoCoToLicenseType>[] = [
     { label: 'Forms.PoCoToSection.LicenseTypeRadio.Option1', value: PoCoToLicenseType.Free },
     { label: 'Forms.PoCoToSection.LicenseTypeRadio.Option2', value: PoCoToLicenseType.Commercial },
   ];
 
-  poCoToFieldsGroup = new FormGroup<PoCoToFieldsForm>({
+  readonly poCoToFieldsGroup = new FormGroup<PoCoToFieldsForm>({
     category: new FormControl(null, Validators.required),
     name: new FormControl('', {
       nonNullable: true,

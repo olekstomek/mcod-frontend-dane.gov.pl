@@ -11,10 +11,6 @@
     <div class="form-wrapper col-md-10 col-lg-8">
       <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
         <app-name-email-form-part hideNameControl requiredEmail />
-        <div class="fieldset-header">
-          <h2>{{ 'Forms.PoCoToSection.SectionTitle' | translate }}</h2>
-          <p>{{ 'Forms.PoCoToSection.SectionParagraph' | translate }}</p>
-        </div>
         <app-po-co-to-fields-form-part />
         <button type="submit" class="btn btn-primary">
           {{ 'Forms.Buttons.Send' | translate }}
@@ -24,7 +20,7 @@
   } @else {
     <app-form-sent-info>
       <ng-container ngProjectAs="button">
-        <a [routerLink]="['/showcase']" class="btn btn-primary" role="button">
+        <a [routerLink]="['/!showcase'] | localize" class="btn btn-primary" role="button">
           {{ 'Forms.Buttons.GoToPoCoToPage' | translate }}
         </a>
       </ng-container>

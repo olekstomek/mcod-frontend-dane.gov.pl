@@ -11,10 +11,6 @@
     <div class="form-wrapper col-md-10 col-lg-8">
       <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
         <app-name-email-form-part hideNameControl hideEmailControl />
-        <div class="fieldset-header fieldset-header--compact">
-          <h2>{{ 'Forms.NewDataSection.SectionTitle' | translate }}</h2>
-          <p>{{ 'Forms.NewDataSection.SectionParagraph' | translate }}</p>
-        </div>
         <app-suggest-dataset-form-part />
         <div class="fieldset-header">
           @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
@@ -37,7 +33,7 @@
   } @else {
     <app-form-sent-info>
       <ng-container ngProjectAs="button">
-        <a [routerLink]="['/dataset']" class="btn btn-primary" role="button">
+        <a [routerLink]="['/!dataset'] | localize" class="btn btn-primary" role="button">
           {{ 'Forms.Buttons.GoToDataPage' | translate }}
         </a>
       </ng-container>

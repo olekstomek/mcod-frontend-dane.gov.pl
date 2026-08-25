@@ -157,6 +157,7 @@
                 class="btn"
                 (click)="useLanguage('pl')"
                 [ngClass]="{ active: currentLang === 'pl' }"
+                [class.btn-link]="currentLang !== 'pl'"
                 [attr.aria-current]="currentLang === 'pl'"
                 lang="pl">
                 <span aria-hidden="true">PL</span>
@@ -172,6 +173,7 @@
                 class="btn"
                 (click)="useLanguage('en')"
                 [ngClass]="{ active: currentLang === 'en' }"
+                [class.btn-link]="currentLang !== 'en'"
                 [attr.aria-current]="currentLang === 'en'"
                 lang="en">
                 <span aria-hidden="true">EN</span>

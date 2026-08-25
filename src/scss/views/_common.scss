@@ -6,6 +6,16 @@ button:focus,
   outline: $outline;
 }
 
+.outline-light {
+  button:focus,
+  .btn:focus,
+  .page-link:focus,
+  .form-control:focus,
+  :focus {
+    outline: $outline-light;
+  }
+}
+
 .navbar,
 main:focus,
 .page-footer {

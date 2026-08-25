@@ -554,8 +554,15 @@
         "Success": "Twój formularz został wysłany"
       },
       "Paragraph": {
-        "NeedHelp": "Potrzebujesz pomocy w korzystaniu z portalu lub udostępnianiu w nim danych? Sprawdź informacje w naszej bazie wiedzy.",
-        "CantFindAnswerContact": "Jeśli nie znajdziesz odpowiedzi na swoje pytanie, skontaktuj się z nami przez poniższy formularz. Możesz też wysłać wiadomość na adres e-mail kontakt@dane.gov.pl",
+        "NeedHelp": {
+          "text": "Potrzebujesz pomocy w korzystaniu z portalu lub udostępnianiu w nim danych? Sprawdź informacje w naszej",
+          "link": "bazie wiedzy."
+        },
+        "CantFindAnswerContact": {
+          "text": "Jeśli nie znajdziesz odpowiedzi na swoje pytanie, skontaktuj się z nami przez poniższy formularz. Możesz też wysłać wiadomość na adres e-mail",
+          "email": "kontakt@dane.gov.pl",
+          "dot": "."
+        },
         "ContactForm": "Skontaktuj się z nami przez formularz. Możesz też wysłać wiadomość na adres e-mail kontakt@dane.gov.pl",
         "ThankContacting": "Dziękujemy za kontakt."
       }
@@ -1573,7 +1580,7 @@
     "AtLeastOneOption": "Zaznacz przynajmniej jedną odpowiedź",
     "RequiredPassword": "Pole \"Hasło\" jest wymagane",
     "RequiredPasswordConfirmation": "Pole \"Powtórz hasło\" jest wymagane i jego wartość musi być zgodna z wcześniej wprowadzonym hasłem.",
-    "PasswordPolicy": "Hasło powinno zawierać co najmniej 8 znaków, jedną dużą literę, jedną małą, liczbę i znak specjalny",
+    "PasswordPolicy": "Hasło powinno zawierać co najmniej 14 znaków, jedną dużą literę, jedną małą, liczbę i znak specjalny",
     "VarPasswordPolicy": "Hasło powinno zawierać co najmniej {param, plural, =1 {1 znak} few {{param} znaki} other {{param} znaków}}, jedną dużą literę, jedną małą, liczbę i znak specjalny",
     "PasswordStrength": "Siła hasła",
     "NotAcceptedFileType": "Niepoprawny format pliku",

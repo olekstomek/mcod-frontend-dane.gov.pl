@@ -33,6 +33,7 @@ interface IComponentOptions {
 @Component({
   selector: 'app-found-results-counters-and-sort',
   templateUrl: './found-results-counters-and-sort.component.html',
+  styleUrl: './found-results-counters-and-sort.component.scss',
   standalone: true,
   imports: [NgIf, InfoTooltipDirective, NgFor, RouterLink, FormsModule, TranslatePipe],
 })

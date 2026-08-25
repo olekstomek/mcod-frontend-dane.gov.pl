@@ -1,5 +1,9 @@
 <ng-container formGroupName="poCoToFields">
-  <fieldset>
+  <fieldset class="form-part">
+    <legend class="fieldset-header">
+      <h2>{{ 'Forms.PoCoToSection.SectionTitle' | translate }}</h2>
+      <p>{{ 'Forms.PoCoToSection.SectionParagraph' | translate }}</p>
+    </legend>
     <div class="form-field">
       @let isCategoryFieldInvalid =
         poCoToFieldsGroup.controls.category.touched && poCoToFieldsGroup.controls.category.invalid;
@@ -108,7 +112,7 @@
       </div>
 
       @if (poCoToFieldsGroup.value.category === PoCoToCategory.App) {
-        <fieldset class="form-field form-field--check">
+        <fieldset class="form-part form-field form-field--check">
           <legend class="form-label">
             {{ 'Forms.PoCoToSection.ApplicationTypeCheckbox.Label' | translate }}
           </legend>
@@ -367,7 +371,7 @@
         poCoToFieldsGroup.value.category === PoCoToCategory.App ||
         poCoToFieldsGroup.value.category === PoCoToCategory.Www
       ) {
-        <fieldset class="form-field form-field--check">
+        <fieldset class="form-part form-field form-field--check">
           @let isLicenseFieldInvalid =
             poCoToFieldsGroup.controls.licenseType.touched && poCoToFieldsGroup.controls.licenseType.invalid;
           <legend class="form-label" [class.is-invalid]="isLicenseFieldInvalid">
@@ -580,10 +584,10 @@
       </div>
 
       <div class="form-field-group form-field-group--large-space form-group" formArrayName="datasets">
-        <label class="form-label" id="datasets">
+        <p class="form-label" id="datasets">
           {{ 'Forms.PoCoToSection.DatasetMultiselect.Label' | translate }}
           <small>{{ 'Forms.PoCoToSection.DatasetMultiselect.Paragraph' | translate }}</small>
-        </label>
+        </p>
 
         @for (datasetControl of poCoToFieldsGroup.controls.datasets.controls; track $index) {
           <div class="input-group has-validation" [formGroup]="datasetControl">
@@ -619,10 +623,10 @@
       </div>
 
       <div class="form-field-group form-group" formArrayName="externalDatasets">
-        <label class="form-label" id="external-datasets">
+        <p class="form-label" id="external-datasets">
           {{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Label' | translate }}
           <small>{{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Paragraph' | translate }}</small>
-        </label>
+        </p>
 
         @for (externalDatasetControl of poCoToFieldsGroup.controls.externalDatasets.controls; track $index) {
           <div class="input-group has-validation" [formGroup]="externalDatasetControl">
@@ -683,10 +687,10 @@
       </div>
     }
   </fieldset>
-  <div class="fieldset-header">
-    <h2>{{ 'Forms.ConsentsSection.SectionTitle' | translate }}</h2>
-  </div>
-  <fieldset class="form-field form-field--check">
+  <fieldset class="form-part form-field form-field--check">
+    <legend class="fieldset-header">
+      <h2>{{ 'Forms.ConsentsSection.SectionTitle' | translate }}</h2>
+    </legend>
     <div class="form-check">
       @let isPersonalDataAcceptedFieldInvalid =
         poCoToFieldsGroup.controls.personalDataAccepted.invalid &&

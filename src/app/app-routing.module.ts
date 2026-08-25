@@ -17,6 +17,8 @@ import { SitemapComponent } from './pages/sitemap/sitemap.component';
 import { APP_CONFIG } from '@app/app.config';
 import { MainLayoutComponent } from '@app/layout/main-layout/main-layout.component';
 import { PageNotFoundComponent } from '@app/page-not-found/page-not-found.component';
+import { ContactFormComponent } from '@app/shared/forms/form-pages/contact-form/contact-form.component';
+import { contactPageCanMatch } from '@app/shared/forms/form-pages/contact-form/contact-page.config';
 import { PreviewCmsComponent } from '@app/pages/preview-cms/preview-cms.component';
 import { RegulationsComponent } from '@app/pages/regulations/regulations.component';
 import { SearchResultsComponent } from '@app/pages/search-results/search-results.component';
@@ -134,6 +136,12 @@ const routes: Routes = [
         path: '!privacy-policy',
         component: PrivacyPolicyComponent,
         data: { breadcrumbs: { translationKey: 'Breadcrumbs.PrivacyPolicy' } },
+      },
+      {
+        path: '!contact',
+        component: ContactFormComponent,
+        canMatch: [contactPageCanMatch],
+        data: { breadcrumbs: { translationKey: 'Forms.PageHeader.Heading.Contact' } },
       },
       {
         path: '!forms',

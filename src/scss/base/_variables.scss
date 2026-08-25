@@ -16,8 +16,7 @@ $color-darker-red: #a91e2c;
 
 $color-blue-light: #0865c9;
 $color-blue-dark: #0f2648;
-$color-outline: #50a6ff;
-$color-highlight: #b0d5fe;
+$color-highlight: #d6eafb;
 
 $color-grey-dark: #5e5e5e;
 
@@ -38,6 +37,7 @@ $color-hover-2: #05407f;
 $color-gov-primary: #0052a5;
 
 $color-form-blue: #0052a4;
+$color-form-grey-2: #88898b;
 
 // font size
 $heading-lg-size: 2.5rem;
@@ -54,7 +54,8 @@ $collapsible-sidebar-spacing: 15px;
 $collapsible-sidebar-transition-duration: 0.5s;
 
 // outline border
-$outline: 3px solid $color-outline;
+$outline: 3px solid $color-form-blue;
+$outline-light: 3px solid $color-white;
 
 $primary: #0865c9;
 

@@ -92,7 +92,8 @@
     [sortOptions]="true"
     [ariaLabel]="'update-frequency-filter-label'"
     (selectedChange)="onSelectedChange(FiltersNames.UPDATE_FREQUENCY, $event)"
-    (applyFilter)="applyFilter()">
+    (applyFilter)="applyFilter()"
+    [sortingOrder]="updateFrequencySortingOrder">
   </app-expandable-multiselect>
 
   <!-- Resource type -->

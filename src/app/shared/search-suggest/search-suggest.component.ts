@@ -61,6 +61,7 @@ import { ObjectHelper } from '@app/shared/helpers';
 @Component({
   selector: 'app-search-suggest',
   templateUrl: './search-suggest.component.html',
+  styleUrl: './search-suggest.component.scss',
   animations: [toggleVertically],
   standalone: true,
   imports: [

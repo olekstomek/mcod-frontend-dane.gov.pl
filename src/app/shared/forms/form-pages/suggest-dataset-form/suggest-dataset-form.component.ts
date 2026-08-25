@@ -37,12 +37,12 @@ export class SuggestDatasetFormComponent implements OnInit {
   private readonly seoService = inject(SeoService);
   private readonly formErrorService = inject(FormErrorService);
 
-  isFormSent = signal(false);
-  isErrorOnSubmit = signal(false);
-  errorMessages = this.formErrorService.errorMessages;
-  shouldShowErrorAlert = computed(() => this.isErrorOnSubmit() && !this.isFormSent());
+  readonly isFormSent = signal(false);
+  readonly isErrorOnSubmit = signal(false);
+  readonly errorMessages = this.formErrorService.errorMessages;
+  readonly shouldShowErrorAlert = computed(() => this.isErrorOnSubmit() && !this.isFormSent());
 
-  mainForm = new FormGroup<SuggestDatasetForm>({
+  readonly mainForm = new FormGroup<SuggestDatasetForm>({
     captcha: new FormControl(null, Validators.required),
   });
 

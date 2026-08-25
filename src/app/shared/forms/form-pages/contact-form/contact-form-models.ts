@@ -1,0 +1,68 @@
+import { FormControl } from '@angular/forms';
+
+export enum ContactTopic {
+  Data = 'DATA',
+  Portal = 'PORTAL',
+  PersonalData = 'PERSONAL_DATA',
+  LegalRegulations = 'LEGAL_REGULATIONS',
+  Other = 'OTHER',
+}
+
+export enum ContactCategory {
+  PortalFeatures = 'PORTAL_FEATURES',
+  CreatingProfiles = 'CREATING_PROFILES',
+  GrantingPermissions = 'GRANTING_PERMISSIONS',
+  PortalErrors = 'PORTAL_ERRORS',
+  PortalOther = 'PORTAL_OTHER',
+  SharingData = 'SHARING_DATA',
+  SuggestData = 'SUGGEST_DATA',
+  SuggestReuse = 'SUGGEST_REUSE',
+  DataFeedback = 'DATA_FEEDBACK',
+  DataOpenness = 'DATA_OPENNESS',
+  HVD = 'HVD',
+  DGA = 'DGA',
+  DataOther = 'DATA_OTHER',
+}
+
+export interface ContactSelectOption<T> {
+  value: T;
+  label: string;
+}
+
+export const TOPIC_OPTIONS: ContactSelectOption<ContactTopic>[] = [
+  { value: ContactTopic.Data, label: 'Forms.TopicSection.TopicSelect.Option1' },
+  { value: ContactTopic.Portal, label: 'Forms.TopicSection.TopicSelect.Option2' },
+  { value: ContactTopic.PersonalData, label: 'Forms.TopicSection.TopicSelect.Option3' },
+  { value: ContactTopic.LegalRegulations, label: 'Forms.TopicSection.TopicSelect.Option4' },
+  { value: ContactTopic.Other, label: 'Forms.TopicSection.TopicSelect.Option5' },
+];
+
+export const CATEGORY_OPTIONS: Partial<Record<ContactTopic, ContactSelectOption<ContactCategory>[]>> = {
+  [ContactTopic.Data]: [
+    { value: ContactCategory.SharingData, label: 'Forms.TopicSection.CategorySelect.Option6' },
+    { value: ContactCategory.SuggestData, label: 'Forms.TopicSection.CategorySelect.Option7' },
+    { value: ContactCategory.SuggestReuse, label: 'Forms.TopicSection.CategorySelect.Option8' },
+    { value: ContactCategory.DataFeedback, label: 'Forms.TopicSection.CategorySelect.Option9' },
+    { value: ContactCategory.DataOpenness, label: 'Forms.TopicSection.CategorySelect.Option10' },
+    { value: ContactCategory.HVD, label: 'Forms.TopicSection.CategorySelect.Option11' },
+    { value: ContactCategory.DGA, label: 'Forms.TopicSection.CategorySelect.Option12' },
+    { value: ContactCategory.DataOther, label: 'Forms.TopicSection.CategorySelect.Option13' },
+  ],
+  [ContactTopic.Portal]: [
+    { value: ContactCategory.PortalFeatures, label: 'Forms.TopicSection.CategorySelect.Option1' },
+    { value: ContactCategory.CreatingProfiles, label: 'Forms.TopicSection.CategorySelect.Option2' },
+    { value: ContactCategory.GrantingPermissions, label: 'Forms.TopicSection.CategorySelect.Option3' },
+    { value: ContactCategory.PortalErrors, label: 'Forms.TopicSection.CategorySelect.Option4' },
+    { value: ContactCategory.PortalOther, label: 'Forms.TopicSection.CategorySelect.Option5' },
+  ],
+};
+
+export interface ContactForm {
+  topic: FormControl<ContactTopic | null>;
+  category: FormControl<ContactCategory | null>;
+}
+
+export interface ContactFormValue {
+  topic: ContactTopic | null;
+  category: ContactCategory | null;
+}

@@ -10,8 +10,8 @@
     <h1 class="form-header">{{ 'Forms.PageHeader.Heading.Feedback' | translate }}</h1>
     <div class="form-wrapper col-md-10 col-lg-8">
       <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
-        <app-name-email-form-part hideNameControl hideEmailControl />
-        <app-feedback-fields-form-part />
+        <app-name-email-form-part />
+        <app-feedback-fields-form-part [preselectedLink]="datasetUrl()" />
         <div class="fieldset-header">
           @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
           <p>
@@ -33,8 +33,8 @@
   } @else {
     <app-form-sent-info>
       <ng-container ngProjectAs="button">
-        @if (datasetUrl()) {
-          <a [routerLink]="datasetUrl()" class="btn btn-primary" role="button">
+        @if (datasetPathname()) {
+          <a [routerLink]="datasetPathname()" class="btn btn-primary" role="button">
             {{ 'Forms.Buttons.GoToPreviousPage' | translate }}
           </a>
         } @else {

@@ -31,6 +31,18 @@ describe('HeaderComponent', () => {
   let cmsService: CmsService;
   let userService: UserService;
   let router: Router;
+  const originalLocation = window.location;
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { href: '' },
+    });
+  });
+
+  afterAll(() => {
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

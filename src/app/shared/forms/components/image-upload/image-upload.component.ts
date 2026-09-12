@@ -2,6 +2,7 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   ElementRef,
   forwardRef,
@@ -60,6 +61,11 @@ export class ImageUploadComponent implements ControlValueAccessor {
   readonly maxHeight = input(200, { transform: numberAttribute });
   readonly maxWidth = input(200, { transform: numberAttribute });
   readonly errorMessage = input('');
+  readonly errorId = input('');
+
+  readonly labelId = computed(
+    () => 'image-upload-label-' + this.labelTranslationKey().replace(/[.\s]/g, '-').toLowerCase(),
+  );
 
   protected readonly isInvalid = signal(false);
 

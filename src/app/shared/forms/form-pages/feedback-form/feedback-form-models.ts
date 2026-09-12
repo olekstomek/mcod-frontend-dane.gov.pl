@@ -11,10 +11,9 @@ export interface FeedbackForm {
   captcha: FormControl<string | null>;
 }
 
-export interface FeedbackFormValue {
+export interface FeedbackSubmitData {
   nameEmail?: NameEmailFormValue;
   feedbackFields?: FeedbackFieldsFormValue;
-  captcha: string | null;
 }
 
 export interface FeedbackPayload {

@@ -26,7 +26,9 @@ import { FeedbackPayload } from '@app/shared/forms/form-pages/feedback-form/feed
 /**
  *  Dataset services that handles communication with Dataset API `\/datasets`
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DatasetService extends RestService {
   apiModel = ApiModel;
   /**

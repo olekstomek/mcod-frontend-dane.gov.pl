@@ -144,7 +144,10 @@ describe('CmsService', () => {
   });
 
   it('should call displayCmsErrorMessage function', () => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     expect(service.displayCmsErrorMessage('https://test.pl', 'test')).toBeFalsy();
+    expect(warnSpy).toHaveBeenCalledWith('Page "https://test.pl" does not exist in CMS system: test');
+    warnSpy.mockRestore();
   });
 
   it('should call getCredentials function', () => {

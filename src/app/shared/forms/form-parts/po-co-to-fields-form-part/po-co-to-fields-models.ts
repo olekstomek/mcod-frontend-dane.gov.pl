@@ -27,7 +27,6 @@ export interface PoCoToFieldsForm {
   externalDatasets: FormArray<FormGroup<ExternalDatasetForm | null>>;
   tosAccepted: FormControl<boolean>;
   personalDataAccepted: FormControl<boolean>;
-  captcha: FormControl<string | null>;
 }
 
 export interface PoCoToFieldsFormValue {
@@ -46,7 +45,6 @@ export interface PoCoToFieldsFormValue {
   externalDatasets: ExternalDatasetFormValue[];
   tosAccepted: boolean;
   personalDataAccepted: boolean;
-  captcha: string | null;
 }
 
 export interface MobileAppForm {

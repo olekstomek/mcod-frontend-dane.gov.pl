@@ -1,5 +1,5 @@
 import { Component, inject, signal, ChangeDetectionStrategy, OnInit, computed } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NameEmailFormPartComponent } from '@app/shared/forms/form-parts/name-email-form-part/name-email-form-part.component';
 import { PoCoToFieldsFormPartComponent } from '@app/shared/forms/form-parts/po-co-to-fields-form-part/po-co-to-fields-form-part.component';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import { SeoService } from '@app/services/seo.service';
 import { FormErrorService } from '@app/shared/forms/services/form-error.service';
 import { ScrollToFirstErrorDirective } from '@app/shared/forms/directives/scroll-to-first-error.directive';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
+import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
 
 @Component({
   selector: 'app-po-co-to-form',
@@ -24,6 +25,7 @@ import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
     RouterLink,
     ScrollToFirstErrorDirective,
     LocalizeRouterPipe,
+    MathCaptchaComponent,
   ],
   templateUrl: './po-co-to-form.component.html',
   styleUrl: '../../forms.scss',
@@ -40,7 +42,9 @@ export class PoCoToFormComponent implements OnInit {
   readonly errorMessages = this.formErrorService.errorMessages;
   readonly shouldShowErrorAlert = computed(() => this.isErrorOnSubmit() && !this.isFormSent());
 
-  readonly mainForm = new FormGroup<PoCoToForm>({});
+  readonly mainForm = new FormGroup<PoCoToForm>({
+    captcha: new FormControl<string | null>(null, Validators.required),
+  });
 
   ngOnInit() {
     this.seoService.setPageTitleByTranslationKey(['Forms.PageHeader.Heading.PoCoTo']);

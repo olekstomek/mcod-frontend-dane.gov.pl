@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, effect } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, effect, input } from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
@@ -10,9 +10,6 @@ import {
 import { FeedbackFieldsForm } from '@app/shared/forms/form-parts/feedback-fields-form-part/feedback-fields-models';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ScrollbarWidthDirective } from '@app/shared/forms/directives/scrollbar-width.directive';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
 import { linkInputLength, maxDescriptionLength } from '@app/shared/forms/form-variables';
 import { datasetOrResourceLinkValidator } from '@app/shared/forms/form-validators';
 
@@ -27,14 +24,14 @@ import { datasetOrResourceLinkValidator } from '@app/shared/forms/form-validator
 })
 export class FeedbackFieldsFormPartComponent implements OnInit, OnDestroy {
   private readonly parentFormDirective = inject(FormGroupDirective);
-  private readonly route = inject(ActivatedRoute);
 
-  readonly datasetUrl = toSignal(this.route.queryParamMap.pipe(map((params) => params.get('datasetUrl') ?? '')), {
-    initialValue: '',
-  });
+  readonly preselectedLink = input<string | null>(null);
 
-  private readonly datasetUrlEffect = effect(() => {
-    this.feedbackFieldsGroup.patchValue({ link: this.datasetUrl() });
+  private readonly preselectedLinkEffect = effect(() => {
+    const link = this.preselectedLink();
+    if (link) {
+      this.feedbackFieldsGroup.patchValue({ link });
+    }
   });
 
   readonly feedbackFieldsGroup = new FormGroup<FeedbackFieldsForm>({

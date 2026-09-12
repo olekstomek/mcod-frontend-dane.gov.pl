@@ -1,6 +1,6 @@
 {
   "name": "od2025",
-  "version": "3.3.2",
+  "version": "3.4.0",
   "license": "MIT",
   "scripts": {
     "start": "ng serve --configuration dev",
@@ -13,7 +13,7 @@
     "lint:fix": "ng lint --fix",
     "format": "prettier --write \"**/*.{ts,js,html,scss,css,json}\"",
     "format:lint": "npm run format && npm run lint:fix",
-    "test": "jest",
+    "test": "jest --maxWorkers=4",
     "test:watch": "jest --watch",
     "coverage": "ng test --watch=false --coverage",
     "madge:circular": "madge --circular --extensions ts src/ --ts-config tsconfig.json",

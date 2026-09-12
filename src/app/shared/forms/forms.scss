@@ -1,6 +1,25 @@
 @use 'base/variables';
 @use './bootstrap-overrides';
 
+@mixin form-message-icon($icon-url, $color) {
+  align-items: flex-start;
+  column-gap: 0.3125rem;
+
+  &::before {
+    content: '';
+    flex-shrink: 0;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.125rem;
+    background-color: $color;
+    mask-image: url($icon-url);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+}
+
 .container {
   padding-top: 30px;
 }
@@ -193,6 +212,10 @@ legend {
     .form-check-label {
       margin: 0;
     }
+
+    .invalid-feedback {
+      @include form-message-icon('/assets/icomoon/SVG/form-error.svg', var(--bs-form-invalid-color));
+    }
   }
 
   & input.form-control,
@@ -252,10 +275,13 @@ legend {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
+    display: flex;
+    @include form-message-icon('/assets/icomoon/SVG/form-info.svg', currentColor);
   }
 
   > .invalid-feedback {
     margin-top: 0.3125rem;
+    @include form-message-icon('/assets/icomoon/SVG/form-error.svg', var(--bs-form-invalid-color));
   }
 
   &--large-space {
@@ -337,6 +363,15 @@ legend {
     }
   }
 
+  .field-hint {
+    display: flex;
+    @include form-message-icon('/assets/icomoon/SVG/form-info.svg', currentColor);
+  }
+
+  .invalid-feedback {
+    @include form-message-icon('/assets/icomoon/SVG/form-error.svg', var(--bs-form-invalid-color));
+  }
+
   &--large-space {
     margin-bottom: 2rem;
   }
@@ -348,6 +383,11 @@ legend {
   &--invalid {
     color: var(--bs-form-invalid-color, #{variables.$color-darker-red});
   }
+}
+
+.form-field .is-invalid ~ .invalid-feedback,
+.form-field-group .is-invalid ~ .invalid-feedback {
+  display: flex;
 }
 
 :host-context(.black-white) {
@@ -452,14 +492,15 @@ legend {
         color: var(--contrast-placeholder);
         opacity: 1;
       }
+    }
 
-      &:disabled,
-      &:read-only {
-        --bs-border-color: unset;
-        background-color: unset;
-        border-style: dashed;
-        border-width: 2px;
-      }
+    .form-control:disabled,
+    .form-control:read-only,
+    .form-select:disabled {
+      --bs-border-color: unset;
+      background-color: unset;
+      border-style: dashed;
+      border-width: 2px;
     }
   }
 }

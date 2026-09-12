@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { DatasetService } from '@app/services/dataset.service';
 import {
-  SuggestDatasetFormValue,
+  SuggestDatasetSubmitData,
   SuggestDatasetPayload,
 } from '@app/shared/forms/form-pages/suggest-dataset-form/suggest-dataset-form-model';
 import { Observable } from 'rxjs';
@@ -12,11 +12,11 @@ import { removeEmptyFields } from '@app/shared/forms/utils/remove-empty-fields';
 export class SuggestDatasetFormFacade {
   private readonly datasetService = inject(DatasetService);
 
-  submitForm(formValue: SuggestDatasetFormValue): Observable<ApiResponse> {
+  submitForm(formValue: SuggestDatasetSubmitData): Observable<ApiResponse> {
     return this.datasetService.sendSubmission(this.buildPayload(formValue));
   }
 
-  private buildPayload(formValue: SuggestDatasetFormValue): SuggestDatasetPayload {
+  private buildPayload(formValue: SuggestDatasetSubmitData): SuggestDatasetPayload {
     if (formValue.suggestDatasetFields?.foundLink) {
       formValue.suggestDatasetFields.foundLink = this.addHttpIfMissing(formValue.suggestDatasetFields.foundLink);
     }

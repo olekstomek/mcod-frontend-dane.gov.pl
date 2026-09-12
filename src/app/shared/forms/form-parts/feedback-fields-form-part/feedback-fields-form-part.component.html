@@ -10,11 +10,15 @@
         id="link"
         formControlName="link"
         class="form-control"
-        readonly
+        [readonly]="!!preselectedLink()"
+        required
         [placeholder]="'Forms.TopicSection.DatasetLinkInput.Placeholder' | translate"
-        [class.is-invalid]="isLinkFieldInvalid" />
+        [class.is-invalid]="isLinkFieldInvalid"
+        [attr.aria-invalid]="isLinkFieldInvalid"
+        [attr.aria-describedby]="isLinkFieldInvalid ? 'link-error' : null" />
     </div>
-    <div class="invalid-feedback">
+    <div class="invalid-feedback" id="link-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       @if (feedbackFieldsGroup.hasError('required', 'link')) {
         {{ 'Forms.TopicSection.DatasetLinkInput.ValidatorRequired' | translate }}
       } @else if (feedbackFieldsGroup.hasError('maxlength', 'link')) {
@@ -40,9 +44,12 @@
         id="description"
         formControlName="description"
         class="form-control"
+        required
         [placeholder]="'Forms.TopicSection.FeedbackTextarea.Placeholder' | translate"
         rows="5"
-        [class.is-invalid]="isDescriptionFieldInvalid"></textarea>
+        [class.is-invalid]="isDescriptionFieldInvalid"
+        [attr.aria-invalid]="isDescriptionFieldInvalid"
+        [attr.aria-describedby]="isDescriptionFieldInvalid ? 'description-error' : null"></textarea>
       @if (feedbackFieldsGroup.value.description) {
         <button
           type="button"
@@ -51,7 +58,8 @@
           (click)="feedbackFieldsGroup.controls.description.reset()"></button>
       }
     </div>
-    <div class="invalid-feedback">
+    <div class="invalid-feedback" id="description-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       @let descriptionMaxLengthError = feedbackFieldsGroup.getError('maxlength', 'description');
       @if (feedbackFieldsGroup.hasError('required', 'description')) {
         {{ 'Forms.TopicSection.FeedbackTextarea.ValidatorRequired' | translate }}

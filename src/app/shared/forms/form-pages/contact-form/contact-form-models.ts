@@ -1,4 +1,20 @@
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import {
+  SuggestDatasetFieldsForm,
+  SuggestDatasetFieldsFormValue,
+} from '@app/shared/forms/form-parts/suggest-dataset-form-part/suggest-dataset-form-part-models';
+import {
+  FeedbackFieldsForm,
+  FeedbackFieldsFormValue,
+} from '@app/shared/forms/form-parts/feedback-fields-form-part/feedback-fields-models';
+import { Observable } from 'rxjs';
+import { NameEmailForm, NameEmailFormValue } from '@app/shared/forms/form-parts/name-email-form-part/name-email-models';
+import {
+  PoCoToFieldsForm,
+  PoCoToFieldsFormValue,
+} from '@app/shared/forms/form-parts/po-co-to-fields-form-part/po-co-to-fields-models';
+
+export type ApiMap = Partial<Record<ContactCategory, (data: ContactFormValue) => Observable<unknown>>>;
 
 export enum ContactTopic {
   Data = 'DATA',
@@ -60,9 +76,19 @@ export const CATEGORY_OPTIONS: Partial<Record<ContactTopic, ContactSelectOption<
 export interface ContactForm {
   topic: FormControl<ContactTopic | null>;
   category: FormControl<ContactCategory | null>;
+  captcha: FormControl<string | null>;
+  nameEmail?: FormGroup<NameEmailForm>;
+  suggestDatasetFields?: FormGroup<SuggestDatasetFieldsForm>;
+  poCoToFields?: FormGroup<PoCoToFieldsForm>;
+  feedbackFields?: FormGroup<FeedbackFieldsForm>;
 }
 
 export interface ContactFormValue {
   topic: ContactTopic | null;
   category: ContactCategory | null;
+  captcha: string | null;
+  nameEmail?: NameEmailFormValue;
+  suggestDatasetFields?: SuggestDatasetFieldsFormValue;
+  feedbackFields?: FeedbackFieldsFormValue;
+  poCoToFields?: PoCoToFieldsFormValue;
 }

@@ -11,10 +11,9 @@ export interface SuggestDatasetForm {
   captcha: FormControl<string | null>;
 }
 
-export interface SuggestDatasetFormValue {
+export interface SuggestDatasetSubmitData {
   nameEmail?: NameEmailFormValue;
   suggestDatasetFields?: SuggestDatasetFieldsFormValue;
-  captcha: string | null;
 }
 
 export interface SuggestDatasetPayload {

@@ -39,7 +39,7 @@ describe('WriteUsInfoComponent', () => {
   });
 
   it('should open write us modal', () => {
-    jest.spyOn(component, 'openWriteUsModal');
+    jest.spyOn(component, 'openWriteUsModal').mockImplementation(() => {});
     const link = fixture.debugElement.query(By.css('.write-us-info'));
     link.triggerEventHandler('click', null);
     expect(component.openWriteUsModal).toHaveBeenCalled();

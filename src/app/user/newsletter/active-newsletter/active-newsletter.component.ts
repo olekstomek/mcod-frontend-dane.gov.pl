@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgIf } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
@@ -12,7 +12,7 @@ import { LinkButtonComponent } from '@app/shared/buttons/link-button/link-button
 @Component({
   selector: 'app-verify-newsletter',
   templateUrl: './active-newsletter.component.html',
-  imports: [TranslatePipe, LinkButtonComponent, LocalizeRouterPipe],
+  imports: [NgIf, TranslatePipe, LinkButtonComponent, LocalizeRouterPipe],
   standalone: true,
 })
 export class ActiveNewsletterComponent implements OnInit, OnDestroy {

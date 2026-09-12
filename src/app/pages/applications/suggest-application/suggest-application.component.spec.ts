@@ -165,7 +165,6 @@ describe('SuggestApplicationComponent', () => {
       });
 
       component.onApplicationFormSubmit();
-      console.log(spy);
       expect(spy).toHaveBeenCalled();
       expect(component.isSuggestionSent).toBeTruthy();
     });

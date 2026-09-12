@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
   PoCoToFieldsForm,
   PoCoToFieldsFormValue,
@@ -8,11 +8,12 @@ import {
 import { NameEmailForm, NameEmailFormValue } from '@app/shared/forms/form-parts/name-email-form-part/name-email-models';
 
 export interface PoCoToForm {
+  captcha: FormControl<string | null>;
   nameEmail?: FormGroup<NameEmailForm>;
   poCoToFields?: FormGroup<PoCoToFieldsForm>;
 }
 
-export interface PoCoToFormValue {
+export interface PoCoToSubmitValue {
   nameEmail?: NameEmailFormValue;
   poCoToFields?: PoCoToFieldsFormValue;
 }

@@ -1,5 +1,5 @@
 <fieldset class="form-part" formGroupName="suggestDatasetFields">
-  <legend class="fieldset-header fieldset-header--compact">
+  <legend class="fieldset-header">
     <h2>{{ 'Forms.NewDataSection.SectionTitle' | translate }}</h2>
     <p>{{ 'Forms.NewDataSection.SectionParagraph' | translate }}</p>
   </legend>
@@ -15,8 +15,11 @@
         id="nameOfData"
         formControlName="nameOfData"
         class="form-control"
+        required
         [placeholder]="'Forms.NewDataSection.NameTypeFieldOfDataInput.Placeholder' | translate"
-        [class.is-invalid]="isNameOfDataFieldInvalid" />
+        [class.is-invalid]="isNameOfDataFieldInvalid"
+        [attr.aria-invalid]="isNameOfDataFieldInvalid"
+        [attr.aria-describedby]="isNameOfDataFieldInvalid ? 'nameOfData-error' : null" />
       @if (suggestDatasetFieldsGroup.value.nameOfData) {
         <button
           type="button"
@@ -25,7 +28,8 @@
           (click)="suggestDatasetFieldsGroup.controls.nameOfData.reset()"></button>
       }
     </div>
-    <div class="invalid-feedback">
+    <div class="invalid-feedback" id="nameOfData-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       @if (suggestDatasetFieldsGroup.hasError('required', 'nameOfData')) {
         {{ 'Forms.NewDataSection.NameTypeFieldOfDataInput.ValidatorRequired' | translate }}
       } @else if (suggestDatasetFieldsGroup.hasError('maxlength', 'nameOfData')) {
@@ -51,9 +55,12 @@
         id="description"
         formControlName="description"
         class="form-control"
+        required
         [placeholder]="'Forms.NewDataSection.DataDescriptionTextarea.Placeholder' | translate"
         rows="5"
-        [class.is-invalid]="isDescriptionFieldInvalid"></textarea>
+        [class.is-invalid]="isDescriptionFieldInvalid"
+        [attr.aria-invalid]="isDescriptionFieldInvalid"
+        [attr.aria-describedby]="isDescriptionFieldInvalid ? 'description-error' : null"></textarea>
       @if (suggestDatasetFieldsGroup.value.description) {
         <button
           type="button"
@@ -63,7 +70,8 @@
       }
     </div>
     <div class="field-hint">{{ 'Forms.NewDataSection.DataDescriptionTextarea.Hint' | translate }}</div>
-    <div class="invalid-feedback">
+    <div class="invalid-feedback" id="description-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       @if (suggestDatasetFieldsGroup.hasError('required', 'description')) {
         {{ 'Forms.NewDataSection.DataDescriptionTextarea.ValidatorRequired' | translate }}
       } @else if (suggestDatasetFieldsGroup.hasError('maxlength', 'description')) {
@@ -80,7 +88,7 @@
   <div class="form-field">
     @let isInstitutionFieldInvalid =
       suggestDatasetFieldsGroup.controls.institution.touched && suggestDatasetFieldsGroup.controls.institution.invalid;
-    <label for="institution" [class.is-invalid]="isInstitutionFieldInvalid">
+    <label for="institution" class="form-label">
       {{ 'Forms.NewDataSection.OrganizationNameInput.Label' | translate }}
     </label>
     <div class="input-wrapper" [class.is-invalid]="isInstitutionFieldInvalid">
@@ -89,7 +97,9 @@
         formControlName="institution"
         class="form-control"
         [placeholder]="'Forms.NewDataSection.OrganizationNameInput.Placeholder' | translate"
-        [class.is-invalid]="isInstitutionFieldInvalid" />
+        [class.is-invalid]="isInstitutionFieldInvalid"
+        [attr.aria-invalid]="isInstitutionFieldInvalid"
+        [attr.aria-describedby]="isInstitutionFieldInvalid ? 'institution-error' : null" />
       @if (suggestDatasetFieldsGroup.value.institution) {
         <button
           type="button"
@@ -98,7 +108,8 @@
           (click)="suggestDatasetFieldsGroup.controls.institution.reset()"></button>
       }
     </div>
-    <div class="invalid-feedback">
+    <div class="invalid-feedback" id="institution-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       @if (suggestDatasetFieldsGroup.hasError('maxlength', 'institution')) {
         {{
           'Forms.Validators.ValidatorMaxLength'
@@ -110,7 +121,7 @@
   <div class="form-field">
     @let isFoundLinkFieldInvalid =
       suggestDatasetFieldsGroup.controls.foundLink.touched && suggestDatasetFieldsGroup.controls.foundLink.invalid;
-    <label for="foundLink" [class.is-invalid]="isFoundLinkFieldInvalid">
+    <label for="foundLink" class="form-label">
       {{ 'Forms.NewDataSection.DataLinkInput.Label' | translate }}
     </label>
     <div class="input-wrapper" [class.is-invalid]="isFoundLinkFieldInvalid">
@@ -119,7 +130,9 @@
         formControlName="foundLink"
         class="form-control"
         [placeholder]="'Forms.NewDataSection.DataLinkInput.Placeholder' | translate"
-        [class.is-invalid]="isFoundLinkFieldInvalid" />
+        [class.is-invalid]="isFoundLinkFieldInvalid"
+        [attr.aria-invalid]="isFoundLinkFieldInvalid"
+        [attr.aria-describedby]="isFoundLinkFieldInvalid ? 'foundLink-error' : null" />
       @if (suggestDatasetFieldsGroup.value.foundLink) {
         <button
           type="button"
@@ -128,7 +141,8 @@
           (click)="suggestDatasetFieldsGroup.controls.foundLink.reset()"></button>
       }
     </div>
-    <div class="invalid-feedback">
+    <div class="invalid-feedback" id="foundLink-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       @if (suggestDatasetFieldsGroup.hasError('maxlength', 'foundLink')) {
         {{
           'Forms.Validators.ValidatorMaxLength'
@@ -143,7 +157,7 @@
     @let isPotentialUsesFieldInvalid =
       suggestDatasetFieldsGroup.controls.potentialUses.touched &&
       suggestDatasetFieldsGroup.controls.potentialUses.invalid;
-    <label for="potentialUses" [class.is-invalid]="isPotentialUsesFieldInvalid">
+    <label for="potentialUses" class="form-label">
       {{ 'Forms.NewDataSection.PotentialUsesInput.Label' | translate }}
     </label>
     <div class="input-wrapper" [class.is-invalid]="isPotentialUsesFieldInvalid">
@@ -152,7 +166,9 @@
         formControlName="potentialUses"
         class="form-control"
         [placeholder]="'Forms.NewDataSection.PotentialUsesInput.Placeholder' | translate"
-        [class.is-invalid]="isPotentialUsesFieldInvalid" />
+        [class.is-invalid]="isPotentialUsesFieldInvalid"
+        [attr.aria-invalid]="isPotentialUsesFieldInvalid"
+        [attr.aria-describedby]="isPotentialUsesFieldInvalid ? 'potentialUses-error' : null" />
       @if (suggestDatasetFieldsGroup.value.potentialUses) {
         <button
           type="button"
@@ -161,7 +177,8 @@
           (click)="suggestDatasetFieldsGroup.controls.potentialUses.reset()"></button>
       }
     </div>
-    <div class="invalid-feedback">
+    <div class="invalid-feedback" id="potentialUses-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       @if (suggestDatasetFieldsGroup.hasError('maxlength', 'potentialUses')) {
         {{
           'Forms.Validators.ValidatorMaxLength'

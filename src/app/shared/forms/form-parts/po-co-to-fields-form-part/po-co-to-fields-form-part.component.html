@@ -16,8 +16,11 @@
           id="category"
           formControlName="category"
           class="form-select"
+          required
           [class.is-invalid]="isCategoryFieldInvalid"
-          [class.value-selected]="poCoToFieldsGroup.value.category">
+          [class.value-selected]="poCoToFieldsGroup.value.category"
+          [attr.aria-invalid]="isCategoryFieldInvalid"
+          [attr.aria-describedby]="isCategoryFieldInvalid ? 'category-error' : null">
           <option [value]="null" selected hidden>
             {{ 'Forms.PoCoToSection.CategorySelect.Placeholder' | translate }}
           </option>
@@ -35,7 +38,8 @@
             (click)="poCoToFieldsGroup.controls.category.reset()"></button>
         }
       </div>
-      <div class="invalid-feedback">
+      <div class="invalid-feedback" id="category-error">
+        <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
         @if (poCoToFieldsGroup.hasError('required', 'category')) {
           {{ 'Forms.PoCoToSection.CategorySelect.ValidatorRequired' | translate }}
         }
@@ -54,8 +58,11 @@
             id="title"
             formControlName="name"
             class="form-control"
+            required
             [placeholder]="'Forms.PoCoToSection.NameInput.Placeholder' | translate"
-            [class.is-invalid]="isNameFieldInvalid" />
+            [class.is-invalid]="isNameFieldInvalid"
+            [attr.aria-invalid]="isNameFieldInvalid"
+            [attr.aria-describedby]="isNameFieldInvalid ? 'title-error' : null" />
           @if (poCoToFieldsGroup.value.name) {
             <button
               type="button"
@@ -64,7 +71,8 @@
               (click)="poCoToFieldsGroup.controls.name.reset()"></button>
           }
         </div>
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" id="title-error">
+          <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
           @if (poCoToFieldsGroup.hasError('required', 'name')) {
             {{ 'Forms.PoCoToSection.NameInput.ValidatorRequired' | translate }}
           } @else if (poCoToFieldsGroup.hasError('maxlength', 'name')) {
@@ -87,8 +95,11 @@
             id="url"
             formControlName="url"
             class="form-control"
+            required
             [placeholder]="'Forms.PoCoToSection.ApplicationLinkInput.Placeholder' | translate"
-            [class.is-invalid]="isUrlFieldInvalid" />
+            [class.is-invalid]="isUrlFieldInvalid"
+            [attr.aria-invalid]="isUrlFieldInvalid"
+            [attr.aria-describedby]="isUrlFieldInvalid ? 'url-error' : null" />
           @if (poCoToFieldsGroup.value.url) {
             <button
               type="button"
@@ -97,7 +108,8 @@
               (click)="poCoToFieldsGroup.controls.url.reset()"></button>
           }
         </div>
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" id="url-error">
+          <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
           @if (poCoToFieldsGroup.hasError('required', 'url')) {
             {{ 'Forms.PoCoToSection.ApplicationLinkInput.ValidatorRequired' | translate }}
           } @else if (poCoToFieldsGroup.hasError('maxlength', 'url')) {
@@ -145,7 +157,9 @@
                       formControlName="androidLink"
                       class="form-control"
                       [placeholder]="'Forms.PoCoToSection.ApplicationTypeAndroidInput.Placeholder' | translate"
-                      [class.is-invalid]="isAndroidLinkFieldInvalid" />
+                      [class.is-invalid]="isAndroidLinkFieldInvalid"
+                      [attr.aria-invalid]="isAndroidLinkFieldInvalid"
+                      [attr.aria-describedby]="isAndroidLinkFieldInvalid ? 'android-link-error' : null" />
                     @if (poCoToFieldsGroup.value.mobileAppGroup.androidLink) {
                       <button
                         type="button"
@@ -154,7 +168,8 @@
                         (click)="poCoToFieldsGroup.controls.mobileAppGroup.controls.androidLink.reset()"></button>
                     }
                   </div>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback" id="android-link-error">
+                    <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
                     @if (poCoToFieldsGroup.hasError('requireOneValue', 'mobileAppGroup')) {
                       {{ 'Forms.PoCoToSection.ApplicationTypeAndroidInput.ValidatorRequired' | translate }}
                     } @else if (poCoToFieldsGroup.hasError('maxlength', 'mobileAppGroup.androidLink')) {
@@ -189,7 +204,9 @@
                       formControlName="appleLink"
                       class="form-control"
                       [placeholder]="'Forms.PoCoToSection.ApplicationTypeIOSInput.Placeholder' | translate"
-                      [class.is-invalid]="isAppleLinkFieldInvalid" />
+                      [class.is-invalid]="isAppleLinkFieldInvalid"
+                      [attr.aria-invalid]="isAppleLinkFieldInvalid"
+                      [attr.aria-describedby]="isAppleLinkFieldInvalid ? 'apple-link-error' : null" />
                     @if (poCoToFieldsGroup.value.mobileAppGroup.appleLink) {
                       <button
                         type="button"
@@ -198,7 +215,8 @@
                         (click)="poCoToFieldsGroup.controls.mobileAppGroup.controls.appleLink.reset()"></button>
                     }
                   </div>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback" id="apple-link-error">
+                    <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
                     @if (poCoToFieldsGroup.hasError('requireOneValue', 'mobileAppGroup')) {
                       {{ 'Forms.PoCoToSection.ApplicationTypeIOSInput.ValidatorRequired' | translate }}
                     } @else if (poCoToFieldsGroup.hasError('maxlength', 'mobileAppGroup.appleLink')) {
@@ -247,7 +265,9 @@
                       formControlName="windowsLink"
                       class="form-control"
                       [placeholder]="'Forms.PoCoToSection.ApplicationTypeWindowsInput.Placeholder' | translate"
-                      [class.is-invalid]="isWindowsLinkFieldInvalid" />
+                      [class.is-invalid]="isWindowsLinkFieldInvalid"
+                      [attr.aria-invalid]="isWindowsLinkFieldInvalid"
+                      [attr.aria-describedby]="isWindowsLinkFieldInvalid ? 'windows-link-error' : null" />
                     @if (poCoToFieldsGroup.value.desktopAppGroup.windowsLink) {
                       <button
                         type="button"
@@ -256,7 +276,8 @@
                         (click)="poCoToFieldsGroup.controls.desktopAppGroup.controls.windowsLink.reset()"></button>
                     }
                   </div>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback" id="windows-link-error">
+                    <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
                     @if (poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup')) {
                       {{ 'Forms.PoCoToSection.ApplicationTypeWindowsInput.ValidatorRequired' | translate }}
                     } @else if (poCoToFieldsGroup.hasError('maxlength', 'desktopAppGroup.windowsLink')) {
@@ -291,7 +312,9 @@
                       formControlName="linuxLink"
                       class="form-control"
                       [placeholder]="'Forms.PoCoToSection.ApplicationTypeLinuxInput.Placeholder' | translate"
-                      [class.is-invalid]="isLinuxLinkFieldInvalid" />
+                      [class.is-invalid]="isLinuxLinkFieldInvalid"
+                      [attr.aria-invalid]="isLinuxLinkFieldInvalid"
+                      [attr.aria-describedby]="isLinuxLinkFieldInvalid ? 'linux-link-error' : null" />
                     @if (poCoToFieldsGroup.value.desktopAppGroup.linuxLink) {
                       <button
                         type="button"
@@ -300,7 +323,8 @@
                         (click)="poCoToFieldsGroup.controls.desktopAppGroup.controls.linuxLink.reset()"></button>
                     }
                   </div>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback" id="linux-link-error">
+                    <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
                     @if (poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup')) {
                       {{ 'Forms.PoCoToSection.ApplicationTypeLinuxInput.ValidatorRequired' | translate }}
                     } @else if (poCoToFieldsGroup.hasError('maxlength', 'desktopAppGroup.linuxLink')) {
@@ -335,7 +359,9 @@
                       formControlName="macLink"
                       class="form-control"
                       [placeholder]="'Forms.PoCoToSection.ApplicationTypeMacOSInput.Placeholder' | translate"
-                      [class.is-invalid]="isMacLinkFieldInvalid" />
+                      [class.is-invalid]="isMacLinkFieldInvalid"
+                      [attr.aria-invalid]="isMacLinkFieldInvalid"
+                      [attr.aria-describedby]="isMacLinkFieldInvalid ? 'mac-link-error' : null" />
                     @if (poCoToFieldsGroup.value.desktopAppGroup.macLink) {
                       <button
                         type="button"
@@ -344,7 +370,8 @@
                         (click)="poCoToFieldsGroup.controls.desktopAppGroup.controls.macLink.reset()"></button>
                     }
                   </div>
-                  <div class="invalid-feedback">
+                  <div class="invalid-feedback" id="mac-link-error">
+                    <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
                     @if (poCoToFieldsGroup.hasError('requireOneValue', 'desktopAppGroup')) {
                       {{ 'Forms.PoCoToSection.ApplicationTypeMacOSInput.ValidatorRequired' | translate }}
                     } @else if (poCoToFieldsGroup.hasError('maxlength', 'desktopAppGroup.macLink')) {
@@ -385,8 +412,11 @@
               type="radio"
               id="license-free"
               formControlName="licenseType"
+              required
               [value]="licenseTypeOptions[0].value"
-              [class.is-invalid]="isLicenseFieldInvalid" />
+              [class.is-invalid]="isLicenseFieldInvalid"
+              [attr.aria-invalid]="isLicenseFieldInvalid"
+              [attr.aria-describedby]="isLicenseFieldInvalid ? 'licenseType-error' : null" />
             <label class="form-check-label" for="license-free">
               {{ licenseTypeOptions[0].label | translate }}
             </label>
@@ -398,14 +428,18 @@
               type="radio"
               id="license-paid"
               formControlName="licenseType"
+              required
               [value]="licenseTypeOptions[1].value"
-              [class.is-invalid]="isLicenseFieldInvalid" />
+              [class.is-invalid]="isLicenseFieldInvalid"
+              [attr.aria-invalid]="isLicenseFieldInvalid"
+              [attr.aria-describedby]="isLicenseFieldInvalid ? 'licenseType-error' : null" />
             <label class="form-check-label" for="license-paid">
               {{ licenseTypeOptions[1].label | translate }}
             </label>
           </div>
 
-          <div class="invalid-feedback">
+          <div class="invalid-feedback" id="licenseType-error">
+            <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
             @if (poCoToFieldsGroup.hasError('required', 'licenseType')) {
               {{ 'Forms.PoCoToSection.LicenseTypeRadio.ValidatorRequired' | translate }}
             }
@@ -425,9 +459,12 @@
             id="description"
             formControlName="description"
             class="form-control"
+            required
             [placeholder]="'Forms.PoCoToSection.DescriptionTextarea.Placeholder' | translate"
             rows="5"
-            [class.is-invalid]="isDescriptionFieldInvalid"></textarea>
+            [class.is-invalid]="isDescriptionFieldInvalid"
+            [attr.aria-invalid]="isDescriptionFieldInvalid"
+            [attr.aria-describedby]="isDescriptionFieldInvalid ? 'description-error' : null"></textarea>
           @if (poCoToFieldsGroup.value.description) {
             <button
               type="button"
@@ -439,7 +476,8 @@
         @if (!isDescriptionFieldInvalid) {
           <div class="field-hint">{{ 'Forms.PoCoToSection.DescriptionTextarea.Hint' | translate }}</div>
         }
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" id="description-error">
+          <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
           @let lengthError = poCoToFieldsGroup.getError('maxlength', 'description');
           @if (poCoToFieldsGroup.hasError('required', 'description')) {
             {{ 'Forms.PoCoToSection.DescriptionTextarea.ValidatorRequired' | translate }}
@@ -461,7 +499,9 @@
             formControlName="keywords"
             class="form-control"
             [placeholder]="'Forms.PoCoToSection.KeywordsInput.Placeholder' | translate"
-            [class.is-invalid]="isKeywordsFieldInvalid" />
+            [class.is-invalid]="isKeywordsFieldInvalid"
+            [attr.aria-invalid]="isKeywordsFieldInvalid"
+            [attr.aria-describedby]="isKeywordsFieldInvalid ? 'keywords-error' : null" />
           @if (poCoToFieldsGroup.value.keywords) {
             <button
               type="button"
@@ -470,7 +510,8 @@
               (click)="poCoToFieldsGroup.controls.keywords.reset()"></button>
           }
         </div>
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" id="keywords-error">
+          <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
           @if (poCoToFieldsGroup.hasError('maxItemLength', 'keywords')) {
             {{
               'Forms.PoCoToSection.KeywordsInput.ValidatorMaxLength'
@@ -492,8 +533,11 @@
             id="author"
             formControlName="author"
             class="form-control"
+            required
             [placeholder]="'Forms.PoCoToSection.AuthorInput.Placeholder' | translate"
-            [class.is-invalid]="isAuthorFieldInvalid" />
+            [class.is-invalid]="isAuthorFieldInvalid"
+            [attr.aria-invalid]="isAuthorFieldInvalid"
+            [attr.aria-describedby]="isAuthorFieldInvalid ? 'author-error' : null" />
           @if (poCoToFieldsGroup.value.author) {
             <button
               type="button"
@@ -502,7 +546,8 @@
               (click)="poCoToFieldsGroup.controls.author.reset()"></button>
           }
         </div>
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" id="author-error">
+          <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
           @if (poCoToFieldsGroup.hasError('required', 'author')) {
             {{ 'Forms.PoCoToSection.AuthorInput.ValidatorRequired' | translate }}
           } @else if (poCoToFieldsGroup.hasError('maxlength', 'author')) {
@@ -526,10 +571,11 @@
           [maxWidth]="logoMaxWidth"
           [maxHeight]="logoMaxHeight"
           labelTranslationKey="Forms.PoCoToSection.LogoUploader.Label"
-          labelTranslationKeyHint="Forms.PoCoToSection.LogoUploader.Description">
+          labelTranslationKeyHint="Forms.PoCoToSection.LogoUploader.Description"
+          errorId="logoImage-error">
           <ng-container ngProjectAs="error-container">
             @if (isLogoInvalid) {
-              <p class="alert alert-danger" role="alert" aria-live="polite">
+              <p class="alert alert-danger" id="logoImage-error" role="alert" aria-live="polite">
                 @if (logoFileTypeInvalid) {
                   {{ 'Forms.PoCoToSection.LogoUploader.ValidatorFileType' | translate }}
                 } @else if (logoFileSizeInvalid) {
@@ -561,10 +607,11 @@
           [maxWidth]="illustrativeGraphicsMaxWidth"
           [maxHeight]="illustrativeGraphicsMaxHeight"
           labelTranslationKey="Forms.PoCoToSection.IllustrativeGraphicsUploader.Label"
-          labelTranslationKeyHint="Forms.PoCoToSection.IllustrativeGraphicsUploader.Description">
+          labelTranslationKeyHint="Forms.PoCoToSection.IllustrativeGraphicsUploader.Description"
+          errorId="illustrativeGraphics-error">
           <ng-container ngProjectAs="error-container">
             @if (isIllustrativeGraphicsInvalid) {
-              <p class="alert alert-danger" role="alert" aria-live="polite">
+              <p class="alert alert-danger" id="illustrativeGraphics-error" role="alert" aria-live="polite">
                 @if (illustrativeGraphicsFileTypeInvalid) {
                   {{ 'Forms.PoCoToSection.IllustrativeGraphicsUploader.ValidatorFileType' | translate }}
                 } @else if (illustrativeGraphicsFileSizeInvalid) {
@@ -584,24 +631,27 @@
       </div>
 
       <div class="form-field-group form-field-group--large-space form-group" formArrayName="datasets">
-        <p class="form-label" id="datasets">
+        <p class="form-label" id="datasets-label">
           {{ 'Forms.PoCoToSection.DatasetMultiselect.Label' | translate }}
           <small>{{ 'Forms.PoCoToSection.DatasetMultiselect.Paragraph' | translate }}</small>
         </p>
 
         @for (datasetControl of poCoToFieldsGroup.controls.datasets.controls; track $index) {
+          @let isDatasetRowInvalid = datasetControl.controls.dataset.touched && datasetControl.controls.id.invalid;
           <div class="input-group has-validation" [formGroup]="datasetControl">
             <input
               type="text"
               [class.form-control]="!datasetControl.value.id"
               [class.form-control-plaintext]="datasetControl.value.id"
-              aria-labelledby="datasets"
+              aria-labelledby="datasets-label"
               [placeholder]="'Forms.PoCoToSection.DatasetMultiselect.Placeholder' | translate"
               appDatasetAutocomplete
               formControlName="dataset"
               [readonly]="datasetControl.value.id"
               (datasetSelected)="onDatasetSelected($event, datasetControl)"
-              [class.is-invalid]="datasetControl.controls.dataset.touched && datasetControl.controls.id.invalid" />
+              [class.is-invalid]="isDatasetRowInvalid"
+              [attr.aria-invalid]="isDatasetRowInvalid"
+              [attr.aria-describedby]="isDatasetRowInvalid ? 'dataset-row-error-' + $index : null" />
             <button type="button" class="btn btn-outline-danger" (click)="onRemoveDatasetRow($index)">
               <span aria-hidden="true">x</span>
               <span class="visually-hidden">
@@ -609,21 +659,26 @@
                 {{ $index }}
               </span>
             </button>
-            <div class="invalid-feedback">
+            <div class="invalid-feedback" [attr.id]="'dataset-row-error-' + $index">
+              <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
               {{ 'Forms.PoCoToSection.DatasetMultiselect.ValidatorRequired' | translate }}
             </div>
           </div>
         }
 
         <div>
-          <button type="button" class="btn btn-sm btn-outline-primary" (click)="onAppendDatasetRow()">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-primary"
+            aria-describedby="datasets-label"
+            (click)="onAppendDatasetRow()">
             {{ 'Forms.PoCoToSection.DatasetMultiselect.Button' | translate }}
           </button>
         </div>
       </div>
 
       <div class="form-field-group form-group" formArrayName="externalDatasets">
-        <p class="form-label" id="external-datasets">
+        <p class="form-label" id="external-datasets-label">
           {{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Label' | translate }}
           <small>{{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Paragraph' | translate }}</small>
         </p>
@@ -639,6 +694,8 @@
               [placeholder]="'Forms.PoCoToSection.ExternalDatasetLinkNameInput.Placeholder' | translate"
               formControlName="title"
               [class.is-invalid]="isTitleFieldInvalid"
+              [attr.aria-invalid]="isTitleFieldInvalid"
+              [attr.aria-describedby]="isTitleFieldInvalid ? 'external-dataset-row-error-' + $index : null"
               (keydown.enter)="$event.preventDefault()" />
             @let isUrlFieldInvalid =
               externalDatasetControl.controls.url.touched && externalDatasetControl.controls.url.invalid;
@@ -649,6 +706,8 @@
               [placeholder]="'Forms.PoCoToSection.ExternalDatasetLinkInput.Placeholder' | translate"
               formControlName="url"
               [class.is-invalid]="isUrlFieldInvalid"
+              [attr.aria-invalid]="isUrlFieldInvalid"
+              [attr.aria-describedby]="isUrlFieldInvalid ? 'external-dataset-row-error-' + $index : null"
               (keydown.enter)="$event.preventDefault()" />
 
             <button type="button" class="btn btn-outline-danger" (click)="onRemoveExternalDatasetRow($index)">
@@ -658,7 +717,8 @@
                 {{ $index }}
               </span>
             </button>
-            <div class="invalid-feedback">
+            <div class="invalid-feedback" [attr.id]="'external-dataset-row-error-' + $index">
+              <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
               @let titleMaxLengthError = externalDatasetControl.getError('maxlength', 'title');
               @let titleRequiredError = externalDatasetControl.getError('required', 'title');
               @let urlRequiredError = externalDatasetControl.getError('required', 'url');
@@ -680,7 +740,11 @@
         }
 
         <div>
-          <button type="button" class="btn btn-sm btn-outline-primary" (click)="onAppendExternalDatasetRow()">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-primary"
+            aria-describedby="external-datasets-label"
+            (click)="onAppendExternalDatasetRow()">
             {{ 'Forms.PoCoToSection.ExternalDatasetMultiselect.Button' | translate }}
           </button>
         </div>
@@ -700,7 +764,10 @@
         type="checkbox"
         id="personalDataAccepted"
         formControlName="personalDataAccepted"
-        [class.is-invalid]="isPersonalDataAcceptedFieldInvalid" />
+        required
+        [class.is-invalid]="isPersonalDataAcceptedFieldInvalid"
+        [attr.aria-invalid]="isPersonalDataAcceptedFieldInvalid"
+        [attr.aria-describedby]="isPersonalDataAcceptedFieldInvalid ? 'personalDataAccepted-error' : null" />
       <label class="form-check-label" for="personalDataAccepted">
         {{ 'Forms.ConsentsSection.DataProcessing' | translate }}
       </label>
@@ -710,7 +777,8 @@
           [class.cms-consent-list--invalid]="isPersonalDataAcceptedFieldInvalid"
           [innerHTML]="cmsPageInfo | textToLinks"></div>
       }
-      <div class="invalid-feedback">
+      <div class="invalid-feedback" id="personalDataAccepted-error">
+        <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
         @if (poCoToFieldsGroup.hasError('required', 'personalDataAccepted')) {
           {{ 'Forms.ConsentsSection.ValidatorRequired' | translate }}
         }
@@ -718,30 +786,28 @@
     </div>
 
     <div class="form-check">
+      @let isTosAcceptedFieldInvalid =
+        poCoToFieldsGroup.controls.tosAccepted.invalid && poCoToFieldsGroup.controls.tosAccepted.touched;
       <input
         class="form-check-input"
         type="checkbox"
         id="tosAccepted"
         formControlName="tosAccepted"
-        [class.is-invalid]="
-          poCoToFieldsGroup.controls.tosAccepted.invalid && poCoToFieldsGroup.controls.tosAccepted.touched
-        " />
+        required
+        [class.is-invalid]="isTosAcceptedFieldInvalid"
+        [attr.aria-invalid]="isTosAcceptedFieldInvalid"
+        [attr.aria-describedby]="isTosAcceptedFieldInvalid ? 'tosAccepted-error' : null" />
       <label class="form-check-label" for="tosAccepted">
         @if (cmsPageConsent$ | async; as cmsPageConsent) {
           <span class="font-weight-normal pt-1" [innerHTML]="cmsPageConsent | textToLinks"></span>
         }
       </label>
-      <div class="invalid-feedback">
+      <div class="invalid-feedback" id="tosAccepted-error">
+        <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
         @if (poCoToFieldsGroup.hasError('required', 'tosAccepted')) {
           {{ 'Forms.ConsentsSection.ValidatorRequired' | translate }}
         }
       </div>
     </div>
   </fieldset>
-  <app-math-captcha
-    class="form-field"
-    formControlName="captcha"
-    newStyle
-    [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
-    [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
 </ng-container>

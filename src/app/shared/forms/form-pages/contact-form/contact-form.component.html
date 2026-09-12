@@ -39,8 +39,11 @@
                   id="topic"
                   formControlName="topic"
                   class="form-select"
+                  required
                   [class.is-invalid]="isTopicInvalid"
-                  [class.value-selected]="mainForm.value.topic">
+                  [class.value-selected]="mainForm.value.topic"
+                  [attr.aria-invalid]="isTopicInvalid"
+                  [attr.aria-describedby]="isTopicInvalid ? 'topic-error' : null">
                   <option [value]="null" selected hidden>
                     {{ 'Forms.TopicSection.TopicSelect.Placeholder' | translate }}
                   </option>
@@ -58,7 +61,8 @@
                     (click)="mainForm.controls.topic.reset()"></button>
                 }
               </div>
-              <div class="invalid-feedback">
+              <div class="invalid-feedback" id="topic-error">
+                <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
                 @if (mainForm.hasError('required', 'topic')) {
                   {{ 'Forms.TopicSection.TopicSelect.ValidatorRequired' | translate }}
                 }
@@ -68,7 +72,7 @@
             @if (showCategoryField()) {
               <div class="form-field">
                 @let isCategoryInvalid = mainForm.controls.category.touched && mainForm.controls.category.invalid;
-                <label for="category" class="form-label" [class.text-muted]="mainForm.controls.category.disabled">
+                <label for="category" class="form-label">
                   {{ 'Forms.TopicSection.CategorySelect.Label' | translate }}
                   <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
                 </label>
@@ -77,8 +81,11 @@
                     id="category"
                     formControlName="category"
                     class="form-select"
+                    [attr.required]="!mainForm.controls.category.disabled ? true : null"
                     [class.is-invalid]="isCategoryInvalid"
-                    [class.value-selected]="mainForm.value.category">
+                    [class.value-selected]="mainForm.value.category"
+                    [attr.aria-invalid]="isCategoryInvalid"
+                    [attr.aria-describedby]="isCategoryInvalid ? 'category-error' : null">
                     <option [value]="null" selected hidden>
                       {{ 'Forms.TopicSection.CategorySelect.Placeholder' | translate }}
                     </option>
@@ -96,7 +103,8 @@
                       (click)="mainForm.controls.category.reset()"></button>
                   }
                 </div>
-                <div class="invalid-feedback">
+                <div class="invalid-feedback" id="category-error">
+                  <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
                   @if (mainForm.hasError('required', 'category')) {
                     {{ 'Forms.TopicSection.CategorySelect.ValidatorRequired' | translate }}
                   }
@@ -104,6 +112,52 @@
               </div>
             }
           </fieldset>
+          @switch (mainForm.value.category) {
+            @case (ContactCategory.SuggestData) {
+              <app-name-email-form-part />
+              <app-suggest-dataset-form-part />
+              <div class="fieldset-header">
+                @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
+                <p>
+                  {{ sectionParagraph.text }}
+                  <a [routerLink]="['/!privacy-policy'] | localize" target="_blank">{{ sectionParagraph.link }}</a>
+                </p>
+              </div>
+              <app-math-captcha
+                class="form-field"
+                formControlName="captcha"
+                newStyle
+                [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
+                [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
+            }
+            @case (ContactCategory.DataFeedback) {
+              <app-name-email-form-part />
+              <app-feedback-fields-form-part />
+              <div class="fieldset-header">
+                @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
+                <p>
+                  {{ sectionParagraph.text }}
+                  <a [routerLink]="['/!privacy-policy'] | localize" target="_blank">{{ sectionParagraph.link }}</a>
+                </p>
+              </div>
+              <app-math-captcha
+                class="form-field"
+                formControlName="captcha"
+                newStyle
+                [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
+                [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
+            }
+            @case (ContactCategory.SuggestReuse) {
+              <app-name-email-form-part />
+              <app-po-co-to-fields-form-part />
+              <app-math-captcha
+                class="form-field"
+                formControlName="captcha"
+                newStyle
+                [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
+                [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
+            }
+          }
           <button type="submit" class="btn btn-primary">
             {{ 'Forms.Buttons.Send' | translate }}
           </button>

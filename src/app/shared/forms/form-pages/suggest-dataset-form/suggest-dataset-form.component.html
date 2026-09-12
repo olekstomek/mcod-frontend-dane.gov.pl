@@ -10,7 +10,7 @@
     <h1 class="form-header">{{ 'Forms.PageHeader.Heading.NewData' | translate }}</h1>
     <div class="form-wrapper col-md-10 col-lg-8">
       <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
-        <app-name-email-form-part hideNameControl hideEmailControl />
+        <app-name-email-form-part />
         <app-suggest-dataset-form-part />
         <div class="fieldset-header">
           @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;

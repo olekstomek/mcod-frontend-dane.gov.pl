@@ -522,6 +522,7 @@
   "Forms": {
     "General": {
       "RequiredHint": "required field",
+      "ErrorPrefix": "Error:",
       "ErrorToast": "An error occurred while submitting the form.",
       "RemoveDataset": "Remove dataset"
     },

@@ -33,8 +33,6 @@ export class NameEmailFormPartComponent implements OnInit, OnDestroy {
   private readonly parentFormDirective = inject(FormGroupDirective);
 
   readonly requiredEmail = input(false, { transform: booleanAttribute });
-  hideNameControl = input(false, { transform: booleanAttribute });
-  hideEmailControl = input(false, { transform: booleanAttribute });
 
   private readonly requiredEmailEffect = effect(() => {
     const emailControl = this.nameEmailGroup.controls.email;

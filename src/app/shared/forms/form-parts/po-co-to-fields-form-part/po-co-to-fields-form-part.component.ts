@@ -29,7 +29,6 @@ import {
   illustrativeGraphicsMaxWidth,
   illustrativeGraphicsMaxHeight,
 } from '@app/shared/forms/form-variables';
-import { MathCaptchaComponent } from '@app/shared/math-captcha/math-captcha.component';
 import { TextToLinksPipe } from '@app/shared/pipes/text-to-links.pipe';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ScrollbarWidthDirective } from '@app/shared/forms/directives/scrollbar-width.directive';
@@ -57,7 +56,6 @@ interface IComponentOptions<T> {
     TranslatePipe,
     DatasetAutocompleteDirective,
     TextToLinksPipe,
-    MathCaptchaComponent,
     ScrollbarWidthDirective,
     ImageUploadComponent,
     DatasetAutocompleteDirective,
@@ -163,7 +161,6 @@ export class PoCoToFieldsFormPartComponent implements OnInit {
     externalDatasets: new FormArray([]),
     tosAccepted: new FormControl(false, { nonNullable: true, validators: Validators.requiredTrue }),
     personalDataAccepted: new FormControl(false, { nonNullable: true, validators: Validators.requiredTrue }),
-    captcha: new FormControl(null, Validators.required),
   });
 
   constructor() {

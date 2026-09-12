@@ -19,9 +19,10 @@
         [class.scroll-invalid]="newStyle() && control.invalid && control.touched"
         style="width: 45px"
         autocomplete="off"
+        required
         [formControl]="control"
         [attr.aria-describedby]="'captcha_required_error captcha_number_error'"
-        [attr.aria-invalid]="control.invalid"
+        [attr.aria-invalid]="control.invalid && control.touched"
         (keydown.enter)="$event.preventDefault()" />
     </span>
   </label>
@@ -30,25 +31,29 @@
   <ng-container *ngIf="control.invalid && control.touched && control.errors">
     <!-- required error -->
     <small
-      class="d-block form-text text-danger"
+      class="form-text text-danger"
+      [class.d-block]="!newStyle()"
       [class.mt-2]="newStyle()"
       role="alert"
       aria-live="polite"
       id="captcha_required_error"
       *ngIf="control.errors['required'] && (!control.dirty || (control.dirty && !control.value))"
       @toggleVertically>
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       {{ validationRequiredText() || ('Validation.VarRequired' | translate: { param: 'Captcha.Label' | translate }) }}
     </small>
 
     <!-- invalid number error -->
     <small
-      class="d-block form-text text-danger"
+      class="form-text text-danger"
+      [class.d-block]="!newStyle()"
       [class.mt-2]="newStyle()"
       role="alert"
       aria-live="polite"
       id="captcha_number_error"
       *ngIf="control.errors['invalidNumber'] && control.dirty && control.value"
       @toggleVertically>
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
       {{ validationInvalidNumberText() || ('Validation.InvalidNumber' | translate) }}
     </small>
   </ng-container>

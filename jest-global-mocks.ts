@@ -36,3 +36,19 @@ Object.defineProperty(document.body.style, 'transform', {
     };
   },
 });
+
+/**
+ * Mock ResizeObserver for Jest environment
+ */
+if (!window.ResizeObserver) {
+  Object.defineProperty(window, 'ResizeObserver', {
+    writable: true,
+    configurable: true,
+    value: jest.fn().mockImplementation(() => ({
+      observe: jest.fn(),
+      unobserve: jest.fn(),
+      disconnect: jest.fn(),
+    })),
+  });
+}
+

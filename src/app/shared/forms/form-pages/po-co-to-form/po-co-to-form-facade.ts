@@ -1,5 +1,5 @@
 import { firstValueFrom, from, Observable } from 'rxjs';
-import { PocoToFormPayload, PoCoToFormValue } from '@app/shared/forms/form-pages/po-co-to-form/po-co-to-form-models';
+import { PocoToFormPayload, PoCoToSubmitValue } from '@app/shared/forms/form-pages/po-co-to-form/po-co-to-form-models';
 import { inject, Injectable } from '@angular/core';
 import { ApplicationsService } from '@app/services/applications.service';
 import { FileUtilsService } from '@app/services/file-utils.service';
@@ -12,11 +12,11 @@ export class PoCoToFormFacade {
   private readonly applicationsService = inject(ApplicationsService);
   private readonly fileUtilsService = inject(FileUtilsService);
 
-  submitForm(formValue: PoCoToFormValue): Observable<ApiResponse> {
+  submitForm(formValue: PoCoToSubmitValue): Observable<ApiResponse> {
     return from(this.buildPayload(formValue)).pipe(switchMap((payload) => this.applicationsService.suggest(payload)));
   }
 
-  private async buildPayload(formValue: PoCoToFormValue): Promise<PocoToFormPayload> {
+  private async buildPayload(formValue: PoCoToSubmitValue): Promise<PocoToFormPayload> {
     if (formValue.poCoToFields?.url) {
       formValue.poCoToFields.url = this.addHttpIfMissing(formValue.poCoToFields.url);
     }

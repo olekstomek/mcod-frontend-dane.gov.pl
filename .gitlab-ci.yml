@@ -1,5 +1,6 @@
 stages:
-  - .pre
+  - bump
+  - version
   - build
   - test
   - release
@@ -28,11 +29,39 @@ workflow:
       when: never
     - if: $CI_COMMIT_BRANCH
 
-# region .pre
-get-version:
-  stage: .pre
+# region bump
+bump-version:
+  stage: bump
   image: node:${NODE_VERSION}-alpine
+  variables:
+    OVERRIDE_VERSION: ""
+  before_script:
+    - apk add --no-cache git
   script:
+    - sh scripts/bump-version.sh
+  tags:
+    - docker
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release\/\d+\.\d+\.\d+$/ && $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
+      when: on_success
+      allow_failure: true
+    - if: $CI_COMMIT_BRANCH =~ /^release\/\d+\.\d+\.\d+$/
+      when: manual
+      allow_failure: true
+# endregion
+
+# region version
+get-version:
+  stage: version
+  image: node:${NODE_VERSION}-alpine
+  before_script:
+    - apk add --no-cache git
+  script:
+    - |
+      if [ -n "${CI_COMMIT_BRANCH}" ]; then
+        git fetch origin ${CI_COMMIT_BRANCH}
+        git checkout origin/${CI_COMMIT_BRANCH} -- package.json
+      fi
     - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
     - echo "${PACKAGE_VERSION}" > ${VERSION_FILE}
   artifacts:
@@ -51,9 +80,9 @@ build-images:
     - echo "Image target=dependencies name=${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}"
     - docker login -u $REGISTRY_USER -p $CI_JOB_TOKEN $REGISTRY_HOST
   script:
-    - > 
-      docker build --progress=plain 
-      --target dependencies 
+    - >
+      docker build --progress=plain
+      --target dependencies
       --tag ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
       .
   tags:
@@ -65,25 +94,20 @@ test: &test-job
   image: ${REGISTRY}/${IMAGE}:${DEPENDENCIES_IMAGE_TAG}
   stage: test
   before_script:
-    - cp -r /usr/src/mcod/node_modules ./node_modules # PWD in gitlab is not the same as WORKDIR
+    - ln -s /usr/src/mcod/node_modules ./node_modules
   script:
     - npm run test
   tags:
     - docker
   rules:
-    # do not run for tagged build
     - if: $CI_COMMIT_TAG
       when: never
-    # do not run on release'able branches
-    - if: $CI_COMMIT_BRANCH == 'master' || $CI_COMMIT_BRANCH == 'pre-develop'
+    - if: $CI_COMMIT_BRANCH == 'master'
       when: never
-    # do not run on merge requests during release: develop -> master or develop -> pre-develop
-    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == 'develop'
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
       when: never
-    # run on push to other branches if there's no MR yet
-    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_OPEN_MERGE_REQUESTS == null
+    - if: $CI_PIPELINE_SOURCE == 'push'
       when: on_success
-    # run on merge requests
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: on_success
 
@@ -116,18 +140,18 @@ release-job: &release-job
   script:
     - echo "Building image to ${REGISTRY}/${IMAGE}:${IMAGE_TAG} with command"
     - >
-      echo docker build --progress=plain 
+      echo docker build --progress=plain
       --build-arg MCOD_BUILD_CONFIGURATION_ENV=${MCOD_BUILD_CONFIGURATION_ENV}
-      --target ${RELEASE_DOCKER_BUILD_TARGET} 
+      --target ${RELEASE_DOCKER_BUILD_TARGET}
       --tag ${REGISTRY}/${IMAGE}:${BUILD_IMAGE_TAG}
       --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}
       --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}-${PACKAGE_VERSION}
       --push
       .
     - >
-      docker build --progress=plain 
+      docker build --progress=plain
       --build-arg MCOD_BUILD_CONFIGURATION_ENV=${MCOD_BUILD_CONFIGURATION_ENV}
-      --target ${RELEASE_DOCKER_BUILD_TARGET} 
+      --target ${RELEASE_DOCKER_BUILD_TARGET}
       --tag ${REGISTRY}/${IMAGE}:${BUILD_IMAGE_TAG}
       --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}
       --tag ${REGISTRY}/${IMAGE}:${IMAGE_TAG}-${PACKAGE_VERSION}
@@ -141,20 +165,14 @@ release-job: &release-job
 # endregion
 
 # region environments
-release-pre-dev:
+release-dev:
   <<: *release-job
   variables:
     MCOD_BUILD_CONFIGURATION_ENV: int
     IMAGE_TAG: pre-dev
   rules:
-    # run on push to develop
     - if: $CI_COMMIT_BRANCH == 'develop'
-    # run on push to pre-develop
-    - if: $CI_COMMIT_BRANCH == 'pre-develop'
-    # do not run on merge requests during release: develop -> master
-    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == 'develop'
-      when: never
-    # run on merge requests otherwise, but ask for confirmation
+      when: on_success
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: manual
 
@@ -164,8 +182,9 @@ release-int:
     MCOD_BUILD_CONFIGURATION_ENV: int
     IMAGE_TAG: dev
   rules:
-    # run on develop automatically
-    - if: $CI_COMMIT_BRANCH == 'develop'
+    - if: $CI_COMMIT_BRANCH =~ /^release\/.+/
+      when: on_success
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.+/
       when: on_success
 
 release-preprod:
@@ -202,4 +221,21 @@ publish-code:
     # run on master, but ask for confirmation
     - if: $CI_COMMIT_BRANCH == 'master'
       when: manual
+
+create-release-branch:
+  stage: release
+  image: node:${NODE_VERSION}-alpine
+  variables:
+    RELEASE_VERSION: ""
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - sh scripts/create-release-branch.sh
+  tags:
+    - docker
+  rules:
+    # available manually after any push/merge to develop
+    - if: $CI_COMMIT_BRANCH == 'develop'
+      when: manual
+      allow_failure: true
 # endregion

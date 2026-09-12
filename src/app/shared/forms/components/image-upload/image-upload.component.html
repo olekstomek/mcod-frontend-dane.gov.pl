@@ -1,5 +1,5 @@
 <div class="image-upload">
-  <p class="image-upload__label">
+  <p class="image-upload__label" [id]="labelId()">
     {{ labelTranslationKey() | translate }}
     @if (labelTranslationKeyHint()) {
       <small class="image-upload__hint">{{ labelTranslationKeyHint() | translate }}</small>
@@ -40,7 +40,13 @@
       </button>
     }
 
-    <button type="button" class="btn btn-sm btn-outline-primary" [disabled]="isDisabled()" (click)="triggerFileInput()">
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-primary"
+      [disabled]="isDisabled()"
+      [attr.aria-invalid]="isInvalid()"
+      [attr.aria-describedby]="labelId() + (isInvalid() && errorId() ? ' ' + errorId() : '')"
+      (click)="triggerFileInput()">
       @if (uploadedFileValue) {
         {{ 'Forms.ImageUpload.Buttons.Change' | translate }}
       } @else {

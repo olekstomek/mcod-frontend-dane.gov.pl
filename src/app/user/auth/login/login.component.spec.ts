@@ -114,7 +114,6 @@ describe('LoginComponent', () => {
     emailError = fixture.nativeElement.querySelector('#email_error');
     passwordError = fixture.nativeElement.querySelector('#password_error');
     submitBtn = fixture.nativeElement.querySelector('.btn');
-    console.log(emailError.textContent, passwordError.textContent);
 
     expect(emailError.textContent).toBeTruthy();
     expect(passwordError.textContent).toBeTruthy();

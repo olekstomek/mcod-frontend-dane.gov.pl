@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DatasetService } from '@app/services/dataset.service';
-import { FeedbackFormValue, FeedbackPayload } from '@app/shared/forms/form-pages/feedback-form/feedback-form-models';
+import { FeedbackSubmitData, FeedbackPayload } from '@app/shared/forms/form-pages/feedback-form/feedback-form-models';
 import { removeEmptyFields } from '@app/shared/forms/utils/remove-empty-fields';
 
 @Injectable()
 export class FeedbackFormFacade {
   private readonly datasetService = inject(DatasetService);
 
-  submitForm(formValue: FeedbackFormValue): Observable<unknown> {
+  submitForm(formValue: FeedbackSubmitData): Observable<unknown> {
     const link = formValue.feedbackFields?.link;
     const payload = this.buildPayload(formValue);
     const resourceMatch = link.match(/\/resource\/(\d+)/);
@@ -23,7 +23,7 @@ export class FeedbackFormFacade {
     }
   }
 
-  private buildPayload(formValue: FeedbackFormValue): FeedbackPayload {
+  private buildPayload(formValue: FeedbackSubmitData): FeedbackPayload {
     return removeEmptyFields({
       comment: formValue.feedbackFields?.description,
       applicant_email: formValue.nameEmail?.email,

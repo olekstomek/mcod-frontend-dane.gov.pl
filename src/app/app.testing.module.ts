@@ -7,12 +7,16 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { provideNgxLocalstorage } from 'ngx-localstorage';
 
 import { FooterLogosFilterService } from '@app/layout/footer/footer-logos-filter.service';
+import { NotificationsService } from '@app/services/notifications.service';
+import { ApplicationsService } from '@app/services/applications.service';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule],
   providers: [
     BsModalService,
+    NotificationsService,
+    ApplicationsService,
     FooterLogosFilterService,
     provideHttpClient(),
     provideHttpClientTesting(),

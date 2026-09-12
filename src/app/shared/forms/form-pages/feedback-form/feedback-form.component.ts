@@ -43,15 +43,14 @@ export class FeedbackFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly formErrorService = inject(FormErrorService);
 
-  readonly datasetUrl = toSignal(
-    this.route.queryParamMap.pipe(
-      map((params) => {
-        const raw = params.get('datasetUrl');
-        return raw ? new URL(raw).pathname : null;
-      }),
-    ),
-    { initialValue: null },
-  );
+  readonly datasetUrl = toSignal(this.route.queryParamMap.pipe(map((params) => params.get('datasetUrl'))), {
+    initialValue: null,
+  });
+
+  readonly datasetPathname = computed(() => {
+    const raw = this.datasetUrl();
+    return raw ? new URL(raw).pathname : null;
+  });
 
   readonly isFormSent = signal(false);
   readonly isErrorOnSubmit = signal(false);
@@ -71,7 +70,8 @@ export class FeedbackFormComponent implements OnInit {
       return;
     }
 
-    this.feedbackFormFacade.submitForm(this.mainForm.getRawValue()).subscribe({
+    const { nameEmail, feedbackFields } = this.mainForm.getRawValue();
+    this.feedbackFormFacade.submitForm({ nameEmail, feedbackFields }).subscribe({
       next: () => this.isFormSent.set(true),
       error: (error) => {
         this.isErrorOnSubmit.set(true);

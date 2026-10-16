@@ -9,5 +9,8 @@ export const logoMaxWidth = 200;
 export const logoMaxHeight = 200;
 export const illustrativeGraphicsMaxWidth = 800;
 export const illustrativeGraphicsMaxHeight = 800;
+export const maxAttachmentsCount = 3;
+export const maxAttachmentsTotalSize = 30 * 1024 * 1024;
+export const allowedAttachmentExtensions = ['PNG', 'JPEG', 'DOC', 'DOCX', 'PDF', 'XLS', 'XLSX', 'CSV', 'XML', 'ZIP'];
 // pattern variables
 export const linkPattern = '((http|https):\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?';

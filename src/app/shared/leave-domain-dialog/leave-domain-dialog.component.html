@@ -1,0 +1,51 @@
+<div class="leave-domain-dialog">
+  <div class="leave-domain-dialog__header">
+    <h1 mat-dialog-title class="leave-domain-dialog__title">{{ data.titleKey | translate }}</h1>
+    <button
+      type="button"
+      class="leave-domain-dialog__close"
+      [attr.aria-label]="data.closeAriaKey | translate"
+      mat-dialog-close>
+      <svg
+        class="leave-domain-dialog__close-icon"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false">
+        <path
+          d="M23.5452 22.2846C23.8891 22.6284 23.8891 23.1974 23.5452 23.5412C23.3674 23.719 23.1421 23.802 22.9168 23.802C22.6916 23.802 22.4663 23.719 22.2885 23.5412L15.8031 17.057L9.31774 23.5412C9.13989 23.719 8.91462 23.802 8.68935 23.802C8.46409 23.802 8.23882 23.719 8.06097 23.5412C7.71714 23.1974 7.71714 22.6284 8.06097 22.2846L14.5463 15.8005L8.06097 9.31631C7.71714 8.97254 7.71714 8.40355 8.06097 8.05978C8.4048 7.71601 8.9739 7.71601 9.31774 8.05978L15.8031 14.5439L22.2885 8.05978C22.6323 7.71601 23.2014 7.71601 23.5452 8.05978C23.8891 8.40355 23.8891 8.97254 23.5452 9.31631L17.0599 15.8005L23.5452 22.2846Z"
+          fill="currentColor" />
+      </svg>
+    </button>
+  </div>
+  <div class="leave-domain-dialog__accent" aria-hidden="true"></div>
+
+  <div mat-dialog-content class="leave-domain-dialog__content">
+    <p class="leave-domain-dialog__body">
+      {{ data.bodyPrefixKey | translate }}
+      <a [href]="data.siteLinkUrl" target="_blank" rel="noopener noreferrer" class="leave-domain-dialog__link">
+        {{ data.siteLinkLabelKey | translate }}
+      </a>
+      {{ data.bodyMiddleKey | translate }}
+      <a
+        [href]="data.policyLinkUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="leave-domain-dialog__link leave-domain-dialog__policy-link">
+        {{ data.policyLinkLabelKey | translate }}
+      </a>
+    </p>
+  </div>
+
+  <div mat-dialog-actions class="leave-domain-dialog__actions">
+    <button type="button" class="btn btn-outline-primary leave-domain-dialog__button" (click)="stay()">
+      {{ data.stayKey | translate }}
+    </button>
+    <button type="button" class="btn btn-primary leave-domain-dialog__button" (click)="proceed()">
+      {{ data.proceedKey | translate }}
+    </button>
+  </div>
+</div>

@@ -6,35 +6,21 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 
 import { AppTestingModule } from '@app/app.testing.module';
 import { SitemapComponent } from '@app/pages/sitemap/sitemap.component';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { SeoService } from '@app/services/seo.service';
 import { SharedModule } from '@app/shared/shared.module';
 
 class BsModalServiceStub {}
 
-class SeoServiceStub {
-  setPageTitleByTranslationKey() {}
-}
-
 describe('SitemapComponent', () => {
   let component: SitemapComponent;
   let fixture: ComponentFixture<SitemapComponent>;
-  let flagEnabled: boolean;
 
   beforeEach(() => {
-    flagEnabled = false;
-
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), SharedModule, SitemapComponent],
       providers: [
-        { provide: SeoService, useClass: SeoServiceStub },
+        { provide: SeoService, useValue: { setPageTitleByTranslationKey: jest.fn() } },
         { provide: BsModalService, useClass: BsModalServiceStub },
-        {
-          provide: FeatureFlagService,
-          useValue: {
-            validateFlagSync: () => flagEnabled,
-          },
-        },
         importProvidersFrom(AppTestingModule),
       ],
     }).compileComponents();
@@ -51,19 +37,9 @@ describe('SitemapComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should render a contact link when the new contact page flag is enabled', () => {
-    flagEnabled = true;
-
+  it('should render a contact link', () => {
     createComponent();
 
     expect(fixture.nativeElement.querySelector('.sitemap-contact-link')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('app-write-us-info')).toBeFalsy();
-  });
-
-  it('should render the legacy contact modal trigger when the new contact page flag is disabled', () => {
-    createComponent();
-
-    expect(fixture.nativeElement.querySelector('.sitemap-contact-link')).toBeFalsy();
-    expect(fixture.nativeElement.querySelector('app-write-us-info')).toBeTruthy();
   });
 });

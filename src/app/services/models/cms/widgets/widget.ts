@@ -8,4 +8,5 @@ export interface IWidget extends IWidgetStyle {
   children?: IWidget[];
   settings?: ISettings;
   classname?: string;
+  value?: unknown;
 }

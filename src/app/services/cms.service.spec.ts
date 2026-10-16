@@ -1,4 +1,3 @@
-import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CmsService } from './cms.service';
 
@@ -7,13 +6,11 @@ import { ServiceTestbed } from '@app/services/tests/service.testbed';
 
 describe('CmsService', () => {
   let service: CmsService;
-  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule(ServiceTestbed.module(CmsService));
 
     service = TestBed.inject(CmsService);
-    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -22,10 +19,6 @@ describe('CmsService', () => {
 
   it('should call get function', () => {
     expect(service.get('https://test.pl')).toBeTruthy();
-  });
-
-  it('should call footerNavIsExist function', () => {
-    expect(service.footerNavIsExist(true)).toBeFalsy();
   });
 
   it('should call getAllNewsWidgets function', () => {
@@ -251,11 +244,6 @@ describe('CmsService', () => {
     service.sendForm('https://test.pl', {}).subscribe((value) => {
       expect(value.length).toBeGreaterThan(0);
     });
-  });
-
-  it('footerNavIsExist should return value', () => {
-    const isVisible = true;
-    expect(service.footerNavIsExist(true)).not.toEqual(isVisible);
   });
 
   // it('getCredentials should return value', () => {

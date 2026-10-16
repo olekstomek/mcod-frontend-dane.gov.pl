@@ -23,7 +23,7 @@
         </p>
       </div>
       <div class="form-wrapper">
-        <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
+        <form appScrollToFirstError #contactForm [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
           <fieldset class="form-part">
             <legend class="fieldset-header fieldset-header--compact">
               <h2>{{ 'Forms.TopicSection.SectionTitle' | translate }}</h2>
@@ -112,55 +112,49 @@
               </div>
             }
           </fieldset>
-          @switch (mainForm.value.category) {
-            @case (ContactCategory.SuggestData) {
-              <app-name-email-form-part />
-              <app-suggest-dataset-form-part />
+          @if (showFormParts()) {
+            <app-name-email-form-part />
+            @switch (mainForm.value.category) {
+              @case (ContactCategory.SuggestData) {
+                <app-suggest-dataset-form-part />
+              }
+              @case (ContactCategory.DataFeedback) {
+                <app-feedback-fields-form-part />
+              }
+              @case (ContactCategory.SuggestReuse) {
+                <app-po-co-to-fields-form-part />
+              }
+              @default {
+                <app-generic-form-part />
+              }
+            }
+            @if (showPrivacyPolicy()) {
               <div class="fieldset-header">
+                @if (mainForm.value.category === ContactCategory.DataFeedback) {
+                  <p>{{ 'Forms.ConsentsSection.FeedbackDisclaimer' | translate }}</p>
+                }
                 @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
                 <p>
                   {{ sectionParagraph.text }}
                   <a [routerLink]="['/!privacy-policy'] | localize" target="_blank">{{ sectionParagraph.link }}</a>
                 </p>
               </div>
-              <app-math-captcha
-                class="form-field"
-                formControlName="captcha"
-                newStyle
-                [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
-                [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
             }
-            @case (ContactCategory.DataFeedback) {
-              <app-name-email-form-part />
-              <app-feedback-fields-form-part />
-              <div class="fieldset-header">
-                @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
-                <p>
-                  {{ sectionParagraph.text }}
-                  <a [routerLink]="['/!privacy-policy'] | localize" target="_blank">{{ sectionParagraph.link }}</a>
-                </p>
-              </div>
-              <app-math-captcha
-                class="form-field"
-                formControlName="captcha"
-                newStyle
-                [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
-                [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
-            }
-            @case (ContactCategory.SuggestReuse) {
-              <app-name-email-form-part />
-              <app-po-co-to-fields-form-part />
-              <app-math-captcha
-                class="form-field"
-                formControlName="captcha"
-                newStyle
-                [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
-                [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
-            }
+            <app-math-captcha
+              class="form-field"
+              formControlName="captcha"
+              newStyle
+              [validationRequiredText]="'Forms.CaptchaSection.ValidatorRequired' | translate"
+              [validationInvalidNumberText]="'Forms.CaptchaSection.ValidatorInvalidNumber' | translate" />
           }
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
             {{ 'Forms.Buttons.Send' | translate }}
           </button>
+          @if (showSlowUploadHint()) {
+            <div class="alert alert-info mt-4" role="status">
+              {{ 'Forms.General.SlowUploadHint' | translate }}
+            </div>
+          }
         </form>
       </div>
     </div>

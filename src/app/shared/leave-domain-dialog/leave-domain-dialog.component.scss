@@ -1,0 +1,220 @@
+@use 'base/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.leave-domain-dialog {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 32px 0;
+  background-color: variables.$color-white;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: unset;
+    font-weight: 700;
+    color: variables.$color-heading;
+    overflow-wrap: anywhere;
+
+    &::before {
+      content: unset;
+    }
+  }
+
+  &__close {
+    background: transparent;
+    border: none;
+    padding: 0;
+    line-height: 0;
+    color: #555555;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+
+  &__close-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+
+  &__accent {
+    width: 45px;
+    height: 5px;
+    background-color: variables.$color-form-blue;
+    margin: 24px 0;
+  }
+
+  &__content {
+    max-height: none;
+    padding: 0 0 24px;
+    overflow: visible;
+  }
+
+  &__body {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: variables.$color-text;
+    overflow-wrap: anywhere;
+  }
+
+  &__link {
+    color: variables.$color-form-blue;
+  }
+
+  &__policy-link {
+    white-space: nowrap;
+
+    @media (max-width: 768px) {
+      white-space: normal;
+    }
+  }
+
+  &__actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-end;
+    padding: 24px 0 24px;
+    margin-bottom: 0;
+    border-top: 1px solid #d9d9d9;
+    background-color: variables.$color-white;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 0.625rem;
+    border: 1px solid variables.$color-form-blue;
+    min-width: min(12rem, 100%);
+    max-width: 100%;
+    justify-content: center;
+    font-weight: 500;
+  }
+
+  .btn-primary {
+    background-color: variables.$color-form-blue;
+    border-color: variables.$color-form-blue;
+    color: variables.$color-white;
+
+    &:hover,
+    &:active {
+      background-color: variables.$color-form-blue-light;
+      border-color: variables.$color-form-blue-light;
+    }
+  }
+
+  .btn-outline-primary {
+    background-color: variables.$color-white;
+    border-color: variables.$color-form-blue;
+    color: variables.$color-form-blue;
+
+    &:hover,
+    &:active {
+      border-color: variables.$color-form-blue-light;
+      color: variables.$color-form-blue-light;
+    }
+  }
+
+  .btn-primary,
+  .btn-outline-primary {
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 0 0 2px #fff,
+        0 0 0 4px variables.$color-form-blue-light;
+    }
+  }
+}
+
+:host-context(.black-white) {
+  --contrast-primary: #{variables.$color-white};
+  --contrast-secondary: #{variables.$color-black};
+}
+
+:host-context(.black-yellow) {
+  --contrast-primary: #{variables.$color-yellow};
+  --contrast-secondary: #{variables.$color-black};
+}
+
+:host-context(.yellow-black) {
+  --contrast-primary: #{variables.$color-black};
+  --contrast-secondary: #{variables.$color-yellow};
+}
+
+:host-context(.black-white),
+:host-context(.black-yellow),
+:host-context(.yellow-black) {
+  .leave-domain-dialog {
+    background-color: var(--contrast-secondary);
+    color: var(--contrast-primary);
+
+    &__title,
+    &__body,
+    &__close {
+      color: var(--contrast-primary);
+    }
+
+    &__accent {
+      background-color: var(--contrast-primary);
+    }
+
+    &__actions {
+      background-color: var(--contrast-secondary);
+      border-top-color: var(--contrast-primary);
+    }
+
+    .btn-primary {
+      background-color: var(--contrast-primary);
+      border-color: var(--contrast-primary);
+      color: var(--contrast-secondary);
+
+      &:hover,
+      &:active {
+        background-color: var(--contrast-secondary);
+        color: var(--contrast-primary);
+      }
+    }
+
+    .btn-outline-primary {
+      background-color: var(--contrast-secondary);
+      border-color: var(--contrast-primary);
+      color: var(--contrast-primary);
+
+      &:hover,
+      &:active {
+        background-color: var(--contrast-primary);
+        color: var(--contrast-secondary);
+      }
+    }
+
+    .btn-primary,
+    .btn-outline-primary {
+      &:focus,
+      &:focus-visible {
+        box-shadow:
+          0 0 0 2px var(--contrast-secondary),
+          0 0 0 4px var(--contrast-primary);
+      }
+    }
+  }
+}

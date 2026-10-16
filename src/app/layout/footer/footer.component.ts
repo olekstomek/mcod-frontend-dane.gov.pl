@@ -1,4 +1,4 @@
-import { AsyncPipe, DOCUMENT, isPlatformBrowser, LowerCasePipe } from '@angular/common';
+import { AsyncPipe, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -8,48 +8,29 @@ import {
   PLATFORM_ID,
   TemplateRef,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { environment } from '@env/environment';
-import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-import { APP_CONFIG } from '@app/app.config';
 import { FooterLogosFilterService } from '@app/layout/footer/footer-logos-filter.service';
 import { ApiConfig } from '@app/services/api';
 import { CmsService } from '@app/services/cms.service';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { IHome } from '@app/services/models/cms/pages/home';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { IWidgetSvg } from '@app/services/models/cms/widgets/widget-svg';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
 import { CmsBlock2Component } from '@app/shared/cms/cms-block2/cms-block2.component';
 import { CmsLandingPageComponent } from '@app/shared/cms/cms-landing-page/cms-landing-page.component';
-import { FocusTrapDirective } from '@app/shared/directives/focus-trap/focus-trap.directive';
 import packageJson from '../../../../package.json';
-import { Router } from '@angular/router';
-import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { LocalStorageService } from 'ngx-localstorage';
 import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
-import {
-  CONTACT_PAGE_LOCALIZED_ROUTE,
-  isNewContactPageEnabled,
-} from '@app/shared/forms/form-pages/contact-form/contact-page.config';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  imports: [
-    CmsLandingPageComponent,
-    CmsBlock2Component,
-    FocusTrapDirective,
-    TranslatePipe,
-    LowerCasePipe,
-    AsyncPipe,
-    RodoModalComponent,
-  ],
+  imports: [CmsLandingPageComponent, CmsBlock2Component, AsyncPipe, RodoModalComponent],
   standalone: true,
 })
 export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -57,23 +38,13 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * Router endpoints
    */
   readonly routerEndpoints = RouterEndpoints;
-  readonly isNewContactPageEnabled = isNewContactPageEnabled(inject(FeatureFlagService));
-  private readonly router = inject(Router);
-  private readonly localizeRouterService = inject(LocalizeRouterService);
-  private writeUsLinkElem: HTMLAnchorElement | null = null;
   isAcquintedWithRodo: boolean;
 
   /**
    * RODO modal reference
    */
-  @ViewChild('rodoModalTemplate') rodoModalTemplate: TemplateRef<any>;
+  @ViewChild('rodoModalTemplate') rodoModalTemplate: TemplateRef<unknown>;
   rodoModalRef: BsModalRef;
-
-  /**
-   * write us modal reference
-   */
-  @ViewChild('writeUsModalTemplate', { static: false }) writeUsModalTemplate: TemplateRef<unknown>;
-  writeUsModalRef: BsModalRef;
 
   /**
    * RODO modal hide subscription
@@ -91,10 +62,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   currentVersion = packageJson.version;
 
   /**
-   * App config
-   */
-  appConfig = APP_CONFIG;
-  /**
    * Rdf documentation link
    * @type {string}
    */
@@ -108,16 +75,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
    * Data from api for home data
    */
   private homeData: IHome;
-  private readonly onWriteUsClick = (event: Event) => {
-    event.preventDefault();
-
-    if (this.isNewContactPageEnabled) {
-      this.router.navigate(this.localizeRouterService.translateRoute([CONTACT_PAGE_LOCALIZED_ROUTE]) as []);
-      return;
-    }
-
-    this.writeUsModalRef = this.modalService.show(this.writeUsModalTemplate);
-  };
 
   /**
    * @ignore
@@ -137,10 +94,6 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.getRDFDocumentationURL();
     this.assignCmsSection();
-    this.cmsService.elementFooterNavIsExist.pipe(take(1)).subscribe(() => {
-      this.writeUsLinkElem = this.document.querySelector('a.page-footer__list-item.btn-write-us');
-      this.writeUsLinkElem?.addEventListener('click', this.onWriteUsClick);
-    });
   }
 
   ngAfterViewInit() {
@@ -163,16 +116,9 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.writeUsLinkElem?.removeEventListener('click', this.onWriteUsClick);
-
     if (isPlatformBrowser(this.platformId && this.rodoModalHideSubscription)) {
       this.rodoModalHideSubscription.unsubscribe();
     }
-  }
-
-  onWriteUsModalClose() {
-    this.writeUsModalRef.hide();
-    this.writeUsModalRef = null;
   }
 
   private rodoModalOpen() {

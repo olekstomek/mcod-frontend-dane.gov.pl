@@ -106,6 +106,7 @@ import { PermissionDirective } from '@app/shared/user-permissions/permission.dir
 import { AppShellNoRenderDirective } from '@app/ssr/app-shell-no-render.directive';
 import { AppShellRenderDirective } from '@app/ssr/app-shell-render.directive';
 import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component';
+import { ExternalLinkInterceptorDirective } from '@app/shared/directives/external-link-interceptor.directive';
 @NgModule({
   imports: [
     CommonModule,
@@ -223,6 +224,7 @@ import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component'
     RegionsSearchComponent,
     ConfirmDialogComponent,
     ClickOutsideDirective,
+    ExternalLinkInterceptorDirective,
   ],
   exports: [
     SanitizeHtmlPipe,
@@ -314,6 +316,7 @@ import { RodoModalComponent } from '@app/shared/rodo-modal/rodo-modal.component'
     FeatureFlagsModule,
     CmsLandingPageComponent,
     ClickOutsideDirective,
+    ExternalLinkInterceptorDirective,
   ],
 })
 export class SharedModule {}

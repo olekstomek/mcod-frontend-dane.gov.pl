@@ -519,12 +519,28 @@
     "Default": "Czcionka standardowa",
     "Increased": "Czcionka powiększona"
   },
+  "Footer": {
+    "Facebook": {
+      "AriaLabel": "Odwiedź nasz profil na Facebooku",
+      "Dialog": {
+        "Title": "Opuszczasz stronę dane.gov.pl",
+        "BodyPrefix": "Za chwilę zostaniesz przekierowany do serwisu Facebook. Opuścisz stronę",
+        "SiteLinkLabel": "www.dane.gov.pl",
+        "BodyMiddle": "i przejdziesz do serwisu zewnętrznego należącego do Meta Platforms Ireland Ltd. Po opuszczeniu niniejszej strony dalsze przetwarzanie danych osobowych odbywa się zgodnie z zasadami określonymi przez Meta:",
+        "PolicyLinkLabel": "https://www.facebook.com/privacy/policy",
+        "Stay": "Pozostań na stronie",
+        "Proceed": "Przejdź do Facebook",
+        "CloseAria": "Zamknij"
+      }
+    }
+  },
   "Forms": {
     "General": {
       "RequiredHint": "pole wymagane",
       "ErrorPrefix": "Błąd:",
       "ErrorToast": "Wystąpił błąd podczas wysyłania formularza.",
-      "RemoveDataset": "Usuń zbiór danych"
+      "RemoveDataset": "Usuń zbiór danych",
+      "SlowUploadHint": "Trwa wysyłanie formularza. Przesyłanie może potrwać dłużej ze względu na rozmiar załącznika lub wolniejsze połączenie."
     },
     "Validators": {
       "ValidatorMaxLength": "Przekroczono limit znaków: {length}.",
@@ -618,7 +634,8 @@
       "DatasetLinkInput": {
         "Label": "Link do zbioru danych lub danych",
         "Placeholder": "Wprowadź link",
-        "ValidatorRequired": "Wpisz link do zbioru danych lub danych."
+        "ValidatorRequired": "Wpisz link do zbioru danych lub danych.",
+        "ValidatorNotFound": "Podany zbiór danych lub dane nie istnieją. Sprawdź poprawność linku."
       },
       "FeedbackTextarea": {
         "Label": "Uwagi",
@@ -627,10 +644,11 @@
       },
       "AttachmentUploader": {
         "Label": "Załącznik do korespondencji",
-        "ParagraphAddFile": "Dodaj plik lub przeciągnij go na to pole.",
-        "ParagraphFormats": "Dopuszczalny format pliku: PNG, JPEG, DOC, DOCX, PDF, XLS, XLSX, CSV, XML, ZIP",
-        "ParagraphSize": "Maksymalny łączny rozmiar plików: 30 MB.",
-        "ParagraphNumberOfFiles": "Maksymalna liczba plików: 3",
+        "ParagraphAddFileButton": "Dodaj plik",
+        "ParagraphAddFileHint": "lub przeciągnij go na to pole.",
+        "ParagraphFormats": "Dopuszczalny format pliku: {formats}",
+        "ParagraphSize": "Maksymalny łączny rozmiar plików: {size} MB",
+        "ParagraphNumberOfFiles": "Maksymalna liczba plików: {count}",
         "ValidatorMaxLength": "Przekroczono limit znaków w nazwie pliku: 300.",
         "ValidatorFileType": "Niepoprawny format pliku.",
         "ValidatorFileSize": "Pliki są za duże. Dodaj pliki, których łączny rozmiar wynosi 30 MB.",
@@ -777,6 +795,7 @@
         "text": "Informacja dotycząca przetwarzania danych osobowych znajduje się w",
         "link": "polityce prywatności portalu."
       },
+      "FeedbackDisclaimer": "Treść uwagi wraz z Pana/Pani danymi osobowymi (o ile zostały podane), zostanie przekazana do Administratora danych i do Dostawcy danych, których dotyczy uwaga.",
       "ValidatorRequired": "To pole jest wymagane.",
       "DataProcessing": "Potwierdzam przyjęcie do wiadomości następujących informacji:"
     },

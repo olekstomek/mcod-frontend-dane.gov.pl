@@ -22,8 +22,10 @@ variables:
 
 # prevent running branch pipelines for open MRs
 # https://docs.gitlab.com/ci/yaml/workflow/#switch-between-branch-pipelines-and-merge-request-pipelines
+# release/* is exempt: bump-version needs a real branch pipeline to access protected variables
 workflow:
   rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release\/\d+\.\d+\.\d+$/
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
       when: never
@@ -42,9 +44,6 @@ bump-version:
   tags:
     - docker
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^release\/\d+\.\d+\.\d+$/ && $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
-      when: on_success
-      allow_failure: true
     - if: $CI_COMMIT_BRANCH =~ /^release\/\d+\.\d+\.\d+$/
       when: manual
       allow_failure: true
@@ -172,7 +171,7 @@ release-dev:
     IMAGE_TAG: pre-dev
   rules:
     - if: $CI_COMMIT_BRANCH == 'develop'
-      when: on_success
+      when: manual
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: manual
 

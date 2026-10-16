@@ -1,0 +1,83 @@
+<div class="form-field">
+  <label class="form-label" [for]="inputId" [id]="inputId + '-label'">
+    {{ labelTranslationKey() | translate }}
+  </label>
+
+  @if (canAddMore()) {
+    <div
+      class="file-upload__dropzone"
+      [class.file-upload__dropzone--over]="isDragOver()"
+      [class.is-invalid]="isInvalid()"
+      role="presentation"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)">
+      <span class="file-upload__icon" aria-hidden="true"></span>
+
+      <p class="file-upload__cta">
+        <button
+          type="button"
+          class="file-upload__trigger btn btn-link"
+          [attr.aria-labelledby]="inputId + '-label'"
+          [attr.aria-describedby]="inputId + '-meta'"
+          [disabled]="isDisabled()"
+          (click)="openFilePicker()">
+          {{ 'Forms.TopicSection.AttachmentUploader.ParagraphAddFileButton' | translate }}
+        </button>
+        {{ 'Forms.TopicSection.AttachmentUploader.ParagraphAddFileHint' | translate }}
+      </p>
+
+      <div [id]="inputId + '-meta'">
+        <p class="file-upload__meta">
+          {{ 'Forms.TopicSection.AttachmentUploader.ParagraphFormats' | translate: { formats: formatsDisplay() } }}
+        </p>
+        <p class="file-upload__meta">
+          {{ 'Forms.TopicSection.AttachmentUploader.ParagraphNumberOfFiles' | translate: { count: maxFiles() } }}
+        </p>
+        <p class="file-upload__meta">
+          {{ 'Forms.TopicSection.AttachmentUploader.ParagraphSize' | translate: { size: maxTotalSizeMb() } }}
+        </p>
+      </div>
+    </div>
+  }
+
+  <input
+    #fileInput
+    type="file"
+    [id]="inputId"
+    [accept]="acceptAttr()"
+    [attr.multiple]="maxFiles() > 1 ? '' : null"
+    [disabled]="isDisabled()"
+    [class.is-invalid]="isInvalid()"
+    aria-hidden="true"
+    tabindex="-1"
+    class="file-upload__input"
+    (change)="onFileChange($event)" />
+
+  @if (files().length) {
+    <ul class="file-upload__file-list" role="list">
+      @for (file of files(); track $index) {
+        <li class="file-upload__file-item">
+          <span class="file-upload__filename"> {{ file.name }} (<app-file-size [fileSize]="file.size" />) </span>
+          <button type="button" class="file-upload__remove" [disabled]="isDisabled()" (click)="removeFile($index)">
+            <span class="visually-hidden">{{ 'Action.Remove' | translate }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+
+  @let currentErrors = errors();
+  @if (isInvalid() && currentErrors) {
+    <div class="invalid-feedback">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
+      @if (currentErrors['fileType']) {
+        {{ 'Forms.TopicSection.AttachmentUploader.ValidatorFileType' | translate }}
+      } @else if (currentErrors['maxTotalSize']) {
+        {{ 'Forms.TopicSection.AttachmentUploader.ValidatorFileSize' | translate }}
+      } @else if (currentErrors['maxFiles']) {
+        {{ 'Forms.TopicSection.AttachmentUploader.ValidatorNumberOfFiles' | translate }}
+      }
+    </div>
+  }
+</div>

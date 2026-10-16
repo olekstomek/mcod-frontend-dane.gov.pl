@@ -4,12 +4,16 @@ import { ActivatedRoute, NavigationEnd, Params, Router, RouterOutlet } from '@an
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CmsBlock2Component } from '../cms-block2/cms-block2.component';
 
+import { FooterSocialLinksComponent } from '@app/layout/footer/footer-social-links/footer-social-links.component';
 import { CmsService } from '@app/services/cms.service';
 import { IPageCms } from '@app/services/models/cms/page-cms';
 import { IBanner } from '@app/services/models/cms/widgets/banner';
 import { IWidget } from '@app/services/models/cms/widgets/widget';
 import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { RouterEndpoints } from '@app/services/models/routerEndpoints';
+
+import { CmsLandingPageContext } from './cms-landing-page.context';
+import { IsContactListSectionPipe } from './is-contact-list-section.pipe';
 
 /**
  * Hyper editor pages component
@@ -18,7 +22,16 @@ import { RouterEndpoints } from '@app/services/models/routerEndpoints';
   selector: 'cms-landing-page',
   templateUrl: './cms-landing-page.component.html',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, NgTemplateOutlet, CmsBlock2Component, RouterOutlet],
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    NgTemplateOutlet,
+    CmsBlock2Component,
+    RouterOutlet,
+    FooterSocialLinksComponent,
+    IsContactListSectionPipe,
+  ],
 })
 export class CmsLandingPageComponent implements OnInit, OnDestroy {
   /**
@@ -65,6 +78,11 @@ export class CmsLandingPageComponent implements OnInit, OnDestroy {
    * Widget subject for footer and header
    */
   @Input() widgetFooterSubject: BehaviorSubject<IWidget[]>;
+
+  /**
+   * Rendering context; `'footer'` enables footer-scoped injections (e.g. social links).
+   */
+  @Input() context: CmsLandingPageContext = 'page';
 
   /**
    * @ignore

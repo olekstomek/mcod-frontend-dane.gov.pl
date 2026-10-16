@@ -7,8 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppTestingModule } from '@app/app.testing.module';
 import { PageNotFoundComponent } from '@app/page-not-found/page-not-found.component';
 import { ContactFormComponent } from '@app/shared/forms/form-pages/contact-form/contact-form.component';
-import { CONTACT_PAGE_ROUTE, contactPageCanMatch } from '@app/shared/forms/form-pages/contact-form/contact-page.config';
-import { FeatureFlagService } from '@app/services/feature-flag.service';
+import { CONTACT_PAGE_ROUTE } from '@app/shared/forms/form-pages/contact-form/contact-page.config';
 import { SeoService } from '@app/services/seo.service';
 
 @Component({
@@ -22,11 +21,8 @@ class TestRouterHostComponent {}
 describe('contact route', () => {
   let fixture: ComponentFixture<TestRouterHostComponent>;
   let router: Router;
-  let validateFlagSync: jest.Mock;
 
   beforeEach(async () => {
-    validateFlagSync = jest.fn().mockReturnValue(false);
-
     await TestBed.configureTestingModule({
       imports: [TestRouterHostComponent, TranslateModule.forRoot()],
       providers: [
@@ -38,7 +34,6 @@ describe('contact route', () => {
               {
                 path: CONTACT_PAGE_ROUTE,
                 component: ContactFormComponent,
-                canMatch: [contactPageCanMatch],
               },
               {
                 path: '**',
@@ -47,10 +42,6 @@ describe('contact route', () => {
             ],
           },
         ]),
-        {
-          provide: FeatureFlagService,
-          useValue: { validateFlagSync },
-        },
         {
           provide: SeoService,
           useValue: { setPageTitleByTranslationKey: jest.fn() },
@@ -71,17 +62,7 @@ describe('contact route', () => {
     await fixture.whenStable();
   }
 
-  it('should render PageNotFoundComponent on /pl/contact when the flag is disabled', async () => {
-    await navigate('/pl/contact');
-
-    expect(router.url).toBe('/pl/contact');
-    expect(fixture.debugElement.query(By.directive(PageNotFoundComponent))).toBeTruthy();
-    expect(fixture.debugElement.query(By.directive(ContactFormComponent))).toBeNull();
-  });
-
-  it('should render ContactFormComponent on /pl/contact when the flag is enabled', async () => {
-    validateFlagSync.mockReturnValue(true);
-
+  it('should render ContactFormComponent on /pl/contact', async () => {
     await navigate('/pl/contact');
 
     expect(router.url).toBe('/pl/contact');

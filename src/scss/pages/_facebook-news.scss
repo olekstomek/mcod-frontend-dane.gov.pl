@@ -1,0 +1,14 @@
+.facebook-news {
+  background-color: $color-grey-light-1;
+  display: flex;
+  flex-grow: 1;
+
+  &__content {
+    border-left: solid 1px $color-grey-light-5;
+    flex-grow: 1;
+  }
+
+  img {
+    max-width: 290px;
+  }
+}

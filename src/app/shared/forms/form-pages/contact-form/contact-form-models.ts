@@ -13,6 +13,11 @@ import {
   PoCoToFieldsForm,
   PoCoToFieldsFormValue,
 } from '@app/shared/forms/form-parts/po-co-to-fields-form-part/po-co-to-fields-models';
+import {
+  GenericFieldsForm,
+  GenericFieldsFormValue,
+} from '@app/shared/forms/form-parts/generic-form-part/generic-models';
+import { GenericSubmissionCategory, GenericSubmissionSubject } from '@app/services/models/generic-form';
 
 export type ApiMap = Partial<Record<ContactCategory, (data: ContactFormValue) => Observable<unknown>>>;
 
@@ -81,6 +86,7 @@ export interface ContactForm {
   suggestDatasetFields?: FormGroup<SuggestDatasetFieldsForm>;
   poCoToFields?: FormGroup<PoCoToFieldsForm>;
   feedbackFields?: FormGroup<FeedbackFieldsForm>;
+  genericFields?: FormGroup<GenericFieldsForm>;
 }
 
 export interface ContactFormValue {
@@ -91,4 +97,44 @@ export interface ContactFormValue {
   suggestDatasetFields?: SuggestDatasetFieldsFormValue;
   feedbackFields?: FeedbackFieldsFormValue;
   poCoToFields?: PoCoToFieldsFormValue;
+  genericFields?: GenericFieldsFormValue;
 }
+
+export interface GenericSubmitData {
+  topic: ContactTopic | null;
+  category: ContactCategory | null;
+  nameEmail?: NameEmailFormValue;
+  genericFields?: GenericFieldsFormValue;
+}
+
+export const CATEGORY_TO_SUBJECT: Partial<Record<ContactCategory, GenericSubmissionSubject>> = {
+  [ContactCategory.SharingData]: GenericSubmissionSubject.Data,
+  [ContactCategory.DataOpenness]: GenericSubmissionSubject.Data,
+  [ContactCategory.HVD]: GenericSubmissionSubject.Data,
+  [ContactCategory.DGA]: GenericSubmissionSubject.Data,
+  [ContactCategory.DataOther]: GenericSubmissionSubject.Data,
+  [ContactCategory.PortalFeatures]: GenericSubmissionSubject.Portal,
+  [ContactCategory.CreatingProfiles]: GenericSubmissionSubject.Portal,
+  [ContactCategory.GrantingPermissions]: GenericSubmissionSubject.Portal,
+  [ContactCategory.PortalErrors]: GenericSubmissionSubject.Portal,
+  [ContactCategory.PortalOther]: GenericSubmissionSubject.Portal,
+};
+
+export const CATEGORY_TO_BACKEND_CATEGORY: Partial<Record<ContactCategory, GenericSubmissionCategory>> = {
+  [ContactCategory.SharingData]: GenericSubmissionCategory.Sharing,
+  [ContactCategory.DataOpenness]: GenericSubmissionCategory.Standards,
+  [ContactCategory.HVD]: GenericSubmissionCategory.Hvd,
+  [ContactCategory.DGA]: GenericSubmissionCategory.Dga,
+  [ContactCategory.DataOther]: GenericSubmissionCategory.Other,
+  [ContactCategory.PortalFeatures]: GenericSubmissionCategory.Features,
+  [ContactCategory.CreatingProfiles]: GenericSubmissionCategory.Profiles,
+  [ContactCategory.GrantingPermissions]: GenericSubmissionCategory.Permissions,
+  [ContactCategory.PortalErrors]: GenericSubmissionCategory.Bugs,
+  [ContactCategory.PortalOther]: GenericSubmissionCategory.Other,
+};
+
+export const TOPIC_TO_SUBJECT: Partial<Record<ContactTopic, GenericSubmissionSubject>> = {
+  [ContactTopic.PersonalData]: GenericSubmissionSubject.DataProtection,
+  [ContactTopic.LegalRegulations]: GenericSubmissionSubject.Legal,
+  [ContactTopic.Other]: GenericSubmissionSubject.Other,
+};

@@ -83,6 +83,46 @@ export const maxFileSizeValidator = (maxFileSize: number): ValidatorFn => {
   };
 };
 
+const getFileExtension = (fileName: string): string => {
+  const dot = fileName.lastIndexOf('.');
+  return dot >= 0 ? fileName.slice(dot + 1).toUpperCase() : '';
+};
+
+export const filesExtensionValidator = (allowed: string[]): ValidatorFn => {
+  const allowedUpper = allowed.map((ext) => ext.toUpperCase());
+  return (control: AbstractControl): ValidationErrors | null => {
+    const files: File[] | null | undefined = control.value;
+    if (!files?.length) {
+      return null;
+    }
+    const invalidFiles = files
+      .filter((file) => !allowedUpper.includes(getFileExtension(file.name)))
+      .map((file) => file.name);
+    return invalidFiles.length ? { fileType: { invalidFiles } } : null;
+  };
+};
+
+export const filesTotalSizeValidator = (maxBytes: number): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const files: File[] | null | undefined = control.value;
+    if (!files?.length) {
+      return null;
+    }
+    const actual = files.reduce((sum, file) => sum + file.size, 0);
+    return actual > maxBytes ? { maxTotalSize: { actual, max: maxBytes } } : null;
+  };
+};
+
+export const filesMaxCountValidator = (max: number): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const files: File[] | null | undefined = control.value;
+    if (!files?.length) {
+      return null;
+    }
+    return files.length > max ? { maxFiles: { actual: files.length, max } } : null;
+  };
+};
+
 export const imageDimensionsValidator = (maxWidth: number, maxHeight: number): AsyncValidatorFn => {
   return (control: AbstractControl): Promise<ValidationErrors | null> => {
     const file: File = control.value;

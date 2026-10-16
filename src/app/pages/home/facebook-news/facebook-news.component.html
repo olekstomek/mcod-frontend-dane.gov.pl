@@ -1,0 +1,12 @@
+<section class="facebook-news vertical-spacing">
+  <div class="facebook-news__content">
+    <cms-block2
+      className="text-center d-flex justify-content-center"
+      [widgetsSubject]="facebookWidget"
+      [isFullWidth]="true"
+      appExternalLinkInterceptor
+      [modalComponent]="leaveDomainModal"
+      [dialogDataFactory]="getLeaveDomainData"
+    ></cms-block2>
+  </div>
+</section>

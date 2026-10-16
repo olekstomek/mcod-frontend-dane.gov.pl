@@ -5,6 +5,28 @@
   border-color: variables.$color-form-blue;
   padding: 11px 24px;
   border-radius: 10px;
+
+  &:hover,
+  &:active {
+    background-color: variables.$color-form-blue-light;
+    border-color: variables.$color-form-blue-light;
+  }
+
+  &:disabled {
+    background-color: variables.$color-heading;
+    border-color: variables.$color-heading;
+    color: variables.$color-white;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px variables.$color-white,
+      0 0 0 4px variables.$color-form-blue-light;
+  }
 }
 
 .btn-outline-primary {
@@ -32,6 +54,7 @@
 }
 
 .input-group > .form-control-plaintext {
+  color: currentColor;
   position: relative;
   flex: 1 1 auto;
   width: 1%;
@@ -61,6 +84,25 @@
 :host-context(.black-white),
 :host-context(.black-yellow),
 :host-context(.yellow-black) {
+  .btn-primary {
+    background-color: var(--contrast-primary);
+    border-color: var(--contrast-primary);
+    color: var(--contrast-secondary);
+
+    &:hover,
+    &:active {
+      background-color: var(--contrast-secondary);
+      color: var(--contrast-primary);
+    }
+
+    &:focus,
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--contrast-secondary),
+        0 0 0 4px var(--contrast-primary);
+    }
+  }
+
   .btn-outline-primary,
   .btn-outline-danger {
     background-color: var(--contrast-secondary);

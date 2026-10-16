@@ -75,6 +75,9 @@ legend {
 
   p {
     margin: 0;
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
   }
 }
 
@@ -429,7 +432,6 @@ legend {
   }
 
   .form-field {
-    --bs-form-invalid-color: var(--contrast-primary);
     --form-close-color: var(--contrast-primary);
 
     .form-select {
@@ -485,6 +487,7 @@ legend {
 
   .form-field,
   .form-field-group {
+    --bs-form-invalid-color: var(--contrast-primary);
     --bs-form-invalid-border-color: var(--contrast-primary);
 
     .form-control {

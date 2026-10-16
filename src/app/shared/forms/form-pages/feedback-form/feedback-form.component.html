@@ -9,10 +9,11 @@
   @if (!isFormSent()) {
     <h1 class="form-header">{{ 'Forms.PageHeader.Heading.Feedback' | translate }}</h1>
     <div class="form-wrapper col-md-10 col-lg-8">
-      <form appScrollToFirstError [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
+      <form appScrollToFirstError #feedbackForm [formGroup]="mainForm" (ngSubmit)="onFormSubmit()">
         <app-name-email-form-part />
         <app-feedback-fields-form-part [preselectedLink]="datasetUrl()" />
         <div class="fieldset-header">
+          <p>{{ 'Forms.ConsentsSection.FeedbackDisclaimer' | translate }}</p>
           @let sectionParagraph = 'Forms.ConsentsSection.SectionParagraph' | translate;
           <p>
             {{ sectionParagraph.text }}

@@ -60,7 +60,7 @@ export class NewsComponent implements OnInit, OnDestroy {
     this.articlesSubstription = this.cmsService
       .getAllNewsWidgets({
         children_page: 1,
-        children_per_page: 3,
+        children_per_page: 2,
         children_sort: '-first_published_at',
         children_extra_fields: 'body,author,tags',
       })

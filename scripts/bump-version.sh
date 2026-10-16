@@ -21,7 +21,11 @@ if ! echo "${RELEASE_VERSION}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-
   exit 1
 fi
 
-CURRENT_VERSION=$(jq -r '.version' package.json)
+CURRENT_VERSION=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' package.json | head -n 1)
+if [ -z "${CURRENT_VERSION}" ]; then
+  echo "Could not read .version from package.json"
+  exit 1
+fi
 
 if [ "${CURRENT_VERSION}" = "${RELEASE_VERSION}" ]; then
   echo "Version already at ${RELEASE_VERSION}, nothing to bump."

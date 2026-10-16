@@ -56,6 +56,19 @@
 
 <!-- HOME: APPS -->
 <home-applications [applications]="applications"></home-applications>
-
-<!-- NEWS -->
-<home-news></home-news>
+<div class="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <!-- NEWS -->
+        <home-news></home-news>
+      </div>
+      <div class="col-lg-4 flex-column">
+        <!-- FACEBOOK NEWS -->
+        <app-home-facebook-news
+          [facebookWidget]="cmsSectionFacebookBanerCb"
+          class="h-100 d-flex flex-column"></app-home-facebook-news>
+      </div>
+    </div>
+  </div>
+</div>

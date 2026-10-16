@@ -519,12 +519,28 @@
     "Default": "Default font",
     "Increased": "Increased font"
   },
+  "Footer": {
+    "Facebook": {
+      "AriaLabel": "Visit our Facebook profile",
+      "Dialog": {
+        "Title": "You are leaving dane.gov.pl",
+        "BodyPrefix": "You will be redirected to Facebook. You are leaving",
+        "SiteLinkLabel": "www.dane.gov.pl",
+        "BodyMiddle": "and will access an external service operated by Meta Platforms Ireland Limited. Once you leave this website, any further processing of your personal data will be governed by Meta's Privacy Policy:",
+        "PolicyLinkLabel": "https://www.facebook.com/privacy/policy",
+        "Stay": "Stay on this page",
+        "Proceed": "Continue to Facebook",
+        "CloseAria": "Close"
+      }
+    }
+  },
   "Forms": {
     "General": {
       "RequiredHint": "required field",
       "ErrorPrefix": "Error:",
       "ErrorToast": "An error occurred while submitting the form.",
-      "RemoveDataset": "Remove dataset"
+      "RemoveDataset": "Remove dataset",
+      "SlowUploadHint": "The form is being submitted. The upload may take longer due to the attachment size or a slower internet connection."
     },
     "Validators": {
       "ValidatorMaxLength": "Exceeded the {length}-character limit.",
@@ -618,7 +634,8 @@
       "DatasetLinkInput": {
         "Label": "Link to the dataset or data",
         "Placeholder": "Enter link",
-        "ValidatorRequired": "Enter a link to the dataset or data."
+        "ValidatorRequired": "Enter a link to the dataset or data.",
+        "ValidatorNotFound": "The given dataset or data does not exist. Check that the link is correct."
       },
       "FeedbackTextarea": {
         "Label": "Feedback",
@@ -627,10 +644,11 @@
       },
       "AttachmentUploader": {
         "Label": "Attachment",
-        "ParagraphAddFile": "Add a file or drag it here.",
-        "ParagraphFormats": "Accepted file formats: PNG, JPEG, DOC, DOCX, PDF, XLS, XLSX, CSV, XML, ZIP",
-        "ParagraphSize": "Maximum total size of all files: 30 MB.",
-        "ParagraphNumberOfFiles": "Maximum number of files: 3.",
+        "ParagraphAddFileButton": "Add a file",
+        "ParagraphAddFileHint": "or drag it here.",
+        "ParagraphFormats": "Accepted file formats: {formats}",
+        "ParagraphSize": "Maximum total size of all files: {size} MB",
+        "ParagraphNumberOfFiles": "Maximum number of files: {count}",
         "ValidatorMaxLength": "The file name is too long (maximum 300 characters).",
         "ValidatorFileType": "Invalid file format.",
         "ValidatorFileSize": "Files are too large. Please add files with a total size of up to 30 MB.",
@@ -777,6 +795,7 @@
         "text": "Information regarding the processing of personal data can be found in the ",
         "link": "portal privacy policy."
       },
+      "FeedbackDisclaimer": "Your feedback, along with personal data (if provided), will be submitted to the Data Administrator and the Data Provider whose data the feedback concerns.",
       "ValidatorRequired": "This field is required.",
       "DataProcessing": "I hereby confirm that I have taken note of the following information:"
     },

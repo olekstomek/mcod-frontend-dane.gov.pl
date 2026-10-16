@@ -1,0 +1,40 @@
+<div class="form-part" formGroupName="genericFields">
+  <div class="form-field">
+    @let isTextInvalid =
+      genericFieldsGroup.controls.correspondenceDetails.touched &&
+      genericFieldsGroup.controls.correspondenceDetails.invalid;
+    <label for="correspondenceDetails" class="form-label">
+      {{ 'Forms.TopicSection.CorrespondenceDetailsTextArea.Label' | translate }}
+      <small>({{ 'Forms.General.RequiredHint' | translate }})</small>
+    </label>
+    <div class="input-wrapper" [class.is-invalid]="isTextInvalid" appScrollbarWidth>
+      <textarea
+        id="correspondenceDetails"
+        formControlName="correspondenceDetails"
+        class="form-control"
+        required
+        [placeholder]="'Forms.TopicSection.CorrespondenceDetailsTextArea.Placeholder' | translate"
+        rows="5"
+        [class.is-invalid]="isTextInvalid"
+        [attr.aria-invalid]="isTextInvalid"
+        [attr.aria-describedby]="isTextInvalid ? 'correspondenceDetails-error' : null"></textarea>
+      @if (genericFieldsGroup.value.correspondenceDetails) {
+        <button
+          type="button"
+          class="input-clear"
+          aria-label="Wyczyść"
+          (click)="genericFieldsGroup.controls.correspondenceDetails.reset()"></button>
+      }
+    </div>
+    <div class="invalid-feedback" id="correspondenceDetails-error">
+      <span class="visually-hidden">{{ 'Forms.General.ErrorPrefix' | translate }}</span>
+      @let lengthError = genericFieldsGroup.getError('maxlength', 'correspondenceDetails');
+      @if (genericFieldsGroup.hasError('required', 'correspondenceDetails')) {
+        {{ 'Forms.TopicSection.CorrespondenceDetailsTextArea.ValidatorRequired' | translate }}
+      } @else if (lengthError) {
+        {{ 'Forms.Validators.ValidatorMaxLength' | translate: { length: lengthError.requiredLength } }}
+      }
+    </div>
+  </div>
+  <app-file-upload formControlName="attachments" />
+</div>

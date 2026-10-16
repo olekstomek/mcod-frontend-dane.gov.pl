@@ -61,19 +61,11 @@
       {{ 'Menu.Sitemap' | translate }}
     </li>
 
-    <!-- contact info modal -->
+    <!-- contact info -->
     <li role="presentation" class="text-primary">
-      @if (isNewContactPageEnabled) {
-        <a class="sitemap-contact-link" role="menuitem" [routerLink]="[contactRoute] | localize">
-          {{ 'Menu.Contact' | translate }}
-        </a>
-      } @else {
-        <app-write-us-info
-          [buttonLabel]="'Menu.Contact'"
-          [buttonSize]="'md'"
-          [buttonLook]="'link'"
-          [inheritLook]="true" />
-      }
+      <a class="sitemap-contact-link" role="menuitem" [routerLink]="[contactRoute] | localize">
+        {{ 'Menu.Contact' | translate }}
+      </a>
     </li>
   </ul>
 </div>

@@ -36,6 +36,8 @@ export class TourService implements OnDestroy {
   private static readonly TOUR_DISABLED_ROUTE_PATTERNS: RegExp[] = [
     /^\/dataset\/submissions\/?$/,
     /^\/datasets\/submissions\/?$/,
+    /^\/dataset\/feedback\/?$/,
+    /^\/datasets\/feedback\/?$/,
   ];
 
   /**

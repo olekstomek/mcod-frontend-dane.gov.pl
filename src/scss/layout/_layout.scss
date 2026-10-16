@@ -4,6 +4,7 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -13,10 +14,6 @@ body {
   color: $color-text;
   word-wrap: break-word;
   overflow-wrap: break-word;
-
-  @include media-breakpoint-up(lg) {
-    overflow-y: scroll;
-  }
 }
 
 .main-layout {

@@ -41,3 +41,8 @@
     z-index: 100001;
   }
 }
+
+body.modal-open .tour-button-wrapper,
+body:has(.cdk-overlay-container .mat-mdc-dialog-container) .tour-button-wrapper {
+  display: none;
+}

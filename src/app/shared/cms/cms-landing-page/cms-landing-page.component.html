@@ -26,6 +26,9 @@
 
   <div *ngIf="section && section.children && !section.children.length" class="col p-0 hover justify-content-center">
     <cms-block2 [oneWidget]="section"></cms-block2>
+    @if (section | isContactListSection: context) {
+      <app-footer-social-links />
+    }
   </div>
 </ng-template>
 

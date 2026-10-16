@@ -156,3 +156,37 @@ networks:
 
 The network name, port, and the addresses need to be coordinated with backend's `docker-compose.yml` and nginx config.
 Warning: this configuration *requires* the backend network.
+
+## CI/CD — zmienne konfigurowalne w jobach
+
+Poniższe zmienne można ustawić ręcznie przy uruchamianiu pipeline'u w GitLabie
+(*Run pipeline* → *Variables*). Zmienne z domyślną wartością `""` są zaprojektowane
+jawnie pod nadpisywanie.
+
+### Zmienne użytkownika
+
+| Zmienna            | Job                     | Domyślnie | Opis                                                                                                                                            |
+|--------------------|-------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `OVERRIDE_VERSION` | `bump-version`          | `""`      | Wymusza wersję zamiast wyprowadzania jej z nazwy gałęzi `release/<x.y.z>`. Format: `MAJOR.MINOR.PATCH[-suffix]`.                                |
+| `RELEASE_VERSION`  | `create-release-branch` | `""`      | Wersja nowej gałęzi `release/<x.y.z>` z `develop`. Puste → automatycznie następny minor z `package.json`. Format: `MAJOR.MINOR.PATCH[-suffix]`. |
+
+### Zmienne środowiskowe release'u (nadpisywane w jobach `release-*`)
+
+| Zmienna                        | Możliwe wartości                                 | Opis                                                                                    |
+|--------------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------|
+| `MCOD_BUILD_CONFIGURATION_ENV` | `int`, `production`                              | Przekazywana jako `--build-arg` do `docker build`; wybiera konfigurację Angulara.       |
+| `IMAGE_TAG`                    | `pre-dev`, `dev`, `master`, `master-prod-latest` | Tag obrazu publikowany do rejestru; dodatkowo taguje `${IMAGE_TAG}-${PACKAGE_VERSION}`. |
+| `RELEASE_DOCKER_BUILD_TARGET`  | `serve-static`                                   | Docelowy stage z `Dockerfile` używany do release'ów.                                    |
+| `CODE_DIR`                     | np. `/gluster/mcod/code`                         | Katalog docelowy dla archiwum ZIP z kodem (`publish-code`).                             |
+
+### Zmienne globalne (zwykle nie zmieniane w jobach)
+
+`REGISTRY_HOST`, `REGISTRY`, `REGISTRY_USER`, `IMAGE`, `DEPENDENCIES_IMAGE_TAG`,
+`BUILD_IMAGE_TAG`, `NODE_VERSION`, `DOCKER_VERSION`, `VERSION_FILE`.
+
+### Wymagane sekrety CI
+
+Ustawiane w *Settings → CI/CD → Variables*:
+
+- `GITLAB_ACCESS_TOKEN` — token z uprawnieniami do pushowania i tworzenia MR-ów;
+  używany przez `scripts/bump-version.sh` i `scripts/create-release-branch.sh`.

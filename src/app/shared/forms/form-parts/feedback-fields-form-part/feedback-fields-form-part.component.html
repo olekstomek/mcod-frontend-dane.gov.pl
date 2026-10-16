@@ -28,6 +28,8 @@
         }}
       } @else if (feedbackFieldsGroup.hasError('pattern', 'link')) {
         {{ 'Forms.Validators.ValidatorPatternLink' | translate }}
+      } @else if (feedbackFieldsGroup.hasError('notFound', 'link')) {
+        {{ 'Forms.TopicSection.DatasetLinkInput.ValidatorNotFound' | translate }}
       }
     </div>
   </div>

@@ -1,15 +1,15 @@
-<section class="home-section home-section--news vertical-spacing" id="news">
+<section class="home-section--news vertical-spacing" id="news">
   <h2 class="heading heading--md heading--separator heading--centered">
     {{ 'Home.News.Title' | translate }}
   </h2>
 
-  <div class="container">
+  <div>
     <!-- api notifications -->
     <app-notifications></app-notifications>
 
     <!-- NEWS LIST -->
-    <ul class="row home-news">
-      <li class="col-lg-4 home-news__item" *ngFor="let item of items">
+    <ul class="row home-news row-cols-1 row-cols-md-2">
+      <li class="home-news__item col" *ngFor="let item of items">
         <h3 class="home-news__item-heading heading heading--sm">
           <a [routerLink]="['/!article' | localize, item.attributes.slug]" [innerHtml]="item.attributes.title"> </a>
         </h3>

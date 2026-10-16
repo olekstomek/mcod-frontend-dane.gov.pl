@@ -1,0 +1,22 @@
+.footer-social-links {
+  display: flex;
+  margin: 0.9375rem 0;
+
+  &__button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+  }
+
+  &__icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+}

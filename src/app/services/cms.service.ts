@@ -14,7 +14,7 @@ import { WidgetType } from '@app/services/models/cms/widgets/widget-type';
 import { INewsPageParams } from '@app/services/models/page-params';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { map } from 'rxjs/operators';
 
@@ -35,9 +35,6 @@ export class CmsService {
    */
   private readonly base_hostname: string;
 
-  elementFooterNavIsExist: Subject<boolean> = new Subject<boolean>();
-  isElementFooterNavExist: boolean;
-
   /**
    * @ignore
    */
@@ -55,9 +52,6 @@ export class CmsService {
       this.base_hostname =
         this.document.location.protocol + '//cms.' + this.document.location.hostname.replace('www.', '');
     }
-    this.elementFooterNavIsExist.subscribe((value) => {
-      this.isElementFooterNavExist = value;
-    });
 
     // TODO CMS fix when endpoint /documents return
     // this.http.get(`${this.base_hostname}/api/documents/`)
@@ -72,14 +66,6 @@ export class CmsService {
    */
   get(url: string, options?: CmsRequestOptions): Observable<any> {
     return this.http.get(this.createUrl(url), options);
-  }
-
-  /**
-   * General method to check if footer navigation is existed
-   * @param {boolean} isVisible
-   */
-  footerNavIsExist(isVisible: boolean) {
-    this.elementFooterNavIsExist.next(isVisible);
   }
 
   /**

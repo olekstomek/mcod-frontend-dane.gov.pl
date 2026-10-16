@@ -199,13 +199,20 @@
   // HOME: NEWS
   /********************/
   &--news {
+    height: 100%;
+
     .home-news {
       list-style: none;
       padding: 0;
 
       &__item {
         &:not(:first-child)::after {
-          background: linear-gradient(to top, $color-white, $color-grey-light-5, $color-white);
+          background: linear-gradient(
+            to top,
+            $color-white,
+            $color-grey-light-5,
+            $color-white
+          );
           width: 1px;
           height: 100%;
           content: '';

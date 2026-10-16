@@ -22,6 +22,7 @@ import { SeoService } from '@app/services/seo.service';
 import { CmsBlock2Component } from '@app/shared/cms/cms-block2/cms-block2.component';
 import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { SearchSuggestComponent } from '@app/shared/search-suggest/search-suggest.component';
+import { FacebookNewsComponent } from './facebook-news/facebook-news.component';
 
 /**
  * Home Component
@@ -43,6 +44,7 @@ import { SearchSuggestComponent } from '@app/shared/search-suggest/search-sugges
     ApplicationsComponent,
     NewsComponent,
     TranslatePipe,
+    FacebookNewsComponent,
   ],
 })
 export class HomeComponent implements OnInit {
@@ -66,6 +68,8 @@ export class HomeComponent implements OnInit {
   apiError = false;
   cmsSectionOverLatestNewsCb = new BehaviorSubject<IWidget[]>(null);
   cmsSectionOverSearchFieldCb = new BehaviorSubject<IWidget[]>(null);
+  protected cmsSectionFacebookBanerCb: BehaviorSubject<IWidget[]> =
+    new BehaviorSubject<IWidget[]>(null);
 
   /**
    * @ignore
@@ -86,20 +90,28 @@ export class HomeComponent implements OnInit {
 
     this.statsSubscription = this.api.getRequest(ApiConfig.stats).subscribe(
       (data) => {
-        const { datasets_by_categories, datasets_by_institution, documents_by_type, resources_by_type } =
-          data['meta']['aggs'];
+        const {
+          datasets_by_categories,
+          datasets_by_institution,
+          documents_by_type,
+          resources_by_type,
+        } = data['meta']['aggs'];
 
         let stats = documents_by_type.reduce((object, item) => {
           object[item.id] = item;
           return object;
         }, {});
-        stats['api'] = resources_by_type.find((item: Record<string, string | number>) => item['key'] === 'api');
+        stats['api'] = resources_by_type.find(
+          (item: Record<string, string | number>) => item['key'] === 'api',
+        );
 
         if (Object.keys(stats).length < 3) {
           stats = null;
         }
 
-        this.categories = datasets_by_categories.sort((a, b) => a.title.localeCompare(b.title));
+        this.categories = datasets_by_categories.sort((a, b) =>
+          a.title.localeCompare(b.title),
+        );
         this.institutions = datasets_by_institution.slice(0, 8);
         this.stats = stats;
         this.apiError = false;
@@ -120,16 +132,19 @@ export class HomeComponent implements OnInit {
       has_image_thumb: true,
     };
 
-    return this.applicationsService.getAll(params, { key: 'sort', value: '-modified' }).subscribe((response) => {
-      this.applications = response.results;
-    });
+    return this.applicationsService
+      .getAll(params, { key: 'sort', value: '-modified' })
+      .subscribe((response) => {
+        this.applications = response.results;
+      });
   }
 
   private assignCmsSection() {
     this.cmsService.getHomePageWidgets().subscribe((response: IHome) => {
       const home = response;
-      this.cmsSectionOverLatestNewsCb.next(home.over_latest_news_cb as IWidget[]);
-      this.cmsSectionOverSearchFieldCb.next(home.over_search_field_cb as IWidget[]);
+      this.cmsSectionOverLatestNewsCb.next(home.over_latest_news_cb);
+      this.cmsSectionOverSearchFieldCb.next(home.over_search_field_cb);
+      this.cmsSectionFacebookBanerCb.next(home?.facebook_banner_cb ?? null);
     });
   }
 }

@@ -41,7 +41,7 @@ export enum ApiConfig {
   resourceData = '/resources/:resourceId/data',
   resourceFeedback = '/resources/:resourceId/comments',
   submissions = '/submissions',
-  acceptedSubmissions = '/submissions/accepted',
+  submissionsGeneric = '/submissions/generic',
   acceptedSubmission = '/submissions/accepted/:id',
   acceptedPublicSubmissions = '/submissions/accepted/public',
   acceptedPublicSubmissionComment = '/submissions/accepted/public/:id/comment',

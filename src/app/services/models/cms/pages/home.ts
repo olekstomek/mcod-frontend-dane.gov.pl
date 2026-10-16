@@ -5,6 +5,7 @@ export interface IHome extends IPageCms {
   over_login_section_cb: IWidget[];
   over_search_field_cb: IWidget[];
   over_latest_news_cb: IWidget[];
+  facebook_banner_cb?: IWidget[];
   header_gov: {
     blocks: IWidget[];
   };

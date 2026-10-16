@@ -1,5 +1,5 @@
 import { DOCUMENT, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RawTextEmbedComponent } from './raw-text-embed/raw-text-embed.component';
@@ -21,7 +21,7 @@ import { WidgetAbstractComponent } from '@app/shared/cms/widget/widget.abstract.
   standalone: true,
   imports: [NgIf, NgClass, NgFor, NgStyle, RawTextEmbedComponent, TranslatePipe],
 })
-export class RawTextComponent extends WidgetAbstractComponent implements OnInit, AfterViewInit {
+export class RawTextComponent extends WidgetAbstractComponent implements OnInit {
   /**
    * Text to display
    */
@@ -104,15 +104,6 @@ export class RawTextComponent extends WidgetAbstractComponent implements OnInit,
         this.classes = `${this.classes} text-justify`;
       }
       this.IsListFooterNav(this.rawText.general.classes);
-    }
-  }
-
-  ngAfterViewInit() {
-    if (
-      document.querySelector('a.page-footer__list-item.btn-write-us') &&
-      document.querySelector('a.page-footer__list-item.btn-link-rodo')
-    ) {
-      this.cmsService.footerNavIsExist(true);
     }
   }
 

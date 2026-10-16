@@ -4,8 +4,13 @@ set -e
 : "${GITLAB_ACCESS_TOKEN:?Variable GITLAB_ACCESS_TOKEN is required}"
 : "${CI_API_V4_URL:?Variable CI_API_V4_URL is required}"
 : "${CI_PROJECT_ID:?Variable CI_PROJECT_ID is required}"
+: "${CI_COMMIT_SHA:?Variable CI_COMMIT_SHA is required}"
 
-CURRENT_VERSION=$(jq -r '.version' package.json)
+CURRENT_VERSION=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' package.json | head -n 1)
+if [ -z "${CURRENT_VERSION}" ]; then
+  echo "Could not read .version from package.json"
+  exit 1
+fi
 echo "Current version: ${CURRENT_VERSION}"
 
 if [ -n "${RELEASE_VERSION}" ]; then
@@ -36,11 +41,8 @@ if [ "${HTTP_CODE}" = "200" ]; then
   exit 1
 fi
 
-echo "Creating branch: ${BRANCH_NAME} from develop"
-BRANCH_PAYLOAD=$(jq -n \
-  --arg branch "${BRANCH_NAME}" \
-  --arg ref "develop" \
-  '{"branch": $branch, "ref": $ref}')
+echo "Creating branch: ${BRANCH_NAME} from ${CI_COMMIT_SHA}"
+BRANCH_PAYLOAD="{\"branch\":\"${BRANCH_NAME}\",\"ref\":\"${CI_COMMIT_SHA}\"}"
 
 curl --fail --silent --show-error \
   --request POST \
@@ -52,11 +54,7 @@ echo ""
 echo "Branch ${BRANCH_NAME} created"
 
 echo "Creating MR: ${BRANCH_NAME} -> master"
-MR_MASTER_PAYLOAD=$(jq -n \
-  --arg source "${BRANCH_NAME}" \
-  --arg title "Release ${RELEASE_VERSION}" \
-  --arg desc "Release branch ${RELEASE_VERSION}" \
-  '{"source_branch": $source, "target_branch": "master", "title": $title, "description": $desc}')
+MR_MASTER_PAYLOAD="{\"source_branch\":\"${BRANCH_NAME}\",\"target_branch\":\"master\",\"title\":\"Release ${RELEASE_VERSION}\",\"description\":\"Release branch ${RELEASE_VERSION}\"}"
 
 curl --fail --silent --show-error \
   --request POST \
@@ -68,11 +66,7 @@ echo ""
 echo "MR ${BRANCH_NAME} -> master created"
 
 echo "Creating MR: ${BRANCH_NAME} -> develop"
-MR_DEVELOP_PAYLOAD=$(jq -n \
-  --arg source "${BRANCH_NAME}" \
-  --arg title "Release ${RELEASE_VERSION} -> develop" \
-  --arg desc "Merge release ${RELEASE_VERSION} back into develop" \
-  '{"source_branch": $source, "target_branch": "develop", "title": $title, "description": $desc}')
+MR_DEVELOP_PAYLOAD="{\"source_branch\":\"${BRANCH_NAME}\",\"target_branch\":\"develop\",\"title\":\"Release ${RELEASE_VERSION} -> develop\",\"description\":\"Merge release ${RELEASE_VERSION} back into develop\"}"
 
 curl --fail --silent --show-error \
   --request POST \

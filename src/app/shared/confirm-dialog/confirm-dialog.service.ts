@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { HighContrastModeEnum, HighContrastService } from '@app/services/high-contrast.service';
-import { ConfirmDialogComponent } from '@app/shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent, ConfirmDialogData } from '@app/shared/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +18,9 @@ export class ConfirmDialogService {
   ) {}
 
   dialogRef: MatDialogRef<ConfirmDialogComponent>;
-  public open(options) {
+  public open(options: ConfirmDialogData) {
     this.highContrastService.getCurrentContrastMode().subscribe((mode) => (this.currenContrastMode = mode));
-    this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    this.dialogRef = this.dialog.open<ConfirmDialogComponent, ConfirmDialogData>(ConfirmDialogComponent, {
       data: {
         title: options.title,
         message: options.message,

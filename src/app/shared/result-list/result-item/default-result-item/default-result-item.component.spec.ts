@@ -1,4 +1,4 @@
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,16 +7,34 @@ import { AppTestingModule } from '@app/app.testing.module';
 import { MapParamsToTranslationKeysService } from '@app/services/map-params-to-translation-keys.service';
 import { DefaultResultItemComponent } from '@app/shared/result-list/result-item/default-result-item/default-result-item.component';
 
-describe('DefaultResultItemComponent ', () => {
+@Directive({
+  selector: '[appInfoTooltip]',
+  standalone: true,
+})
+class MockInfoTooltipDirective {
+  @Input() appInfoTooltip: string;
+  @Input() tooltipTitle: string;
+}
+
+describe('DefaultResultItemComponent', () => {
   let component: DefaultResultItemComponent;
   let fixture: ComponentFixture<DefaultResultItemComponent>;
   let service: MapParamsToTranslationKeysService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), LocalizeRouterModule.forRoot([]), DefaultResultItemComponent],
       providers: [MapParamsToTranslationKeysService, importProvidersFrom(AppTestingModule)],
-    });
+    })
+      .overrideComponent(DefaultResultItemComponent, {
+        remove: {
+          imports: [MockInfoTooltipDirective],
+        },
+        add: {
+          imports: [MockInfoTooltipDirective],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

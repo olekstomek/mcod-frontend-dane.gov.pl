@@ -2,7 +2,7 @@
   background: transparent;
 
   //Overriding default high contrast behavior for Angular Material Library divs
-  div {
+  div:not(.mat-mdc-dialog-surface):not(.app-tooltip) {
     background: transparent;
   }
 

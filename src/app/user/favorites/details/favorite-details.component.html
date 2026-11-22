@@ -1,0 +1,51 @@
+<section class="results-section">
+  <header class="results-header">
+    <h2 class="heading">
+      {{ 'Favorites.Dashboard.Title' | translate }}
+    </h2>
+    <!-- api notifications -->
+    <app-notifications></app-notifications>
+  </header>
+  <!-- no results found -->
+  @if (hasNoItems()) {
+    <p class="text-muted">
+      {{ 'Favorites.Dashboard.NoDatasetsPrefix' | translate }}
+      <a [routerLink]="['/!dataset'] | localize" class="text-decoration-underline">
+        {{ 'Favorites.Dashboard.DataTabLink' | translate }}
+      </a>
+      {{ 'Favorites.Dashboard.NoDatasetsSuffix' | translate }}
+    </p>
+  }
+
+  <!-- RESULT LIST -->
+  <div class="results-section">
+    @if (isRequestPending()) {
+      <div class="position-absolute top-50 start-50 translate-middle z-3">
+        <div class="spinner-border text-primary" role="status"></div>
+      </div>
+    }
+    <div [class.results-loading]="isRequestPending()">
+      <app-dataset-results
+        [isUserLoggedIn]="loginService.loggedIn | async"
+        [items]="items()"
+        [useConfirmation]="true"
+        (favoriteChanged)="onChildFavoriteChanged()"></app-dataset-results>
+    </div>
+  </div>
+
+  @if (count() > 0) {
+    <footer class="results-footer">
+      <div class="d-flex justify-content-between align-items-center">
+        <app-items-per-page [selected]="params().per_page" (selectedChange)="updateParams({ per_page: $event })">
+        </app-items-per-page>
+
+        <app-pagination
+          [itemsPerPage]="params().per_page"
+          [totalItems]="count()"
+          [page]="params().page"
+          (pageChange)="updateParams({ page: $event })">
+        </app-pagination>
+      </div>
+    </footer>
+  }
+</section>

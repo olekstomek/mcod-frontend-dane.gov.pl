@@ -434,4 +434,49 @@ export class DatasetService extends RestService {
 
     return this.get(ApiConfig.search, param);
   }
+
+  /**
+   * Marks dataset as liked by current user (POST /datasets/:id/likes)
+   * @param {string} datasetId
+   * @returns {Observable<number | null>} likes count after the operation (null if not returned)
+   */
+  markDatasetAsLiked(datasetId: string): Observable<number | null> {
+    const url = TemplateHelper.parseUrl(ApiConfig.likeManagement, { id: datasetId });
+    return this.post(url).pipe(map((response) => this.getLikesCount(response)));
+  }
+
+  /**
+   * Removes dataset from likes of current user (DELETE /datasets/:id/likes)
+   * 404 means unpublished/missing dataset, so redirect to /404 is skipped
+   * @param {string} datasetId
+   * @returns {Observable<number | null>} likes count after the operation (null if not returned)
+   */
+  markDatasetAsUnliked(datasetId: string): Observable<number | null> {
+    const url = TemplateHelper.parseUrl(ApiConfig.likeManagement, { id: datasetId });
+    return this.request('delete', this.base_url + url, undefined, true).pipe(
+      map((response) => this.getLikesCount(response)),
+    );
+  }
+
+  /**
+   * Fetches the current likes counter of the dataset (used when a response did not carry it, e.g. 409)
+   * @param {string} datasetId
+   * @returns {Observable<number | null>}
+   */
+  getDatasetLikesCount(datasetId: string): Observable<number | null> {
+    return this.getOneById(datasetId).pipe(
+      map((response) => {
+        const likesCount = response?.data?.attributes?.likes_count;
+        return typeof likesCount === 'number' ? likesCount : null;
+      }),
+    );
+  }
+  /**
+   * Reads `likes_count` from POST/DELETE /datasets/:id/likes response (`data.attributes.likes_count`)
+   */
+  private getLikesCount(response: any): number | null {
+    const likesCount = response?.data?.attributes?.likes_count;
+    const value = typeof likesCount === 'number' ? likesCount : Number.NaN;
+    return Number.isFinite(value) ? value : null;
+  }
 }

@@ -27,6 +27,7 @@ import { SearchResultsComponent } from '@app/pages/search-results/search-results
 import { SitemapComponent } from '@app/pages/sitemap/sitemap.component';
 import { SurveyComponent } from '@app/pages/survey/survey.component';
 import { LanguageBootstrapService } from '@app/services/language-bootstrap.service';
+import { FavouritePostLoginService } from '@app/services/favourite-intent/favourite-post-login.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { ActiveNewsletterComponent } from '@app/user/newsletter/active-newsletter/active-newsletter.component';
 import { NewsletterComponent } from '@app/user/newsletter/newsletter.component';
@@ -41,6 +42,7 @@ describe('AppComponent', () => {
         { provide: HttpClient, useValue: HttpClient },
         { provide: BsLocaleService, useValue: BsLocaleService },
         { provide: LanguageBootstrapService, useValue: LanguageBootstrapService },
+        { provide: FavouritePostLoginService, useValue: { start: jest.fn() } },
       ],
       imports: [
         AppComponent,
@@ -83,7 +85,7 @@ describe('AppComponent', () => {
   }));
 
   it('should render main tag with router-outlet', fakeAsync(() => {
-    inject([LocalStorageService], (localstorage: LocalStorageService) => {
+    inject([LocalStorageService], () => {
       const fixture = TestBed.createComponent(AppComponent);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement as HTMLElement;

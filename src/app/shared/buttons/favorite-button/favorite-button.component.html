@@ -1,0 +1,20 @@
+<button
+  [attr.aria-label]="buttonLabelTranslationKey() | translate"
+  [class.is-favorite]="favorite()"
+  [class.is-pending]="pending()"
+  [disabled]="pending()"
+  [attr.aria-busy]="pending()"
+  (click)="toggleFavorite($event)"
+  type="button"
+  class="favorite-button btn btn-link">
+  <span class="favorite-button__content">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M4.16663 16.3911V3.33333C4.16663 2.8731 4.53973 2.5 4.99996 2.5H15C15.4602 2.5 15.8333 2.8731 15.8333 3.33333V16.3911C15.8333 16.7758 15.3564 16.955 15.103 16.6654L9.99996 10.8333L4.89687 16.6654C4.64352 16.955 4.16663 16.7758 4.16663 16.3911Z"
+        [attr.fill]="svgFill()"
+        stroke="currentColor"
+        stroke-linejoin="round" />
+    </svg>
+    <span>{{ buttonLabelTranslationKey() | translate }}</span>
+  </span>
+</button>

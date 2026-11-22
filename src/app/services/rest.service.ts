@@ -49,6 +49,8 @@ export abstract class RestService {
   private readonly requestsErrorsWithoutNotifications: string[] = [
     ApiConfig.unsubscribeNewsletter,
     ApiConfig.confirmSubscribeNewsletter,
+    // likes errors (e.g. 409 already liked) are handled by the favourites logic (FavouriteErrorHandler)
+    ApiConfig.likeManagement,
   ];
   /**
    * Cookie domain
@@ -343,7 +345,13 @@ export abstract class RestService {
     let error = err.error;
     const isdBackendErrorVisible = this.checkBackendErrorVisibility(err.url);
     if (typeof error === 'string') {
-      error = JSON.parse(error);
+      try {
+        error = JSON.parse(error);
+      } catch {
+        // non-JSON body (e.g. gateway HTML/text) - clear the parsed body so getBackendErrors falls back to
+        // 'Unknown error'; the original err (with its status) is still rethrown below
+        error = null;
+      }
     }
     if (isdBackendErrorVisible && navigator.onLine) {
       const errors: IErrorBackend[] = this.getBackendErrors({ ...err, error: error });
@@ -366,6 +374,10 @@ export abstract class RestService {
    * @returns {boolean}
    */
   private checkBackendErrorVisibility(requestUrl: string): boolean {
+    if (!requestUrl) {
+      // e.g. network error (status 0) - no url to match against, show the notification as before
+      return true;
+    }
     const separator = this.base_url === this.API ? this.API : ApiConfig.apiVersion;
     const urlParts = requestUrl.split(separator);
 

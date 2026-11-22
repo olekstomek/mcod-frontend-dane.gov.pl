@@ -1,0 +1,14 @@
+.results-section {
+  position: relative;
+  min-height: 200px;
+}
+
+.results-loading {
+  filter: blur(4px);
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease;
+}

@@ -72,95 +72,63 @@ input[type='radio'] {
   color: $hcPrimary !important;
 }
 
-@import 'bootstrap-overwrite/bootstrap-utilities-text';
-
-@import 'bootstrap-overwrite/form';
-
-@import 'bootstrap-overwrite/btn';
-
-@import 'components/dropdown';
-
+// Base
 @import 'base/typography';
 
-@import 'layout/top-bar';
-
-@import 'layout/header';
-
-@import 'layout/footer';
-
-@import 'components/category-list';
-
-@import 'components/search-and-filters';
-
-@import 'components/breadcrumbs';
-
-@import 'components/pager';
-
-@import 'pages/home';
-
-@import 'views/list-view';
-
-@import 'views/resource-list';
-
-@import 'views/resource-chart-table';
-
-@import 'components/datagrid';
-
-@import 'components/datepicker';
-
-@import 'components/language-switcher';
-
-@import 'components/tabpanel';
-
-@import 'components/tour';
-
-@import 'components/tour-button';
-
-@import 'views/tabs';
-
-@import 'views/collapsible-sidebar-view';
-
-@import 'pages/auth';
-
-@import 'pages/map';
-
-@import 'pages/search';
-
-@import 'pages/stats';
-
+// Bootstrap Overwrite
+@import 'bootstrap-overwrite/badge';
+@import 'bootstrap-overwrite/bootstrap-utilities-text';
+@import 'bootstrap-overwrite/btn';
+@import 'bootstrap-overwrite/carousel';
+@import 'bootstrap-overwrite/form';
 @import 'bootstrap-overwrite/modal';
 
-@import 'bootstrap-overwrite/badge';
-
-@import 'components/notifications';
-
+// Components
+@import 'components/breadcrumbs';
+@import 'components/button';
+@import 'components/category-list';
 @import 'components/cta-widget';
-
-@import 'views/custom-form';
-
-@import 'bootstrap-overwrite/carousel';
-
-@import 'components/text-widget';
-
-@import 'components/search-suggest';
-
-@import 'views/common';
-
-@import 'components/survey';
-
-@import 'components/tooltip';
-
+@import 'components/datagrid';
+@import 'components/datepicker';
+@import 'components/dropdown';
+@import 'components/language-switcher';
 @import 'components/link';
-
+@import 'components/notifications';
+@import 'components/pager';
+@import 'components/search-and-filters';
+@import 'components/search-suggest';
 @import 'components/sparql';
-
 @import 'components/subscribe-button-light';
+@import 'components/survey';
+@import 'components/tabpanel';
+@import 'components/text-widget';
+@import 'components/tooltip';
+@import 'components/tour';
+@import 'components/tour-button';
 
+// Layout
+@import 'layout/footer';
+@import 'layout/header';
+@import 'layout/top-bar';
+
+// Pages
+@import 'pages/auth';
+@import 'pages/home';
+@import 'pages/map';
+@import 'pages/search';
+@import 'pages/stats';
+
+// Views
 @import 'views/aod';
-
-@import 'views/schedule';
-
+@import 'views/collapsible-sidebar-view';
+@import 'views/common';
+@import 'views/custom-form';
 @import 'views/dashboard-filtered-list';
+@import 'views/list-view';
+@import 'views/resource-chart-table';
+@import 'views/resource-list';
+@import 'views/schedule';
+@import 'views/tabs';
 
 // cms
 

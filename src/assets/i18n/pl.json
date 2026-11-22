@@ -480,6 +480,52 @@
     "Redirect": "Trwa przekierowanie",
     "PleaseWait": "Proszę czekać..."
   },
+  "Favorites": {
+    "Counter": {
+      "Zero": "Brak polubień",
+      "One": "osoba dodała do ulubionych",
+      "Few": "osoby dodały do ulubionych",
+      "Many": "osób dodało do ulubionych"
+    },
+    "Toggle": {
+      "Add": "Dodaj do ulubionych",
+      "Remove": "Usuń z ulubionych"
+    },
+    "Sorting": {
+      "Label": "Liczba ulubionych"
+    },
+    "Dashboard": {
+      "Title": "Ulubione zbiory danych",
+      "SeeDetails": "Zobacz szczegóły",
+      "DatasetCount": "Liczba zbiorów",
+      "NavLink": "Ulubione zbiory",
+      "NoDatasetsPrefix": "Brak ulubionych zbiorów danych. Aby dodać zbiory do listy przejdź do zakładki ",
+      "DataTabLink": "Dane",
+      "NoDatasetsSuffix": ""
+    },
+    "Popup": {
+      "Title": "Potwierdź usunięcie z ulubionych",
+      "Message": "Czy na pewno chcesz usunąć ten zbiór z listy ulubionych? Zbiór nadal będzie dostępny na portalu.",
+      "Cancel": "Anuluj",
+      "Confirm": "Usuń z ulubionych"
+    },
+    "Reports": {
+      "FavoriteCount": "Liczba oznaczeń zbioru jako ulubiony"
+    },
+    "Toasts": {
+      "AddError": "Nie udało się dodać zbioru do ulubionych. Spróbuj ponownie.",
+      "AlreadyExists": "Ten zbiór jest już w Twoich ulubionych.",
+      "Removed": "Zbiór został usunięty z listy ulubionych.",
+      "AlreadyRemoved": "Ten zbiór został już usunięty z listy ulubionych.",
+      "SessionExpired": "Twoja sesja wygasła. Zaloguj się ponownie, aby zarządzać ulubionymi.",
+      "AccessError": "Ten zbiór jest już usunięty lub nie masz do niego dostępu i nie można dodać go do ulubionych.",
+      "TooManyRequests": "Zbyt wiele żądań. Spróbuj ponownie później."
+    },
+    "Hint": {
+      "Title": "Dodaj do ulubionych",
+      "Description": "Dodaj zbiór do ulubionych. Ulubione zbiory widoczne są w zakładce „Mój pulpit”."
+    }
+  },
   "File": {
     "Self": "Plik",
     "Size": "Rozmiar pliku",

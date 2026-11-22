@@ -21,6 +21,23 @@
             </a>
           </li>
           <li class="vertical-menu__item" routerLinkActive="active">
+            <a [routerLink]="['/', '!user', '!dashboard', '!favourites'] | localize">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="mr-2">
+                <path
+                  d="M4.16663 16.3911V3.33333C4.16663 2.8731 4.53973 2.5 4.99996 2.5H15C15.4602 2.5 15.8333 2.8731 15.8333 3.33333V16.3911C15.8333 16.7758 15.3564 16.955 15.103 16.6654L9.99996 10.8333L4.89687 16.6654C4.64352 16.955 4.16663 16.7758 4.16663 16.3911Z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round" /></svg
+              >{{ 'Favorites.Dashboard.NavLink' | translate }}
+            </a>
+          </li>
+          <li class="vertical-menu__item" routerLinkActive="active">
             <a [routerLink]="['/' | localize, 'user', 'dashboard', 'stats']">
               <svg class="icon icon-new-data-proposal" aria-hidden="true">
                 <use href="/assets/icomoon/sprite/sprite.svg#icon-stats"></use></svg

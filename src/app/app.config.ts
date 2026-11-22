@@ -5,6 +5,7 @@ export const APP_CONFIG = {
   gaTag: 'UA-126920162-1',
   availableLanguages: ['pl', 'en'],
   searchInputMaxLength: 1000,
+  favourites: { intentTtlMs: 10 * 60 * 1000 },
   csrfCookieName: 'mcod_csrf_token',
   csrfToken: 'X-Mcod-Csrf-Token',
   statsHighContrastEventName: 'theme_changed',

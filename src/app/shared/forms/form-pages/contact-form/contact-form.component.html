@@ -113,7 +113,7 @@
             }
           </fieldset>
           @if (showFormParts()) {
-            <app-name-email-form-part />
+            <app-name-email-form-part [requiredEmail]="mainForm.value.category === ContactCategory.SuggestReuse" />
             @switch (mainForm.value.category) {
               @case (ContactCategory.SuggestData) {
                 <app-suggest-dataset-form-part />

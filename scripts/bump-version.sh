@@ -37,6 +37,6 @@ git reset --hard "origin/${CI_COMMIT_BRANCH}"
 
 npm version "${RELEASE_VERSION}" --no-git-tag-version
 git add package.json package-lock.json
-git commit -m "Zmiana wersji aplikacji na ${RELEASE_VERSION} [skip ci]"
+git commit -m "Zmiana wersji aplikacji na ${RELEASE_VERSION}"
 git remote set-url origin "https://oauth2:${GITLAB_ACCESS_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
 git push origin "HEAD:${CI_COMMIT_BRANCH}"

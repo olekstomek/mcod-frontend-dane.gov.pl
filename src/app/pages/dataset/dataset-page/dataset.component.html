@@ -41,7 +41,7 @@
               type="text"
               class="form-control"
               placeholder="{{ 'DatasetQueryForm.Placeholder' | translate }}..."
-              [attr.aria-label]="'Datasets.Placeholder' | translate"
+              [attr.aria-label]="'DatasetQueryForm.Placeholder' | translate"
               ngModel
               name="queryInput"
               #queryInput="ngModel"
@@ -166,6 +166,7 @@
               { label: 'Attribute.NameDesc' | translate, value: '-title' },
               { label: 'Attribute.Date' | translate, value: '-date' },
               { label: 'Attribute.Popularity' | translate, value: '-views_count' },
+              { label: 'Favorites.Sorting.Label' | translate, value: '-likes_count' },
             ]">
           </app-found-results-counters-and-sort>
 

@@ -6,6 +6,17 @@ import { ApiConfig } from '@app/services/api';
 import { BasicPageParams } from '@app/services/models/page-params';
 import { RestService } from '@app/services/rest.service';
 import { TemplateHelper } from '@app/shared/helpers';
+import { ISearchResult } from '@app/services/models/search';
+
+export interface LikesApiResponse {
+  data: ISearchResult[];
+  meta: {
+    count: number;
+    [key: string]: unknown;
+  };
+  links?: Record<string, string>;
+  jsonapi?: { version: string };
+}
 
 /**
  * General following changes service that handles API communication
@@ -86,5 +97,15 @@ export class ObserveService extends RestService {
    */
   markAllAsRead() {
     return this.delete(ApiConfig.markAllNotificationsAsRead);
+  }
+
+  /**
+   * @param {string} objectType
+   * @param {BasicPageParams} params
+   * @returns {Observable<LikesApiResponse>}
+   */
+  getLikes(objectType: string, params: BasicPageParams): Observable<LikesApiResponse> {
+    params = { ...params, object_name: objectType };
+    return this.get(ApiConfig.likes, new HttpParams({ fromObject: params }));
   }
 }

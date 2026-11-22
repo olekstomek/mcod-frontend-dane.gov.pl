@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Directive, ElementRef, Inject, Input, OnDestroy, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { fromEvent, merge, Subscription } from 'rxjs';
-import { map, throttleTime } from 'rxjs/operators';
+import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, PLATFORM_ID, Renderer2, inject } from '@angular/core';
+import { fromEvent, merge, Observable, Subscription } from 'rxjs';
+import { map, throttleTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Directive({
   selector: '[appFixedSidebar]',
@@ -11,90 +11,107 @@ export class FixedSidebarDirective implements AfterViewInit, OnDestroy {
   /**
    * Min window width to position sidebar
    */
-  @Input('fixedSidebarMinWindowWidth') minWindowWidth = 1200;
-
+  @Input() fixedSidebarMinWindowWidth = 1200;
   /**
    * Time to get better performance, throttle the event stream and keep fixed element scrolling smooth
    */
-  @Input('fixedSidebarThrottleTime') throttleTime = 20;
-
+  @Input() fixedSidebarThrottleTime = 20;
   /**
    * Padding from the top of the window during scroll
    */
-  @Input('fixedSidebarPaddingTop') paddingTop = 15;
+  @Input() fixedSidebarPaddingTop = 15;
 
   /**
    * Window events subscription
    */
-  windowEventsSubscription: Subscription;
+  private _windowEventsSubscription?: Subscription;
+  private _lastPageY = 0;
+  private _isFixed = false;
 
-  /**
-   * @ignore
-   */
-  constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string,
-  ) {}
+  private readonly _elementRef = inject(ElementRef);
+  private readonly _renderer = inject(Renderer2);
+  private readonly _document = inject(DOCUMENT);
+  private readonly _platformId = inject(PLATFORM_ID);
 
-  /**
-   * Sets sidebar position as fixed
-   */
   ngAfterViewInit() {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (!isPlatformBrowser(this._platformId)) {
       return;
     }
-
-    this.positionSidebar();
+    this._positionSidebar();
   }
 
-  /**
-   * Positions sidebar on desktop
-   */
-  private positionSidebar() {
-    const sidebar = this.elementRef.nativeElement as HTMLElement;
-    const parent = sidebar.parentElement;
+  private _positionSidebar() {
+    const sidebar: HTMLElement = this._elementRef.nativeElement as HTMLElement;
+    const parent: HTMLElement | null = sidebar.parentElement;
+    if (!parent) return;
 
-    const resize$ = fromEvent(this.document.defaultView, 'resize');
-    const scroll$ = fromEvent(this.document.defaultView, 'scroll');
+    const defaultView = this._document.defaultView;
+    if (!defaultView) return;
 
-    this.windowEventsSubscription = merge(resize$, scroll$)
+    this._lastPageY = defaultView.pageYOffset;
+
+    const resize$: Observable<Event> = fromEvent(defaultView, 'resize');
+    const scroll$: Observable<Event> = fromEvent(defaultView, 'scroll');
+
+    this._windowEventsSubscription = merge(resize$, scroll$)
       .pipe(
-        throttleTime(this.throttleTime),
-        map(() => ({ windowWidth: window.innerWidth, pageY: window.pageYOffset })),
+        throttleTime(this.fixedSidebarThrottleTime),
+        map(() => defaultView.pageYOffset),
+        distinctUntilChanged(),
       )
-      .subscribe(({ windowWidth, pageY }) => {
-        if (windowWidth < this.minWindowWidth || parent.offsetHeight === sidebar.offsetHeight) {
-          this.renderer.removeAttribute(sidebar, 'style');
+      .subscribe((pageY) => {
+        const windowWidth: number = defaultView.innerWidth;
+
+        if (windowWidth < this.fixedSidebarMinWindowWidth || parent.offsetHeight === sidebar.offsetHeight) {
+          this._resetSidebar(sidebar);
           return;
         }
 
-        if (pageY + this.paddingTop >= parent.offsetTop) {
-          this.renderer.setStyle(sidebar, 'transition', 'none');
-          this.renderer.setStyle(sidebar, 'position', 'fixed');
-          this.renderer.setStyle(sidebar, 'top', this.paddingTop + 'px');
+        const deltaY: number = pageY - this._lastPageY;
+        this._lastPageY = pageY;
 
-          if (pageY - parent.offsetHeight > parent.offsetTop - sidebar.offsetHeight) {
-            this.renderer.setStyle(sidebar, 'position', 'absolute');
-            this.renderer.setStyle(
+        if (pageY + this.fixedSidebarPaddingTop >= parent.offsetTop) {
+          if (!this._isFixed) {
+            this._isFixed = true;
+            this._renderer.setStyle(sidebar, 'transition', 'none');
+            this._renderer.setStyle(sidebar, 'position', 'fixed');
+            this._renderer.setStyle(sidebar, 'top', `${this.fixedSidebarPaddingTop}px`);
+            this._renderer.setStyle(sidebar, 'max-height', `calc(100vh - ${this.fixedSidebarPaddingTop + 20}px)`);
+            this._renderer.setStyle(sidebar, 'overflow-y', 'auto');
+          }
+
+          if (deltaY !== 0) {
+            const maxScroll: number = sidebar.scrollHeight - sidebar.clientHeight;
+            if (maxScroll > 0) {
+              sidebar.scrollTop = Math.max(0, Math.min(maxScroll, sidebar.scrollTop + deltaY));
+            }
+          }
+
+          const absoluteLimit = parent.offsetHeight + parent.offsetTop - sidebar.offsetHeight;
+          if (pageY > absoluteLimit) {
+            this._renderer.setStyle(sidebar, 'position', 'absolute');
+            this._renderer.setStyle(
               sidebar,
               'top',
-              parent.offsetHeight + parent.offsetTop - sidebar.offsetHeight + this.paddingTop + 'px',
+              `${parent.offsetHeight + parent.offsetTop - sidebar.offsetHeight + this.fixedSidebarPaddingTop}px`,
             );
+          } else {
+            this._renderer.setStyle(sidebar, 'position', 'fixed');
+            this._renderer.setStyle(sidebar, 'top', `${this.fixedSidebarPaddingTop}px`);
           }
         } else {
-          this.renderer.removeAttribute(sidebar, 'style');
+          this._resetSidebar(sidebar);
         }
       });
   }
 
-  /**
-   * Unsubscribes from window events subscription
-   */
+  private _resetSidebar(sidebar: HTMLElement) {
+    this._isFixed = false;
+    this._renderer.removeAttribute(sidebar, 'style');
+    sidebar.scrollTop = 0;
+  }
+
   ngOnDestroy() {
-    if (this.windowEventsSubscription) {
-      this.windowEventsSubscription.unsubscribe();
-    }
+    this._windowEventsSubscription?.unsubscribe();
   }
 }

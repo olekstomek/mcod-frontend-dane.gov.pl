@@ -1,10 +1,35 @@
-<div class="header">
-  <h1 mat-dialog-title class="confirm-dialog-title">{{ data.title }}</h1>
-</div>
-<div mat-dialog-content>
-  <p class="confirm-dialog-message">{{ data.message }}</p>
-</div>
-<div mat-dialog-actions>
-  <button class="btn btn-outline-primary confirm-dialog-button" (click)="cancel()">{{ data.cancelText }}</button>
-  <button class="btn btn-primary confirm-dialog-button" (click)="confirm()">{{ data.confirmText }}</button>
+<div class="p-4">
+  <div class="d-flex flex-column p-0 m-0">
+    <div class="d-flex justify-content-between gap-4 align-items-center w-100">
+      <h1 class="fs-4 fw-bold m-0">
+        {{ data.title }}
+      </h1>
+      <button
+        type="button"
+        class="btn-close shadow-none flex-shrink-0"
+        [attr.aria-label]="'Action.Close' | translate"
+        (click)="cancel()"></button>
+    </div>
+    <div class="bg-primary spacer my-4"></div>
+  </div>
+
+  @if (data.message.length > 0) {
+    <mat-dialog-content class="mat-typography px-0 py-3 m-0">
+      <p class="text-secondary mb-0">
+        {{ data.message }}
+      </p>
+    </mat-dialog-content>
+  }
+
+  <hr />
+
+  <mat-dialog-actions align="end" class="p-0 m-0 gap-2">
+    <button type="button" class="btn btn-outline-primary px-4 py-2 fw-bold" (click)="cancel()">
+      {{ data.cancelText }}
+    </button>
+
+    <button type="button" class="btn btn-primary px-4 py-2 fw-bold" (click)="confirm()">
+      {{ data.confirmText }}
+    </button>
+  </mat-dialog-actions>
 </div>

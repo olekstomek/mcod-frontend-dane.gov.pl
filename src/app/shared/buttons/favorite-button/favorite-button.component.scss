@@ -1,0 +1,21 @@
+.favorite-button {
+  font-size: 0.875rem;
+  padding: 0;
+  text-align: left;
+
+  &:disabled,
+  &.is-pending {
+    opacity: 0.5;
+    filter: grayscale(1);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &__content {
+    word-break: break-word;
+
+    svg {
+      margin-right: 8px;
+    }
+  }
+}

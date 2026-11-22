@@ -41,6 +41,7 @@ import { ScheduleInProgressComponent } from '@app/user/schedule/tabs/in-progress
 import { SchedulePlanningComponent } from '@app/user/schedule/tabs/planning/schedule-planning.component';
 import { SearchHistoryComponent } from '@app/user/search-history/search-history.component';
 import { DashboardStatsComponent } from '@app/user/stats/dashboard-stats.component';
+import { FavoriteDetailsComponent } from '@app/user/favorites/details/favorite-details.component';
 
 const routes: Routes = [
   { path: '!login', component: LoginComponent },
@@ -196,6 +197,7 @@ const routes: Routes = [
         component: ForumRegulationsComponent,
         canActivate: [AuthGuard],
       },
+      { path: '!favourites', component: FavoriteDetailsComponent },
       { path: '**', redirectTo: 'followed' },
     ],
   },

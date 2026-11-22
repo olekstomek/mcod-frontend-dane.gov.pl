@@ -31,6 +31,12 @@
   &--sidebar-visible {
     .collapsible-sidebar-view__sidebar {
       margin-left: 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
     .collapsible-sidebar-view__main {
       margin-left: ($collapsible-sidebar-width + $collapsible-sidebar-spacing);

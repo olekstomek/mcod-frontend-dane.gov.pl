@@ -1,0 +1,17 @@
+@if (toasts().length) {
+  <div class="favourite-toasts">
+    @for (toast of toasts(); track toast.id) {
+      <div
+        class="favourite-toast favourite-toast--{{ toast.type }}"
+        [attr.role]="toast.type === 'danger' ? 'alert' : 'status'"
+        [attr.aria-live]="toast.type === 'danger' ? 'assertive' : 'polite'"
+      >
+        <span class="favourite-toast__message">{{ toast.messageKey | translate }}</span>
+        <button type="button" class="favourite-toast__close" (click)="dismiss(toast.id)">
+          {{ 'Action.Close' | translate }}
+        </button>
+      </div>
+    }
+  </div>
+}
+

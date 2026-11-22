@@ -1,11 +1,11 @@
 import { AsyncPipe, LowerCasePipe, NgClass, NgForOf, NgIf, NgOptimizedImage, DOCUMENT } from '@angular/common';
-import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit, Inject, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, QueryParamsHandling, Router, RouterLink } from '@angular/router';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, finalize } from 'rxjs/operators';
 import { toggleHorizontally, toggleVertically } from '@app/animations';
 import { DatasetItemResultsComponent } from '@app/pages/dataset/dataset-item-results/dataset-item-results.component';
 import { DatasetMetadataComponent } from '@app/pages/dataset/dataset-metadata/dataset-metadata.component';
@@ -13,6 +13,10 @@ import { DatasetRestrictionsComponent } from '@app/pages/dataset/dataset-restric
 import { ResourceListComponent } from '@app/pages/dataset/resource-list/resource-list.component';
 import { ApiModel } from '@app/services/api/api-model';
 import { DatasetService } from '@app/services/dataset.service';
+import { FavouriteActionService } from '@app/services/favourite-intent/favourite-action.service';
+import { UserService } from '@app/services/user.service';
+import { FavouriteErrorHandler } from '@app/services/favourite-intent/favourite-error-handler';
+import { FavouritePostLoginService } from '@app/services/favourite-intent/favourite-post-login.service';
 import { ListViewDetailsService } from '@app/services/list-view-details.service';
 import { ListViewFiltersService } from '@app/services/list-view-filters.service';
 import { IDatasetRegionsList } from '@app/services/models/dataset-resource';
@@ -34,6 +38,8 @@ import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format
 import { SubscribeButtonComponent } from '@app/shared/subscribe-button/subscribe-button.component';
 import { TooltipDirective } from '@app/shared/tooltip/tooltip.directive';
 import { getEventValue } from '@app/shared/util';
+import { FavoriteButtonComponent } from '@app/shared/buttons/favorite-button/favorite-button.component';
+import { FavoriteCounterComponent } from '@app/shared/favorite-counter/favorite-counter.component';
 
 /**
  * Dataset Item Component
@@ -68,9 +74,27 @@ import { getEventValue } from '@app/shared/util';
     HistoryEntryComponent,
     ApiSourceLinkComponent,
     DatasetItemResultsComponent,
+    FavoriteButtonComponent,
+    FavoriteCounterComponent,
   ],
 })
 export class DatasetItemComponent implements OnInit, OnDestroy {
+  protected isItemFavorite = signal<boolean>(false);
+  protected favoritesCount = signal<number>(0);
+  protected isFavoriteRequestPending = signal<boolean>(false);
+  private readonly favouriteActions = inject(FavouriteActionService);
+  private readonly favouriteErrorHandler = inject(FavouriteErrorHandler);
+  private readonly userService = inject(UserService);
+  private readonly favouritePostLogin = inject(FavouritePostLoginService);
+  /** completes the favourite operation started before login, once the user is back on this page */
+  private readonly resumeFavouriteEffect = effect(
+    () => {
+      this.favouritePostLogin.readyDatasetId();
+      this.resumeFavouriteAfterLogin();
+    },
+    { allowSignalWrites: true },
+  );
+
   /**
    * @ignore
    */
@@ -239,6 +263,9 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     }
 
     this.dataset = dataset;
+    this.isItemFavorite.set(dataset.attributes.is_liked_by_current_user === true);
+    this.favoritesCount.set(dataset.attributes.likes_count ?? 0);
+    this.resumeFavouriteAfterLogin();
     this.selfApi = this.dataset.links.self;
     this.isExistsZipFileForDownload = !!this.dataset.attributes.archived_resources_files_url;
 
@@ -384,5 +411,73 @@ export class DatasetItemComponent implements OnInit, OnDestroy {
     if (this.showcasesSubscription) {
       this.showcasesSubscription.unsubscribe();
     }
+  }
+
+  /**
+   * Finishes the "add to favourites" operation saved before login (POST decides: added / already added)
+   */
+  private resumeFavouriteAfterLogin(): void {
+    const datasetId = this.dataset?.id;
+    if (!datasetId || this.favouritePostLogin.readyDatasetId() !== datasetId) {
+      return;
+    }
+    this.favouritePostLogin.finish(
+      datasetId,
+      () => undefined,
+      (likesCount) => this.onFavouriteAdded(likesCount),
+    );
+  }
+  private onFavouriteAdded(likesCount: number | null): void {
+    this.isItemFavorite.set(true);
+    if (likesCount !== null) {
+      this.favoritesCount.set(likesCount);
+      return;
+    }
+    // counter is not returned for 409 - fetch the current one instead of guessing
+    this.datasetService.getDatasetLikesCount(this.dataset.id).subscribe((count) => {
+      if (count !== null) {
+        this.favoritesCount.set(count);
+      }
+    });
+  }
+  /**
+   * Adds / removes dataset from favourites (POST / DELETE /datasets/:id/likes)
+   */
+  protected onFavoriteRequested(): void {
+    if (this.isFavoriteRequestPending()) {
+      return;
+    }
+    if (!this.userService.isLoggedIn()) {
+      // not logged in: remember the intent and redirect to login (position 1 = details page)
+      this.favouriteActions.request(this.dataset.id, 1);
+      return;
+    }
+    const wasFavorite = this.isItemFavorite();
+    const request$ = wasFavorite
+      ? this.datasetService.markDatasetAsUnliked(this.dataset.id)
+      : this.datasetService.markDatasetAsLiked(this.dataset.id);
+    this.isFavoriteRequestPending.set(true);
+    request$.pipe(finalize(() => this.isFavoriteRequestPending.set(false))).subscribe({
+      next: (likesCount) => {
+        this.isItemFavorite.set(!wasFavorite);
+        // server counter is authoritative, local +/-1 only when it was not returned
+        this.favoritesCount.set(likesCount ?? Math.max(0, this.favoritesCount() + (wasFavorite ? -1 : 1)));
+      },
+      error: (error) => {
+        this.favouriteErrorHandler.handle(error, wasFavorite ? 'remove' : 'add');
+        // 409 - server state differs from local one, so align local flag and refetch the counter
+        if (error?.status === 409) {
+          this.isItemFavorite.set(!wasFavorite);
+          this.datasetService.getDatasetLikesCount(this.dataset.id).subscribe({
+            next: (count) => {
+              if (count !== null) {
+                this.favoritesCount.set(count);
+              }
+            },
+            error: () => undefined,
+          });
+        }
+      },
+    });
   }
 }

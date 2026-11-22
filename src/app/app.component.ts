@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser, PlatformLocation } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -10,6 +10,8 @@ import { RoutingHelper } from '@app/services/commons/routing-helper';
 import { FeatureFlagService } from '@app/services/feature-flag.service';
 import { LanguageBootstrapService } from '@app/services/language-bootstrap.service';
 import { SchemaService } from '@app/services/schema.service';
+import { FavouriteToastComponent } from '@app/shared/favourite-toast/favourite-toast.component';
+import { FavouritePostLoginService } from '@app/services/favourite-intent/favourite-post-login.service';
 
 /**
  * Application Root Component
@@ -17,26 +19,23 @@ import { SchemaService } from '@app/services/schema.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FavouriteToastComponent],
   standalone: true,
 })
 export class AppComponent implements OnInit {
-  /**
-   * @ignore
-   */
-  constructor(
-    private renderer: Renderer2,
-    private location: PlatformLocation,
-    private router: Router,
-    private localStorage: LocalStorageService,
-    private cookieService: CookieService,
-    private languageBootstrapService: LanguageBootstrapService,
-    private translateService: TranslateService,
-    private featureFlagsService: FeatureFlagService,
-    private schemaService: SchemaService,
-    @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string,
-  ) {}
+  private readonly renderer = inject(Renderer2);
+  private readonly location = inject(PlatformLocation);
+  private readonly router = inject(Router);
+  private readonly localStorage = inject(LocalStorageService);
+  private readonly cookieService = inject(CookieService);
+  private readonly languageBootstrapService = inject(LanguageBootstrapService);
+  private readonly translateService = inject(TranslateService);
+  private readonly featureFlagsService = inject(FeatureFlagService);
+  private readonly schemaService = inject(SchemaService);
+  private readonly favouritePostLogin = inject(FavouritePostLoginService);
+  private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
+
   /**
    * Homepage flag
    */
@@ -86,6 +85,8 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    this.favouritePostLogin.start();
 
     this.location.onPopState(() => {
       this.isBackState = true;

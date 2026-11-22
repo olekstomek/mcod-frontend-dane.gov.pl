@@ -257,6 +257,19 @@
             tooltipTitle="{{ 'Tour.Tooltip.DatasetDetails.Follow.title' | translate }}"
             [item]="dataset"></app-subscribe-button>
 
+          <!-- favorite -->
+          <!-- button -->
+          <app-favorite-button
+            [favorite]="isItemFavorite()"
+            [pending]="isFavoriteRequestPending()"
+            (favoriteRequested)="onFavoriteRequested()"
+            tooltipTitle="{{ 'Favorites.Hint.Title' | translate }}"
+            appInfoTooltip="{{ 'Favorites.Hint.Description' | translate }}"
+            class="ms-2 d-flex">
+          </app-favorite-button>
+          <!-- counter -->
+          <app-favorite-counter [favoritesCount]="favoritesCount()" class="ms-2"> </app-favorite-counter>
+
           <!-- feedback -->
           <a
             class="btn btn-danger btn-sm ml-auto"

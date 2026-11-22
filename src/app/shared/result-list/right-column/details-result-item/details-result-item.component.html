@@ -6,7 +6,9 @@
     <svg *ngIf="isDatasetView" [class]="['result-item-icon', highContrastMode]">
       <use [attr.href]="'assets/icomoon/SVG/' + iconName + '.svg' + '#' + iconName"></use>
     </svg>
-    <p class="result-item-attributes__text">{{ titleTranslationKey | translate }}</p>
+    <p class="result-item-attributes__text">
+      {{ titleTranslationKey | translate }}
+    </p>
   </div>
 
   <div class="result-item-attributes__list">
@@ -48,6 +50,23 @@
         <strong>{{ 'Attribute.Language' | translate }}: </strong>
         <span>{{ 'TypesFilters.' + details.language | translate }}</span>
       </div>
+    </div>
+
+    <!-- favorite -->
+    <!-- button -->
+    <div *ngIf="isDatasetView && datasetId">
+      <app-favorite-button
+        class="d-flex"
+        tooltipTitle="{{ 'Favorites.Hint.Title' | translate }}"
+        appInfoTooltip="{{ 'Favorites.Hint.Description' | translate }}"
+        [favorite]="isFavorite()"
+        [pending]="isRequestPending()"
+        (favoriteRequested)="toggleFavourite()"
+        [useConfirmation]="useConfirmation()" />
+    </div>
+    <!-- counter -->
+    <div *ngIf="isDatasetView && datasetId">
+      <app-favorite-counter [favoritesCount]="favoritesCount()" />
     </div>
   </div>
 </div>

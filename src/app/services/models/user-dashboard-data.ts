@@ -1,3 +1,8 @@
+export interface AnalyticalTool {
+  name: string;
+  url: string;
+}
+
 export interface UserDashboardData {
   subscriptions: {
     datasets: number;
@@ -20,6 +25,16 @@ export interface UserDashboardData {
     planned: number;
     finished: number;
   };
+  schedules: {
+    started: number;
+    ready: number;
+    recommended: number;
+    notifications_count: number;
+    notifications: any[];
+  };
+  likes: {
+    likes_count: number;
+  };
   fav_charts: {
     'slot-1': {
       name?: string;
@@ -32,4 +47,6 @@ export interface UserDashboardData {
       thumb_url?: string;
     };
   };
+  analytical_tools: AnalyticalTool[];
+  cms_url: string;
 }

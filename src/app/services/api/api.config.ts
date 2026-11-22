@@ -72,4 +72,6 @@ export enum ApiConfig {
   logingovpl = '/logingovpl',
   brokenlinks = '/reports/brokenlinks',
   brokenlinksdata = '/reports/brokenlinks/data',
+  likeManagement = '/datasets/:id/likes',
+  likes = '/auth/user/likes',
 }

@@ -1,5 +1,5 @@
 import { AsyncPipe, DOCUMENT, LowerCasePipe, NgFor, NgIf } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@env/environment';
 import { LocalizeRouterPipe } from '@gilsdav/ngx-translate-router';
@@ -18,12 +18,14 @@ import { UserStateService } from '@app/services/user-state.service';
 import { UserService } from '@app/services/user.service';
 import { ConfirmDialogService } from '@app/shared/confirm-dialog/confirm-dialog.service';
 import { LoaderComponent } from '@app/shared/loader/loader.component';
+import { NotificationsServerComponent } from '@app/shared/notifications-server/notifications-server.component';
 import { TimespanPipe } from '@app/shared/pipes/timespan.pipe';
 import { TranslateDateFormatPipe } from '@app/shared/pipes/translate-date-format.pipe';
 import { PermissionDirective } from '@app/shared/user-permissions/permission.directive';
 import { PermissionPerRoles } from '@app/shared/user-permissions/PermissionPerRoles';
 import { DiscourseService } from '@app/user/forum/discourse.service';
 import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
+import { FavoriteDatasetsTileComponent } from '@app/user/favorites/tile/favorite-datasets-tile.component';
 
 @Component({
   selector: 'app-my-dashboard',
@@ -37,18 +39,30 @@ import { ForumTopicWithCategory } from '@app/user/forum/forum.enum';
     ScheduleNotificationPopupComponent,
     NgFor,
     LoaderComponent,
+    NotificationsServerComponent,
     AsyncPipe,
     LowerCasePipe,
     LocalizeRouterPipe,
     TranslatePipe,
     TimespanPipe,
     TranslateDateFormatPipe,
+    FavoriteDatasetsTileComponent,
   ],
 })
 /**
  * Dashboard component
  */
 export class MyDashboardComponent implements OnInit, OnDestroy {
+  private readonly seoService = inject(SeoService);
+  private readonly userService = inject(UserService);
+  private readonly userStateService = inject(UserStateService);
+  private readonly discourseService = inject(DiscourseService);
+  private readonly dialog = inject(ConfirmDialogService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly translateService = inject(TranslateService);
+  private readonly highContrastService = inject(HighContrastService);
+  private readonly document = inject(DOCUMENT);
+
   /**
    * Admin panel url
    */
@@ -85,18 +99,6 @@ export class MyDashboardComponent implements OnInit, OnDestroy {
   forumUsername: string;
   highContrastMode: HighContrastModeEnum;
   destroy$ = new Subject<boolean>();
-
-  constructor(
-    private seoService: SeoService,
-    private userService: UserService,
-    private userStateService: UserStateService,
-    private discourseService: DiscourseService,
-    private dialog: ConfirmDialogService,
-    private route: ActivatedRoute,
-    private translateService: TranslateService,
-    private highContrastService: HighContrastService,
-    @Inject(DOCUMENT) private document: Document,
-  ) {}
 
   /**
    * Sets access to admin panel

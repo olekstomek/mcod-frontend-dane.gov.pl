@@ -1,0 +1,12 @@
+<div class="bg-custom p-4 h-100">
+  <h2 class="heading heading--sm heading--separator">{{ 'Favorites.Dashboard.Title' | translate }}</h2>
+
+  <a class="btn btn-sm btn-primary" [routerLink]="['/', '!user', '!dashboard', '!favourites'] | localize">
+    {{ 'Favorites.Dashboard.SeeDetails' | translate }}
+  </a>
+
+  <div class="row mt-4">
+    <div>{{ 'Favorites.Dashboard.DatasetCount' | translate }}</div>
+    <div class="d-block font-weight-bold h4">{{ datasetsCount() }}</div>
+  </div>
+</div>

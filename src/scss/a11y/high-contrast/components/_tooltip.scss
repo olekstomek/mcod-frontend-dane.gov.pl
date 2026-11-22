@@ -1,9 +1,13 @@
 .cdk-overlay-container {
-  .app-tooltip {
+  .app-tooltip,
+  div.app-tooltip:not(.mat-mdc-dialog-surface) {
     border: 1px solid $hcPrimary;
+    background: $hcSecondary;
     background-color: $hcSecondary;
+    opacity: 1;
 
     .app-tooltip-wrapper {
+      background: $hcSecondary;
       background-color: $hcSecondary;
       color: $hcPrimary;
     }

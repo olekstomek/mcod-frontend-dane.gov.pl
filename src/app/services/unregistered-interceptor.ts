@@ -5,6 +5,7 @@ import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { FavouriteToastService } from '@app/services/favourite-intent/favourite-toast.service';
 import { LoginService } from '@app/services/login-service';
 import { HttpCustomErrorResponse } from '@app/services/models';
 import { NotificationsService } from '@app/services/notifications.service';
@@ -20,20 +21,21 @@ export class UnregisteredInterceptor implements HttpInterceptor {
     private loginService: LoginService,
     private router: Router,
     private localizeRouterService: LocalizeRouterService,
+    private favouriteToastService: FavouriteToastService,
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err: HttpCustomErrorResponse) => {
         if (err.status === 401) {
-          return this.unauthorizedErrorHandler(err);
+          return this.unauthorizedErrorHandler(err, request);
         }
         return throwError(err);
       }),
     );
   }
 
-  private unauthorizedErrorHandler(err: HttpCustomErrorResponse) {
+  private unauthorizedErrorHandler(err: HttpCustomErrorResponse, request: HttpRequest<any>) {
     this.userStateService.clearCurrentUser();
     this.loginService.next(false);
     this.notificationsService.clearAlerts();
@@ -41,12 +43,20 @@ export class UnregisteredInterceptor implements HttpInterceptor {
     // handle error from WK integration, invalid link, switch account etc
     const logingovpl = this.router.parseUrl(this.router.url).queryParams.logingovpl;
 
-    this.router.navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [], {
-      queryParams: {
-        redirect: redirect,
-        logingovpl: logingovpl,
-      },
-    });
+    const isFavouriteRequest = /\/datasets\/[^/]+\/likes(\/|\?|$)/.test(request.url);
+    this.router
+      .navigate(this.localizeRouterService.translateRoute(['/!user', '!login']) as [], {
+        queryParams: {
+          redirect: redirect,
+          logingovpl: logingovpl,
+        },
+      })
+      .then(() => {
+        // shown after the redirect, because every navigation clears favourite toasts
+        if (isFavouriteRequest) {
+          this.favouriteToastService.show('danger', 'Favorites.Toasts.SessionExpired');
+        }
+      });
 
     return throwError(err);
   }

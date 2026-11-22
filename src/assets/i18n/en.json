@@ -480,6 +480,52 @@
     "Redirect": "Redirect in progress",
     "PleaseWait": "Please wait..."
   },
+  "Favorites": {
+    "Counter": {
+      "Zero": "No likes",
+      "One": "person added to favourites",
+      "Few": "people added to favourites",
+      "Many": "people added to favourites"
+    },
+    "Toggle": {
+      "Add": "Add to favourites",
+      "Remove": "Remove from favourites"
+    },
+    "Sorting": {
+      "Label": "Number of favourites"
+    },
+    "Dashboard": {
+      "Title": "Favourite datasets",
+      "SeeDetails": "See details",
+      "DatasetCount": "Number of datasets",
+      "NavLink": "Favourite datasets",
+      "NoDatasetsPrefix": "No favourite datasets. To add datasets to the list, go to the ",
+      "DataTabLink": "Data",
+      "NoDatasetsSuffix": " tab"
+    },
+    "Popup": {
+      "Title": "Confirm removal from favourites",
+      "Message": "Are you sure you want to remove this dataset from favourites? The dataset will still be available on the portal.",
+      "Cancel": "Cancel",
+      "Confirm": "Remove from favourites"
+    },
+    "Reports": {
+      "FavoriteCount": "Dataset favourite count"
+    },
+    "Toasts": {
+      "AddError": "Unable to add the dataset to favourites. Please try again.",
+      "AlreadyExists": "This dataset is already in your favourites.",
+      "Removed": "The dataset has been removed from favourites.",
+      "AlreadyRemoved": "This dataset has already been removed from favourites.",
+      "SessionExpired": "Your session has expired. Please log in again to manage your favourites.",
+      "AccessError": "This dataset has already been removed or you no longer have access to it, so it cannot be added to favourites.",
+      "TooManyRequests": "Too many requests. Please try again later."
+    },
+    "Hint": {
+      "Title": "Add to favourites",
+      "Description": "Add the dataset to favourites. Your favorite datasets are available in the “My dashboard” tab."
+    }
+  },
   "File": {
     "Self": "File",
     "Size": "File size",

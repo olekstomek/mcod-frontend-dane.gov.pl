@@ -1,6 +1,7 @@
 <h1 class="visually-hidden">
   {{ 'MyDashboard.Self' | translate }}
 </h1>
+<app-notifications />
 
 <ng-container *ngIf="dashboardData$ | async as dashboardData; else loaderRef">
   <app-logingovpl-notification [contrastMode]="highContrastMode"></app-logingovpl-notification>
@@ -226,6 +227,48 @@
       </div>
     </div>
 
+    <!-- FAVORITES & NEW DATA PROPOSAL -->
+    <div class="col-lg-6">
+      <div class="d-flex flex-column h-100">
+        <!-- FAVORITES -->
+        <div class="mt-4 h-100">
+          <app-favorite-datasets-tile
+            [datasetsCount]="dashboardData.data.likes?.likes_count ?? 0"></app-favorite-datasets-tile>
+        </div>
+
+        <!-- NEW DATA PROPOSAL -->
+        <div class="mt-4 h-100">
+          <!--  NEW DATA PROPOSAL  -->
+          <div *hasPermission="PermissionPerRoles.BROWSE_NEW_DATA_PROPOSAL" class="mt-4 align-self-start">
+            <div class="bg-custom p-4 h-100">
+              <h2 class="heading heading--sm heading--separator">{{ 'MyDashboard.NewDataProposal' | translate }}</h2>
+
+              <a
+                [routerLink]="['/', '!user', '!dashboard', '!data-proposal'] | localize"
+                class="btn btn-sm btn-primary">
+                {{ 'MyDashboard.SeeData' | translate }}
+              </a>
+
+              <div class="row mt-4">
+                <div class="col-6">
+                  {{ 'MyDashboard.Active' | translate }}
+                  <span class="d-block font-weight-bold h4">
+                    {{ dashboardData.data.suggestions.active }}
+                  </span>
+                </div>
+                <div class="col-6">
+                  {{ 'MyDashboard.Inactive' | translate }}
+                  <span class="d-block font-weight-bold h4">
+                    {{ dashboardData.data.suggestions.inactive }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- FORUM -->
     <div class="col-lg-6 mt-4" *hasPermission="PermissionPerRoles.BROWSE_FORUM">
       <div class="bg-custom p-4 h-100">
@@ -249,7 +292,7 @@
           </a>
 
           <ul class="list-inline small my-2">
-            <li class="list-inline-item pr-3">{{ 'MyDashboard.Responses' | translate }} {{ item.posts_count || 0 }}</li>
+            <li class="list-inline-item pr-3">{{ 'MyDashboard.Response' | translate }} {{ item.posts_count || 0 }}</li>
             <li class="list-inline-item pr-3">{{ 'MyDashboard.Views' | translate }} {{ item.views }}</li>
             <li class="list-inline-item">
               {{ 'MyDashboard.Activity' | translate }} {{ item.last_posted_at | timespan }}
@@ -279,32 +322,6 @@
           {{ 'MyDashboard.GoToForumText' | translate }}
           <a [routerLink]="['../', 'forum-regulations']"> {{ 'MyDashboard.GoToForumRegulations' | translate }} </a>
         </span>
-      </div>
-    </div>
-
-    <!--  NEW DATA PROPOSAL  -->
-    <div *hasPermission="PermissionPerRoles.BROWSE_NEW_DATA_PROPOSAL" class="col-lg-6 mt-4 align-self-start">
-      <div class="bg-custom p-4 h-100">
-        <h2 class="heading heading--sm heading--separator">{{ 'MyDashboard.NewDataProposal' | translate }}</h2>
-
-        <a [routerLink]="['/', '!user', '!dashboard', '!data-proposal'] | localize" class="btn btn-sm btn-primary">
-          {{ 'MyDashboard.SeeData' | translate }}
-        </a>
-
-        <div class="row mt-4">
-          <div class="col-6">
-            {{ 'MyDashboard.Active' | translate }}
-            <span class="d-block font-weight-bold h4">
-              {{ dashboardData.data.suggestions.active }}
-            </span>
-          </div>
-          <div class="col-6">
-            {{ 'MyDashboard.Inactive' | translate }}
-            <span class="d-block font-weight-bold h4">
-              {{ dashboardData.data.suggestions.inactive }}
-            </span>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -375,7 +392,7 @@
         <ng-container *ngIf="!isAdmin">
           <div class="row mt-4" *hasPermission="PermissionPerRoles.SCHEDULE.PLANNING_BROWSE_CURRENT">
             <div class="col-6">
-              {{ 'MyDashboard.Notifications' | translate }}
+              {{ 'MyDashboard.Notification' | translate }}
               <span class="d-block font-weight-bold h4">
                 {{ dashboardData.data.schedules?.schedule_items }}
               </span>

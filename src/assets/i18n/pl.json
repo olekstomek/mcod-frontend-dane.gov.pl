@@ -523,7 +523,7 @@
     },
     "Hint": {
       "Title": "Dodaj do ulubionych",
-      "Description": "Dodaj zbiór do ulubionych. Ulubione zbiory widoczne są w zakładce „Mój pulpit”."
+      "Description": "Dodaj zbiór do ulubionych. Ulubione zbiory widoczne są po zalogowaniu w zakładce „Mój pulpit”."
     }
   },
   "File": {

@@ -523,7 +523,7 @@
     },
     "Hint": {
       "Title": "Add to favourites",
-      "Description": "Add the dataset to favourites. Your favorite datasets are available in the “My dashboard” tab."
+      "Description": "Add the dataset to favourites. Your favourite datasets are available after logging in, in the “My dashboard” tab."
     }
   },
   "File": {
